@@ -1069,7 +1069,8 @@ html, body {
 /* ==========================================================================
    Flagellar Motor Dedicated 3D Nanomachine Scenario
    ========================================================================== */
-#motor-container {
+#motor-container,
+#ribosome-container {
   position: absolute;
   top: 0;
   left: 0;
@@ -1078,6 +1079,12 @@ html, body {
   z-index: 15;
   overflow: hidden;
   background: #F5F7F6;
+}
+
+#ribosome-canvas {
+  width: 100%;
+  height: 100%;
+  display: block;
 }
 
 .flagellar-motor-canvas {

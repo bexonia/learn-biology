@@ -5,6 +5,7 @@
 
 import voiceService, { CURATED_VOICES } from './voiceService.js';
 import { FlagellarMotorScene } from './flagellarMotor.js?v=uint32_clean_v52';
+import { RibosomeScene } from './ribosomeTranslation.js?v=learn_bio_v1';
 
 (async function () {
   const canvas = document.getElementById('gl-canvas');
@@ -20,6 +21,7 @@ import { FlagellarMotorScene } from './flagellarMotor.js?v=uint32_clean_v52';
   const scaleNavigator = document.getElementById('scale-navigator');
   const btnNavCell = document.getElementById('btn-nav-cell');
   const btnNavMotor = document.getElementById('btn-nav-motor');
+  const btnNavRibosome = document.getElementById('btn-nav-ribosome');
   const pageMainTitle = document.getElementById('page-main-title');
   const pageMainSubtitle = document.getElementById('page-main-subtitle');
   const canvasWrapper = document.getElementById('canvas-wrapper');
@@ -27,6 +29,11 @@ import { FlagellarMotorScene } from './flagellarMotor.js?v=uint32_clean_v52';
   const scaleCard = document.getElementById('scale-card');
   const microCard = document.getElementById('inset-microcompartment-card');
   const drawerDrilldownBtn = document.getElementById('drawer-drilldown-btn');
+
+  // Ribosome Scenario Elements
+  const ribosomeContainer = document.getElementById('ribosome-container');
+  const btnRibosomeBack = document.getElementById('btn-ribosome-back');
+  let ribosomeInstance = null;
 
   // Flagellar Motor Scenario Elements
   const motorContainer = document.getElementById('motor-container');
@@ -999,8 +1006,13 @@ import { FlagellarMotorScene } from './flagellarMotor.js?v=uint32_clean_v52';
     if (tourActive) exitTour();
     voiceService.stop();
 
+    if (ribosomeInstance) {
+      ribosomeInstance.stop();
+    }
+
     // Update Scale Navigator buttons
     if (btnNavCell) btnNavCell.classList.remove('active');
+    if (btnNavRibosome) btnNavRibosome.classList.remove('active');
     if (btnNavMotor) btnNavMotor.classList.add('active');
 
     // Hide Cell view and overlays
@@ -1008,6 +1020,7 @@ import { FlagellarMotorScene } from './flagellarMotor.js?v=uint32_clean_v52';
     if (toolbar) toolbar.classList.add('hidden');
     if (scaleCard) scaleCard.classList.add('hidden');
     if (microCard) microCard.classList.add('hidden');
+    if (ribosomeContainer) ribosomeContainer.classList.add('hidden');
     closeInspector();
 
     // Show Motor scenario
@@ -1050,13 +1063,18 @@ import { FlagellarMotorScene } from './flagellarMotor.js?v=uint32_clean_v52';
     if (flagellarMotorInstance) {
       flagellarMotorInstance.stop();
     }
+    if (ribosomeInstance) {
+      ribosomeInstance.stop();
+    }
 
     // Update Scale Navigator buttons
     if (btnNavCell) btnNavCell.classList.add('active');
     if (btnNavMotor) btnNavMotor.classList.remove('active');
+    if (btnNavRibosome) btnNavRibosome.classList.remove('active');
 
     // Show Cell view and restore overlays
     if (motorContainer) motorContainer.classList.add('hidden');
+    if (ribosomeContainer) ribosomeContainer.classList.add('hidden');
     if (canvasWrapper) canvasWrapper.classList.remove('hidden');
     if (toolbar) toolbar.classList.remove('hidden');
     if (scaleCard) scaleCard.classList.remove('hidden');
@@ -1069,10 +1087,172 @@ import { FlagellarMotorScene } from './flagellarMotor.js?v=uint32_clean_v52';
     updateLandmarksAndLeaders();
   }
 
+  function switchToRibosomeScenario() {
+    currentScenario = 'ribosome';
+    if (tourActive) exitTour();
+    voiceService.stop();
+
+    if (flagellarMotorInstance) {
+      flagellarMotorInstance.stop();
+    }
+
+    // Update Scale Navigator buttons
+    if (btnNavCell) btnNavCell.classList.remove('active');
+    if (btnNavMotor) btnNavMotor.classList.remove('active');
+    if (btnNavRibosome) btnNavRibosome.classList.add('active');
+
+    // Hide Cell and Motor views
+    if (canvasWrapper) canvasWrapper.classList.add('hidden');
+    if (toolbar) toolbar.classList.add('hidden');
+    if (scaleCard) scaleCard.classList.add('hidden');
+    if (microCard) microCard.classList.add('hidden');
+    if (motorContainer) motorContainer.classList.add('hidden');
+    closeInspector();
+
+    // Show Ribosome container
+    if (ribosomeContainer) ribosomeContainer.classList.remove('hidden');
+    if (pageMainTitle) pageMainTitle.textContent = '70S BACTERIAL RIBOSOME & TRANSLATION ENGINE';
+    if (pageMainSubtitle) {
+      pageMainSubtitle.textContent = 'Nature\'s macromolecular protein factory translating genetic mRNA code into 3D folded amino acid chains (~25 nm).';
+    }
+
+    // Lazy initialize RibosomeScene
+    if (!ribosomeInstance && ribosomeContainer) {
+      ribosomeInstance = new RibosomeScene(ribosomeContainer, {
+        voiceService,
+        onSelectComponent: (key, meta) => {
+          updateRibosomeInspector(key, meta);
+        }
+      });
+      ribosomeInstance.init();
+      window.ribosomeInstance = ribosomeInstance;
+      setupRibosomeControls();
+    }
+
+    if (ribosomeInstance) {
+      ribosomeInstance.start();
+      ribosomeInstance.updateCameraPosition();
+    }
+  }
+
+  function updateRibosomeInspector(key, meta) {
+    const insp = document.getElementById('ribosome-inspector');
+    if (!insp || !meta) return;
+
+    const badge = document.getElementById('ribo-comp-badge');
+    const title = document.getElementById('ribo-comp-title');
+    const dims = document.getElementById('ribo-comp-dims');
+    const proteins = document.getElementById('ribo-comp-proteins');
+    const pdb = document.getElementById('ribo-comp-pdb');
+    const desc = document.getElementById('ribo-comp-desc');
+
+    if (badge) badge.textContent = meta.badge;
+    if (title) title.textContent = meta.name;
+    if (dims) dims.textContent = meta.dims;
+    if (proteins) proteins.textContent = meta.proteins;
+    if (desc) desc.textContent = meta.desc;
+
+    if (pdb) {
+      pdb.innerHTML = '';
+      const parts = meta.pdb.split(',').map(s => s.trim());
+      parts.forEach(p => {
+        const span = document.createElement('span');
+        span.className = 'pdb-chip';
+        span.textContent = p;
+        pdb.appendChild(span);
+      });
+    }
+
+    const chips = document.querySelectorAll('#ribo-parts-chips .part-chip');
+    chips.forEach(c => {
+      c.classList.toggle('active', c.getAttribute('data-ribo-key') === key);
+    });
+
+    const ttsBtn = document.getElementById('ribo-comp-tts-btn');
+    if (ttsBtn) {
+      ttsBtn.onclick = () => {
+        const textToRead = `${meta.name}. ${meta.dims}. ${meta.proteins}. ${meta.desc}`;
+        voiceService.speak(textToRead, ttsVoiceSelect ? ttsVoiceSelect.value : 'af_heart');
+      };
+    }
+  }
+
+  function setupRibosomeControls() {
+    const playPauseBtn = document.getElementById('btn-ribo-play-pause');
+    const stepBtn = document.getElementById('btn-ribo-step');
+    const explodedSlider = document.getElementById('ribo-exploded-slider');
+    const explodedVal = document.getElementById('ribo-exploded-val');
+    const speedSlider = document.getElementById('ribo-speed-slider');
+    const speedVal = document.getElementById('ribo-speed-val');
+    const filterGroup = document.getElementById('ribo-filter-group');
+    const partsChips = document.getElementById('ribo-parts-chips');
+
+    if (playPauseBtn) {
+      playPauseBtn.addEventListener('click', () => {
+        if (!ribosomeInstance) return;
+        ribosomeInstance.isPaused = !ribosomeInstance.isPaused;
+        playPauseBtn.textContent = ribosomeInstance.isPaused ? '▶ Resume' : '⏸ Pause';
+        playPauseBtn.classList.toggle('active', !ribosomeInstance.isPaused);
+      });
+    }
+
+    if (stepBtn) {
+      stepBtn.addEventListener('click', () => {
+        if (!ribosomeInstance) return;
+        ribosomeInstance.stepCodon();
+      });
+    }
+
+    if (explodedSlider) {
+      explodedSlider.addEventListener('input', (e) => {
+        const v = parseInt(e.target.value, 10);
+        if (explodedVal) explodedVal.textContent = `${v}%`;
+        if (ribosomeInstance) ribosomeInstance.setExplodedProgress(v / 100);
+      });
+    }
+
+    if (speedSlider) {
+      speedSlider.addEventListener('input', (e) => {
+        const v = parseInt(e.target.value, 10);
+        const factor = (v / 100).toFixed(1);
+        if (speedVal) speedVal.textContent = `${factor}x`;
+        if (ribosomeInstance) ribosomeInstance.setTranslationSpeed(v / 100);
+      });
+    }
+
+    if (filterGroup) {
+      filterGroup.addEventListener('click', (e) => {
+        const btn = e.target.closest('.motor-mode-btn');
+        if (!btn) return;
+        filterGroup.querySelectorAll('.motor-mode-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        const filter = btn.getAttribute('data-filter');
+        if (ribosomeInstance) ribosomeInstance.setSubunitFilter(filter);
+      });
+    }
+
+    if (partsChips) {
+      partsChips.addEventListener('click', (e) => {
+        const chip = e.target.closest('.part-chip');
+        if (!chip) return;
+        const key = chip.getAttribute('data-ribo-key');
+        if (key && ribosomeInstance) {
+          ribosomeInstance.selectComponent(key);
+        }
+      });
+    }
+
+    if (ribosomeInstance) {
+      updateRibosomeInspector('ribosome_70s', ribosomeInstance.componentsMeta['ribosome_70s']);
+    }
+  }
+
   // Connect Navigation triggers
   if (btnNavCell) btnNavCell.addEventListener('click', switchToCellScenario);
   if (btnNavMotor) btnNavMotor.addEventListener('click', switchToMotorScenario);
+  if (btnNavRibosome) btnNavRibosome.addEventListener('click', switchToRibosomeScenario);
   if (btnMotorBack) btnMotorBack.addEventListener('click', switchToCellScenario);
+  if (btnRibosomeBack) btnRibosomeBack.addEventListener('click', switchToCellScenario);
   if (drawerDrilldownBtn) drawerDrilldownBtn.addEventListener('click', switchToMotorScenario);
 
   // Motor Controls HUD listeners

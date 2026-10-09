@@ -10,7 +10,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Libre+Franklin:wght@400;500;600;700;800&family=Source+Sans+3:ital,wght@0,400;0,600;0,700;1,400&family=Source+Serif+4:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
   
-  <link rel="stylesheet" href="style.css?v=motor_mn_v33">
+  <link rel="stylesheet" href="style.css?v=ribosome_v1">
 </head>
 <body>
   <div id="app-container">
@@ -25,6 +25,10 @@
           <span class="scale-nav-divider">›</span>
           <button class="scale-nav-btn" id="btn-nav-motor" title="Switch to 3D Flagellar Rotary Motor Nanomachine">
             <span class="scale-icon">⚙️</span> Flagellar Motor <span class="scale-dim">(45 nm)</span>
+          </button>
+          <span class="scale-nav-divider">›</span>
+          <button class="scale-nav-btn" id="btn-nav-ribosome" title="Switch to 70S Ribosomal Translation Factory">
+            <span class="scale-icon">🧬</span> 70S Ribosome <span class="scale-dim">(25 nm)</span>
           </button>
         </div>
       </div>
@@ -404,6 +408,137 @@
       </aside>
     </div>
 
+    <!-- Dedicated 3D Nanomachine Scenario: 70S Ribosome Translation Factory -->
+    <div id="ribosome-container" class="hidden">
+      <!-- Top Ribosome Header Overlay -->
+      <div class="motor-overlay-header">
+        <button class="motor-back-btn" id="btn-ribosome-back" title="Return to Whole Cell 3D Architecture">
+          ← Back to Whole Cell (1.5 µm)
+        </button>
+      </div>
+
+      <!-- Left Ribosome Controls HUD -->
+      <div class="motor-hud-overlay">
+        <div class="motor-hud-card">
+          <div class="motor-card-section">
+            <span class="motor-section-title">TRANSLATION CYCLE (mRNA → PROTEIN)</span>
+            <div class="motor-btn-group">
+              <button class="motor-mode-btn active" id="btn-ribo-play-pause" title="Pause or Resume Translation Cycle">
+                ⏸ Pause
+              </button>
+              <button class="motor-mode-btn" id="btn-ribo-step" title="Advance Translation by exactly 1 Codon Triplet (+1 Amino Acid)">
+                ⏭ Step Codon
+              </button>
+            </div>
+          </div>
+
+          <div class="motor-card-section">
+            <div class="slider-header">
+              <label for="ribo-exploded-slider">Subunit Separation (Exploded View)</label>
+              <span class="slider-val" id="ribo-exploded-val">0%</span>
+            </div>
+            <input type="range" id="ribo-exploded-slider" class="motor-slider" min="0" max="100" value="0">
+          </div>
+
+          <div class="motor-card-section">
+            <div class="slider-header">
+              <label for="ribo-speed-slider">Elongation Velocity</label>
+              <span class="slider-val" id="ribo-speed-val">1.0x</span>
+            </div>
+            <input type="range" id="ribo-speed-slider" class="motor-slider" min="10" max="300" value="100">
+          </div>
+
+          <div class="motor-card-section">
+            <span class="motor-section-title">SUBUNIT ISOLATION</span>
+            <div class="motor-btn-group" id="ribo-filter-group" style="display: grid; grid-template-columns: 1fr 1fr; gap: 4px;">
+              <button class="motor-mode-btn active" data-filter="all">All Structures</button>
+              <button class="motor-mode-btn" data-filter="30s">30S Subunit</button>
+              <button class="motor-mode-btn" data-filter="50s">50S Subunit</button>
+              <button class="motor-mode-btn" data-filter="trna">tRNAs (A/P/E)</button>
+              <button class="motor-mode-btn" data-filter="mrna">mRNA Strand</button>
+              <button class="motor-mode-btn" data-filter="tunnel">Exit Tunnel</button>
+            </div>
+          </div>
+
+          <div class="motor-card-section">
+            <span class="motor-section-title">TRANSLATION KINETICS &amp; ENERGETICS</span>
+            <div class="motor-metrics-grid">
+              <div class="motor-metric-item">
+                <span class="metric-num">~15–20</span>
+                <span class="metric-unit">aa / sec (Elongation)</span>
+              </div>
+              <div class="motor-metric-item">
+                <span class="metric-num">2 GTP + 2 ATP</span>
+                <span class="metric-unit">Energy / Peptide Bond</span>
+              </div>
+              <div class="motor-metric-item">
+                <span class="metric-num">~2.5 MDa</span>
+                <span class="metric-unit">Holoenzyme Mass</span>
+              </div>
+              <div class="motor-metric-item">
+                <span class="metric-num">1 in 10⁴</span>
+                <span class="metric-unit">Codon Error Rate</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Ribosomal Sub-Components Picker -->
+        <div class="motor-parts-bar" style="margin-top: 10px;">
+          <span class="parts-bar-label">SELECTABLE SUB-COMPONENTS:</span>
+          <div class="parts-chips-container" id="ribo-parts-chips">
+            <button class="part-chip active" data-ribo-key="ribosome_70s">70S Complex</button>
+            <button class="part-chip" data-ribo-key="subunit_30s">30S Decodosome</button>
+            <button class="part-chip" data-ribo-key="subunit_50s">50S Ribozyme</button>
+            <button class="part-chip" data-ribo-key="trna_a_site">A-Site tRNA</button>
+            <button class="part-chip" data-ribo-key="trna_p_site">P-Site tRNA</button>
+            <button class="part-chip" data-ribo-key="trna_e_site">E-Site tRNA</button>
+            <button class="part-chip" data-ribo-key="mrna_strand">mRNA Template</button>
+            <button class="part-chip" data-ribo-key="ptc_core">PTC Ribozyme Core</button>
+            <button class="part-chip" data-ribo-key="exit_tunnel">Exit Tunnel</button>
+            <button class="part-chip" data-ribo-key="nascent_peptide">Nascent Protein</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right Ribosome Inspector Drawer -->
+      <aside class="motor-inspector" id="ribosome-inspector" style="user-select: text !important;">
+        <div class="motor-insp-header">
+          <div>
+            <span class="motor-insp-badge" id="ribo-comp-badge">TRANSLATION FACTORY (70S)</span>
+            <h2 class="motor-insp-title" id="ribo-comp-title">Complete 70S Bacterial Ribosome Holoenzyme</h2>
+            <div class="motor-insp-dims" id="ribo-comp-dims">Diameter: ~25 nm, Mass: ~2.5 MDa (65% RNA, 35% Protein)</div>
+          </div>
+          <button class="motor-tts-btn" id="ribo-comp-tts-btn" title="Read component function aloud using client-side neural voice">
+            <span id="ribo-comp-tts-icon">🔊</span> <span id="ribo-comp-tts-label">Read Aloud</span>
+          </button>
+        </div>
+
+        <div class="motor-insp-body">
+          <div class="motor-insp-block">
+            <h4 class="block-title">PROTEIN &amp; RNA STOICHIOMETRY</h4>
+            <p class="block-text" id="ribo-comp-proteins">3 rRNAs (16S, 23S, 5S) + 54 Ribosomal Proteins (uS2–bS21, uL1–bL36)</p>
+          </div>
+
+          <div class="motor-insp-block">
+            <h4 class="block-title">PDB STRUCTURE REFERENCES</h4>
+            <div class="pdb-badges" id="ribo-comp-pdb">
+              <span class="pdb-chip">PDB 7K00</span>
+              <span class="pdb-chip">PDB 6X9Q</span>
+              <span class="pdb-chip">PDB 4V4Q</span>
+            </div>
+          </div>
+
+          <div class="motor-insp-block">
+            <h4 class="block-title">BIOPHYSICAL ROLE &amp; MECHANISM</h4>
+            <p class="block-text" id="ribo-comp-desc">
+              The universal ribozyme engine of protein synthesis. It translates genetic information encoded in messenger RNA into amino acid polypeptides, consuming 2 GTP and 2 ATP per peptide bond with an elongation rate of ~15–20 amino acids per second.
+            </p>
+          </div>
+        </div>
+      </aside>
+    </div>
+
     <!-- Cryo-EM Scientific Reference Blueprint Modal -->
     <div id="blueprint-modal" class="blueprint-modal-backdrop hidden">
       <div class="blueprint-modal-content">
@@ -453,7 +588,7 @@
   <script src="vendor/three.min.js"></script>
   <script src="vendor/GLTFLoader.js"></script>
   <!-- Main Application Logic Powered by WebAssembly & Kokoro-82M Voice Synthesis -->
-  <script type="module" src="voiceService.js?v=uint32_clean_v52"></script>
-  <script type="module" src="viewer.js?v=uint32_clean_v52"></script>
+  <script type="module" src="voiceService.js?v=ribosome_v1"></script>
+  <script type="module" src="viewer.js?v=ribosome_v1"></script>
 </body>
 </html>

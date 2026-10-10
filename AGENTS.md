@@ -215,6 +215,7 @@ Create `client/src/components/<Scenario>/<Scenario>InspectorDrawer.tsx`:
 - Phonetic pronunciation guide row (`🗣 [phoh-NET-ik]`).
 - Neural TTS Read Aloud button (`🔊 Read Aloud`).
 - **Interactive Multi-Chamber Pathway Card:** Clickable state cards (e.g. Boyer Three-State Cycle $O \to L \to T$) that focus the 3D camera.
+- **Mandatory 5-Stage Explanatory Trace Stepper Card:** Interactive causal chain walkthrough (`EXPLANATION_STAGES`) with stage badges, titles, descriptions, Start/End trace buttons, and active indicator.
 - Macromolecular composition and PDB badges.
 - Biological mechanism narrative.
 - `⛶ Focus Component in 3D` button.
@@ -236,6 +237,7 @@ In [`client/src/components/Header/ScaleNavigator.tsx`](file:///c:/Users/devcd/Ge
 In [`client/src/App.tsx`](file:///c:/Users/devcd/GenProjects/learn-biology/client/src/App.tsx):
 - Mount the 3D canvas container when the active scenario matches.
 - Wire up state handlers: `onSelectPart`, `onFocusComponent`, `onExplodedChange`, `onSpeedChange`.
+- Implement `play<Scenario>StoryStep(stepNumber)` orchestrating subtitles, Kokoro voice playback, camera dolly transitions, and the 750ms–1000ms pedagogical observation pause.
 
 ### Step 8: Guided Tour Integration (`TourBar.tsx`)
 - Define the ordered tour stops in `<SCENARIO>_TOUR_STOPS`.
@@ -248,7 +250,7 @@ In [`client/src/App.tsx`](file:///c:/Users/devcd/GenProjects/learn-biology/clien
 The following documents reside directly in the root of `learn-biology/` and serve as the immutable sources of truth:
 
 - **[`CELLULAR_ELEMENTS_CATALOG.md`](file:///c:/Users/devcd/GenProjects/learn-biology/CELLULAR_ELEMENTS_CATALOG.md):** Complete registry of all structures across the cell, inter-element biological iteration (donors $\to$ machine $\to$ consumers), and HUD simulation sliders.
-- **[`CELLULAR_INSPECTOR_BLUEPRINT.md`](file:///c:/Users/devcd/GenProjects/learn-biology/CELLULAR_INSPECTOR_BLUEPRINT.md):** 7-step engineering blueprint and the Universal Meta-Prompt Template.
+- **[`CELLULAR_INSPECTOR_BLUEPRINT.md`](file:///c:/Users/devcd/GenProjects/learn-biology/CELLULAR_INSPECTOR_BLUEPRINT.md):** 8-step engineering blueprint, mandatory 5-Stage Explanatory Trace engine, and the Universal Meta-Prompt Template.
 - **[`BIOLOGICAL_COLOR_TAXONOMY_SYSTEM.md`](file:///c:/Users/devcd/GenProjects/learn-biology/BIOLOGICAL_COLOR_TAXONOMY_SYSTEM.md):** Strict hex color palette standard for every biophysical class.
 
 ---
@@ -259,4 +261,5 @@ The following documents reside directly in the root of `learn-biology/` and serv
 2. **Strict Color Taxonomy:** Never use arbitrary colors or gray fallbacks. Catalytic pockets = `#FFB703`, Inner membrane = `#06D6A0`, Outer membrane = `#0077B6`, RNA = `#7209B7`.
 3. **No Empty Wireframe Fallbacks:** Active sites and functional pockets must render solid, volumetric geometry with cofactors and membrane slabs.
 4. **Native Selectable HTML in Drawers:** Both `#left-drawer` and `#right-drawer` must retain `user-select: text !important` so students can highlight text, copy notes, and search terms.
-5. **Zero TypeScript Errors:** All client code must pass `tsc -b && vite build` cleanly.
+5. **Mandatory 5-Stage Explanatory Trace ("How It Works"):** Every scenario and macromolecular inspector must implement the 5-stage causal chain walkthrough (`EXPLANATION_STAGES`) with camera dollies, subunit state highlights, Kokoro neural voice narration, subtitles, and Inspector Drawer stepper card controls.
+6. **Zero TypeScript Errors:** All client code must pass `tsc -b && vite build` cleanly.

@@ -22,3 +22,13 @@ Thumbs.db
 *.log
 .playwright-mcp/
 node_modules/
+
+# Temporary & debug screenshots (curated docs live in readme_images/)
+screenshot*.png
+screenshot_*.png
+*.tmp.png
+!readme_images/*.png
+!assets/**/*.png
+
+# Package manager (pnpm is the workspace standard, ignore npm lockfile)
+package-lock.json

@@ -12,13 +12,16 @@ Traditional biology textbooks show flat, two-dimensional diagrams that make cell
 
 **Learn Biology** brings these structures to life with:
 * **Interactive 3D Cutaways:** Orbit, pan, and zoom through cellular envelopes, peptidoglycan walls, plasma membranes, ribosomes, plasmids, and the circular nucleoid DNA.
-* **Dual-Scale Educational Levels:**
-  * **Level 1 — Whole Cell ($1.5\,\mu\text{m}$):** Observe the bacterium in 3/4 perspective with responsive leader line annotations.
+* **Tri-Scale Educational Levels:**
+  * **Level 1 — Whole Cell ($1.5\,\mu\text{m}$):** Observe the bacterium in 3/4 perspective with responsive leader line annotations anchored directly to the cell envelopes, peptidoglycan walls, plasma membrane, ribosomes, plasmids, and the circular nucleoid DNA.
   * **Level 2 — Flagellar Rotary Motor ($45\,\text{nm}$):** Inspect nature's rotary engine with dynamic CCW (run) and CW (tumble) rotation, proton motive force streaming, and an **exploded view slider**.
+  * **Level 3 — Bacterial 70S Ribosome Translation Factory ($25\,\text{nm}$):** Explore the macromolecular 2.5 MDa ribozyme machine, step-by-step mRNA elongation kinetics (A, P, and E tRNA sites), codon translocation, polypeptide exit tunnel, and subunit disassembly.
 * **Client-Side Neural Voice Narration:** Integrated text-to-speech powered by Kokoro-82M running directly in the browser via ONNX Runtime Web—reading scientific explanations aloud with warm, natural voices.
 * **Cinematic Guided Tour:** A 9-step pedagogical walkthrough guiding students through each organelle and structure step-by-step.
 
 ![Flagellar Rotary Motor and Tail Architecture](readme_images/flagellar_motor_tail.png)
+
+![Bacterial 70S Ribosome Translation Factory](readme_images/ribosome_translation_factory.png)
 
 ---
 
@@ -32,12 +35,13 @@ Learn Biology is engineered to be **100% client-side, zero-install, and zero-bac
                  ┌───────────────┴───────────────┐
                  ▼                               ▼
          [ Visual Layer ]                [ Logic & Compute ]
-    • HTML5 / CSS3 Layout           • Rust WebAssembly (orbit_engine.wasm)
-    • Three.js WebGL (vendor/)        - Camera orbit momentum & damping
+    • React 19 + TypeScript + Vite  • Rust WebAssembly (orbit_engine.wasm)
+    • Three.js WebGL (PBR materials)  - Camera orbit momentum & damping
     • SVG Leader Lines Overlay        - 3D-to-2D screen coordinate projection
     • 3D Geometry Sources:          • Scene Controllers:
-      - prokaryote_cell.blend         - viewer.js (Whole Cell)
+      - prokaryote_cell.blend         - cellViewer.js (Whole Cell)
       - generate_primer_cell_hq.py    - flagellarMotor.js (Rotary Motor)
+                                      - ribosomeTranslation.js (Ribosome)
                                     • Kokoro-82M TTS (voiceService.js)
                                  │
                                  ▼
@@ -56,20 +60,18 @@ Learn Biology is engineered to be **100% client-side, zero-install, and zero-bac
 
 ## 🚀 Quick Start (Running Locally)
 
-Because the application uses native JavaScript ES Modules and loads 3D and WebAssembly assets, it must be served over a local HTTP server:
+The client application is built with React 19, TypeScript, and Vite, managed with **`pnpm`**:
 
-### 1. Launch a Local Web Server
+### 1. Install Dependencies & Launch Dev Server
 
 ```powershell
-# Using Python (standard on Windows/Linux/macOS):
-python -m http.server 8080
-
-# Or using Node.js:
-npx serve . -p 8080
+cd client
+pnpm install
+pnpm run dev
 ```
 
 ### 2. Open in Your Browser
-Navigate to **`http://localhost:8080/`** in Google Chrome, Microsoft Edge, Mozilla Firefox, or Apple Safari.
+Navigate to **`http://localhost:5173/`** in Google Chrome, Microsoft Edge, Mozilla Firefox, or Apple Safari.
 
 ---
 
@@ -95,25 +97,23 @@ This script:
 
 ```
 learn-biology/
-├── index.html                   # Educational application shell & UI layout
-├── viewer.js                    # Level 1: Whole Cell 3D scene & annotations
-├── flagellarMotor.js            # Level 2: Flagellar Motor & exploded view
-├── voiceService.js              # Client-side Kokoro-82M neural TTS service
-├── style.css                    # Responsive editorial typography & dark mode
+├── client/                      # React 19 + TypeScript + Vite interactive web app
+│   ├── src/                     # Components, hooks, types, and Three.js scenes
+│   ├── public/                  # 3D GLB models, WASM binaries, and audio models
+│   ├── package.json             # Project manifest (pnpm package manager)
+│   └── pnpm-lock.yaml           # Deterministic pnpm dependency lockfile
+├── readme_images/               # Curated pedagogical screenshots for documentation
+│   ├── prokaryote_cell_overview.png
+│   ├── flagellar_motor_tail.png
+│   └── ribosome_translation_factory.png
+├── assets/                      # Reference diagrams and scientific blueprints
+├── models/                      # Output directory for generated 3D models
+├── wasm/                        # Output directory for compiled WebAssembly binary
 ├── build_assets.py              # One-command asset compiler (Blender + Rust WASM)
 ├── generate_primer_cell_hq.py   # Procedural Blender 5.2 Python generator
 ├── prokaryote_cell.blend        # Blender master source scene
 ├── src/
 │   └── lib.rs                   # Rust source code for WASM orbit & projection math
-├── readme_images/               # Curated pedagogical screenshots for documentation
-│   ├── prokaryote_cell_overview.png
-│   └── flagellar_motor_tail.png
-├── assets/                      # Reference diagrams and scientific blueprints
-├── vendor/
-│   ├── three.min.js             # Three.js (WebGL renderer)
-│   └── GLTFLoader.js            # GLTF 2.0 / GLB mesh loader
-├── models/                      # Output directory for generated 3D models
-├── wasm/                        # Output directory for compiled WebAssembly binary
 ├── .agents/                     # Antigravity agent skills, rules & MCP config
 └── AGENTS.md                    # Guidelines for Antigravity AI agents
 ```

@@ -104,6 +104,7 @@ function App() {
   const [isRibosomeNarrating, setIsRibosomeNarrating] = useState<boolean>(false);
   const [isRibosomeAutoRotating, setIsRibosomeAutoRotating] = useState<boolean>(false);
   const [mrnaCycleProgress, setMrnaCycleProgress] = useState<number>(0);
+  const [isRibosomeLabelsVisible, setIsRibosomeLabelsVisible] = useState<boolean>(true);
 
   // Ribosome Guided Tour State
   const [isRibosomeTourActive, setIsRibosomeTourActive] = useState<boolean>(false);
@@ -612,6 +613,13 @@ function App() {
     }
   };
 
+  const handleToggleRibosomeLabels = () => {
+    if (ribosomeSceneRef.current) {
+      const vis = ribosomeSceneRef.current.toggleLabels();
+      setIsRibosomeLabelsVisible(vis);
+    }
+  };
+
   const handleToggleCameraMode = () => {
     if (motorSceneRef.current) {
       const mode = motorSceneRef.current.toggleCameraMode();
@@ -717,14 +725,14 @@ function App() {
             ? showCellLabels
             : scenario === 'motor'
             ? isMotorLabelsVisible
-            : true
+            : isRibosomeLabelsVisible
         }
         onToggleLabels={
           scenario === 'cell'
             ? handleToggleLabels
             : scenario === 'motor'
             ? handleToggleMotorLabels
-            : () => {}
+            : handleToggleRibosomeLabels
         }
         isTourActive={
           scenario === 'cell'
@@ -879,8 +887,12 @@ function App() {
           ref={ribosomeContainerRef}
           style={{ width: '100%', height: '100%', position: 'absolute', top: 0, left: 0 }}
         />
+        <svg id="ribosome-svg-overlay"></svg>
+        <div id="ribosome-labels-container"></div>
 
         <RibosomeHUDCard
+          isLabelsVisible={isRibosomeLabelsVisible}
+          onToggleLabels={handleToggleRibosomeLabels}
           isPaused={isRibosomePaused}
           onTogglePause={() => {
             if (ribosomeSceneRef.current) {

@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef, useCallback } from 'react';
-import type { ScenarioType, MotorComponentData, RibosomeComponentData, ATPSynthaseComponentData, ComplexIComponentData, SecYEGComponentData, BAMComponentData, TourStatus } from './types/biology';
+import type { ScenarioType, MotorComponentData, RibosomeComponentData, ATPSynthaseComponentData, ComplexIComponentData, SecYEGComponentData, BAMComponentData, LptComponentData, TourStatus } from './types/biology';
 import { CellViewerScene, CELL_ANATOMY_DATA, CELL_TOUR_STOPS } from './core/cellViewer';
 import { FlagellarMotorScene } from './core/flagellarMotor';
 import { RibosomeScene, RIBOSOME_COMPONENTS_META, RIBOSOME_TOUR_STOPS } from './core/ribosomeTranslation';
@@ -7,6 +7,7 @@ import { ATPSynthaseScene, ATP_SYNTHASE_COMPONENTS_META, ATP_SYNTHASE_TOUR_STOPS
 import { ComplexIScene, COMPLEX_I_COMPONENTS_META, COMPLEX_I_TOUR_STOPS } from './core/complexITransport';
 import { SecYEGScene, SECYEG_COMPONENTS_META, SECYEG_EXPLANATION_STAGES } from './core/secYEGTransport';
 import { BAMComplexScene, BAM_COMPONENTS_META, BAM_EXPLANATION_STAGES } from './core/bamComplexTransport';
+import { LptBridgeScene, LPT_COMPONENTS_META, LPT_EXPLANATION_STAGES } from './core/lptBridgeTransport';
 import voiceService from './core/voiceService';
 
 // UI Components
@@ -49,6 +50,11 @@ import { SecYEGInspectorDrawer } from './components/SecYEG/SecYEGInspectorDrawer
 import { BAMHeaderOverlay } from './components/BAM/BAMHeaderOverlay';
 import { BAMHUDCard } from './components/BAM/BAMHUDCard';
 import { BAMInspectorDrawer } from './components/BAM/BAMInspectorDrawer';
+
+// Lpt Components
+import { LptHeaderOverlay } from './components/Lpt/LptHeaderOverlay';
+import { LptHUDCard } from './components/Lpt/LptHUDCard';
+import { LptInspectorDrawer } from './components/Lpt/LptInspectorDrawer';
 
 // Live Viewport Subtitles
 import { LiveSubtitles } from './components/Viewport/LiveSubtitles';
@@ -349,6 +355,17 @@ export const BAM_TOUR_STOPS = [
   'client_omp'
 ];
 
+export const LPT_TOUR_STOPS = [
+  'lpt_holoenzyme',
+  'lptb_dimer',
+  'lptfg_permease',
+  'lptc_coupler',
+  'lpta_bridge',
+  'lptd_barrel',
+  'lpte_plug',
+  'bound_lps'
+];
+
 function App() {
   // Scenario state
   const [scenario, setScenario] = useState<ScenarioType>('cell');
@@ -491,6 +508,24 @@ function App() {
   const [bamTourStep, setBamTourStep] = useState<number>(0);
   const [bamTourPhase, setBamTourPhase] = useState<'narrating' | 'cooldown' | 'idle'>('idle');
 
+  // Lpt scene state
+  const [activeLptPart, setActiveLptPart] = useState<string>('lpt_holoenzyme');
+  const [lptComponentMeta, setLptComponentMeta] = useState<LptComponentData>(LPT_COMPONENTS_META['lpt_holoenzyme']);
+  const [isLptPaused, setIsLptPaused] = useState<boolean>(false);
+  const [isLptAtpActive, setIsLptAtpActive] = useState<boolean>(true);
+  const [lptExportSpeed, setLptExportSpeed] = useState<number>(1.0);
+  const [lptExplodedProgress, setLptExplodedProgress] = useState<number>(0);
+  const [isLptLabelsVisible, setIsLptLabelsVisible] = useState<boolean>(true);
+  const [isLptNarrating, setIsLptNarrating] = useState<boolean>(false);
+  const [isLptAutoRotating, setIsLptAutoRotating] = useState<boolean>(false);
+  const [lptStoryStep, setLptStoryStep] = useState<number>(0);
+
+  // Lpt Guided Tour State
+  const [isLptTourActive, setIsLptTourActive] = useState<boolean>(false);
+  const [isLptTourPlaying, setIsLptTourPlaying] = useState<boolean>(false);
+  const [lptTourStep, setLptTourStep] = useState<number>(0);
+  const [lptTourPhase, setLptTourPhase] = useState<'narrating' | 'cooldown' | 'idle'>('idle');
+
   // Live Subtitles State (closed captions for AI narrator with 0.5s pre-display)
   const [subtitleState, setSubtitleState] = useState<{
     visible: boolean;
@@ -525,6 +560,7 @@ function App() {
   const complexIContainerRef = useRef<HTMLDivElement>(null);
   const secYEGContainerRef = useRef<HTMLDivElement>(null);
   const bamContainerRef = useRef<HTMLDivElement>(null);
+  const lptContainerRef = useRef<HTMLDivElement>(null);
 
   const cellSceneRef = useRef<CellViewerScene | null>(null);
   const motorSceneRef = useRef<FlagellarMotorScene | null>(null);
@@ -533,6 +569,7 @@ function App() {
   const complexISceneRef = useRef<ComplexIScene | null>(null);
   const secYEGSceneRef = useRef<SecYEGScene | null>(null);
   const bamSceneRef = useRef<BAMComplexScene | null>(null);
+  const lptSceneRef = useRef<LptBridgeScene | null>(null);
 
   // --------------------------------------------------------------------------
   // 1. Initialize Cell Viewer Scene
@@ -845,6 +882,50 @@ function App() {
   }, []);
 
   // --------------------------------------------------------------------------
+  // 3g. Initialize / Sync Lpt Bridge Scene when scenario === 'lpt'
+  // --------------------------------------------------------------------------
+  useEffect(() => {
+    if (!lptContainerRef.current) return;
+    if (scenario !== 'lpt') return;
+
+    if (!lptSceneRef.current) {
+      const s1 = new LptBridgeScene(lptContainerRef.current, {
+        onSelectComponent: (meta: LptComponentData) => {
+          if (meta) {
+            setLptComponentMeta(meta);
+          }
+        },
+        onCameraMove: () => {},
+        onSubtitlesUpdate: (text: string, title?: string, _color?: string) => {
+          showSubtitles(text, title || 'LPT BRIDGE', 'Kokoro Neural TTS');
+        },
+        onStageChange: (stage: number) => {
+          setLptStoryStep(stage);
+        }
+      });
+
+      lptSceneRef.current = s1;
+      (window as any).lptScene = s1;
+      s1.start();
+      s1.resetCamera();
+    } else {
+      (window as any).lptScene = lptSceneRef.current;
+      lptSceneRef.current.start();
+      lptSceneRef.current.handleResize();
+      lptSceneRef.current.resetCamera();
+    }
+  }, [scenario]);
+
+  useEffect(() => {
+    return () => {
+      if (lptSceneRef.current) {
+        lptSceneRef.current.dispose();
+        lptSceneRef.current = null;
+      }
+    };
+  }, []);
+
+  // --------------------------------------------------------------------------
   // 4. Autoplay Whole Cell Overview Narration
   // --------------------------------------------------------------------------
   useEffect(() => {
@@ -903,6 +984,7 @@ function App() {
     setIsComplexINarrating(false);
     setIsSecYEGNarrating(false);
     setIsBAMNarrating(false);
+    setIsLptNarrating(false);
 
     setMotorStoryStep(0);
     setRibosomeStoryStep(0);
@@ -910,6 +992,7 @@ function App() {
     setComplexIStoryStep(0);
     setSecYEGStoryStep(0);
     setBamStoryStep(0);
+    setLptStoryStep(0);
 
     setIsMotorTourActive(false);
     setIsMotorTourPlaying(false);
@@ -923,6 +1006,8 @@ function App() {
     setIsSecYEGTourPlaying(false);
     setIsBAMTourActive(false);
     setIsBAMTourPlaying(false);
+    setIsLptTourActive(false);
+    setIsLptTourPlaying(false);
 
     if (motorSceneRef.current) {
       motorSceneRef.current.setExplanationStep(0);
@@ -941,6 +1026,9 @@ function App() {
     }
     if (bamSceneRef.current) {
       bamSceneRef.current.setExplanationStep(0);
+    }
+    if (lptSceneRef.current) {
+      lptSceneRef.current.setExplanationStep(0);
     }
 
     if (nextScenario === 'motor') {
@@ -963,6 +1051,9 @@ function App() {
       if (bamSceneRef.current) {
         bamSceneRef.current.dispose();
       }
+      if (lptSceneRef.current) {
+        lptSceneRef.current.dispose();
+      }
     } else if (nextScenario === 'ribosome') {
       if (cellSceneRef.current) {
         cellSceneRef.current.stop();
@@ -982,6 +1073,9 @@ function App() {
       }
       if (bamSceneRef.current) {
         bamSceneRef.current.dispose();
+      }
+      if (lptSceneRef.current) {
+        lptSceneRef.current.dispose();
       }
     } else if (nextScenario === 'atp_synthase') {
       if (cellSceneRef.current) {
@@ -1003,6 +1097,9 @@ function App() {
       if (bamSceneRef.current) {
         bamSceneRef.current.dispose();
       }
+      if (lptSceneRef.current) {
+        lptSceneRef.current.dispose();
+      }
     } else if (nextScenario === 'complex_i') {
       if (cellSceneRef.current) {
         cellSceneRef.current.stop();
@@ -1022,6 +1119,9 @@ function App() {
       }
       if (bamSceneRef.current) {
         bamSceneRef.current.dispose();
+      }
+      if (lptSceneRef.current) {
+        lptSceneRef.current.dispose();
       }
       if (complexISceneRef.current) {
         complexISceneRef.current.start();
@@ -1048,6 +1148,9 @@ function App() {
       if (bamSceneRef.current) {
         bamSceneRef.current.dispose();
       }
+      if (lptSceneRef.current) {
+        lptSceneRef.current.dispose();
+      }
       if (secYEGSceneRef.current) {
         secYEGSceneRef.current.start();
         secYEGSceneRef.current.handleResize();
@@ -1073,10 +1176,41 @@ function App() {
       if (secYEGSceneRef.current) {
         secYEGSceneRef.current.dispose();
       }
+      if (lptSceneRef.current) {
+        lptSceneRef.current.dispose();
+      }
       if (bamSceneRef.current) {
         bamSceneRef.current.start();
         bamSceneRef.current.handleResize();
         bamSceneRef.current.resetCamera();
+      }
+    } else if (nextScenario === 'lpt') {
+      if (cellSceneRef.current) {
+        cellSceneRef.current.stop();
+        if (tourStatus.active) cellSceneRef.current.exitTour();
+      }
+      if (motorSceneRef.current) {
+        motorSceneRef.current.stop();
+      }
+      if (ribosomeSceneRef.current) {
+        ribosomeSceneRef.current.stop();
+      }
+      if (atpSceneRef.current) {
+        atpSceneRef.current.stop();
+      }
+      if (complexISceneRef.current) {
+        complexISceneRef.current.stop();
+      }
+      if (secYEGSceneRef.current) {
+        secYEGSceneRef.current.dispose();
+      }
+      if (bamSceneRef.current) {
+        bamSceneRef.current.dispose();
+      }
+      if (lptSceneRef.current) {
+        lptSceneRef.current.start();
+        lptSceneRef.current.handleResize();
+        lptSceneRef.current.resetCamera();
       }
     } else {
       if (motorSceneRef.current) {
@@ -1096,6 +1230,9 @@ function App() {
       }
       if (bamSceneRef.current) {
         bamSceneRef.current.dispose();
+      }
+      if (lptSceneRef.current) {
+        lptSceneRef.current.dispose();
       }
       if (cellSceneRef.current) {
         cellSceneRef.current.start();
@@ -1834,7 +1971,142 @@ function App() {
   };
 
   // --------------------------------------------------------------------------
-  // 7. Top Toolbar Actions (Unified for Cell, Motor, Ribosome, ATP Synthase, Complex I, SecYEG, & BAM)
+  // 6g. Lpt Explanatory Trace & Story Controllers
+  // --------------------------------------------------------------------------
+  const playLptStoryStep = (stepNumber: number) => {
+    if (stepNumber < 1 || stepNumber > LPT_EXPLANATION_STAGES.length) {
+      setLptStoryStep(0);
+      setIsLptNarrating(false);
+      setIsLptTourActive(false);
+      setIsLptTourPlaying(false);
+      hideSubtitles();
+      if (lptSceneRef.current) {
+        lptSceneRef.current.setExplanationStep(0);
+      }
+      return;
+    }
+
+    const stage = LPT_EXPLANATION_STAGES[stepNumber - 1];
+    setLptStoryStep(stepNumber);
+    setActiveLptPart(stage.id);
+    const meta = LPT_COMPONENTS_META[stage.id] || LPT_COMPONENTS_META['lpt_holoenzyme'];
+    if (meta) {
+      setLptComponentMeta(meta);
+    }
+
+    if (lptSceneRef.current) {
+      lptSceneRef.current.setExplanationStep(stepNumber);
+    }
+
+    showSubtitles(stage.spoken, `STAGE ${stage.step} OF ${LPT_EXPLANATION_STAGES.length}: ${stage.title}`, 'Kokoro Neural TTS');
+
+    setIsLptNarrating(true);
+    voiceService.playText(stage.spoken, {
+      voice: selectedVoice,
+      onEnd: () => {
+        setTimeout(() => {
+          if (stepNumber < LPT_EXPLANATION_STAGES.length) {
+            playLptStoryStep(stepNumber + 1);
+          } else {
+            setLptStoryStep(0);
+            setIsLptNarrating(false);
+            setIsLptTourActive(false);
+            setIsLptTourPlaying(false);
+            hideSubtitles();
+            if (lptSceneRef.current) {
+              lptSceneRef.current.setExplanationStep(0);
+            }
+          }
+        }, 750);
+      },
+      onError: () => {
+        setLptStoryStep(0);
+        setIsLptNarrating(false);
+        setIsLptTourActive(false);
+        setIsLptTourPlaying(false);
+        hideSubtitles();
+        if (lptSceneRef.current) {
+          lptSceneRef.current.setExplanationStep(0);
+        }
+      }
+    });
+  };
+
+  const stopLptStoryTrace = () => {
+    voiceService.stop();
+    setIsLptNarrating(false);
+    setLptStoryStep(0);
+    setIsLptTourActive(false);
+    setIsLptTourPlaying(false);
+    setLptTourPhase('idle');
+    hideSubtitles();
+    if (lptSceneRef.current) {
+      lptSceneRef.current.setExplanationStep(0);
+    }
+  };
+
+  const handleLptNarrate = () => {
+    if (voiceService.isBusy() || lptStoryStep > 0) {
+      stopLptStoryTrace();
+    } else {
+      if (!activeLptPart || activeLptPart === 'lpt_holoenzyme') {
+        playLptStoryStep(1);
+      } else if (lptComponentMeta) {
+        const speech = `${lptComponentMeta.name}. ${lptComponentMeta.desc || ''}`;
+        setIsLptNarrating(true);
+        showSubtitles(speech, lptComponentMeta.badge || 'LPT BRIDGE', 'Kokoro Neural TTS');
+        voiceService.playText(speech, {
+          voice: selectedVoice,
+          onEnd: () => {
+            setIsLptNarrating(false);
+            hideSubtitles();
+          },
+          onError: () => {
+            setIsLptNarrating(false);
+            hideSubtitles();
+          }
+        });
+      }
+    }
+  };
+
+  const handleToggleLptAutoRotate = () => {
+    if (lptSceneRef.current) {
+      const active = lptSceneRef.current.toggleAutoRotate();
+      setIsLptAutoRotating(active);
+    }
+  };
+
+  const handleToggleLptLabels = () => {
+    setIsLptLabelsVisible(prev => !prev);
+  };
+
+  const handleToggleLptTour = () => {
+    if (isLptTourActive || lptStoryStep > 0) {
+      stopLptStoryTrace();
+    } else {
+      setIsLptTourActive(true);
+      playLptStoryStep(1);
+    }
+  };
+
+  const goToLptTourStep = (stepIndex: number) => {
+    const safeIndex = Math.max(0, Math.min(LPT_TOUR_STOPS.length - 1, stepIndex));
+    setLptTourStep(safeIndex);
+    const partKey = LPT_TOUR_STOPS[safeIndex];
+    setActiveLptPart(partKey);
+    const meta = LPT_COMPONENTS_META[partKey];
+    if (meta) {
+      setLptComponentMeta(meta);
+      if (lptSceneRef.current) {
+        lptSceneRef.current.focusComponent(partKey);
+      }
+      setLptTourPhase('narrating');
+    }
+  };
+
+  // --------------------------------------------------------------------------
+  // 7. Top Toolbar Actions (Unified for Cell, Motor, Ribosome, ATP Synthase, Complex I, SecYEG, BAM, & Lpt)
   // --------------------------------------------------------------------------
   const handleResetCamera = () => {
     if (scenario === 'cell' && cellSceneRef.current) {
@@ -1851,6 +2123,8 @@ function App() {
       secYEGSceneRef.current.resetCamera();
     } else if (scenario === 'bam' && bamSceneRef.current) {
       bamSceneRef.current.resetCamera();
+    } else if (scenario === 'lpt' && lptSceneRef.current) {
+      lptSceneRef.current.resetCamera();
     }
   };
 
@@ -2205,7 +2479,8 @@ function App() {
     scenario === 'atp_synthase' ||
     scenario === 'complex_i' ||
     scenario === 'secyeg' ||
-    scenario === 'bam';
+    scenario === 'bam' ||
+    scenario === 'lpt';
 
   return (
     <div id="app-container" className={isDrawerOpen ? 'drawer-open' : ''}>
@@ -2227,7 +2502,9 @@ function App() {
             ? 'Cryo-EM 7Z7V (2.29 Å) • Turnover State: Active'
             : scenario === 'secyeg'
             ? 'Cryo-EM 3J46 / 5EUL • Translocon: Active'
-            : 'PDB 5D0O (2.90 Å) • Outer Membrane Insertase: Active'
+            : scenario === 'bam'
+            ? 'PDB 5D0O (2.90 Å) • Outer Membrane Insertase: Active'
+            : 'Cryo-EM 9P7P (3.40 Å) • Lpt Trans-Envelope Bridge: Active'
         }
         selectedVoice={selectedVoice}
         onVoiceChange={handleVoiceChange}
@@ -2244,7 +2521,9 @@ function App() {
             ? isComplexINarrating
             : scenario === 'secyeg'
             ? isSecYEGNarrating
-            : isBAMNarrating
+            : scenario === 'bam'
+            ? isBAMNarrating
+            : isLptNarrating
         }
         onNarrateClick={
           scenario === 'cell'
@@ -2259,7 +2538,9 @@ function App() {
             ? handleComplexINarrate
             : scenario === 'secyeg'
             ? handleSecYEGNarrate
-            : handleBAMNarrate
+            : scenario === 'bam'
+            ? handleBAMNarrate
+            : handleLptNarrate
         }
         onResetCamera={handleResetCamera}
         isAutoRotating={
@@ -2275,7 +2556,9 @@ function App() {
             ? isComplexIAutoRotating
             : scenario === 'secyeg'
             ? isSecYEGAutoRotating
-            : isBAMAutoRotating
+            : scenario === 'bam'
+            ? isBAMAutoRotating
+            : isLptAutoRotating
         }
         onToggleAutoRotate={
           scenario === 'cell'
@@ -2290,7 +2573,9 @@ function App() {
             ? handleToggleComplexIAutoRotate
             : scenario === 'secyeg'
             ? handleToggleSecYEGAutoRotate
-            : handleToggleBAMAutoRotate
+            : scenario === 'bam'
+            ? handleToggleBAMAutoRotate
+            : handleToggleLptAutoRotate
         }
         showLabels={
           scenario === 'cell'
@@ -2305,7 +2590,9 @@ function App() {
             ? isComplexILabelsVisible
             : scenario === 'secyeg'
             ? isSecYEGLabelsVisible
-            : isBAMLabelsVisible
+            : scenario === 'bam'
+            ? isBAMLabelsVisible
+            : isLptLabelsVisible
         }
         onToggleLabels={
           scenario === 'cell'
@@ -2320,7 +2607,9 @@ function App() {
             ? handleToggleComplexILabels
             : scenario === 'secyeg'
             ? handleToggleSecYEGLabels
-            : handleToggleBAMLabels
+            : scenario === 'bam'
+            ? handleToggleBAMLabels
+            : handleToggleLptLabels
         }
         isTourActive={
           scenario === 'cell'
@@ -2335,7 +2624,9 @@ function App() {
             ? isComplexITourActive
             : scenario === 'secyeg'
             ? (isSecYEGTourActive || secYEGStoryStep > 0)
-            : (isBAMTourActive || bamStoryStep > 0)
+            : scenario === 'bam'
+            ? (isBAMTourActive || bamStoryStep > 0)
+            : (isLptTourActive || lptStoryStep > 0)
         }
         onToggleTour={
           scenario === 'cell'
@@ -2350,7 +2641,9 @@ function App() {
             ? handleToggleComplexITour
             : scenario === 'secyeg'
             ? handleToggleSecYEGTour
-            : handleToggleBAMTour
+            : scenario === 'bam'
+            ? handleToggleBAMTour
+            : handleToggleLptTour
         }
       />
 
@@ -3173,13 +3466,134 @@ function App() {
         )}
       </div>
 
+      {/* 10. LptA-G LPS Trans-Envelope Export Bridge Scenario Layer */}
+      <div
+        id="lpt-container"
+        className={scenario === 'lpt' ? '' : 'hidden'}
+        style={{ display: scenario === 'lpt' ? 'block' : 'none' }}
+      >
+        <LptHeaderOverlay />
+
+        <div
+          ref={lptContainerRef}
+          style={{ width: '100%', height: '100%', position: 'absolute', top: 0, left: 0 }}
+        />
+        <svg id="lpt-svg-overlay"></svg>
+        <div id="lpt-labels-container"></div>
+
+        <LptHUDCard
+          isPaused={isLptPaused}
+          onTogglePause={() => {
+            if (lptSceneRef.current) {
+              const paused = lptSceneRef.current.togglePause();
+              setIsLptPaused(paused);
+            }
+          }}
+          isAtpActive={isLptAtpActive}
+          onToggleAtp={() => {
+            if (lptSceneRef.current) {
+              const active = lptSceneRef.current.toggleAtpActive();
+              setIsLptAtpActive(active);
+            }
+          }}
+          exportSpeed={lptExportSpeed}
+          onChangeExportSpeed={(speed) => {
+            setLptExportSpeed(speed);
+            if (lptSceneRef.current) {
+              lptSceneRef.current.setExportSpeed(speed);
+            }
+          }}
+          explodedProgress={lptExplodedProgress}
+          onChangeExploded={(exp) => {
+            setLptExplodedProgress(exp);
+            if (lptSceneRef.current) {
+              lptSceneRef.current.setExplodedProgress(exp);
+            }
+          }}
+          isLabelsVisible={isLptLabelsVisible}
+          onToggleLabels={handleToggleLptLabels}
+          onFocusComponent={(key) => {
+            if (lptSceneRef.current) {
+              lptSceneRef.current.focusComponent(key);
+              lptSceneRef.current.selectComponent(key);
+            }
+          }}
+        />
+
+        <LptInspectorDrawer
+          data={lptComponentMeta}
+          activeKey={activeLptPart}
+          isNarrating={isLptNarrating}
+          storyStep={lptStoryStep}
+          onSelectStoryStep={(s) => playLptStoryStep(s)}
+          onStartStoryTrace={() => playLptStoryStep(1)}
+          onStopStoryTrace={stopLptStoryTrace}
+          onNarrate={handleLptNarrate}
+          onFocus={() => {
+            if (lptSceneRef.current && activeLptPart) {
+              lptSceneRef.current.focusComponent(activeLptPart);
+            }
+          }}
+          onSelectPart={(key: string) => {
+            if (lptSceneRef.current) {
+              lptSceneRef.current.selectComponent(key);
+              lptSceneRef.current.focusComponent(key);
+            }
+          }}
+        />
+
+        {(isLptTourActive || lptStoryStep > 0) && (
+          <TourBar
+            status={{
+              active: true,
+              playing: isLptTourPlaying || isLptNarrating,
+              stepIndex: lptStoryStep > 0 ? lptStoryStep - 1 : lptTourStep,
+              key: lptStoryStep > 0 ? LPT_EXPLANATION_STAGES[lptStoryStep - 1]?.id : LPT_TOUR_STOPS[lptTourStep],
+              totalSteps: lptStoryStep > 0 ? LPT_EXPLANATION_STAGES.length : LPT_TOUR_STOPS.length,
+              phase: lptTourPhase,
+              cooldownRemaining: 2,
+              ttsEnabled: true
+            }}
+            stepTitle={lptStoryStep > 0 ? LPT_EXPLANATION_STAGES[lptStoryStep - 1]?.title : (lptComponentMeta?.name || 'Lpt Component')}
+            onPrev={() => {
+              if (lptStoryStep > 0) {
+                playLptStoryStep(Math.max(1, lptStoryStep - 1));
+              } else {
+                goToLptTourStep(lptTourStep - 1);
+              }
+            }}
+            onTogglePlay={() => {
+              if (lptStoryStep > 0) {
+                if (isLptNarrating) {
+                  voiceService.stop();
+                  setIsLptNarrating(false);
+                } else {
+                  playLptStoryStep(lptStoryStep);
+                }
+              } else {
+                setIsLptTourPlaying(!isLptTourPlaying);
+              }
+            }}
+            onNext={() => {
+              if (lptStoryStep > 0) {
+                playLptStoryStep(Math.min(LPT_EXPLANATION_STAGES.length, lptStoryStep + 1));
+              } else {
+                goToLptTourStep(lptTourStep + 1);
+              }
+            }}
+            onToggleVoice={() => {}}
+            onExit={stopLptStoryTrace}
+          />
+        )}
+      </div>
+
       {/* Global Live Subtitles Banner (Closed Captions) */}
       <LiveSubtitles
         visible={subtitleState.visible}
         text={subtitleState.text}
         badge={subtitleState.badge}
         speaker={subtitleState.speaker}
-        hasTourBar={isBAMTourActive || bamStoryStep > 0 || isSecYEGTourActive || secYEGStoryStep > 0 || isComplexITourActive || complexIStoryStep > 0 || isATPTourActive || atpStoryStep > 0 || isMotorTourActive || motorStoryStep > 0 || isRibosomeTourActive || ribosomeStoryStep > 0 || tourStatus.active}
+        hasTourBar={isLptTourActive || lptStoryStep > 0 || isBAMTourActive || bamStoryStep > 0 || isSecYEGTourActive || secYEGStoryStep > 0 || isComplexITourActive || complexIStoryStep > 0 || isATPTourActive || atpStoryStep > 0 || isMotorTourActive || motorStoryStep > 0 || isRibosomeTourActive || ribosomeStoryStep > 0 || tourStatus.active}
         onClose={hideSubtitles}
       />
     </div>

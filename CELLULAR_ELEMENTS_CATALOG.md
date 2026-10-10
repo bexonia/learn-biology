@@ -364,16 +364,25 @@ This catalog defines the complete set of structural and functional components of
   - `5-Stage Explanatory Trace`: Chaperone client handover $\to$ POTRA conformational gating $\to$ lateral seam destabilization $\to$ $\beta$-hairpin membrane insertion $\to$ barrel budding & OM integration.
 
 #### 3.7 `lpta_g_bridge` — LptA-G Lipopolysaccharide Trans-Envelope Export Bridge
-- **Scale:** $15\,\text{nm}$ span across inner membrane, periplasm, and outer membrane ($40\,\text{nm}$)
-- **PDB / Asset:** `6MIT` (LptB2FGC inner membrane ABC transporter + LptA periplasmic bridge + LptDE outer membrane translocon)
-- **Status:** 🟡 **High-Priority Pending Implementation**
-- **Biological Role:** Molecular bridge spanning the entire cell envelope; uses ATP in the cytoplasm to propel highly hydrophobic Lipid A molecules across a continuous periplasmic groove into the outer membrane surface.
+- **Scale:** $28.4\,\text{nm}$ continuous trans-envelope bridge spanning inner membrane, periplasm, and outer membrane
+- **PDB / Asset:** `9P7P` (3.40 Å Complete Holoenzyme with bound LPS `JSG`) / `6MIT`
+- **Status:** 🟢 **Built & Fully Interactive**
+- **Biological Role:** Continuous molecular bridge spanning all three layers of the Gram-negative cell envelope; couples cytoplasmic ATP hydrolysis by the LptB2 ABC engine to processive PEZ-dispenser transport of highly hydrophobic Lipid A molecules across a continuous $\beta$-jellyroll hydrophobic groove into the outer membrane outer leaflet.
+- **Subunit Decomposition:**
+  - `Piece_LPT_LptB_Dimer` (`#FFB703`, Golden Amber): Cytoplasmic ABC ATPase homodimer (Chains B, H).
+  - `Piece_LPT_LptFG_Permease` (`#06D6A0`, Seafoam Jade): Inner membrane permease cavity accommodating lipid A fatty acyl chains (Chains F, G).
+  - `Piece_LPT_LptC_Coupler` (`#2EC4B6`, Luminous Teal): Periplasmic adaptor & transition dock (Chain C res 47–191).
+  - `Piece_LPT_LptA_Bridge` (`#F77F00`, Warm Amber): Periplasmic $\beta$-jellyroll hydrophobic slide oligomers (Chain C res 192–355).
+  - `Piece_LPT_LptD_Barrel` (`#0077B6`, Deep Marine): 26-stranded giant outer membrane $\beta$-barrel with lateral gate (Chain D).
+  - `Piece_LPT_LptE_Plug` (`#9D4EDD`, Lilac Purple): Lipoprotein plug inside LptD lumen preventing ion leakage (Chain E).
+  - `Piece_LPT_Bound_LPS` (`#FFE066`, Luminous Gold): Bound lipopolysaccharide substrate (Ligand JSG).
 - **Inter-Element Flux Iteration:**
-  - *Upstream:* Extracts newly synthesized Lipid A-core from the inner membrane periplasmic leaflet using ATP.
-  - *Downstream:* Deposits LPS onto the outer leaflet of the outer membrane to maintain the protective barrier.
+  - *Upstream:* Receives Lipid A-Kdo2-Core synthesized in cytoplasm by the Raetz pathway (LpxA–K) and flipped to the IM periplasmic leaflet by MsbA; consumes cytoplasmic ATP.
+  - *Downstream:* Deposits LPS onto the outer leaflet of the outer membrane, cross-linked by divalent $\text{Mg}^{2+}$ cations to assemble the primary permeability barrier against antibiotics.
 - **HUD Simulation Controls:**
-  - `lpsExportFlux`: $0\text{--}1,000\,\text{LPS/sec}$
-  - `mureinBridgeCrossing`: Toggle
+  - `exportSpeed`: $0.2\text{--}2.5\times$ ($\sim 30\text{--}375\,\text{LPS/min}$, physiological $1.0\times \approx 150\,\text{LPS/min}$)
+  - `isAtpActive`: Toggle (active ATP hydrolysis vs. inhibited state)
+  - `explodedProgress`: $0.0\text{--}1.0$ (dissociation along envelope vectors $\vec{v}_{\text{dissoc}}$)
 
 #### 3.8 `rna_polymerase` — RNA Polymerase Transcription Machine
 - **Scale:** $14\,\text{nm} \times 16\,\text{nm}$ (Molecular mass: $\sim 400\,\text{kDa}$)
@@ -640,11 +649,11 @@ To systematically implement the full prokaryote cell engine, work proceeds in **
 ### Phase 3: Envelope Biogenesis & Trans-Periplasmic Bridges
 - ✅ **Milestone 3.1:** **BAM Complex Outer Membrane Insertase (`5D0O`)** — 🟢 **Built & Fully Interactive**
   - High-fidelity 8-piece macromolecular decomposition (`Piece_BAM_BamA_Barrel`, `Piece_BAM_Lateral_Seam`, `Piece_BAM_BamA_POTRA`, `Piece_BAM_BamB`, `Piece_BAM_BamC`, `Piece_BAM_BamD`, `Piece_BAM_BamE`, `Piece_BAM_Client_OMP`), authentic asymmetric outer membrane bilayer slab (Extracellular LPS Lipid A headgroups `#0077B6` at $+Y$, Periplasmic Phospholipids `#06D6A0` at $-Y$), interactive dynamic lateral seam unzipping ($\beta 16$ unpairing from $\beta 1$ outwards into lipid bilayer by up to 1.6 nm), animated nascent client $\beta$-hairpin substrate insertion stream, exploded view dissociation along natural biophysical vectors, interactive client insertion flux speed slider with turnover readouts (0.5–2.0 min⁻¹), lateral seam slider, exploded slider, quick inspect chips, 8 dynamic SVG leader lines with lettered subpill badges, and universal 5-Stage Explanatory Trace.
-- 🎯 **Milestone 3.2:** **LptA-G LPS Trans-Envelope Bridge (`6MIT`)** *(CURRENT NEXT TARGET)*
-  - Continuous trans-periplasmic lipid slide model connecting inner membrane ABC engine to outer membrane LptDE.
+- ✅ **Milestone 3.2:** **LptA-G LPS Trans-Envelope Bridge (`9P7P` / `6MIT`)** — 🟢 **Built & Fully Interactive**
+  - High-fidelity 7-piece cryo-EM decomposition (`Piece_LPT_LptB_Dimer`, `Piece_LPT_LptFG_Permease`, `Piece_LPT_LptC_Coupler`, `Piece_LPT_LptA_Bridge`, `Piece_LPT_LptD_Barrel`, `Piece_LPT_LptE_Plug`, `Piece_LPT_Bound_LPS`), authentic trans-envelope dual-membrane architecture spanning 28.4 nm (Inner Membrane phospholipid bilayer at $Y \approx -8.0\,\text{nm}$, Porous Peptidoglycan murein ring at $Y \approx +2.0\,\text{nm}$, Asymmetric Outer Membrane bilayer at $Y \approx +11.5\,\text{nm}$), processive trans-envelope LPS export stream along continuous hydrophobic groove, exploded view dissociation along natural biophysical vectors, interactive export flux speed slider with turnover readouts (100–300 LPS/min), ATP hydrolysis state toggle, quick inspect chips, 7 dynamic SVG leader lines with lettered subpill badges, and universal 5-Stage Explanatory Trace.
 
 ### Phase 4: Genetic Central Dogma & Information Replication
-- 🎯 **Milestone 4.1:** **RNA Polymerase Transcription Machine (`6C9Y`)**
+- 🎯 **Milestone 4.1:** **RNA Polymerase Transcription Machine (`6C9Y`)** *(CURRENT NEXT TARGET)*
   - Implement transcription bubble unwinding, $\sigma^{70}$ promoter recognition, and Expressome coupling to lead ribosome.
 - 🎯 **Milestone 4.2:** **DNA Polymerase III Replisome Holoenzyme (`6S8N`)**
   - Bidirectional replication fork, $\beta_2$-clamp sliding, and $3'\to 5'$ exonuclease proofreading switch.

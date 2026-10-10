@@ -87,7 +87,7 @@ export const RibosomeHUDCard: React.FC<RibosomeHUDCardProps> = ({
 
           <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '10px', color: '#5C6E64', marginTop: '2px' }}>
             <span>5' Initiation (AUG)</span>
-            <span>Codon {Math.round(mrnaCycleProgress * 180)} / 180</span>
+            <span>Codon {Math.round(mrnaCycleProgress * 120)} / 120</span>
             <span>3' Stop (UAA)</span>
           </div>
 

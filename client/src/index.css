@@ -1579,9 +1579,10 @@ html, body {
 }
 
 /* --------------------------------------------------------------------------
-   Flagellar Motor 3D Anatomy Tags & SVG Overlay
+   3D Anatomy Tags & SVG Overlay (Motor & Ribosome)
    -------------------------------------------------------------------------- */
-#motor-svg-overlay {
+#motor-svg-overlay,
+#ribosome-svg-overlay {
   position: absolute;
   top: 0;
   left: 0;
@@ -1591,7 +1592,8 @@ html, body {
   z-index: 15;
 }
 
-#motor-labels-container {
+#motor-labels-container,
+#ribosome-labels-container {
   position: absolute;
   top: 0;
   left: 0;
@@ -1601,7 +1603,8 @@ html, body {
   z-index: 16;
 }
 
-.motor-tag {
+.motor-tag,
+.ribosome-tag {
   position: absolute;
   transform: translate(-50%, -50%);
   pointer-events: auto;
@@ -1657,25 +1660,29 @@ html, body {
   line-height: 1.2;
 }
 
-.motor-tag:hover .motor-tag-badge {
+.motor-tag:hover .motor-tag-badge,
+.ribosome-tag:hover .motor-tag-badge {
   background: #FFFFFF;
   border-color: #1A2619;
   box-shadow: 0 6px 20px rgba(0, 0, 0, 0.16);
   transform: scale(1.05);
 }
 
-.motor-tag.active-target .motor-tag-badge {
+.motor-tag.active-target .motor-tag-badge,
+.ribosome-tag.active-target .motor-tag-badge {
   background: #1C281B;
   border-color: #1C281B;
   box-shadow: 0 6px 22px rgba(28, 40, 27, 0.45);
   transform: scale(1.08);
 }
 
-.motor-tag.active-target .motor-tag-primary {
+.motor-tag.active-target .motor-tag-primary,
+.ribosome-tag.active-target .motor-tag-primary {
   color: #FAF8F5;
 }
 
-.motor-tag.active-target .motor-tag-sub {
+.motor-tag.active-target .motor-tag-sub,
+.ribosome-tag.active-target .motor-tag-sub {
   color: #B5D4B2;
 }
 

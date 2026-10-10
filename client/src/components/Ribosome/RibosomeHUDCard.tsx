@@ -13,6 +13,8 @@ interface RibosomeHUDCardProps {
   mrnaCycleProgress?: number;
   onResetMRNACycle?: () => void;
   onFocusComponent?: (key: string) => void;
+  isLabelsVisible?: boolean;
+  onToggleLabels?: () => void;
 }
 
 export const RibosomeHUDCard: React.FC<RibosomeHUDCardProps> = ({
@@ -27,7 +29,9 @@ export const RibosomeHUDCard: React.FC<RibosomeHUDCardProps> = ({
   onStepCodon,
   mrnaCycleProgress = 0,
   onResetMRNACycle,
-  onFocusComponent
+  onFocusComponent,
+  isLabelsVisible = true,
+  onToggleLabels
 }) => {
   const currentRateAa = (translationSpeed * 15).toFixed(1);
 
@@ -51,6 +55,18 @@ export const RibosomeHUDCard: React.FC<RibosomeHUDCardProps> = ({
               title="Step forward by exactly 1 codon triplet (+1 amino acid)"
             >
               ⏩ +1 Codon Step
+            </button>
+          </div>
+
+          <div style={{ marginTop: '6px', display: 'flex', gap: '6px' }}>
+            <button
+              className={`motor-mode-btn ${isLabelsVisible ? 'active' : ''}`}
+              id="btn-ribosome-labels"
+              onClick={onToggleLabels}
+              style={{ flex: 1, fontSize: '11px', padding: '5px 6px' }}
+              title="Toggle 3D anatomical tags and leader lines"
+            >
+              {isLabelsVisible ? '🏷 Anatomy Tags: ON' : '🏷 Anatomy Tags: OFF'}
             </button>
           </div>
         </div>

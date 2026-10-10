@@ -204,56 +204,56 @@ export const CELL_LANDMARKS = [
     key: 'membrane',
     name: 'periplasmic space & membrane',
     pos: new THREE.Vector3(0.625, 0.652, -1.348), // Upper golden plasma membrane lip
-    screenOffset: { x: 240, y: -70 }
+    normal: new THREE.Vector3(0.1, 0.75, -0.65).normalize()
   },
   {
     id: 'label-nucleoid',
     key: 'nucleoid',
     name: 'nucleoid',
     pos: new THREE.Vector3(0.098, 0.647, 0.304), // Top crest loop of supercoiled chromosome
-    screenOffset: { x: 280, y: -15 }
+    normal: new THREE.Vector3(0.0, 0.85, 0.5).normalize()
   },
   {
     id: 'label-ribosomes',
     key: 'ribosomes',
     name: 'ribosomes',
     pos: new THREE.Vector3(1.574, 0.356, 0.293), // Prominent individual ribosome bead on floor
-    screenOffset: { x: 220, y: 40 }
+    normal: new THREE.Vector3(0.35, 0.75, 0.55).normalize()
   },
   {
     id: 'label-plasmid',
     key: 'plasmid',
     name: 'plasmids',
     pos: new THREE.Vector3(-0.058, 0.184, 0.576), // Top rim of front circular blue plasmid ring
-    screenOffset: { x: 250, y: 85 }
+    normal: new THREE.Vector3(0.0, 0.65, 0.75).normalize()
   },
   {
     id: 'label-cytoplasm',
     key: 'cytoplasm',
     name: 'cytoplasm & proteins',
     pos: new THREE.Vector3(0.35, -0.05, 0.40), // Exposed colloidal bedding floor
-    screenOffset: { x: 220, y: 130 }
+    normal: new THREE.Vector3(0.1, 0.75, 0.65).normalize()
   },
   {
     id: 'label-wall',
     key: 'wall',
     name: 'cell wall',
     pos: new THREE.Vector3(-0.594, -0.182, 1.627), // Cut porous green sandstone wall face
-    screenOffset: { x: 170, y: 175 }
+    normal: new THREE.Vector3(-0.25, -0.2, 0.95).normalize()
   },
   {
     id: 'label-capsule',
     key: 'capsule',
     name: 'capsule',
     pos: new THREE.Vector3(-0.957, -0.285, 1.854), // Outer translucent capsule shell boundary
-    screenOffset: { x: 110, y: 225 }
+    normal: new THREE.Vector3(-0.35, -0.2, 0.9).normalize()
   },
   {
     id: 'label-flagellum',
     key: 'flagellum',
     name: 'flagellum & motor',
     pos: new THREE.Vector3(-3.792, -0.896, 1.741), // Trailing sinusoidal flagellar filament
-    screenOffset: { x: -90, y: 70 }
+    normal: new THREE.Vector3(-0.85, -0.15, 0.5).normalize()
   }
 ];
 
@@ -271,6 +271,7 @@ export class CellViewerScene {
     this.onWasmStatus = options.onWasmStatus || (() => {});
 
     this.active = false;
+    this.disposed = false;
     this.isAutoRotating = false;
     this.showLabels = true;
     this.currentActiveTarget = null;
@@ -340,6 +341,7 @@ export class CellViewerScene {
     try {
       const wasmResponse = await fetch('/wasm/orbit_engine.wasm');
       const wasmBytes = await wasmResponse.arrayBuffer();
+      if (this.disposed) return this;
       const wasmModule = await WebAssembly.instantiate(wasmBytes, {});
       this.wasm = wasmModule.instance.exports;
       this.wasm.init_engine(0.54, 0.98, 10.8, -0.6, 0.0, 0.0);
@@ -348,6 +350,8 @@ export class CellViewerScene {
       console.warn('[-] Failed to load WebAssembly module, using JS fallback:', err);
       if (this.onWasmStatus) this.onWasmStatus('WebAssembly: JS Fallback');
     }
+
+    if (this.disposed) return this;
 
     // 2. Three.js Scene, Camera, and Studio Lighting Setup
     this.scene = new THREE.Scene();
@@ -372,6 +376,11 @@ export class CellViewerScene {
 
     this.canvas = this.renderer.domElement;
     this.canvas.id = 'gl-canvas';
+
+    // Clear any previous orphaned canvas before mounting
+    while (this.container.firstChild) {
+      this.container.removeChild(this.container.firstChild);
+    }
     this.container.appendChild(this.canvas);
 
     // Studio Lighting
@@ -1134,54 +1143,171 @@ export class CellViewerScene {
     const camDir = new THREE.Vector3();
     this.camera.getWorldDirection(camDir);
 
+    const appContainer = document.getElementById('app-container');
+    const isDrawerOpen = !!(appContainer && appContainer.classList.contains('drawer-open'));
+    const rightMargin = isDrawerOpen ? 430 : 150;
+    const topMargin = 85;
+
+    // Compute cell center projection in screen space
+    const cellCenter = this.cellRoot
+      ? new THREE.Vector3(-0.6, 0.0, 0.0).applyMatrix4(this.cellRoot.matrixWorld)
+      : new THREE.Vector3(-0.6, 0.0, 0.0);
+    const centerProj = cellCenter.clone().project(this.camera);
+    const centerScreenX = (centerProj.x * 0.5 + 0.5) * width;
+    const centerScreenY = (-centerProj.y * 0.5 + 0.5) * height;
+
+    const visibleItems = [];
+
+    // Phase 1: Transform to world coordinates, check camera plane and normal occlusion
     CELL_LANDMARKS.forEach((item) => {
       const el = document.getElementById(item.id);
       if (!el) return;
 
-      // Guard: only project points in front of the camera plane
-      const toPoint = item.pos.clone().sub(this.camera.position);
-      if (toPoint.dot(camDir) <= 0) {
+      const worldPos = this.cellRoot
+        ? item.pos.clone().applyMatrix4(this.cellRoot.matrixWorld)
+        : item.pos.clone();
+
+      // Guard: only project points in front of the camera lens plane
+      const toPoint = worldPos.clone().sub(this.camera.position);
+      if (toPoint.dot(camDir) <= 0.05) {
         el.style.opacity = '0';
         el.style.pointerEvents = 'none';
         return;
       }
 
-      const v = item.pos.clone().project(this.camera);
-      const isVisible = v.z > -1 && v.z < 1;
+      // Check facing direction / surface normal
+      const viewDir = this.camera.position.clone().sub(worldPos).normalize();
+      const worldNormal = item.normal ? item.normal.clone() : new THREE.Vector3(0, 1, 0);
+      if (this.cellRoot) {
+        worldNormal.transformDirection(this.cellRoot.matrixWorld);
+      }
+      const facingDot = worldNormal.dot(viewDir);
+      const isActive = this.currentActiveTarget === item.key;
+
+      // Occlusion test: back-facing points on the far side of the cell fade out
+      // Active item stays visible; flagellum has wider visibility range
+      const isOccluded = !isActive && (item.key === 'flagellum' ? facingDot < -0.7 : facingDot < -0.15);
+
+      const v = worldPos.clone().project(this.camera);
+      const isFrustum = v.z > -1 && v.z < 1;
       const screenX = (v.x * 0.5 + 0.5) * width;
       const screenY = (-v.y * 0.5 + 0.5) * height;
 
-      if (isVisible && screenX > 20 && screenX < width - 20 && screenY > 20 && screenY < height - 20) {
-        el.style.opacity = '1';
-        el.style.pointerEvents = 'auto';
-        const labelX = screenX + item.screenOffset.x;
-        const labelY = screenY + item.screenOffset.y;
-        el.style.left = `${labelX}px`;
-        el.style.top = `${labelY}px`;
-
-        const halfW = el.offsetWidth ? (el.offsetWidth * 0.5) : 75;
-        const lineEndX = item.screenOffset.x >= 0 ? (labelX - halfW - 2) : (labelX + halfW + 2);
-
-        const isActive = this.currentActiveTarget === item.key;
-        const organelleData = CELL_ANATOMY_DATA[item.key];
-        const dotColor = isActive ? (organelleData ? organelleData.color : '#FFB703') : '#2E3A2B';
-        const strokeColor = isActive ? (organelleData ? organelleData.color : '#FFB703') : '#2E3A2B';
-        const anchorDotRadius = isActive ? 4.5 : 2.5;
-        const strokeWidth = isActive ? 2.0 : 1.2;
-        const strokeOpacity = isActive ? 1.0 : (this.currentActiveTarget ? 0.45 : 0.85);
-
-        svgLines += `
-          <g class="leader-group ${isActive ? 'active-leader' : ''}">
-            ${isActive ? `<circle cx="${screenX}" cy="${screenY}" r="8" fill="none" stroke="${dotColor}" stroke-width="1.5" opacity="0.6"><animate attributeName="r" values="4;9;4" dur="2s" repeatCount="indefinite"/><animate attributeName="opacity" values="0.8;0.2;0.8" dur="2s" repeatCount="indefinite"/></circle>` : ''}
-            <circle cx="${screenX}" cy="${screenY}" r="${anchorDotRadius}" fill="${dotColor}" stroke="#FFFFFF" stroke-width="${isActive ? 1.5 : 0.5}" />
-            <polyline points="${screenX},${screenY} ${screenX + item.screenOffset.x * 0.45},${labelY} ${lineEndX},${labelY}" 
-                      fill="none" stroke="${strokeColor}" stroke-width="${strokeWidth}" stroke-linecap="round" stroke-linejoin="round" opacity="${strokeOpacity}" />
-          </g>
-        `;
-      } else {
+      if (!isFrustum || screenX < 20 || screenX > width - 20 || screenY < 20 || screenY > height - 20 || isOccluded) {
         el.style.opacity = '0';
         el.style.pointerEvents = 'none';
+        return;
       }
+
+      // Radial displacement from cell center in screen space
+      const dx = screenX - centerScreenX;
+      const dy = screenY - centerScreenY;
+      let side = dx >= 0 ? 'right' : 'left';
+      if (side === 'right' && screenX > width - rightMargin - 60) {
+        side = 'left';
+      } else if (side === 'left' && screenX < 140) {
+        side = 'right';
+      }
+
+      const halfW = el.offsetWidth ? (el.offsetWidth * 0.5) : 75;
+      let targetX;
+      if (side === 'right') {
+        const offsetDist = Math.max(160, Math.min(270, 180 + Math.abs(dx) * 0.12));
+        targetX = Math.min(width - rightMargin, Math.max(screenX + 90, screenX + offsetDist));
+      } else {
+        const offsetDist = Math.max(160, Math.min(270, 180 + Math.abs(dx) * 0.12));
+        targetX = Math.max(150, Math.min(screenX - 90, screenX - offsetDist));
+      }
+
+      let targetY = screenY + (dy < -60 ? -35 : (dy > 60 ? 35 : 0));
+      targetY = Math.max(topMargin, Math.min(height - 80, targetY));
+
+      visibleItems.push({
+        item,
+        el,
+        isActive,
+        screenX,
+        screenY,
+        dx,
+        dy,
+        side,
+        targetX,
+        targetY,
+        halfW
+      });
+    });
+
+    // Phase 2: Anti-collision vertical relaxation for each side
+    const MIN_GAP = 52;
+    ['left', 'right'].forEach((side) => {
+      const group = visibleItems.filter((v) => v.side === side);
+      if (group.length === 0) return;
+
+      group.sort((a, b) => a.targetY - b.targetY);
+
+      // Downward push
+      for (let i = 1; i < group.length; i++) {
+        if (group[i].targetY < group[i - 1].targetY + MIN_GAP) {
+          group[i].targetY = group[i - 1].targetY + MIN_GAP;
+        }
+      }
+
+      // Upward clamp if bottom exceeds viewport
+      const maxAllowedY = height - 80;
+      if (group[group.length - 1].targetY > maxAllowedY) {
+        group[group.length - 1].targetY = maxAllowedY;
+        for (let i = group.length - 2; i >= 0; i--) {
+          if (group[i].targetY > group[i + 1].targetY - MIN_GAP) {
+            group[i].targetY = group[i + 1].targetY - MIN_GAP;
+          }
+        }
+      }
+
+      // Downward clamp if top is pushed above viewport
+      const minAllowedY = topMargin;
+      if (group[0].targetY < minAllowedY) {
+        group[0].targetY = minAllowedY;
+        for (let i = 1; i < group.length; i++) {
+          if (group[i].targetY < group[i - 1].targetY + MIN_GAP) {
+            group[i].targetY = group[i - 1].targetY + MIN_GAP;
+          }
+        }
+      }
+    });
+
+    // Phase 3: Position HTML badges and build SVG leader lines
+    visibleItems.forEach((v) => {
+      const { item, el, isActive, screenX, screenY, side, targetX, targetY, halfW } = v;
+
+      el.style.opacity = '1';
+      el.style.pointerEvents = 'auto';
+      el.style.left = `${targetX}px`;
+      el.style.top = `${targetY}px`;
+
+      const organelleData = CELL_ANATOMY_DATA[item.key];
+      const dotColor = isActive ? (organelleData ? organelleData.color : '#FFB703') : '#2E3A2B';
+      const strokeColor = isActive ? (organelleData ? organelleData.color : '#FFB703') : '#2E3A2B';
+      const anchorDotRadius = isActive ? 4.5 : 2.5;
+      const strokeWidth = isActive ? 2.0 : 1.2;
+      const strokeOpacity = isActive ? 1.0 : (this.currentActiveTarget ? 0.45 : 0.85);
+
+      let lineEndX, elbowX;
+      if (side === 'right') {
+        lineEndX = targetX - halfW - 2;
+        elbowX = screenX + Math.min(60, Math.max(25, (lineEndX - screenX) * 0.4));
+      } else {
+        lineEndX = targetX + halfW + 2;
+        elbowX = screenX - Math.min(60, Math.max(25, (screenX - lineEndX) * 0.4));
+      }
+
+      svgLines += `
+        <g class="leader-group ${isActive ? 'active-leader' : ''}">
+          ${isActive ? `<circle cx="${screenX}" cy="${screenY}" r="8" fill="none" stroke="${dotColor}" stroke-width="1.5" opacity="0.6"><animate attributeName="r" values="4;9;4" dur="2s" repeatCount="indefinite"/><animate attributeName="opacity" values="0.8;0.2;0.8" dur="2s" repeatCount="indefinite"/></circle>` : ''}
+          <circle cx="${screenX}" cy="${screenY}" r="${anchorDotRadius}" fill="${dotColor}" stroke="#FFFFFF" stroke-width="${isActive ? 1.5 : 0.5}" />
+          <polyline points="${screenX},${screenY} ${elbowX},${targetY} ${lineEndX},${targetY}" 
+                    fill="none" stroke="${strokeColor}" stroke-width="${strokeWidth}" stroke-linecap="round" stroke-linejoin="round" opacity="${strokeOpacity}" />
+        </g>
+      `;
     });
 
     this.svgOverlay.innerHTML = svgLines;
@@ -1336,6 +1462,7 @@ export class CellViewerScene {
   }
 
   dispose() {
+    this.disposed = true;
     this.stop();
     window.removeEventListener('pointermove', this._onPointerMove);
     window.removeEventListener('pointerup', this._onPointerUp);
@@ -1343,6 +1470,9 @@ export class CellViewerScene {
     window.removeEventListener('resize', this._onResize);
     if (this.canvas && this.canvas.parentNode) {
       this.canvas.parentNode.removeChild(this.canvas);
+    }
+    if (this.renderer) {
+      this.renderer.dispose();
     }
   }
 }

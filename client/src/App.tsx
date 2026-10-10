@@ -125,7 +125,15 @@ function App() {
   useEffect(() => {
     if (!cellContainerRef.current) return;
 
-    const cellViewer = new CellViewerScene(cellContainerRef.current, {
+    let isDisposed = false;
+    const container = cellContainerRef.current;
+
+    // Clean any orphaned canvas
+    while (container.firstChild) {
+      container.removeChild(container.firstChild);
+    }
+
+    const cellViewer = new CellViewerScene(container, {
       voiceService,
       onSelectOrganelle: (key: string) => {
         setSelectedOrganelleKey(key);
@@ -143,12 +151,17 @@ function App() {
     });
 
     cellViewer.init().then(() => {
+      if (isDisposed) {
+        cellViewer.dispose();
+        return;
+      }
       cellSceneRef.current = cellViewer;
       (window as any).__cellViewer = cellViewer;
       cellViewer.start();
     });
 
     return () => {
+      isDisposed = true;
       cellViewer.dispose();
       cellSceneRef.current = null;
     };

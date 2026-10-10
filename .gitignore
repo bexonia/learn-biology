@@ -4,6 +4,8 @@
 *.wasm
 wasm/*.wasm
 models/*.glb
+*.cif
+models/*.cif
 
 # Blender auto-save backups (source .blend is preserved)
 *.blend1

@@ -22,7 +22,9 @@ export const ScaleNavigator: React.FC<ScaleNavigatorProps> = ({
       ? 'RESPIRATORY COMPLEX I (NADH:UBIQUINONE OXIDOREDUCTASE)'
       : scenario === 'secyeg'
       ? 'BACTERIAL SECYEG TRANSLOCON & SECA ATPASE MOTOR'
-      : 'BACTERIAL BAM COMPLEX OUTER MEMBRANE INSERTASE';
+      : scenario === 'bam'
+      ? 'BACTERIAL BAM COMPLEX OUTER MEMBRANE INSERTASE'
+      : 'BACTERIAL LPTA-G LPS TRANS-ENVELOPE EXPORT BRIDGE';
 
   const subtitle =
     scenario === 'cell'
@@ -37,7 +39,9 @@ export const ScaleNavigator: React.FC<ScaleNavigatorProps> = ({
       ? 'The 24-nanometer L-shaped respiratory entry machine coupling 90 Å quantum electron tunneling to 4 H⁺ proton pumping.'
       : scenario === 'secyeg'
       ? 'The 11-nanometer universal protein translocation machine coupling SecA ATP power strokes to translocon secretion and lateral gate partitioning.'
-      : 'The 15-nanometer essential outer membrane protein insertase coupling chaperone client handover, POTRA gating, and lateral seam unzipping for beta-barrel integration.';
+      : scenario === 'bam'
+      ? 'The 15-nanometer essential outer membrane protein insertase coupling chaperone client handover, POTRA gating, and lateral seam unzipping for beta-barrel integration.'
+      : 'The 28-nanometer trans-envelope bridge spanning the inner membrane, periplasm, and outer membrane for continuous processive lipopolysaccharide export.';
 
   return (
     <header id="editorial-header">
@@ -105,6 +109,15 @@ export const ScaleNavigator: React.FC<ScaleNavigatorProps> = ({
             title="Switch to BAM Complex Outer Membrane Insertase (PDB: 5D0O)"
           >
             <span className="scale-icon">🧱</span> BAM <span className="scale-dim">(15 nm)</span>
+          </button>
+          <span className="scale-nav-divider">›</span>
+          <button
+            className={`scale-nav-btn ${scenario === 'lpt' ? 'active' : ''}`}
+            id="btn-nav-lpt"
+            onClick={() => onSelectScenario('lpt')}
+            title="Switch to LptA-G LPS Trans-Envelope Bridge (PDB: 9P7P / 6MIT)"
+          >
+            <span className="scale-icon">🌉</span> Lpt Bridge <span className="scale-dim">(28 nm)</span>
           </button>
         </div>
       </div>

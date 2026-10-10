@@ -8,7 +8,8 @@
 
 ## 📑 Table of Contents
 1. [Overview & Architectural Philosophy](#1-overview--architectural-philosophy)
-2. [The 7-Step Content Elaboration Protocol](#2-the-7-step-content-elaboration-protocol)
+2. [Canonical Visual Reference Standard: "The Biology Primer" Atomic & Secondary Structure Model](#2-canonical-visual-reference-standard-the-biology-primer-atomic--secondary-structure-model)
+3. [The 7-Step Content Elaboration Protocol](#3-the-7-step-content-elaboration-protocol)
    - [Step 1: PDB Structure Ingestion & Curation](#step-1-pdb-structure-ingestion--curation)
    - [Step 2: Subunit Decomposition & PBR Mesh Construction](#step-2-subunit-decomposition--pbr-mesh-construction)
    - [Step 3: Exploded Assembly Mathematics & Dissociation Vectors](#step-3-exploded-assembly-mathematics--dissociation-vectors)
@@ -16,9 +17,9 @@
    - [Step 5: Color Taxonomy Compliance](#step-5-color-taxonomy-compliance)
    - [Step 6: Dynamic 3D Projections, Hairline Leaders & HUD Controls](#step-6-dynamic-3d-projections-hairline-leaders--hud-controls)
    - [Step 7: Neural TTS Voice Narration & Pedagogical Scripting](#step-7-neural-tts-voice-narration--pedagogical-scripting)
-3. [The Universal Meta-Prompt Template](#3-the-universal-meta-prompt-template)
-4. [Flagship Case Study 1: $F_1F_0$-ATP Synthase (`6RKW`)](#4-flagship-case-study-1-f1f0-atp-synthase-6rkw)
-5. [Flagship Case Study 2: SecYEG Translocon & SecA Motor (`3J46` / `1RHZ`)](#5-flagship-case-study-2-secyeg-translocon--seca-motor-3j46--1rhz)
+4. [The Universal Meta-Prompt Template](#4-the-universal-meta-prompt-template)
+5. [Flagship Case Study 1: $F_1F_0$-ATP Synthase (`6RKW`)](#5-flagship-case-study-1-f1f0-atp-synthase-6rkw)
+6. [Flagship Case Study 2: SecYEG Translocon & SecA Motor (`3J46` / `1RHZ`)](#6-flagship-case-study-2-secyeg-translocon--seca-motor-3j46--1rhz)
 
 ---
 
@@ -33,7 +34,47 @@ Every cellular machine in our platform operates on three synchronized tiers:
 
 ---
 
-## 2. The 7-Step Content Elaboration Protocol
+## 2. Canonical Visual Reference Standard: "The Biology Primer" Atomic & Secondary Structure Model
+
+The visual benchmark for all cellular components, macromolecular nanomachines, and folded biopolymers in this platform is defined by **The Biology Primer Atomic & Secondary Structure Model**:
+
+![Atomic Model of a 70S Ribosome - Visual Standard](file:///c:/Users/devcd/GenProjects/learn-biology/assets/atomic_model_70s_ribosome_reference.png)
+
+### 2.1 Biophysical Representation Hierarchy (DNA, RNA, Proteins, & Active Sites)
+
+Every single element created in this repository must use this visual standard as its foundational reference:
+
+1. **Folded Nucleic Acids (DNA & RNA):**
+   - **Double Helices with Base Steps:** Nucleic acids must never be rendered as generic smooth tubes. Ribosomal RNAs (23S, 16S, 5S) and genomic DNA must clearly expose double-helical phosphate backbones with realized nucleotide base steps/plates and distinct major/minor grooves.
+   - **Color Taxonomy:**
+     - 50S Ribosomal RNA core (23S & 5S): Deep Crimson / Magenta (`#9E2A5B`).
+     - 30S Ribosomal RNA decoding center (16S): Vibrant Cyan / Deep Teal (`#1A8594`).
+     - mRNA Template: Warm Terracotta / Coral Red (`#BA4E3B`).
+     - Genomic DNA Double Helix: Royal Amethyst Violet (`#7209B7`) with Luminous Cyan grooves (`#00F5D4`).
+   - **Transfer RNAs (tRNAs):** Rigid L-shaped tertiary cloverleaf folds with distinct chamber colors: A-site Amber (`#E9C46A`), P-site Emerald (`#52B788`), and E-site Peach/Coral (`#E07A5F`).
+
+2. **Folded Proteins & Multi-Subunit Assemblies:**
+   - **Secondary Structure Ribbons:** Proteins must be rendered with high-contrast secondary structure cartoon ribbons (clearly defined $\alpha$-helices, $\beta$-pleated sheets, and flexible interconnecting loop coils).
+   - **Crevice-Woven Architecture:** Structural proteins must be visualized weaving intimately through nucleic acid or membrane crevices rather than appearing as detached, generic blobs.
+   - **Subunit Heteromers:** Each distinct polypeptide chain or functional domain must receive its canonical taxonomy color (e.g. Forest Green `#2D6A4F`, Golden Olive `#9A9E32`, Slate Blue `#457B9D`, Lilac Violet `#9D4EDD`, Golden Amber `#FFB703`).
+
+3. **Active Sites, Catalytic Pockets, & Coordinated Ions:**
+   - **Atomic Sphere Clusters:** Catalytic centers (such as the Peptidyl Transferase Center Domain V, ATP catalytic pockets, and Fe-S cubane clusters) must render dense, space-filling atomic sphere clusters (van der Waals radii) with glowing amber/gold emission (`#FFB703`, emissive intensity 0.85) to distinguish reacting chemistry from structural scaffolding.
+   - **Metal Co-factors:** Octahedral $\text{Mg}^{2+}$, bound nucleotides (ATP/ADP), and catalytic water networks must be depicted as distinct coordinated spheres.
+
+4. **Nascent Polypeptides & Translocating Clients:**
+   - **Discrete Multi-Colored Bead Chains:** Nascent proteins emerging through exit channels or threading through translocons (SecYEG) must be depicted as segmented polypeptide bead chains with alternating residue colors ($0.4\text{--}0.6\,\text{nm}$ diameter spheres) to clearly communicate primary sequence synthesis.
+
+### 2.2 Mandatory Workflow Protocol for New Elements
+
+- **Rule 1 (Consult Reference Image):** Every single time you plan, design, or synthesize a new cellular nanomachine, consult the visual reference image above.
+- **Rule 2 (Small Pieces & Active Site Prototypes):** When designing small pieces, catalytic pockets, or ligand complexes, generate a focused reference rendering/image first to establish the atomic geometry and color contrast before baking the full assembly.
+- **Rule 3 (Macromolecules & Large Assemblies via Molecular Nodes):** For macromolecular machines and complexes, always use **Molecular Nodes** in Blender 5.2 as the primary coordinate parser and geometry generator. Always include `GeometryNodeRealizeInstances` so base rungs, nucleotide plates, and secondary structure ribbons convert into real vertex-colored mesh primitives. If Molecular Nodes cannot parse the target, reconstruct an authentic atomic model derived directly from RCSB PDB coordinates.
+- **Rule 4 (PBR Shaders & Contact Shadows):** Always ground the 3D model on a warm ivory paper floor (`#FAF8F5`) with a soft contact shadow plane (`contactShadowMesh`), directional key lighting, and subtle membrane rim lighting.
+
+---
+
+## 3. The 7-Step Content Elaboration Protocol
 
 When implementing any cellular element from the catalog, follow this rigorous 7-step sequence:
 
@@ -222,6 +263,8 @@ Provide the complete metabolic circuit and flux specification:
 - **PDB ID:** `6RKW` (Cryo-EM 3.1 Å *E. coli* ATP Synthase)
 - **Molecular Mass:** $\sim 540\,\text{kDa}$ (22 subunits)
 - **Architecture:** Cytosolic $F_1$ catalytic headpiece ($\alpha_3\beta_3\gamma\delta\epsilon$) connected via central $\gamma\epsilon$ rotor axle and peripheral $b_2\delta$ stator bracket to transmembrane $F_0$ motor ($a b_2 c_{10}$).
+
+![Atomic Model of F1F0-ATP Synthase - Visual Standard](file:///c:/Users/devcd/GenProjects/learn-biology/assets/atomic_model_f1f0_atp_synthase_reference.png)
 
 ### 2. Subunit Decomposition & Exploded Displacements
 1. `Piece_ATP_F1_Alpha` (3x $\alpha$, Chains A, B, C): `#9D4EDD` (Lilac Violet) $\to$ $\vec{v}_{\text{dissoc}} = (0, +14.0, 0)$

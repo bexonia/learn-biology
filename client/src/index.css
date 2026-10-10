@@ -1686,4 +1686,212 @@ html, body {
   color: #B5D4B2;
 }
 
+/* ATP Synthase Dynamic Overlay & 3D Badges */
+#atp-svg-overlay,
+#atp-labels-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 15;
+}
 
+.atp-tag-badge {
+  position: absolute;
+  pointer-events: auto;
+  user-select: none;
+  cursor: pointer;
+  background: rgba(255, 255, 255, 0.94);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  padding: 6px 12px;
+  border-radius: 6px;
+  border: 1px solid rgba(226, 218, 205, 0.9);
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.08);
+  transition: all 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.atp-tag-badge:hover {
+  background: #FFFFFF;
+  border-color: #C87550;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.14);
+  transform: translateY(-2px);
+}
+
+.atp-tag-badge.active {
+  border-color: #C87550;
+  box-shadow: 0 6px 22px rgba(200, 117, 80, 0.28);
+}
+
+.atp-subpill-row {
+  display: flex;
+  gap: 4px;
+  margin-top: 2px;
+}
+
+.atp-subpill-btn {
+  font-size: 9px;
+  padding: 2px 6px;
+  border-radius: 4px;
+  border: 1px solid rgba(26, 43, 37, 0.15);
+  background: rgba(255, 255, 255, 0.9);
+  color: #2E3B2C;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+.atp-subpill-btn:hover {
+  background: #C87550;
+  color: #FFFFFF;
+  border-color: #C87550;
+}
+
+/* --------------------------------------------------------------------------
+   Live Subtitles HUD Banner
+   -------------------------------------------------------------------------- */
+.live-subtitles-banner {
+  position: fixed;
+  bottom: 24px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 900;
+  max-width: 660px;
+  width: calc(100vw - 80px);
+  pointer-events: none;
+  animation: subtitleSlideUp 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  transition: bottom 0.25s ease;
+}
+
+.live-subtitles-banner.with-tour-bar {
+  bottom: 92px;
+}
+
+@keyframes subtitleSlideUp {
+  from {
+    opacity: 0;
+    transform: translate(-50%, 14px);
+  }
+  to {
+    opacity: 1;
+    transform: translate(-50%, 0);
+  }
+}
+
+.live-subtitles-card {
+  background: rgba(22, 28, 36, 0.92);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border: 1px solid rgba(255, 183, 3, 0.45);
+  border-radius: 12px;
+  padding: 10px 16px 12px 16px;
+  box-shadow: 0 12px 36px rgba(0, 0, 0, 0.35), 0 0 16px rgba(255, 183, 3, 0.18);
+  pointer-events: auto;
+  transition: all 0.2s ease;
+}
+
+.live-subtitles-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 6px;
+  padding-bottom: 5px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.10);
+}
+
+.live-subtitles-meta {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+}
+
+.live-subtitles-icon {
+  font-size: 13px;
+  line-height: 1;
+}
+
+.live-subtitles-badge {
+  font-family: 'Libre Franklin', sans-serif;
+  font-size: 9.5px;
+  font-weight: 800;
+  letter-spacing: 0.6px;
+  text-transform: uppercase;
+  color: #FFB703;
+}
+
+.live-subtitles-soundwave {
+  display: flex;
+  align-items: center;
+  gap: 2.5px;
+  height: 12px;
+}
+
+.soundwave-bar {
+  width: 2.5px;
+  height: 8px;
+  background-color: #06D6A0;
+  border-radius: 2px;
+  animation: soundwaveBounce 1.2s ease-in-out infinite alternate;
+}
+
+.soundwave-bar.bar-1 {
+  animation-delay: 0.1s;
+}
+
+.soundwave-bar.bar-2 {
+  animation-delay: 0.35s;
+}
+
+.soundwave-bar.bar-3 {
+  animation-delay: 0.2s;
+}
+
+@keyframes soundwaveBounce {
+  0% {
+    height: 3px;
+    opacity: 0.4;
+  }
+  100% {
+    height: 12px;
+    opacity: 1.0;
+  }
+}
+
+.live-subtitles-speaker {
+  font-size: 10px;
+  color: #94A3B8;
+  font-style: italic;
+}
+
+.live-subtitles-close-btn {
+  background: transparent;
+  border: none;
+  color: #94A3B8;
+  font-size: 11px;
+  cursor: pointer;
+  padding: 0 4px;
+  transition: color 0.15s ease;
+}
+
+.live-subtitles-close-btn:hover {
+  color: #FFFFFF;
+}
+
+.live-subtitles-body {
+  width: 100%;
+}
+
+.live-subtitles-text {
+  font-family: 'Source Sans 3', sans-serif;
+  font-size: 13.5px;
+  line-height: 1.45;
+  color: #F8FAFC;
+  font-weight: 500;
+  margin: 0;
+  text-align: left;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
+}

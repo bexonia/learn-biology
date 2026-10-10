@@ -428,7 +428,8 @@ export class RibosomeScene {
         'Piece_tRNA_A_Site':   { color: 0xE9C46A, roughness: 0.35, metalness: 0.08, key: 'trna_a_site' },
         'Piece_tRNA_P_Site':   { color: 0x52B788, roughness: 0.35, metalness: 0.08, key: 'trna_p_site' },
         'Piece_tRNA_E_Site':   { color: 0xE07A5F, roughness: 0.35, metalness: 0.08, key: 'trna_e_site' },
-        'Piece_PTC_Active_Site': { color: 0xFFB703, roughness: 0.20, metalness: 0.15, key: 'ptc_core', emissive: 0xFFA000, emissiveIntensity: 0.8 }
+        'Piece_PTC_Active_Site': { color: 0xFFB703, roughness: 0.20, metalness: 0.15, key: 'ptc_core', emissive: 0xFFA000, emissiveIntensity: 0.8 },
+        'Piece_Polypeptide_Chain': { roughness: 0.35, metalness: 0.08, key: 'nascent_peptide', useVertexColors: true }
       };
 
       model.traverse((child) => {
@@ -440,7 +441,8 @@ export class RibosomeScene {
           if (spec) {
             // Apply fresh high-fidelity PBR material
             const mat = new THREE.MeshStandardMaterial({
-              color: spec.color,
+              color: spec.useVertexColors ? 0xffffff : spec.color,
+              vertexColors: !!spec.useVertexColors,
               roughness: spec.roughness,
               metalness: spec.metalness,
               side: THREE.DoubleSide
@@ -465,6 +467,7 @@ export class RibosomeScene {
       this.pieceTRNA_P = model.getObjectByName('Piece_tRNA_P_Site');
       this.pieceTRNA_E = model.getObjectByName('Piece_tRNA_E_Site');
       this.piecePTC = model.getObjectByName('Piece_PTC_Active_Site');
+      this.piecePolypeptide = model.getObjectByName('Piece_Polypeptide_Chain');
 
       // Cache initial native assembled positions for exploded view
       if (this.piece50S_rRNA) this.orig50S_rRNAPos.copy(this.piece50S_rRNA.position);

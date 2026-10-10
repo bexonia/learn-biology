@@ -31,5 +31,6 @@ public/models/*.glb
 !public/models/6YKM_stator_molecular.glb
 !public/models/7CGO_flagellar_motor.glb
 !public/models/7K00_assembled_pieces.glb
+!public/models/6RKW_assembled_pieces.glb
 public/wasm/*.wasm
 public/prokaryote_cell.glb

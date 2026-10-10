@@ -14,14 +14,18 @@ export const ScaleNavigator: React.FC<ScaleNavigatorProps> = ({
       ? 'A TYPICAL PROKARYOTIC CELL'
       : scenario === 'motor'
       ? 'BACTERIAL FLAGELLAR ROTARY MOTOR & BASAL BODY'
-      : 'BACTERIAL 70S RIBOSOME & TRANSLATION FACTORY';
+      : scenario === 'ribosome'
+      ? 'BACTERIAL 70S RIBOSOME & TRANSLATION FACTORY'
+      : 'BACTERIAL F₁F₀-ATP SYNTHASE & ROTARY BIOENERGETIC DYNAMO';
 
   const subtitle =
     scenario === 'cell'
       ? 'Prokaryotes are small but highly organized, with specialized structures that support efficient life processes.'
       : scenario === 'motor'
       ? "Nature's 45-nanometer biological rotary turbine, driven by proton motive force across the bacterial envelope."
-      : 'The universal 25-nanometer ribozyme engine translating genetic mRNA codons into functional protein polypeptides.';
+      : scenario === 'ribosome'
+      ? 'The universal 25-nanometer ribozyme engine translating genetic mRNA codons into functional protein polypeptides.'
+      : 'The 10-nanometer rotary generator coupling electrochemical proton flow across the inner membrane directly to ATP synthesis.';
 
   return (
     <header id="editorial-header">
@@ -53,6 +57,15 @@ export const ScaleNavigator: React.FC<ScaleNavigatorProps> = ({
             title="Switch to 70S Ribosome Translation Factory"
           >
             <span className="scale-icon">🧬</span> Ribosome Factory <span className="scale-dim">(25 nm)</span>
+          </button>
+          <span className="scale-nav-divider">›</span>
+          <button
+            className={`scale-nav-btn ${scenario === 'atp_synthase' ? 'active' : ''}`}
+            id="btn-nav-atp-synthase"
+            onClick={() => onSelectScenario('atp_synthase')}
+            title="Switch to F1F0-ATP Synthase Rotary Dynamo"
+          >
+            <span className="scale-icon">⚡</span> ATP Synthase <span className="scale-dim">(10 nm)</span>
           </button>
         </div>
       </div>

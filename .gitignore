@@ -1,5 +1,6 @@
 # Generated 3D and WebAssembly binaries (build with `python build_assets.py`)
 *.glb
+!client/public/models/*.glb
 *.wasm
 wasm/*.wasm
 models/*.glb
@@ -8,6 +9,7 @@ models/*.glb
 *.blend1
 *.blend2
 *.blend@*
+*.blend.MNSession
 
 # Python & Environment caches
 __pycache__/

@@ -277,7 +277,7 @@ This catalog defines the complete set of structural and functional components of
 #### 3.3 `atp_synthase` — $F_1F_0$-ATP Synthase Rotary Dynamo
 - **Scale:** $10\,\text{nm}$ diameter $\times 12\,\text{nm}$ height (Molecular mass: $\sim 540\,\text{kDa}$)
 - **PDB / Asset:** `6RKW` ($F_1$ $\alpha_3\beta_3\gamma\delta\epsilon$ + $F_0$ $a b_2 c_{10}$)
-- **Status:** 🟡 **High-Priority Pending Implementation**
+- **Status:** 🟢 **Built & Fully Interactive**
 - **Biological Role:** Primary bioenergetic generator; couples transmembrane proton flow through the $c_{10}$-ring to drive mechanical rotation of the central $\gamma$-axle, synthesizing ATP from $\text{ADP} + \text{P}_i$.
 - **Subunit Decomposition:**
   - `Piece_ATP_F1_Alpha` (`#9D4EDD`, Lilac): 3x $\alpha$ structural scaffold subunits.

@@ -233,9 +233,11 @@ function App() {
 
       ribo.init();
       ribosomeSceneRef.current = ribo;
+      (window as any).ribosomeScene = ribo;
       ribo.start();
       ribo.resetCamera();
     } else {
+      (window as any).ribosomeScene = ribosomeSceneRef.current;
       ribosomeSceneRef.current.start();
       ribosomeSceneRef.current.handleResize();
       ribosomeSceneRef.current.resetCamera();

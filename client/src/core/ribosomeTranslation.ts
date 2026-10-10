@@ -222,7 +222,7 @@ export class RibosomeScene {
     this.cyclePhase = 0;
     this.cycleTime = 0.0;
     this.codonStep = 0;
-    this.aminoAcidCount = 18;
+    this.aminoAcidCount = 28;
 
     // Three.js Core
     this.scene = null;
@@ -537,9 +537,8 @@ export class RibosomeScene {
     const pearlColors = [
       0x7B2CBF, 0x3A86FF, 0x06D6A0, 0xFFB703, 0xFB5607, 0xE63946, 0x8338EC, 0x38B000, 0xFF006E
     ];
-    // Larger amino acid bead spheres for clear distance visibility
-    const beadGeo2 = new THREE.SphereGeometry(1.85, 16, 16);
-    const beadGeo3 = new THREE.SphereGeometry(2.0, 16, 16);
+    // Delicate small amino acid beads matching authentic molecular scale
+    const beadGeo = new THREE.SphereGeometry(0.9, 12, 12);
 
     // --- 1. Ribosome 2 Peptide (Early Initiation, ~8 amino acid beads inside exit tunnel) ---
     this.peptide2Group = new THREE.Group();
@@ -561,18 +560,16 @@ export class RibosomeScene {
       const mat = new THREE.MeshStandardMaterial({
         color: col,
         roughness: 0.20,
-        metalness: 0.1,
-        emissive: col,
-        emissiveIntensity: 0.12
+        metalness: 0.1
       });
-      const bead = new THREE.Mesh(beadGeo2, mat);
+      const bead = new THREE.Mesh(beadGeo, mat);
       bead.position.copy(r2Samples[i]);
       bead.castShadow = true;
       this.registerClickable(bead, 'ribosome_upstream');
       this.peptide2Group.add(bead);
     }
     const r2Line = new THREE.Mesh(
-      new THREE.TubeGeometry(r2Curve, 32, 0.48, 8, false),
+      new THREE.TubeGeometry(r2Curve, 32, 0.20, 6, false),
       new THREE.MeshStandardMaterial({ color: 0xFFD166, roughness: 0.3 })
     );
     this.peptide2Group.add(r2Line);
@@ -609,18 +606,16 @@ export class RibosomeScene {
       const mat = new THREE.MeshStandardMaterial({
         color: col,
         roughness: 0.18,
-        metalness: 0.12,
-        emissive: col,
-        emissiveIntensity: 0.12
+        metalness: 0.12
       });
-      const bead = new THREE.Mesh(beadGeo3, mat);
+      const bead = new THREE.Mesh(beadGeo, mat);
       bead.position.copy(r3Samples[i]);
       bead.castShadow = true;
       this.registerClickable(bead, 'ribosome_downstream');
       this.peptide3Group.add(bead);
     }
     const r3Line = new THREE.Mesh(
-      new THREE.TubeGeometry(r3Curve, 64, 0.55, 8, false),
+      new THREE.TubeGeometry(r3Curve, 64, 0.22, 6, false),
       new THREE.MeshStandardMaterial({ color: 0xFFD166, roughness: 0.3 })
     );
     this.peptide3Group.add(r3Line);
@@ -777,19 +772,23 @@ export class RibosomeScene {
     }
 
     // Trajectory starting from PTC in the catalytic cleft, traversing up through 50S exit conduit,
-    // emerging through the exit porthole at the top apex of 50S, and curling into the cytoplasm
+    // emerging through the exit porthole at the top apex of 50S, and curling into the cytoplasm.
+    // Extended slightly longer than previous so the emerging tail is clearly visible outside the exit tunnel.
     const peptidePoints = [
       new THREE.Vector3(ptcWorld.x + 0.2, ptcWorld.y + 0.5, ptcWorld.z - 1.0),
-      new THREE.Vector3(ptcWorld.x - 0.4, ptcWorld.y + 4.5, ptcWorld.z - 2.0),
-      new THREE.Vector3(ptcWorld.x - 1.0, ptcWorld.y + 9.5, ptcWorld.z - 1.0),
-      new THREE.Vector3(ptcWorld.x - 0.5, ptcWorld.y + 15.0, ptcWorld.z + 0.8),
-      new THREE.Vector3(ptcWorld.x + 1.2, ptcWorld.y + 20.5, ptcWorld.z + 3.0),
-      new THREE.Vector3(ptcWorld.x + 4.0, ptcWorld.y + 25.0, ptcWorld.z + 5.2),
-      new THREE.Vector3(ptcWorld.x + 8.0, ptcWorld.y + 27.5, ptcWorld.z + 6.5),
-      new THREE.Vector3(ptcWorld.x + 12.5, ptcWorld.y + 26.5, ptcWorld.z + 7.2),
-      new THREE.Vector3(ptcWorld.x + 16.5, ptcWorld.y + 23.5, ptcWorld.z + 7.0),
-      new THREE.Vector3(ptcWorld.x + 19.5, ptcWorld.y + 19.0, ptcWorld.z + 6.2),
-      new THREE.Vector3(ptcWorld.x + 21.5, ptcWorld.y + 14.5, ptcWorld.z + 5.2)
+      new THREE.Vector3(ptcWorld.x - 0.4, ptcWorld.y + 3.8, ptcWorld.z - 2.0),
+      new THREE.Vector3(ptcWorld.x - 1.0, ptcWorld.y + 7.5, ptcWorld.z - 1.4),
+      new THREE.Vector3(ptcWorld.x - 0.6, ptcWorld.y + 11.5, ptcWorld.z - 0.2),
+      new THREE.Vector3(ptcWorld.x + 0.5, ptcWorld.y + 15.5, ptcWorld.z + 1.2),
+      new THREE.Vector3(ptcWorld.x + 2.4, ptcWorld.y + 18.5, ptcWorld.z + 2.8),
+      new THREE.Vector3(ptcWorld.x + 5.0, ptcWorld.y + 20.5, ptcWorld.z + 4.0),
+      new THREE.Vector3(ptcWorld.x + 8.2, ptcWorld.y + 21.0, ptcWorld.z + 4.8),
+      new THREE.Vector3(ptcWorld.x + 11.5, ptcWorld.y + 19.8, ptcWorld.z + 5.2),
+      new THREE.Vector3(ptcWorld.x + 14.5, ptcWorld.y + 17.5, ptcWorld.z + 5.2),
+      new THREE.Vector3(ptcWorld.x + 17.0, ptcWorld.y + 14.5, ptcWorld.z + 4.8),
+      new THREE.Vector3(ptcWorld.x + 19.0, ptcWorld.y + 11.5, ptcWorld.z + 4.0),
+      new THREE.Vector3(ptcWorld.x + 20.5, ptcWorld.y + 8.5, ptcWorld.z + 3.0),
+      new THREE.Vector3(ptcWorld.x + 21.5, ptcWorld.y + 6.0, ptcWorld.z + 1.8)
     ];
 
     const curve = new THREE.CatmullRomCurve3(peptidePoints);
@@ -800,17 +799,15 @@ export class RibosomeScene {
       0x7B2CBF, 0x3A86FF, 0x06D6A0, 0xFFB703, 0xFB5607, 0xE63946, 0x8338EC, 0x38B000, 0xFF006E
     ];
 
-    // Substantially larger amino acid spheres (2.35 radius) for clear visibility from afar
-    const beadGeo = new THREE.SphereGeometry(2.35, 18, 18);
+    // Small, delicate amino acid bead spheres as originally styled
+    const beadGeo = new THREE.SphereGeometry(1.0, 14, 14);
 
     for (let i = 0; i < samples.length; i++) {
       const col = pearlColors[i % pearlColors.length];
       const pearlMat = new THREE.MeshStandardMaterial({
         color: col,
         roughness: 0.18,
-        metalness: 0.12,
-        emissive: col,
-        emissiveIntensity: 0.14
+        metalness: 0.12
       });
       const bead = new THREE.Mesh(beadGeo, pearlMat);
       bead.position.copy(samples[i]);
@@ -819,13 +816,11 @@ export class RibosomeScene {
       this.peptideGroup.add(bead);
     }
 
-    // Polypeptide backbone organic string with increased diameter
-    const lineGeo = new THREE.TubeGeometry(curve, 72, 0.65, 10, false);
+    // Slender polypeptide backbone organic string
+    const lineGeo = new THREE.TubeGeometry(curve, 84, 0.22, 8, false);
     const lineMat = new THREE.MeshStandardMaterial({
       color: 0xFFD166,
-      roughness: 0.28,
-      emissive: 0x997700,
-      emissiveIntensity: 0.08
+      roughness: 0.30
     });
     const lineMesh = new THREE.Mesh(lineGeo, lineMat);
     this.peptideGroup.add(lineMesh);
@@ -905,7 +900,7 @@ export class RibosomeScene {
         name: 'Nascent Polypeptide',
         subtitle: 'Emerging Amino Acid Chain',
         color: '#7B2CBF',
-        pos: new THREE.Vector3(10.5, 32.5, 4.5),
+        pos: new THREE.Vector3(10.0, 26.5, 2.5),
         screenOffset: { x: 210, y: -25 },
         meta: this.componentsMeta['nascent_peptide']
       },
@@ -1442,23 +1437,21 @@ export class RibosomeScene {
     this.codonStep++;
     this.aminoAcidCount++;
 
-    // Add glowing bead to peptide chain with consistent large size
+    // Add small bead to peptide chain consistent with delicate molecular scale
     const colors = [0x7B2CBF, 0x3A86FF, 0x06D6A0, 0xFFB703, 0xFB5607, 0xE63946, 0x8338EC, 0x38B000];
     const col = colors[this.aminoAcidCount % colors.length];
     const newBead = new THREE.Mesh(
-      new THREE.SphereGeometry(2.35, 18, 18),
+      new THREE.SphereGeometry(1.0, 14, 14),
       new THREE.MeshStandardMaterial({
         color: col,
         roughness: 0.18,
-        metalness: 0.12,
-        emissive: col,
-        emissiveIntensity: 0.14
+        metalness: 0.12
       })
     );
     newBead.position.set(
-      22.0 + (this.aminoAcidCount % 6) * 2.2,
-      12.0 - (this.aminoAcidCount % 5) * 1.6,
-      5.0 + Math.sin(this.aminoAcidCount) * 2.0
+      23.0 + (this.aminoAcidCount % 6) * 1.2,
+      5.0 - (this.aminoAcidCount % 5) * 0.9,
+      1.5 + Math.sin(this.aminoAcidCount) * 0.8
     );
     newBead.castShadow = true;
     if (this.peptideGroup) {

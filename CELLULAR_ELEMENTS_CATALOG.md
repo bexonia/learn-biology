@@ -340,21 +340,28 @@ This catalog defines the complete set of structural and functional components of
   - `5-Stage Explanatory Trace`: Signal peptide docking $\to$ SecA power stroke $\to$ pore expansion $\to$ lateral gate partition $\to$ processive secretion.
 
 #### 3.6 `bam_complex` — BAM Outer Membrane Protein Insertase Complex
-- **Scale:** $11\,\text{nm}$ diameter $\times 15\,\text{nm}$ depth
-- **PDB / Asset:** `5D0O` (BamA 16-stranded $\beta$-barrel + BamB, C, D, E lipoproteins)
-- **Status:** 🟡 **High-Priority Pending Implementation**
-- **Biological Role:** Essential insertase machine; catalyzes the insertion and folding of hydrophobic $\beta$-barrel Outer Membrane Proteins (e.g. OmpF, OmpA, LptD) into the outer membrane without ATP.
+- **Scale:** $11\,\text{nm}$ diameter $\times 15\,\text{nm}$ depth (Holoenzyme mass: $\sim 200\,\text{kDa}$)
+- **PDB / Asset:** `5D0O` (2.90 Å crystal structure of complete *E. coli* BAM complex: BamA, BamB, BamC, BamD, BamE, plus inserting $\beta$-hairpin substrate)
+- **Status:** 🟢 **Built & Fully Interactive**
+- **Biological Role:** Essential insertase machine; catalyzes the insertion and folding of hydrophobic $\beta$-barrel Outer Membrane Proteins (e.g. OmpF, OmpA, LptD) into the asymmetric outer membrane without ATP or proton motive force, driven entirely by exergonic folding free energy ($\Delta G_{\text{folding}} < 0$).
 - **Subunit Decomposition:**
-  - `Piece_BamA_Barrel` (`#0077B6`, Deep Marine): 16-stranded transmembrane $\beta$-barrel.
-  - `Piece_BamA_POTRA` (`#F77F00`, Warm Amber): 5 periplasmic POTRA chaperone-binding domains.
-  - `Piece_BamB` (`#2EC4B6`, Teal): 8-bladed $\beta$-propeller scaffold.
-  - `Piece_BamCDE` (`#9D4EDD`, Amethyst): Essential regulatory lipoprotein cap.
+  - `Piece_BAM_BamA_Barrel` (`#0077B6`, Deep Marine): 16-stranded transmembrane $\beta$-barrel strands 1–15 (res 424–785).
+  - `Piece_BAM_Lateral_Seam` (`#00F5D4`, Luminous Cyan): Dynamic strand $\beta 16$ (res 786–810) unpairing from $\beta 1$ outwards into lipid bilayer by up to 1.6 nm.
+  - `Piece_BAM_BamA_POTRA` (`#F77F00`, Warm Amber): 5 periplasmic POTRA chaperone-binding domains (res 24–423).
+  - `Piece_BAM_BamB` (`#2EC4B6`, Luminous Teal): 8-bladed $\beta$-propeller lipoprotein stabilizing POTRA 2–3.
+  - `Piece_BAM_BamC` (`#9D4EDD`, Lilac Purple): Periplasmic lipoprotein with helix-grip motifs.
+  - `Piece_BAM_BamD` (`#E76F51`, Warm Terracotta): 5 TPR-motif essential clamp bridging POTRA to barrel base.
+  - `Piece_BAM_BamE` (`#06D6A0`, Luminous Jade): Smallest lipoprotein latching BamD to inner leaflet.
+  - `Piece_BAM_Client_OMP` (`#FFE066`, Luminous Gold): Nascent inserting $\beta$-hairpin substrate loop with animated moving amino acid beads.
 - **Inter-Element Flux Iteration:**
-  - *Upstream:* Receives unfolded outer membrane protein clients from SurA (`1M5Y`) or DegP.
-  - *Downstream:* Inserts folded OmpF/OmpC porins and transport channels directly into the outer membrane.
+  - *Upstream:* Receives unfolded outer membrane protein clients from SurA (`1M5Y`), Skp (`1SG2`), or DegP (`1KY9`) post-SecYEG translocation.
+  - *Downstream:* Inserts folded OmpF/OmpC porins and trans-envelope transport bridges (LptD `4Q35`) directly into the outer membrane.
 - **HUD Simulation Controls:**
-  - `seamDestabilization`: $0\text{--}100\%$
-  - `substrateBindingAffinity`: Slider
+  - `isPaused`: Toggle pausing or resuming substrate polypeptide insertion.
+  - `insertionSpeed`: Flux speed slider ($0.1\times\text{ to } 3.0\times$; nominal $1.2\text{ porins/min}$).
+  - `lateralSeamOpening`: Seam unzipping slider ($0\text{--}100\%$, opening up to 1.6 nm gap into the lipid bilayer).
+  - `explodedProgress`: Dissociates BamB ($-X$), POTRA ($-Y$), BamCDE ($+X$), and Lateral Seam ($-Z$) along natural vectors ($0.0\text{--}1.0$).
+  - `5-Stage Explanatory Trace`: Chaperone client handover $\to$ POTRA conformational gating $\to$ lateral seam destabilization $\to$ $\beta$-hairpin membrane insertion $\to$ barrel budding & OM integration.
 
 #### 3.7 `lpta_g_bridge` — LptA-G Lipopolysaccharide Trans-Envelope Export Bridge
 - **Scale:** $15\,\text{nm}$ span across inner membrane, periplasm, and outer membrane ($40\,\text{nm}$)
@@ -631,9 +638,9 @@ To systematically implement the full prokaryote cell engine, work proceeds in **
   - High-fidelity 6-piece cryo-EM decomposition (`Piece_SecYEG_SecY`, `Piece_SecYEG_Lateral_Gate`, `Piece_SecYEG_SecE`, `Piece_SecYEG_SecG`, `Piece_SecYEG_SecA_Motor`, `Piece_SecYEG_Translocating_Preprotein`), authentic dual-leaflet phospholipid bilayer slab with polar headgroups, interactive dynamic lateral gate parting up to 1.4 nm directly into the lipid bilayer, SecA two-helix finger vertical power-stroke piston oscillation, processive preprotein strand translocation with animated moving amino acid beads, exploded view dissociation along natural biophysical vectors, ATP hydrolysis rate slider with physiological turnover readouts (45 aa/s, 2 ATP/s), Sodium Azide ($\text{NaN}_3$) inhibitor toggle, 6 dynamic SVG leader lines with lettered subpill badges, and universal 5-Stage Explanatory Trace.
 
 ### Phase 3: Envelope Biogenesis & Trans-Periplasmic Bridges
-- 🎯 **Milestone 3.1:** **BAM Complex Outer Membrane Insertase (`5D0O`)** *(CURRENT NEXT TARGET)*
-  - Implement 16-stranded $\beta$-barrel seam destabilization and POTRA-SurA client handover.
-- 🎯 **Milestone 3.2:** **LptA-G LPS Trans-Envelope Bridge (`6MIT`)**
+- ✅ **Milestone 3.1:** **BAM Complex Outer Membrane Insertase (`5D0O`)** — 🟢 **Built & Fully Interactive**
+  - High-fidelity 8-piece macromolecular decomposition (`Piece_BAM_BamA_Barrel`, `Piece_BAM_Lateral_Seam`, `Piece_BAM_BamA_POTRA`, `Piece_BAM_BamB`, `Piece_BAM_BamC`, `Piece_BAM_BamD`, `Piece_BAM_BamE`, `Piece_BAM_Client_OMP`), authentic asymmetric outer membrane bilayer slab (Extracellular LPS Lipid A headgroups `#0077B6` at $+Y$, Periplasmic Phospholipids `#06D6A0` at $-Y$), interactive dynamic lateral seam unzipping ($\beta 16$ unpairing from $\beta 1$ outwards into lipid bilayer by up to 1.6 nm), animated nascent client $\beta$-hairpin substrate insertion stream, exploded view dissociation along natural biophysical vectors, interactive client insertion flux speed slider with turnover readouts (0.5–2.0 min⁻¹), lateral seam slider, exploded slider, quick inspect chips, 8 dynamic SVG leader lines with lettered subpill badges, and universal 5-Stage Explanatory Trace.
+- 🎯 **Milestone 3.2:** **LptA-G LPS Trans-Envelope Bridge (`6MIT`)** *(CURRENT NEXT TARGET)*
   - Continuous trans-periplasmic lipid slide model connecting inner membrane ABC engine to outer membrane LptDE.
 
 ### Phase 4: Genetic Central Dogma & Information Replication

@@ -20,7 +20,9 @@ export const ScaleNavigator: React.FC<ScaleNavigatorProps> = ({
       ? 'BACTERIAL F₁F₀-ATP SYNTHASE & ROTARY BIOENERGETIC DYNAMO'
       : scenario === 'complex_i'
       ? 'RESPIRATORY COMPLEX I (NADH:UBIQUINONE OXIDOREDUCTASE)'
-      : 'BACTERIAL SECYEG TRANSLOCON & SECA ATPASE MOTOR';
+      : scenario === 'secyeg'
+      ? 'BACTERIAL SECYEG TRANSLOCON & SECA ATPASE MOTOR'
+      : 'BACTERIAL BAM COMPLEX OUTER MEMBRANE INSERTASE';
 
   const subtitle =
     scenario === 'cell'
@@ -33,7 +35,9 @@ export const ScaleNavigator: React.FC<ScaleNavigatorProps> = ({
       ? 'The 10-nanometer rotary generator coupling electrochemical proton flow across the inner membrane directly to ATP synthesis.'
       : scenario === 'complex_i'
       ? 'The 24-nanometer L-shaped respiratory entry machine coupling 90 Å quantum electron tunneling to 4 H⁺ proton pumping.'
-      : 'The 11-nanometer universal protein translocation machine coupling SecA ATP power strokes to translocon secretion and lateral gate partitioning.';
+      : scenario === 'secyeg'
+      ? 'The 11-nanometer universal protein translocation machine coupling SecA ATP power strokes to translocon secretion and lateral gate partitioning.'
+      : 'The 15-nanometer essential outer membrane protein insertase coupling chaperone client handover, POTRA gating, and lateral seam unzipping for beta-barrel integration.';
 
   return (
     <header id="editorial-header">
@@ -92,6 +96,15 @@ export const ScaleNavigator: React.FC<ScaleNavigatorProps> = ({
             title="Switch to SecYEG Translocon & SecA Motor (PDB: 3J46 / 6ITC)"
           >
             <span className="scale-icon">🧪</span> SecYEG <span className="scale-dim">(11 nm)</span>
+          </button>
+          <span className="scale-nav-divider">›</span>
+          <button
+            className={`scale-nav-btn ${scenario === 'bam' ? 'active' : ''}`}
+            id="btn-nav-bam"
+            onClick={() => onSelectScenario('bam')}
+            title="Switch to BAM Complex Outer Membrane Insertase (PDB: 5D0O)"
+          >
+            <span className="scale-icon">🧱</span> BAM <span className="scale-dim">(15 nm)</span>
           </button>
         </div>
       </div>

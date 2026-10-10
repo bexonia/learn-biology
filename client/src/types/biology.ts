@@ -1,4 +1,4 @@
-export type ScenarioType = 'cell' | 'motor' | 'ribosome' | 'atp_synthase' | 'complex_i' | 'secyeg';
+export type ScenarioType = 'cell' | 'motor' | 'ribosome' | 'atp_synthase' | 'complex_i' | 'secyeg' | 'bam';
 
 export interface ProteinItem {
   name: string;
@@ -80,6 +80,20 @@ export interface SecYEGComponentData {
   atpConsumption?: string;
   translocationRate?: string;
   state?: 'docked' | 'piston_inserted' | 'gate_parted' | 'processive';
+}
+
+export interface BAMComponentData {
+  name: string;
+  badge?: string;
+  dims?: string;
+  proteins?: string;
+  pdb?: string;
+  desc?: string;
+  role?: string;
+  stoichiometry?: string;
+  energySource?: string;
+  turnoverRate?: string;
+  state?: 'handover' | 'gating' | 'seam_unzipped' | 'hairpin_inserted' | 'barrel_released';
 }
 
 export interface TourStatus {

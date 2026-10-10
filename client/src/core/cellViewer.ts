@@ -1,3 +1,4 @@
+// @ts-nocheck
 /**
  * ----------------------------------------------------------------------------
  * Whole Cell 3D Architecture Scene (1.5 µm scale)
@@ -7,13 +8,14 @@
 
 import * as THREE from 'three';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
+import type { OrganelleData } from '../types/biology';
 
 if (typeof window !== 'undefined') {
-  window.THREE = THREE;
-  window.GLTFLoader = GLTFLoader;
+  (window as any).THREE = THREE;
+  (window as any).GLTFLoader = GLTFLoader;
 }
 
-export const CELL_ANATOMY_DATA = {
+export const CELL_ANATOMY_DATA: Record<string, OrganelleData> = {
   overview: {
     zone: 'Zone 0: Whole Cell Morphology',
     title: 'A Typical Prokaryotic Cell',

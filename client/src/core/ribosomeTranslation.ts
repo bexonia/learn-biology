@@ -1,3 +1,4 @@
+// @ts-nocheck
 /**
  * ----------------------------------------------------------------------------
  * Bacterial 70S Ribosome & Polypeptide Translation Factory — 3D Scenario
@@ -15,8 +16,9 @@
  */
 
 import * as THREE from 'three';
+import type { RibosomeComponentData } from '../types/biology';
 
-export const RIBOSOME_COMPONENTS_META = {
+export const RIBOSOME_COMPONENTS_META: Record<string, RibosomeComponentData> = {
   'ribosome_70s': {
     name: 'Complete 70S Bacterial Ribosome Holoenzyme',
     badge: 'TRANSLATION FACTORY (70S)',

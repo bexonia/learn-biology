@@ -1,5 +1,6 @@
+// @ts-nocheck
 /**
- * voiceService.js - Local Client-Side Text-to-Speech (TTS) Service using kokoro-js
+ * voiceService.ts - Local Client-Side Text-to-Speech (TTS) Service using kokoro-js
  * 
  * Features:
  * - Powered by KokoroTTS (onnx-community/Kokoro-82M-ONNX, dtype: 'q8')
@@ -67,6 +68,13 @@ class VoiceService {
       } catch (_) {}
       this.notifyListeners();
     }
+  }
+
+  /**
+   * Alias for setSelectedVoice
+   */
+  setVoice(voiceId) {
+    return this.setSelectedVoice(voiceId);
   }
 
   /**

@@ -131,6 +131,19 @@ export class FlagellarMotorScene {
     this.spherical = { radius: 275, theta: 0.15, phi: 1.35 };
     this.target = new THREE.Vector3(0, 65, 0);
 
+    // Smooth Camera Transition Engine for Explanatory Traces & Inspections
+    this.cameraTransition = {
+      active: false,
+      startTime: 0,
+      duration: 1.4,
+      startTarget: new THREE.Vector3(),
+      endTarget: new THREE.Vector3(),
+      startSpherical: { radius: 275, theta: 0.15, phi: 1.35 },
+      endSpherical: { radius: 275, theta: 0.15, phi: 1.35 },
+      onComplete: null
+    };
+    this.explanationStep = 0;
+
     // Continuous Keyboard Navigation Keys (Counter Strike / FPS 6-DOF)
     this.keys = {
       KeyW: false,
@@ -2545,8 +2558,40 @@ export class FlagellarMotorScene {
   render() {
     const delta = this.clock.getDelta();
 
-    // 0. Auto-rotate camera orbit if enabled
-    if (this.isAutoRotating && !this.isPointerDown) {
+    // 0. Smooth Camera Transition
+    if (this.cameraTransition && this.cameraTransition.active) {
+      const elapsed = (performance.now() - this.cameraTransition.startTime) / 1000;
+      const progress = Math.min(1.0, elapsed / this.cameraTransition.duration);
+      const ease = progress < 0.5 ? 2 * progress * progress : -1 + (4 - 2 * progress) * progress;
+      this.target.lerpVectors(this.cameraTransition.startTarget, this.cameraTransition.endTarget, ease);
+      this.spherical.radius = THREE.MathUtils.lerp(
+        this.cameraTransition.startSpherical.radius,
+        this.cameraTransition.endSpherical.radius,
+        ease
+      );
+      this.spherical.theta = THREE.MathUtils.lerp(
+        this.cameraTransition.startSpherical.theta,
+        this.cameraTransition.endSpherical.theta,
+        ease
+      );
+      this.spherical.phi = THREE.MathUtils.lerp(
+        this.cameraTransition.startSpherical.phi,
+        this.cameraTransition.endSpherical.phi,
+        ease
+      );
+      this.updateCameraPosition();
+      if (progress >= 1.0) {
+        this.cameraTransition.active = false;
+        if (this.cameraTransition.onComplete) {
+          const cb = this.cameraTransition.onComplete;
+          this.cameraTransition.onComplete = null;
+          cb();
+        }
+      }
+    }
+
+    // 0.5. Auto-rotate camera orbit if enabled
+    if (this.isAutoRotating && !this.isPointerDown && (!this.cameraTransition || !this.cameraTransition.active)) {
       this.spherical.theta += delta * 0.35;
       this.updateCameraPosition();
     }
@@ -2590,5 +2635,96 @@ export class FlagellarMotorScene {
 
     this.renderer.render(this.scene, this.camera);
     this.updateLandmarksAndLeaders();
+  }
+
+  /**
+   * Smoothly interpolate camera target and spherical coordinates
+   */
+  transitionCamera(targetPos, sphericalConfig, durationSec = 1.4, onComplete = null) {
+    if (!this.cameraTransition) return;
+    this.cameraTransition.active = true;
+    this.cameraTransition.startTarget.copy(this.target);
+    this.cameraTransition.endTarget.copy(targetPos);
+    this.cameraTransition.startSpherical = { ...this.spherical };
+    this.cameraTransition.endSpherical = {
+      radius: sphericalConfig.radius !== undefined ? sphericalConfig.radius : this.spherical.radius,
+      theta: sphericalConfig.theta !== undefined ? sphericalConfig.theta : this.spherical.theta,
+      phi: sphericalConfig.phi !== undefined ? sphericalConfig.phi : this.spherical.phi
+    };
+    this.cameraTransition.startTime = performance.now();
+    this.cameraTransition.duration = durationSec;
+    this.cameraTransition.onComplete = onComplete;
+  }
+
+  /**
+   * Explanatory Trace Controller: Orchestrates camera, highlighting, and rotation
+   */
+  setExplanationStep(stepIndex) {
+    this.explanationStep = stepIndex;
+
+    if (stepIndex === 0) {
+      // Holoenzyme grand motor overview
+      this.isPaused = false;
+      this.rotationSpeed = 1.0;
+      this.selectComponent('molecular_7cgo', null, null, false);
+      this.transitionCamera(
+        new THREE.Vector3(0, 45, 0),
+        { radius: 240, theta: 0.15, phi: 1.38 },
+        1.4
+      );
+      return;
+    }
+
+    if (stepIndex === 1) {
+      // Stage 1: Proton Motive Force Influx (Focus on MotA/B stator ring at inner membrane)
+      this.isPaused = false;
+      this.rotationSpeed = 0.5;
+      this.selectComponent('molecular_6ykm', null, null, false);
+      this.transitionCamera(
+        new THREE.Vector3(0, -2, 0),
+        { radius: 82, theta: 0.18, phi: 1.46 },
+        1.4
+      );
+    } else if (stepIndex === 2) {
+      // Stage 2: Electrostatic Gear Engagement & C-Ring Torque (Bottom C-ring switch)
+      this.isPaused = false;
+      this.rotationSpeed = 0.8;
+      this.selectComponent('c_ring', null, null, false);
+      this.transitionCamera(
+        new THREE.Vector3(0, -22, 0),
+        { radius: 76, theta: 0.22, phi: 1.50 },
+        1.4
+      );
+    } else if (stepIndex === 3) {
+      // Stage 3: Axial Drive Shaft Transmission & Envelope Bushings (P-ring & L-ring)
+      this.isPaused = false;
+      this.rotationSpeed = 1.0;
+      this.selectComponent('rod', null, null, false);
+      this.transitionCamera(
+        new THREE.Vector3(0, 16, 0),
+        { radius: 68, theta: 0.10, phi: 1.35 },
+        1.4
+      );
+    } else if (stepIndex === 4) {
+      // Stage 4: Universal Hook Joint & Torque Bend (Flexible FlgE hook)
+      this.isPaused = false;
+      this.rotationSpeed = 1.0;
+      this.selectComponent('hook', null, null, false);
+      this.transitionCamera(
+        new THREE.Vector3(0, 38, 0),
+        { radius: 72, theta: 0.16, phi: 1.25 },
+        1.4
+      );
+    } else if (stepIndex === 5) {
+      // Stage 5: Archimedean Screw Propulsion Dynamo (Steady-state filament propulsion)
+      this.isPaused = false;
+      this.rotationSpeed = 1.2;
+      this.selectComponent('filament', null, null, false);
+      this.transitionCamera(
+        new THREE.Vector3(0, 65, 0),
+        { radius: 185, theta: 0.08, phi: 1.38 },
+        1.4
+      );
+    }
   }
 }

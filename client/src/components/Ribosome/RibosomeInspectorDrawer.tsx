@@ -8,6 +8,10 @@ interface RibosomeInspectorDrawerProps {
   onFocus: () => void;
   activeKey?: string;
   onSelectPart?: (key: string) => void;
+  storyStep?: number;
+  onSelectStoryStep?: (step: number) => void;
+  onStartStoryTrace?: () => void;
+  onStopStoryTrace?: () => void;
 }
 
 export const RibosomeInspectorDrawer: React.FC<RibosomeInspectorDrawerProps> = ({
@@ -16,7 +20,11 @@ export const RibosomeInspectorDrawer: React.FC<RibosomeInspectorDrawerProps> = (
   onNarrate,
   onFocus,
   activeKey,
-  onSelectPart
+  onSelectPart,
+  storyStep = 0,
+  onSelectStoryStep,
+  onStartStoryTrace,
+  onStopStoryTrace
 }) => {
   if (!data) return null;
 
@@ -29,7 +37,7 @@ export const RibosomeInspectorDrawer: React.FC<RibosomeInspectorDrawerProps> = (
   const isTrna = nameLower.includes('trna') || badgeLower.includes('trna') || badgeLower.includes('adaptor') || badgeLower.includes('inlet') || badgeLower.includes('donor') || badgeLower.includes('outlet');
 
   return (
-    <aside id="ribosome-inspector" className="motor-inspector-drawer">
+    <aside id="ribosome-inspector" className="motor-inspector-drawer" style={{ userSelect: 'text' }}>
       <div className="motor-insp-header">
         <span className="motor-insp-badge" id="ribosome-comp-badge">
           {data.badge || (data.name ? data.name.toUpperCase() : 'RIBOZYME COMPONENT')}
@@ -50,9 +58,153 @@ export const RibosomeInspectorDrawer: React.FC<RibosomeInspectorDrawerProps> = (
             {isNarrating ? 'Stop' : 'Read Aloud'}
           </span>
         </button>
+        <span style={{ fontSize: '11px', color: '#5C6E64', marginLeft: 'auto', fontStyle: 'italic' }}>
+          🗣 [RY-boh-zohm / TRY-pah-tite]
+        </span>
       </div>
 
       <div className="motor-insp-body">
+        {/* Pedagogical 5-Stage Explanatory Trace Card */}
+        <div className="motor-insp-block" style={{
+          background: 'linear-gradient(135deg, rgba(233, 196, 106, 0.08) 0%, rgba(255, 183, 3, 0.08) 50%, rgba(158, 42, 91, 0.09) 100%)',
+          border: '1px solid rgba(233, 196, 106, 0.35)',
+          borderRadius: '8px',
+          padding: '10px 12px',
+          marginBottom: '14px',
+          boxShadow: storyStep > 0 ? '0 0 12px rgba(255, 183, 3, 0.25)' : 'none'
+        }}>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '6px' }}>
+            <span style={{ fontSize: '11px', fontWeight: 800, color: '#B38600', letterSpacing: '0.5px', display: 'flex', alignItems: 'center', gap: '4px' }}>
+              <span>🎬</span> 5-STAGE EXPLANATORY TRACE
+            </span>
+            <span style={{
+              fontSize: '9px',
+              background: storyStep > 0 ? '#E9C46A' : '#E2DACD',
+              color: storyStep > 0 ? '#1A2B25' : '#4A5568',
+              padding: '2px 7px',
+              borderRadius: '10px',
+              fontWeight: 800,
+              letterSpacing: '0.4px'
+            }}>
+              {storyStep > 0 ? `STAGE ${storyStep} OF 5` : 'READY'}
+            </span>
+          </div>
+
+          <p style={{ fontSize: '10.5px', color: '#4A5568', margin: '0 0 8px 0', lineHeight: 1.35 }}>
+            Follow the sequential causal chain of peptide elongation: codon docking → proofreading → peptidyl transfer → translocation ratchet → E-site discharge:
+          </p>
+
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '5px' }}>
+            {[
+              { num: 1, title: '1. A-Site Codon Recognition', desc: 'Ternary complex enters; A1492/A1493 flip out', col: '#E9C46A', badge: 'A-SITE' },
+              { num: 2, title: '2. Proofreading & Accommodation', desc: 'EF-Tu hydrolyzes GTP; aminoacyl stem swings into PTC', col: '#00F5D4', badge: 'EF-Tu' },
+              { num: 3, title: '3. Peptidyl Transferase Catalysis', desc: 'α-amino nucleophile attacks ester; peptide bond forms', col: '#FFB703', badge: 'PTC' },
+              { num: 4, title: '4. EF-G Power Stroke Translocation', desc: '30S ratchets against 50S; mRNA advances 1 triplet', col: '#7209B7', badge: 'EF-G' },
+              { num: 5, title: '5. E-Site Discharge & Continuous Polysome', desc: 'Empty tRNA expelled; continuous synthesis at 20 aa/s', col: '#9E2A5B', badge: '70S' }
+            ].map(step => {
+              const isActive = storyStep === step.num;
+              return (
+                <button
+                  key={step.num}
+                  className={`motor-mode-btn ${isActive ? 'active' : ''}`}
+                  style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'space-between',
+                    padding: '5px 8px',
+                    borderRadius: '5px',
+                    border: isActive ? `1.5px solid ${step.col}` : '1px solid rgba(0,0,0,0.08)',
+                    background: isActive ? 'rgba(255, 255, 255, 0.95)' : 'rgba(255, 255, 255, 0.65)',
+                    boxShadow: isActive ? `0 0 8px ${step.col}40` : 'none',
+                    cursor: 'pointer',
+                    textAlign: 'left'
+                  }}
+                  onClick={() => onSelectStoryStep?.(step.num)}
+                >
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+                    <span style={{
+                      display: 'inline-block',
+                      width: '28px',
+                      height: '20px',
+                      borderRadius: '4px',
+                      background: step.col,
+                      color: step.num === 1 || step.num === 3 ? '#1A2B25' : '#FFFFFF',
+                      fontSize: '8px',
+                      fontWeight: 800,
+                      lineHeight: '20px',
+                      textAlign: 'center',
+                      flexShrink: 0
+                    }}>
+                      {step.badge}
+                    </span>
+                    <div>
+                      <div style={{ fontSize: '10.5px', fontWeight: isActive ? 800 : 700, color: isActive ? '#1E261C' : '#334155' }}>
+                        {step.title}
+                      </div>
+                      <div style={{ fontSize: '9px', color: '#64748B' }}>
+                        {step.desc}
+                      </div>
+                    </div>
+                  </div>
+                  {isActive && (
+                    <span style={{ fontSize: '10px', color: step.col, fontWeight: 800, flexShrink: 0 }}>
+                      ▶ ACTIVE
+                    </span>
+                  )}
+                </button>
+              );
+            })}
+          </div>
+
+          <div style={{ display: 'flex', gap: '6px', marginTop: '8px' }}>
+            {storyStep === 0 ? (
+              <button
+                className="motor-mode-btn"
+                style={{
+                  flex: 1,
+                  background: '#B38600',
+                  color: '#FFFFFF',
+                  fontWeight: 800,
+                  fontSize: '11px',
+                  padding: '6px 8px',
+                  border: 'none',
+                  borderRadius: '6px',
+                  cursor: 'pointer',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  gap: '5px'
+                }}
+                onClick={onStartStoryTrace}
+              >
+                <span>🎬</span> Start Explanatory Trace
+              </button>
+            ) : (
+              <button
+                className="motor-mode-btn"
+                style={{
+                  flex: 1,
+                  background: '#9E1B46',
+                  color: '#FFFFFF',
+                  fontWeight: 800,
+                  fontSize: '11px',
+                  padding: '6px 8px',
+                  border: 'none',
+                  borderRadius: '6px',
+                  cursor: 'pointer',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  gap: '5px'
+                }}
+                onClick={onStopStoryTrace}
+              >
+                <span>⏹</span> End Trace &amp; Run Continuous
+              </button>
+            )}
+          </div>
+        </div>
+
         {/* Tripartite Three-Chamber tRNA Target Card */}
         {isTrna && (
           <div className="motor-insp-block" style={{
@@ -126,25 +278,9 @@ export const RibosomeInspectorDrawer: React.FC<RibosomeInspectorDrawerProps> = (
                 onClick={() => onSelectPart?.('trna_e_site')}
                 title="Target E-site Deacylated tRNA (Exit)"
               >
-                <span style={{ fontWeight: 800, fontSize: '11px', color: '#A43B22' }}>🟠 E-Site</span>
+                <span style={{ fontWeight: 800, fontSize: '11px', color: '#C85A32' }}>🟠 E-Site</span>
                 <span style={{ fontSize: '9px', color: '#4A5568', fontWeight: 600 }}>Exit</span>
-                <span style={{ fontSize: '8.5px', color: '#888' }}>Deacylated (5)</span>
-              </button>
-            </div>
-
-            <div style={{ marginTop: '8px', textAlign: 'center' }}>
-              <button
-                className={`motor-mode-btn ${activeKey === 'trna_all' ? 'active' : ''}`}
-                style={{
-                  width: '100%',
-                  fontSize: '10.5px',
-                  padding: '4px 6px',
-                  fontWeight: 700,
-                  background: activeKey === 'trna_all' ? 'rgba(26,43,37,0.1)' : undefined
-                }}
-                onClick={() => onSelectPart?.('trna_all')}
-              >
-                ✦ Target All 3 tRNAs Together
+                <span style={{ fontSize: '8.5px', color: '#888' }}>Uncharged (5)</span>
               </button>
             </div>
           </div>

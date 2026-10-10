@@ -217,7 +217,27 @@ Every biological machine across all 6 biophysical scales executes a causal seque
 | **Stage 4** | **Catalytic Turnover, Power Stroke & Synthesis** | Covalent bonds are formed/cleaved or macromolecule is translocated. | Glowing catalytic burst, chemical condensation (ADP+$P_i \to$ ATP, peptide bond synthesis), energy release. |
 | **Stage 5** | **Product Release & Continuous Steady-State Dynamo** | Product is ejected to downstream consumer; machine enters continuous cycle. | Camera dollies back to grand overview; holoenzyme spins or processes continuously at steady-state. |
 
-#### 2. TypeScript Data Model (`ExplanationStage`)
+#### 2. The Input-Transformation-Output & Focal Area Contract
+
+To guarantee deep pedagogical clarity and prevent superficial animations, every stage of an Explanatory Trace MUST explicitly document and implement four fundamental biophysical attributes:
+
+```
+┌────────────────────────────────────────────────────────────────────────────────────────┐
+│                        THE 4-PART STAGE EXPLANATION CONTRACT                           │
+│                                                                                        │
+│ 1. 🎯 Focal Area & Centroid:   Exact 3D camera coordinates & viewing radius            │
+│ 2. 🟢 Molecular Input:         Incoming chemical species, ions, cofactors, or torque   │
+│ 3. ⚙️ Transformation / Mech:   Exact conformational displacement or chemical catalysis │
+│ 4. 🔵 Molecular Output:        Translocated product, synthesized bond, or momentum     │
+└────────────────────────────────────────────────────────────────────────────────────────┘
+```
+
+1. **Focal Area & Dynamic Centroid Framing:** The camera must not remain at a distant generic vantage. It must dolly and focus directly on the spatial cleft or subunit where the event happens (e.g. the 6-isoleucine hydrophobic constriction of SecY, the Aspartate-61 ring in $F_0$, or the 23S rRNA Domain V catalytic pocket).
+2. **Molecular Input:** What precise physical or chemical entity enters at this moment? (e.g. periplasmic protons driven by $\Delta p$, an incoming aminoacyl-tRNA•GTP ternary complex, or ADP + $P_i$).
+3. **Transformation / Mechanism:** What exact atomic event or conformational rearrangement takes place? (e.g. protonation neutralizing an acidic sidechain, an ester carbonyl nucleophilic attack, or a $6^\circ$ inter-subunit ratcheting stroke).
+4. **Molecular Output:** What leaves this stage to feed the next step or downstream pathways? (e.g. newly formed ATP ejected into the cytosol, a nascent polypeptide elongated by $+1$ residue, or $4,600\,\text{pN}\cdot\text{nm}$ of torque delivered to the axial rod).
+
+#### 3. TypeScript Data Model (`ExplanationStage`)
 Define the stages in an array exported directly from the component metadata or scenario file:
 
 ```typescript
@@ -230,6 +250,9 @@ export interface ExplanationStage {
   col: string;                // Hex taxonomy color
   desc: string;               // 1-sentence UI card description
   speech: string;             // Spoken script with phonetic brackets
+  input?: string;             // Specific molecular/energetic input
+  transformation?: string;    // Biophysical mechanism & conformational change
+  output?: string;            // Specific molecular/mechanical output
   camera: {                   // 3D camera focal target & spherical coords
     target: [number, number, number];
     radius: number;
@@ -240,7 +263,7 @@ export interface ExplanationStage {
 }
 ```
 
-#### 3. Inspector Drawer Stepper Card UI Pattern
+#### 4. Inspector Drawer Stepper Card UI Pattern
 In `#right-drawer`, render the dedicated Explanatory Trace card:
 
 ```tsx

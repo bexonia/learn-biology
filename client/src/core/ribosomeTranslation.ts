@@ -23,97 +23,136 @@ import type { RibosomeComponentData } from '../types/biology';
 
 export const RIBOSOME_COMPONENTS_META: Record<string, RibosomeComponentData> = {
   'ribosome_70s': {
-    name: 'Complete 70S Bacterial Translating Ribosome (PDB: 7K00)',
+    name: 'Atomic Model of 70S Translating Ribosome (PDB: 7K00)',
     badge: 'TRANSLATION FACTORY (70S)',
     dims: 'Diameter: ~25 nm (250 Å), Mass: ~2.5 MDa (149,338 atoms in 7K00)',
     proteins: '3 rRNAs (16S, 23S, 5S) + 54 Ribosomal Proteins (uS2–bS21, uL1–bL36)',
     pdb: 'PDB: 7K00 (Watson et al., 2020 at 2.4 Å resolution), EMD-22637',
-    desc: 'The universal ribozyme engine of protein synthesis solved at 2.4 Å by Cryo-EM. It translates genetic code in messenger RNA into amino acid polypeptides, coordinating 3 tRNAs across A, P, and E sites with 15–20 peptide bonds formed per second.'
+    desc: 'The universal ribozyme engine of protein synthesis. Ribosomal RNA forms the ancient catalytic core (magenta & cyan double helices), while ribosomal proteins (green & olive ribbons) decorate the exterior to stabilize the architecture.'
+  },
+  'rrna_50s': {
+    name: '50S Ribosomal RNA (23S & 5S rRNA Core)',
+    badge: '50S CATALYTIC CORE (rRNA)',
+    dims: '23S rRNA (2,904 nt) + 5S rRNA (120 nt), 61,679 atoms',
+    proteins: 'Pure Catalytic Ribozyme Core (Chains a & b)',
+    pdb: 'PDB: 7K00 (Chains a, b)',
+    desc: 'The catalytic power plant sculpted in deep crimson/magenta double helices. Contains Domain V which harbors the Peptidyl Transferase Center (PTC), proving the ribosome is a ribozyme.'
+  },
+  'proteins_50s': {
+    name: '50S Ribosomal Proteins (34 Peripheral Chains)',
+    badge: '50S STRUCTURAL PROTEINS',
+    dims: '34 Polypeptide Subunits (uL1 through bL36), ~29,000 atoms',
+    proteins: '34 Ribosomal Proteins (Chains c–z, 0–4)',
+    pdb: 'PDB: 7K00 (Chains c–z, 0–4)',
+    desc: 'The peripheral protein scaffold sculpted in forest olive green. Weaves around the 23S rRNA double-helical valleys, stabilizing tertiary folds and forming the flexible L1 stalk and L7/L12 stalks.'
+  },
+  'rrna_30s': {
+    name: '30S Ribosomal RNA (16S rRNA Decoding Center)',
+    badge: '30S DECODING CORE (rRNA)',
+    dims: '16S rRNA (1,542 nt), 32,612 atoms',
+    proteins: 'Decoding Ribozyme Framework (Chain A)',
+    pdb: 'PDB: 7K00 (Chain A)',
+    desc: 'The molecular proofreader sculpted in deep cyan/teal double helices. Forms the Head, Body, and Platform domains that cradle mRNA and enforce strict Watson-Crick codon-anticodon pairing.'
+  },
+  'proteins_30s': {
+    name: '30S Ribosomal Proteins (21 Small Subunit Chains)',
+    badge: '30S STRUCTURAL PROTEINS',
+    dims: '21 Polypeptide Subunits (uS2 through bS21), ~18,000 atoms',
+    proteins: '21 Ribosomal Proteins (Chains B–U)',
+    pdb: 'PDB: 7K00 (Chains B–U)',
+    desc: 'The structural stabilizer chains sculpted in golden olive/mustard green. Clamps the 16S rRNA helices into shape and assists in mRNA passage and initiation factor interaction.'
   },
   'subunit_50s': {
-    name: '50S Large Catalytic Subunit (23S + 5S rRNA + 34 Proteins)',
+    name: '50S Large Catalytic Subunit (Complete)',
     badge: 'CATALYTIC RIBOZYME (50S)',
-    dims: 'Dimensions: ~20 × 20 × 15 nm, Mass: ~1.6 MDa (91,673 atoms in 7K00)',
-    proteins: '23S rRNA (chain a, 2,904 nt), 5S rRNA (chain b, 120 nt) + 34 Proteins (chains c–z, 0–4)',
+    dims: 'Dimensions: ~20 × 20 × 15 nm, Mass: ~1.6 MDa',
+    proteins: '23S + 5S rRNA (Chains a, b) + 34 Proteins (Chains c–z, 0–4)',
     pdb: 'PDB: 7K00 (Chains a–z, 0–4)',
-    desc: 'The catalytic power plant sculpted in moss green. Features the Peptidyl Transferase Center (PTC), the mobile L1 exit stalk (chains c, g), the L7/L12 factor recruitment stalk, and the ~100 Å polypeptide exit tunnel.'
+    desc: 'The complete 50S large subunit comprising the central crimson 23S/5S rRNA core and surrounding green structural proteins.'
   },
   'subunit_30s': {
-    name: '30S Small Decoding Subunit (16S rRNA + 21 Proteins)',
+    name: '30S Small Decoding Subunit (Complete)',
     badge: 'DECODING CENTER (30S)',
-    dims: 'Dimensions: ~15 × 12 × 10 nm, Mass: ~0.9 MDa (54,114 atoms in 7K00)',
-    proteins: '16S rRNA (chain A, 1,542 nt) + 21 Ribosomal Proteins (chains B–U)',
+    dims: 'Dimensions: ~15 × 12 × 10 nm, Mass: ~0.9 MDa',
+    proteins: '16S rRNA (Chain A) + 21 Proteins (Chains B–U)',
     pdb: 'PDB: 7K00 (Chains A–U)',
-    desc: 'The molecular proofreader in slate denim blue. Formed by Head, Body, and Platform domains, the 30S subunit binds the mRNA template and inspects strict Watson-Crick codon-anticodon base pairing.'
+    desc: 'The complete 30S small subunit comprising the central cyan 16S rRNA core and surrounding golden olive structural proteins.'
   },
   'mrna_strand': {
-    name: 'Messenger RNA Template (Chain X Polyribonucleotide)',
+    name: 'mRNA (Messenger RNA Template)',
     badge: 'GENETIC TEMPLATE',
-    dims: 'Polyribonucleotide ribbon threading 5\' → 3\' through 30S cradle (275 atoms)',
-    proteins: 'Direct transcript of genomic DNA via RNA Polymerase',
+    dims: 'Polyribonucleotide strand threading 5\' → 3\' across the cleft',
+    proteins: 'Direct genetic transcript from RNA Polymerase',
     pdb: 'PDB: 7K00 (Chain X)',
-    desc: 'The genetic template strand in warm terracotta coral, clamped into the 30S decoding cradle. Codon triplets align with tRNA anticodon loops at the A, P, and E sites, stepping 1 codon per elongation cycle.'
+    desc: 'The genetic messenger strand in terracotta coral red, threaded horizontally through the 30S decoding cradle where codon triplets present themselves to tRNAs.'
   },
   'trna_a_site': {
-    name: 'A-site Aminoacyl-tRNA (Val-tRNA, Chain Y)',
+    name: 'A-site Aminoacyl-tRNA (Arrival Chamber)',
     badge: 'SUBSTRATE INLET (A-SITE)',
-    dims: '76 nt, ~7 nm L-shaped tertiary fold (1,592 atoms)',
+    dims: '76 nt L-shaped tertiary fold, 1,592 atoms',
     proteins: 'Delivered by Elongation Factor Tu (EF-Tu·GTP)',
     pdb: 'PDB: 7K00 (Chain Y, Val-tRNA)',
-    desc: 'The incoming charged tRNA sculpted in jewel violet. Docked into the A-site with its anticodon base-paired to the mRNA codon and its aminoacylated 3\' CCA terminal poised at the PTC for peptide bond synthesis.'
+    desc: 'The incoming charged tRNA sculpted in golden amber/mustard yellow. Base-paired to the mRNA codon with its aminoacylated CCA tip poised at the PTC for condensation.'
   },
   'trna_p_site': {
-    name: 'P-site Peptidyl-tRNA (fMet-tRNA, Chain Z)',
+    name: 'P-site Peptidyl-tRNA (Peptidyl Donor)',
     badge: 'PEPTIDE DONOR (P-SITE)',
-    dims: '77 nt, ~7 nm L-shaped tertiary fold (1,642 atoms)',
-    proteins: 'Peptidyl-tRNA holding nascent chain at 3\' CCA terminal',
+    dims: '77 nt L-shaped tertiary fold, 1,642 atoms',
+    proteins: 'Carries the nascent polypeptide chain at 3\' CCA terminal',
     pdb: 'PDB: 7K00 (Chain Z, fMet-tRNA)',
-    desc: 'The peptidyl-tRNA sculpted in jade teal standing in the central P-site. Holds the growing polypeptide chain before transferring it to the incoming A-site amino acid during peptidyl transfer.'
+    desc: 'The central peptidyl-tRNA sculpted in bright emerald/lime green. Holds the growing polypeptide chain at the Peptidyl Transferase Center before transfer to the A-site.'
   },
   'trna_e_site': {
-    name: 'E-site Deacylated tRNA (Exit Discharge)',
+    name: 'E-site Deacylated tRNA (Exit Chamber)',
     badge: 'DISCHARGE OUTLET (E-SITE)',
-    dims: '76 nt cloverleaf fold (docked to 23S rRNA E-site CCA pocket)',
-    proteins: 'Deacylated / Uncharged tRNA',
+    dims: '76 nt cloverleaf fold docked at 23S rRNA E-site archway',
+    proteins: 'Deacylated / Uncharged tRNA awaiting discharge',
     pdb: 'PDB: 7K00 (Chain 5 CCA terminal + aligned cloverleaf)',
-    desc: 'The stripped tRNA in muted mauve. Discharged from its amino acid, it rests in the E-site archway and exits the ribosome into the cytoplasm through the mobile L1 stalk.'
+    desc: 'The spent tRNA sculpted in peach/salmon coral. Discharged of its amino acid, resting in the E-site archway before leaving through the mobile L1 stalk.'
+  },
+  'trna_all': {
+    name: 'tRNAs in A, P, and E Sites',
+    badge: 'ADAPTOR SCOUTS (A, P, E)',
+    dims: '3 Distinct Transfer RNAs coordinating peptide synthesis',
+    proteins: 'A (Golden Amber), P (Bright Green), E (Peach/Salmon)',
+    pdb: 'PDB: 7K00 (Chains Y, Z, 5)',
+    desc: 'The tripartite tRNA assembly coordinating amino acid delivery (A-site), peptide bond formation (P-site), and uncharged discharge (E-site).'
   },
   'ptc_core': {
-    name: 'Peptidyl Transferase Center (PTC Catalytic Core)',
+    name: 'Peptidyl Transferase Center (PTC)',
     badge: 'CATALYTIC ACTIVE SITE',
-    dims: 'Conserved catalytic pocket in Domain V of 23S rRNA',
-    proteins: 'Pure RNA Ribozyme (Conserved Adenine 2451 & Cytosine 2452)',
+    dims: 'Catalytic cleft in Domain V of 23S rRNA',
+    proteins: 'Pure RNA Active Site (Conserved A2451 & C2452)',
     pdb: 'PDB: 7K00 (Chain a: A2451, C2452)',
-    desc: 'The catalytic heart of the ribosome in golden amber. Catalyzes peptide bond condensation between amino acids via substrate positioning and entropic catalysis with zero protein residues directly involved in the active site.'
+    desc: 'The catalytic heart of the ribosome in glowing golden amber. Catalyzes peptide bond condensation via precise substrate stereochemistry with zero protein involvement.'
   },
   'exit_tunnel': {
-    name: 'Polypeptide Exit Tunnel (uL4/uL22 Constriction Zone)',
+    name: 'Polypeptide Exit Tunnel',
     badge: 'EXIT CONDUIT',
     dims: 'Length: ~100 Å (~10 nm), Diameter: ~15 Å',
-    proteins: 'Lined with 23S rRNA loops and protein beta-hairpins of uL4 and uL22',
+    proteins: 'Lined by 23S rRNA and loops of uL4 and uL22',
     pdb: 'PDB: 7K00 (Chains a, d, v)',
-    desc: 'The internal cylindrical conduit traversing through the 50S subunit. It terminates at the outer surface porthole from which the nascent protein emerges into the cytoplasm.'
+    desc: 'The internal cylindrical conduit traversing through the 50S subunit from the PTC to the outer surface porthole.'
   },
   'nascent_peptide': {
-    name: 'Growing Nascent Polypeptide Chain',
+    name: 'Growing Polypeptide Chain (Protein)',
     badge: 'SYNTHESIZED PROTEIN',
-    dims: 'Glossy candy pearl amino acid beads on an organic string',
-    proteins: 'Newly synthesized protein emerging from 50S exit porthole',
+    dims: 'Multicolored candy pearl amino acid beads emerging at top',
+    proteins: 'Newly polymerized primary protein structure',
     pdb: 'PDB: 7K00',
-    desc: 'The newly synthesized protein chain made of vibrant, glossy pearl beads extruding from the 50S exit porthole and folding gracefully into secondary structures in the cytoplasm.'
+    desc: 'The newly synthesized protein chain made of vibrant candy pearl beads (purple, cyan, green, gold, orange, red) snaking out through the 50S exit tunnel into the cytoplasm.'
   }
 };
 
 export const RIBOSOME_TOUR_STOPS = [
   'ribosome_70s',
-  'subunit_50s',
-  'subunit_30s',
+  'rrna_50s',
+  'proteins_50s',
+  'rrna_30s',
+  'proteins_30s',
   'mrna_strand',
-  'trna_a_site',
-  'trna_p_site',
-  'trna_e_site',
+  'trna_all',
   'ptc_core',
-  'exit_tunnel',
   'nascent_peptide'
 ];
 
@@ -151,8 +190,10 @@ export class RibosomeScene {
     this.labelsGroup = null;
 
     // Molecular Nodes Pieces from 7K00 GLB
-    this.piece50S = null;
-    this.piece30S = null;
+    this.piece50S_rRNA = null;
+    this.piece50S_Proteins = null;
+    this.piece30S_rRNA = null;
+    this.piece30S_Proteins = null;
     this.pieceMRNA = null;
     this.pieceTRNA_A = null;
     this.pieceTRNA_P = null;
@@ -160,19 +201,22 @@ export class RibosomeScene {
     this.piecePTC = null;
 
     // Original positions for exploded view
-    this.orig50SPos = new THREE.Vector3();
-    this.orig30SPos = new THREE.Vector3();
+    this.orig50S_rRNAPos = new THREE.Vector3();
+    this.orig50S_ProteinsPos = new THREE.Vector3();
+    this.orig30S_rRNAPos = new THREE.Vector3();
+    this.orig30S_ProteinsPos = new THREE.Vector3();
     this.origMRNAPos = new THREE.Vector3();
     this.origTRNA_APos = new THREE.Vector3();
     this.origTRNA_PPos = new THREE.Vector3();
     this.origTRNA_EPos = new THREE.Vector3();
     this.origPTCPos = new THREE.Vector3();
 
-    // Intersubunit dissociation axis (50S -> 30S computed from 7K00 centers of mass)
-    this.dissociationAxis = new THREE.Vector3(0.145, 0.876, 0.461).normalize();
+    // Intersubunit dissociation axis (50S top -> 30S bottom)
+    this.dissociationAxis = new THREE.Vector3(0, 1, 0);
 
     // Nascent Polypeptide & Tunnel
     this.peptideGroup = null;
+    this.origPeptidePos = new THREE.Vector3();
     this.sparkMesh = null;
     this.contactShadowMesh = null;
 
@@ -184,8 +228,8 @@ export class RibosomeScene {
     this.mouse = new THREE.Vector2();
     this.clickableMeshes = [];
 
-    // Camera settings: Front-quarter theatrical view of the intersubunit cleft & arches
-    this.spherical = { radius: 74, theta: 0.08, phi: 1.42 };
+    // Camera settings: Theatrical frontal view matching The Biology Primer Atomic Model
+    this.spherical = { radius: 98, theta: 0.05, phi: 1.57 };
     this.target = new THREE.Vector3(0, 0, 0);
     this.isPointerDown = false;
     this.pointerStart = { x: 0, y: 0 };
@@ -339,19 +383,21 @@ export class RibosomeScene {
       const scaleFactor = 2.2;
       model.scale.set(scaleFactor, scaleFactor, scaleFactor);
 
-      // Orientation adjustment: Cryo-EM coordinates placed cleft along Y/Z axis.
-      // Rotate slightly so the intersubunit cleft and three tRNAs face the theatrical camera
-      model.rotation.set(-0.35, 0.15, -0.10);
+      // Orientation adjustment matching The Biology Primer Atomic Model:
+      // 50S on top (positive Y), 30S on bottom (negative Y), mRNA horizontal, cleft facing camera
+      model.rotation.set(-2.194, 0.353, -0.430);
 
-      // Color taxonomy specifications
+      // Color taxonomy specifications matching The Biology Primer Atomic Model
       const colorTaxonomy = {
-        'Piece_50S_Large_Subunit': { color: 0x8DA873, roughness: 0.52, metalness: 0.04, key: 'subunit_50s' },
-        'Piece_30S_Small_Subunit': { color: 0x53738C, roughness: 0.50, metalness: 0.05, key: 'subunit_30s' },
-        'Piece_mRNA_Strand':       { color: 0xBA4E3B, roughness: 0.38, metalness: 0.08, key: 'mrna_strand' },
-        'Piece_tRNA_A_Site':       { color: 0x8E5A8E, roughness: 0.35, metalness: 0.08, key: 'trna_a_site' },
-        'Piece_tRNA_P_Site':       { color: 0x368F8B, roughness: 0.35, metalness: 0.08, key: 'trna_p_site' },
-        'Piece_tRNA_E_Site':       { color: 0xA58A9E, roughness: 0.35, metalness: 0.08, key: 'trna_e_site' },
-        'Piece_PTC_Active_Site':   { color: 0xFFB703, roughness: 0.22, metalness: 0.15, key: 'ptc_core', emissive: 0xFFA000, emissiveIntensity: 0.6 }
+        'Piece_50S_rRNA':     { color: 0x9E2A5B, roughness: 0.48, metalness: 0.04, key: 'rrna_50s' },
+        'Piece_50S_Proteins': { color: 0x2D6A4F, roughness: 0.52, metalness: 0.04, key: 'proteins_50s' },
+        'Piece_30S_rRNA':     { color: 0x1A8594, roughness: 0.48, metalness: 0.04, key: 'rrna_30s' },
+        'Piece_30S_Proteins': { color: 0x9A9E32, roughness: 0.52, metalness: 0.04, key: 'proteins_30s' },
+        'Piece_mRNA_Strand':   { color: 0xBA4E3B, roughness: 0.38, metalness: 0.08, key: 'mrna_strand' },
+        'Piece_tRNA_A_Site':   { color: 0xE9C46A, roughness: 0.35, metalness: 0.08, key: 'trna_a_site' },
+        'Piece_tRNA_P_Site':   { color: 0x52B788, roughness: 0.35, metalness: 0.08, key: 'trna_p_site' },
+        'Piece_tRNA_E_Site':   { color: 0xE07A5F, roughness: 0.35, metalness: 0.08, key: 'trna_e_site' },
+        'Piece_PTC_Active_Site': { color: 0xFFB703, roughness: 0.20, metalness: 0.15, key: 'ptc_core', emissive: 0xFFA000, emissiveIntensity: 0.8 }
       };
 
       model.traverse((child) => {
@@ -379,8 +425,10 @@ export class RibosomeScene {
       });
 
       // Extract named piece references
-      this.piece50S = model.getObjectByName('Piece_50S_Large_Subunit');
-      this.piece30S = model.getObjectByName('Piece_30S_Small_Subunit');
+      this.piece50S_rRNA = model.getObjectByName('Piece_50S_rRNA');
+      this.piece50S_Proteins = model.getObjectByName('Piece_50S_Proteins');
+      this.piece30S_rRNA = model.getObjectByName('Piece_30S_rRNA');
+      this.piece30S_Proteins = model.getObjectByName('Piece_30S_Proteins');
       this.pieceMRNA = model.getObjectByName('Piece_mRNA_Strand');
       this.pieceTRNA_A = model.getObjectByName('Piece_tRNA_A_Site');
       this.pieceTRNA_P = model.getObjectByName('Piece_tRNA_P_Site');
@@ -388,8 +436,10 @@ export class RibosomeScene {
       this.piecePTC = model.getObjectByName('Piece_PTC_Active_Site');
 
       // Cache initial native assembled positions for exploded view
-      if (this.piece50S) this.orig50SPos.copy(this.piece50S.position);
-      if (this.piece30S) this.orig30SPos.copy(this.piece30S.position);
+      if (this.piece50S_rRNA) this.orig50S_rRNAPos.copy(this.piece50S_rRNA.position);
+      if (this.piece50S_Proteins) this.orig50S_ProteinsPos.copy(this.piece50S_Proteins.position);
+      if (this.piece30S_rRNA) this.orig30S_rRNAPos.copy(this.piece30S_rRNA.position);
+      if (this.piece30S_Proteins) this.orig30S_ProteinsPos.copy(this.piece30S_Proteins.position);
       if (this.pieceMRNA) this.origMRNAPos.copy(this.pieceMRNA.position);
       if (this.pieceTRNA_A) this.origTRNA_APos.copy(this.pieceTRNA_A.position);
       if (this.pieceTRNA_P) this.origTRNA_PPos.copy(this.pieceTRNA_P.position);
@@ -425,38 +475,44 @@ export class RibosomeScene {
 
   /**
    * Constructs the authentic nascent polypeptide chain emerging from the PTC
-   * through the 50S exit tunnel into the cytoplasmic milieu
+   * through the 50S exit tunnel into the cytoplasmic milieu above the 50S subunit
    */
   buildNascentPolypeptide(scaleFactor = 2.2) {
     this.peptideGroup = new THREE.Group();
     this.peptideGroup.name = 'Nascent_Polypeptide_Chain';
 
-    // Authentically computed trajectory from P-site CCA tip through exit tunnel porthole
-    // Scaled to the 2.2 model dimension
+    const ptcWorld = new THREE.Vector3();
+    if (this.piecePTC) {
+      const boxPTC = new THREE.Box3().setFromObject(this.piecePTC);
+      boxPTC.getCenter(ptcWorld);
+    } else {
+      ptcWorld.set(1.8, 5.0, -4.0);
+    }
+
+    // Trajectory starting from PTC in the catalytic cleft, traversing up through 50S exit conduit,
+    // emerging through the exit porthole at the top apex of 50S, and curling into the cytoplasm
     const peptidePoints = [
-      new THREE.Vector3(0.54 * scaleFactor, -2.08 * scaleFactor, -0.81 * scaleFactor),   // Attached to P-tRNA CCA tip
-      new THREE.Vector3(0.64 * scaleFactor, -3.03 * scaleFactor, -0.40 * scaleFactor),   // Inside catalytic PTC
-      new THREE.Vector3(-0.6 * scaleFactor, -4.5 * scaleFactor, 1.8 * scaleFactor),     // Entering exit conduit
-      new THREE.Vector3(-1.9 * scaleFactor, -5.7 * scaleFactor, 3.8 * scaleFactor),     // uL4 / uL22 constriction zone
-      new THREE.Vector3(-0.5 * scaleFactor, -8.2 * scaleFactor, -2.0 * scaleFactor),    // Traversing lower tunnel
-      new THREE.Vector3(0.64 * scaleFactor, -10.67 * scaleFactor, -9.65 * scaleFactor), // Emerging through exit porthole
-      new THREE.Vector3(1.8 * scaleFactor, -14.0 * scaleFactor, -13.5 * scaleFactor),   // In cytoplasm
-      new THREE.Vector3(4.2 * scaleFactor, -16.5 * scaleFactor, -16.0 * scaleFactor),
-      new THREE.Vector3(7.5 * scaleFactor, -18.0 * scaleFactor, -17.5 * scaleFactor),
-      new THREE.Vector3(10.8 * scaleFactor, -17.2 * scaleFactor, -18.2 * scaleFactor),
-      new THREE.Vector3(13.5 * scaleFactor, -14.8 * scaleFactor, -18.8 * scaleFactor)
+      new THREE.Vector3(ptcWorld.x + 0.2, ptcWorld.y + 0.5, ptcWorld.z - 1.0),
+      new THREE.Vector3(ptcWorld.x - 0.5, ptcWorld.y + 3.5, ptcWorld.z - 2.5),
+      new THREE.Vector3(ptcWorld.x - 1.2, ptcWorld.y + 7.0, ptcWorld.z - 1.8),
+      new THREE.Vector3(ptcWorld.x - 0.8, ptcWorld.y + 11.5, ptcWorld.z - 0.5),
+      new THREE.Vector3(ptcWorld.x + 0.5, ptcWorld.y + 15.5, ptcWorld.z + 1.2),
+      new THREE.Vector3(ptcWorld.x + 2.5, ptcWorld.y + 18.2, ptcWorld.z + 3.0),
+      new THREE.Vector3(ptcWorld.x + 5.5, ptcWorld.y + 19.5, ptcWorld.z + 4.2),
+      new THREE.Vector3(ptcWorld.x + 8.5, ptcWorld.y + 18.8, ptcWorld.z + 4.8),
+      new THREE.Vector3(ptcWorld.x + 11.0, ptcWorld.y + 16.5, ptcWorld.z + 5.0),
+      new THREE.Vector3(ptcWorld.x + 12.8, ptcWorld.y + 14.0, ptcWorld.z + 5.2)
     ];
 
     const curve = new THREE.CatmullRomCurve3(peptidePoints);
     const beadCount = this.aminoAcidCount;
     const samples = curve.getPoints(beadCount);
 
-    // Glossy pearl amino acid colors: Royal Violet, Blue, Jade, Amber, Coral, Ruby
     const pearlColors = [
       0x7B2CBF, 0x3A86FF, 0x06D6A0, 0xFFB703, 0xFB5607, 0xE63946, 0x8338EC, 0x38B000, 0xFF006E
     ];
 
-    const beadGeo = new THREE.SphereGeometry(1.2, 14, 14);
+    const beadGeo = new THREE.SphereGeometry(1.0, 14, 14);
 
     for (let i = 0; i < samples.length; i++) {
       const col = pearlColors[i % pearlColors.length];
@@ -473,29 +529,31 @@ export class RibosomeScene {
     }
 
     // Polypeptide backbone organic string
-    const lineGeo = new THREE.TubeGeometry(curve, 54, 0.28, 8, false);
+    const lineGeo = new THREE.TubeGeometry(curve, 54, 0.22, 8, false);
     const lineMat = new THREE.MeshStandardMaterial({ color: 0xFFD166, roughness: 0.3 });
     const lineMesh = new THREE.Mesh(lineGeo, lineMat);
     this.peptideGroup.add(lineMesh);
 
     this.assemblyGroup.add(this.peptideGroup);
+    this.origPeptidePos.copy(this.peptideGroup.position);
   }
 
   /**
-   * Adds floating 3D labels for anatomical identification
+   * Adds floating 3D labels for anatomical identification matching The Biology Primer diagram
    */
   buildFloatingLabels() {
     this.labelsGroup.clear();
     this.labels = [];
 
     const labelDefs = [
-      { text: '50S Subunit', color: '#1D3B1C', pos: new THREE.Vector3(-14, -6, 12), key: 'subunit_50s', w: 140, h: 48 },
-      { text: '30S Subunit', color: '#223B4E', pos: new THREE.Vector3(12, 14, -16), key: 'subunit_30s', w: 140, h: 48 },
-      { text: 'E Site', color: '#5A3854', pos: new THREE.Vector3(-3.0, -14.0, 3.5), key: 'trna_e_site', w: 76, h: 42 },
-      { text: 'P Site', color: '#1B4D4B', pos: new THREE.Vector3(7.5, -3.5, -1.0), key: 'trna_p_site', w: 76, h: 42 },
-      { text: 'A Site', color: '#4E2C4E', pos: new THREE.Vector3(8.5, 4.5, -4.0), key: 'trna_a_site', w: 76, h: 42 },
-      { text: 'mRNA (5\'→3\')', color: '#7A2416', pos: new THREE.Vector3(5.5, -2.0, -14.0), key: 'mrna_strand', w: 144, h: 44 },
-      { text: 'PTC Core', color: '#A06E00', pos: new THREE.Vector3(3.5, 3.0, 8.0), key: 'ptc_core', w: 96, h: 42 }
+      { text: 'Growing polypeptide chain (protein)', color: '#4A1E6D', pos: new THREE.Vector3(8.0, 22.0, 5.0), key: 'nascent_peptide', w: 220, h: 44 },
+      { text: '50S ribosomal RNA (rRNA)', color: '#7B1842', pos: new THREE.Vector3(-18.0, 10.0, 8.0), key: 'rrna_50s', w: 185, h: 46 },
+      { text: '50S ribosomal proteins', color: '#1B4332', pos: new THREE.Vector3(18.0, 12.0, 6.0), key: 'proteins_50s', w: 175, h: 46 },
+      { text: 'Peptidyl Transferase Center (PTC)', color: '#A06E00', pos: new THREE.Vector3(-2.0, 4.0, 8.0), key: 'ptc_core', w: 205, h: 44 },
+      { text: 'tRNA (A, P, E sites)', color: '#1E5E4E', pos: new THREE.Vector3(8.0, 0.0, 9.0), key: 'trna_all', w: 155, h: 44 },
+      { text: 'mRNA (messenger RNA)', color: '#7A2416', pos: new THREE.Vector3(-12.0, -2.0, 9.0), key: 'mrna_strand', w: 165, h: 44 },
+      { text: '30S ribosomal RNA (rRNA)', color: '#0E4D57', pos: new THREE.Vector3(-16.0, -12.0, 8.0), key: 'rrna_30s', w: 185, h: 46 },
+      { text: '30S ribosomal proteins', color: '#5E5A17', pos: new THREE.Vector3(18.0, -14.0, 6.0), key: 'proteins_30s', w: 175, h: 46 }
     ];
 
     labelDefs.forEach(def => {
@@ -584,8 +642,13 @@ export class RibosomeScene {
 
   focusComponent(key) {
     const targetMap = {
-      'subunit_30s': { radius: 52, theta: 0.15, phi: 1.48, target: new THREE.Vector3(1.38, 3.47, -14.57) },
+      'rrna_50s': { radius: 62, theta: -0.10, phi: 1.35, target: new THREE.Vector3(2.36, -1.77, 8.02) },
+      'proteins_50s': { radius: 64, theta: -0.15, phi: 1.30, target: new THREE.Vector3(2.36, -1.77, 8.02) },
       'subunit_50s': { radius: 64, theta: -0.10, phi: 1.35, target: new THREE.Vector3(2.36, -1.77, 8.02) },
+      'rrna_30s': { radius: 50, theta: 0.15, phi: 1.48, target: new THREE.Vector3(1.38, 3.47, -14.57) },
+      'proteins_30s': { radius: 52, theta: 0.20, phi: 1.50, target: new THREE.Vector3(1.38, 3.47, -14.57) },
+      'subunit_30s': { radius: 52, theta: 0.15, phi: 1.48, target: new THREE.Vector3(1.38, 3.47, -14.57) },
+      'trna_all': { radius: 28, theta: 0.12, phi: 1.38, target: new THREE.Vector3(5.5, -3.0, -3.0) },
       'trna_a_site': { radius: 26, theta: 0.25, phi: 1.38, target: new THREE.Vector3(6.26, 1.58, -4.63) },
       'trna_p_site': { radius: 26, theta: 0.08, phi: 1.38, target: new THREE.Vector3(5.49, -3.70, -3.00) },
       'trna_e_site': { radius: 26, theta: -0.20, phi: 1.38, target: new THREE.Vector3(-2.58, -16.37, 1.15) },
@@ -642,13 +705,19 @@ export class RibosomeScene {
     this.explodedProgress = Math.max(0.0, Math.min(1.0, val));
     const dist = this.explodedProgress * 15;
 
-    // Displace 30S forward and along dissociation axis
-    if (this.piece30S) {
-      this.piece30S.position.copy(this.orig30SPos).addScaledVector(this.dissociationAxis, dist * 0.95);
+    // Displace 30S (rRNA + Proteins) forward along dissociation axis
+    if (this.piece30S_rRNA) {
+      this.piece30S_rRNA.position.copy(this.orig30S_rRNAPos).addScaledVector(this.dissociationAxis, dist * 0.95);
     }
-    // Displace 50S backward along dissociation axis
-    if (this.piece50S) {
-      this.piece50S.position.copy(this.orig50SPos).addScaledVector(this.dissociationAxis, -dist * 0.85);
+    if (this.piece30S_Proteins) {
+      this.piece30S_Proteins.position.copy(this.orig30S_ProteinsPos).addScaledVector(this.dissociationAxis, dist * 0.95);
+    }
+    // Displace 50S (rRNA + Proteins) backward along dissociation axis
+    if (this.piece50S_rRNA) {
+      this.piece50S_rRNA.position.copy(this.orig50S_rRNAPos).addScaledVector(this.dissociationAxis, -dist * 0.85);
+    }
+    if (this.piece50S_Proteins) {
+      this.piece50S_Proteins.position.copy(this.orig50S_ProteinsPos).addScaledVector(this.dissociationAxis, -dist * 0.85);
     }
     // PTC moves with 50S
     if (this.piecePTC) {
@@ -656,6 +725,10 @@ export class RibosomeScene {
     }
     if (this.sparkMesh && this.piecePTC) {
       this.sparkMesh.position.copy(this.piecePTC.position);
+    }
+    // Nascent polypeptide moves upward with 50S exit tunnel
+    if (this.peptideGroup) {
+      this.peptideGroup.position.copy(this.origPeptidePos).addScaledVector(this.dissociationAxis, -dist * 0.85);
     }
     // mRNA travels partially with 30S cradle
     if (this.pieceMRNA) {
@@ -672,11 +745,12 @@ export class RibosomeScene {
     // Offset labels
     this.labels.forEach((label) => {
       const orig = label.userData.origPos;
-      if (label.userData.componentKey === 'subunit_30s') {
+      const key = label.userData.componentKey;
+      if (key === 'rrna_30s' || key === 'proteins_30s' || key === 'subunit_30s') {
         label.position.copy(orig).addScaledVector(this.dissociationAxis, dist * 0.95);
-      } else if (label.userData.componentKey === 'subunit_50s') {
+      } else if (key === 'rrna_50s' || key === 'proteins_50s' || key === 'subunit_50s' || key === 'ptc_core' || key === 'nascent_peptide') {
         label.position.copy(orig).addScaledVector(this.dissociationAxis, -dist * 0.85);
-      } else if (label.userData.componentKey === 'mrna_strand') {
+      } else if (key === 'mrna_strand') {
         label.position.copy(orig).addScaledVector(this.dissociationAxis, dist * 0.45);
       }
     });
@@ -735,14 +809,17 @@ export class RibosomeScene {
     this.activeSubunitFilter = filter;
     const isAll = filter === 'all';
 
-    if (this.piece30S) this.piece30S.visible = isAll || filter === '30s';
-    if (this.piece50S) this.piece50S.visible = isAll || filter === '50s' || filter === 'tunnel';
-    if (this.piecePTC) this.piecePTC.visible = isAll || filter === '50s' || filter === 'tunnel';
+    if (this.piece30S_rRNA) this.piece30S_rRNA.visible = isAll || filter === '30s_rrna' || filter === '30s';
+    if (this.piece30S_Proteins) this.piece30S_Proteins.visible = isAll || filter === '30s_prot' || filter === '30s';
+    if (this.piece50S_rRNA) this.piece50S_rRNA.visible = isAll || filter === '50s_rrna' || filter === '50s' || filter === 'tunnel';
+    if (this.piece50S_Proteins) this.piece50S_Proteins.visible = isAll || filter === '50s_prot' || filter === '50s';
+    if (this.piecePTC) this.piecePTC.visible = isAll || filter === '50s_rrna' || filter === '50s' || filter === 'ptc' || filter === 'tunnel';
+    if (this.sparkMesh) this.sparkMesh.visible = isAll || filter === '50s_rrna' || filter === '50s' || filter === 'ptc' || filter === 'tunnel';
     if (this.pieceTRNA_A) this.pieceTRNA_A.visible = isAll || filter === 'trna';
     if (this.pieceTRNA_P) this.pieceTRNA_P.visible = isAll || filter === 'trna';
     if (this.pieceTRNA_E) this.pieceTRNA_E.visible = isAll || filter === 'trna';
     if (this.pieceMRNA) this.pieceMRNA.visible = isAll || filter === 'mrna';
-    if (this.peptideGroup) this.peptideGroup.visible = isAll || filter === '50s' || filter === 'tunnel';
+    if (this.peptideGroup) this.peptideGroup.visible = isAll || filter === 'peptide' || filter === '50s' || filter === 'tunnel';
 
     // Synchronize 3D floating labels
     if (this.labels) {
@@ -750,16 +827,24 @@ export class RibosomeScene {
         const key = label.userData.componentKey;
         if (filter === 'all') {
           label.visible = true;
-        } else if (filter === '30s') {
-          label.visible = (key === 'subunit_30s' || key === 'mrna_strand');
-        } else if (filter === '50s') {
-          label.visible = (key === 'subunit_50s' || key === 'ptc_core');
+        } else if (filter === '50s_rrna' || filter === '50s') {
+          label.visible = (key === 'rrna_50s' || key === 'subunit_50s');
+        } else if (filter === '50s_prot') {
+          label.visible = (key === 'proteins_50s');
+        } else if (filter === '30s_rrna' || filter === '30s') {
+          label.visible = (key === 'rrna_30s' || key === 'subunit_30s');
+        } else if (filter === '30s_prot') {
+          label.visible = (key === 'proteins_30s');
         } else if (filter === 'trna') {
-          label.visible = (key === 'trna_a_site' || key === 'trna_p_site' || key === 'trna_e_site');
+          label.visible = (key === 'trna_all' || key === 'trna_a_site' || key === 'trna_p_site' || key === 'trna_e_site');
         } else if (filter === 'mrna') {
-          label.visible = (key === 'mrna_strand' || key === 'subunit_30s');
-        } else if (filter === 'tunnel') {
-          label.visible = (key === 'subunit_50s' || key === 'ptc_core');
+          label.visible = (key === 'mrna_strand');
+        } else if (filter === 'ptc') {
+          label.visible = (key === 'ptc_core');
+        } else if (filter === 'peptide') {
+          label.visible = (key === 'nascent_peptide');
+        } else {
+          label.visible = true;
         }
       });
     }

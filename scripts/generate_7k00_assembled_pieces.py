@@ -1,18 +1,20 @@
 """
 generate_7k00_assembled_pieces.py
 
-Programmatically generates a scientifically authentic, multi-piece 3D model of the
-bacterial 70S translating ribosome holoenzyme from RCSB Cryo-EM structure PDB: 7K00
+Programmatically generates an authentic, multi-piece atomic & secondary-structure 3D model
+of the bacterial 70S translating ribosome holoenzyme from RCSB Cryo-EM structure PDB: 7K00
 (Watson et al., 2020 at 2.4 Angstrom resolution).
 
-Builds 7 distinct macromolecular pieces:
-1. Piece_50S_Large_Subunit (23S + 5S rRNA + 34 ribosomal proteins) - Moss Green
-2. Piece_30S_Small_Subunit (16S rRNA + 21 ribosomal proteins) - Slate Denim Blue
-3. Piece_mRNA_Strand (Chain X polyribonucleotide) - Terracotta Coral Red
-4. Piece_tRNA_A_Site (Chain Y Val-tRNA) - Jewel Violet
-5. Piece_tRNA_P_Site (Chain Z fMet-tRNA) - Jade Teal
-6. Piece_tRNA_E_Site (Full cloverleaf tRNA aligned to Chain 5 CCA pocket) - Muted Mauve
-7. Piece_PTC_Active_Site (Domain V 23S rRNA A2451 & C2452 catalytic core) - Golden Amber
+Builds 9 distinct macromolecular pieces matching The Biology Primer (Jason Walker) Atomic Model:
+1. Piece_50S_rRNA (23S + 5S rRNA double helices) - Deep Magenta / Crimson (#9E2A5B)
+2. Piece_50S_Proteins (34 Ribosomal Proteins uL1–bL36 ribbons) - Forest / Olive Green (#2D6A4F)
+3. Piece_30S_rRNA (16S rRNA double helices) - Vibrant Cyan / Deep Teal (#1A8594)
+4. Piece_30S_Proteins (21 Ribosomal Proteins uS2–bS21 ribbons) - Golden Olive / Mustard Green (#9A9E32)
+5. Piece_mRNA_Strand (Chain X polyribonucleotide) - Terracotta Coral Red (#BA4E3B)
+6. Piece_tRNA_A_Site (Chain Y Val-tRNA) - Golden Amber / Mustard (#E9C46A)
+7. Piece_tRNA_P_Site (Chain Z fMet-tRNA) - Bright Emerald / Lime Green (#52B788)
+8. Piece_tRNA_E_Site (Full cloverleaf aligned to Chain 5 CCA pocket) - Peach / Salmon Pink (#E07A5F)
+9. Piece_PTC_Active_Site (Domain V 23S rRNA A2451 & C2452 catalytic core) - Golden Amber (#FFB703)
 
 Centers all pieces at (0, 0, 0), parents under Ribosome_70S_Complex,
 and exports an optimized binary GLB to client/public/models/7K00_assembled_pieces.glb.
@@ -75,67 +77,122 @@ def clean_mesh_origin_artifacts(obj):
 pieces = []
 
 # -------------------------------------------------------------------------
-# 1. Piece_50S_Large_Subunit
+# 1. Piece_50S_rRNA (23S + 5S Ribosomal RNA Core) - Magenta / Crimson
 # -------------------------------------------------------------------------
-print("\n[*] [1/7] Generating Piece_50S_Large_Subunit...")
+print("\n[*] [1/9] Generating Piece_50S_rRNA (23S + 5S rRNA)...")
 t0 = time.time()
-sel_50s = "chainID a b c d e f g h i j k l m n o p q r s t u v w x y z 0 1 2 3 4"
-mol_50s = mn.entities.Molecule(universe, name="Piece_50S_Large_Subunit")
-mol_50s.add_style(
+sel_50s_rrna = "chainID a b"
+mol_50s_rrna = mn.entities.Molecule(universe, name="Piece_50S_rRNA")
+mol_50s_rrna.add_style(
     style="cartoon",
-    selection=sel_50s,
-    color=(0.55, 0.66, 0.45, 1.0) # Moss green #8DA873
+    selection=sel_50s_rrna,
+    color=(0.62, 0.16, 0.36, 1.0) # Crimson / Magenta #9E2A5B
 )
-bpy.context.view_layer.objects.active = mol_50s.object
-mol_50s.object.select_set(True)
+bpy.context.view_layer.objects.active = mol_50s_rrna.object
+mol_50s_rrna.object.select_set(True)
 bpy.ops.object.convert(target='MESH')
-clean_mesh_origin_artifacts(mol_50s.object)
+clean_mesh_origin_artifacts(mol_50s_rrna.object)
 
-# Decimate to WebGL budget (0.35 ratio)
-mod_50s = mol_50s.object.modifiers.new(name="Decimate_50S", type='DECIMATE')
-mod_50s.ratio = 0.35
-bpy.ops.object.modifier_apply(modifier="Decimate_50S")
+# Decimate to WebGL budget (0.40 ratio)
+mod_50s_rrna = mol_50s_rrna.object.modifiers.new(name="Decimate_50S_rRNA", type='DECIMATE')
+mod_50s_rrna.ratio = 0.40
+bpy.ops.object.modifier_apply(modifier="Decimate_50S_rRNA")
 
-mat_50s = create_pbr_material("Mat_50S_MossGreen", (0.55, 0.66, 0.45, 1.0), roughness=0.55, metalness=0.04)
-mol_50s.object.data.materials.clear()
-mol_50s.object.data.materials.append(mat_50s)
+mat_50s_rrna = create_pbr_material("Mat_50S_rRNA_Crimson", (0.62, 0.16, 0.36, 1.0), roughness=0.48, metalness=0.04)
+mol_50s_rrna.object.data.materials.clear()
+mol_50s_rrna.object.data.materials.append(mat_50s_rrna)
 
-print(f"[+] Piece_50S ready in {time.time() - t0:.2f}s: {len(mol_50s.object.data.vertices)} verts, {len(mol_50s.object.data.polygons)} polys")
-pieces.append(mol_50s.object)
+print(f"[+] Piece_50S_rRNA ready in {time.time() - t0:.2f}s: {len(mol_50s_rrna.object.data.vertices)} verts, {len(mol_50s_rrna.object.data.polygons)} polys")
+pieces.append(mol_50s_rrna.object)
 
 # -------------------------------------------------------------------------
-# 2. Piece_30S_Small_Subunit
+# 2. Piece_50S_Proteins (34 Ribosomal Proteins) - Forest / Olive Green
 # -------------------------------------------------------------------------
-print("\n[*] [2/7] Generating Piece_30S_Small_Subunit...")
+print("\n[*] [2/9] Generating Piece_50S_Proteins (uL1–bL36)...")
 t0 = time.time()
-sel_30s = "chainID A B C D E F G H I J K L M N O P Q R S T U"
-mol_30s = mn.entities.Molecule(universe, name="Piece_30S_Small_Subunit")
-mol_30s.add_style(
+sel_50s_prot = "chainID c d e f g h i j k l m n o p q r s t u v w x y z 0 1 2 3 4"
+mol_50s_prot = mn.entities.Molecule(universe, name="Piece_50S_Proteins")
+mol_50s_prot.add_style(
     style="cartoon",
-    selection=sel_30s,
-    color=(0.33, 0.45, 0.55, 1.0) # Slate blue #53738C
+    selection=sel_50s_prot,
+    color=(0.18, 0.42, 0.31, 1.0) # Forest / Olive Green #2D6A4F
 )
-bpy.context.view_layer.objects.active = mol_30s.object
-mol_30s.object.select_set(True)
+bpy.context.view_layer.objects.active = mol_50s_prot.object
+mol_50s_prot.object.select_set(True)
 bpy.ops.object.convert(target='MESH')
-clean_mesh_origin_artifacts(mol_30s.object)
+clean_mesh_origin_artifacts(mol_50s_prot.object)
 
-# Decimate to WebGL budget (0.35 ratio)
-mod_30s = mol_30s.object.modifiers.new(name="Decimate_30S", type='DECIMATE')
-mod_30s.ratio = 0.35
-bpy.ops.object.modifier_apply(modifier="Decimate_30S")
+mod_50s_prot = mol_50s_prot.object.modifiers.new(name="Decimate_50S_Proteins", type='DECIMATE')
+mod_50s_prot.ratio = 0.45
+bpy.ops.object.modifier_apply(modifier="Decimate_50S_Proteins")
 
-mat_30s = create_pbr_material("Mat_30S_SlateBlue", (0.33, 0.45, 0.55, 1.0), roughness=0.52, metalness=0.05)
-mol_30s.object.data.materials.clear()
-mol_30s.object.data.materials.append(mat_30s)
+mat_50s_prot = create_pbr_material("Mat_50S_Proteins_Forest", (0.18, 0.42, 0.31, 1.0), roughness=0.52, metalness=0.04)
+mol_50s_prot.object.data.materials.clear()
+mol_50s_prot.object.data.materials.append(mat_50s_prot)
 
-print(f"[+] Piece_30S ready in {time.time() - t0:.2f}s: {len(mol_30s.object.data.vertices)} verts, {len(mol_30s.object.data.polygons)} polys")
-pieces.append(mol_30s.object)
+print(f"[+] Piece_50S_Proteins ready in {time.time() - t0:.2f}s: {len(mol_50s_prot.object.data.vertices)} verts, {len(mol_50s_prot.object.data.polygons)} polys")
+pieces.append(mol_50s_prot.object)
 
 # -------------------------------------------------------------------------
-# 3. Piece_mRNA_Strand
+# 3. Piece_30S_rRNA (16S Ribosomal RNA Core) - Vibrant Cyan / Deep Teal
 # -------------------------------------------------------------------------
-print("\n[*] [3/7] Generating Piece_mRNA_Strand...")
+print("\n[*] [3/9] Generating Piece_30S_rRNA (16S rRNA)...")
+t0 = time.time()
+sel_30s_rrna = "chainID A"
+mol_30s_rrna = mn.entities.Molecule(universe, name="Piece_30S_rRNA")
+mol_30s_rrna.add_style(
+    style="cartoon",
+    selection=sel_30s_rrna,
+    color=(0.10, 0.52, 0.58, 1.0) # Cyan / Deep Teal #1A8594
+)
+bpy.context.view_layer.objects.active = mol_30s_rrna.object
+mol_30s_rrna.object.select_set(True)
+bpy.ops.object.convert(target='MESH')
+clean_mesh_origin_artifacts(mol_30s_rrna.object)
+
+mod_30s_rrna = mol_30s_rrna.object.modifiers.new(name="Decimate_30S_rRNA", type='DECIMATE')
+mod_30s_rrna.ratio = 0.40
+bpy.ops.object.modifier_apply(modifier="Decimate_30S_rRNA")
+
+mat_30s_rrna = create_pbr_material("Mat_30S_rRNA_Teal", (0.10, 0.52, 0.58, 1.0), roughness=0.48, metalness=0.04)
+mol_30s_rrna.object.data.materials.clear()
+mol_30s_rrna.object.data.materials.append(mat_30s_rrna)
+
+print(f"[+] Piece_30S_rRNA ready in {time.time() - t0:.2f}s: {len(mol_30s_rrna.object.data.vertices)} verts, {len(mol_30s_rrna.object.data.polygons)} polys")
+pieces.append(mol_30s_rrna.object)
+
+# -------------------------------------------------------------------------
+# 4. Piece_30S_Proteins (21 Ribosomal Proteins) - Golden Olive / Mustard
+# -------------------------------------------------------------------------
+print("\n[*] [4/9] Generating Piece_30S_Proteins (uS2–bS21)...")
+t0 = time.time()
+sel_30s_prot = "chainID B C D E F G H I J K L M N O P Q R S T U"
+mol_30s_prot = mn.entities.Molecule(universe, name="Piece_30S_Proteins")
+mol_30s_prot.add_style(
+    style="cartoon",
+    selection=sel_30s_prot,
+    color=(0.60, 0.62, 0.20, 1.0) # Golden Olive / Mustard #9A9E32
+)
+bpy.context.view_layer.objects.active = mol_30s_prot.object
+mol_30s_prot.object.select_set(True)
+bpy.ops.object.convert(target='MESH')
+clean_mesh_origin_artifacts(mol_30s_prot.object)
+
+mod_30s_prot = mol_30s_prot.object.modifiers.new(name="Decimate_30S_Proteins", type='DECIMATE')
+mod_30s_prot.ratio = 0.45
+bpy.ops.object.modifier_apply(modifier="Decimate_30S_Proteins")
+
+mat_30s_prot = create_pbr_material("Mat_30S_Proteins_Mustard", (0.60, 0.62, 0.20, 1.0), roughness=0.52, metalness=0.04)
+mol_30s_prot.object.data.materials.clear()
+mol_30s_prot.object.data.materials.append(mat_30s_prot)
+
+print(f"[+] Piece_30S_Proteins ready in {time.time() - t0:.2f}s: {len(mol_30s_prot.object.data.vertices)} verts, {len(mol_30s_prot.object.data.polygons)} polys")
+pieces.append(mol_30s_prot.object)
+
+# -------------------------------------------------------------------------
+# 5. Piece_mRNA_Strand (Chain X Polyribonucleotide) - Terracotta Coral
+# -------------------------------------------------------------------------
+print("\n[*] [5/9] Generating Piece_mRNA_Strand...")
 t0 = time.time()
 mol_mrna = mn.entities.Molecule(universe, name="Piece_mRNA_Strand")
 mol_mrna.add_style(
@@ -156,22 +213,22 @@ print(f"[+] Piece_mRNA ready in {time.time() - t0:.2f}s: {len(mol_mrna.object.da
 pieces.append(mol_mrna.object)
 
 # -------------------------------------------------------------------------
-# 4. Piece_tRNA_A_Site
+# 6. Piece_tRNA_A_Site (Chain Y Val-tRNA) - Golden Amber / Mustard
 # -------------------------------------------------------------------------
-print("\n[*] [4/7] Generating Piece_tRNA_A_Site...")
+print("\n[*] [6/9] Generating Piece_tRNA_A_Site...")
 t0 = time.time()
 mol_trna_a = mn.entities.Molecule(universe, name="Piece_tRNA_A_Site")
 mol_trna_a.add_style(
     style="cartoon",
     selection="chainID Y",
-    color=(0.56, 0.35, 0.56, 1.0) # Jewel violet #8E5A8E
+    color=(0.91, 0.77, 0.42, 1.0) # Golden Amber / Mustard #E9C46A
 )
 bpy.context.view_layer.objects.active = mol_trna_a.object
 mol_trna_a.object.select_set(True)
 bpy.ops.object.convert(target='MESH')
 clean_mesh_origin_artifacts(mol_trna_a.object)
 
-mat_trna_a = create_pbr_material("Mat_tRNA_A_Violet", (0.56, 0.35, 0.56, 1.0), roughness=0.35, metalness=0.08)
+mat_trna_a = create_pbr_material("Mat_tRNA_A_Amber", (0.91, 0.77, 0.42, 1.0), roughness=0.35, metalness=0.08)
 mol_trna_a.object.data.materials.clear()
 mol_trna_a.object.data.materials.append(mat_trna_a)
 
@@ -179,22 +236,22 @@ print(f"[+] Piece_tRNA_A ready in {time.time() - t0:.2f}s: {len(mol_trna_a.objec
 pieces.append(mol_trna_a.object)
 
 # -------------------------------------------------------------------------
-# 5. Piece_tRNA_P_Site
+# 7. Piece_tRNA_P_Site (Chain Z fMet-tRNA) - Bright Emerald / Lime Green
 # -------------------------------------------------------------------------
-print("\n[*] [5/7] Generating Piece_tRNA_P_Site...")
+print("\n[*] [7/9] Generating Piece_tRNA_P_Site...")
 t0 = time.time()
 mol_trna_p = mn.entities.Molecule(universe, name="Piece_tRNA_P_Site")
 mol_trna_p.add_style(
     style="cartoon",
     selection="chainID Z",
-    color=(0.21, 0.56, 0.55, 1.0) # Jade teal #368F8B
+    color=(0.32, 0.72, 0.53, 1.0) # Bright Emerald / Lime Green #52B788
 )
 bpy.context.view_layer.objects.active = mol_trna_p.object
 mol_trna_p.object.select_set(True)
 bpy.ops.object.convert(target='MESH')
 clean_mesh_origin_artifacts(mol_trna_p.object)
 
-mat_trna_p = create_pbr_material("Mat_tRNA_P_Teal", (0.21, 0.56, 0.55, 1.0), roughness=0.35, metalness=0.08)
+mat_trna_p = create_pbr_material("Mat_tRNA_P_Green", (0.32, 0.72, 0.53, 1.0), roughness=0.35, metalness=0.08)
 mol_trna_p.object.data.materials.clear()
 mol_trna_p.object.data.materials.append(mat_trna_p)
 
@@ -202,12 +259,11 @@ print(f"[+] Piece_tRNA_P ready in {time.time() - t0:.2f}s: {len(mol_trna_p.objec
 pieces.append(mol_trna_p.object)
 
 # -------------------------------------------------------------------------
-# 6. Piece_tRNA_E_Site (Full cloverleaf aligned to Chain 5 CCA pocket)
+# 8. Piece_tRNA_E_Site (Full cloverleaf aligned to Chain 5 CCA pocket) - Peach / Salmon Pink
 # -------------------------------------------------------------------------
-print("\n[*] [6/7] Generating Piece_tRNA_E_Site (Kabsch aligned to Chain 5)...")
+print("\n[*] [8/9] Generating Piece_tRNA_E_Site (Kabsch aligned to Chain 5)...")
 t0 = time.time()
 
-# Compute Kabsch rigid transformation
 c5 = universe.select_atoms("chainID 5 and (resname C or resname A)")
 cZ_term = universe.select_atoms("chainID Z and (resid 75 or resid 76)")
 atoms_5 = []
@@ -238,7 +294,7 @@ mol_trna_e = mn.entities.Molecule(universe, name="Piece_tRNA_E_Site")
 mol_trna_e.add_style(
     style="cartoon",
     selection="chainID Z",
-    color=(0.65, 0.54, 0.62, 1.0) # Muted mauve #A58A9E
+    color=(0.88, 0.48, 0.37, 1.0) # Peach / Salmon Pink #E07A5F
 )
 bpy.context.view_layer.objects.active = mol_trna_e.object
 mol_trna_e.object.select_set(True)
@@ -257,7 +313,7 @@ for v in mesh_e.vertices:
     v.co.z = vec_aligned[2]
 mesh_e.update()
 
-mat_trna_e = create_pbr_material("Mat_tRNA_E_Mauve", (0.65, 0.54, 0.62, 1.0), roughness=0.35, metalness=0.08)
+mat_trna_e = create_pbr_material("Mat_tRNA_E_Peach", (0.88, 0.48, 0.37, 1.0), roughness=0.35, metalness=0.08)
 mol_trna_e.object.data.materials.clear()
 mol_trna_e.object.data.materials.append(mat_trna_e)
 
@@ -265,9 +321,9 @@ print(f"[+] Piece_tRNA_E ready in {time.time() - t0:.2f}s: {len(mesh_e.vertices)
 pieces.append(mol_trna_e.object)
 
 # -------------------------------------------------------------------------
-# 7. Piece_PTC_Active_Site (Domain V 23S rRNA A2451 & C2452)
+# 9. Piece_PTC_Active_Site (Domain V 23S rRNA A2451 & C2452) - Golden Amber
 # -------------------------------------------------------------------------
-print("\n[*] [7/7] Generating Piece_PTC_Active_Site...")
+print("\n[*] [9/9] Generating Piece_PTC_Active_Site...")
 t0 = time.time()
 mol_ptc = mn.entities.Molecule(universe, name="Piece_PTC_Active_Site")
 mol_ptc.add_style(

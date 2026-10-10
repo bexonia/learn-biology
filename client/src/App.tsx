@@ -100,7 +100,7 @@ function App() {
   const [isRibosomePaused, setIsRibosomePaused] = useState<boolean>(false);
   const [ribosomeSpeed, setRibosomeSpeed] = useState<number>(1.0);
   const [ribosomeExplodedProgress, setRibosomeExplodedProgress] = useState<number>(0);
-  const [ribosomeFilter, setRibosomeFilter] = useState<'all' | '30s' | '50s' | 'trna' | 'mrna' | 'tunnel'>('all');
+  const [ribosomeFilter, setRibosomeFilter] = useState<string>('all');
   const [isRibosomeNarrating, setIsRibosomeNarrating] = useState<boolean>(false);
   const [isRibosomeAutoRotating, setIsRibosomeAutoRotating] = useState<boolean>(false);
 

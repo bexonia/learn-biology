@@ -42,8 +42,8 @@ export const CELL_ANATOMY_DATA: Record<string, OrganelleData> = {
     scientific: 'Glycocalyx Capsularis (K-Antigen)',
     phonetic: 'Pronounced: /ˈkæp.sjuːl/ • /ˌɡlaɪ.koʊˈkeɪ.lɪks/ (Greek: glykys "sweet" + kalyx "husk")',
     subtitle: 'Outer Polysaccharide Hydration & Slime Shield',
-    color: '#82A47E',
-    colorName: '#82A47E Frosted Mint',
+    color: '#40916C',
+    colorName: '#40916C Mint Glycocalyx',
     scale: '100–400 nm thick coat',
     abundance: '1 continuous outermost coat',
     composition: 'High-molecular-weight acidic polysaccharides (CPS) & colanic acid',
@@ -102,8 +102,8 @@ export const CELL_ANATOMY_DATA: Record<string, OrganelleData> = {
     scientific: 'Cytosol Solutio & Macromolecular Crowd',
     phonetic: 'Pronounced: /ˈsaɪ.təˌplæz.əm/ (Greek: kytos "vessel" + plasma)',
     subtitle: 'Crowded Viscoelastic Colloidal Matrix',
-    color: '#D1C2A5',
-    colorName: '#D1C2A5 Biological Cytoplasm Beige',
+    color: '#B08968',
+    colorName: '#B08968 Colloidal Bedding',
     scale: 'Viscosity: 2–5x water | 300–400 mg/mL macromolecules',
     abundance: '~70% water, 30% macromolecules',
     composition: 'Proteins (55%), RNA (20%), Lipids (10%), Metabolites & Ions (15%)',
@@ -143,8 +143,8 @@ export const CELL_ANATOMY_DATA: Record<string, OrganelleData> = {
     scientific: 'Bacterial Chromosome (dsDNA Genophore)',
     phonetic: 'Pronounced: /ˈnjuː.kli.ɔɪd/ (Latin: nucleus + Greek: -oeides "resembling")',
     subtitle: 'Supercoiled Master Genetic Chromatin Skein',
-    color: '#6A4985',
-    colorName: '#6A4985 Calibrated Royal Purple',
+    color: '#7209B7',
+    colorName: '#7209B7 Royal Amethyst DNA',
     scale: '4.64 Mbp (~1.5 mm contour length compacted into ~1 µm region)',
     abundance: '1 master circular chromosome (often 2–4 replication forks)',
     composition: 'Closed circular dsDNA (80%) + NAPs (10%) + nascent RNA (10%)',
@@ -183,8 +183,8 @@ export const CELL_ANATOMY_DATA: Record<string, OrganelleData> = {
     scientific: 'FliC Axoneme & Proton-Driven Basal Body',
     phonetic: 'Pronounced: /fləˈdʒɛl.əm/ (Latin: flagellum "whip")',
     subtitle: 'Archimedean Screw Propulsion Engine',
-    color: '#D6E2E8',
-    colorName: '#D6E2E8 Gossamer Silver',
+    color: '#0077B6',
+    colorName: '#0077B6 Marine Propulsion',
     scale: 'Filament: 20 nm wide × 10–15 µm long | Motor: 45 nm diameter',
     abundance: '3 to 8 peritrichous helical filaments per cell',
     composition: 'FliC flagellin protofilaments + MS/P/L/C protein rings + MotA/B stators',
@@ -205,6 +205,8 @@ export const CELL_LANDMARKS = [
     id: 'label-membrane',
     key: 'membrane',
     name: 'periplasmic space & membrane',
+    color: '#E2A824',
+    badge: 'MEMBRANE',
     pos: new THREE.Vector3(0.625, 0.652, -1.348), // Upper golden plasma membrane lip
     normal: new THREE.Vector3(0.1, 0.75, -0.65).normalize()
   },
@@ -212,6 +214,8 @@ export const CELL_LANDMARKS = [
     id: 'label-nucleoid',
     key: 'nucleoid',
     name: 'nucleoid',
+    color: '#7209B7',
+    badge: 'dsDNA',
     pos: new THREE.Vector3(0.098, 0.647, 0.304), // Top crest loop of supercoiled chromosome
     normal: new THREE.Vector3(0.0, 0.85, 0.5).normalize()
   },
@@ -219,6 +223,8 @@ export const CELL_LANDMARKS = [
     id: 'label-ribosomes',
     key: 'ribosomes',
     name: 'ribosomes',
+    color: '#E06D53',
+    badge: '70S RIBO',
     pos: new THREE.Vector3(1.574, 0.356, 0.293), // Prominent individual ribosome bead on floor
     normal: new THREE.Vector3(0.35, 0.75, 0.55).normalize()
   },
@@ -226,6 +232,8 @@ export const CELL_LANDMARKS = [
     id: 'label-plasmid',
     key: 'plasmid',
     name: 'plasmids',
+    color: '#00B4D8',
+    badge: 'PLASMID',
     pos: new THREE.Vector3(-0.058, 0.184, 0.576), // Top rim of front circular blue plasmid ring
     normal: new THREE.Vector3(0.0, 0.65, 0.75).normalize()
   },
@@ -233,6 +241,8 @@ export const CELL_LANDMARKS = [
     id: 'label-cytoplasm',
     key: 'cytoplasm',
     name: 'cytoplasm & proteins',
+    color: '#B08968',
+    badge: 'CYTOSOL',
     pos: new THREE.Vector3(0.35, -0.05, 0.40), // Exposed colloidal bedding floor
     normal: new THREE.Vector3(0.1, 0.75, 0.65).normalize()
   },
@@ -240,6 +250,8 @@ export const CELL_LANDMARKS = [
     id: 'label-wall',
     key: 'wall',
     name: 'cell wall',
+    color: '#3F6636',
+    badge: 'MUREIN WALL',
     pos: new THREE.Vector3(-0.594, -0.182, 1.627), // Cut porous green sandstone wall face
     normal: new THREE.Vector3(-0.25, -0.2, 0.95).normalize()
   },
@@ -247,6 +259,8 @@ export const CELL_LANDMARKS = [
     id: 'label-capsule',
     key: 'capsule',
     name: 'capsule',
+    color: '#40916C',
+    badge: 'GLYCOCALYX',
     pos: new THREE.Vector3(-0.957, -0.285, 1.854), // Outer translucent capsule shell boundary
     normal: new THREE.Vector3(-0.35, -0.2, 0.9).normalize()
   },
@@ -254,6 +268,8 @@ export const CELL_LANDMARKS = [
     id: 'label-flagellum',
     key: 'flagellum',
     name: 'flagellum & motor',
+    color: '#0077B6',
+    badge: 'PROPULSION',
     pos: new THREE.Vector3(-3.792, -0.896, 1.741), // Trailing sinusoidal flagellar filament
     normal: new THREE.Vector3(-0.85, -0.15, 0.5).normalize()
   }
@@ -1287,11 +1303,12 @@ export class CellViewerScene {
       el.style.top = `${targetY}px`;
 
       const organelleData = CELL_ANATOMY_DATA[item.key];
-      const dotColor = isActive ? (organelleData ? organelleData.color : '#FFB703') : '#2E3A2B';
-      const strokeColor = isActive ? (organelleData ? organelleData.color : '#FFB703') : '#2E3A2B';
-      const anchorDotRadius = isActive ? 4.5 : 2.5;
-      const strokeWidth = isActive ? 2.0 : 1.2;
-      const strokeOpacity = isActive ? 1.0 : (this.currentActiveTarget ? 0.45 : 0.85);
+      const targetColor = organelleData?.color || item.color || '#40916C';
+      const dotColor = targetColor;
+      const strokeColor = targetColor;
+      const anchorDotRadius = isActive ? 5.0 : 3.0;
+      const strokeWidth = isActive ? 2.2 : 1.35;
+      const strokeOpacity = isActive ? 1.0 : (this.currentActiveTarget ? 0.35 : 0.85);
 
       let lineEndX, elbowX;
       if (side === 'right') {
@@ -1304,8 +1321,8 @@ export class CellViewerScene {
 
       svgLines += `
         <g class="leader-group ${isActive ? 'active-leader' : ''}">
-          ${isActive ? `<circle cx="${screenX}" cy="${screenY}" r="8" fill="none" stroke="${dotColor}" stroke-width="1.5" opacity="0.6"><animate attributeName="r" values="4;9;4" dur="2s" repeatCount="indefinite"/><animate attributeName="opacity" values="0.8;0.2;0.8" dur="2s" repeatCount="indefinite"/></circle>` : ''}
-          <circle cx="${screenX}" cy="${screenY}" r="${anchorDotRadius}" fill="${dotColor}" stroke="#FFFFFF" stroke-width="${isActive ? 1.5 : 0.5}" />
+          ${isActive ? `<circle cx="${screenX}" cy="${screenY}" r="9" fill="none" stroke="${dotColor}" stroke-width="1.8" opacity="0.75"><animate attributeName="r" values="4;11;4" dur="2s" repeatCount="indefinite"/><animate attributeName="opacity" values="0.9;0.2;0.9" dur="2s" repeatCount="indefinite"/></circle>` : ''}
+          <circle cx="${screenX}" cy="${screenY}" r="${anchorDotRadius}" fill="${dotColor}" stroke="#FFFFFF" stroke-width="${isActive ? 1.8 : 0.8}" />
           <polyline points="${screenX},${screenY} ${elbowX},${targetY} ${lineEndX},${targetY}" 
                     fill="none" stroke="${strokeColor}" stroke-width="${strokeWidth}" stroke-linecap="round" stroke-linejoin="round" opacity="${strokeOpacity}" />
         </g>

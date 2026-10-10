@@ -60,144 +60,189 @@ const MOTOR_TOUR_STOPS = [
 export const MOTOR_EXPLANATION_STAGES = [
   {
     step: 1,
-    id: 'molecular_6ykm',
-    title: '1. Proton Motive Force Influx',
-    shortLabel: '1. Proton Influx',
-    badge: 'MotAB',
-    col: '#FF4D00',
-    desc: 'Periplasmic H⁺ enters MotA/B stator channels',
-    speech: 'Step one: Proton Influx. Protons in the periplasm—driven across the inner membrane by the electrical potential of the proton-motive force—flow through the dual aqueous channels of the MotA-MotB stators, protonating Aspartate-32.'
+    id: 'molecular_7cgo',
+    title: '1. Nanomotor Overview & Envelope Architecture',
+    shortLabel: '1. Macro Overview',
+    badge: '45nm',
+    col: '#0077B6',
+    desc: 'Nature\'s 45 nm rotary motor; spins filament at 1,000 RPM for swimming',
+    speech: 'Step one: Nanomotor Overview and Biological Role. The bacterial flagellar motor is nature\'s forty-five-nanometer rotary turbine, spanning both inner and outer membranes of Escherichia coli. It converts transmembrane proton gradients into mechanical torque, spinning helical propeller filaments at up to one thousand revolutions per minute to drive bacterial chemotaxis and directional swimming.'
   },
   {
     step: 2,
-    id: 'c_ring',
-    title: '2. Electrostatic Gear Engagement',
-    shortLabel: '2. C-Ring Drive',
-    badge: 'FliG',
-    col: '#E2A824',
-    desc: 'MotA loops push FliG; C-ring switch spins',
-    speech: 'Step two: Electrostatic Torque. The cytoplasmic loops of MotA engage the charged residues of the FliG switch protein on the C-ring rim, transferring rotational torque like an electrostatic gear to spin the forty-five-nanometer rotor wheel.'
+    id: 'molecular_6ykm',
+    title: '2. Proton Motive Force Influx',
+    shortLabel: '2. Proton Influx',
+    badge: 'MotAB',
+    col: '#FF4D00',
+    desc: 'Periplasmic H⁺ enters MotA/B stator channels',
+    speech: 'Step two: Proton Influx. Protons in the periplasm—driven across the inner membrane by the electrical potential of the proton-motive force—flow through the dual aqueous channels of the MotA-MotB stators, protonating Aspartate-32.'
   },
   {
     step: 3,
-    id: 'rod',
-    title: '3. Axial Drive Shaft & Bushings',
-    shortLabel: '3. Drive Shaft',
-    badge: 'ROD',
-    col: '#06D6A0',
-    desc: 'Torque passes through murein & outer membrane',
-    speech: 'Step three: Drive Shaft and Bushings. Rotational torque is transmitted up through the straight axial rod. The rod spins smoothly within molecular sleeve bearings—the P-ring in the peptidoglycan wall and the L-ring in the outer membrane—preventing membrane tearing.'
+    id: 'c_ring',
+    title: '3. Electrostatic Gear Engagement',
+    shortLabel: '3. C-Ring Drive',
+    badge: 'FliG',
+    col: '#E2A824',
+    desc: 'MotA loops push FliG; C-ring switch spins',
+    speech: 'Step three: Electrostatic Torque. The cytoplasmic loops of MotA engage the charged residues of the FliG switch protein on the C-ring rim, transferring rotational torque like an electrostatic gear to spin the forty-five-nanometer rotor wheel.'
   },
   {
     step: 4,
-    id: 'hook',
-    title: '4. Universal Hook Joint & Torque Bend',
-    shortLabel: '4. Universal Hook',
-    badge: 'FlgE',
-    col: '#7209B7',
-    desc: 'FlgE flexes to bend rotation around 90° angle',
-    speech: 'Step four: Universal Hook Joint. The flexible fifty-five-nanometer hook acts as a biological universal joint. Composed of FlgE subunits that compress and stretch, it transmits rotational torque around a ninety-degree bend to the off-axis propeller.'
+    id: 'rod',
+    title: '4. Axial Drive Shaft & Bushings',
+    shortLabel: '4. Drive Shaft',
+    badge: 'ROD',
+    col: '#06D6A0',
+    desc: 'Torque passes through murein & outer membrane',
+    speech: 'Step four: Drive Shaft and Bushings. Rotational torque is transmitted up through the straight axial rod. The rod spins smoothly within molecular sleeve bearings—the P-ring in the peptidoglycan wall and the L-ring in the outer membrane—preventing membrane tearing.'
   },
   {
     step: 5,
+    id: 'hook',
+    title: '5. Universal Hook Joint & Torque Bend',
+    shortLabel: '5. Universal Hook',
+    badge: 'FlgE',
+    col: '#7209B7',
+    desc: 'FlgE flexes to bend rotation around 90° angle',
+    speech: 'Step five: Universal Hook Joint. The flexible fifty-five-nanometer hook acts as a biological universal joint. Composed of FlgE subunits that compress and stretch, it transmits rotational torque around a ninety-degree bend to the off-axis propeller.'
+  },
+  {
+    step: 6,
     id: 'filament',
-    title: '5. Archimedean Screw Propulsion',
-    shortLabel: '5. Propulsion',
+    title: '6. Archimedean Screw Propulsion',
+    shortLabel: '6. Propulsion',
     badge: 'FliC',
     col: '#0077B6',
     desc: 'Helical filament spins at 1,000 RPM pushing medium',
-    speech: 'Step five: Archimedean Screw Propulsion. The fifteen-micrometer helical filament spins at up to one thousand revolutions per minute. Acting as an Archimedean screw, it generates forward thrust that drives the bacterium through water at thirty cell lengths per second.'
+    speech: 'Step six: Archimedean Screw Propulsion. The fifteen-micrometer helical filament spins at up to one thousand revolutions per minute. Acting as an Archimedean screw, it generates forward thrust that drives the bacterium through water at thirty cell lengths per second.'
   }
 ];
 
 export const RIBOSOME_EXPLANATION_STAGES = [
   {
     step: 1,
-    id: 'trna_a_site',
-    title: '1. A-Site Codon Recognition',
-    shortLabel: '1. Codon Docking',
-    badge: 'A-SITE',
-    col: '#E9C46A',
-    desc: 'Ternary complex enters; A1492/A1493 flip out',
-    speech: 'Step one: Codon Recognition. A ternary complex of Elongation Factor Tu, GTP, and aminoacyl-tRNA docks into the ribosomal A-site. Bases Adenine 1492 and 1493 of the 16S rRNA flip out of helix 44 to verify codon-anticodon complementarity.'
+    id: 'ribosome_70s',
+    title: '1. Ribozyme Factory Overview & Translation Role',
+    shortLabel: '1. Macro Overview',
+    badge: '2.5MDa',
+    col: '#2A9D8F',
+    desc: 'Nature\'s 2.5 MDa ribonucleoprotein engine translating mRNA into proteins',
+    speech: 'Step one: Ribosome Overview and Translation Role. The bacterial 70S ribosome is nature\'s universal 2.5-megadalton catalytic ribozyme factory. Composed of the small 30S decoding subunit and the large 50S catalytic subunit, it translates genetic messenger RNA transcripts into functional protein enzymes at twenty amino acids per second.'
   },
   {
     step: 2,
-    id: 'subunit_30s',
-    title: '2. Proofreading & Accommodation',
-    shortLabel: '2. Accommodation',
-    badge: 'EF-Tu',
-    col: '#00F5D4',
-    desc: 'EF-Tu hydrolyzes GTP; aminoacyl stem swings into PTC',
-    speech: 'Step two: Proofreading and Accommodation. Correct base-pairing activates the GTPase center of Elongation Factor Tu. Upon GTP hydrolysis, EF-Tu releases the tRNA, allowing its amino acid stem to swing seventy angstroms into the peptidyl transferase cavity.'
+    id: 'trna_a_site',
+    title: '2. A-Site Codon Recognition',
+    shortLabel: '2. Codon Docking',
+    badge: 'A-SITE',
+    col: '#E9C46A',
+    desc: 'Ternary complex enters; A1492/A1493 flip out',
+    speech: 'Step two: Codon Recognition. A ternary complex of Elongation Factor Tu, GTP, and aminoacyl-tRNA docks into the ribosomal A-site. Bases Adenine 1492 and 1493 of the 16S rRNA flip out of helix 44 to verify codon-anticodon complementarity.'
   },
   {
     step: 3,
-    id: 'ptc_core',
-    title: '3. Peptidyl Transferase Catalysis',
-    shortLabel: '3. Peptide Bond',
-    badge: 'PTC',
-    col: '#FFB703',
-    desc: 'α-amino nucleophile attacks ester; peptide bond forms',
-    speech: 'Step three: Peptidyl Transfer Catalysis. Deep within the 23S ribosomal RNA catalytic core, the alpha-amino nucleophile of the A-site amino acid attacks the ester carbonyl of the P-site peptidyl-tRNA, condensing a new peptide bond without any protein enzyme involvement.'
+    id: 'subunit_30s',
+    title: '3. Proofreading & Accommodation',
+    shortLabel: '3. Accommodation',
+    badge: 'EF-Tu',
+    col: '#00F5D4',
+    desc: 'EF-Tu hydrolyzes GTP; aminoacyl stem swings into PTC',
+    speech: 'Step three: Proofreading and Accommodation. Correct base-pairing activates the GTPase center of Elongation Factor Tu. Upon GTP hydrolysis, EF-Tu releases the tRNA, allowing its amino acid stem to swing seventy angstroms into the peptidyl transferase cavity.'
   },
   {
     step: 4,
-    id: 'trna_p_site',
-    title: '4. EF-G Power Stroke Translocation',
-    shortLabel: '4. Translocation',
-    badge: 'EF-G',
-    col: '#7209B7',
-    desc: '30S ratchets against 50S; mRNA advances 1 triplet',
-    speech: 'Step four: EF-G Translocation Stroke. Elongation Factor G binds with GTP and ratchets the 30S subunit against the 50S. Hydrolysis drives Domain IV forward like a mechanical piston, shifting mRNA and both transfer RNAs by exactly one codon triplet.'
+    id: 'ptc_core',
+    title: '4. Peptidyl Transferase Catalysis',
+    shortLabel: '4. Peptide Bond',
+    badge: 'PTC',
+    col: '#FFB703',
+    desc: 'α-amino nucleophile attacks ester; peptide bond forms',
+    speech: 'Step four: Peptidyl Transfer Catalysis. Deep within the 23S ribosomal RNA catalytic core, the alpha-amino nucleophile of the A-site amino acid attacks the ester carbonyl of the P-site peptidyl-tRNA, condensing a new peptide bond without any protein enzyme involvement.'
   },
   {
     step: 5,
+    id: 'trna_p_site',
+    title: '5. EF-G Power Stroke Translocation',
+    shortLabel: '5. Translocation',
+    badge: 'EF-G',
+    col: '#7209B7',
+    desc: '30S ratchets against 50S; mRNA advances 1 triplet',
+    speech: 'Step five: EF-G Translocation Stroke. Elongation Factor G binds with GTP and ratchets the 30S subunit against the 50S. Hydrolysis drives Domain IV forward like a mechanical piston, shifting mRNA and both transfer RNAs by exactly one codon triplet.'
+  },
+  {
+    step: 6,
     id: 'ribosome_70s',
-    title: '5. E-Site Discharge & Continuous Polysome',
-    shortLabel: '5. Steady Translation',
+    title: '6. E-Site Discharge & Continuous Polysome',
+    shortLabel: '6. Steady Translation',
     badge: '70S',
     col: '#9E2A5B',
     desc: 'Empty tRNA expelled; continuous synthesis at 20 aa/s',
-    speech: 'Step five: Deacylated tRNA Discharge. The empty tRNA is expelled through the E-site exit door. The ribosome continues processive translation, lengthening the growing polypeptide chain at twenty amino acids per second with ninety-nine point nine percent fidelity.'
+    speech: 'Step six: Deacylated tRNA Discharge and Polysome Assembly. The empty tRNA is expelled through the E-site exit door. The ribosome continues processive translation, lengthening the growing polypeptide chain at twenty amino acids per second along continuous polysome arrays.'
   }
 ];
 
 export const ATP_EXPLANATION_STAGES = [
   {
     step: 1,
-    id: 'proton_flux',
-    title: '1. Proton Motive Force Influx',
-    shortLabel: '1. Proton Influx',
-    speech: 'Step one: Proton Influx. Protons in the periplasm—pumped across the inner membrane by upstream respiration complexes like Complex I and Cytochrome bo₃—flow down their electrochemical gradient into the stator half-channel, driven by the proton-motive force.'
+    id: 'atp_synthase_holoenzyme',
+    title: '1. Holoenzyme Architecture & Bioenergetic Role',
+    shortLabel: '1. Macro Overview',
+    badge: 'F₁F₀',
+    col: '#2A9D8F',
+    desc: 'Nature\'s 10 nm rotary dynamo converting proton flux into ATP',
+    speech: 'Step one: Holoenzyme Architecture and Bioenergetic Role. The F-one F-zero ATP synthase is the fundamental bioenergetic dynamo of life. Embedded across the bacterial cytoplasmic membrane, it converts the electrochemical proton gradient into mechanical rotation to synthesize over ninety percent of the cell\'s ATP.'
   },
   {
     step: 2,
-    id: 'central_rotor',
-    title: '2. Turbine Rotation & Drive Shaft',
-    shortLabel: '2. Turbine Drive',
-    speech: 'Step two: Turbine and Drive Shaft. Each proton neutralizes Aspartate-61 on the c-ring, allowing the turbine to turn within the hydrophobic bilayer. This directly spins the eccentric emerald-green central shaft.'
+    id: 'proton_flux',
+    title: '2. Proton Motive Force Influx',
+    shortLabel: '2. Proton Influx',
+    badge: 'H⁺',
+    col: '#FF4D00',
+    desc: 'Periplasmic H⁺ enters stator half-channel',
+    speech: 'Step two: Proton Influx. Protons in the periplasm—pumped across the inner membrane by upstream respiration complexes like Complex I and Cytochrome bo₃—flow down their electrochemical gradient into the stator half-channel, driven by the proton-motive force.'
   },
   {
     step: 3,
-    id: 'adp_pi_substrates',
-    title: '3. Substrate Docking in Catalytic Head',
-    shortLabel: '3. Substrates',
-    speech: 'Step three: Substrate Capture. ADP and inorganic phosphate—recycled from cellular work done by ribosomes and flagellar motors—enter the F1 head. As the central shaft turns, it deforms the beta subunit into the Loose conformation, trapping these substrates in the active cleft.'
+    id: 'central_rotor',
+    title: '3. Turbine Rotation & Drive Shaft',
+    shortLabel: '3. Turbine Drive',
+    badge: 'γε',
+    col: '#06D6A0',
+    desc: 'Asp61 neutralizes; c-ring & central γε shaft rotate',
+    speech: 'Step three: Turbine and Drive Shaft. Each proton neutralizes Aspartate-61 on the c-ring, allowing the turbine to turn within the hydrophobic bilayer. This directly spins the eccentric emerald-green central shaft.'
   },
   {
     step: 4,
-    id: 'atp_product',
-    title: '4. Catalytic Condensation & Energy Release',
-    shortLabel: '4. ATP Synthesis',
-    speech: 'Step four: ATP Condensation and Release. Mechanical compression forces the pocket into the Tight state, condensing ADP and phosphate into high-energy ATP. The pocket then springs Open, ejecting ATP directly into the cytoplasm to fuel protein synthesis and cellular metabolism.'
+    id: 'adp_pi_substrates',
+    title: '4. Substrate Docking in Catalytic Head',
+    shortLabel: '4. Substrates',
+    badge: 'ADP',
+    col: '#F28482',
+    desc: 'Asymmetric camshaft traps ADP + Pᵢ in β pocket',
+    speech: 'Step four: Substrate Capture. ADP and inorganic phosphate—recycled from cellular work done by ribosomes and flagellar motors—enter the F1 head. As the central shaft turns, it deforms the beta subunit into the Loose conformation, trapping these substrates in the active cleft.'
   },
   {
     step: 5,
+    id: 'atp_product',
+    title: '5. Catalytic Condensation & Energy Release',
+    shortLabel: '5. ATP Synthesis',
+    badge: 'ATP',
+    col: '#FFE066',
+    desc: 'Tight compression forms ATP; Open releases fuel',
+    speech: 'Step five: ATP Condensation and Release. Mechanical compression forces the pocket into the Tight state, condensing ADP and phosphate into high-energy ATP. The pocket then springs Open, ejecting ATP directly into the cytoplasm to fuel protein synthesis and cellular metabolism.'
+  },
+  {
+    step: 6,
     id: 'atp_synthase_holoenzyme',
-    title: '5. Continuous Rotary Dynamo',
-    shortLabel: '5. Rotary Dynamo',
-    speech: 'Step five: Continuous Rotary Dynamo. The catalytic cycle is established. The holoenzyme operates continuously at steady-state, translocating ten protons to produce three ATP molecules with ninety percent thermodynamic efficiency for every complete revolution.'
+    title: '6. Continuous Rotary Dynamo',
+    shortLabel: '6. Rotary Dynamo',
+    badge: '360°',
+    col: '#2A9D8F',
+    desc: 'Holoenzyme operates at continuous steady-state',
+    speech: 'Step six: Continuous Rotary Dynamo. The catalytic cycle is established. The holoenzyme operates continuously at steady-state, translocating ten protons to produce three ATP molecules with ninety percent thermodynamic efficiency for every complete revolution.'
   }
 ];
 
@@ -691,7 +736,7 @@ function App() {
       motorSceneRef.current.setExplanationStep(stepNumber);
     }
 
-    showSubtitles(stage.speech, `STAGE ${stage.step} OF 5: ${stage.shortLabel}`, 'Kokoro Neural TTS');
+    showSubtitles(stage.speech, `STAGE ${stage.step} OF ${MOTOR_EXPLANATION_STAGES.length}: ${stage.shortLabel}`, 'Kokoro Neural TTS');
     setIsMotorNarrating(true);
 
     voiceService.playText(stage.speech, {
@@ -787,7 +832,7 @@ function App() {
       ribosomeSceneRef.current.setExplanationStep(stepNumber);
     }
 
-    showSubtitles(stage.speech, `STAGE ${stage.step} OF 5: ${stage.shortLabel}`, 'Kokoro Neural TTS');
+    showSubtitles(stage.speech, `STAGE ${stage.step} OF ${RIBOSOME_EXPLANATION_STAGES.length}: ${stage.shortLabel}`, 'Kokoro Neural TTS');
     setIsRibosomeNarrating(true);
 
     voiceService.playText(stage.speech, {
@@ -885,7 +930,7 @@ function App() {
     }
 
     // Immediately present closed captions ~0.5s before Kokoro synthesizes & starts audio
-    showSubtitles(stage.speech, `STAGE ${stage.step} OF 5: ${stage.shortLabel}`, 'Kokoro Neural TTS');
+    showSubtitles(stage.speech, `STAGE ${stage.step} OF ${ATP_EXPLANATION_STAGES.length}: ${stage.shortLabel}`, 'Kokoro Neural TTS');
 
     setIsATPNarrating(true);
     voiceService.playText(stage.speech, {
@@ -1811,11 +1856,11 @@ function App() {
           }}
         />
 
-        {isATPTourActive && (
+        {(isATPTourActive || atpStoryStep > 0) && (
           <TourBar
             status={{
-              active: isATPTourActive,
-              playing: isATPTourPlaying,
+              active: true,
+              playing: isATPTourPlaying || isATPNarrating,
               stepIndex: atpStoryStep > 0 ? atpStoryStep - 1 : atpTourStep,
               key: atpStoryStep > 0 ? ATP_EXPLANATION_STAGES[atpStoryStep - 1]?.id : ATP_SYNTHASE_TOUR_STOPS[atpTourStep],
               totalSteps: atpStoryStep > 0 ? ATP_EXPLANATION_STAGES.length : ATP_SYNTHASE_TOUR_STOPS.length,
@@ -1862,7 +1907,7 @@ function App() {
         text={subtitleState.text}
         badge={subtitleState.badge}
         speaker={subtitleState.speaker}
-        hasTourBar={isATPTourActive || isMotorTourActive || isRibosomeTourActive || tourStatus.active}
+        hasTourBar={isATPTourActive || atpStoryStep > 0 || isMotorTourActive || motorStoryStep > 0 || isRibosomeTourActive || ribosomeStoryStep > 0 || tourStatus.active}
         onClose={hideSubtitles}
       />
     </div>

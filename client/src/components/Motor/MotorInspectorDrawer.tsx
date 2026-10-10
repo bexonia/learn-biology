@@ -65,7 +65,7 @@ export const MotorInspectorDrawer: React.FC<MotorInspectorDrawerProps> = ({
         }}>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '6px' }}>
             <span style={{ fontSize: '11px', fontWeight: 800, color: '#C85A32', letterSpacing: '0.5px', display: 'flex', alignItems: 'center', gap: '4px' }}>
-              <span>🎬</span> 5-STAGE EXPLANATORY TRACE
+              <span>🎬</span> 6-STAGE EXPLANATORY TRACE
             </span>
             <span style={{
               fontSize: '9px',
@@ -76,21 +76,22 @@ export const MotorInspectorDrawer: React.FC<MotorInspectorDrawerProps> = ({
               fontWeight: 800,
               letterSpacing: '0.4px'
             }}>
-              {storyStep > 0 ? `STAGE ${storyStep} OF 5` : 'READY'}
+              {storyStep > 0 ? `STAGE ${storyStep} OF 6` : 'READY'}
             </span>
           </div>
 
           <p style={{ fontSize: '10.5px', color: '#4A5568', margin: '0 0 8px 0', lineHeight: 1.35 }}>
-            Follow the sequential causal chain of torque generation: proton flux → electrostatic gear → axial transmission → universal joint → propeller thrust:
+            Follow the sequential causal chain of torque generation: macro overview → proton flux → electrostatic gear → axial transmission → universal joint → propeller thrust:
           </p>
 
           <div style={{ display: 'flex', flexDirection: 'column', gap: '5px' }}>
             {[
-              { num: 1, title: '1. Proton Motive Force Influx', desc: 'Periplasmic H⁺ enters MotA/B stator channels', col: '#FF4D00', badge: 'MotAB' },
-              { num: 2, title: '2. Electrostatic Gear Engagement', desc: 'MotA loops push FliG; C-ring switch spins', col: '#E2A824', badge: 'FliG' },
-              { num: 3, title: '3. Axial Drive Shaft & Bushings', desc: 'Torque passes through murein & outer membrane', col: '#06D6A0', badge: 'ROD' },
-              { num: 4, title: '4. Universal Hook Joint & Torque Bend', desc: 'FlgE flexes to bend rotation around 90° angle', col: '#7209B7', badge: 'FlgE' },
-              { num: 5, title: '5. Archimedean Screw Propulsion', desc: 'Helical filament spins at 1,000 RPM pushing medium', col: '#0077B6', badge: 'FliC' }
+              { num: 1, title: '1. Nanomotor Overview & Envelope Architecture', desc: 'Nature\'s 45 nm rotary motor; spins filament at 1,000 RPM for swimming', col: '#0077B6', badge: '45nm' },
+              { num: 2, title: '2. Proton Motive Force Influx', desc: 'Periplasmic H⁺ enters MotA/B stator channels', col: '#FF4D00', badge: 'MotAB' },
+              { num: 3, title: '3. Electrostatic Gear Engagement', desc: 'MotA loops push FliG; C-ring switch spins', col: '#E2A824', badge: 'FliG' },
+              { num: 4, title: '4. Axial Drive Shaft & Bushings', desc: 'Torque passes through murein & outer membrane', col: '#06D6A0', badge: 'ROD' },
+              { num: 5, title: '5. Universal Hook Joint & Torque Bend', desc: 'FlgE flexes to bend rotation around 90° angle', col: '#7209B7', badge: 'FlgE' },
+              { num: 6, title: '6. Archimedean Screw Propulsion', desc: 'Helical filament spins at 1,000 RPM pushing medium', col: '#0077B6', badge: 'FliC' }
             ].map(step => {
               const isActive = storyStep === step.num;
               return (

@@ -208,25 +208,101 @@ export const RibosomeHUDCard: React.FC<RibosomeHUDCardProps> = ({
               { id: '50s_prot', label: '50S Proteins (Green)', col: '#2D6A4F' },
               { id: '30s_rrna', label: '30S rRNA (Cyan)', col: '#1A8594' },
               { id: '30s_prot', label: '30S Proteins (Olive)', col: '#9A9E32' },
-              { id: 'trna', label: 'tRNAs (A, P, E)', col: '#368F8B' },
+              { id: 'trna', label: 'tRNAs (A, P, E)', col: '#E9C46A' },
               { id: 'ptc', label: 'PTC Active Site', col: '#FFB703' },
               { id: 'peptide', label: 'Growing Protein', col: '#7B2CBF' }
             ].map((f) => (
               <button
                 key={f.id}
-                className={`motor-mode-btn ${activeFilter === f.id ? 'active' : ''}`}
+                className={`motor-mode-btn ${(activeFilter === f.id || (f.id === 'trna' && activeFilter.startsWith('trna_'))) ? 'active' : ''}`}
                 style={{
                   padding: '6px 6px',
                   fontSize: '11px',
                   borderLeft: `3px solid ${f.col}`,
                   textAlign: 'left'
                 }}
-                onClick={() => onSelectFilter(f.id)}
+                onClick={() => {
+                  onSelectFilter(f.id);
+                  if (f.id === 'trna') {
+                    onFocusComponent?.('trna_all');
+                  }
+                }}
               >
                 {f.label}
               </button>
             ))}
           </div>
+
+          {/* Quick Sub-selector for the 3 individual tRNAs (A, P, E) */}
+          {(activeFilter === 'trna' || activeFilter.startsWith('trna_')) && (
+            <div style={{
+              marginTop: '6px',
+              padding: '6px 8px',
+              background: 'rgba(233, 196, 106, 0.08)',
+              border: '1px solid rgba(233, 196, 106, 0.28)',
+              borderRadius: '6px'
+            }}>
+              <div style={{ fontSize: '10px', fontWeight: 700, color: '#8A6D1C', marginBottom: '4px' }}>
+                TARGET SPECIFIC tRNA:
+              </div>
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '4px' }}>
+                <button
+                  className={`motor-mode-btn ${activeFilter === 'trna_a_site' ? 'active' : ''}`}
+                  style={{
+                    padding: '3px 2px',
+                    fontSize: '10px',
+                    fontWeight: 700,
+                    color: '#B38600',
+                    borderColor: '#E9C46A',
+                    background: activeFilter === 'trna_a_site' ? 'rgba(233, 196, 106, 0.25)' : undefined
+                  }}
+                  onClick={() => {
+                    onSelectFilter('trna_a_site');
+                    onFocusComponent?.('trna_a_site');
+                  }}
+                  title="Target A-Site Aminoacyl-tRNA"
+                >
+                  🟡 A-Site
+                </button>
+                <button
+                  className={`motor-mode-btn ${activeFilter === 'trna_p_site' ? 'active' : ''}`}
+                  style={{
+                    padding: '3px 2px',
+                    fontSize: '10px',
+                    fontWeight: 700,
+                    color: '#2D6A4F',
+                    borderColor: '#52B788',
+                    background: activeFilter === 'trna_p_site' ? 'rgba(82, 183, 136, 0.25)' : undefined
+                  }}
+                  onClick={() => {
+                    onSelectFilter('trna_p_site');
+                    onFocusComponent?.('trna_p_site');
+                  }}
+                  title="Target P-Site Peptidyl-tRNA"
+                >
+                  🟢 P-Site
+                </button>
+                <button
+                  className={`motor-mode-btn ${activeFilter === 'trna_e_site' ? 'active' : ''}`}
+                  style={{
+                    padding: '3px 2px',
+                    fontSize: '10px',
+                    fontWeight: 700,
+                    color: '#A43B22',
+                    borderColor: '#E07A5F',
+                    background: activeFilter === 'trna_e_site' ? 'rgba(224, 122, 95, 0.25)' : undefined
+                  }}
+                  onClick={() => {
+                    onSelectFilter('trna_e_site');
+                    onFocusComponent?.('trna_e_site');
+                  }}
+                  title="Target E-Site Deacylated tRNA"
+                >
+                  🟠 E-Site
+                </button>
+              </div>
+            </div>
+          )}
         </div>
 
         {/* Biophysical Metrics Grid */}

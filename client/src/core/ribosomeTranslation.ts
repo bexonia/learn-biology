@@ -276,6 +276,7 @@ export class RibosomeScene {
     this.labelsContainer = null;
     this.ribosomeLandmarks = [];
     this.labelAnchors = {};
+    this.trnaAnchors = null;
     this.labelAnchorLayer = null;
     this.currentSubunitFilter = 'all';
     this.labels = [];
@@ -1004,15 +1005,43 @@ export class RibosomeScene {
       tag.className = 'motor-tag ribosome-tag';
       tag.id = lm.id;
       tag.setAttribute('data-target', lm.key);
-      tag.innerHTML = `
-        <div class="motor-tag-badge" style="border-left-color: ${lm.color};">
-          <span class="motor-tag-primary">
-            <span class="motor-tag-dot" style="background-color: ${lm.color};"></span>
-            ${lm.name}
-          </span>
-          <span class="motor-tag-sub">${lm.subtitle}</span>
-        </div>
-      `;
+
+      if (lm.id === 'ribo-tag-trna') {
+        tag.innerHTML = `
+          <div class="motor-tag-badge" style="border-left: 4px solid #E9C46A; padding: 6px 10px;">
+            <span class="motor-tag-primary" style="display: flex; align-items: center; justify-content: space-between; gap: 6px;">
+              <span><span class="motor-tag-dot" style="background-color: #E9C46A;"></span> ${lm.name}</span>
+            </span>
+            <div class="trna-subpill-row" style="display: flex; gap: 4px; margin: 4px 0 3px 0;">
+              <button class="trna-subpill-btn" data-target="trna_a_site" style="background: rgba(233,196,106,0.25); color: #B38600; border: 1px solid #E9C46A; padding: 2px 5px; border-radius: 4px; font-size: 10px; font-weight: 800; cursor: pointer;">🟡 A-Site</button>
+              <button class="trna-subpill-btn" data-target="trna_p_site" style="background: rgba(82,183,136,0.25); color: #2D6A4F; border: 1px solid #52B788; padding: 2px 5px; border-radius: 4px; font-size: 10px; font-weight: 800; cursor: pointer;">🟢 P-Site</button>
+              <button class="trna-subpill-btn" data-target="trna_e_site" style="background: rgba(224,122,95,0.25); color: #A43B22; border: 1px solid #E07A5F; padding: 2px 5px; border-radius: 4px; font-size: 10px; font-weight: 800; cursor: pointer;">🟠 E-Site</button>
+            </div>
+            <span class="motor-tag-sub">${lm.subtitle}</span>
+          </div>
+        `;
+        tag.querySelectorAll('.trna-subpill-btn').forEach((btn) => {
+          btn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            const subKey = btn.getAttribute('data-target');
+            if (subKey) {
+              this.selectComponent(subKey);
+              this.focusComponent(subKey);
+            }
+          });
+        });
+      } else {
+        tag.innerHTML = `
+          <div class="motor-tag-badge" style="border-left-color: ${lm.color};">
+            <span class="motor-tag-primary">
+              <span class="motor-tag-dot" style="background-color: ${lm.color};"></span>
+              ${lm.name}
+            </span>
+            <span class="motor-tag-sub">${lm.subtitle}</span>
+          </div>
+        `;
+      }
+
       tag.addEventListener('click', (e) => {
         e.stopPropagation();
         this.selectComponent(lm.key);
@@ -1130,6 +1159,32 @@ export class RibosomeScene {
       this.labelAnchors[lm.id] = anchor;
     });
 
+    // Dedicated tripartite tRNA sub-anchors for all 3 tRNAs (A, P, E Sites)
+    if (this.pieceTRNA_A && this.pieceTRNA_P && this.pieceTRNA_E) {
+      const anchorA = new THREE.Object3D();
+      anchorA.name = 'Anchor_tRNA_A_Site';
+      anchorA.position.set(3.69, 2.06, -0.85);
+      anchorA.userData = { id: 'ribo-tag-trna-a', key: 'trna_a_site', name: 'A-Site', col: '#E9C46A' };
+      this.pieceTRNA_A.add(anchorA);
+
+      const anchorP = new THREE.Object3D();
+      anchorP.name = 'Anchor_tRNA_P_Site';
+      anchorP.position.set(3.29, -1.14, -1.10);
+      anchorP.userData = { id: 'ribo-tag-trna-p', key: 'trna_p_site', name: 'P-Site', col: '#52B788' };
+      this.pieceTRNA_P.add(anchorP);
+
+      const anchorE = new THREE.Object3D();
+      anchorE.name = 'Anchor_tRNA_E_Site';
+      anchorE.position.set(-0.56, -8.09, -1.07);
+      anchorE.userData = { id: 'ribo-tag-trna-e', key: 'trna_e_site', name: 'E-Site', col: '#E07A5F' };
+      this.pieceTRNA_E.add(anchorE);
+
+      this.trnaAnchors = { a: anchorA, p: anchorP, e: anchorE };
+      this.labelAnchors['ribo-tag-trna-a'] = anchorA;
+      this.labelAnchors['ribo-tag-trna-p'] = anchorP;
+      this.labelAnchors['ribo-tag-trna-e'] = anchorE;
+    }
+
     this.updateLabelAnchors();
   }
 
@@ -1142,8 +1197,16 @@ export class RibosomeScene {
     }
     if (!this.labelsContainer) return;
     this.labelsContainer.querySelectorAll('.motor-tag').forEach((el) => {
-      const isMatch = el.id === keyOrId || el.getAttribute('data-target') === keyOrId;
+      const isMatch = el.id === keyOrId || el.getAttribute('data-target') === keyOrId ||
+        ((keyOrId === 'trna_a_site' || keyOrId === 'trna_p_site' || keyOrId === 'trna_e_site') && el.id === 'ribo-tag-trna');
       el.classList.toggle('active-target', isMatch);
+    });
+
+    // Also highlight the active subpill button
+    this.labelsContainer.querySelectorAll('.trna-subpill-btn').forEach((btn) => {
+      const isBtnMatch = btn.getAttribute('data-target') === keyOrId;
+      (btn as HTMLElement).style.boxShadow = isBtnMatch ? '0 0 8px rgba(255,255,255,0.95), 0 0 4px rgba(0,0,0,0.3)' : 'none';
+      (btn as HTMLElement).style.outline = isBtnMatch ? '2px solid #FFFFFF' : 'none';
     });
   }
 
@@ -1194,7 +1257,7 @@ export class RibosomeScene {
         else if (f === '50s_prot' && item.key === 'proteins_50s') match = true;
         else if ((f === '30s_rrna' || f === '30s') && (item.key === 'rrna_30s' || item.key === 'subunit_30s')) match = true;
         else if (f === '30s_prot' && item.key === 'proteins_30s') match = true;
-        else if (f === 'trna' && (item.key === 'trna_all' || item.key === 'trna_a_site' || item.key === 'trna_p_site' || item.key === 'trna_e_site')) match = true;
+        else if ((f === 'trna' || f === 'trna_all' || f === 'trna_a_site' || f === 'trna_p_site' || f === 'trna_e_site') && (item.key === 'trna_all' || item.key === 'trna_a_site' || item.key === 'trna_p_site' || item.key === 'trna_e_site')) match = true;
         else if ((f === 'mrna' || f === 'ext_mrna') && (item.key === 'mrna_strand' || item.key === 'extended_mrna')) match = true;
         else if (f === 'ptc' && item.key === 'ptc_core') match = true;
         else if (f === 'peptide' && item.key === 'nascent_peptide') match = true;
@@ -1234,6 +1297,51 @@ export class RibosomeScene {
         const labelY = screenY + item.screenOffset.y;
         el.style.left = `${labelX}px`;
         el.style.top = `${labelY}px`;
+
+        if (item.id === 'ribo-tag-trna' && this.trnaAnchors) {
+          const subTargets = [
+            { key: 'trna_a_site', name: 'A', col: '#E9C46A', anchor: this.trnaAnchors.a },
+            { key: 'trna_p_site', name: 'P', col: '#52B788', anchor: this.trnaAnchors.p },
+            { key: 'trna_e_site', name: 'E', col: '#E07A5F', anchor: this.trnaAnchors.e }
+          ];
+
+          const halfW = el.offsetWidth ? (el.offsetWidth * 0.5) : 85;
+          const lineEndX = item.screenOffset.x >= 0 ? (labelX - halfW - 2) : (labelX + halfW + 2);
+
+          let trnaGroupSvg = '';
+          subTargets.forEach((t) => {
+            if (!t.anchor) return;
+            const twPos = new THREE.Vector3();
+            t.anchor.getWorldPosition(twPos);
+            const toT = twPos.clone().sub(this.camera.position);
+            if (toT.dot(camDir) <= 0) return;
+
+            const tv = twPos.project(this.camera);
+            if (tv.z <= -1 || tv.z >= 1) return;
+
+            const tsX = (tv.x * 0.5 + 0.5) * width;
+            const tsY = (-tv.y * 0.5 + 0.5) * height;
+
+            const isSubActive = this.selectedComponentKey === t.key || this.selectedComponentKey === 'trna_all';
+            const radius = isSubActive ? 5.0 : 3.5;
+            const strokeW = isSubActive ? 2.2 : 1.3;
+            const strokeOp = isSubActive ? 1.0 : (this.selectedComponentKey ? 0.45 : 0.85);
+
+            const polyPoints = `${tsX},${tsY} ${tsX + (lineEndX - tsX) * 0.45},${labelY} ${lineEndX},${labelY}`;
+
+            trnaGroupSvg += `
+              <g class="motor-leader-group ${isSubActive ? 'active-target-group' : ''}">
+                ${isSubActive ? `<circle cx="${tsX}" cy="${tsY}" r="10" fill="none" stroke="${t.col}" stroke-width="1.8" opacity="0.85"><animate attributeName="r" values="5;12;5" dur="1.8s" repeatCount="indefinite"/><animate attributeName="opacity" values="0.9;0.2;0.9" dur="1.8s" repeatCount="indefinite"/></circle>` : ''}
+                <circle cx="${tsX}" cy="${tsY}" r="${radius}" fill="${t.col}" stroke="#FFFFFF" stroke-width="1.5" />
+                <rect x="${tsX + (tsX < lineEndX ? -18 : 6)}" y="${tsY - 8}" width="14" height="14" rx="3" fill="rgba(26,43,37,0.85)" />
+                <text x="${tsX + (tsX < lineEndX ? -11 : 13)}" y="${tsY + 3}" font-size="10" font-weight="800" font-family="monospace" fill="${t.col}" text-anchor="middle">${t.name}</text>
+                <polyline points="${polyPoints}" fill="none" stroke="${t.col}" stroke-width="${strokeW}" stroke-linecap="round" stroke-linejoin="round" opacity="${strokeOp}" />
+              </g>
+            `;
+          });
+          svgLines += trnaGroupSvg;
+          return;
+        }
 
         let polylinePoints = '';
         if (Math.abs(item.screenOffset.x) < 25) {
@@ -1333,19 +1441,35 @@ export class RibosomeScene {
 
     // Pulse highlight specific selected sub-components briefly (e.g. PTC, tRNAs, peptide)
     if (key !== 'ribosome_70s' && key !== 'ribosome_upstream' && key !== 'ribosome_downstream' && key !== 'polysome_complex') {
-      this.clickableMeshes.forEach((m) => {
-        if (m.userData.componentKey === key && m.material && m.material.emissive) {
-          if (m.userData.origEmissive === undefined) {
-            m.userData.origEmissive = m.material.emissive.getHex();
-          }
-          m.material.emissive.setHex(0xFFD166);
-          setTimeout(() => {
-            if (m && m.material && m.material.emissive && m.userData.origEmissive !== undefined) {
-              m.material.emissive.setHex(m.userData.origEmissive);
+      if (key === 'trna_all') {
+        [this.pieceTRNA_A, this.pieceTRNA_P, this.pieceTRNA_E].forEach((m) => {
+          if (m && m.material && m.material.emissive) {
+            if (m.userData.origEmissive === undefined) {
+              m.userData.origEmissive = m.material.emissive.getHex();
             }
-          }, 450);
-        }
-      });
+            m.material.emissive.setHex(0xFFD166);
+            setTimeout(() => {
+              if (m && m.material && m.material.emissive && m.userData.origEmissive !== undefined) {
+                m.material.emissive.setHex(m.userData.origEmissive);
+              }
+            }, 450);
+          }
+        });
+      } else {
+        this.clickableMeshes.forEach((m) => {
+          if (m.userData.componentKey === key && m.material && m.material.emissive) {
+            if (m.userData.origEmissive === undefined) {
+              m.userData.origEmissive = m.material.emissive.getHex();
+            }
+            m.material.emissive.setHex(0xFFD166);
+            setTimeout(() => {
+              if (m && m.material && m.material.emissive && m.userData.origEmissive !== undefined) {
+                m.material.emissive.setHex(m.userData.origEmissive);
+              }
+            }, 450);
+          }
+        });
+      }
     }
   }
 
@@ -1376,6 +1500,20 @@ export class RibosomeScene {
     this.spherical.theta = t.theta;
     this.spherical.phi = t.phi;
     this.target.copy(t.target);
+
+    // Special handling for trna_all to frame all three tRNAs simultaneously
+    if (key === 'trna_all' && this.trnaAnchors && this.trnaAnchors.a && this.trnaAnchors.p && this.trnaAnchors.e) {
+      const pA = new THREE.Vector3();
+      const pP = new THREE.Vector3();
+      const pE = new THREE.Vector3();
+      this.trnaAnchors.a.getWorldPosition(pA);
+      this.trnaAnchors.p.getWorldPosition(pP);
+      this.trnaAnchors.e.getWorldPosition(pE);
+      this.target.copy(pA).add(pP).add(pE).multiplyScalar(1 / 3);
+      this.spherical.radius = 32 + (this.explodedProgress || 0) * 22;
+      this.updateCameraPosition();
+      return;
+    }
 
     // If an anchor is attached to this piece, dynamically center on its real 3D world position
     if (this.labelAnchors) {
@@ -1562,9 +1700,9 @@ export class RibosomeScene {
     if (this.piece50S_Proteins) this.piece50S_Proteins.visible = isAll || isPolysome || filter === '50s_prot' || filter === '50s';
     if (this.piecePTC) this.piecePTC.visible = isAll || isPolysome || filter === '50s_rrna' || filter === '50s' || filter === 'ptc' || filter === 'tunnel';
     if (this.sparkMesh) this.sparkMesh.visible = isAll || isPolysome || filter === '50s_rrna' || filter === '50s' || filter === 'ptc' || filter === 'tunnel';
-    if (this.pieceTRNA_A) this.pieceTRNA_A.visible = isAll || isPolysome || filter === 'trna';
-    if (this.pieceTRNA_P) this.pieceTRNA_P.visible = isAll || isPolysome || filter === 'trna';
-    if (this.pieceTRNA_E) this.pieceTRNA_E.visible = isAll || isPolysome || filter === 'trna';
+    if (this.pieceTRNA_A) this.pieceTRNA_A.visible = isAll || isPolysome || filter === 'trna' || filter === 'trna_all' || filter === 'trna_a_site';
+    if (this.pieceTRNA_P) this.pieceTRNA_P.visible = isAll || isPolysome || filter === 'trna' || filter === 'trna_all' || filter === 'trna_p_site';
+    if (this.pieceTRNA_E) this.pieceTRNA_E.visible = isAll || isPolysome || filter === 'trna' || filter === 'trna_all' || filter === 'trna_e_site';
     if (this.pieceMRNA) this.pieceMRNA.visible = isAll || isPolysome || filter === 'mrna' || filter === 'ext_mrna';
     if (this.peptideGroup) this.peptideGroup.visible = isAll || isPolysome || filter === 'peptide' || filter === '50s' || filter === 'tunnel';
 
@@ -1667,6 +1805,12 @@ export class RibosomeScene {
     window.removeEventListener('resize', this.onWindowResizeBound);
     window.removeEventListener('pointermove', this.onPointerMoveBound);
     window.removeEventListener('pointerup', this.onPointerUpBound);
+    if (this.trnaAnchors) {
+      if (this.trnaAnchors.a && this.trnaAnchors.a.parent) this.trnaAnchors.a.parent.remove(this.trnaAnchors.a);
+      if (this.trnaAnchors.p && this.trnaAnchors.p.parent) this.trnaAnchors.p.parent.remove(this.trnaAnchors.p);
+      if (this.trnaAnchors.e && this.trnaAnchors.e.parent) this.trnaAnchors.e.parent.remove(this.trnaAnchors.e);
+      this.trnaAnchors = null;
+    }
     if (this.labelAnchors) {
       Object.values(this.labelAnchors).forEach((anchor) => {
         if (anchor && anchor.parent) {

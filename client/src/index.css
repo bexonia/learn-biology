@@ -1171,6 +1171,11 @@ html, body {
   pointer-events: auto;
 }
 
+#atp-synthase-container .motor-overlay-header,
+#complex-i-container .motor-overlay-header {
+  display: none;
+}
+
 .motor-back-btn {
   background: rgba(255, 255, 255, 0.95);
   border: 1px solid rgba(26, 43, 37, 0.15);
@@ -1734,7 +1739,9 @@ html, body {
 
 /* ATP Synthase Dynamic Overlay & 3D Badges */
 #atp-svg-overlay,
-#atp-labels-container {
+#atp-labels-container,
+#complex-i-svg-overlay,
+#complex-i-labels-container {
   position: absolute;
   top: 0;
   left: 0;
@@ -1742,6 +1749,65 @@ html, body {
   height: 100%;
   pointer-events: none;
   z-index: 15;
+}
+
+.complex-i-subpill {
+  position: absolute;
+  pointer-events: auto;
+  user-select: none;
+  cursor: pointer;
+  background: rgba(255, 255, 255, 0.94);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  padding: 5px 10px;
+  border-radius: 6px;
+  border: 1px solid rgba(226, 218, 205, 0.9);
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.08);
+  transition: all 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+  display: flex;
+  align-items: center;
+  gap: 7px;
+}
+
+.complex-i-subpill:hover {
+  background: #FFFFFF;
+  border-color: #1F77B4;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.14);
+  transform: translateY(-2px);
+}
+
+.complex-i-subpill.active {
+  border-color: #1F77B4;
+  box-shadow: 0 6px 22px rgba(31, 119, 180, 0.35);
+}
+
+.complex-i-subpill .subpill-badge {
+  display: inline-block;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  color: #FFFFFF;
+  font-size: 10px;
+  font-weight: 800;
+  line-height: 18px;
+  text-align: center;
+}
+
+.complex-i-subpill .subpill-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.complex-i-subpill .subpill-title {
+  font-size: 11px;
+  font-weight: 700;
+  color: #1A2B25;
+}
+
+.complex-i-subpill .subpill-tag {
+  font-size: 8.5px;
+  color: #5C6E64;
+  font-family: monospace;
 }
 
 .atp-tag-badge {

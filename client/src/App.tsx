@@ -1,9 +1,10 @@
 import { useState, useEffect, useRef, useCallback } from 'react';
-import type { ScenarioType, MotorComponentData, RibosomeComponentData, ATPSynthaseComponentData, TourStatus } from './types/biology';
+import type { ScenarioType, MotorComponentData, RibosomeComponentData, ATPSynthaseComponentData, ComplexIComponentData, TourStatus } from './types/biology';
 import { CellViewerScene, CELL_ANATOMY_DATA, CELL_TOUR_STOPS } from './core/cellViewer';
 import { FlagellarMotorScene } from './core/flagellarMotor';
 import { RibosomeScene, RIBOSOME_COMPONENTS_META, RIBOSOME_TOUR_STOPS } from './core/ribosomeTranslation';
 import { ATPSynthaseScene, ATP_SYNTHASE_COMPONENTS_META, ATP_SYNTHASE_TOUR_STOPS } from './core/atpSynthase';
+import { ComplexIScene, COMPLEX_I_COMPONENTS_META, COMPLEX_I_TOUR_STOPS } from './core/complexITransport';
 import voiceService from './core/voiceService';
 
 // UI Components
@@ -31,6 +32,11 @@ import { RibosomeInspectorDrawer } from './components/Ribosome/RibosomeInspector
 import { ATPSynthaseHeaderOverlay } from './components/ATPSynthase/ATPSynthaseHeaderOverlay';
 import { ATPSynthaseHUDCard } from './components/ATPSynthase/ATPSynthaseHUDCard';
 import { ATPSynthaseInspectorDrawer } from './components/ATPSynthase/ATPSynthaseInspectorDrawer';
+
+// Complex I Components
+import { ComplexIHeaderOverlay } from './components/ComplexI/ComplexIHeaderOverlay';
+import { ComplexIHUDCard } from './components/ComplexI/ComplexIHUDCard';
+import { ComplexIInspectorDrawer } from './components/ComplexI/ComplexIInspectorDrawer';
 
 // Live Viewport Subtitles
 import { LiveSubtitles } from './components/Viewport/LiveSubtitles';
@@ -246,6 +252,69 @@ export const ATP_EXPLANATION_STAGES = [
   }
 ];
 
+export const COMPLEX_I_EXPLANATION_STAGES = [
+  {
+    step: 1,
+    id: 'complex_i_holoenzyme',
+    title: '1. Holoenzyme Architecture & Respiration Role',
+    shortLabel: '1. Macro Overview',
+    badge: '530kDa',
+    col: '#1F77B4',
+    desc: '530 kDa L-shaped engine coupling redox energy to 4 H⁺ pumping',
+    speech: 'Step one: Holoenzyme Architecture and Respiration Role. Respiratory Complex I is the massive five-hundred-thirty-kilodalton L-shaped entry engine of cellular aerobic respiration. Spanning the inner cytoplasmic membrane of Escherichia coli, it couples the oxidation of cytosolic NADH to the reduction of membrane-soluble ubiquinone, driving the translocation of four protons into the periplasm to generate the proton-motive force.'
+  },
+  {
+    step: 2,
+    id: 'nadh_substrate',
+    title: '2. NADH Docking & Flavin Hydride Transfer',
+    shortLabel: '2. Hydride Transfer',
+    badge: 'NADH',
+    col: '#00F5D4',
+    desc: 'NADH transfers :H⁻ to FMN in NuoF active pocket',
+    speech: 'Step two: NADH Docking and Flavin Hydride Transfer. High-energy NADH from glycolysis and the citric acid cycle binds stereospecifically in the NuoF catalytic pocket at the tip of the hydrophilic arm. NADH transfers a two-electron hydride ion directly to the isoalloxazine ring of flavin mononucleotide, forming fully reduced FMNH2.'
+  },
+  {
+    step: 3,
+    id: 'fes_clusters',
+    title: '3. Quantum Electron Tunneling (8 Fe-S Wire)',
+    shortLabel: '3. 8 Fe-S Tunneling',
+    badge: 'Fe-S',
+    col: '#FFB703',
+    desc: 'Electrons hop down 90 Å relay across 8 Fe-S clusters in <100 µs',
+    speech: 'Step three: Quantum Electron Tunneling along the 8 Fe-S Wire. The two electrons split and hop sequentially through an unbroken chain of eight iron-sulfur clusters spanning ninety angstroms. With inter-cluster distances well below fourteen angstroms, electrons tunnel quantum-mechanically in less than one hundred microseconds down to terminal cluster N2.'
+  },
+  {
+    step: 4,
+    id: 'ubiquinone_pocket',
+    title: '4. Ubiquinone Reduction at NuoB/CD Cleft',
+    shortLabel: '4. Q8 Reduction',
+    badge: 'Q₈',
+    col: '#FFE066',
+    desc: 'Q reduced to QH₂ at cluster N2; triggers electrostatic wave',
+    speech: 'Step four: Ubiquinone Reduction at the Catalytic Cleft. Ubiquinone enters a narrow hydrophobic cavity at the junction of the hydrophilic and membrane arms. Two electrons from cluster N2 reduce the quinone ring to ubiquinol, releasing seventy-nine kilojoules per mole of free energy and generating a powerful electrostatic displacement wave.'
+  },
+  {
+    step: 5,
+    id: 'lateral_piston_nuol',
+    title: '5. Lateral Piston Stroke & 4 H⁺ Pumping',
+    shortLabel: '5. Lateral Piston',
+    badge: '4 H⁺',
+    col: '#E76F51',
+    desc: 'NuoL ~110 Å lateral helix drives antiporters NuoN, NuoM, NuoL',
+    speech: 'Step five: Lateral Piston Stroke and Proton Pumping. Conformational strain propagates along the membrane arm through NuoL\'s one-hundred-ten-angstrom horizontal lateral helix. This physical piston couples with broken transmembrane helices in subunits NuoN, NuoM, and NuoL, coordinating the translocation of four protons across the lipid bilayer into the periplasmic space.'
+  },
+  {
+    step: 6,
+    id: 'complex_i_holoenzyme',
+    title: '6. Ubiquinol Release & Steady-State Respiration',
+    shortLabel: '6. Steady Respiration',
+    badge: 'QH₂',
+    col: '#06D6A0',
+    desc: 'QH₂ diffuses to Cytochrome bo₃; continuous 200 e⁻/s flux',
+    speech: 'Step six: Ubiquinol Release and Steady-State Respiration. Reduced ubiquinol diffuses out into the lipid bilayer toward downstream Cytochrome bo3 oxidase. Complex I resets to its oxidized ground state, sustaining continuous respiratory electron transport at two hundred electrons per second to power bacterial bioenergetics.'
+  }
+];
+
 function App() {
   // Scenario state
   const [scenario, setScenario] = useState<ScenarioType>('cell');
@@ -332,6 +401,25 @@ function App() {
   const [atpTourStep, setATPTourStep] = useState<number>(0);
   const [atpTourPhase, setATPTourPhase] = useState<'narrating' | 'cooldown' | 'idle'>('idle');
 
+  // Complex I scene state
+  const [activeComplexIPart, setActiveComplexIPart] = useState<string>('complex_i_holoenzyme');
+  const [complexIComponentMeta, setComplexIComponentMeta] = useState<ComplexIComponentData>(COMPLEX_I_COMPONENTS_META['complex_i_holoenzyme']);
+  const [isComplexIPaused, setIsComplexIPaused] = useState<boolean>(false);
+  const [complexINADH, setComplexINADH] = useState<number>(80);
+  const [isRotenoneInhibited, setIsRotenoneInhibited] = useState<boolean>(false);
+  const [complexIExplodedProgress, setComplexIExplodedProgress] = useState<number>(0);
+  const [complexIFilter, setComplexIFilter] = useState<string>('all');
+  const [isComplexILabelsVisible, setIsComplexILabelsVisible] = useState<boolean>(true);
+  const [isComplexINarrating, setIsComplexINarrating] = useState<boolean>(false);
+  const [isComplexIAutoRotating, setIsComplexIAutoRotating] = useState<boolean>(false);
+  const [complexIStoryStep, setComplexIStoryStep] = useState<number>(0);
+
+  // Complex I Guided Tour State
+  const [isComplexITourActive, setIsComplexITourActive] = useState<boolean>(false);
+  const [isComplexITourPlaying, setIsComplexITourPlaying] = useState<boolean>(false);
+  const [complexITourStep, setComplexITourStep] = useState<number>(0);
+  const [complexITourPhase, setComplexITourPhase] = useState<'narrating' | 'cooldown' | 'idle'>('idle');
+
   // Live Subtitles State (closed captions for AI narrator with 0.5s pre-display)
   const [subtitleState, setSubtitleState] = useState<{
     visible: boolean;
@@ -363,11 +451,13 @@ function App() {
   const motorContainerRef = useRef<HTMLDivElement>(null);
   const ribosomeContainerRef = useRef<HTMLDivElement>(null);
   const atpContainerRef = useRef<HTMLDivElement>(null);
+  const complexIContainerRef = useRef<HTMLDivElement>(null);
 
   const cellSceneRef = useRef<CellViewerScene | null>(null);
   const motorSceneRef = useRef<FlagellarMotorScene | null>(null);
   const ribosomeSceneRef = useRef<RibosomeScene | null>(null);
   const atpSceneRef = useRef<ATPSynthaseScene | null>(null);
+  const complexISceneRef = useRef<ComplexIScene | null>(null);
 
   // --------------------------------------------------------------------------
   // 1. Initialize Cell Viewer Scene
@@ -550,6 +640,48 @@ function App() {
   }, []);
 
   // --------------------------------------------------------------------------
+  // 3c. Initialize / Sync Complex I Scene when scenario === 'complex_i'
+  // --------------------------------------------------------------------------
+  useEffect(() => {
+    if (!complexIContainerRef.current) return;
+    if (scenario !== 'complex_i') return;
+
+    if (!complexISceneRef.current) {
+      const c1 = new ComplexIScene(complexIContainerRef.current, {
+        onSelectComponent: (key: string, meta: ComplexIComponentData) => {
+          setActiveComplexIPart(key);
+          if (meta) {
+            setComplexIComponentMeta(meta);
+          }
+        },
+        onTourStepChange: (step: number) => {
+          setComplexITourStep(step);
+        }
+      });
+
+      c1.init();
+      complexISceneRef.current = c1;
+      (window as any).complexIScene = c1;
+      c1.start();
+      c1.resetCamera();
+    } else {
+      (window as any).complexIScene = complexISceneRef.current;
+      complexISceneRef.current.start();
+      complexISceneRef.current.handleResize();
+      complexISceneRef.current.resetCamera();
+    }
+  }, [scenario]);
+
+  useEffect(() => {
+    return () => {
+      if (complexISceneRef.current) {
+        complexISceneRef.current.destroy();
+        complexISceneRef.current = null;
+      }
+    };
+  }, []);
+
+  // --------------------------------------------------------------------------
   // 4. Autoplay Whole Cell Overview Narration
   // --------------------------------------------------------------------------
   useEffect(() => {
@@ -605,16 +737,20 @@ function App() {
     setIsMotorNarrating(false);
     setIsRibosomeNarrating(false);
     setIsATPNarrating(false);
+    setIsComplexINarrating(false);
 
     setMotorStoryStep(0);
     setRibosomeStoryStep(0);
     setAtpStoryStep(0);
+    setComplexIStoryStep(0);
     setIsMotorTourActive(false);
     setIsMotorTourPlaying(false);
     setIsRibosomeTourActive(false);
     setIsRibosomeTourPlaying(false);
     setIsATPTourActive(false);
     setIsATPTourPlaying(false);
+    setIsComplexITourActive(false);
+    setIsComplexITourPlaying(false);
 
     if (motorSceneRef.current) {
       motorSceneRef.current.setExplanationStep(0);
@@ -624,6 +760,9 @@ function App() {
     }
     if (atpSceneRef.current) {
       atpSceneRef.current.setExplanationStep(0);
+    }
+    if (complexISceneRef.current) {
+      complexISceneRef.current.setExplanationStep(0);
     }
 
     if (nextScenario === 'motor') {
@@ -637,6 +776,9 @@ function App() {
       if (atpSceneRef.current) {
         atpSceneRef.current.stop();
       }
+      if (complexISceneRef.current) {
+        complexISceneRef.current.stop();
+      }
     } else if (nextScenario === 'ribosome') {
       if (cellSceneRef.current) {
         cellSceneRef.current.stop();
@@ -647,6 +789,9 @@ function App() {
       }
       if (atpSceneRef.current) {
         atpSceneRef.current.stop();
+      }
+      if (complexISceneRef.current) {
+        complexISceneRef.current.stop();
       }
     } else if (nextScenario === 'atp_synthase') {
       if (cellSceneRef.current) {
@@ -659,6 +804,28 @@ function App() {
       if (ribosomeSceneRef.current) {
         ribosomeSceneRef.current.stop();
       }
+      if (complexISceneRef.current) {
+        complexISceneRef.current.stop();
+      }
+    } else if (nextScenario === 'complex_i') {
+      if (cellSceneRef.current) {
+        cellSceneRef.current.stop();
+        if (tourStatus.active) cellSceneRef.current.exitTour();
+      }
+      if (motorSceneRef.current) {
+        motorSceneRef.current.stop();
+      }
+      if (ribosomeSceneRef.current) {
+        ribosomeSceneRef.current.stop();
+      }
+      if (atpSceneRef.current) {
+        atpSceneRef.current.stop();
+      }
+      if (complexISceneRef.current) {
+        complexISceneRef.current.start();
+        complexISceneRef.current.handleResize();
+        complexISceneRef.current.resetCamera();
+      }
     } else {
       if (motorSceneRef.current) {
         motorSceneRef.current.stop();
@@ -668,6 +835,9 @@ function App() {
       }
       if (atpSceneRef.current) {
         atpSceneRef.current.stop();
+      }
+      if (complexISceneRef.current) {
+        complexISceneRef.current.stop();
       }
       if (cellSceneRef.current) {
         cellSceneRef.current.start();
@@ -1003,8 +1173,140 @@ function App() {
     }
   };
 
+  const playComplexIStoryStep = (stepNumber: number) => {
+    if (stepNumber < 1 || stepNumber > COMPLEX_I_EXPLANATION_STAGES.length) {
+      setComplexIStoryStep(0);
+      setIsComplexINarrating(false);
+      setIsComplexITourActive(false);
+      setIsComplexITourPlaying(false);
+      hideSubtitles();
+      if (complexISceneRef.current) {
+        complexISceneRef.current.setExplanationStep(0);
+      }
+      return;
+    }
+
+    const stage = COMPLEX_I_EXPLANATION_STAGES[stepNumber - 1];
+    setComplexIStoryStep(stepNumber);
+    setActiveComplexIPart(stage.id);
+    const meta = COMPLEX_I_COMPONENTS_META[stage.id] || COMPLEX_I_COMPONENTS_META['complex_i_holoenzyme'];
+    if (meta) {
+      setComplexIComponentMeta(meta);
+    }
+
+    if (complexISceneRef.current) {
+      complexISceneRef.current.setExplanationStep(stepNumber);
+    }
+
+    showSubtitles(stage.speech, `STAGE ${stage.step} OF ${COMPLEX_I_EXPLANATION_STAGES.length}: ${stage.shortLabel}`, 'Kokoro Neural TTS');
+
+    setIsComplexINarrating(true);
+    voiceService.playText(stage.speech, {
+      voice: selectedVoice,
+      onEnd: () => {
+        setTimeout(() => {
+          if (stepNumber < COMPLEX_I_EXPLANATION_STAGES.length) {
+            playComplexIStoryStep(stepNumber + 1);
+          } else {
+            setComplexIStoryStep(0);
+            setIsComplexINarrating(false);
+            setIsComplexITourActive(false);
+            setIsComplexITourPlaying(false);
+            hideSubtitles();
+            if (complexISceneRef.current) {
+              complexISceneRef.current.setExplanationStep(0);
+            }
+          }
+        }, 750);
+      },
+      onError: () => {
+        setComplexIStoryStep(0);
+        setIsComplexINarrating(false);
+        setIsComplexITourActive(false);
+        setIsComplexITourPlaying(false);
+        hideSubtitles();
+        if (complexISceneRef.current) {
+          complexISceneRef.current.setExplanationStep(0);
+        }
+      }
+    });
+  };
+
+  const stopComplexIStoryTrace = () => {
+    voiceService.stop();
+    setIsComplexINarrating(false);
+    setComplexIStoryStep(0);
+    setIsComplexITourActive(false);
+    setIsComplexITourPlaying(false);
+    setComplexITourPhase('idle');
+    hideSubtitles();
+    if (complexISceneRef.current) {
+      complexISceneRef.current.setExplanationStep(0);
+    }
+  };
+
+  const handleComplexINarrate = () => {
+    if (voiceService.isBusy() || complexIStoryStep > 0) {
+      stopComplexIStoryTrace();
+    } else {
+      if (!activeComplexIPart || activeComplexIPart === 'complex_i_holoenzyme') {
+        playComplexIStoryStep(1);
+      } else if (complexIComponentMeta) {
+        const speech = `${complexIComponentMeta.name}. ${complexIComponentMeta.desc || ''}`;
+        setIsComplexINarrating(true);
+        showSubtitles(speech, complexIComponentMeta.badge || 'COMPLEX I', 'Kokoro Neural TTS');
+        voiceService.playText(speech, {
+          voice: selectedVoice,
+          onEnd: () => {
+            setIsComplexINarrating(false);
+            hideSubtitles();
+          },
+          onError: () => {
+            setIsComplexINarrating(false);
+            hideSubtitles();
+          }
+        });
+      }
+    }
+  };
+
+  const handleToggleComplexIAutoRotate = () => {
+    if (complexISceneRef.current) {
+      const active = complexISceneRef.current.toggleAutoRotate();
+      setIsComplexIAutoRotating(active);
+    }
+  };
+
+  const handleToggleComplexILabels = () => {
+    setIsComplexILabelsVisible(prev => !prev);
+  };
+
+  const handleToggleComplexITour = () => {
+    if (isComplexITourActive || complexIStoryStep > 0) {
+      stopComplexIStoryTrace();
+    } else {
+      setIsComplexITourActive(true);
+      playComplexIStoryStep(1);
+    }
+  };
+
+  const goToComplexITourStep = (stepIndex: number) => {
+    const safeIndex = Math.max(0, Math.min(COMPLEX_I_TOUR_STOPS.length - 1, stepIndex));
+    setComplexITourStep(safeIndex);
+    const partKey = COMPLEX_I_TOUR_STOPS[safeIndex];
+    setActiveComplexIPart(partKey);
+    const meta = COMPLEX_I_COMPONENTS_META[partKey];
+    if (meta) {
+      setComplexIComponentMeta(meta);
+      if (complexISceneRef.current) {
+        complexISceneRef.current.focusComponent(partKey);
+      }
+      setComplexITourPhase('narrating');
+    }
+  };
+
   // --------------------------------------------------------------------------
-  // 7. Top Toolbar Actions (Unified for Cell, Motor, Ribosome, & ATP Synthase)
+  // 7. Top Toolbar Actions (Unified for Cell, Motor, Ribosome, ATP Synthase, & Complex I)
   // --------------------------------------------------------------------------
   const handleResetCamera = () => {
     if (scenario === 'cell' && cellSceneRef.current) {
@@ -1015,6 +1317,8 @@ function App() {
       ribosomeSceneRef.current.resetCamera();
     } else if (scenario === 'atp_synthase' && atpSceneRef.current) {
       atpSceneRef.current.resetCamera();
+    } else if (scenario === 'complex_i' && complexISceneRef.current) {
+      complexISceneRef.current.resetCamera();
     }
   };
 
@@ -1366,7 +1670,8 @@ function App() {
     (isCellInspectorOpen && scenario === 'cell') ||
     scenario === 'motor' ||
     scenario === 'ribosome' ||
-    scenario === 'atp_synthase';
+    scenario === 'atp_synthase' ||
+    scenario === 'complex_i';
 
   return (
     <div id="app-container" className={isDrawerOpen ? 'drawer-open' : ''}>
@@ -1382,7 +1687,9 @@ function App() {
             ? 'Cryo-EM 7CGO • PDB 6YKM: Active'
             : scenario === 'ribosome'
             ? 'Cryo-EM 7K00 • Expressome 6X9Q: Active'
-            : 'Cryo-EM 6OQR / 6RKW • Rotary F1F0: Active'
+            : scenario === 'atp_synthase'
+            ? 'Cryo-EM 6OQR / 6RKW • Rotary F1F0: Active'
+            : 'Cryo-EM 7Z7V (2.29 Å) • Turnover State: Active'
         }
         selectedVoice={selectedVoice}
         onVoiceChange={handleVoiceChange}
@@ -1393,7 +1700,9 @@ function App() {
             ? isMotorNarrating
             : scenario === 'ribosome'
             ? isRibosomeNarrating
-            : isATPNarrating
+            : scenario === 'atp_synthase'
+            ? isATPNarrating
+            : isComplexINarrating
         }
         onNarrateClick={
           scenario === 'cell'
@@ -1402,7 +1711,9 @@ function App() {
             ? handleMotorNarrate
             : scenario === 'ribosome'
             ? handleRibosomeNarrate
-            : handleATPNarrate
+            : scenario === 'atp_synthase'
+            ? handleATPNarrate
+            : handleComplexINarrate
         }
         onResetCamera={handleResetCamera}
         isAutoRotating={
@@ -1412,7 +1723,9 @@ function App() {
             ? isMotorAutoRotating
             : scenario === 'ribosome'
             ? isRibosomeAutoRotating
-            : isATPAutoRotating
+            : scenario === 'atp_synthase'
+            ? isATPAutoRotating
+            : isComplexIAutoRotating
         }
         onToggleAutoRotate={
           scenario === 'cell'
@@ -1421,7 +1734,9 @@ function App() {
             ? handleToggleMotorAutoRotate
             : scenario === 'ribosome'
             ? handleToggleRibosomeAutoRotate
-            : handleToggleATPAutoRotate
+            : scenario === 'atp_synthase'
+            ? handleToggleATPAutoRotate
+            : handleToggleComplexIAutoRotate
         }
         showLabels={
           scenario === 'cell'
@@ -1430,7 +1745,9 @@ function App() {
             ? isMotorLabelsVisible
             : scenario === 'ribosome'
             ? isRibosomeLabelsVisible
-            : isATPLabelsVisible
+            : scenario === 'atp_synthase'
+            ? isATPLabelsVisible
+            : isComplexILabelsVisible
         }
         onToggleLabels={
           scenario === 'cell'
@@ -1439,7 +1756,9 @@ function App() {
             ? handleToggleMotorLabels
             : scenario === 'ribosome'
             ? handleToggleRibosomeLabels
-            : handleToggleATPLabels
+            : scenario === 'atp_synthase'
+            ? handleToggleATPLabels
+            : handleToggleComplexILabels
         }
         isTourActive={
           scenario === 'cell'
@@ -1448,7 +1767,9 @@ function App() {
             ? isMotorTourActive
             : scenario === 'ribosome'
             ? isRibosomeTourActive
-            : isATPTourActive
+            : scenario === 'atp_synthase'
+            ? isATPTourActive
+            : isComplexITourActive
         }
         onToggleTour={
           scenario === 'cell'
@@ -1457,7 +1778,9 @@ function App() {
             ? handleToggleMotorTour
             : scenario === 'ribosome'
             ? handleToggleRibosomeTour
-            : handleToggleATPTour
+            : scenario === 'atp_synthase'
+            ? handleToggleATPTour
+            : handleToggleComplexITour
         }
       />
 
@@ -1901,13 +2224,142 @@ function App() {
         )}
       </div>
 
+      {/* 7. Respiratory Complex I (NADH:Ubiquinone Oxidoreductase) Scenario Layer */}
+      <div
+        id="complex-i-container"
+        className={scenario === 'complex_i' ? '' : 'hidden'}
+        style={{ display: scenario === 'complex_i' ? 'block' : 'none' }}
+      >
+        <ComplexIHeaderOverlay />
+
+        <div
+          ref={complexIContainerRef}
+          style={{ width: '100%', height: '100%', position: 'absolute', top: 0, left: 0 }}
+        />
+        <svg id="complex-i-svg-overlay"></svg>
+        <div id="complex-i-labels-container"></div>
+
+        <ComplexIHUDCard
+          isLabelsVisible={isComplexILabelsVisible}
+          onToggleLabels={handleToggleComplexILabels}
+          isPaused={isComplexIPaused}
+          onTogglePause={() => {
+            if (complexISceneRef.current) {
+              const paused = complexISceneRef.current.togglePause();
+              setIsComplexIPaused(paused);
+            }
+          }}
+          nadhSaturation={complexINADH}
+          onChangeNADH={(v) => {
+            setComplexINADH(v);
+            if (complexISceneRef.current) {
+              complexISceneRef.current.setNADHConcentration(v);
+            }
+          }}
+          isRotenoneInhibited={isRotenoneInhibited}
+          onToggleRotenone={() => {
+            const nextInh = !isRotenoneInhibited;
+            setIsRotenoneInhibited(nextInh);
+            if (complexISceneRef.current) {
+              complexISceneRef.current.setRotenoneInhibition(nextInh);
+            }
+          }}
+          explodedProgress={complexIExplodedProgress}
+          onChangeExploded={(exp) => {
+            setComplexIExplodedProgress(exp);
+            if (complexISceneRef.current) {
+              complexISceneRef.current.setExplodedProgress(exp);
+            }
+          }}
+          activeFilter={complexIFilter}
+          onSelectFilter={(f) => {
+            setComplexIFilter(f);
+            if (complexISceneRef.current) {
+              complexISceneRef.current.setSubunitFilter(f);
+            }
+          }}
+          onFocusComponent={(key) => {
+            if (complexISceneRef.current) {
+              complexISceneRef.current.focusComponent(key);
+              complexISceneRef.current.selectComponent(key);
+            }
+          }}
+        />
+
+        <ComplexIInspectorDrawer
+          data={complexIComponentMeta}
+          activeKey={activeComplexIPart}
+          isNarrating={isComplexINarrating}
+          storyStep={complexIStoryStep}
+          onSelectStoryStep={(s) => playComplexIStoryStep(s)}
+          onStartStoryTrace={() => playComplexIStoryStep(1)}
+          onStopStoryTrace={stopComplexIStoryTrace}
+          onNarrate={handleComplexINarrate}
+          onFocus={() => {
+            if (complexISceneRef.current && activeComplexIPart) {
+              complexISceneRef.current.focusComponent(activeComplexIPart);
+            }
+          }}
+          onSelectPart={(key: string) => {
+            if (complexISceneRef.current) {
+              complexISceneRef.current.selectComponent(key);
+              complexISceneRef.current.focusComponent(key);
+            }
+          }}
+        />
+
+        {(isComplexITourActive || complexIStoryStep > 0) && (
+          <TourBar
+            status={{
+              active: true,
+              playing: isComplexITourPlaying || isComplexINarrating,
+              stepIndex: complexIStoryStep > 0 ? complexIStoryStep - 1 : complexITourStep,
+              key: complexIStoryStep > 0 ? COMPLEX_I_EXPLANATION_STAGES[complexIStoryStep - 1]?.id : COMPLEX_I_TOUR_STOPS[complexITourStep],
+              totalSteps: complexIStoryStep > 0 ? COMPLEX_I_EXPLANATION_STAGES.length : COMPLEX_I_TOUR_STOPS.length,
+              phase: complexITourPhase,
+              cooldownRemaining: 2,
+              ttsEnabled: true
+            }}
+            stepTitle={complexIStoryStep > 0 ? COMPLEX_I_EXPLANATION_STAGES[complexIStoryStep - 1]?.title : (complexIComponentMeta?.name || 'Complex I Component')}
+            onPrev={() => {
+              if (complexIStoryStep > 0) {
+                playComplexIStoryStep(Math.max(1, complexIStoryStep - 1));
+              } else {
+                goToComplexITourStep(complexITourStep - 1);
+              }
+            }}
+            onTogglePlay={() => {
+              if (complexIStoryStep > 0) {
+                if (isComplexINarrating) {
+                  voiceService.stop();
+                  setIsComplexINarrating(false);
+                } else {
+                  playComplexIStoryStep(complexIStoryStep);
+                }
+              } else {
+                setIsComplexITourPlaying(!isComplexITourPlaying);
+              }
+            }}
+            onNext={() => {
+              if (complexIStoryStep > 0) {
+                playComplexIStoryStep(Math.min(COMPLEX_I_EXPLANATION_STAGES.length, complexIStoryStep + 1));
+              } else {
+                goToComplexITourStep(complexITourStep + 1);
+              }
+            }}
+            onToggleVoice={() => {}}
+            onExit={stopComplexIStoryTrace}
+          />
+        )}
+      </div>
+
       {/* Global Live Subtitles Banner (Closed Captions) */}
       <LiveSubtitles
         visible={subtitleState.visible}
         text={subtitleState.text}
         badge={subtitleState.badge}
         speaker={subtitleState.speaker}
-        hasTourBar={isATPTourActive || atpStoryStep > 0 || isMotorTourActive || motorStoryStep > 0 || isRibosomeTourActive || ribosomeStoryStep > 0 || tourStatus.active}
+        hasTourBar={isComplexITourActive || complexIStoryStep > 0 || isATPTourActive || atpStoryStep > 0 || isMotorTourActive || motorStoryStep > 0 || isRibosomeTourActive || ribosomeStoryStep > 0 || tourStatus.active}
         onClose={hideSubtitles}
       />
     </div>

@@ -296,19 +296,26 @@ This catalog defines the complete set of structural and functional components of
 #### 3.4 `respiratory_complex_i` — Respiratory Complex I (NADH:Ubiquinone Oxidoreductase)
 - **Scale:** $15\,\text{nm}$ hydrophilic arm $\times 22\,\text{nm}$ membrane arm (Molecular mass: $\sim 530\,\text{kDa}$)
 - **PDB / Asset:** `7Z7V` (14 conserved core subunits: NuoA–NuoN)
-- **Status:** 🟡 **High-Priority Pending Implementation**
+- **Status:** 🟢 **Built & Fully Interactive**
 - **Biological Role:** Entry enzyme of the bacterial respiratory chain; oxidizes $\text{NADH} \to \text{NAD}^+$, shuttles electrons down an $8\times \text{Fe-S}$ wire to reduce ubiquinone ($Q_8 \to QH_2$), pumping $4\text{H}^+$ across the inner membrane.
 - **Subunit Decomposition:**
-  - `Piece_ComplexI_Hydrophilic_Arm` (`#1F77B4`, Cobalt Blue): NuoB, CD, E, F, G, I cytosolic arm.
-  - `Piece_ComplexI_Membrane_Arm` (`#00F5D4`, Seafoam Green): NuoA, H, J, K, L, M, N transmembrane proton channels.
-  - `Piece_ComplexI_FeS_Clusters` (`#FFB703`, Luminous Pyrite): 8 cubane Fe-S clusters.
-  - `Piece_ComplexI_FMN` (`#FF006E`, Hot Magenta): Primary electron acceptor flavin.
+  - `Piece_ComplexI_Hydrophilic_NuoEFG` (`#1F77B4`, Cobalt Blue): NuoE, NuoF, NuoG dehydrogenase subcomplex with NADH binding site.
+  - `Piece_ComplexI_Connecting_NuoBCI` (`#4361EE`, Royal Indigo): NuoB, NuoCD, NuoI connecting electron relay.
+  - `Piece_ComplexI_Transmembrane_NuoAHJK` (`#06D6A0`, Seafoam Green): NuoA, NuoH, NuoJ, NuoK quinone-proximal proton translocation channels.
+  - `Piece_ComplexI_Antiporter_NuoNM` (`#2EC4B6`, Deep Jade): NuoN, NuoM distal antiporter-like proton pumps.
+  - `Piece_ComplexI_Lateral_Piston_NuoL` (`#FFB703`, Golden Amber): NuoL extreme distal pump with long lateral coupling helix (HL transmission rod).
+  - `Piece_ComplexI_FeS_Clusters` (`#FFB703`, Luminous Pyrite): 8 cubane Fe-S clusters forming the 90 Å quantum tunneling wire.
+  - `Piece_ComplexI_FMN` (`#FF006E`, Hot Magenta): Primary electron acceptor flavin mononucleotide.
+  - `Piece_ComplexI_NADH_Substrate` (`#4CC9F0`, Luminous Cyan): Docked NADH substrate in the NuoF catalytic pocket.
+  - `Piece_ComplexI_Ubiquinone` (`#E76F51`, Terracotta Red): Coenzyme $Q_8$ electron acceptor in the NuoB/D reduction cleft.
 - **Inter-Element Flux Iteration:**
   - *Upstream:* Receives NADH from Pyruvate Dehydrogenase (`PDH`) and the TCA cycle.
   - *Downstream:* Reduces ubiquinone to ubiquinol ($QH_2$), which diffuses to Cytochrome $bo_3$ (`6WTI`); pumped protons feed ATP Synthase and Flagellar Motor.
 - **HUD Simulation Controls:**
   - `nadhConcentration`: $0.1\text{--}2.0\,\text{mM}$
   - `rotenoneInhibition`: Toggle (ubiquinone binding site blocker)
+  - `explodedAssembly`: $0.0\text{--}1.0$ (dissociates hydrophilic arm and lateral piston)
+  - `traceStage`: 6-Stage Explanatory Trace walkthrough with dynamic camera dollies & closed captions
 
 #### 3.5 `secyeg_translocon` — SecYEG Protein Translocation Channel & SecA ATPase Motor
 - **Scale:** $7\,\text{nm}$ diameter $\times 11\,\text{nm}$ depth
@@ -480,7 +487,7 @@ This catalog defines the complete set of structural and functional components of
 | `secy_lateral_gate`| `secyeg_translocon` | `3J46` (TM2b/3 & TM7/8 helices) | Hydrophobic gate parting to partition transmembrane helices into bilayer. | 🟡 *Pending* |
 | `bam_lateral_seam` | `bam_complex` | `5D0O` (BamA $\beta1$ and $\beta16$ seam) | Weakened hydrogen-bond seam opening to nucleate client $\beta$-hairpins into OM. | 🟡 *Pending* |
 | `flagellar_torque_switch`| `flagellar_motor` | `7CGO` (FliG $CW \leftrightarrow CCW$) | CheY-P binding domain conformational flip reversing stator contact angle. | 🟢 **Built** |
-| `complex_i_fe_s` | `respiratory_complex_i` | `7Z7V` (N1a $\to$ N2 tunnel) | $10\,\text{nm}$ quantum electron tunneling pathway across 8 cubane Fe-S clusters. | 🟡 *Pending* |
+| `complex_i_fe_s` | `respiratory_complex_i` | `7Z7V` (N1a $\to$ N2 tunnel) | $10\,\text{nm}$ quantum electron tunneling pathway across 8 cubane Fe-S clusters. | 🟢 **Built** |
 | `cytochrome_heme_copper`| `cytochrome_bo3` | `6WTI` (Heme $o_3 - \text{Cu}_B$) | Binuclear center executing $4e^- + 4\text{H}^+ + \text{O}_2 \to 2\text{H}_2\text{O}$ reduction without ROS release. | 🟡 *Pending* |
 | `pol_catalytic_palm`| `dna_polymerase_iii` | `6S8N` (Asp403, Asp405 + $2\text{Mg}^{2+}$)| Two-metal-ion catalyzed nucleophilic attack of $3'\text{-OH}$ on dNTP $\alpha$-phosphate. | 🟡 *Pending* |
 | `rnap_catalytic_claw`| `rna_polymerase` | `6C9Y` (Asp460, Asp462, Asp464) | Active center $\text{Mg}^{2+}$ coordinating incoming rNTP addition. | 🟡 *Pending* |
@@ -497,7 +504,7 @@ This catalog defines the complete set of structural and functional components of
 | `peptidyl_trna_fmet` | fMet-tRNA$_{\text{f}}^{\text{Met}}$ | 77 nt + Formylmethionine | P-site peptidyl donor maintaining elongation reading frame. | 🟢 **Built** |
 | `atp_molecule` | Adenosine 5'-triphosphate | $\text{C}_{10}\text{H}_{16}\text{N}_5\text{O}_{13}\text{P}_3$ (`ATP`)| Universal energy currency of the cell ($[\text{ATP}] \sim 3\text{--}5\,\text{mM}$). | 🟢 **Built** |
 | `nadh_coenzyme` | Nicotinamide adenine dinucleotide | $\text{C}_{21}\text{H}_{27}\text{N}_7\text{O}_{14}\text{P}_2$ (`NAD`)| High-potential electron donor feeding Complex I ($\sim 0.5\,\text{mM}$). | 🟢 **Built** |
-| `ubiquinone_8` | Coenzyme $Q_8$ | $\text{C}_{49}\text{H}_{74}\text{O}_4$ (`U10`)| Hydrophobic lipid-soluble redox electron carrier in the inner membrane. | 🟡 *Pending* |
+| `ubiquinone_8` | Coenzyme $Q_8$ | $\text{C}_{49}\text{H}_{74}\text{O}_4$ (`U10`)| Hydrophobic lipid-soluble redox electron carrier in the inner membrane. | 🟢 **Built** (Docked in `7Z7V`) |
 | `peptidoglycan_lipids`| Lipid II (Bactoprenol-GlcNAc-MurNAc) | Undecaprenyl-diphosphate | Essential membrane-anchored building block of the cell wall sacculus. | 🟡 *Pending* |
 | `membrane_phospholipids`| Phosphatidylethanolamine (PE) | Diacyl-glycerophosphoethanolamine | 75% of inner membrane lipids; zwitterionic cylindrical bilayer scaffold. | 🟢 **Built** |
 
@@ -613,9 +620,9 @@ To systematically implement the full prokaryote cell engine, work proceeds in **
 ### Phase 2: Bioenergetic Rotary Dynamos & Secretion Machinery
 - ✅ **Milestone 2.1:** **$F_1F_0$-ATP Synthase (`6RKW` / `6OQR`)** — 🟢 **Built & Active**
   - Interactive 3-state Boyer catalytic binding-change card ($O \to L \to T$), exploded rotor/stator dissociation vectors, $\Delta p$ proton-motive force slider ($-80$ to $-220\,\text{mV}$), forward synthesis vs. reverse hydrolysis mode toggle, and dynamic SVG leader lines with Kokoro-82M neural TTS voice narration.
-- 🎯 **Milestone 2.2:** **Respiratory Complex I (`7Z7V`)**
-  - Implement 8-cluster Fe-S quantum tunneling wire, hydrophilic/membrane arm decoupling, and NADH oxidation HUD slider.
-- 🎯 **Milestone 2.3:** **SecYEG Translocon (`3J46`) & SecA Motor (`1RHZ`)**
+- ✅ **Milestone 2.2:** **Respiratory Complex I (`7Z7V`)** — 🟢 **Built & Fully Interactive**
+  - High-fidelity 9-piece cryo-EM decomposition, authentic dual-leaflet lipid bilayer slab, animated 90 Å quantum Fe-S electron tunneling wire with pulsing energy packets, 4 distinct $H^+$ translocating conduits into periplasm, exploded view dissociation separating hydrophilic arm ($+12\,\text{nm}$) and NuoL lateral pump ($+5\,\text{nm}$), interactive NADH saturation slider, Rotenone inhibitor toggle, and universal 6-Stage Explanatory Trace.
+- 🎯 **Milestone 2.3:** **SecYEG Translocon (`3J46`) & SecA Motor (`1RHZ`)** *(CURRENT NEXT TARGET)*
   - Implement dynamic lateral gate opening into phospholipid bilayer and ATP-driven polypeptide translocation.
 
 ### Phase 3: Envelope Biogenesis & Trans-Periplasmic Bridges

@@ -942,11 +942,18 @@ function App() {
 
         <RibosomeInspectorDrawer
           data={ribosomeComponentMeta}
+          activeKey={activeRibosomePart}
           isNarrating={isRibosomeNarrating}
           onNarrate={handleRibosomeNarrate}
           onFocus={() => {
             if (ribosomeSceneRef.current && activeRibosomePart) {
               ribosomeSceneRef.current.focusComponent(activeRibosomePart);
+            }
+          }}
+          onSelectPart={(key: string) => {
+            if (ribosomeSceneRef.current) {
+              ribosomeSceneRef.current.selectComponent(key);
+              ribosomeSceneRef.current.focusComponent(key);
             }
           }}
         />

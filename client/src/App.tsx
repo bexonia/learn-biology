@@ -103,6 +103,7 @@ function App() {
   const [ribosomeFilter, setRibosomeFilter] = useState<string>('all');
   const [isRibosomeNarrating, setIsRibosomeNarrating] = useState<boolean>(false);
   const [isRibosomeAutoRotating, setIsRibosomeAutoRotating] = useState<boolean>(false);
+  const [mrnaCycleProgress, setMrnaCycleProgress] = useState<number>(0);
 
   // Ribosome Guided Tour State
   const [isRibosomeTourActive, setIsRibosomeTourActive] = useState<boolean>(false);
@@ -228,6 +229,9 @@ function App() {
           if (meta) {
             setRibosomeComponentMeta(meta);
           }
+        },
+        onMRNACycleUpdate: (progress: number) => {
+          setMrnaCycleProgress(progress);
         }
       });
 
@@ -908,6 +912,18 @@ function App() {
           onStepCodon={() => {
             if (ribosomeSceneRef.current) {
               ribosomeSceneRef.current.stepCodon();
+            }
+          }}
+          mrnaCycleProgress={mrnaCycleProgress}
+          onResetMRNACycle={() => {
+            if (ribosomeSceneRef.current) {
+              ribosomeSceneRef.current.resetMRNACycle();
+            }
+          }}
+          onFocusComponent={(key) => {
+            if (ribosomeSceneRef.current) {
+              ribosomeSceneRef.current.focusComponent(key);
+              ribosomeSceneRef.current.selectComponent(key);
             }
           }}
         />

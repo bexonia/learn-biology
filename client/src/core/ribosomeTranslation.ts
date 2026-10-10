@@ -141,11 +141,47 @@ export const RIBOSOME_COMPONENTS_META: Record<string, RibosomeComponentData> = {
     proteins: 'Newly polymerized primary protein structure',
     pdb: 'PDB: 7K00',
     desc: 'The newly synthesized protein chain made of vibrant candy pearl beads (purple, cyan, green, gold, orange, red) snaking out through the 50S exit tunnel into the cytoplasm.'
+  },
+  'polysome_complex': {
+    name: 'Polysome (Polyribosome) Translation Array',
+    badge: 'POLYSOME ARRAY (3x 70S)',
+    dims: 'Polysome span: ~120 nm along mRNA transcript (~540 nt / 180 codons)',
+    proteins: '3 Tandem 70S Holoenzymes (Initiation, Mid-Elongation, Termination)',
+    pdb: 'PDB: 7K00 Cryo-EM Architecture',
+    desc: 'A polyribosome (polysome) formed by multiple 70S ribosomes simultaneously translating a single continuous mRNA strand. This biological assembly line allows a bacterial cell to produce dozens of identical protein copies concurrently from a single transcript before the mRNA is degraded.'
+  },
+  'ribosome_upstream': {
+    name: 'Upstream 70S Ribosome (Early Elongation / Loaded at 5\')',
+    badge: 'NEWLY LOADED RIBOSOME',
+    dims: 'Recently initiated at Shine-Dalgarno / AUG codon, ~25 nm diameter',
+    proteins: 'Nascent peptide: ~8 amino acid oligopeptide inside exit tunnel',
+    pdb: 'PDB: 7K00',
+    desc: 'The newly recruited 70S ribosome at the 5\' upstream region of mRNA. Having recently completed initiation and 30S-50S subunit joining, it has polymerized its first ~8 amino acids, which are still buried inside the 50S exit tunnel.'
+  },
+  'ribosome_downstream': {
+    name: 'Downstream 70S Ribosome (Late Elongation / Near 3\' Stop)',
+    badge: 'TERMINATING RIBOSOME',
+    dims: 'Approaching UAA/UAG/UGA stop codon, ~25 nm diameter',
+    proteins: 'Nascent peptide: ~32 amino acids folding in cytoplasm',
+    pdb: 'PDB: 7K00',
+    desc: 'The leading 70S ribosome furthest along the transcript nearing the 3\' termination codon. It carries an extended 32-amino-acid polypeptide chain that has emerged fully from the exit tunnel and begun co-translational folding.'
+  },
+  'extended_mrna': {
+    name: 'Extended Polysome mRNA Transcript (5\' → 3\')',
+    badge: 'POLYSOMAL mRNA',
+    dims: 'Continuous transcript spanning ~180 codons (~540 nucleotides)',
+    proteins: 'Templates 3 tandem ribosomes; recycled upon translocation completion',
+    pdb: 'PDB: 7K00 (Chain X core) + extended ribonucleotide coordinates',
+    desc: 'The long messenger RNA transcript linking the ribosomes together. Nucleotide triplet codons (A, U, G, C) translocate in a 5\' to 3\' direction. Upon reaching the end of the translation run, the mRNA cycle returns to the 5\' beginning to model ongoing cellular ribosome loading and recycling.'
   }
 };
 
 export const RIBOSOME_TOUR_STOPS = [
+  'polysome_complex',
   'ribosome_70s',
+  'ribosome_upstream',
+  'ribosome_downstream',
+  'extended_mrna',
   'rrna_50s',
   'proteins_50s',
   'rrna_30s',
@@ -161,6 +197,7 @@ export class RibosomeScene {
     this.container = container;
     this.options = options;
     this.onSelectComponent = options.onSelectComponent || (() => {});
+    this.onMRNACycleUpdate = options.onMRNACycleUpdate || (() => {});
 
     // State
     this.active = false;
@@ -170,6 +207,16 @@ export class RibosomeScene {
     this.selectedComponentKey = 'ribosome_70s';
     this.activeSubunitFilter = 'all';
     this.isAutoRotating = false;
+
+    // Polysome & mRNA Translocation Cycle
+    this.mrnaCycleProgress = 0.0;
+    this.mrnaCurve = null;
+    this.ribosome2Group = null;
+    this.ribosome3Group = null;
+    this.extendedMRNAGroup = null;
+    this.codonPlates = [];
+    this.peptide2Group = null;
+    this.peptide3Group = null;
 
     // Kinetics & Animation
     this.cyclePhase = 0;
@@ -228,9 +275,9 @@ export class RibosomeScene {
     this.mouse = new THREE.Vector2();
     this.clickableMeshes = [];
 
-    // Camera settings: Theatrical frontal view matching The Biology Primer Atomic Model
-    this.spherical = { radius: 98, theta: 0.05, phi: 1.57 };
-    this.target = new THREE.Vector3(0, 0, 0);
+    // Camera settings: Theatrical frontal view framing the full 3-ribosome Polysome array
+    this.spherical = { radius: 108, theta: 0.05, phi: 1.57 };
+    this.target = new THREE.Vector3(0, 0, -2);
     this.isPointerDown = false;
     this.pointerStart = { x: 0, y: 0 };
 
@@ -448,6 +495,36 @@ export class RibosomeScene {
 
       this.assemblyGroup.add(model);
 
+      // --- Ribosome 2: Upstream / 5' Initiation Region (Newly Loaded) ---
+      const model2 = model.clone(true);
+      model2.name = 'Ribosome_2_Upstream_5p';
+      model2.position.set(-46, -3.2, -4.5);
+      model2.traverse((child) => {
+        if (child.isMesh) {
+          child.castShadow = true;
+          child.receiveShadow = true;
+          if (child.material) child.material = child.material.clone();
+          this.registerClickable(child, 'ribosome_upstream');
+        }
+      });
+      this.assemblyGroup.add(model2);
+      this.ribosome2Group = model2;
+
+      // --- Ribosome 3: Downstream / 3' Termination Region (Folding) ---
+      const model3 = model.clone(true);
+      model3.name = 'Ribosome_3_Downstream_3p';
+      model3.position.set(46, 3.5, -4.5);
+      model3.traverse((child) => {
+        if (child.isMesh) {
+          child.castShadow = true;
+          child.receiveShadow = true;
+          if (child.material) child.material = child.material.clone();
+          this.registerClickable(child, 'ribosome_downstream');
+        }
+      });
+      this.assemblyGroup.add(model3);
+      this.ribosome3Group = model3;
+
       // Add Peptidyl Catalytic Spark Sprite
       const sparkGeo = new THREE.SphereGeometry(1.4, 12, 12);
       const sparkMat = new THREE.MeshBasicMaterial({ color: 0xFFF07C, transparent: true, opacity: 0.90 });
@@ -458,8 +535,10 @@ export class RibosomeScene {
       this.sparkMesh.scale.set(0.1, 0.1, 0.1);
       this.assemblyGroup.add(this.sparkMesh);
 
-      // Build Nascent Polypeptide Chain & 3D Architectural Labels
+      // Build Nascent Polypeptides (Ribo 1, Ribo 2, Ribo 3) & Extended Polysome mRNA
       this.buildNascentPolypeptide(scaleFactor);
+      this.buildPolysomePeptideChains();
+      this.buildExtendedPolysomeMRNA();
       this.buildFloatingLabels();
 
       // Apply initial exploded progress if user moved slider before load
@@ -467,10 +546,219 @@ export class RibosomeScene {
         this.setExplodedProgress(this.explodedProgress);
       }
 
-      console.log('[+] Authentic 70S Ribosome Molecular Nodes Assembly loaded successfully.');
+      console.log('[+] Authentic 70S Polysome Array (3x Ribosomes) loaded successfully.');
     }, undefined, (err) => {
       console.error('[-] Failed to load 7K00 assembled pieces GLB:', err);
     });
+  }
+
+  buildPolysomePeptideChains() {
+    const pearlColors = [
+      0x7B2CBF, 0x3A86FF, 0x06D6A0, 0xFFB703, 0xFB5607, 0xE63946, 0x8338EC, 0x38B000, 0xFF006E
+    ];
+    const beadGeo = new THREE.SphereGeometry(0.9, 12, 12);
+
+    // --- 1. Ribosome 2 Peptide (Early Initiation, ~8 amino acid beads inside exit tunnel) ---
+    this.peptide2Group = new THREE.Group();
+    this.peptide2Group.name = 'Ribosome_2_Short_Peptide';
+    const r2Points = [
+      new THREE.Vector3(-44.2, 1.8, -8.5),
+      new THREE.Vector3(-44.6, 5.0, -9.8),
+      new THREE.Vector3(-45.2, 8.5, -9.2),
+      new THREE.Vector3(-45.0, 12.5, -8.0),
+      new THREE.Vector3(-44.2, 16.0, -6.5),
+      new THREE.Vector3(-43.0, 18.0, -5.2),
+      new THREE.Vector3(-41.5, 19.5, -4.0),
+      new THREE.Vector3(-39.8, 20.2, -3.2)
+    ];
+    const r2Curve = new THREE.CatmullRomCurve3(r2Points);
+    const r2Samples = r2Curve.getPoints(8);
+    for (let i = 0; i < r2Samples.length; i++) {
+      const col = pearlColors[i % pearlColors.length];
+      const mat = new THREE.MeshStandardMaterial({ color: col, roughness: 0.20, metalness: 0.1 });
+      const bead = new THREE.Mesh(beadGeo, mat);
+      bead.position.copy(r2Samples[i]);
+      bead.castShadow = true;
+      this.registerClickable(bead, 'ribosome_upstream');
+      this.peptide2Group.add(bead);
+    }
+    const r2Line = new THREE.Mesh(
+      new THREE.TubeGeometry(r2Curve, 24, 0.20, 6, false),
+      new THREE.MeshStandardMaterial({ color: 0xFFD166, roughness: 0.3 })
+    );
+    this.peptide2Group.add(r2Line);
+    this.assemblyGroup.add(this.peptide2Group);
+
+    // --- 2. Ribosome 3 Peptide (Late Elongation, ~32 amino acids folding in cytoplasm) ---
+    this.peptide3Group = new THREE.Group();
+    this.peptide3Group.name = 'Ribosome_3_Folding_Peptide';
+    const r3Points = [
+      new THREE.Vector3(47.8, 8.5, -8.5),
+      new THREE.Vector3(47.4, 12.0, -9.8),
+      new THREE.Vector3(46.8, 16.0, -9.0),
+      new THREE.Vector3(47.0, 20.0, -7.5),
+      new THREE.Vector3(48.5, 23.5, -5.5),
+      new THREE.Vector3(51.0, 26.0, -3.5),
+      new THREE.Vector3(54.5, 27.5, -2.0),
+      new THREE.Vector3(58.0, 26.5, -1.0),
+      new THREE.Vector3(61.0, 24.0, -0.5),
+      new THREE.Vector3(63.0, 20.5, 0.5),
+      new THREE.Vector3(62.0, 17.0, 2.0),
+      new THREE.Vector3(59.0, 15.0, 3.5),
+      new THREE.Vector3(56.0, 15.5, 5.0),
+      new THREE.Vector3(54.0, 18.0, 6.0),
+      new THREE.Vector3(55.0, 21.0, 7.0),
+      new THREE.Vector3(58.0, 23.0, 7.5),
+      new THREE.Vector3(61.5, 24.5, 8.0),
+      new THREE.Vector3(65.0, 23.5, 7.5),
+      new THREE.Vector3(67.5, 21.0, 6.5)
+    ];
+    const r3Curve = new THREE.CatmullRomCurve3(r3Points);
+    const r3Samples = r3Curve.getPoints(32);
+    for (let i = 0; i < r3Samples.length; i++) {
+      const col = pearlColors[i % pearlColors.length];
+      const mat = new THREE.MeshStandardMaterial({ color: col, roughness: 0.18, metalness: 0.12 });
+      const bead = new THREE.Mesh(beadGeo, mat);
+      bead.position.copy(r3Samples[i]);
+      bead.castShadow = true;
+      this.registerClickable(bead, 'ribosome_downstream');
+      this.peptide3Group.add(bead);
+    }
+    const r3Line = new THREE.Mesh(
+      new THREE.TubeGeometry(r3Curve, 54, 0.22, 6, false),
+      new THREE.MeshStandardMaterial({ color: 0xFFD166, roughness: 0.3 })
+    );
+    this.peptide3Group.add(r3Line);
+    this.assemblyGroup.add(this.peptide3Group);
+  }
+
+  buildExtendedPolysomeMRNA() {
+    this.extendedMRNAGroup = new THREE.Group();
+    this.extendedMRNAGroup.name = 'Extended_Polysome_mRNA';
+
+    // Spline curve traversing 5' entry -> Ribo 2 -> Spacer 1 -> Ribo 1 -> Spacer 2 -> Ribo 3 -> 3' exit
+    const mrnaPoints = [
+      new THREE.Vector3(-92, -10.5, -12),   // 5' Leader / Cap entry
+      new THREE.Vector3(-72, -7.5, -8),     // Pre-initiation Shine-Dalgarno approach
+      new THREE.Vector3(-46, -3.2, -4.5),   // Inside Ribosome 2 decoding cleft
+      new THREE.Vector3(-24, -1.2, -2.5),   // Inter-ribosomal linker 1
+      new THREE.Vector3(0, 0, 0),           // Inside Ribosome 1 decoding cleft
+      new THREE.Vector3(24, 1.8, -2.5),    // Inter-ribosomal linker 2
+      new THREE.Vector3(46, 3.5, -4.5),    // Inside Ribosome 3 decoding cleft
+      new THREE.Vector3(72, 7.5, -8),      // Post-termination clearance
+      new THREE.Vector3(92, 10.5, -12)     // 3' Poly-A / stem loop terminus
+    ];
+    this.mrnaCurve = new THREE.CatmullRomCurve3(mrnaPoints);
+
+    // Continuous Coral Backbone Tube
+    const tubeGeo = new THREE.TubeGeometry(this.mrnaCurve, 160, 0.45, 8, false);
+    const tubeMat = new THREE.MeshStandardMaterial({
+      color: 0xBA4E3B,
+      roughness: 0.38,
+      metalness: 0.08
+    });
+    const backboneMesh = new THREE.Mesh(tubeGeo, tubeMat);
+    backboneMesh.castShadow = true;
+    backboneMesh.receiveShadow = true;
+    this.registerClickable(backboneMesh, 'extended_mrna');
+    this.extendedMRNAGroup.add(backboneMesh);
+
+    // 60 Codon Triplet Plates with Biological Base Colors (A, U, G, C)
+    const basePalette = {
+      'A': 0xE76F51, // Coral Terracotta (Adenine)
+      'U': 0x457B9D, // Steel Blue (Uracil)
+      'G': 0x2A9D8F, // Jade Green (Guanine)
+      'C': 0xE9C46A  // Amber Gold (Cytosine)
+    };
+    const codonPatterns = [
+      ['A', 'U', 'G'], ['G', 'U', 'G'], ['U', 'U', 'U'], ['G', 'A', 'A'],
+      ['C', 'U', 'G'], ['A', 'A', 'A'], ['C', 'C', 'G'], ['U', 'A', 'C'],
+      ['G', 'G', 'C'], ['A', 'U', 'C'], ['C', 'A', 'G'], ['G', 'A', 'C'],
+      ['U', 'U', 'C'], ['G', 'C', 'G'], ['A', 'C', 'U'], ['C', 'C', 'A']
+    ];
+
+    const discGeo = new THREE.CylinderGeometry(0.38, 0.38, 0.22, 10);
+    this.codonPlates = [];
+
+    const numCodons = 60;
+    for (let i = 0; i < numCodons; i++) {
+      const codonGroup = new THREE.Group();
+      codonGroup.name = `Codon_Plate_${i}`;
+      const pattern = codonPatterns[i % codonPatterns.length];
+
+      // Triplet of 3 bases side-by-side
+      for (let b = 0; b < 3; b++) {
+        const baseLetter = pattern[b];
+        const baseMat = new THREE.MeshStandardMaterial({
+          color: basePalette[baseLetter],
+          roughness: 0.25,
+          metalness: 0.08
+        });
+        const baseMesh = new THREE.Mesh(discGeo, baseMat);
+        baseMesh.position.set((b - 1) * 0.55, 0, 0);
+        baseMesh.rotation.x = Math.PI / 2;
+        codonGroup.add(baseMesh);
+      }
+
+      codonGroup.userData.baseU = i / numCodons;
+      this.registerClickable(codonGroup, 'extended_mrna');
+      this.extendedMRNAGroup.add(codonGroup);
+      this.codonPlates.push(codonGroup);
+    }
+
+    // 5' Cap Terminal Decoration
+    const cap5Geo = new THREE.SphereGeometry(1.6, 14, 14);
+    const cap5Mat = new THREE.MeshStandardMaterial({
+      color: 0xFFB703,
+      emissive: 0xE68A00,
+      emissiveIntensity: 0.6,
+      roughness: 0.2
+    });
+    const cap5 = new THREE.Mesh(cap5Geo, cap5Mat);
+    cap5.position.copy(mrnaPoints[0]);
+    this.registerClickable(cap5, 'extended_mrna');
+    this.extendedMRNAGroup.add(cap5);
+
+    // 3' Stem-Loop Terminal Decoration
+    const term3Geo = new THREE.TorusGeometry(1.8, 0.4, 8, 20);
+    const term3Mat = new THREE.MeshStandardMaterial({
+      color: 0x2A9D8F,
+      roughness: 0.3
+    });
+    const term3 = new THREE.Mesh(term3Geo, term3Mat);
+    term3.position.copy(mrnaPoints[mrnaPoints.length - 1]);
+    this.registerClickable(term3, 'extended_mrna');
+    this.extendedMRNAGroup.add(term3);
+
+    this.assemblyGroup.add(this.extendedMRNAGroup);
+    this.updateCodonPlates(0.0);
+  }
+
+  updateCodonPlates(progress) {
+    if (!this.mrnaCurve || this.codonPlates.length === 0) return;
+    const up = new THREE.Vector3(0, 1, 0);
+    for (let i = 0; i < this.codonPlates.length; i++) {
+      const plate = this.codonPlates[i];
+      const u = (plate.userData.baseU + progress) % 1.0;
+      const pt = this.mrnaCurve.getPointAt(u);
+      const tangent = this.mrnaCurve.getTangentAt(u);
+      plate.position.copy(pt);
+      plate.quaternion.setFromUnitVectors(up, tangent);
+    }
+  }
+
+  resetMRNACycle() {
+    this.mrnaCycleProgress = 0.0;
+    this.updateCodonPlates(0.0);
+    if (this.onMRNACycleUpdate) {
+      this.onMRNACycleUpdate(0.0);
+    }
+    if (this.sparkMesh) {
+      this.sparkMesh.scale.set(3.5, 3.5, 3.5);
+      setTimeout(() => {
+        if (this.sparkMesh) this.sparkMesh.scale.set(0.1, 0.1, 0.1);
+      }, 300);
+    }
   }
 
   /**
@@ -546,6 +834,12 @@ export class RibosomeScene {
     this.labels = [];
 
     const labelDefs = [
+      { text: 'Polysome (Polyribosome) Array', color: '#1A3A5A', pos: new THREE.Vector3(0.0, 31.0, 5.0), key: 'polysome_complex', w: 220, h: 44 },
+      { text: 'Ribosome 2 (5\' Loaded / Early)', color: '#2A5D34', pos: new THREE.Vector3(-46.0, -22.0, 6.0), key: 'ribosome_upstream', w: 225, h: 44 },
+      { text: 'Ribosome 1 (70S Active PTC)', color: '#1A2B25', pos: new THREE.Vector3(0.0, -23.0, 6.0), key: 'ribosome_70s', w: 215, h: 44 },
+      { text: 'Ribosome 3 (3\' Terminating)', color: '#3D2645', pos: new THREE.Vector3(46.0, -18.0, 6.0), key: 'ribosome_downstream', w: 225, h: 44 },
+      { text: '5\' mRNA Entry (Shine-Dalgarno)', color: '#8A3B2C', pos: new THREE.Vector3(-86.0, -6.0, -8.0), key: 'extended_mrna', w: 210, h: 44 },
+      { text: '3\' mRNA Exit (Termination)', color: '#2A5A4A', pos: new THREE.Vector3(86.0, 14.0, -8.0), key: 'extended_mrna', w: 195, h: 44 },
       { text: 'Growing polypeptide chain (protein)', color: '#4A1E6D', pos: new THREE.Vector3(8.0, 22.0, 5.0), key: 'nascent_peptide', w: 220, h: 44 },
       { text: '50S ribosomal RNA (rRNA)', color: '#7B1842', pos: new THREE.Vector3(-18.0, 10.0, 8.0), key: 'rrna_50s', w: 185, h: 46 },
       { text: '50S ribosomal proteins', color: '#1B4332', pos: new THREE.Vector3(18.0, 12.0, 6.0), key: 'proteins_50s', w: 175, h: 46 },
@@ -579,7 +873,7 @@ export class RibosomeScene {
 
     this.canvas.addEventListener('wheel', (e) => {
       e.preventDefault();
-      this.spherical.radius = Math.max(20, Math.min(160, this.spherical.radius + e.deltaY * 0.08));
+      this.spherical.radius = Math.max(20, Math.min(180, this.spherical.radius + e.deltaY * 0.08));
       this.updateCameraPosition();
     }, { passive: false });
 
@@ -628,20 +922,30 @@ export class RibosomeScene {
     const meta = this.componentsMeta[key] || this.componentsMeta['ribosome_70s'];
     this.onSelectComponent(key, meta);
 
-    // Pulse highlight selected mesh briefly
-    this.clickableMeshes.forEach((m) => {
-      if (m.userData.componentKey === key && m.material && m.material.emissive) {
-        const origColor = m.material.emissive.getHex();
-        m.material.emissive.setHex(0xFFD166);
-        setTimeout(() => {
-          if (m && m.material && m.material.emissive) m.material.emissive.setHex(origColor);
-        }, 500);
-      }
-    });
+    // Pulse highlight specific selected sub-components briefly (e.g. PTC, tRNAs, peptide)
+    if (key !== 'ribosome_70s' && key !== 'ribosome_upstream' && key !== 'ribosome_downstream' && key !== 'polysome_complex') {
+      this.clickableMeshes.forEach((m) => {
+        if (m.userData.componentKey === key && m.material && m.material.emissive) {
+          if (m.userData.origEmissive === undefined) {
+            m.userData.origEmissive = m.material.emissive.getHex();
+          }
+          m.material.emissive.setHex(0xFFD166);
+          setTimeout(() => {
+            if (m && m.material && m.material.emissive && m.userData.origEmissive !== undefined) {
+              m.material.emissive.setHex(m.userData.origEmissive);
+            }
+          }, 450);
+        }
+      });
+    }
   }
 
   focusComponent(key) {
     const targetMap = {
+      'polysome_complex': { radius: 110, theta: 0.05, phi: 1.57, target: new THREE.Vector3(0, 0, -2) },
+      'ribosome_upstream': { radius: 56, theta: 0.08, phi: 1.48, target: new THREE.Vector3(-46, -3.2, -4.5) },
+      'ribosome_downstream': { radius: 56, theta: -0.05, phi: 1.48, target: new THREE.Vector3(46, 3.5, -4.5) },
+      'extended_mrna': { radius: 95, theta: 0.02, phi: 1.55, target: new THREE.Vector3(0, 0, -3) },
       'rrna_50s': { radius: 62, theta: -0.10, phi: 1.35, target: new THREE.Vector3(2.36, -1.77, 8.02) },
       'proteins_50s': { radius: 64, theta: -0.15, phi: 1.30, target: new THREE.Vector3(2.36, -1.77, 8.02) },
       'subunit_50s': { radius: 64, theta: -0.10, phi: 1.35, target: new THREE.Vector3(2.36, -1.77, 8.02) },
@@ -680,8 +984,8 @@ export class RibosomeScene {
   }
 
   resetCamera() {
-    this.spherical = { radius: 74, theta: 0.08, phi: 1.42 };
-    this.target.set(0, 0, 0);
+    this.spherical = { radius: 108, theta: 0.05, phi: 1.57 };
+    this.target.set(0, 0, -2);
     this.updateCameraPosition();
   }
 
@@ -742,6 +1046,20 @@ export class RibosomeScene {
       this.pieceTRNA_E.position.x = this.origTRNA_EPos.x - this.explodedProgress * 5.5;
     }
 
+    // Displace neighboring ribosomes outward during exploded view for clear central visibility
+    if (this.ribosome2Group) {
+      this.ribosome2Group.position.x = -46 - this.explodedProgress * 12;
+    }
+    if (this.ribosome3Group) {
+      this.ribosome3Group.position.x = 46 + this.explodedProgress * 12;
+    }
+    if (this.peptide2Group) {
+      this.peptide2Group.position.x = -this.explodedProgress * 12;
+    }
+    if (this.peptide3Group) {
+      this.peptide3Group.position.x = this.explodedProgress * 12;
+    }
+
     // Offset labels
     this.labels.forEach((label) => {
       const orig = label.userData.origPos;
@@ -752,6 +1070,10 @@ export class RibosomeScene {
         label.position.copy(orig).addScaledVector(this.dissociationAxis, -dist * 0.85);
       } else if (key === 'mrna_strand') {
         label.position.copy(orig).addScaledVector(this.dissociationAxis, dist * 0.45);
+      } else if (key === 'ribosome_upstream') {
+        label.position.x = orig.x - this.explodedProgress * 12;
+      } else if (key === 'ribosome_downstream') {
+        label.position.x = orig.x + this.explodedProgress * 12;
       }
     });
   }
@@ -790,6 +1112,13 @@ export class RibosomeScene {
       this.registerClickable(newBead, 'nascent_peptide');
     }
 
+    // Advance mRNA cycle slightly on step
+    this.mrnaCycleProgress = (this.mrnaCycleProgress + 1.0 / 60.0) % 1.0;
+    this.updateCodonPlates(this.mrnaCycleProgress);
+    if (this.onMRNACycleUpdate) {
+      this.onMRNACycleUpdate(this.mrnaCycleProgress);
+    }
+
     // Trigger catalytic spark flash at PTC active site
     if (this.sparkMesh) {
       this.sparkMesh.scale.set(3.5, 3.5, 3.5);
@@ -808,24 +1137,31 @@ export class RibosomeScene {
   setSubunitFilter(filter) {
     this.activeSubunitFilter = filter;
     const isAll = filter === 'all';
+    const isPolysome = filter === 'polysome';
 
-    if (this.piece30S_rRNA) this.piece30S_rRNA.visible = isAll || filter === '30s_rrna' || filter === '30s';
-    if (this.piece30S_Proteins) this.piece30S_Proteins.visible = isAll || filter === '30s_prot' || filter === '30s';
-    if (this.piece50S_rRNA) this.piece50S_rRNA.visible = isAll || filter === '50s_rrna' || filter === '50s' || filter === 'tunnel';
-    if (this.piece50S_Proteins) this.piece50S_Proteins.visible = isAll || filter === '50s_prot' || filter === '50s';
-    if (this.piecePTC) this.piecePTC.visible = isAll || filter === '50s_rrna' || filter === '50s' || filter === 'ptc' || filter === 'tunnel';
-    if (this.sparkMesh) this.sparkMesh.visible = isAll || filter === '50s_rrna' || filter === '50s' || filter === 'ptc' || filter === 'tunnel';
-    if (this.pieceTRNA_A) this.pieceTRNA_A.visible = isAll || filter === 'trna';
-    if (this.pieceTRNA_P) this.pieceTRNA_P.visible = isAll || filter === 'trna';
-    if (this.pieceTRNA_E) this.pieceTRNA_E.visible = isAll || filter === 'trna';
-    if (this.pieceMRNA) this.pieceMRNA.visible = isAll || filter === 'mrna';
-    if (this.peptideGroup) this.peptideGroup.visible = isAll || filter === 'peptide' || filter === '50s' || filter === 'tunnel';
+    if (this.ribosome2Group) this.ribosome2Group.visible = isAll || isPolysome;
+    if (this.ribosome3Group) this.ribosome3Group.visible = isAll || isPolysome;
+    if (this.peptide2Group) this.peptide2Group.visible = isAll || isPolysome || filter === 'peptide';
+    if (this.peptide3Group) this.peptide3Group.visible = isAll || isPolysome || filter === 'peptide';
+    if (this.extendedMRNAGroup) this.extendedMRNAGroup.visible = isAll || isPolysome || filter === 'mrna' || filter === 'ext_mrna';
+
+    if (this.piece30S_rRNA) this.piece30S_rRNA.visible = isAll || isPolysome || filter === '30s_rrna' || filter === '30s';
+    if (this.piece30S_Proteins) this.piece30S_Proteins.visible = isAll || isPolysome || filter === '30s_prot' || filter === '30s';
+    if (this.piece50S_rRNA) this.piece50S_rRNA.visible = isAll || isPolysome || filter === '50s_rrna' || filter === '50s' || filter === 'tunnel';
+    if (this.piece50S_Proteins) this.piece50S_Proteins.visible = isAll || isPolysome || filter === '50s_prot' || filter === '50s';
+    if (this.piecePTC) this.piecePTC.visible = isAll || isPolysome || filter === '50s_rrna' || filter === '50s' || filter === 'ptc' || filter === 'tunnel';
+    if (this.sparkMesh) this.sparkMesh.visible = isAll || isPolysome || filter === '50s_rrna' || filter === '50s' || filter === 'ptc' || filter === 'tunnel';
+    if (this.pieceTRNA_A) this.pieceTRNA_A.visible = isAll || isPolysome || filter === 'trna';
+    if (this.pieceTRNA_P) this.pieceTRNA_P.visible = isAll || isPolysome || filter === 'trna';
+    if (this.pieceTRNA_E) this.pieceTRNA_E.visible = isAll || isPolysome || filter === 'trna';
+    if (this.pieceMRNA) this.pieceMRNA.visible = isAll || isPolysome || filter === 'mrna' || filter === 'ext_mrna';
+    if (this.peptideGroup) this.peptideGroup.visible = isAll || isPolysome || filter === 'peptide' || filter === '50s' || filter === 'tunnel';
 
     // Synchronize 3D floating labels
     if (this.labels) {
       this.labels.forEach((label) => {
         const key = label.userData.componentKey;
-        if (filter === 'all') {
+        if (filter === 'all' || filter === 'polysome') {
           label.visible = true;
         } else if (filter === '50s_rrna' || filter === '50s') {
           label.visible = (key === 'rrna_50s' || key === 'subunit_50s');
@@ -837,8 +1173,8 @@ export class RibosomeScene {
           label.visible = (key === 'proteins_30s');
         } else if (filter === 'trna') {
           label.visible = (key === 'trna_all' || key === 'trna_a_site' || key === 'trna_p_site' || key === 'trna_e_site');
-        } else if (filter === 'mrna') {
-          label.visible = (key === 'mrna_strand');
+        } else if (filter === 'mrna' || filter === 'ext_mrna') {
+          label.visible = (key === 'mrna_strand' || key === 'extended_mrna');
         } else if (filter === 'ptc') {
           label.visible = (key === 'ptc_core');
         } else if (filter === 'peptide') {
@@ -873,7 +1209,14 @@ export class RibosomeScene {
     if (!this.isPaused) {
       this.cycleTime += delta;
 
-      // 1. Subtle biological breathing & micro-translocation oscillations of tRNAs
+      // 1. Advance mRNA Translocation and recycling cycle
+      this.mrnaCycleProgress = (this.mrnaCycleProgress + delta * 0.015 * this.translationSpeed) % 1.0;
+      if (this.onMRNACycleUpdate) {
+        this.onMRNACycleUpdate(this.mrnaCycleProgress);
+      }
+      this.updateCodonPlates(this.mrnaCycleProgress);
+
+      // 2. Subtle biological breathing & micro-translocation oscillations of tRNAs
       if (this.pieceTRNA_A && this.pieceTRNA_P && this.pieceTRNA_E) {
         const bob = Math.sin(this.cycleTime * 3.5) * 0.25;
         this.pieceTRNA_A.position.y = this.origTRNA_APos.y + bob;
@@ -881,18 +1224,24 @@ export class RibosomeScene {
         this.pieceTRNA_E.position.y = this.origTRNA_EPos.y + Math.cos(this.cycleTime * 3.0) * 0.2;
       }
 
-      // 2. mRNA continuous feed simulation
+      // 3. Center mRNA subtle breathing
       if (this.pieceMRNA) {
         const mrnaShift = Math.sin(this.cycleTime * 1.8) * 0.30;
         this.pieceMRNA.position.x = this.origMRNAPos.x + mrnaShift;
       }
 
-      // 3. Gentle waving of the nascent peptide chain outside the exit porthole
+      // 4. Gentle waving of the nascent peptide chains outside the exit portholes
       if (this.peptideGroup) {
         this.peptideGroup.rotation.z = Math.sin(this.cycleTime * 1.2) * 0.02;
       }
+      if (this.peptide2Group) {
+        this.peptide2Group.rotation.z = Math.sin(this.cycleTime * 1.5) * 0.015;
+      }
+      if (this.peptide3Group) {
+        this.peptide3Group.rotation.z = Math.sin(this.cycleTime * 0.9) * 0.03;
+      }
 
-      // 4. PTC catalytic pulse breathing
+      // 5. PTC catalytic pulse breathing
       if (this.piecePTC) {
         const pulse = 1.0 + Math.sin(this.cycleTime * 4.0) * 0.05;
         this.piecePTC.scale.set(pulse, pulse, pulse);

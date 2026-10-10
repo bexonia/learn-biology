@@ -1,10 +1,11 @@
 import { useState, useEffect, useRef, useCallback } from 'react';
-import type { ScenarioType, MotorComponentData, RibosomeComponentData, ATPSynthaseComponentData, ComplexIComponentData, TourStatus } from './types/biology';
+import type { ScenarioType, MotorComponentData, RibosomeComponentData, ATPSynthaseComponentData, ComplexIComponentData, SecYEGComponentData, TourStatus } from './types/biology';
 import { CellViewerScene, CELL_ANATOMY_DATA, CELL_TOUR_STOPS } from './core/cellViewer';
 import { FlagellarMotorScene } from './core/flagellarMotor';
 import { RibosomeScene, RIBOSOME_COMPONENTS_META, RIBOSOME_TOUR_STOPS } from './core/ribosomeTranslation';
 import { ATPSynthaseScene, ATP_SYNTHASE_COMPONENTS_META, ATP_SYNTHASE_TOUR_STOPS } from './core/atpSynthase';
 import { ComplexIScene, COMPLEX_I_COMPONENTS_META, COMPLEX_I_TOUR_STOPS } from './core/complexITransport';
+import { SecYEGScene, SECYEG_COMPONENTS_META, SECYEG_EXPLANATION_STAGES } from './core/secYEGTransport';
 import voiceService from './core/voiceService';
 
 // UI Components
@@ -37,6 +38,11 @@ import { ATPSynthaseInspectorDrawer } from './components/ATPSynthase/ATPSynthase
 import { ComplexIHeaderOverlay } from './components/ComplexI/ComplexIHeaderOverlay';
 import { ComplexIHUDCard } from './components/ComplexI/ComplexIHUDCard';
 import { ComplexIInspectorDrawer } from './components/ComplexI/ComplexIInspectorDrawer';
+
+// SecYEG Components
+import { SecYEGHeaderOverlay } from './components/SecYEG/SecYEGHeaderOverlay';
+import { SecYEGHUDCard } from './components/SecYEG/SecYEGHUDCard';
+import { SecYEGInspectorDrawer } from './components/SecYEG/SecYEGInspectorDrawer';
 
 // Live Viewport Subtitles
 import { LiveSubtitles } from './components/Viewport/LiveSubtitles';
@@ -315,6 +321,16 @@ export const COMPLEX_I_EXPLANATION_STAGES = [
   }
 ];
 
+export const SECYEG_TOUR_STOPS = [
+  'secyeg_holoenzyme',
+  'seca_motor',
+  'secy_pore',
+  'lateral_gate',
+  'sece_clamp',
+  'secg_escort',
+  'translocating_peptide'
+];
+
 function App() {
   // Scenario state
   const [scenario, setScenario] = useState<ScenarioType>('cell');
@@ -420,6 +436,25 @@ function App() {
   const [complexITourStep, setComplexITourStep] = useState<number>(0);
   const [complexITourPhase, setComplexITourPhase] = useState<'narrating' | 'cooldown' | 'idle'>('idle');
 
+  // SecYEG scene state
+  const [activeSecYEGPart, setActiveSecYEGPart] = useState<string>('secyeg_holoenzyme');
+  const [secYEGComponentMeta, setSecYEGComponentMeta] = useState<SecYEGComponentData>(SECYEG_COMPONENTS_META['secyeg_holoenzyme']);
+  const [isSecYEGPaused, setIsSecYEGPaused] = useState<boolean>(false);
+  const [secYEGAtpRate, setSecYEGAtpRate] = useState<number>(1.0);
+  const [isAzideInhibited, setIsAzideInhibited] = useState<boolean>(false);
+  const [secYEGLateralGate, setSecYEGLateralGate] = useState<number>(0);
+  const [secYEGExplodedProgress, setSecYEGExplodedProgress] = useState<number>(0);
+  const [isSecYEGLabelsVisible, setIsSecYEGLabelsVisible] = useState<boolean>(true);
+  const [isSecYEGNarrating, setIsSecYEGNarrating] = useState<boolean>(false);
+  const [isSecYEGAutoRotating, setIsSecYEGAutoRotating] = useState<boolean>(false);
+  const [secYEGStoryStep, setSecYEGStoryStep] = useState<number>(0);
+
+  // SecYEG Guided Tour State
+  const [isSecYEGTourActive, setIsSecYEGTourActive] = useState<boolean>(false);
+  const [isSecYEGTourPlaying, setIsSecYEGTourPlaying] = useState<boolean>(false);
+  const [secYEGTourStep, setSecYEGTourStep] = useState<number>(0);
+  const [secYEGTourPhase, setSecYEGTourPhase] = useState<'narrating' | 'cooldown' | 'idle'>('idle');
+
   // Live Subtitles State (closed captions for AI narrator with 0.5s pre-display)
   const [subtitleState, setSubtitleState] = useState<{
     visible: boolean;
@@ -452,12 +487,14 @@ function App() {
   const ribosomeContainerRef = useRef<HTMLDivElement>(null);
   const atpContainerRef = useRef<HTMLDivElement>(null);
   const complexIContainerRef = useRef<HTMLDivElement>(null);
+  const secYEGContainerRef = useRef<HTMLDivElement>(null);
 
   const cellSceneRef = useRef<CellViewerScene | null>(null);
   const motorSceneRef = useRef<FlagellarMotorScene | null>(null);
   const ribosomeSceneRef = useRef<RibosomeScene | null>(null);
   const atpSceneRef = useRef<ATPSynthaseScene | null>(null);
   const complexISceneRef = useRef<ComplexIScene | null>(null);
+  const secYEGSceneRef = useRef<SecYEGScene | null>(null);
 
   // --------------------------------------------------------------------------
   // 1. Initialize Cell Viewer Scene
@@ -682,6 +719,50 @@ function App() {
   }, []);
 
   // --------------------------------------------------------------------------
+  // 3e. Initialize / Sync SecYEG Scene when scenario === 'secyeg'
+  // --------------------------------------------------------------------------
+  useEffect(() => {
+    if (!secYEGContainerRef.current) return;
+    if (scenario !== 'secyeg') return;
+
+    if (!secYEGSceneRef.current) {
+      const s1 = new SecYEGScene(secYEGContainerRef.current, {
+        onSelectComponent: (meta: SecYEGComponentData) => {
+          if (meta) {
+            setSecYEGComponentMeta(meta);
+          }
+        },
+        onCameraMove: () => {},
+        onSubtitlesUpdate: (text: string, title?: string, _color?: string) => {
+          showSubtitles(text, title || 'SECYEG TRANSLOCON', 'Kokoro Neural TTS');
+        },
+        onStageChange: (stage: number) => {
+          setSecYEGStoryStep(stage);
+        }
+      });
+
+      secYEGSceneRef.current = s1;
+      (window as any).secYEGScene = s1;
+      s1.start();
+      s1.resetCamera();
+    } else {
+      (window as any).secYEGScene = secYEGSceneRef.current;
+      secYEGSceneRef.current.start();
+      secYEGSceneRef.current.handleResize();
+      secYEGSceneRef.current.resetCamera();
+    }
+  }, [scenario]);
+
+  useEffect(() => {
+    return () => {
+      if (secYEGSceneRef.current) {
+        secYEGSceneRef.current.destroy();
+        secYEGSceneRef.current = null;
+      }
+    };
+  }, []);
+
+  // --------------------------------------------------------------------------
   // 4. Autoplay Whole Cell Overview Narration
   // --------------------------------------------------------------------------
   useEffect(() => {
@@ -738,11 +819,14 @@ function App() {
     setIsRibosomeNarrating(false);
     setIsATPNarrating(false);
     setIsComplexINarrating(false);
+    setIsSecYEGNarrating(false);
 
     setMotorStoryStep(0);
     setRibosomeStoryStep(0);
     setAtpStoryStep(0);
     setComplexIStoryStep(0);
+    setSecYEGStoryStep(0);
+
     setIsMotorTourActive(false);
     setIsMotorTourPlaying(false);
     setIsRibosomeTourActive(false);
@@ -751,6 +835,8 @@ function App() {
     setIsATPTourPlaying(false);
     setIsComplexITourActive(false);
     setIsComplexITourPlaying(false);
+    setIsSecYEGTourActive(false);
+    setIsSecYEGTourPlaying(false);
 
     if (motorSceneRef.current) {
       motorSceneRef.current.setExplanationStep(0);
@@ -763,6 +849,9 @@ function App() {
     }
     if (complexISceneRef.current) {
       complexISceneRef.current.setExplanationStep(0);
+    }
+    if (secYEGSceneRef.current) {
+      secYEGSceneRef.current.setExplanationStep(0);
     }
 
     if (nextScenario === 'motor') {
@@ -779,6 +868,9 @@ function App() {
       if (complexISceneRef.current) {
         complexISceneRef.current.stop();
       }
+      if (secYEGSceneRef.current) {
+        secYEGSceneRef.current.dispose();
+      }
     } else if (nextScenario === 'ribosome') {
       if (cellSceneRef.current) {
         cellSceneRef.current.stop();
@@ -792,6 +884,9 @@ function App() {
       }
       if (complexISceneRef.current) {
         complexISceneRef.current.stop();
+      }
+      if (secYEGSceneRef.current) {
+        secYEGSceneRef.current.dispose();
       }
     } else if (nextScenario === 'atp_synthase') {
       if (cellSceneRef.current) {
@@ -807,6 +902,9 @@ function App() {
       if (complexISceneRef.current) {
         complexISceneRef.current.stop();
       }
+      if (secYEGSceneRef.current) {
+        secYEGSceneRef.current.dispose();
+      }
     } else if (nextScenario === 'complex_i') {
       if (cellSceneRef.current) {
         cellSceneRef.current.stop();
@@ -821,10 +919,35 @@ function App() {
       if (atpSceneRef.current) {
         atpSceneRef.current.stop();
       }
+      if (secYEGSceneRef.current) {
+        secYEGSceneRef.current.dispose();
+      }
       if (complexISceneRef.current) {
         complexISceneRef.current.start();
         complexISceneRef.current.handleResize();
         complexISceneRef.current.resetCamera();
+      }
+    } else if (nextScenario === 'secyeg') {
+      if (cellSceneRef.current) {
+        cellSceneRef.current.stop();
+        if (tourStatus.active) cellSceneRef.current.exitTour();
+      }
+      if (motorSceneRef.current) {
+        motorSceneRef.current.stop();
+      }
+      if (ribosomeSceneRef.current) {
+        ribosomeSceneRef.current.stop();
+      }
+      if (atpSceneRef.current) {
+        atpSceneRef.current.stop();
+      }
+      if (complexISceneRef.current) {
+        complexISceneRef.current.stop();
+      }
+      if (secYEGSceneRef.current) {
+        secYEGSceneRef.current.start();
+        secYEGSceneRef.current.handleResize();
+        secYEGSceneRef.current.resetCamera();
       }
     } else {
       if (motorSceneRef.current) {
@@ -838,6 +961,9 @@ function App() {
       }
       if (complexISceneRef.current) {
         complexISceneRef.current.stop();
+      }
+      if (secYEGSceneRef.current) {
+        secYEGSceneRef.current.dispose();
       }
       if (cellSceneRef.current) {
         cellSceneRef.current.start();
@@ -1306,7 +1432,142 @@ function App() {
   };
 
   // --------------------------------------------------------------------------
-  // 7. Top Toolbar Actions (Unified for Cell, Motor, Ribosome, ATP Synthase, & Complex I)
+  // 6e. SecYEG Explanatory Trace & Story Controllers
+  // --------------------------------------------------------------------------
+  const playSecYEGStoryStep = (stepNumber: number) => {
+    if (stepNumber < 1 || stepNumber > SECYEG_EXPLANATION_STAGES.length) {
+      setSecYEGStoryStep(0);
+      setIsSecYEGNarrating(false);
+      setIsSecYEGTourActive(false);
+      setIsSecYEGTourPlaying(false);
+      hideSubtitles();
+      if (secYEGSceneRef.current) {
+        secYEGSceneRef.current.setExplanationStep(0);
+      }
+      return;
+    }
+
+    const stage = SECYEG_EXPLANATION_STAGES[stepNumber - 1];
+    setSecYEGStoryStep(stepNumber);
+    setActiveSecYEGPart(stage.id);
+    const meta = SECYEG_COMPONENTS_META[stage.id] || SECYEG_COMPONENTS_META['secyeg_holoenzyme'];
+    if (meta) {
+      setSecYEGComponentMeta(meta);
+    }
+
+    if (secYEGSceneRef.current) {
+      secYEGSceneRef.current.setExplanationStep(stepNumber);
+    }
+
+    showSubtitles(stage.spoken, `STAGE ${stage.step} OF ${SECYEG_EXPLANATION_STAGES.length}: ${stage.title}`, 'Kokoro Neural TTS');
+
+    setIsSecYEGNarrating(true);
+    voiceService.playText(stage.spoken, {
+      voice: selectedVoice,
+      onEnd: () => {
+        setTimeout(() => {
+          if (stepNumber < SECYEG_EXPLANATION_STAGES.length) {
+            playSecYEGStoryStep(stepNumber + 1);
+          } else {
+            setSecYEGStoryStep(0);
+            setIsSecYEGNarrating(false);
+            setIsSecYEGTourActive(false);
+            setIsSecYEGTourPlaying(false);
+            hideSubtitles();
+            if (secYEGSceneRef.current) {
+              secYEGSceneRef.current.setExplanationStep(0);
+            }
+          }
+        }, 750);
+      },
+      onError: () => {
+        setSecYEGStoryStep(0);
+        setIsSecYEGNarrating(false);
+        setIsSecYEGTourActive(false);
+        setIsSecYEGTourPlaying(false);
+        hideSubtitles();
+        if (secYEGSceneRef.current) {
+          secYEGSceneRef.current.setExplanationStep(0);
+        }
+      }
+    });
+  };
+
+  const stopSecYEGStoryTrace = () => {
+    voiceService.stop();
+    setIsSecYEGNarrating(false);
+    setSecYEGStoryStep(0);
+    setIsSecYEGTourActive(false);
+    setIsSecYEGTourPlaying(false);
+    setSecYEGTourPhase('idle');
+    hideSubtitles();
+    if (secYEGSceneRef.current) {
+      secYEGSceneRef.current.setExplanationStep(0);
+    }
+  };
+
+  const handleSecYEGNarrate = () => {
+    if (voiceService.isBusy() || secYEGStoryStep > 0) {
+      stopSecYEGStoryTrace();
+    } else {
+      if (!activeSecYEGPart || activeSecYEGPart === 'secyeg_holoenzyme') {
+        playSecYEGStoryStep(1);
+      } else if (secYEGComponentMeta) {
+        const speech = `${secYEGComponentMeta.name}. ${secYEGComponentMeta.desc || ''}`;
+        setIsSecYEGNarrating(true);
+        showSubtitles(speech, secYEGComponentMeta.badge || 'SECYEG', 'Kokoro Neural TTS');
+        voiceService.playText(speech, {
+          voice: selectedVoice,
+          onEnd: () => {
+            setIsSecYEGNarrating(false);
+            hideSubtitles();
+          },
+          onError: () => {
+            setIsSecYEGNarrating(false);
+            hideSubtitles();
+          }
+        });
+      }
+    }
+  };
+
+  const handleToggleSecYEGAutoRotate = () => {
+    if (secYEGSceneRef.current) {
+      const active = secYEGSceneRef.current.toggleAutoRotate();
+      setIsSecYEGAutoRotating(active);
+    }
+  };
+
+  const handleToggleSecYEGLabels = () => {
+    setIsSecYEGLabelsVisible(prev => !prev);
+  };
+
+  const handleToggleSecYEGTour = () => {
+    if (isSecYEGTourActive || secYEGStoryStep > 0) {
+      stopSecYEGStoryTrace();
+    } else {
+      setIsSecYEGTourActive(true);
+      playSecYEGStoryStep(1);
+    }
+  };
+
+  const goToSecYEGTourStep = (stepIndex: number) => {
+    const safeIndex = Math.max(0, Math.min(SECYEG_TOUR_STOPS.length - 1, stepIndex));
+    setSecYEGTourStep(safeIndex);
+    const partKey = SECYEG_TOUR_STOPS[safeIndex];
+    setActiveSecYEGPart(partKey);
+    const meta = SECYEG_COMPONENTS_META[partKey];
+    if (meta) {
+      setSecYEGComponentMeta(meta);
+      if (secYEGSceneRef.current) {
+        secYEGSceneRef.current.focusComponent(partKey);
+      }
+      setSecYEGTourPhase('narrating');
+    }
+  };
+
+  // --------------------------------------------------------------------------
+  // 7. Top Toolbar Actions (Unified for Cell, Motor, Ribosome, ATP Synthase, Complex I, & SecYEG)
   // --------------------------------------------------------------------------
   const handleResetCamera = () => {
     if (scenario === 'cell' && cellSceneRef.current) {
@@ -1319,6 +1580,8 @@ function App() {
       atpSceneRef.current.resetCamera();
     } else if (scenario === 'complex_i' && complexISceneRef.current) {
       complexISceneRef.current.resetCamera();
+    } else if (scenario === 'secyeg' && secYEGSceneRef.current) {
+      secYEGSceneRef.current.resetCamera();
     }
   };
 
@@ -1725,7 +1988,9 @@ function App() {
             ? isRibosomeAutoRotating
             : scenario === 'atp_synthase'
             ? isATPAutoRotating
-            : isComplexIAutoRotating
+            : scenario === 'complex_i'
+            ? isComplexIAutoRotating
+            : isSecYEGAutoRotating
         }
         onToggleAutoRotate={
           scenario === 'cell'
@@ -1736,7 +2001,9 @@ function App() {
             ? handleToggleRibosomeAutoRotate
             : scenario === 'atp_synthase'
             ? handleToggleATPAutoRotate
-            : handleToggleComplexIAutoRotate
+            : scenario === 'complex_i'
+            ? handleToggleComplexIAutoRotate
+            : handleToggleSecYEGAutoRotate
         }
         showLabels={
           scenario === 'cell'
@@ -1747,7 +2014,9 @@ function App() {
             ? isRibosomeLabelsVisible
             : scenario === 'atp_synthase'
             ? isATPLabelsVisible
-            : isComplexILabelsVisible
+            : scenario === 'complex_i'
+            ? isComplexILabelsVisible
+            : isSecYEGLabelsVisible
         }
         onToggleLabels={
           scenario === 'cell'
@@ -1758,7 +2027,9 @@ function App() {
             ? handleToggleRibosomeLabels
             : scenario === 'atp_synthase'
             ? handleToggleATPLabels
-            : handleToggleComplexILabels
+            : scenario === 'complex_i'
+            ? handleToggleComplexILabels
+            : handleToggleSecYEGLabels
         }
         isTourActive={
           scenario === 'cell'
@@ -1769,7 +2040,9 @@ function App() {
             ? isRibosomeTourActive
             : scenario === 'atp_synthase'
             ? isATPTourActive
-            : isComplexITourActive
+            : scenario === 'complex_i'
+            ? isComplexITourActive
+            : (isSecYEGTourActive || secYEGStoryStep > 0)
         }
         onToggleTour={
           scenario === 'cell'
@@ -1780,7 +2053,9 @@ function App() {
             ? handleToggleRibosomeTour
             : scenario === 'atp_synthase'
             ? handleToggleATPTour
-            : handleToggleComplexITour
+            : scenario === 'complex_i'
+            ? handleToggleComplexITour
+            : handleToggleSecYEGTour
         }
       />
 
@@ -2353,13 +2628,142 @@ function App() {
         )}
       </div>
 
+      {/* 8. SecYEG Translocon & SecA Motor Scenario Layer */}
+      <div
+        id="secyeg-container"
+        className={scenario === 'secyeg' ? '' : 'hidden'}
+        style={{ display: scenario === 'secyeg' ? 'block' : 'none' }}
+      >
+        <SecYEGHeaderOverlay />
+
+        <div
+          ref={secYEGContainerRef}
+          style={{ width: '100%', height: '100%', position: 'absolute', top: 0, left: 0 }}
+        />
+        <svg id="secyeg-svg-overlay"></svg>
+        <div id="secyeg-labels-container"></div>
+
+        <SecYEGHUDCard
+          isPaused={isSecYEGPaused}
+          onTogglePause={() => {
+            if (secYEGSceneRef.current) {
+              const paused = secYEGSceneRef.current.togglePause();
+              setIsSecYEGPaused(paused);
+            }
+          }}
+          atpRate={secYEGAtpRate}
+          onChangeAtpRate={(rate) => {
+            setSecYEGAtpRate(rate);
+            if (secYEGSceneRef.current) {
+              secYEGSceneRef.current.setAtpRate(rate);
+            }
+          }}
+          isAzideInhibited={isAzideInhibited}
+          onToggleAzide={() => {
+            const nextInh = !isAzideInhibited;
+            setIsAzideInhibited(nextInh);
+            if (secYEGSceneRef.current) {
+              secYEGSceneRef.current.setAzideInhibition(nextInh);
+            }
+          }}
+          lateralGateOpening={secYEGLateralGate}
+          onChangeLateralGate={(gate) => {
+            setSecYEGLateralGate(gate);
+            if (secYEGSceneRef.current) {
+              secYEGSceneRef.current.setLateralGateOpening(gate);
+            }
+          }}
+          explodedProgress={secYEGExplodedProgress}
+          onChangeExploded={(exp) => {
+            setSecYEGExplodedProgress(exp);
+            if (secYEGSceneRef.current) {
+              secYEGSceneRef.current.setExplodedProgress(exp);
+            }
+          }}
+          isLabelsVisible={isSecYEGLabelsVisible}
+          onToggleLabels={handleToggleSecYEGLabels}
+          onFocusComponent={(key) => {
+            if (secYEGSceneRef.current) {
+              secYEGSceneRef.current.focusComponent(key);
+              secYEGSceneRef.current.selectComponent(key);
+            }
+          }}
+        />
+
+        <SecYEGInspectorDrawer
+          data={secYEGComponentMeta}
+          activeKey={activeSecYEGPart}
+          isNarrating={isSecYEGNarrating}
+          storyStep={secYEGStoryStep}
+          onSelectStoryStep={(s) => playSecYEGStoryStep(s)}
+          onStartStoryTrace={() => playSecYEGStoryStep(1)}
+          onStopStoryTrace={stopSecYEGStoryTrace}
+          onNarrate={handleSecYEGNarrate}
+          onFocus={() => {
+            if (secYEGSceneRef.current && activeSecYEGPart) {
+              secYEGSceneRef.current.focusComponent(activeSecYEGPart);
+            }
+          }}
+          onSelectPart={(key: string) => {
+            if (secYEGSceneRef.current) {
+              secYEGSceneRef.current.selectComponent(key);
+              secYEGSceneRef.current.focusComponent(key);
+            }
+          }}
+        />
+
+        {(isSecYEGTourActive || secYEGStoryStep > 0) && (
+          <TourBar
+            status={{
+              active: true,
+              playing: isSecYEGTourPlaying || isSecYEGNarrating,
+              stepIndex: secYEGStoryStep > 0 ? secYEGStoryStep - 1 : secYEGTourStep,
+              key: secYEGStoryStep > 0 ? SECYEG_EXPLANATION_STAGES[secYEGStoryStep - 1]?.id : SECYEG_TOUR_STOPS[secYEGTourStep],
+              totalSteps: secYEGStoryStep > 0 ? SECYEG_EXPLANATION_STAGES.length : SECYEG_TOUR_STOPS.length,
+              phase: secYEGTourPhase,
+              cooldownRemaining: 2,
+              ttsEnabled: true
+            }}
+            stepTitle={secYEGStoryStep > 0 ? SECYEG_EXPLANATION_STAGES[secYEGStoryStep - 1]?.title : (secYEGComponentMeta?.name || 'SecYEG Component')}
+            onPrev={() => {
+              if (secYEGStoryStep > 0) {
+                playSecYEGStoryStep(Math.max(1, secYEGStoryStep - 1));
+              } else {
+                goToSecYEGTourStep(secYEGTourStep - 1);
+              }
+            }}
+            onTogglePlay={() => {
+              if (secYEGStoryStep > 0) {
+                if (isSecYEGNarrating) {
+                  voiceService.stop();
+                  setIsSecYEGNarrating(false);
+                } else {
+                  playSecYEGStoryStep(secYEGStoryStep);
+                }
+              } else {
+                setIsSecYEGTourPlaying(!isSecYEGTourPlaying);
+              }
+            }}
+            onNext={() => {
+              if (secYEGStoryStep > 0) {
+                playSecYEGStoryStep(Math.min(SECYEG_EXPLANATION_STAGES.length, secYEGStoryStep + 1));
+              } else {
+                goToSecYEGTourStep(secYEGTourStep + 1);
+              }
+            }}
+            onToggleVoice={() => {}}
+            onExit={stopSecYEGStoryTrace}
+          />
+        )}
+      </div>
+
       {/* Global Live Subtitles Banner (Closed Captions) */}
       <LiveSubtitles
         visible={subtitleState.visible}
         text={subtitleState.text}
         badge={subtitleState.badge}
         speaker={subtitleState.speaker}
-        hasTourBar={isComplexITourActive || complexIStoryStep > 0 || isATPTourActive || atpStoryStep > 0 || isMotorTourActive || motorStoryStep > 0 || isRibosomeTourActive || ribosomeStoryStep > 0 || tourStatus.active}
+        hasTourBar={isSecYEGTourActive || secYEGStoryStep > 0 || isComplexITourActive || complexIStoryStep > 0 || isATPTourActive || atpStoryStep > 0 || isMotorTourActive || motorStoryStep > 0 || isRibosomeTourActive || ribosomeStoryStep > 0 || tourStatus.active}
         onClose={hideSubtitles}
       />
     </div>

@@ -1172,8 +1172,19 @@ html, body {
 }
 
 #atp-synthase-container .motor-overlay-header,
-#complex-i-container .motor-overlay-header {
+#complex-i-container .motor-overlay-header,
+#secyeg-container .motor-overlay-header {
   display: none;
+}
+
+#secyeg-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 10;
+  overflow: hidden;
 }
 
 .motor-back-btn {
@@ -1741,7 +1752,9 @@ html, body {
 #atp-svg-overlay,
 #atp-labels-container,
 #complex-i-svg-overlay,
-#complex-i-labels-container {
+#complex-i-labels-container,
+#secyeg-svg-overlay,
+#secyeg-labels-container {
   position: absolute;
   top: 0;
   left: 0;

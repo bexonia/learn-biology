@@ -18,7 +18,9 @@ export const ScaleNavigator: React.FC<ScaleNavigatorProps> = ({
       ? 'BACTERIAL 70S RIBOSOME & TRANSLATION FACTORY'
       : scenario === 'atp_synthase'
       ? 'BACTERIAL F₁F₀-ATP SYNTHASE & ROTARY BIOENERGETIC DYNAMO'
-      : 'RESPIRATORY COMPLEX I (NADH:UBIQUINONE OXIDOREDUCTASE)';
+      : scenario === 'complex_i'
+      ? 'RESPIRATORY COMPLEX I (NADH:UBIQUINONE OXIDOREDUCTASE)'
+      : 'BACTERIAL SECYEG TRANSLOCON & SECA ATPASE MOTOR';
 
   const subtitle =
     scenario === 'cell'
@@ -29,7 +31,9 @@ export const ScaleNavigator: React.FC<ScaleNavigatorProps> = ({
       ? 'The universal 25-nanometer ribozyme engine translating genetic mRNA codons into functional protein polypeptides.'
       : scenario === 'atp_synthase'
       ? 'The 10-nanometer rotary generator coupling electrochemical proton flow across the inner membrane directly to ATP synthesis.'
-      : 'The 24-nanometer L-shaped respiratory entry machine coupling 90 Å quantum electron tunneling to 4 H⁺ proton pumping.';
+      : scenario === 'complex_i'
+      ? 'The 24-nanometer L-shaped respiratory entry machine coupling 90 Å quantum electron tunneling to 4 H⁺ proton pumping.'
+      : 'The 11-nanometer universal protein translocation machine coupling SecA ATP power strokes to translocon secretion and lateral gate partitioning.';
 
   return (
     <header id="editorial-header">
@@ -79,6 +83,15 @@ export const ScaleNavigator: React.FC<ScaleNavigatorProps> = ({
             title="Switch to Respiratory Complex I (NADH:Ubiquinone Oxidoreductase)"
           >
             <span className="scale-icon">🔋</span> Complex I <span className="scale-dim">(24 nm)</span>
+          </button>
+          <span className="scale-nav-divider">›</span>
+          <button
+            className={`scale-nav-btn ${scenario === 'secyeg' ? 'active' : ''}`}
+            id="btn-nav-secyeg"
+            onClick={() => onSelectScenario('secyeg')}
+            title="Switch to SecYEG Translocon & SecA Motor (PDB: 3J46 / 6ITC)"
+          >
+            <span className="scale-icon">🧪</span> SecYEG <span className="scale-dim">(11 nm)</span>
           </button>
         </div>
       </div>

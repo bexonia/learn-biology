@@ -318,21 +318,26 @@ This catalog defines the complete set of structural and functional components of
   - `traceStage`: 6-Stage Explanatory Trace walkthrough with dynamic camera dollies & closed captions
 
 #### 3.5 `secyeg_translocon` — SecYEG Protein Translocation Channel & SecA ATPase Motor
-- **Scale:** $7\,\text{nm}$ diameter $\times 11\,\text{nm}$ depth
-- **PDB / Asset:** `3J46` (SecYEG) + `1RHZ` (SecA dimer motor)
-- **Status:** 🟡 **High-Priority Pending Implementation**
-- **Biological Role:** Universal protein translocation pore; conducts unfolded secretome proteins across the inner membrane or opens its dynamic lateral gate to integrate transmembrane helices into the lipid bilayer.
+- **Scale:** $8.5\,\text{nm}$ width $\times 11\,\text{nm}$ depth, holoenzyme mass ~280 kDa
+- **PDB / Asset:** `6ITC` (3.45 Å active cryo-EM structure with engaged substrate) + `3J46` (E. coli SecG aligned via SVD Kabsch)
+- **Status:** 🟢 **Built & Fully Interactive**
+- **Biological Role:** Universal protein translocation pore; conducts unfolded secretome proteins across the inner membrane into the periplasm or opens its dynamic lateral gate to integrate transmembrane helices into the phospholipid bilayer. Driven by the cytosolic SecA ATPase motor.
 - **Subunit Decomposition:**
-  - `Piece_SecY` (`#3A86FF`, Royal Blue): 10-helix pore with hydrophobic plug and dynamic lateral gate.
-  - `Piece_SecE` (`#FFB703`, Golden Amber): V-shaped clamp helix stabilizing SecY.
-  - `Piece_SecG` (`#06D6A0`, Jade Green): Non-essential peripheral helper subunit.
-  - `Piece_SecA_Motor` (`#9D4EDD`, Lilac Purple): Cytosolic ATPase engine pushing peptide chain in 20-aa power strokes.
+  - `Piece_SecYEG_SecY` (`#3A86FF`, Royal Blue): 10-helix hourglass pore core with 6-isoleucine hydrophobic gasket ring and lumenal plug.
+  - `Piece_SecYEG_Lateral_Gate` (`#00F5D4`, Luminous Cyan): Dynamic TM2b/3 (res 65–115) & TM7/8 (res 265–325) parting gate opening up to 1.4 nm directly into the lipid bilayer.
+  - `Piece_SecYEG_SecE` (`#FFB703`, Golden Amber): Tilted V-shaped amphipathic clamp helix bracing the two SecY halves.
+  - `Piece_SecYEG_SecG` (`#06D6A0`, Luminous Jade): Inverted topology escort subunit accelerating turnover under low PMF.
+  - `Piece_SecYEG_SecA_Motor` (`#9D4EDD`, Lilac Purple): Cytosolic 204 kDa ATPase motor with two-helix finger oscillating in 20-aa power strokes.
+  - `Piece_SecYEG_Translocating_Preprotein` (`#FFE066`, Luminous Gold): Hairpin polypeptide substrate with animated processive bead stream threading across the pore.
 - **Inter-Element Flux Iteration:**
-  - *Upstream:* Receives precursor proteins bearing N-terminal signal peptides directly from the 70S ribosome or SecB chaperone.
-  - *Downstream:* Discharges periplasmic proteins to SurA (`1M5Y`) or integrates membrane proteins into the inner membrane.
+  - *Upstream:* Receives precursor proteins bearing N-terminal signal peptides directly from the 70S ribosome (`7K00`) or SecB chaperone.
+  - *Downstream:* Discharges periplasmic proteins to SurA (`1M5Y`) / Skp / DegP chaperones for handover to the BAM Complex (`5D0O`), or integrates membrane $\alpha$-helices into the bilayer.
 - **HUD Simulation Controls:**
-  - `translocationMode`: Post-translational (SecA) vs. Co-translational (Ribosome-SecYEG)
-  - `lateralGateOpening`: $0\text{--}100\%$
+  - `atpRate`: Slider controlling SecA turnover flux (basal 10 aa/s to maximal 110 aa/s; nominal 45 aa/s).
+  - `isAzideInhibited`: Toggle for Sodium Azide ($\text{NaN}_3$) metabolic inhibition halting SecA ATPase motor.
+  - `lateralGateOpening`: Slider opening the lateral seam $0\text{--}100\%$ (up to 1.4 nm parting).
+  - `explodedProgress`: Dissociates SecA motor ($+Y$ into cytosol), SecE ($-X$), SecG ($+X$), and Lateral Gate ($-Z$ into bilayer).
+  - `5-Stage Explanatory Trace`: Signal peptide docking $\to$ SecA power stroke $\to$ pore expansion $\to$ lateral gate partition $\to$ processive secretion.
 
 #### 3.6 `bam_complex` — BAM Outer Membrane Protein Insertase Complex
 - **Scale:** $11\,\text{nm}$ diameter $\times 15\,\text{nm}$ depth
@@ -622,11 +627,11 @@ To systematically implement the full prokaryote cell engine, work proceeds in **
   - Interactive 3-state Boyer catalytic binding-change card ($O \to L \to T$), exploded rotor/stator dissociation vectors, $\Delta p$ proton-motive force slider ($-80$ to $-220\,\text{mV}$), forward synthesis vs. reverse hydrolysis mode toggle, and dynamic SVG leader lines with Kokoro-82M neural TTS voice narration.
 - ✅ **Milestone 2.2:** **Respiratory Complex I (`7Z7V`)** — 🟢 **Built & Fully Interactive**
   - High-fidelity 9-piece cryo-EM decomposition, authentic dual-leaflet lipid bilayer slab, animated 90 Å quantum Fe-S electron tunneling wire with pulsing energy packets, 4 distinct $H^+$ translocating conduits into periplasm, exploded view dissociation separating hydrophilic arm ($+12\,\text{nm}$) and NuoL lateral pump ($+5\,\text{nm}$), interactive NADH saturation slider, Rotenone inhibitor toggle, and universal 6-Stage Explanatory Trace.
-- 🎯 **Milestone 2.3:** **SecYEG Translocon (`3J46`) & SecA Motor (`1RHZ`)** *(CURRENT NEXT TARGET)*
-  - Implement dynamic lateral gate opening into phospholipid bilayer and ATP-driven polypeptide translocation.
+- ✅ **Milestone 2.3:** **SecYEG Translocon (`3J46` / `6ITC`) & SecA ATPase Motor** — 🟢 **Built & Fully Interactive**
+  - High-fidelity 6-piece cryo-EM decomposition (`Piece_SecYEG_SecY`, `Piece_SecYEG_Lateral_Gate`, `Piece_SecYEG_SecE`, `Piece_SecYEG_SecG`, `Piece_SecYEG_SecA_Motor`, `Piece_SecYEG_Translocating_Preprotein`), authentic dual-leaflet phospholipid bilayer slab with polar headgroups, interactive dynamic lateral gate parting up to 1.4 nm directly into the lipid bilayer, SecA two-helix finger vertical power-stroke piston oscillation, processive preprotein strand translocation with animated moving amino acid beads, exploded view dissociation along natural biophysical vectors, ATP hydrolysis rate slider with physiological turnover readouts (45 aa/s, 2 ATP/s), Sodium Azide ($\text{NaN}_3$) inhibitor toggle, 6 dynamic SVG leader lines with lettered subpill badges, and universal 5-Stage Explanatory Trace.
 
 ### Phase 3: Envelope Biogenesis & Trans-Periplasmic Bridges
-- 🎯 **Milestone 3.1:** **BAM Complex Outer Membrane Insertase (`5D0O`)**
+- 🎯 **Milestone 3.1:** **BAM Complex Outer Membrane Insertase (`5D0O`)** *(CURRENT NEXT TARGET)*
   - Implement 16-stranded $\beta$-barrel seam destabilization and POTRA-SurA client handover.
 - 🎯 **Milestone 3.2:** **LptA-G LPS Trans-Envelope Bridge (`6MIT`)**
   - Continuous trans-periplasmic lipid slide model connecting inner membrane ABC engine to outer membrane LptDE.

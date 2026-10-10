@@ -850,7 +850,17 @@ export class ATPSynthaseScene {
     }
 
     if (stepIndex === 1) {
-      // Stage 1: Proton Motive Force Influx (Bottom membrane focus, rotor stationary)
+      // Stage 1: Holoenzyme Architecture & Bioenergetic Role (Wide macro zoom-out)
+      this.isPaused = false;
+      this.rotationSpeed = 1.0;
+      this.selectComponent('atp_synthase_holoenzyme');
+      this.transitionCamera(
+        new THREE.Vector3(0, 6.5, 0),
+        { radius: 52, theta: 0.08, phi: 1.48 },
+        1.4
+      );
+    } else if (stepIndex === 2) {
+      // Stage 2: Proton Motive Force Influx (Bottom membrane focus, rotor stationary)
       this.isPaused = false;
       this.selectComponent('proton_flux');
       this.transitionCamera(
@@ -858,8 +868,8 @@ export class ATPSynthaseScene {
         { radius: 21, theta: 0.06, phi: 1.52 },
         1.4
       );
-    } else if (stepIndex === 2) {
-      // Stage 2: Turbine Rotation & Central Shaft Drive (Middle focus, rotor accelerating)
+    } else if (stepIndex === 3) {
+      // Stage 3: Turbine Rotation & Central Shaft Drive (Middle focus, rotor accelerating)
       this.isPaused = false;
       this.selectComponent('central_rotor');
       this.transitionCamera(
@@ -867,8 +877,8 @@ export class ATPSynthaseScene {
         { radius: 25, theta: 0.10, phi: 1.40 },
         1.4
       );
-    } else if (stepIndex === 3) {
-      // Stage 3: Substrate Capture in Catalytic Head (F1 crown, Loose pocket)
+    } else if (stepIndex === 4) {
+      // Stage 4: Substrate Capture in Catalytic Head (F1 crown, Loose pocket)
       this.isPaused = false;
       this.selectComponent('adp_pi_substrates');
       this.setBoyerState('loose');
@@ -877,8 +887,8 @@ export class ATPSynthaseScene {
         { radius: 22, theta: 0.13, phi: 1.32 },
         1.4
       );
-    } else if (stepIndex === 4) {
-      // Stage 4: Catalytic Condensation & Energy Release (Close cleft focus, Tight -> Open)
+    } else if (stepIndex === 5) {
+      // Stage 5: Catalytic Condensation & Energy Release (Close cleft focus, Tight -> Open)
       this.isPaused = false;
       this.selectComponent('atp_product');
       this.setBoyerState('tight');
@@ -895,8 +905,8 @@ export class ATPSynthaseScene {
           }, 350);
         }
       );
-    } else if (stepIndex === 5) {
-      // Stage 5: Continuous Rotary Dynamo (Full grand overview)
+    } else if (stepIndex === 6) {
+      // Stage 6: Continuous Rotary Dynamo (Full grand overview)
       this.selectComponent('atp_synthase_holoenzyme');
       this.transitionCamera(
         new THREE.Vector3(0, 6.5, 0),

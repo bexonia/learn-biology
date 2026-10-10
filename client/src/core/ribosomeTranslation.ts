@@ -1914,7 +1914,17 @@ export class RibosomeScene {
     }
 
     if (stepIndex === 1) {
-      // Stage 1: A-Site Codon Recognition & Proofreading
+      // Stage 1: Ribozyme Factory Overview & Translation Role (Wide macro zoom-out)
+      this.isPaused = false;
+      this.translationSpeed = 1.0;
+      this.selectedComponentKey = 'ribosome_70s';
+      this.transitionCamera(
+        new THREE.Vector3(0, 0, -2),
+        { radius: 185, theta: 0.15, phi: 1.48 },
+        1.4
+      );
+    } else if (stepIndex === 2) {
+      // Stage 2: A-Site Codon Recognition & Proofreading
       this.isPaused = false;
       this.selectedComponentKey = 'trna_a_site';
       this.transitionCamera(
@@ -1922,8 +1932,8 @@ export class RibosomeScene {
         { radius: 26, theta: 0.25, phi: 1.38 },
         1.4
       );
-    } else if (stepIndex === 2) {
-      // Stage 2: GTP Hydrolysis & Acceptor Arm Accommodation
+    } else if (stepIndex === 3) {
+      // Stage 3: GTP Hydrolysis & Acceptor Arm Accommodation
       this.isPaused = false;
       this.selectedComponentKey = 'subunit_30s';
       this.transitionCamera(
@@ -1931,8 +1941,8 @@ export class RibosomeScene {
         { radius: 38, theta: 0.18, phi: 1.45 },
         1.4
       );
-    } else if (stepIndex === 3) {
-      // Stage 3: Peptidyl Transferase Center Catalysis
+    } else if (stepIndex === 4) {
+      // Stage 4: Peptidyl Transferase Center Catalysis
       this.isPaused = false;
       this.selectedComponentKey = 'ptc_core';
       this.transitionCamera(
@@ -1940,8 +1950,8 @@ export class RibosomeScene {
         { radius: 18, theta: 0.12, phi: 1.35 },
         1.4
       );
-    } else if (stepIndex === 4) {
-      // Stage 4: EF-G Ratchet & mRNA Translocation Stroke
+    } else if (stepIndex === 5) {
+      // Stage 5: EF-G Ratchet & mRNA Translocation Stroke
       this.isPaused = false;
       this.selectedComponentKey = 'trna_p_site';
       this.transitionCamera(
@@ -1949,13 +1959,13 @@ export class RibosomeScene {
         { radius: 28, theta: 0.08, phi: 1.38 },
         1.4
       );
-    } else if (stepIndex === 5) {
-      // Stage 5: E-Site Discharge & Continuous Polysome Elongation
+    } else if (stepIndex === 6) {
+      // Stage 6: E-Site Discharge & Continuous Polysome Elongation
       this.isPaused = false;
       this.selectedComponentKey = 'ribosome_70s';
       this.transitionCamera(
         new THREE.Vector3(0, 0, 0),
-        { radius: 78, theta: 0.08, phi: 1.42 },
+        { radius: 88, theta: 0.08, phi: 1.42 },
         1.4
       );
     }

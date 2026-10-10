@@ -75,7 +75,7 @@ export const RibosomeInspectorDrawer: React.FC<RibosomeInspectorDrawerProps> = (
         }}>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '6px' }}>
             <span style={{ fontSize: '11px', fontWeight: 800, color: '#B38600', letterSpacing: '0.5px', display: 'flex', alignItems: 'center', gap: '4px' }}>
-              <span>🎬</span> 5-STAGE EXPLANATORY TRACE
+              <span>🎬</span> 6-STAGE EXPLANATORY TRACE
             </span>
             <span style={{
               fontSize: '9px',
@@ -86,21 +86,22 @@ export const RibosomeInspectorDrawer: React.FC<RibosomeInspectorDrawerProps> = (
               fontWeight: 800,
               letterSpacing: '0.4px'
             }}>
-              {storyStep > 0 ? `STAGE ${storyStep} OF 5` : 'READY'}
+              {storyStep > 0 ? `STAGE ${storyStep} OF 6` : 'READY'}
             </span>
           </div>
 
           <p style={{ fontSize: '10.5px', color: '#4A5568', margin: '0 0 8px 0', lineHeight: 1.35 }}>
-            Follow the sequential causal chain of peptide elongation: codon docking → proofreading → peptidyl transfer → translocation ratchet → E-site discharge:
+            Follow the sequential causal chain of peptide elongation: macro overview → codon docking → proofreading → peptidyl transfer → translocation ratchet → E-site discharge:
           </p>
 
           <div style={{ display: 'flex', flexDirection: 'column', gap: '5px' }}>
             {[
-              { num: 1, title: '1. A-Site Codon Recognition', desc: 'Ternary complex enters; A1492/A1493 flip out', col: '#E9C46A', badge: 'A-SITE' },
-              { num: 2, title: '2. Proofreading & Accommodation', desc: 'EF-Tu hydrolyzes GTP; aminoacyl stem swings into PTC', col: '#00F5D4', badge: 'EF-Tu' },
-              { num: 3, title: '3. Peptidyl Transferase Catalysis', desc: 'α-amino nucleophile attacks ester; peptide bond forms', col: '#FFB703', badge: 'PTC' },
-              { num: 4, title: '4. EF-G Power Stroke Translocation', desc: '30S ratchets against 50S; mRNA advances 1 triplet', col: '#7209B7', badge: 'EF-G' },
-              { num: 5, title: '5. E-Site Discharge & Continuous Polysome', desc: 'Empty tRNA expelled; continuous synthesis at 20 aa/s', col: '#9E2A5B', badge: '70S' }
+              { num: 1, title: '1. Ribozyme Factory Overview & Translation Role', desc: 'Nature\'s 2.5 MDa ribonucleoprotein engine translating mRNA into proteins', col: '#2A9D8F', badge: '2.5MDa' },
+              { num: 2, title: '2. A-Site Codon Recognition', desc: 'Ternary complex enters; A1492/A1493 flip out', col: '#E9C46A', badge: 'A-SITE' },
+              { num: 3, title: '3. Proofreading & Accommodation', desc: 'EF-Tu hydrolyzes GTP; aminoacyl stem swings into PTC', col: '#00F5D4', badge: 'EF-Tu' },
+              { num: 4, title: '4. Peptidyl Transferase Catalysis', desc: 'α-amino nucleophile attacks ester; peptide bond forms', col: '#FFB703', badge: 'PTC' },
+              { num: 5, title: '5. EF-G Power Stroke Translocation', desc: '30S ratchets against 50S; mRNA advances 1 triplet', col: '#7209B7', badge: 'EF-G' },
+              { num: 6, title: '6. E-Site Discharge & Continuous Polysome', desc: 'Empty tRNA expelled; continuous synthesis at 20 aa/s', col: '#9E2A5B', badge: '70S' }
             ].map(step => {
               const isActive = storyStep === step.num;
               return (

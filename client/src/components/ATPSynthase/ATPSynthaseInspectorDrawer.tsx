@@ -75,7 +75,7 @@ export const ATPSynthaseInspectorDrawer: React.FC<ATPSynthaseInspectorDrawerProp
         }}>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '6px' }}>
             <span style={{ fontSize: '11px', fontWeight: 800, color: '#C85A32', letterSpacing: '0.5px', display: 'flex', alignItems: 'center', gap: '4px' }}>
-              <span>🎬</span> 5-STAGE EXPLANATORY TRACE
+              <span>🎬</span> 6-STAGE EXPLANATORY TRACE
             </span>
             <span style={{
               fontSize: '9px',
@@ -86,21 +86,22 @@ export const ATPSynthaseInspectorDrawer: React.FC<ATPSynthaseInspectorDrawerProp
               fontWeight: 800,
               letterSpacing: '0.4px'
             }}>
-              {storyStep > 0 ? `STAGE ${storyStep} OF 5` : 'READY'}
+              {storyStep > 0 ? `STAGE ${storyStep} OF 6` : 'READY'}
             </span>
           </div>
 
           <p style={{ fontSize: '10.5px', color: '#4A5568', margin: '0 0 8px 0', lineHeight: 1.35 }}>
-            Follow the sequential causal chain of energy transduction: proton flux → turbine &amp; drive shaft → substrate capture → ATP synthesis → continuous rotary operation:
+            Follow the sequential causal chain of energy transduction: macro overview → proton flux → turbine &amp; drive shaft → substrate capture → ATP synthesis → continuous rotary operation:
           </p>
 
           <div style={{ display: 'flex', flexDirection: 'column', gap: '5px' }}>
             {[
-              { num: 1, title: '1. Proton Motive Force Influx', desc: 'Periplasmic H⁺ enters stator half-channel', col: '#FF4D00', badge: 'H⁺' },
-              { num: 2, title: '2. Turbine & Drive Shaft', desc: 'Asp61 neutralizes; c-ring & central γε shaft rotate', col: '#06D6A0', badge: 'γε' },
-              { num: 3, title: '3. Substrate Capture (Loose)', desc: 'Asymmetric camshaft traps ADP + Pᵢ in β pocket', col: '#F28482', badge: 'ADP' },
-              { num: 4, title: '4. ATP Synthesis & Energy Burst', desc: 'Tight compression forms ATP; Open releases fuel', col: '#FFE066', badge: 'ATP' },
-              { num: 5, title: '5. Continuous Rotary Dynamo', desc: 'Holoenzyme operates at continuous steady-state', col: '#2A9D8F', badge: '360°' }
+              { num: 1, title: '1. Holoenzyme Architecture & Bioenergetic Role', desc: 'Nature\'s 10 nm rotary dynamo converting proton flux into ATP', col: '#2A9D8F', badge: 'F₁F₀' },
+              { num: 2, title: '2. Proton Motive Force Influx', desc: 'Periplasmic H⁺ enters stator half-channel', col: '#FF4D00', badge: 'H⁺' },
+              { num: 3, title: '3. Turbine & Drive Shaft', desc: 'Asp61 neutralizes; c-ring & central γε shaft rotate', col: '#06D6A0', badge: 'γε' },
+              { num: 4, title: '4. Substrate Capture (Loose)', desc: 'Asymmetric camshaft traps ADP + Pᵢ in β pocket', col: '#F28482', badge: 'ADP' },
+              { num: 5, title: '5. ATP Synthesis & Energy Burst', desc: 'Tight compression forms ATP; Open releases fuel', col: '#FFE066', badge: 'ATP' },
+              { num: 6, title: '6. Continuous Rotary Dynamo', desc: 'Holoenzyme operates at continuous steady-state', col: '#2A9D8F', badge: '360°' }
             ].map(step => {
               const isActive = storyStep === step.num;
               return (

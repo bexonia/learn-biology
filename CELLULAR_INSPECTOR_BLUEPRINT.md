@@ -199,23 +199,25 @@ Every subunit, active site, cofactor, and membrane plane must strictly conform t
 
 ---
 
-### Step 7: Mandatory Explanatory Trace ("How It Works" 5-Stage Tutorial Engine)
+### Step 7: Mandatory Explanatory Trace ("How It Works" 6-Stage Tutorial Engine)
 
 > [!IMPORTANT]
 > **Non-Negotiable Invariant ("MUST"):**
 > Every single cellular machine, organelle, and macromolecular complex implemented in this platform **MUST** include an interactive **Explanatory Trace** tutorial engine.
 > Static 3D models show structure; exploded models show parts; but cellular life is defined by **dynamic, sequential causal mechanisms**. Without an explanatory trace, an inspector is incomplete.
 
-#### 1. The 5-Stage Universal Biological Archetype
-Every biological machine across all 6 biophysical scales executes a causal sequence that maps to the Universal 5-Stage Archetype:
+#### 1. The 6-Stage Universal Biological Archetype
+
+Every biological machine across all 6 biophysical scales executes a causal sequence that maps to the Universal 6-Stage Archetype:
 
 | Stage Number | Universal Archetype Stage | Biophysical Purpose | Typical Visual Action |
 | :---: | :--- | :--- | :--- |
-| **Stage 1** | **Primary Input Influx & Substrate Engagement** | Raw energy, electrochemical charge, or unreacted substrate arrives from upstream source. | Camera focuses on input entrance (e.g. stator half-channel, A-site decoding center, SecY pore mouth). Stator/substrate sparkles. |
-| **Stage 2** | **Mechanical Coupling & Conformational Activation** | Input drives a mechanical displacement, neutralization, or proofreading check. | Rotor/axle spins, lever arm tilts, or sensor loop closes (e.g. Asp61 protonation, SecA two-helix finger stroke). |
-| **Stage 3** | **Catalytic Intermediate & Pocket Transition** | Substrates are bound, compressed, or oriented in the catalytic cleft. | Catalytic pocket closes into intermediate state (e.g. Boyer Loose pocket, tRNA hybrid state, translocon lateral seam parting). |
-| **Stage 4** | **Catalytic Turnover, Power Stroke & Synthesis** | Covalent bonds are formed/cleaved or macromolecule is translocated. | Glowing catalytic burst, chemical condensation (ADP+$P_i \to$ ATP, peptide bond synthesis), energy release. |
-| **Stage 5** | **Product Release & Continuous Steady-State Dynamo** | Product is ejected to downstream consumer; machine enters continuous cycle. | Camera dollies back to grand overview; holoenzyme spins or processes continuously at steady-state. |
+| **Stage 1** | **Holoenzyme Architecture & Macro Overview (Zoom-Out)** | Foundational big-picture orientation: what the entire nanomachine is, its cellular location, and its overarching physiological role. | **3D Camera dollies out to wide macro framing.** Holoenzyme / complex viewed in its full envelope/cytosol context. |
+| **Stage 2** | **Primary Input Influx & Substrate Engagement** | Raw energy, electrochemical charge, or unreacted substrate arrives from upstream source. | Camera zooms in to input entrance (e.g. stator half-channel, A-site decoding center, SecY pore mouth). Stator/substrate sparkles. |
+| **Stage 3** | **Mechanical Coupling & Conformational Activation** | Input drives a mechanical displacement, neutralization, or proofreading check. | Rotor/axle spins, lever arm tilts, or sensor loop closes (e.g. Asp61 protonation, SecA two-helix finger stroke). |
+| **Stage 4** | **Catalytic Intermediate & Pocket Transition** | Substrates are bound, compressed, or oriented in the catalytic cleft. | Catalytic pocket closes into intermediate state (e.g. Boyer Loose pocket, tRNA hybrid state, translocon lateral seam parting). |
+| **Stage 5** | **Catalytic Turnover, Power Stroke & Synthesis** | Covalent bonds are formed/cleaved, universal knuckle joints flex, or macromolecule is translocated. | Glowing catalytic burst, chemical condensation (ADP+$P_i \to$ ATP, peptide bond synthesis), torque redirection. |
+| **Stage 6** | **Product Release & Continuous Steady-State Dynamo** | Product is ejected to downstream consumer; machine enters continuous steady-state cycle. | Camera returns to medium framing; holoenzyme operates at continuous steady-state speed. |
 
 #### 2. The Input-Transformation-Output & Focal Area Contract
 
@@ -232,7 +234,7 @@ To guarantee deep pedagogical clarity and prevent superficial animations, every 
 └────────────────────────────────────────────────────────────────────────────────────────┘
 ```
 
-1. **Focal Area & Dynamic Centroid Framing:** The camera must not remain at a distant generic vantage. It must dolly and focus directly on the spatial cleft or subunit where the event happens (e.g. the 6-isoleucine hydrophobic constriction of SecY, the Aspartate-61 ring in $F_0$, or the 23S rRNA Domain V catalytic pocket).
+1. **Focal Area & Dynamic Centroid Framing:** The camera must not remain at an arbitrary vantage. For Stage 1, it must pull back to a wide zoom-out showing the entire machine in its spatial envelope context. For Stages 2–5, it must dolly directly to the spatial cleft or subunit where the event happens (e.g. the 6-isoleucine hydrophobic constriction of SecY, the Aspartate-61 ring in $F_0$, or the 23S rRNA Domain V catalytic pocket). For Stage 6, it returns to an operational steady-state framing.
 2. **Molecular Input:** What precise physical or chemical entity enters at this moment? (e.g. periplasmic protons driven by $\Delta p$, an incoming aminoacyl-tRNA•GTP ternary complex, or ADP + $P_i$).
 3. **Transformation / Mechanism:** What exact atomic event or conformational rearrangement takes place? (e.g. protonation neutralizing an acidic sidechain, an ester carbonyl nucleophilic attack, or a $6^\circ$ inter-subunit ratcheting stroke).
 4. **Molecular Output:** What leaves this stage to feed the next step or downstream pathways? (e.g. newly formed ATP ejected into the cytosol, a nascent polypeptide elongated by $+1$ residue, or $4,600\,\text{pN}\cdot\text{nm}$ of torque delivered to the axial rod).
@@ -242,11 +244,11 @@ Define the stages in an array exported directly from the component metadata or s
 
 ```typescript
 export interface ExplanationStage {
-  step: number;               // 1 to 5
+  step: number;               // 1 to 6
   id: string;                 // Subunit/Part key to highlight
-  title: string;              // Full title: "1. Proton Motive Force Influx"
-  shortLabel: string;         // Compact label for TourBar: "1. Proton Influx"
-  badge: string;              // Short symbol badge: "H⁺", "γε", "ADP", "ATP", "360°"
+  title: string;              // Full title: "1. Nanomotor Overview & Envelope Architecture"
+  shortLabel: string;         // Compact label for TourBar: "1. Overview"
+  badge: string;              // Short symbol badge: "45nm", "MotAB", "FliG", "ROD", "FlgE", "FliC"
   col: string;                // Hex taxonomy color
   desc: string;               // 1-sentence UI card description
   speech: string;             // Spoken script with phonetic brackets

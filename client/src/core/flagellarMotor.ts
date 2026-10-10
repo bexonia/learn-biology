@@ -2676,7 +2676,17 @@ export class FlagellarMotorScene {
     }
 
     if (stepIndex === 1) {
-      // Stage 1: Proton Motive Force Influx (Focus on MotA/B stator ring at inner membrane)
+      // Stage 1: Nanomotor Overview & Envelope Architecture (Wide macro zoom-out)
+      this.isPaused = false;
+      this.rotationSpeed = 1.0;
+      this.selectComponent('molecular_7cgo', null, null, false);
+      this.transitionCamera(
+        new THREE.Vector3(0, 35, 0),
+        { radius: 240, theta: 0.15, phi: 1.38 },
+        1.4
+      );
+    } else if (stepIndex === 2) {
+      // Stage 2: Proton Motive Force Influx (Focus on MotA/B stator ring at inner membrane)
       this.isPaused = false;
       this.rotationSpeed = 0.5;
       this.selectComponent('molecular_6ykm', null, null, false);
@@ -2685,8 +2695,8 @@ export class FlagellarMotorScene {
         { radius: 82, theta: 0.18, phi: 1.46 },
         1.4
       );
-    } else if (stepIndex === 2) {
-      // Stage 2: Electrostatic Gear Engagement & C-Ring Torque (Bottom C-ring switch)
+    } else if (stepIndex === 3) {
+      // Stage 3: Electrostatic Gear Engagement & C-Ring Torque (Bottom C-ring switch)
       this.isPaused = false;
       this.rotationSpeed = 0.8;
       this.selectComponent('c_ring', null, null, false);
@@ -2695,8 +2705,8 @@ export class FlagellarMotorScene {
         { radius: 76, theta: 0.22, phi: 1.50 },
         1.4
       );
-    } else if (stepIndex === 3) {
-      // Stage 3: Axial Drive Shaft Transmission & Envelope Bushings (P-ring & L-ring)
+    } else if (stepIndex === 4) {
+      // Stage 4: Axial Drive Shaft Transmission & Envelope Bushings (P-ring & L-ring)
       this.isPaused = false;
       this.rotationSpeed = 1.0;
       this.selectComponent('rod', null, null, false);
@@ -2705,8 +2715,8 @@ export class FlagellarMotorScene {
         { radius: 68, theta: 0.10, phi: 1.35 },
         1.4
       );
-    } else if (stepIndex === 4) {
-      // Stage 4: Universal Hook Joint & Torque Bend (Flexible FlgE hook)
+    } else if (stepIndex === 5) {
+      // Stage 5: Universal Hook Joint & Torque Bend (Flexible FlgE hook)
       this.isPaused = false;
       this.rotationSpeed = 1.0;
       this.selectComponent('hook', null, null, false);
@@ -2715,8 +2725,8 @@ export class FlagellarMotorScene {
         { radius: 72, theta: 0.16, phi: 1.25 },
         1.4
       );
-    } else if (stepIndex === 5) {
-      // Stage 5: Archimedean Screw Propulsion Dynamo (Steady-state filament propulsion)
+    } else if (stepIndex === 6) {
+      // Stage 6: Archimedean Screw Propulsion Dynamo (Steady-state filament propulsion)
       this.isPaused = false;
       this.rotationSpeed = 1.2;
       this.selectComponent('filament', null, null, false);

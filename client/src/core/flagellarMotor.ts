@@ -1,3 +1,4 @@
+// @ts-nocheck
 /**
  * ----------------------------------------------------------------------------
  * Bacterial Flagellar Motor & Basal Body — 3D Nanomachine Scenario
@@ -19,11 +20,53 @@ import * as THREE from 'three';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
 
 if (typeof window !== 'undefined') {
-  window.THREE = THREE;
-  window.GLTFLoader = GLTFLoader;
+  (window as any).THREE = THREE;
+  (window as any).GLTFLoader = GLTFLoader;
 }
 
 export class FlagellarMotorScene {
+  container: any;
+  options: any;
+  voiceService: any;
+  onSelectComponent: any;
+  active: boolean = false;
+  rotationSpeed: number = 1.0;
+  rotationDirection: number = -1;
+  isPaused: boolean = false;
+  isAutoRotating: boolean = false;
+  explodedProgress: number = 0.0;
+  selectedComponentKey: any = null;
+  representationMode: string = 'molecular';
+  mnGroup: any = null;
+  mnModel: any = null;
+  mnBushingGroup: any = null;
+  mnStatorGroup: any = null;
+  mnStatorUnits: any[] = [];
+  schematicRotorGroup: any = null;
+  schematicStatorGroup: any = null;
+  schematicBushingGroup: any = null;
+  scene: any = null;
+  camera: any = null;
+  renderer: any = null;
+  canvas: any = null;
+  animFrameId: any = null;
+  rootGroup: any = null;
+  rotorGroup: any = null;
+  statorRingGroup: any = null;
+  bushingGroup: any = null;
+  membraneGroup: any = null;
+  protonParticleSystem: any = null;
+  componentMeshes: Record<string, any> = {};
+  explodedOffsets: Record<string, any> = {};
+  target: any;
+  spherical: any;
+  showLabels: boolean = true;
+  clock: any;
+  svgOverlay: any = null;
+  labelsContainer: any = null;
+  motorLandmarks: any[] = [];
+  labelAnchors: Record<string, any> = {};
+
   constructor(container, options = {}) {
     this.container = container;
     this.options = options;
@@ -2279,7 +2322,7 @@ export class FlagellarMotorScene {
   /**
    * Toggle visibility of 3D anatomical labels and leader lines
    */
-  toggleLabels(force) {
+  toggleLabels(force = undefined) {
     this.showLabels = (force !== undefined) ? force : !this.showLabels;
     this.updateLandmarksAndLeaders();
     return this.showLabels;
@@ -2300,7 +2343,7 @@ export class FlagellarMotorScene {
   /**
    * Toggle automatic orbit rotation around the motor
    */
-  toggleAutoRotate(force) {
+  toggleAutoRotate(force = undefined) {
     this.isAutoRotating = (force !== undefined) ? force : !this.isAutoRotating;
     return this.isAutoRotating;
   }

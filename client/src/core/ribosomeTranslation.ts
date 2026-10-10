@@ -537,7 +537,9 @@ export class RibosomeScene {
     const pearlColors = [
       0x7B2CBF, 0x3A86FF, 0x06D6A0, 0xFFB703, 0xFB5607, 0xE63946, 0x8338EC, 0x38B000, 0xFF006E
     ];
-    const beadGeo = new THREE.SphereGeometry(0.9, 12, 12);
+    // Larger amino acid bead spheres for clear distance visibility
+    const beadGeo2 = new THREE.SphereGeometry(1.85, 16, 16);
+    const beadGeo3 = new THREE.SphereGeometry(2.0, 16, 16);
 
     // --- 1. Ribosome 2 Peptide (Early Initiation, ~8 amino acid beads inside exit tunnel) ---
     this.peptide2Group = new THREE.Group();
@@ -548,23 +550,29 @@ export class RibosomeScene {
       new THREE.Vector3(-83.2, 5.9, -12.2),
       new THREE.Vector3(-83.0, 9.9, -11.0),
       new THREE.Vector3(-82.2, 13.4, -9.5),
-      new THREE.Vector3(-81.0, 15.4, -8.2),
-      new THREE.Vector3(-79.5, 16.9, -7.0),
-      new THREE.Vector3(-77.8, 17.6, -6.2)
+      new THREE.Vector3(-81.0, 16.4, -7.5),
+      new THREE.Vector3(-79.5, 19.5, -5.5),
+      new THREE.Vector3(-77.0, 22.0, -3.5)
     ];
     const r2Curve = new THREE.CatmullRomCurve3(r2Points);
     const r2Samples = r2Curve.getPoints(8);
     for (let i = 0; i < r2Samples.length; i++) {
       const col = pearlColors[i % pearlColors.length];
-      const mat = new THREE.MeshStandardMaterial({ color: col, roughness: 0.20, metalness: 0.1 });
-      const bead = new THREE.Mesh(beadGeo, mat);
+      const mat = new THREE.MeshStandardMaterial({
+        color: col,
+        roughness: 0.20,
+        metalness: 0.1,
+        emissive: col,
+        emissiveIntensity: 0.12
+      });
+      const bead = new THREE.Mesh(beadGeo2, mat);
       bead.position.copy(r2Samples[i]);
       bead.castShadow = true;
       this.registerClickable(bead, 'ribosome_upstream');
       this.peptide2Group.add(bead);
     }
     const r2Line = new THREE.Mesh(
-      new THREE.TubeGeometry(r2Curve, 24, 0.20, 6, false),
+      new THREE.TubeGeometry(r2Curve, 32, 0.48, 8, false),
       new THREE.MeshStandardMaterial({ color: 0xFFD166, roughness: 0.3 })
     );
     this.peptide2Group.add(r2Line);
@@ -575,38 +583,44 @@ export class RibosomeScene {
     this.peptide3Group.name = 'Ribosome_3_Folding_Peptide';
     const r3Points = [
       new THREE.Vector3(85.8, 11.4, -11.5),
-      new THREE.Vector3(85.4, 14.9, -12.8),
-      new THREE.Vector3(84.8, 18.9, -12.0),
-      new THREE.Vector3(85.0, 22.9, -10.5),
-      new THREE.Vector3(86.5, 26.4, -8.5),
-      new THREE.Vector3(89.0, 28.9, -6.5),
-      new THREE.Vector3(92.5, 30.4, -5.0),
-      new THREE.Vector3(96.0, 29.4, -4.0),
-      new THREE.Vector3(99.0, 26.9, -3.5),
-      new THREE.Vector3(101.0, 23.4, -2.5),
-      new THREE.Vector3(100.0, 19.9, -1.0),
-      new THREE.Vector3(97.0, 17.9, 0.5),
-      new THREE.Vector3(94.0, 18.4, 2.0),
-      new THREE.Vector3(92.0, 20.9, 3.0),
-      new THREE.Vector3(93.0, 23.9, 4.0),
-      new THREE.Vector3(96.0, 25.9, 4.5),
-      new THREE.Vector3(99.5, 27.4, 5.0),
-      new THREE.Vector3(103.0, 26.4, 4.5),
-      new THREE.Vector3(105.5, 23.9, 3.5)
+      new THREE.Vector3(85.4, 15.5, -12.5),
+      new THREE.Vector3(84.8, 20.0, -11.5),
+      new THREE.Vector3(85.2, 24.5, -9.5),
+      new THREE.Vector3(87.0, 28.5, -7.0),
+      new THREE.Vector3(90.5, 31.5, -4.5),
+      new THREE.Vector3(94.5, 33.0, -2.5),
+      new THREE.Vector3(98.5, 31.5, -1.0),
+      new THREE.Vector3(101.5, 28.5, 0.5),
+      new THREE.Vector3(103.5, 24.5, 1.8),
+      new THREE.Vector3(102.5, 20.5, 3.2),
+      new THREE.Vector3(99.0, 18.5, 4.5),
+      new THREE.Vector3(95.5, 19.5, 6.0),
+      new THREE.Vector3(93.5, 22.5, 7.0),
+      new THREE.Vector3(95.0, 26.0, 7.5),
+      new THREE.Vector3(98.5, 28.5, 7.8),
+      new THREE.Vector3(102.5, 29.5, 7.5),
+      new THREE.Vector3(106.0, 28.0, 6.5),
+      new THREE.Vector3(108.5, 25.0, 5.0)
     ];
     const r3Curve = new THREE.CatmullRomCurve3(r3Points);
     const r3Samples = r3Curve.getPoints(32);
     for (let i = 0; i < r3Samples.length; i++) {
       const col = pearlColors[i % pearlColors.length];
-      const mat = new THREE.MeshStandardMaterial({ color: col, roughness: 0.18, metalness: 0.12 });
-      const bead = new THREE.Mesh(beadGeo, mat);
+      const mat = new THREE.MeshStandardMaterial({
+        color: col,
+        roughness: 0.18,
+        metalness: 0.12,
+        emissive: col,
+        emissiveIntensity: 0.12
+      });
+      const bead = new THREE.Mesh(beadGeo3, mat);
       bead.position.copy(r3Samples[i]);
       bead.castShadow = true;
       this.registerClickable(bead, 'ribosome_downstream');
       this.peptide3Group.add(bead);
     }
     const r3Line = new THREE.Mesh(
-      new THREE.TubeGeometry(r3Curve, 54, 0.22, 6, false),
+      new THREE.TubeGeometry(r3Curve, 64, 0.55, 8, false),
       new THREE.MeshStandardMaterial({ color: 0xFFD166, roughness: 0.3 })
     );
     this.peptide3Group.add(r3Line);
@@ -766,15 +780,16 @@ export class RibosomeScene {
     // emerging through the exit porthole at the top apex of 50S, and curling into the cytoplasm
     const peptidePoints = [
       new THREE.Vector3(ptcWorld.x + 0.2, ptcWorld.y + 0.5, ptcWorld.z - 1.0),
-      new THREE.Vector3(ptcWorld.x - 0.5, ptcWorld.y + 3.5, ptcWorld.z - 2.5),
-      new THREE.Vector3(ptcWorld.x - 1.2, ptcWorld.y + 7.0, ptcWorld.z - 1.8),
-      new THREE.Vector3(ptcWorld.x - 0.8, ptcWorld.y + 11.5, ptcWorld.z - 0.5),
-      new THREE.Vector3(ptcWorld.x + 0.5, ptcWorld.y + 15.5, ptcWorld.z + 1.2),
-      new THREE.Vector3(ptcWorld.x + 2.5, ptcWorld.y + 18.2, ptcWorld.z + 3.0),
-      new THREE.Vector3(ptcWorld.x + 5.5, ptcWorld.y + 19.5, ptcWorld.z + 4.2),
-      new THREE.Vector3(ptcWorld.x + 8.5, ptcWorld.y + 18.8, ptcWorld.z + 4.8),
-      new THREE.Vector3(ptcWorld.x + 11.0, ptcWorld.y + 16.5, ptcWorld.z + 5.0),
-      new THREE.Vector3(ptcWorld.x + 12.8, ptcWorld.y + 14.0, ptcWorld.z + 5.2)
+      new THREE.Vector3(ptcWorld.x - 0.4, ptcWorld.y + 4.5, ptcWorld.z - 2.0),
+      new THREE.Vector3(ptcWorld.x - 1.0, ptcWorld.y + 9.5, ptcWorld.z - 1.0),
+      new THREE.Vector3(ptcWorld.x - 0.5, ptcWorld.y + 15.0, ptcWorld.z + 0.8),
+      new THREE.Vector3(ptcWorld.x + 1.2, ptcWorld.y + 20.5, ptcWorld.z + 3.0),
+      new THREE.Vector3(ptcWorld.x + 4.0, ptcWorld.y + 25.0, ptcWorld.z + 5.2),
+      new THREE.Vector3(ptcWorld.x + 8.0, ptcWorld.y + 27.5, ptcWorld.z + 6.5),
+      new THREE.Vector3(ptcWorld.x + 12.5, ptcWorld.y + 26.5, ptcWorld.z + 7.2),
+      new THREE.Vector3(ptcWorld.x + 16.5, ptcWorld.y + 23.5, ptcWorld.z + 7.0),
+      new THREE.Vector3(ptcWorld.x + 19.5, ptcWorld.y + 19.0, ptcWorld.z + 6.2),
+      new THREE.Vector3(ptcWorld.x + 21.5, ptcWorld.y + 14.5, ptcWorld.z + 5.2)
     ];
 
     const curve = new THREE.CatmullRomCurve3(peptidePoints);
@@ -785,14 +800,17 @@ export class RibosomeScene {
       0x7B2CBF, 0x3A86FF, 0x06D6A0, 0xFFB703, 0xFB5607, 0xE63946, 0x8338EC, 0x38B000, 0xFF006E
     ];
 
-    const beadGeo = new THREE.SphereGeometry(1.0, 14, 14);
+    // Substantially larger amino acid spheres (2.35 radius) for clear visibility from afar
+    const beadGeo = new THREE.SphereGeometry(2.35, 18, 18);
 
     for (let i = 0; i < samples.length; i++) {
       const col = pearlColors[i % pearlColors.length];
       const pearlMat = new THREE.MeshStandardMaterial({
         color: col,
         roughness: 0.18,
-        metalness: 0.12
+        metalness: 0.12,
+        emissive: col,
+        emissiveIntensity: 0.14
       });
       const bead = new THREE.Mesh(beadGeo, pearlMat);
       bead.position.copy(samples[i]);
@@ -801,9 +819,14 @@ export class RibosomeScene {
       this.peptideGroup.add(bead);
     }
 
-    // Polypeptide backbone organic string
-    const lineGeo = new THREE.TubeGeometry(curve, 54, 0.22, 8, false);
-    const lineMat = new THREE.MeshStandardMaterial({ color: 0xFFD166, roughness: 0.3 });
+    // Polypeptide backbone organic string with increased diameter
+    const lineGeo = new THREE.TubeGeometry(curve, 72, 0.65, 10, false);
+    const lineMat = new THREE.MeshStandardMaterial({
+      color: 0xFFD166,
+      roughness: 0.28,
+      emissive: 0x997700,
+      emissiveIntensity: 0.08
+    });
     const lineMesh = new THREE.Mesh(lineGeo, lineMat);
     this.peptideGroup.add(lineMesh);
 
@@ -822,7 +845,7 @@ export class RibosomeScene {
         name: 'Polysome Array (3x 70S)',
         subtitle: 'Tandem Polypeptide Factory',
         color: '#1A3A5A',
-        pos: new THREE.Vector3(0.0, 36.0, 5.0),
+        pos: new THREE.Vector3(0.0, 42.0, 6.0),
         screenOffset: { x: 0, y: -75 },
         meta: this.componentsMeta['polysome_complex']
       },
@@ -832,7 +855,7 @@ export class RibosomeScene {
         name: "5' Upstream Ribosome",
         subtitle: "Newly Recruited at 5' AUG",
         color: '#2A5D34',
-        pos: new THREE.Vector3(-84.0, -18.0, 6.0),
+        pos: new THREE.Vector3(-88.0, 8.0, 4.0),
         screenOffset: { x: -160, y: -65 },
         meta: this.componentsMeta['ribosome_upstream']
       },
@@ -842,7 +865,7 @@ export class RibosomeScene {
         name: "3' Downstream Ribosome",
         subtitle: 'Terminating / Folding Peptide',
         color: '#3D2645',
-        pos: new THREE.Vector3(84.0, -15.0, 6.0),
+        pos: new THREE.Vector3(78.0, 18.0, 4.0),
         screenOffset: { x: 160, y: -65 },
         meta: this.componentsMeta['ribosome_downstream']
       },
@@ -852,7 +875,7 @@ export class RibosomeScene {
         name: '50S Ribosomal RNA',
         subtitle: '23S & 5S Catalytic rRNA Core',
         color: '#9E2A5B',
-        pos: new THREE.Vector3(-14.0, 11.0, 4.0),
+        pos: new THREE.Vector3(-14.0, 14.0, 8.0),
         screenOffset: { x: -210, y: -35 },
         meta: this.componentsMeta['rrna_50s']
       },
@@ -862,7 +885,7 @@ export class RibosomeScene {
         name: '50S Ribosomal Proteins',
         subtitle: '34 Structural Chains (uL1–bL36)',
         color: '#2D6A4F',
-        pos: new THREE.Vector3(16.0, 13.0, 2.0),
+        pos: new THREE.Vector3(14.0, 12.0, 14.0),
         screenOffset: { x: 210, y: -35 },
         meta: this.componentsMeta['proteins_50s']
       },
@@ -872,7 +895,7 @@ export class RibosomeScene {
         name: 'PTC Active Site',
         subtitle: 'Peptidyl Transferase Ribozyme',
         color: '#FFB703',
-        pos: new THREE.Vector3(-0.5, 3.5, 6.0),
+        pos: new THREE.Vector3(2.1, 5.8, 1.5),
         screenOffset: { x: -180, y: 15 },
         meta: this.componentsMeta['ptc_core']
       },
@@ -882,8 +905,8 @@ export class RibosomeScene {
         name: 'Nascent Polypeptide',
         subtitle: 'Emerging Amino Acid Chain',
         color: '#7B2CBF',
-        pos: new THREE.Vector3(6.0, 22.0, 3.0),
-        screenOffset: { x: 210, y: -15 },
+        pos: new THREE.Vector3(10.5, 32.5, 4.5),
+        screenOffset: { x: 210, y: -25 },
         meta: this.componentsMeta['nascent_peptide']
       },
       {
@@ -892,7 +915,7 @@ export class RibosomeScene {
         name: 'tRNAs (A, P, E Sites)',
         subtitle: 'Aminoacyl, Peptidyl & Spent tRNAs',
         color: '#368F8B',
-        pos: new THREE.Vector3(7.0, -1.0, 7.5),
+        pos: new THREE.Vector3(5.5, -4.0, 6.0),
         screenOffset: { x: 190, y: 35 },
         meta: this.componentsMeta['trna_all']
       },
@@ -902,7 +925,7 @@ export class RibosomeScene {
         name: 'mRNA Transcript',
         subtitle: "Genetic Coding Triplets (5' → 3')",
         color: '#BA4E3B',
-        pos: new THREE.Vector3(-10.0, -4.5, 7.0),
+        pos: new THREE.Vector3(0.0, -9.0, 9.0),
         screenOffset: { x: -200, y: 55 },
         meta: this.componentsMeta['mrna_strand']
       },
@@ -912,7 +935,7 @@ export class RibosomeScene {
         name: '30S Ribosomal RNA',
         subtitle: '16S rRNA Decoding Framework',
         color: '#1A8594',
-        pos: new THREE.Vector3(-14.0, -12.0, 5.0),
+        pos: new THREE.Vector3(-11.0, -14.0, 12.0),
         screenOffset: { x: -210, y: 95 },
         meta: this.componentsMeta['rrna_30s']
       },
@@ -922,7 +945,7 @@ export class RibosomeScene {
         name: '30S Ribosomal Proteins',
         subtitle: '21 Polypeptide Chains (uS2–bS21)',
         color: '#9A9E32',
-        pos: new THREE.Vector3(15.0, -13.0, 4.0),
+        pos: new THREE.Vector3(12.0, -14.0, 14.0),
         screenOffset: { x: 210, y: 95 },
         meta: this.componentsMeta['proteins_30s']
       },
@@ -932,7 +955,7 @@ export class RibosomeScene {
         name: 'Active 70S Holoenzyme',
         subtitle: 'Cryo-EM PDB 7K00 (2.4 Å)',
         color: '#1A2B25',
-        pos: new THREE.Vector3(0.0, -22.0, 6.0),
+        pos: new THREE.Vector3(0.0, -24.0, 8.0),
         screenOffset: { x: 0, y: 130 },
         meta: this.componentsMeta['ribosome_70s']
       },
@@ -942,7 +965,7 @@ export class RibosomeScene {
         name: "5' mRNA Entry",
         subtitle: 'Shine-Dalgarno Initiation',
         color: '#8A3B2C',
-        pos: new THREE.Vector3(-170.0, -10.0, -10.0),
+        pos: new THREE.Vector3(-180.0, -15.0, -16.0),
         screenOffset: { x: -140, y: 40 },
         meta: this.componentsMeta['extended_mrna']
       },
@@ -952,7 +975,7 @@ export class RibosomeScene {
         name: "3' mRNA Exit",
         subtitle: 'UAA Termination Porthole',
         color: '#2A5A4A',
-        pos: new THREE.Vector3(170.0, 20.0, -10.0),
+        pos: new THREE.Vector3(180.0, 17.0, -16.0),
         screenOffset: { x: 140, y: 40 },
         meta: this.componentsMeta['extended_mrna']
       }
@@ -1419,17 +1442,23 @@ export class RibosomeScene {
     this.codonStep++;
     this.aminoAcidCount++;
 
-    // Add glowing bead to peptide chain
-    const colors = [0x7B2CBF, 0x3A86FF, 0x06D6A0, 0xFFB703, 0xFB5607, 0xE63946];
+    // Add glowing bead to peptide chain with consistent large size
+    const colors = [0x7B2CBF, 0x3A86FF, 0x06D6A0, 0xFFB703, 0xFB5607, 0xE63946, 0x8338EC, 0x38B000];
     const col = colors[this.aminoAcidCount % colors.length];
     const newBead = new THREE.Mesh(
-      new THREE.SphereGeometry(1.2, 14, 14),
-      new THREE.MeshStandardMaterial({ color: col, roughness: 0.18, metalness: 0.12 })
+      new THREE.SphereGeometry(2.35, 18, 18),
+      new THREE.MeshStandardMaterial({
+        color: col,
+        roughness: 0.18,
+        metalness: 0.12,
+        emissive: col,
+        emissiveIntensity: 0.14
+      })
     );
     newBead.position.set(
-      14.0 + (this.aminoAcidCount % 6) * 1.5,
-      -14.0 + Math.sin(this.aminoAcidCount) * 1.5,
-      -19.0 + (this.aminoAcidCount % 4) * 1.2
+      22.0 + (this.aminoAcidCount % 6) * 2.2,
+      12.0 - (this.aminoAcidCount % 5) * 1.6,
+      5.0 + Math.sin(this.aminoAcidCount) * 2.0
     );
     newBead.castShadow = true;
     if (this.peptideGroup) {

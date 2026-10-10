@@ -295,7 +295,7 @@ html, body {
   pointer-events: auto;
   user-select: none;
   cursor: pointer;
-  transition: opacity 0.2s ease, transform 0.2s ease;
+  transition: opacity 0.22s ease, transform 0.22s cubic-bezier(0.16, 1, 0.3, 1);
   white-space: nowrap;
 }
 
@@ -303,21 +303,52 @@ html, body {
   display: inline-flex;
   flex-direction: column;
   align-items: flex-start;
-  gap: 2px;
-  background: rgba(250, 248, 245, 0.94);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
-  padding: 5px 11px 6px;
-  border-radius: 6px;
-  border: 1px solid rgba(205, 196, 182, 0.85);
-  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.07);
-  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  gap: 3px;
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  padding: 6px 12px 7px;
+  border-radius: 8px;
+  border: 1px solid rgba(200, 205, 210, 0.90);
+  border-left: 4.5px solid var(--badge-accent-color, #2E3B2C);
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.08), 0 1px 3px rgba(0, 0, 0, 0.04);
+  transition: all 0.22s cubic-bezier(0.16, 1, 0.3, 1);
   text-align: left;
+}
+
+.bio-label-header {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  line-height: 1.2;
+}
+
+.bio-label-dot {
+  width: 7.5px;
+  height: 7.5px;
+  border-radius: 50%;
+  display: inline-block;
+  flex-shrink: 0;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.bio-label-badge-pill {
+  font-family: 'Libre Franklin', sans-serif;
+  font-size: 8.5px;
+  font-weight: 800;
+  letter-spacing: 0.6px;
+  text-transform: uppercase;
+  padding: 1px 5px;
+  border-radius: 4px;
+  border: 1px solid currentColor;
+  line-height: 1.15;
+  display: inline-block;
+  flex-shrink: 0;
 }
 
 .label-line-primary {
   font-family: 'Libre Franklin', 'Source Sans 3', sans-serif;
-  font-size: 13px;
+  font-size: 12.5px;
   font-weight: 700;
   color: #1A2619;
   letter-spacing: -0.01em;
@@ -327,17 +358,22 @@ html, body {
 .label-line-scientific {
   font-family: 'Source Serif 4', Georgia, serif;
   font-style: italic;
-  font-size: 11px;
+  font-size: 10.5px;
   font-weight: 400;
-  color: #586B54;
+  color: #556B52;
   line-height: 1.15;
+  padding-left: 13.5px;
 }
 
 .bio-label:hover .bio-label-badge {
   background: #FFFFFF;
-  border-color: #2E3B2C;
-  box-shadow: 0 6px 18px rgba(46, 59, 44, 0.25);
-  transform: scale(1.05);
+  border-color: var(--badge-accent-color, #1A2619);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.16), 0 0 14px var(--badge-accent-color, rgba(46, 59, 44, 0.25));
+  transform: scale(1.06);
+}
+
+.bio-label:hover .bio-label-dot {
+  transform: scale(1.3);
 }
 
 .bio-label:hover .label-line-primary {
@@ -349,9 +385,9 @@ html, body {
 }
 
 .bio-label.active-target .bio-label-badge {
-  background: #212E20;
-  border-color: #212E20;
-  box-shadow: 0 6px 20px rgba(33, 46, 32, 0.45);
+  background: #182218;
+  border-color: var(--badge-accent-color, #182218);
+  box-shadow: 0 8px 26px rgba(0, 0, 0, 0.45), 0 0 20px var(--badge-accent-color, rgba(33, 46, 32, 0.6));
   transform: scale(1.08);
 }
 
@@ -361,6 +397,16 @@ html, body {
 
 .bio-label.active-target .label-line-scientific {
   color: #C8D8C4;
+}
+
+.bio-label.active-target .bio-label-dot {
+  transform: scale(1.35);
+  animation: bioDotPulse 1.8s ease-in-out infinite alternate;
+}
+
+@keyframes bioDotPulse {
+  0% { transform: scale(1.1); filter: brightness(1); }
+  100% { transform: scale(1.45); filter: brightness(1.35); }
 }
 
 /* --------------------------------------------------------------------------

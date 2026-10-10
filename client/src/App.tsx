@@ -1709,6 +1709,7 @@ function App() {
       setIsSecYEGNarrating(false);
       setIsSecYEGTourActive(false);
       setIsSecYEGTourPlaying(false);
+      setSecYEGLateralGate(0.0);
       hideSubtitles();
       if (secYEGSceneRef.current) {
         secYEGSceneRef.current.setExplanationStep(0);
@@ -1722,6 +1723,12 @@ function App() {
     const meta = SECYEG_COMPONENTS_META[stage.id] || SECYEG_COMPONENTS_META['secyeg_holoenzyme'];
     if (meta) {
       setSecYEGComponentMeta(meta);
+    }
+
+    if (stage.id === 'lateral_gate_partition') {
+      setSecYEGLateralGate(0.9);
+    } else {
+      setSecYEGLateralGate(0.0);
     }
 
     if (secYEGSceneRef.current) {

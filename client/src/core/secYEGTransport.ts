@@ -196,6 +196,7 @@ export class SecYEGScene {
   // Bilayer membrane
   private membraneGroup: THREE.Group = new THREE.Group();
   private headgroupSpheres: THREE.InstancedMesh | null = null;
+  private gatePortalMesh: THREE.Mesh | null = null;
 
   // Preprotein strand translocation
   private peptideStreamGroup: THREE.Group = new THREE.Group();
@@ -416,23 +417,37 @@ export class SecYEGScene {
     const btmRing = topRing.clone();
     btmRing.position.y = -thickness / 2;
     this.membraneGroup.add(btmRing);
+
+    // Dynamic Lateral Gate Bilayer Entry Portal Indicator
+    const portalGeo = new THREE.TorusGeometry(1.6, 0.12, 12, 32);
+    const portalMat = new THREE.MeshBasicMaterial({
+      color: 0x00f5d4,
+      transparent: true,
+      opacity: 0.0,
+      side: THREE.DoubleSide
+    });
+    this.gatePortalMesh = new THREE.Mesh(portalGeo, portalMat);
+    this.gatePortalMesh.position.set(0.6, 0.0, -3.2);
+    this.gatePortalMesh.rotation.y = Math.PI / 4;
+    this.gatePortalMesh.visible = false;
+    this.membraneGroup.add(this.gatePortalMesh);
   }
 
   private buildPreproteinStream() {
     // Nascent polypeptide chain translocating through the SecY pore:
-    // A series of amino acid sphere beads threading along a curved Catmull-Rom path
-    const beadCount = 28;
-    const beadGeo = new THREE.SphereGeometry(0.24, 10, 8);
-    const beadMat = new THREE.MeshStandardMaterial({
-      color: 0xffe066, // Luminous Gold
-      roughness: 0.25,
-      metalness: 0.2,
-      emissive: 0xffb703,
-      emissiveStrength: 0.6
-    });
+    // Individual amino acid sphere beads with independent materials for lateral partitioning
+    const beadCount = 30;
+    const beadGeo = new THREE.SphereGeometry(0.26, 12, 10);
 
     for (let i = 0; i < beadCount; i++) {
-      const mesh = new THREE.Mesh(beadGeo, beadMat);
+      const mat = new THREE.MeshStandardMaterial({
+        color: 0xffe066, // Luminous Gold
+        roughness: 0.25,
+        metalness: 0.2,
+        emissive: 0xffb703,
+        emissiveIntensity: 0.5
+      });
+      const mesh = new THREE.Mesh(beadGeo, mat);
       mesh.visible = true;
       this.peptideStreamGroup.add(mesh);
       this.peptideBeads.push(mesh);
@@ -576,7 +591,7 @@ export class SecYEGScene {
   // ---------------------------------------------------------------------------
 
   public setAtpRate(rate: number) {
-    this.atpRate = Math.max(0.0, Math.min(3.0, rate));
+    this.atpRate = Math.max(0.0, Math.min(3.5, rate));
   }
 
   public setAzideInhibition(inhibited: boolean) {
@@ -584,39 +599,37 @@ export class SecYEGScene {
   }
 
   public setLateralGateOpening(val: number) {
-    this.lateralGateOpening = Math.max(0.0, Math.min(1.0, val));
-    this.applyLateralGate();
+    // Support both 0..1 normalized and 0..100 legacy percentage input
+    const norm = val > 1.0 ? val / 100.0 : val;
+    this.lateralGateOpening = Math.max(0.0, Math.min(1.0, norm));
+    this.applyExplodedView();
   }
 
   public setExplodedProgress(progress: number) {
-    this.explodedProgress = Math.max(0.0, Math.min(1.0, progress));
+    // Support both 0..1 normalized and 0..100 legacy percentage input
+    const norm = progress > 1.0 ? progress / 100.0 : progress;
+    this.explodedProgress = Math.max(0.0, Math.min(1.0, norm));
     this.applyExplodedView();
   }
 
   private applyLateralGate() {
-    const gateMesh = this.pieceMeshes.get('Piece_SecYEG_Lateral_Gate');
-    if (!gateMesh) return;
-
-    const basePos = this.pieceBasePositions.get('Piece_SecYEG_Lateral_Gate') || new THREE.Vector3();
-    // In our orientation, lateral gate faces along -Z; opening parts outwards by up to -1.4 nm (-14 Å)
-    const openOffsetZ = -1.4 * this.lateralGateOpening;
-    gateMesh.position.z = basePos.z + openOffsetZ;
+    this.applyExplodedView();
   }
 
   private applyExplodedView() {
     const t = this.explodedProgress;
+    const gateOpen = this.lateralGateOpening;
 
     // Dissociation vectors adhering to CELLULAR_INSPECTOR_BLUEPRINT.md:
+    // Lateral gate swings outward along -Z and +X into the surrounding lipid bilayer
     const dissocMap: Record<string, THREE.Vector3> = {
       'Piece_SecYEG_SecY': new THREE.Vector3(0, 0, 0),
-      'Piece_SecYEG_Lateral_Gate': new THREE.Vector3(0, 0, -8.0 * t),
+      'Piece_SecYEG_Lateral_Gate': new THREE.Vector3(0.8 * gateOpen, 0, -8.0 * t - 2.6 * gateOpen),
       'Piece_SecYEG_SecE': new THREE.Vector3(-12.0 * t, 0, 0),
       'Piece_SecYEG_SecG': new THREE.Vector3(+12.0 * t, 0, 0),
       'Piece_SecYEG_SecA_Motor': new THREE.Vector3(0, +16.0 * t, 0),
       'Piece_SecYEG_Translocating_Preprotein': new THREE.Vector3(0, -12.0 * t, 0)
     };
-
-    dissocMap['Piece_SecYEG_Lateral_Gate'].z += -1.4 * this.lateralGateOpening;
 
     for (const [name, vec] of Object.entries(dissocMap)) {
       const mesh = this.pieceMeshes.get(name);
@@ -624,6 +637,18 @@ export class SecYEGScene {
       if (mesh && base) {
         mesh.position.set(base.x + vec.x, base.y + vec.y, base.z + vec.z);
       }
+    }
+
+    // Dynamic rotation of lateral gate helices TM2b/TM7 swinging outward into bilayer
+    const gateMesh = this.pieceMeshes.get('Piece_SecYEG_Lateral_Gate');
+    if (gateMesh) {
+      gateMesh.rotation.y = -0.22 * gateOpen;
+    }
+
+    // Update dynamic bilayer portal indicator visibility & opacity
+    if (this.gatePortalMesh) {
+      this.gatePortalMesh.visible = gateOpen > 0.05;
+      (this.gatePortalMesh.material as THREE.MeshBasicMaterial).opacity = Math.min(0.85, gateOpen * 0.9);
     }
   }
 
@@ -733,31 +758,87 @@ export class SecYEGScene {
 
     if (effectiveSpeed > 0.001) {
       // SecA Piston power-stroke: two-helix finger vertical oscillation
+      // Exactly 1 stroke cycle per ATP hydrolyzed per second (frequency = effectiveSpeed Hz)
+      const strokeFreq = effectiveSpeed;
+      const strokePhase = elapsed * (2.0 * Math.PI) * strokeFreq;
+      const stroke = Math.sin(strokePhase) * 0.45;
+
       if (this.secaMesh) {
-        const stroke = Math.sin(elapsed * 4.0 * effectiveSpeed) * 0.35;
         this.secaMesh.position.y = this.secaBaseY + stroke + (16.0 * this.explodedProgress);
       }
 
-      // Preprotein translocating strand: moving beads along channel axis
-      const beadCycleTime = elapsed * 1.8 * effectiveSpeed;
+      // Preprotein translocating strand: advancing along channel axis
+      // In 1 ATP power stroke, ~20 amino acid residues advance
+      const beadCycleTime = (strokePhase / (2.0 * Math.PI)) * 0.12;
       const beadCount = this.peptideBeads.length;
+      const gateOpen = this.lateralGateOpening;
 
       for (let i = 0; i < beadCount; i++) {
         const bead = this.peptideBeads[i];
+        const mat = bead.material as THREE.MeshStandardMaterial;
+
         // Fraction along the pathway [0, 1]
         const frac = ((i / beadCount) + (beadCycleTime % 1.0)) % 1.0;
 
-        // Curve from SecA cytosol (+Y) -> SecY pore (0,0,0) -> Periplasm (-Y)
-        // Add lateral bulge if gate is open
-        const y = 8.0 - frac * 16.0;
-        const x = Math.sin(frac * Math.PI * 2.0) * 0.6;
-        const z = -0.5 - (this.lateralGateOpening * Math.sin(frac * Math.PI) * 1.8);
+        let x = 0;
+        let y = 0;
+        let z = 0;
+
+        if (gateOpen < 0.20) {
+          // Secretory Mode: preprotein threads straight through central hourglass pore into periplasm
+          y = 8.0 - frac * 16.0;
+          x = Math.sin(frac * Math.PI * 2.0) * 0.5;
+          z = -0.4 - Math.sin(frac * Math.PI) * 0.4;
+
+          mat.color.setHex(0xffe066);
+          mat.emissive.setHex(0xffb703);
+          mat.emissiveIntensity = 0.5;
+        } else {
+          // Membrane Integration Mode:
+          // Hydrophobic TM helix segment diverts laterally out through TM2b/TM7 into bilayer core
+          const partitionStrength = Math.min(1.0, (gateOpen - 0.15) / 0.85);
+
+          if (frac < 0.35) {
+            // Cytoplasmic entry approaching translocon
+            y = 8.0 - frac * 17.0;
+            x = Math.sin(frac * Math.PI * 2.0) * 0.5;
+            z = -0.4;
+            mat.color.setHex(0xffe066);
+            mat.emissive.setHex(0xffb703);
+            mat.emissiveIntensity = 0.5;
+          } else {
+            // Segment partitioning sideways into bilayer plane
+            const lateralT = Math.min(1.0, (frac - 0.35) / 0.45);
+            // Lateral gate exit is along -Z: enters membrane at Z = -0.4 -> -6.5
+            const targetZ = -0.4 - (2.2 + 4.8 * partitionStrength) * Math.sin(lateralT * Math.PI * 0.5);
+            const targetY = 2.05 - lateralT * 2.5; // levels out inside bilayer slab (Y ~ 0.0)
+            const targetX = 0.3 + Math.sin(lateralT * Math.PI * 1.5) * 1.6;
+
+            const straightY = 8.0 - frac * 16.0;
+            const straightZ = -0.4;
+            const straightX = Math.sin(frac * Math.PI * 2.0) * 0.5;
+
+            x = THREE.MathUtils.lerp(straightX, targetX, partitionStrength);
+            y = THREE.MathUtils.lerp(straightY, targetY, partitionStrength);
+            z = THREE.MathUtils.lerp(straightZ, targetZ, partitionStrength);
+
+            // Bilayer partitioned TM segment glows luminous cyan
+            mat.color.setHex(0x00f5d4);
+            mat.emissive.setHex(0x00f5d4);
+            mat.emissiveIntensity = 0.85;
+          }
+        }
 
         bead.position.set(x, y, z);
-        // Pulse scale inside the pore constriction
-        const scale = 0.8 + 0.4 * Math.sin(frac * Math.PI);
+        const scale = 0.85 + 0.35 * Math.sin(frac * Math.PI);
         bead.scale.set(scale, scale, scale);
       }
+    }
+
+    // Dynamic portal pulse when open
+    if (this.gatePortalMesh && this.lateralGateOpening > 0.05) {
+      const pulse = 0.9 + 0.1 * Math.sin(elapsed * 3.0);
+      this.gatePortalMesh.scale.set(pulse, pulse, pulse);
     }
 
     // 3. Update 2D SVG callout leader lines

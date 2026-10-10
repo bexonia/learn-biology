@@ -32,9 +32,10 @@ export const SecYEGHUDCard: React.FC<SecYEGHUDCardProps> = ({
   onToggleLabels
 }) => {
   // Compute physiological translocation rates
+  // 1 ATP power stroke = ~20 amino acids translocated
   const effectiveRate = isAzideInhibited || isPaused ? 0 : atpRate;
-  const aaPerSec = Math.round(effectiveRate * 45); // 45 aa/sec nominal rate
-  const atpConsumedPerSec = Math.round(aaPerSec / 20); // ~1 ATP per 20 aa
+  const aaPerSec = Math.round(effectiveRate * 20);
+  const atpConsumedPerSec = effectiveRate.toFixed(1);
 
   return (
     <div className="motor-hud-overlay" id="secyeg-hud-overlay">
@@ -68,25 +69,29 @@ export const SecYEGHUDCard: React.FC<SecYEGHUDCardProps> = ({
         {/* ATP Translocation Rate Slider */}
         <div className="motor-card-section">
           <div className="motor-slider-label">
-            <span>ATP HYDROLYSIS RATE:</span>
-            <span className="motor-slider-val">
-              {isAzideInhibited ? '0.0 ATP/s (INHIBITED)' : `${(atpRate * 2.2).toFixed(1)} ATP/s (${aaPerSec} aa/s)`}
+            <span>SECA ATPASE HYDROLYSIS RATE:</span>
+            <span className="motor-slider-val" style={{ color: isAzideInhibited ? '#EF4444' : '#FFE066' }}>
+              {isAzideInhibited ? '0.0 ATP/s (INHIBITED)' : `${effectiveRate.toFixed(1)} ATP/s (${aaPerSec} aa/s)`}
             </span>
           </div>
           <input
             type="range"
-            min="0.2"
-            max="2.5"
+            min="0.5"
+            max="3.0"
             step="0.1"
             value={atpRate}
             disabled={isAzideInhibited}
             onChange={(e) => onChangeAtpRate(parseFloat(e.target.value))}
             className="motor-slider"
+            style={{ accentColor: '#FFE066' }}
           />
           <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '9px', color: '#64748b', marginTop: '2px' }}>
-            <span>Basal (10 aa/s)</span>
-            <span>Nominal (45 aa/s)</span>
-            <span>Max (110 aa/s)</span>
+            <span>0.5 ATP/s (Basal: 10 aa/s)</span>
+            <span>1.5 ATP/s (Physiological)</span>
+            <span>3.0 ATP/s (Max: 60 aa/s)</span>
+          </div>
+          <div style={{ fontSize: '9px', color: '#94A3B8', marginTop: '4px', fontStyle: 'italic', lineHeight: 1.25 }}>
+            ⚡ 1 SecA piston power-stroke = 1 ATP hydrolyzed = ~20 aa translocation step
           </div>
         </div>
 
@@ -94,24 +99,51 @@ export const SecYEGHUDCard: React.FC<SecYEGHUDCardProps> = ({
         <div className="motor-card-section">
           <div className="motor-slider-label">
             <span>DYNAMIC LATERAL GATE:</span>
-            <span className="motor-slider-val" style={{ color: '#00F5D4' }}>
-              {lateralGateOpening > 80 ? 'OPEN (Partitioning)' : lateralGateOpening > 20 ? 'PARTIAL (Sampling)' : 'CLOSED (Sealed)'} ({Math.round(lateralGateOpening)}%)
+            <span className="motor-slider-val" style={{ color: lateralGateOpening >= 0.20 ? '#00F5D4' : '#94A3B8' }}>
+              {lateralGateOpening >= 0.75
+                ? `OPEN: Bilayer Integration (${Math.round(lateralGateOpening * 100)}%)`
+                : lateralGateOpening >= 0.20
+                ? `SAMPLING: Lateral Partition (${Math.round(lateralGateOpening * 100)}%)`
+                : `CLOSED: Central Pore (${Math.round(lateralGateOpening * 100)}%)`}
             </span>
           </div>
           <input
             type="range"
             min="0"
-            max="100"
-            step="1"
+            max="1"
+            step="0.01"
             value={lateralGateOpening}
             onChange={(e) => onChangeLateralGate(parseFloat(e.target.value))}
             className="motor-slider"
             style={{ accentColor: '#00F5D4' }}
           />
           <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '9px', color: '#64748b', marginTop: '2px' }}>
-            <span>Closed (Ion Seal)</span>
-            <span>Sampling (TM Signal)</span>
-            <span>Parted (1.4 nm Bilayer Gap)</span>
+            <span>0% Sealed (Periplasm)</span>
+            <span>50% TM Sampling</span>
+            <span>100% Parted (Lipid Bilayer)</span>
+          </div>
+
+          {/* Visual Mode Badge showing the functional biological consequence */}
+          <div style={{
+            marginTop: '6px',
+            padding: '5px 8px',
+            borderRadius: '5px',
+            fontSize: '9.5px',
+            fontWeight: 700,
+            display: 'flex',
+            alignItems: 'center',
+            gap: '6px',
+            background: lateralGateOpening >= 0.20 ? 'rgba(0, 245, 212, 0.12)' : 'rgba(58, 134, 255, 0.12)',
+            border: `1px solid ${lateralGateOpening >= 0.20 ? 'rgba(0, 245, 212, 0.4)' : 'rgba(58, 134, 255, 0.4)'}`,
+            color: lateralGateOpening >= 0.20 ? '#00F5D4' : '#93C5FD',
+            lineHeight: 1.3
+          }}>
+            <span style={{ fontSize: '12px' }}>{lateralGateOpening >= 0.20 ? '⚡' : '🟢'}</span>
+            <span>
+              {lateralGateOpening >= 0.20
+                ? 'MEMBRANE INTEGRATION: Transmembrane segment exits laterally into lipid bilayer'
+                : 'SECRETORY MODE: Preprotein threads through central pore into periplasm'}
+            </span>
           </div>
         </div>
 
@@ -120,32 +152,46 @@ export const SecYEGHUDCard: React.FC<SecYEGHUDCardProps> = ({
           <div className="motor-slider-label">
             <span>EXPLODED ASSEMBLY:</span>
             <span className="motor-slider-val">
-              {explodedProgress === 0 ? 'Assembled Holoenzyme' : `${Math.round(explodedProgress)}% Dissociated`}
+              {explodedProgress <= 0.01
+                ? 'Assembled Holoenzyme'
+                : `${Math.round(explodedProgress * 100)}% Dissociated`}
             </span>
           </div>
           <input
             type="range"
             min="0"
-            max="100"
+            max="1"
+            step="0.01"
             value={explodedProgress}
             onChange={(e) => onChangeExploded(parseFloat(e.target.value))}
             className="motor-slider"
           />
+          <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '9px', color: '#64748b', marginTop: '2px' }}>
+            <span>0% (Assembled)</span>
+            <span>50%</span>
+            <span>100% (Dissociated)</span>
+          </div>
         </div>
 
         {/* Live Translocation Metrics Dashboard */}
         <div className="motor-card-section" style={{ background: 'rgba(2, 6, 23, 0.4)', padding: '8px', borderRadius: '6px' }}>
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '8px', fontSize: '11px' }}>
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '6px', fontSize: '11px' }}>
             <div>
               <span style={{ color: '#94a3b8', display: 'block', fontSize: '9px' }}>TRANSLOCATION RATE</span>
-              <strong style={{ color: isAzideInhibited ? '#ef4444' : '#06d6a0', fontSize: '13px' }}>
+              <strong style={{ color: isAzideInhibited ? '#ef4444' : '#06d6a0', fontSize: '12px' }}>
                 {aaPerSec} aa/sec
               </strong>
             </div>
             <div>
               <span style={{ color: '#94a3b8', display: 'block', fontSize: '9px' }}>ATP CONSUMED</span>
-              <strong style={{ color: '#ffe066', fontSize: '13px' }}>
+              <strong style={{ color: '#ffe066', fontSize: '12px' }}>
                 {atpConsumedPerSec} ATP/sec
+              </strong>
+            </div>
+            <div>
+              <span style={{ color: '#94a3b8', display: 'block', fontSize: '9px' }}>DESTINATION</span>
+              <strong style={{ color: lateralGateOpening >= 0.20 ? '#00f5d4' : '#3a86ff', fontSize: '11px' }}>
+                {lateralGateOpening >= 0.20 ? 'Lipid Bilayer' : 'Periplasm'}
               </strong>
             </div>
           </div>

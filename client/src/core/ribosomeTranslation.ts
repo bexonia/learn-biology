@@ -266,6 +266,9 @@ export class RibosomeScene {
     this.origPeptidePos = new THREE.Vector3();
     this.sparkMesh = null;
     this.contactShadowMesh = null;
+    this.emergingPeptideBead = null;
+    this.cap5Mesh = null;
+    this.term3Mesh = null;
 
     // 3D Anatomy Tags & Dynamic Anchor Layer (Matching Flagellar Motor)
     this.showLabels = true;
@@ -712,6 +715,7 @@ export class RibosomeScene {
     cap5.position.copy(mrnaPoints[0]);
     this.registerClickable(cap5, 'extended_mrna');
     this.extendedMRNAGroup.add(cap5);
+    this.cap5Mesh = cap5;
 
     // 3' Stem-Loop Terminal Decoration
     const term3Geo = new THREE.TorusGeometry(1.8, 0.4, 8, 20);
@@ -723,6 +727,7 @@ export class RibosomeScene {
     term3.position.copy(mrnaPoints[mrnaPoints.length - 1]);
     this.registerClickable(term3, 'extended_mrna');
     this.extendedMRNAGroup.add(term3);
+    this.term3Mesh = term3;
 
     this.assemblyGroup.add(this.extendedMRNAGroup);
     this.updateCodonPlates(0.0);
@@ -814,6 +819,9 @@ export class RibosomeScene {
       bead.castShadow = true;
       this.registerClickable(bead, 'nascent_peptide');
       this.peptideGroup.add(bead);
+      if (i === Math.floor(samples.length * 0.45)) {
+        this.emergingPeptideBead = bead;
+      }
     }
 
     // Slender polypeptide backbone organic string
@@ -909,7 +917,7 @@ export class RibosomeScene {
         key: 'trna_all',
         name: 'tRNAs (A, P, E Sites)',
         subtitle: 'Aminoacyl, Peptidyl & Spent tRNAs',
-        color: '#368F8B',
+        color: '#E9C46A',
         pos: new THREE.Vector3(5.5, -4.0, 6.0),
         screenOffset: { x: 190, y: 35 },
         meta: this.componentsMeta['trna_all']
@@ -1018,31 +1026,107 @@ export class RibosomeScene {
   }
 
   /**
-   * Build stationary 3D anchor tracking layer
+   * Build stationary 3D anchor tracking layer physically attached to each piece
    */
   initLabelAnchors() {
-    if (!this.labelAnchorLayer) {
-      this.labelAnchorLayer = new THREE.Group();
-      this.labelAnchorLayer.name = 'Ribosome_Label_Anchor_Layer';
-      if (this.rootGroup) this.rootGroup.add(this.labelAnchorLayer);
+    // If previous anchors existed, detach from parents to prevent duplicates
+    if (this.labelAnchors) {
+      Object.values(this.labelAnchors).forEach((anchor) => {
+        if (anchor && anchor.parent) {
+          anchor.parent.remove(anchor);
+        }
+      });
     }
-    this.labelAnchorLayer.clear();
     this.labelAnchors = {};
 
     if (!this.ribosomeLandmarks || this.ribosomeLandmarks.length === 0) {
       this.setupRibosomeLandmarks();
     }
 
+    // Direct 1:1 binding to specific colored 3D meshes:
+    // When the mesh moves, rotates, or explodes, its child anchor moves in lockstep!
+    const parentMap = {
+      'ribo-tag-ptc': {
+        parent: this.piecePTC,
+        localPos: new THREE.Vector3(-0.19, -1.62, 2.33)
+      },
+      'ribo-tag-50s-rrna': {
+        parent: this.piece50S_rRNA,
+        localPos: new THREE.Vector3(1.65, -9.10, -0.83)
+      },
+      'ribo-tag-50s-prot': {
+        parent: this.piece50S_Proteins,
+        localPos: new THREE.Vector3(9.53, -4.51, -2.31)
+      },
+      'ribo-tag-30s-rrna': {
+        parent: this.piece30S_rRNA,
+        localPos: new THREE.Vector3(4.75, -1.45, -10.55)
+      },
+      'ribo-tag-30s-prot': {
+        parent: this.piece30S_Proteins,
+        localPos: new THREE.Vector3(7.58, -2.90, -9.84)
+      },
+      'ribo-tag-mrna': {
+        parent: this.pieceMRNA,
+        localPos: new THREE.Vector3(2.52, -0.79, -5.29)
+      },
+      'ribo-tag-trna': {
+        parent: this.pieceTRNA_A,
+        localPos: new THREE.Vector3(4.24, 1.55, -3.45)
+      },
+      'ribo-tag-peptide': {
+        parent: this.emergingPeptideBead || this.peptideGroup,
+        localPos: new THREE.Vector3(0, 0, 0)
+      },
+      'ribo-tag-ribo2': {
+        parent: this.ribosome2Group,
+        localPos: new THREE.Vector3(0, 0, 0)
+      },
+      'ribo-tag-ribo3': {
+        parent: this.ribosome3Group,
+        localPos: new THREE.Vector3(0, 0, 0)
+      },
+      'ribo-tag-70s': {
+        parent: this.piece30S_rRNA || this.assemblyGroup,
+        localPos: this.piece30S_rRNA ? new THREE.Vector3(0.5, -4.5, -10.0) : new THREE.Vector3(0.0, -22.0, 6.0)
+      },
+      'ribo-tag-mrna-5p': {
+        parent: this.cap5Mesh || this.assemblyGroup,
+        localPos: this.cap5Mesh ? new THREE.Vector3(0, 0, 0) : new THREE.Vector3(-180.0, -15.0, -16.0)
+      },
+      'ribo-tag-mrna-3p': {
+        parent: this.term3Mesh || this.assemblyGroup,
+        localPos: this.term3Mesh ? new THREE.Vector3(0, 0, 0) : new THREE.Vector3(180.0, 17.0, -16.0)
+      },
+      'ribo-tag-polysome': {
+        parent: this.assemblyGroup,
+        localPos: new THREE.Vector3(0.0, 42.0, 6.0)
+      }
+    };
+
     this.ribosomeLandmarks.forEach((lm) => {
+      const binding = parentMap[lm.id];
       const anchor = new THREE.Object3D();
       anchor.name = `Anchor_${lm.id}`;
-      anchor.position.copy(lm.pos);
+
+      if (binding && binding.parent) {
+        anchor.position.copy(binding.localPos);
+        binding.parent.add(anchor);
+      } else {
+        // Fallback before pieces are loaded
+        anchor.position.copy(lm.pos);
+        if (this.labelAnchorLayer) {
+          this.labelAnchorLayer.add(anchor);
+        } else if (this.rootGroup) {
+          this.rootGroup.add(anchor);
+        }
+      }
+
       anchor.userData = {
         id: lm.id,
         key: lm.key,
         basePos: lm.pos.clone()
       };
-      this.labelAnchorLayer.add(anchor);
       this.labelAnchors[lm.id] = anchor;
     });
 
@@ -1064,45 +1148,12 @@ export class RibosomeScene {
   }
 
   /**
-   * Update 3D coordinates of anchor tracking layer to follow exploded structures
+   * Ensure world matrices are up-to-date across all nested mesh structures
    */
   updateLabelAnchors() {
-    if (!this.labelAnchors || !this.ribosomeLandmarks) return;
-    const dist = this.explodedProgress * 15;
-
-    this.ribosomeLandmarks.forEach((lm) => {
-      const anchor = this.labelAnchors[lm.id];
-      if (!anchor) return;
-      const base = anchor.userData.basePos;
-
-      // 50S subunit elements dissociate backward along dissociationAxis (-dist * 0.85)
-      if (lm.key === 'rrna_50s' || lm.key === 'proteins_50s' || lm.key === 'subunit_50s' || lm.key === 'ptc_core' || lm.key === 'nascent_peptide') {
-        anchor.position.copy(base).addScaledVector(this.dissociationAxis, -dist * 0.85);
-      } 
-      // 30S subunit elements dissociate forward along dissociationAxis (+dist * 0.95)
-      else if (lm.key === 'rrna_30s' || lm.key === 'proteins_30s' || lm.key === 'subunit_30s' || lm.key === 'ribosome_70s') {
-        anchor.position.copy(base).addScaledVector(this.dissociationAxis, dist * 0.95);
-      } 
-      // mRNA travels partially with 30S cradle
-      else if (lm.key === 'mrna_strand') {
-        anchor.position.copy(base).addScaledVector(this.dissociationAxis, dist * 0.45);
-      } 
-      // tRNAs separate in cleft
-      else if (lm.key === 'trna_all' || lm.key === 'trna_a_site' || lm.key === 'trna_p_site' || lm.key === 'trna_e_site') {
-        anchor.position.copy(base).addScaledVector(this.dissociationAxis, dist * 0.1);
-      } 
-      // Upstream Ribosome 2 displaces outward along -X
-      else if (lm.key === 'ribosome_upstream') {
-        anchor.position.set(base.x - this.explodedProgress * 15, base.y, base.z);
-      } 
-      // Downstream Ribosome 3 displaces outward along +X
-      else if (lm.key === 'ribosome_downstream') {
-        anchor.position.set(base.x + this.explodedProgress * 15, base.y, base.z);
-      } 
-      else {
-        anchor.position.copy(base);
-      }
-    });
+    if (this.assemblyGroup) {
+      this.assemblyGroup.updateMatrixWorld(true);
+    }
   }
 
   /**
@@ -1325,6 +1376,19 @@ export class RibosomeScene {
     this.spherical.theta = t.theta;
     this.spherical.phi = t.phi;
     this.target.copy(t.target);
+
+    // If an anchor is attached to this piece, dynamically center on its real 3D world position
+    if (this.labelAnchors) {
+      for (const anchor of Object.values(this.labelAnchors)) {
+        if (anchor && anchor.userData && anchor.userData.key === key) {
+          const worldPos = new THREE.Vector3();
+          anchor.getWorldPosition(worldPos);
+          this.target.copy(worldPos);
+          break;
+        }
+      }
+    }
+
     this.updateCameraPosition();
   }
 
@@ -1603,6 +1667,14 @@ export class RibosomeScene {
     window.removeEventListener('resize', this.onWindowResizeBound);
     window.removeEventListener('pointermove', this.onPointerMoveBound);
     window.removeEventListener('pointerup', this.onPointerUpBound);
+    if (this.labelAnchors) {
+      Object.values(this.labelAnchors).forEach((anchor) => {
+        if (anchor && anchor.parent) {
+          anchor.parent.remove(anchor);
+        }
+      });
+      this.labelAnchors = {};
+    }
     if (this.renderer && this.renderer.domElement && this.renderer.domElement.parentNode) {
       this.renderer.domElement.parentNode.removeChild(this.renderer.domElement);
       this.renderer.dispose();

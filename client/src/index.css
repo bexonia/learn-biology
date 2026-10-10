@@ -1173,11 +1173,13 @@ html, body {
 
 #atp-synthase-container .motor-overlay-header,
 #complex-i-container .motor-overlay-header,
-#secyeg-container .motor-overlay-header {
+#secyeg-container .motor-overlay-header,
+#bam-container .motor-overlay-header {
   display: none;
 }
 
-#secyeg-container {
+#secyeg-container,
+#bam-container {
   position: absolute;
   top: 0;
   left: 0;
@@ -1754,7 +1756,9 @@ html, body {
 #complex-i-svg-overlay,
 #complex-i-labels-container,
 #secyeg-svg-overlay,
-#secyeg-labels-container {
+#secyeg-labels-container,
+#bam-svg-overlay,
+#bam-labels-container {
   position: absolute;
   top: 0;
   left: 0;

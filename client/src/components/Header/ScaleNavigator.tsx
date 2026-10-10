@@ -16,7 +16,9 @@ export const ScaleNavigator: React.FC<ScaleNavigatorProps> = ({
       ? 'BACTERIAL FLAGELLAR ROTARY MOTOR & BASAL BODY'
       : scenario === 'ribosome'
       ? 'BACTERIAL 70S RIBOSOME & TRANSLATION FACTORY'
-      : 'BACTERIAL F₁F₀-ATP SYNTHASE & ROTARY BIOENERGETIC DYNAMO';
+      : scenario === 'atp_synthase'
+      ? 'BACTERIAL F₁F₀-ATP SYNTHASE & ROTARY BIOENERGETIC DYNAMO'
+      : 'RESPIRATORY COMPLEX I (NADH:UBIQUINONE OXIDOREDUCTASE)';
 
   const subtitle =
     scenario === 'cell'
@@ -25,7 +27,9 @@ export const ScaleNavigator: React.FC<ScaleNavigatorProps> = ({
       ? "Nature's 45-nanometer biological rotary turbine, driven by proton motive force across the bacterial envelope."
       : scenario === 'ribosome'
       ? 'The universal 25-nanometer ribozyme engine translating genetic mRNA codons into functional protein polypeptides.'
-      : 'The 10-nanometer rotary generator coupling electrochemical proton flow across the inner membrane directly to ATP synthesis.';
+      : scenario === 'atp_synthase'
+      ? 'The 10-nanometer rotary generator coupling electrochemical proton flow across the inner membrane directly to ATP synthesis.'
+      : 'The 24-nanometer L-shaped respiratory entry machine coupling 90 Å quantum electron tunneling to 4 H⁺ proton pumping.';
 
   return (
     <header id="editorial-header">
@@ -66,6 +70,15 @@ export const ScaleNavigator: React.FC<ScaleNavigatorProps> = ({
             title="Switch to F1F0-ATP Synthase Rotary Dynamo"
           >
             <span className="scale-icon">⚡</span> ATP Synthase <span className="scale-dim">(10 nm)</span>
+          </button>
+          <span className="scale-nav-divider">›</span>
+          <button
+            className={`scale-nav-btn ${scenario === 'complex_i' ? 'active' : ''}`}
+            id="btn-nav-complex-i"
+            onClick={() => onSelectScenario('complex_i')}
+            title="Switch to Respiratory Complex I (NADH:Ubiquinone Oxidoreductase)"
+          >
+            <span className="scale-icon">🔋</span> Complex I <span className="scale-dim">(24 nm)</span>
           </button>
         </div>
       </div>

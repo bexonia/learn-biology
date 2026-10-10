@@ -1,4 +1,4 @@
-export type ScenarioType = 'cell' | 'motor' | 'ribosome' | 'atp_synthase';
+export type ScenarioType = 'cell' | 'motor' | 'ribosome' | 'atp_synthase' | 'complex_i';
 
 export interface ProteinItem {
   name: string;
@@ -52,6 +52,20 @@ export interface ATPSynthaseComponentData {
   role?: string;
   stoichiometry?: string;
   state?: 'open' | 'loose' | 'tight' | 'translocating';
+}
+
+export interface ComplexIComponentData {
+  name: string;
+  badge?: string;
+  dims?: string;
+  proteins?: string;
+  pdb?: string;
+  desc?: string;
+  role?: string;
+  stoichiometry?: string;
+  cofactors?: string;
+  redoxPotential?: string;
+  state?: 'oxidized' | 'reduced' | 'coupled_pumping';
 }
 
 export interface TourStatus {

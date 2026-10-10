@@ -24,6 +24,7 @@ Thumbs.db
 *.log
 .playwright-mcp/
 node_modules/
+scratch/
 
 # Temporary & debug screenshots (curated docs live in readme_images/)
 screenshot*.png

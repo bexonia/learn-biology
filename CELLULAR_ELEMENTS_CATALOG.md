@@ -24,12 +24,14 @@
 
 This catalog defines the complete set of structural and functional components of *Escherichia coli* K-12 across 6 hierarchical biophysical scales.
 
-### Two Dimensions of "Iteration" in this Architecture
+### Three Dimensions of "Iteration" in this Architecture
 1. **Inter-Element Biological Iteration (Flux Cycles & Regulatory Coupling):**
    No cellular element operates in isolation. Every component receives inputs from an upstream donor, transforms energy or chemical species, and transmits products to downstream consumers. For example:
    $$\text{Complex I} \xrightarrow{\text{electrons}} Q_8 \xrightarrow{} \text{Cyt } bo_3 \xrightarrow{\text{pumps } \text{H}^+} \Delta p \xrightarrow{\text{drives}} \text{ATP Synthase} \xrightarrow{\text{ATP}} \text{70S Ribosome} \xrightarrow{\text{nascent OMP}} \text{SecYEG} \xrightarrow{\text{chaperoned}} \text{SurA} \xrightarrow{\text{folding}} \text{BAM Complex} \xrightarrow{\text{insertion}} \text{Outer Membrane}$$
 2. **Real-Time Interactive Simulation Sliders (HUD Iteration Controls):**
    Every element exposes interactive parameters in the user interface (e.g. membrane voltage, proton-motive force, turgor pressure, rotation RPM, translation elongation rate, crosslinking density, and antibiotic inhibition toggles), enabling real-time experimentation with cellular biophysics.
+3. **Mandatory 5-Stage Explanatory Trace ("How It Works" Pedagogical Iteration):**
+   In addition to continuous steady-state operation, every cellular element must implement a guided 5-stage causal mechanism walkthrough (`EXPLANATION_STAGES`) per [`CELLULAR_INSPECTOR_BLUEPRINT.md`](file:///c:/Users/devcd/GenProjects/CELLULAR_INSPECTOR_BLUEPRINT.md). This walks the user through the complete causal chain: Input Influx $\to$ Mechanical Coupling $\to$ Catalytic Intermediate $\to$ Turnover Power Stroke $\to$ Continuous Steady-State Dynamo.
 
 ---
 

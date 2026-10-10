@@ -40,7 +40,7 @@ Learn Biology is engineered to be **100% client-side, zero-install, and zero-bac
     • SVG Leader Lines Overlay        - 3D-to-2D screen coordinate projection
     • 3D Geometry Sources:          • Scene Controllers:
       - prokaryote_cell.blend         - cellViewer.js (Whole Cell)
-      - generate_primer_cell_hq.py    - flagellarMotor.js (Rotary Motor)
+      - scripts/generate_primer_cell_hq.py - flagellarMotor.js (Rotary Motor)
                                       - ribosomeTranslation.js (Ribosome)
                                     • Kokoro-82M TTS (voiceService.js)
                                  │
@@ -89,7 +89,7 @@ This script:
 1. **Compiles the Rust WebAssembly Engine:**
    Runs `rustc --target wasm32-unknown-unknown -O --crate-type=cdylib src/lib.rs -o wasm/orbit_engine.wasm`.
 2. **Exports the 3D Cell Geometry from Blender:**
-   Executes Blender headlessly using [`generate_primer_cell_hq.py`](file:///generate_primer_cell_hq.py) and [`prokaryote_cell.blend`](file:///prokaryote_cell.blend) to generate `prokaryote_cell.glb`.
+   Executes Blender headlessly using [`scripts/generate_primer_cell_hq.py`](file:///scripts/generate_primer_cell_hq.py) and [`prokaryote_cell.blend`](file:///prokaryote_cell.blend) to generate `prokaryote_cell.glb`.
 
 ---
 
@@ -110,7 +110,11 @@ learn-biology/
 ├── models/                      # Output directory for generated 3D models
 ├── wasm/                        # Output directory for compiled WebAssembly binary
 ├── build_assets.py              # One-command asset compiler (Blender + Rust WASM)
-├── generate_primer_cell_hq.py   # Procedural Blender 5.2 Python generator
+├── scripts/                     # Procedural Blender 5.2 Python generators
+│   ├── generate_primer_cell_hq.py       # Whole Cell (1.5 µm) high-fidelity cutaway
+│   ├── generate_primer_cell.py          # Legacy cell prototype
+│   ├── generate_7cgo_flagellar_motor.py # Flagellar Motor & Stator Ring (45 nm)
+│   └── generate_7k00_assembled_pieces.py# 70S Translating Ribosome (25 nm)
 ├── prokaryote_cell.blend        # Blender master source scene
 ├── src/
 │   └── lib.rs                   # Rust source code for WASM orbit & projection math

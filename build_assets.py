@@ -3,7 +3,7 @@ build_assets.py - One-command build script for Learn Biology assets.
 
 Compiles:
 1. Rust WebAssembly engine (src/lib.rs -> wasm/orbit_engine.wasm)
-2. Blender procedural 3D model (generate_primer_cell_hq.py -> prokaryote_cell.glb)
+2. Blender procedural 3D model (scripts/generate_primer_cell_hq.py -> prokaryote_cell.glb)
 """
 
 import os
@@ -59,11 +59,14 @@ def build_blender_glb():
         print("    Please install Blender 4.x/5.x or set BLENDER_BIN environment variable.")
         return False
 
-    script_path = ROOT_DIR / "generate_primer_cell_hq.py"
+    script_path = ROOT_DIR / "scripts" / "generate_primer_cell_hq.py"
     cmd = [
         str(blender_bin),
         "--background",
-        "--python", str(script_path)
+        "--python", str(script_path),
+        "--",
+        "--output-dir", str(ROOT_DIR),
+        "--blend-name", "prokaryote_cell.blend"
     ]
     print(f"[*] Running Blender ({blender_bin}) to export prokaryote_cell.glb...")
     res = subprocess.run(cmd, cwd=str(ROOT_DIR))
@@ -72,6 +75,10 @@ def build_blender_glb():
         glb_path = ROOT_DIR / "prokaryote_cell.glb"
         if glb_path.exists():
             print(f"[+] Successfully exported: {glb_path} ({glb_path.stat().st_size} bytes)")
+            client_pub = ROOT_DIR / "client" / "public" / "prokaryote_cell.glb"
+            if client_pub.parent.exists():
+                shutil.copyfile(glb_path, client_pub)
+                print(f"[+] Copied to client web assets: {client_pub}")
             cell_ok = True
 
     # 3. 70S Ribosome Holoenzyme (PDB: 7K00) Multi-Piece Assembly

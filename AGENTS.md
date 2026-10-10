@@ -30,7 +30,11 @@ learn-biology/
 ├── voiceService.js              # Client-side Kokoro-82M neural voice synthesis
 ├── style.css                    # Editorial layout & typography (The Biology Primer)
 ├── build_assets.py              # Automated one-command asset compiler
-├── generate_primer_cell_hq.py   # Procedural Blender 5.2 generator
+├── scripts/                     # Procedural Blender 5.2 generators
+│   ├── generate_primer_cell_hq.py
+│   ├── generate_primer_cell.py
+│   ├── generate_7cgo_flagellar_motor.py
+│   └── generate_7k00_assembled_pieces.py
 ├── prokaryote_cell.blend        # Blender source scene
 ├── src/
 │   └── lib.rs                   # Rust source code for WASM orbit & landmark projection math

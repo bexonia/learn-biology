@@ -4,6 +4,7 @@ import math
 import random
 from mathutils import Vector, Euler, Matrix
 import os
+import sys
 
 def clear_all():
     """Safely removes all objects, meshes, curves, lights, cameras, and materials without touching add-ons."""
@@ -948,19 +949,39 @@ def main():
     except:
         pass
     
-    output_dir = r"c:\Users\devcd\GenProjects\prokaryote-primer-3d"
+    repo_root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+    output_dir = repo_root
+    blend_name = "prokaryote_cell.blend"
+    blend_only = False
+    no_render = True
+
+    # Check CLI arguments
+    for i, arg in enumerate(sys.argv):
+        if arg == "--output-dir" and i + 1 < len(sys.argv):
+            output_dir = sys.argv[i + 1]
+        elif arg == "--blend-name" and i + 1 < len(sys.argv):
+            blend_name = sys.argv[i + 1]
+        elif arg == "--render":
+            no_render = False
+        elif arg == "--blend-only":
+            blend_only = True
+
     os.makedirs(output_dir, exist_ok=True)
-    
-    blend_path = os.path.join(output_dir, "prokaryote_cell.blend")
-    glb_path = os.path.join(output_dir, "prokaryote_cell.glb")
-    render_path = os.path.join(output_dir, "prokaryote_cell_blender_render.png")
+    blend_path = os.path.join(output_dir, blend_name)
+    glb_path = os.path.join(output_dir, blend_name.replace(".blend", ".glb"))
     
     print(f"[*] Saving master .blend file to {blend_path}...")
     bpy.ops.wm.save_as_mainfile(filepath=blend_path)
     
-    print(f"[*] Rendering high-res still with CYCLES to {render_path}...")
-    scene.render.filepath = render_path
-    bpy.ops.render.render(write_still=True)
+    if not no_render:
+        render_path = os.path.join(output_dir, "prokaryote_cell_blender_render.png")
+        print(f"[*] Rendering high-res still with CYCLES to {render_path}...")
+        scene.render.filepath = render_path
+        bpy.ops.render.render(write_still=True)
+
+    if blend_only:
+        print(f"[+] Done! Saved .blend file successfully to {blend_path}")
+        return
     
     print(f"[*] Converting curves to meshes for glTF export...")
     bpy.ops.object.select_all(action='DESELECT')

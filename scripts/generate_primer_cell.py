@@ -562,7 +562,8 @@ def main():
         bg_node.inputs['Color'].default_value = (0.94, 0.93, 0.90, 1.0)
         bg_node.inputs['Strength'].default_value = 1.0
     
-    output_dir = r"c:\Users\devcd\GenProjects\prokaryote-primer-3d"
+    repo_root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+    output_dir = os.path.join(repo_root, "models")
     os.makedirs(output_dir, exist_ok=True)
     
     blend_path = os.path.join(output_dir, "prokaryote_cell.blend")

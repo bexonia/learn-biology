@@ -1,8 +1,9 @@
 import { useState, useEffect, useRef, useCallback } from 'react';
-import type { ScenarioType, MotorComponentData, RibosomeComponentData, TourStatus } from './types/biology';
+import type { ScenarioType, MotorComponentData, RibosomeComponentData, ATPSynthaseComponentData, TourStatus } from './types/biology';
 import { CellViewerScene, CELL_ANATOMY_DATA, CELL_TOUR_STOPS } from './core/cellViewer';
 import { FlagellarMotorScene } from './core/flagellarMotor';
 import { RibosomeScene, RIBOSOME_COMPONENTS_META, RIBOSOME_TOUR_STOPS } from './core/ribosomeTranslation';
+import { ATPSynthaseScene, ATP_SYNTHASE_COMPONENTS_META, ATP_SYNTHASE_TOUR_STOPS } from './core/atpSynthase';
 import voiceService from './core/voiceService';
 
 // UI Components
@@ -26,6 +27,14 @@ import { RibosomeHeaderOverlay } from './components/Ribosome/RibosomeHeaderOverl
 import { RibosomeHUDCard } from './components/Ribosome/RibosomeHUDCard';
 import { RibosomeInspectorDrawer } from './components/Ribosome/RibosomeInspectorDrawer';
 
+// ATP Synthase Components
+import { ATPSynthaseHeaderOverlay } from './components/ATPSynthase/ATPSynthaseHeaderOverlay';
+import { ATPSynthaseHUDCard } from './components/ATPSynthase/ATPSynthaseHUDCard';
+import { ATPSynthaseInspectorDrawer } from './components/ATPSynthase/ATPSynthaseInspectorDrawer';
+
+// Live Viewport Subtitles
+import { LiveSubtitles } from './components/Viewport/LiveSubtitles';
+
 const DEFAULT_MOTOR_META: MotorComponentData = {
   name: 'Cryo-EM Flagellar Basal Body (Molecular Nodes)',
   proteins: 'Orange: C-ring (FliG/M/N); Jade & Lime: MS-ring inner/outer (FliF); Gold: Axial Rod; Terracotta: P-ring (FlgI); Blue: L-ring (FlgH); Violet: Hook (FlgE)',
@@ -46,6 +55,44 @@ const MOTOR_TOUR_STOPS = [
   'hook',
   'filament',
   'filament_cap'
+];
+
+export const ATP_EXPLANATION_STAGES = [
+  {
+    step: 1,
+    id: 'proton_flux',
+    title: '1. Proton Motive Force Influx',
+    shortLabel: '1. Proton Influx',
+    speech: 'Step one: Proton Influx. Protons in the periplasm—pumped across the inner membrane by upstream respiration complexes like Complex I and Cytochrome bo₃—flow down their electrochemical gradient into the stator half-channel, driven by the proton-motive force.'
+  },
+  {
+    step: 2,
+    id: 'central_rotor',
+    title: '2. Turbine Rotation & Drive Shaft',
+    shortLabel: '2. Turbine Drive',
+    speech: 'Step two: Turbine and Drive Shaft. Each proton neutralizes Aspartate-61 on the c-ring, allowing the turbine to turn within the hydrophobic bilayer. This directly spins the eccentric emerald-green central shaft.'
+  },
+  {
+    step: 3,
+    id: 'adp_pi_substrates',
+    title: '3. Substrate Docking in Catalytic Head',
+    shortLabel: '3. Substrates',
+    speech: 'Step three: Substrate Capture. ADP and inorganic phosphate—recycled from cellular work done by ribosomes and flagellar motors—enter the F1 head. As the central shaft turns, it deforms the beta subunit into the Loose conformation, trapping these substrates in the active cleft.'
+  },
+  {
+    step: 4,
+    id: 'atp_product',
+    title: '4. Catalytic Condensation & Energy Release',
+    shortLabel: '4. ATP Synthesis',
+    speech: 'Step four: ATP Condensation and Release. Mechanical compression forces the pocket into the Tight state, condensing ADP and phosphate into high-energy ATP. The pocket then springs Open, ejecting ATP directly into the cytoplasm to fuel protein synthesis and cellular metabolism.'
+  },
+  {
+    step: 5,
+    id: 'atp_synthase_holoenzyme',
+    title: '5. Continuous Rotary Dynamo',
+    shortLabel: '5. Rotary Dynamo',
+    speech: 'Step five: Continuous Rotary Dynamo. The catalytic cycle is established. The holoenzyme operates continuously at steady-state, translocating ten protons to produce three ATP molecules with ninety percent thermodynamic efficiency for every complete revolution.'
+  }
 ];
 
 function App() {
@@ -112,14 +159,62 @@ function App() {
   const [ribosomeTourStep, setRibosomeTourStep] = useState<number>(0);
   const [ribosomeTourPhase, setRibosomeTourPhase] = useState<'narrating' | 'cooldown' | 'idle'>('idle');
 
+  // ATP Synthase scene state
+  const [activeATPPart, setActiveATPPart] = useState<string>('atp_synthase_holoenzyme');
+  const [atpComponentMeta, setATPComponentMeta] = useState<ATPSynthaseComponentData>(ATP_SYNTHASE_COMPONENTS_META['atp_synthase_holoenzyme']);
+  const [isATPPaused, setIsATPPaused] = useState<boolean>(false);
+  const [atpPMFVoltage, setATPMFVoltage] = useState<number>(-140);
+  const [atpMode, setATPMode] = useState<'synthesis' | 'hydrolysis'>('synthesis');
+  const [atpExplodedProgress, setATPExplodedProgress] = useState<number>(0);
+  const [atpFilter, setATPFilter] = useState<string>('all');
+  const [atpBoyerState, setATPBoyerState] = useState<'open' | 'loose' | 'tight'>('tight');
+  const [isATPLabelsVisible, setIsATPLabelsVisible] = useState<boolean>(true);
+  const [isATPNarrating, setIsATPNarrating] = useState<boolean>(false);
+  const [isATPAutoRotating, setIsATPAutoRotating] = useState<boolean>(false);
+  const [atpStoryStep, setAtpStoryStep] = useState<number>(0);
+
+  // ATP Synthase Guided Tour State
+  const [isATPTourActive, setIsATPTourActive] = useState<boolean>(false);
+  const [isATPTourPlaying, setIsATPTourPlaying] = useState<boolean>(false);
+  const [atpTourStep, setATPTourStep] = useState<number>(0);
+  const [atpTourPhase, setATPTourPhase] = useState<'narrating' | 'cooldown' | 'idle'>('idle');
+
+  // Live Subtitles State (closed captions for AI narrator with 0.5s pre-display)
+  const [subtitleState, setSubtitleState] = useState<{
+    visible: boolean;
+    text: string;
+    badge: string;
+    speaker: string;
+  }>({
+    visible: false,
+    text: '',
+    badge: 'AI NARRATOR',
+    speaker: 'Kokoro Neural TTS'
+  });
+
+  const showSubtitles = (text: string, badge?: string, speaker?: string) => {
+    setSubtitleState({
+      visible: true,
+      text,
+      badge: badge || 'AI NARRATOR',
+      speaker: speaker || 'Kokoro Neural TTS'
+    });
+  };
+
+  const hideSubtitles = () => {
+    setSubtitleState(prev => ({ ...prev, visible: false }));
+  };
+
   // Refs for 3D containers and instances
   const cellContainerRef = useRef<HTMLDivElement>(null);
   const motorContainerRef = useRef<HTMLDivElement>(null);
   const ribosomeContainerRef = useRef<HTMLDivElement>(null);
+  const atpContainerRef = useRef<HTMLDivElement>(null);
 
   const cellSceneRef = useRef<CellViewerScene | null>(null);
   const motorSceneRef = useRef<FlagellarMotorScene | null>(null);
   const ribosomeSceneRef = useRef<RibosomeScene | null>(null);
+  const atpSceneRef = useRef<ATPSynthaseScene | null>(null);
 
   // --------------------------------------------------------------------------
   // 1. Initialize Cell Viewer Scene
@@ -259,6 +354,49 @@ function App() {
   }, []);
 
   // --------------------------------------------------------------------------
+  // 3b. Initialize / Sync ATP Synthase Scene when scenario === 'atp_synthase'
+  // --------------------------------------------------------------------------
+  useEffect(() => {
+    if (!atpContainerRef.current) return;
+    if (scenario !== 'atp_synthase') return;
+
+    if (!atpSceneRef.current) {
+      const atp = new ATPSynthaseScene(atpContainerRef.current, {
+        voiceService,
+        onSelectComponent: (meta: ATPSynthaseComponentData, key: string) => {
+          setActiveATPPart(key);
+          if (meta) {
+            setATPComponentMeta(meta);
+          }
+        },
+        onBoyerStateUpdate: (state: 'open' | 'loose' | 'tight') => {
+          setATPBoyerState(state);
+        }
+      });
+
+      atp.init();
+      atpSceneRef.current = atp;
+      (window as any).atpScene = atp;
+      atp.start();
+      atp.resetCamera();
+    } else {
+      (window as any).atpScene = atpSceneRef.current;
+      atpSceneRef.current.start();
+      atpSceneRef.current.handleResize();
+      atpSceneRef.current.resetCamera();
+    }
+  }, [scenario]);
+
+  useEffect(() => {
+    return () => {
+      if (atpSceneRef.current) {
+        atpSceneRef.current.dispose();
+        atpSceneRef.current = null;
+      }
+    };
+  }, []);
+
+  // --------------------------------------------------------------------------
   // 4. Autoplay Whole Cell Overview Narration
   // --------------------------------------------------------------------------
   useEffect(() => {
@@ -273,10 +411,17 @@ function App() {
       narrative += data.description;
 
       setIsCellNarrating(true);
+      showSubtitles(narrative, 'WHOLE CELL OVERVIEW', 'Kokoro Neural TTS');
       voiceService.playText(narrative, {
         voice: selectedVoice,
-        onEnd: () => setIsCellNarrating(false),
-        onError: () => setIsCellNarrating(false)
+        onEnd: () => {
+          setIsCellNarrating(false);
+          hideSubtitles();
+        },
+        onError: () => {
+          setIsCellNarrating(false);
+          hideSubtitles();
+        }
       });
       window.removeEventListener('pointerdown', triggerIntro);
       window.removeEventListener('keydown', triggerIntro);
@@ -302,9 +447,11 @@ function App() {
   const handleSelectScenario = useCallback((nextScenario: ScenarioType) => {
     setScenario(nextScenario);
     voiceService.stop();
+    hideSubtitles();
     setIsCellNarrating(false);
     setIsMotorNarrating(false);
     setIsRibosomeNarrating(false);
+    setIsATPNarrating(false);
 
     if (nextScenario === 'motor') {
       if (cellSceneRef.current) {
@@ -314,6 +461,9 @@ function App() {
       if (ribosomeSceneRef.current) {
         ribosomeSceneRef.current.stop();
       }
+      if (atpSceneRef.current) {
+        atpSceneRef.current.stop();
+      }
     } else if (nextScenario === 'ribosome') {
       if (cellSceneRef.current) {
         cellSceneRef.current.stop();
@@ -322,16 +472,35 @@ function App() {
       if (motorSceneRef.current) {
         motorSceneRef.current.stop();
       }
-    } else {
-      setIsMotorTourActive(false);
-      setIsMotorTourPlaying(false);
-      setIsRibosomeTourActive(false);
-      setIsRibosomeTourPlaying(false);
+      if (atpSceneRef.current) {
+        atpSceneRef.current.stop();
+      }
+    } else if (nextScenario === 'atp_synthase') {
+      if (cellSceneRef.current) {
+        cellSceneRef.current.stop();
+        if (tourStatus.active) cellSceneRef.current.exitTour();
+      }
       if (motorSceneRef.current) {
         motorSceneRef.current.stop();
       }
       if (ribosomeSceneRef.current) {
         ribosomeSceneRef.current.stop();
+      }
+    } else {
+      setIsMotorTourActive(false);
+      setIsMotorTourPlaying(false);
+      setIsRibosomeTourActive(false);
+      setIsRibosomeTourPlaying(false);
+      setIsATPTourActive(false);
+      setIsATPTourPlaying(false);
+      if (motorSceneRef.current) {
+        motorSceneRef.current.stop();
+      }
+      if (ribosomeSceneRef.current) {
+        ribosomeSceneRef.current.stop();
+      }
+      if (atpSceneRef.current) {
+        atpSceneRef.current.stop();
       }
       if (cellSceneRef.current) {
         cellSceneRef.current.start();
@@ -355,6 +524,7 @@ function App() {
     if (voiceService.isBusy()) {
       voiceService.stop();
       setIsCellNarrating(false);
+      hideSubtitles();
     } else {
       const data = CELL_ANATOMY_DATA[selectedOrganelleKey] || CELL_ANATOMY_DATA['overview'];
       let narrative = `${data.title}. `;
@@ -363,10 +533,17 @@ function App() {
       narrative += data.description;
 
       setIsCellNarrating(true);
+      showSubtitles(narrative, data.title || 'CELLULAR ANATOMY', 'Kokoro Neural TTS');
       voiceService.playText(narrative, {
         voice: selectedVoice,
-        onEnd: () => setIsCellNarrating(false),
-        onError: () => setIsCellNarrating(false)
+        onEnd: () => {
+          setIsCellNarrating(false);
+          hideSubtitles();
+        },
+        onError: () => {
+          setIsCellNarrating(false);
+          hideSubtitles();
+        }
       });
     }
   };
@@ -375,13 +552,21 @@ function App() {
     if (voiceService.isBusy()) {
       voiceService.stop();
       setIsMotorNarrating(false);
+      hideSubtitles();
     } else if (motorComponentMeta) {
       const speech = `${motorComponentMeta.name}. ${motorComponentMeta.role || ''}`;
       setIsMotorNarrating(true);
+      showSubtitles(speech, motorComponentMeta.badge || 'FLAGELLAR MOTOR', 'Kokoro Neural TTS');
       voiceService.playText(speech, {
         voice: selectedVoice,
-        onEnd: () => setIsMotorNarrating(false),
-        onError: () => setIsMotorNarrating(false)
+        onEnd: () => {
+          setIsMotorNarrating(false);
+          hideSubtitles();
+        },
+        onError: () => {
+          setIsMotorNarrating(false);
+          hideSubtitles();
+        }
       });
     }
   };
@@ -390,19 +575,127 @@ function App() {
     if (voiceService.isBusy()) {
       voiceService.stop();
       setIsRibosomeNarrating(false);
+      hideSubtitles();
     } else if (ribosomeComponentMeta) {
       const speech = `${ribosomeComponentMeta.name}. ${ribosomeComponentMeta.desc || ''}`;
       setIsRibosomeNarrating(true);
+      showSubtitles(speech, ribosomeComponentMeta.badge || '70S RIBOSOME', 'Kokoro Neural TTS');
       voiceService.playText(speech, {
         voice: selectedVoice,
-        onEnd: () => setIsRibosomeNarrating(false),
-        onError: () => setIsRibosomeNarrating(false)
+        onEnd: () => {
+          setIsRibosomeNarrating(false);
+          hideSubtitles();
+        },
+        onError: () => {
+          setIsRibosomeNarrating(false);
+          hideSubtitles();
+        }
       });
     }
   };
 
+  const playATPStoryStep = (stepNumber: number) => {
+    if (stepNumber < 1 || stepNumber > ATP_EXPLANATION_STAGES.length) {
+      // Completed explanation! Holoenzyme continues running at full steady-state
+      setAtpStoryStep(0);
+      setIsATPNarrating(false);
+      setIsATPTourActive(false);
+      setIsATPTourPlaying(false);
+      hideSubtitles();
+      if (atpSceneRef.current) {
+        atpSceneRef.current.setExplanationStep(0);
+      }
+      return;
+    }
+
+    const stage = ATP_EXPLANATION_STAGES[stepNumber - 1];
+    setAtpStoryStep(stepNumber);
+    setActiveATPPart(stage.id);
+    const meta = ATP_SYNTHASE_COMPONENTS_META[stage.id] || ATP_SYNTHASE_COMPONENTS_META['atp_synthase_holoenzyme'];
+    if (meta) {
+      setATPComponentMeta(meta);
+    }
+
+    if (atpSceneRef.current) {
+      atpSceneRef.current.setExplanationStep(stepNumber);
+    }
+
+    // Immediately present closed captions ~0.5s before Kokoro synthesizes & starts audio
+    showSubtitles(stage.speech, `STAGE ${stage.step} OF 5: ${stage.shortLabel}`, 'Kokoro Neural TTS');
+
+    setIsATPNarrating(true);
+    voiceService.playText(stage.speech, {
+      voice: selectedVoice,
+      onEnd: () => {
+        // Pedagogical pause so user observes the biological event
+        setTimeout(() => {
+          if (stepNumber < ATP_EXPLANATION_STAGES.length) {
+            playATPStoryStep(stepNumber + 1);
+          } else {
+            // Final stage complete! Holoenzyme continues running at full steady-state
+            setAtpStoryStep(0);
+            setIsATPNarrating(false);
+            setIsATPTourActive(false);
+            setIsATPTourPlaying(false);
+            hideSubtitles();
+            if (atpSceneRef.current) {
+              atpSceneRef.current.setExplanationStep(0);
+            }
+          }
+        }, 750);
+      },
+      onError: () => {
+        setAtpStoryStep(0);
+        setIsATPNarrating(false);
+        setIsATPTourActive(false);
+        setIsATPTourPlaying(false);
+        hideSubtitles();
+        if (atpSceneRef.current) {
+          atpSceneRef.current.setExplanationStep(0);
+        }
+      }
+    });
+  };
+
+  const stopATPStoryTrace = () => {
+    voiceService.stop();
+    setIsATPNarrating(false);
+    setAtpStoryStep(0);
+    setIsATPTourActive(false);
+    setIsATPTourPlaying(false);
+    hideSubtitles();
+    if (atpSceneRef.current) {
+      atpSceneRef.current.setExplanationStep(0);
+    }
+  };
+
+  const handleATPNarrate = () => {
+    if (voiceService.isBusy() || atpStoryStep > 0) {
+      stopATPStoryTrace();
+    } else {
+      if (!activeATPPart || activeATPPart === 'atp_synthase_holoenzyme') {
+        playATPStoryStep(1);
+      } else if (atpComponentMeta) {
+        const speech = `${atpComponentMeta.name}. ${atpComponentMeta.desc || ''}`;
+        setIsATPNarrating(true);
+        showSubtitles(speech, atpComponentMeta.badge || 'ATP SYNTHASE', 'Kokoro Neural TTS');
+        voiceService.playText(speech, {
+          voice: selectedVoice,
+          onEnd: () => {
+            setIsATPNarrating(false);
+            hideSubtitles();
+          },
+          onError: () => {
+            setIsATPNarrating(false);
+            hideSubtitles();
+          }
+        });
+      }
+    }
+  };
+
   // --------------------------------------------------------------------------
-  // 7. Top Toolbar Actions (Unified for Cell, Motor, & Ribosome)
+  // 7. Top Toolbar Actions (Unified for Cell, Motor, Ribosome, & ATP Synthase)
   // --------------------------------------------------------------------------
   const handleResetCamera = () => {
     if (scenario === 'cell' && cellSceneRef.current) {
@@ -411,6 +704,8 @@ function App() {
       motorSceneRef.current.resetCamera();
     } else if (scenario === 'ribosome' && ribosomeSceneRef.current) {
       ribosomeSceneRef.current.resetCamera();
+    } else if (scenario === 'atp_synthase' && atpSceneRef.current) {
+      atpSceneRef.current.resetCamera();
     }
   };
 
@@ -435,10 +730,24 @@ function App() {
     }
   };
 
+  const handleToggleATPAutoRotate = () => {
+    if (atpSceneRef.current) {
+      const active = atpSceneRef.current.toggleAutoRotate();
+      setIsATPAutoRotating(active);
+    }
+  };
+
   const handleToggleLabels = () => {
     if (cellSceneRef.current) {
       const shown = cellSceneRef.current.toggleLabels();
       setShowCellLabels(shown);
+    }
+  };
+
+  const handleToggleATPLabels = () => {
+    if (atpSceneRef.current) {
+      const vis = atpSceneRef.current.toggleLabels();
+      setIsATPLabelsVisible(vis);
     }
   };
 
@@ -465,15 +774,18 @@ function App() {
           const speech = `${meta.name}. ${meta.role || ''}`;
           setMotorTourPhase('narrating');
           setIsMotorNarrating(true);
+          showSubtitles(speech, meta.badge || 'FLAGELLAR MOTOR', 'Kokoro Neural TTS');
           voiceService.playText(speech, {
             voice: selectedVoice,
             onEnd: () => {
               setIsMotorNarrating(false);
               setMotorTourPhase('cooldown');
+              hideSubtitles();
             },
             onError: () => {
               setIsMotorNarrating(false);
               setMotorTourPhase('cooldown');
+              hideSubtitles();
             }
           });
         }
@@ -488,6 +800,7 @@ function App() {
       voiceService.stop();
       setIsMotorNarrating(false);
       setMotorTourPhase('idle');
+      hideSubtitles();
     } else {
       setIsMotorTourActive(true);
       setIsMotorTourPlaying(true);
@@ -504,6 +817,7 @@ function App() {
         setIsMotorTourActive(false);
         setIsMotorTourPlaying(false);
         setMotorTourPhase('idle');
+        hideSubtitles();
       }
     }, 2500);
     return () => clearTimeout(timer);
@@ -531,15 +845,18 @@ function App() {
         const speech = `${meta.name}. ${meta.desc || ''}`;
         setRibosomeTourPhase('narrating');
         setIsRibosomeNarrating(true);
+        showSubtitles(speech, meta.badge || '70S RIBOSOME', 'Kokoro Neural TTS');
         voiceService.playText(speech, {
           voice: selectedVoice,
           onEnd: () => {
             setIsRibosomeNarrating(false);
             setRibosomeTourPhase('cooldown');
+            hideSubtitles();
           },
           onError: () => {
             setIsRibosomeNarrating(false);
             setRibosomeTourPhase('cooldown');
+            hideSubtitles();
           }
         });
       }
@@ -553,6 +870,7 @@ function App() {
       voiceService.stop();
       setIsRibosomeNarrating(false);
       setRibosomeTourPhase('idle');
+      hideSubtitles();
     } else {
       setIsRibosomeTourActive(true);
       setIsRibosomeTourPlaying(true);
@@ -569,10 +887,75 @@ function App() {
         setIsRibosomeTourActive(false);
         setIsRibosomeTourPlaying(false);
         setRibosomeTourPhase('idle');
+        hideSubtitles();
       }
     }, 2500);
     return () => clearTimeout(timer);
   }, [isRibosomeTourActive, isRibosomeTourPlaying, ribosomeTourPhase, ribosomeTourStep]);
+
+  // --------------------------------------------------------------------------
+  // 9b. ATP Synthase Guided Tour Controller
+  // --------------------------------------------------------------------------
+  const goToATPTourStep = (stepIndex: number) => {
+    const safeIndex = Math.max(0, Math.min(ATP_SYNTHASE_TOUR_STOPS.length - 1, stepIndex));
+    setATPTourStep(safeIndex);
+    const partKey = ATP_SYNTHASE_TOUR_STOPS[safeIndex];
+    setActiveATPPart(partKey);
+    const meta = ATP_SYNTHASE_COMPONENTS_META[partKey];
+    if (meta) {
+      setATPComponentMeta(meta);
+    }
+    if (atpSceneRef.current) {
+      atpSceneRef.current.selectComponent(partKey);
+      atpSceneRef.current.focusComponent(partKey);
+    }
+
+    setTimeout(() => {
+      if (meta) {
+        const speech = `${meta.name}. ${meta.desc || ''}`;
+        setATPTourPhase('narrating');
+        setIsATPNarrating(true);
+        showSubtitles(speech, meta.badge || 'ATP SYNTHASE', 'Kokoro Neural TTS');
+        voiceService.playText(speech, {
+          voice: selectedVoice,
+          onEnd: () => {
+            setIsATPNarrating(false);
+            setATPTourPhase('cooldown');
+            hideSubtitles();
+          },
+          onError: () => {
+            setIsATPNarrating(false);
+            setATPTourPhase('cooldown');
+            hideSubtitles();
+          }
+        });
+      }
+    }, 400);
+  };
+
+  const handleToggleATPTour = () => {
+    if (atpStoryStep > 0 || isATPNarrating) {
+      stopATPStoryTrace();
+    } else {
+      setIsATPTourActive(true);
+      setIsATPTourPlaying(true);
+      playATPStoryStep(1);
+    }
+  };
+
+  useEffect(() => {
+    if (!isATPTourActive || !isATPTourPlaying || atpTourPhase !== 'cooldown') return;
+    const timer = setTimeout(() => {
+      if (atpTourStep < ATP_SYNTHASE_TOUR_STOPS.length - 1) {
+        goToATPTourStep(atpTourStep + 1);
+      } else {
+        setIsATPTourActive(false);
+        setIsATPTourPlaying(false);
+        setATPTourPhase('idle');
+      }
+    }, 2500);
+    return () => clearTimeout(timer);
+  }, [isATPTourActive, isATPTourPlaying, atpTourPhase, atpTourStep]);
 
   const handleOrganelleClick = (key: string) => {
     setSelectedOrganelleKey(key);
@@ -673,21 +1056,24 @@ function App() {
   const isDrawerOpen =
     (isCellInspectorOpen && scenario === 'cell') ||
     scenario === 'motor' ||
-    scenario === 'ribosome';
+    scenario === 'ribosome' ||
+    scenario === 'atp_synthase';
 
   return (
     <div id="app-container" className={isDrawerOpen ? 'drawer-open' : ''}>
       {/* 1. Header with Scale Navigator */}
       <ScaleNavigator scenario={scenario} onSelectScenario={handleSelectScenario} />
 
-      {/* 2. Unified Top Toolbar Persistent Across All 3 Scenarios */}
+      {/* 2. Unified Top Toolbar Persistent Across All Scenarios */}
       <CellToolbar
         wasmStatus={
           scenario === 'cell'
             ? wasmStatus
             : scenario === 'motor'
             ? 'Cryo-EM 7CGO • PDB 6YKM: Active'
-            : 'Cryo-EM 7K00 • Expressome 6X9Q: Active'
+            : scenario === 'ribosome'
+            ? 'Cryo-EM 7K00 • Expressome 6X9Q: Active'
+            : 'Cryo-EM 6OQR / 6RKW • Rotary F1F0: Active'
         }
         selectedVoice={selectedVoice}
         onVoiceChange={handleVoiceChange}
@@ -696,14 +1082,18 @@ function App() {
             ? isCellNarrating
             : scenario === 'motor'
             ? isMotorNarrating
-            : isRibosomeNarrating
+            : scenario === 'ribosome'
+            ? isRibosomeNarrating
+            : isATPNarrating
         }
         onNarrateClick={
           scenario === 'cell'
             ? handleCellNarrate
             : scenario === 'motor'
             ? handleMotorNarrate
-            : handleRibosomeNarrate
+            : scenario === 'ribosome'
+            ? handleRibosomeNarrate
+            : handleATPNarrate
         }
         onResetCamera={handleResetCamera}
         isAutoRotating={
@@ -711,42 +1101,54 @@ function App() {
             ? isAutoRotating
             : scenario === 'motor'
             ? isMotorAutoRotating
-            : isRibosomeAutoRotating
+            : scenario === 'ribosome'
+            ? isRibosomeAutoRotating
+            : isATPAutoRotating
         }
         onToggleAutoRotate={
           scenario === 'cell'
             ? handleToggleAutoRotate
             : scenario === 'motor'
             ? handleToggleMotorAutoRotate
-            : handleToggleRibosomeAutoRotate
+            : scenario === 'ribosome'
+            ? handleToggleRibosomeAutoRotate
+            : handleToggleATPAutoRotate
         }
         showLabels={
           scenario === 'cell'
             ? showCellLabels
             : scenario === 'motor'
             ? isMotorLabelsVisible
-            : isRibosomeLabelsVisible
+            : scenario === 'ribosome'
+            ? isRibosomeLabelsVisible
+            : isATPLabelsVisible
         }
         onToggleLabels={
           scenario === 'cell'
             ? handleToggleLabels
             : scenario === 'motor'
             ? handleToggleMotorLabels
-            : handleToggleRibosomeLabels
+            : scenario === 'ribosome'
+            ? handleToggleRibosomeLabels
+            : handleToggleATPLabels
         }
         isTourActive={
           scenario === 'cell'
             ? tourStatus.active
             : scenario === 'motor'
             ? isMotorTourActive
-            : isRibosomeTourActive
+            : scenario === 'ribosome'
+            ? isRibosomeTourActive
+            : isATPTourActive
         }
         onToggleTour={
           scenario === 'cell'
             ? handleToggleTour
             : scenario === 'motor'
             ? handleToggleMotorTour
-            : handleToggleRibosomeTour
+            : scenario === 'ribosome'
+            ? handleToggleRibosomeTour
+            : handleToggleATPTour
         }
       />
 
@@ -985,6 +1387,158 @@ function App() {
           />
         )}
       </div>
+
+      {/* 6. Bacterial F1F0-ATP Synthase Rotary Dynamo Scenario Layer */}
+      <div
+        id="atp-synthase-container"
+        className={scenario === 'atp_synthase' ? '' : 'hidden'}
+        style={{ display: scenario === 'atp_synthase' ? 'block' : 'none' }}
+      >
+        <ATPSynthaseHeaderOverlay />
+
+        <div
+          ref={atpContainerRef}
+          style={{ width: '100%', height: '100%', position: 'absolute', top: 0, left: 0 }}
+        />
+        <svg id="atp-svg-overlay"></svg>
+        <div id="atp-labels-container"></div>
+
+        <ATPSynthaseHUDCard
+          isLabelsVisible={isATPLabelsVisible}
+          onToggleLabels={handleToggleATPLabels}
+          isPaused={isATPPaused}
+          onTogglePause={() => {
+            if (atpSceneRef.current) {
+              const paused = atpSceneRef.current.togglePause();
+              setIsATPPaused(paused);
+            }
+          }}
+          pmfVoltage={atpPMFVoltage}
+          onChangePMF={(v) => {
+            setATPMFVoltage(v);
+            if (atpSceneRef.current) {
+              atpSceneRef.current.setPMFVoltage(v);
+            }
+          }}
+          mode={atpMode}
+          onToggleMode={(m) => {
+            setATPMode(m);
+            if (atpSceneRef.current) {
+              atpSceneRef.current.setMode(m);
+            }
+          }}
+          explodedProgress={atpExplodedProgress}
+          onChangeExploded={(exp) => {
+            setATPExplodedProgress(exp);
+            if (atpSceneRef.current) {
+              atpSceneRef.current.setExplodedProgress(exp);
+            }
+          }}
+          activeFilter={atpFilter}
+          onSelectFilter={(f) => {
+            setATPFilter(f);
+            if (atpSceneRef.current) {
+              atpSceneRef.current.setSubunitFilter(f);
+            }
+          }}
+          boyerState={atpBoyerState}
+          onSelectBoyerState={(st) => {
+            setATPBoyerState(st);
+            if (atpSceneRef.current) {
+              atpSceneRef.current.setBoyerState(st);
+            }
+          }}
+          onFocusComponent={(key) => {
+            if (atpSceneRef.current) {
+              atpSceneRef.current.focusComponent(key);
+              atpSceneRef.current.selectComponent(key);
+            }
+          }}
+        />
+
+        <ATPSynthaseInspectorDrawer
+          data={atpComponentMeta}
+          activeKey={activeATPPart}
+          isNarrating={isATPNarrating}
+          storyStep={atpStoryStep}
+          onSelectStoryStep={(s) => playATPStoryStep(s)}
+          onStartStoryTrace={() => playATPStoryStep(1)}
+          onStopStoryTrace={stopATPStoryTrace}
+          onNarrate={handleATPNarrate}
+          onFocus={() => {
+            if (atpSceneRef.current && activeATPPart) {
+              atpSceneRef.current.focusComponent(activeATPPart);
+            }
+          }}
+          onSelectPart={(key: string) => {
+            if (atpSceneRef.current) {
+              atpSceneRef.current.selectComponent(key);
+              atpSceneRef.current.focusComponent(key);
+            }
+          }}
+          boyerState={atpBoyerState}
+          onSelectBoyerState={(st) => {
+            setATPBoyerState(st);
+            if (atpSceneRef.current) {
+              atpSceneRef.current.setBoyerState(st);
+            }
+          }}
+        />
+
+        {isATPTourActive && (
+          <TourBar
+            status={{
+              active: isATPTourActive,
+              playing: isATPTourPlaying,
+              stepIndex: atpStoryStep > 0 ? atpStoryStep - 1 : atpTourStep,
+              key: atpStoryStep > 0 ? ATP_EXPLANATION_STAGES[atpStoryStep - 1]?.id : ATP_SYNTHASE_TOUR_STOPS[atpTourStep],
+              totalSteps: atpStoryStep > 0 ? ATP_EXPLANATION_STAGES.length : ATP_SYNTHASE_TOUR_STOPS.length,
+              phase: atpTourPhase,
+              cooldownRemaining: 2,
+              ttsEnabled: true
+            }}
+            stepTitle={atpStoryStep > 0 ? ATP_EXPLANATION_STAGES[atpStoryStep - 1]?.title : (atpComponentMeta?.name || 'ATP Synthase Component')}
+            onPrev={() => {
+              if (atpStoryStep > 0) {
+                playATPStoryStep(Math.max(1, atpStoryStep - 1));
+              } else {
+                goToATPTourStep(atpTourStep - 1);
+              }
+            }}
+            onTogglePlay={() => {
+              if (atpStoryStep > 0) {
+                if (isATPNarrating) {
+                  voiceService.stop();
+                  setIsATPNarrating(false);
+                } else {
+                  playATPStoryStep(atpStoryStep);
+                }
+              } else {
+                setIsATPTourPlaying(!isATPTourPlaying);
+              }
+            }}
+            onNext={() => {
+              if (atpStoryStep > 0) {
+                playATPStoryStep(Math.min(ATP_EXPLANATION_STAGES.length, atpStoryStep + 1));
+              } else {
+                goToATPTourStep(atpTourStep + 1);
+              }
+            }}
+            onToggleVoice={() => {}}
+            onExit={stopATPStoryTrace}
+          />
+        )}
+      </div>
+
+      {/* Global Live Subtitles Banner (Closed Captions) */}
+      <LiveSubtitles
+        visible={subtitleState.visible}
+        text={subtitleState.text}
+        badge={subtitleState.badge}
+        speaker={subtitleState.speaker}
+        hasTourBar={isATPTourActive || isMotorTourActive || isRibosomeTourActive || tourStatus.active}
+        onClose={hideSubtitles}
+      />
     </div>
   );
 }

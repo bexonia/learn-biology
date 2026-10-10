@@ -608,9 +608,9 @@ To systematically implement the full prokaryote cell engine, work proceeds in **
 - ✅ `ribosome_70s` (7K00 Translating Polysome + A/P/E tRNAs + PTC Active Site)
 - ✅ `sura_chaperone` & `male_transporter` (Periplasmic multiscale proof-of-concept)
 
-### Phase 2: Bioenergetic Rotary Dynamos & Secretion Machinery (Next Sprint)
-- 🎯 **Milestone 2.1:** **$F_1F_0$-ATP Synthase (`6RKW`)**
-  - Implement 3-state Boyer catalytic card ($O \to L \to T$), exploded rotor/stator separation, and dynamic proton flux kinetics.
+### Phase 2: Bioenergetic Rotary Dynamos & Secretion Machinery
+- ✅ **Milestone 2.1:** **$F_1F_0$-ATP Synthase (`6RKW` / `6OQR`)** — 🟢 **Built & Active**
+  - Interactive 3-state Boyer catalytic binding-change card ($O \to L \to T$), exploded rotor/stator dissociation vectors, $\Delta p$ proton-motive force slider ($-80$ to $-220\,\text{mV}$), forward synthesis vs. reverse hydrolysis mode toggle, and dynamic SVG leader lines with Kokoro-82M neural TTS voice narration.
 - 🎯 **Milestone 2.2:** **Respiratory Complex I (`7Z7V`)**
   - Implement 8-cluster Fe-S quantum tunneling wire, hydrophilic/membrane arm decoupling, and NADH oxidation HUD slider.
 - 🎯 **Milestone 2.3:** **SecYEG Translocon (`3J46`) & SecA Motor (`1RHZ`)**

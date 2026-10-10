@@ -12,16 +12,19 @@ Traditional biology textbooks show flat, two-dimensional diagrams that make cell
 
 **Learn Biology** brings these structures to life with:
 * **Interactive 3D Cutaways:** Orbit, pan, and zoom through cellular envelopes, peptidoglycan walls, plasma membranes, ribosomes, plasmids, and the circular nucleoid DNA.
-* **Tri-Scale Educational Levels:**
+* **Multi-Scale Educational Levels:**
   * **Level 1 — Whole Cell ($1.5\,\mu\text{m}$):** Observe the bacterium in 3/4 perspective with responsive leader line annotations anchored directly to the cell envelopes, peptidoglycan walls, plasma membrane, ribosomes, plasmids, and the circular nucleoid DNA.
   * **Level 2 — Flagellar Rotary Motor ($45\,\text{nm}$):** Inspect nature's rotary engine with dynamic CCW (run) and CW (tumble) rotation, proton motive force streaming, and an **exploded view slider**.
   * **Level 3 — Bacterial 70S Ribosome Translation Factory ($25\,\text{nm}$):** Explore the macromolecular 2.5 MDa ribozyme machine, step-by-step mRNA elongation kinetics (A, P, and E tRNA sites), codon translocation, polypeptide exit tunnel, and subunit disassembly.
-* **Client-Side Neural Voice Narration:** Integrated text-to-speech powered by Kokoro-82M running directly in the browser via ONNX Runtime Web—reading scientific explanations aloud with warm, natural voices.
-* **Cinematic Guided Tour:** A 9-step pedagogical walkthrough guiding students through each organelle and structure step-by-step.
+  * **Level 4 — Bacterial $F_1F_0$-ATP Synthase & Rotary Bioenergetic Dynamo ($10\,\text{nm}$):** Explore the 540 kDa rotary machine coupling periplasmic proton-motive force ($\Delta p \approx -140\,\text{mV}$) to mechanical drive shaft rotation and Paul Boyer's Nobel Prize-winning three-state binding-change cycle ($\text{Open} \to \text{Loose} \to \text{Tight}$) synthesizing ATP at ~90% thermodynamic efficiency.
+* **Client-Side Neural Voice Narration & Live Subtitles:** Integrated text-to-speech powered by Kokoro-82M running directly in the browser via ONNX Runtime Web—reading scientific explanations aloud with real-time closed captions and animated soundwave HUD previewing speech 0.5s in advance.
+* **Cinematic Guided Tours & Explanatory Traces:** Guided pedagogical walkthroughs directing students through each organelle, macromolecular subunit, and catalytic step.
 
 ![Flagellar Rotary Motor and Tail Architecture](readme_images/flagellar_motor_tail.png)
 
 ![Bacterial 70S Ribosome Translation Factory](readme_images/ribosome_translation_factory.png)
+
+![Bacterial F1F0-ATP Synthase Rotary Bioenergetic Dynamo](readme_images/atp_synthase_rotary_dynamo.png)
 
 ---
 
@@ -39,10 +42,11 @@ Learn Biology is engineered to be **100% client-side, zero-install, and zero-bac
     • Three.js WebGL (PBR materials)  - Camera orbit momentum & damping
     • SVG Leader Lines Overlay        - 3D-to-2D screen coordinate projection
     • 3D Geometry Sources:          • Scene Controllers:
-      - prokaryote_cell.blend         - cellViewer.js (Whole Cell)
-      - scripts/generate_primer_cell_hq.py - flagellarMotor.js (Rotary Motor)
-                                      - ribosomeTranslation.js (Ribosome)
-                                    • Kokoro-82M TTS (voiceService.js)
+      - prokaryote_cell.blend         - cellViewer.ts (Whole Cell)
+      - scripts/generate_primer_cell_hq.py - flagellarMotor.ts (Rotary Motor)
+                                      - ribosomeTranslation.ts (Ribosome)
+                                      - atpSynthase.ts (ATP Synthase)
+                                    • Kokoro-82M TTS & Live Subtitles
                                  │
                                  ▼
               [ Browser Hardware Abstraction ]

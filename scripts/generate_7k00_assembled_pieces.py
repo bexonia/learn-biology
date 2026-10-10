@@ -387,6 +387,84 @@ print(f"[+] Piece_PTC ready in {time.time() - t0:.2f}s: {len(mol_ptc.object.data
 pieces.append(mol_ptc.object)
 
 # -------------------------------------------------------------------------
+# 10. Piece_Polypeptide_Chain (Growing Polypeptide Chain - Multicolored Beads)
+# -------------------------------------------------------------------------
+print("\n[*] [10/10] Generating Piece_Polypeptide_Chain (Nascent Rainbow Amino Acid Beads)...")
+t0 = time.time()
+from mathutils import Matrix, Vector
+
+rainbow_palette = [
+    (0.48, 0.17, 0.75, 1.0), # Violet / Purple #7B2CBF
+    (0.24, 0.35, 0.85, 1.0), # Indigo #3D5AFE
+    (0.12, 0.58, 0.95, 1.0), # Cerulean Blue #1E88E5
+    (0.02, 0.75, 0.75, 1.0), # Cyan #00BCD4
+    (0.06, 0.84, 0.63, 1.0), # Luminous Jade #06D6A0
+    (0.32, 0.78, 0.36, 1.0), # Emerald Green #4CAF50
+    (0.65, 0.82, 0.20, 1.0), # Lime Green #8BC34A
+    (0.95, 0.85, 0.15, 1.0), # Lemon Yellow #FFEB3B
+    (0.98, 0.65, 0.12, 1.0), # Golden Amber #FFB703
+    (0.95, 0.42, 0.18, 1.0), # Tangerine Orange #FF7043
+    (0.90, 0.22, 0.28, 1.0), # Coral Carmine #E63946
+    (0.85, 0.18, 0.55, 1.0), # Deep Rose / Magenta #D81B60
+]
+
+ptc_coord = np.array([18.29, 14.56, 17.46])
+exit_coord = np.array([17.72, 13.27, 13.16])
+tunnel_v = exit_coord - ptc_coord
+tunnel_d = tunnel_v / np.linalg.norm(tunnel_v)
+
+# Up and right vectors relative to ribosome body
+up_v = np.array([-0.39, -0.41, 0.82])
+right_v = np.array([0.85, -0.50, 0.15])
+
+peptide_pts = []
+# 10 beads traversing internal 50S exit tunnel
+for i in range(10):
+    frac = i / 9.0
+    peptide_pts.append(ptc_coord + tunnel_v * frac)
+
+# 25 beads emerging through outer exit pore and curving into the cytoplasm
+for i in range(1, 26):
+    frac = i / 25.0
+    arc_offset = up_v * (frac * 4.6) + right_v * (np.sin(frac * np.pi * 1.5) * 2.4) + tunnel_d * (frac * 2.2)
+    peptide_pts.append(exit_coord + arc_offset)
+
+bm_pep = bmesh.new()
+pep_mesh = bpy.data.meshes.new("Piece_Polypeptide_Chain")
+verts_slices = []
+
+for idx, p in enumerate(peptide_pts):
+    s_idx = len(bm_pep.verts)
+    bmesh.ops.create_icosphere(bm_pep, subdivisions=2, radius=0.24, matrix=Matrix.Translation(Vector(p)))
+    e_idx = len(bm_pep.verts)
+    col = rainbow_palette[idx % len(rainbow_palette)]
+    verts_slices.append((s_idx, e_idx, col))
+
+bm_pep.to_mesh(pep_mesh)
+bm_pep.free()
+
+# Apply vertex colors matching The Biology Primer palette
+color_layer = pep_mesh.color_attributes.new(name="Color", type='FLOAT_COLOR', domain='POINT')
+for s_idx, e_idx, col in verts_slices:
+    for vi in range(s_idx, e_idx):
+        color_layer.data[vi].color = col
+
+pep_obj = bpy.data.objects.new("Piece_Polypeptide_Chain", pep_mesh)
+bpy.context.scene.collection.objects.link(pep_obj)
+
+mat_pep = bpy.data.materials.new("Mat_Polypeptide_Candy")
+vcol = mat_pep.node_tree.nodes.new('ShaderNodeVertexColor')
+vcol.layer_name = 'Color'
+bsdf = next(n for n in mat_pep.node_tree.nodes if n.type == 'BSDF_PRINCIPLED')
+mat_pep.node_tree.links.new(vcol.outputs['Color'], bsdf.inputs['Base Color'])
+bsdf.inputs['Roughness'].default_value = 0.35
+bsdf.inputs['Metallic'].default_value = 0.08
+pep_obj.data.materials.append(mat_pep)
+
+print(f"[+] Piece_Polypeptide_Chain ready in {time.time() - t0:.2f}s: {len(pep_mesh.vertices)} verts, {len(pep_mesh.polygons)} polys")
+pieces.append(pep_obj)
+
+# -------------------------------------------------------------------------
 # Center All Pieces Around Global Origin (0, 0, 0)
 # -------------------------------------------------------------------------
 print(f"\n[*] Centering all {len(pieces)} pieces by subtracting global COM: {global_com}...")

@@ -1,4 +1,4 @@
-export type ScenarioType = 'cell' | 'motor' | 'ribosome';
+export type ScenarioType = 'cell' | 'motor' | 'ribosome' | 'atp_synthase';
 
 export interface ProteinItem {
   name: string;
@@ -40,6 +40,18 @@ export interface RibosomeComponentData {
   proteins?: string;
   pdb?: string;
   desc?: string;
+}
+
+export interface ATPSynthaseComponentData {
+  name: string;
+  badge?: string;
+  dims?: string;
+  proteins?: string;
+  pdb?: string;
+  desc?: string;
+  role?: string;
+  stoichiometry?: string;
+  state?: 'open' | 'loose' | 'tight' | 'translocating';
 }
 
 export interface TourStatus {

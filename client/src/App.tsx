@@ -57,6 +57,112 @@ const MOTOR_TOUR_STOPS = [
   'filament_cap'
 ];
 
+export const MOTOR_EXPLANATION_STAGES = [
+  {
+    step: 1,
+    id: 'molecular_6ykm',
+    title: '1. Proton Motive Force Influx',
+    shortLabel: '1. Proton Influx',
+    badge: 'MotAB',
+    col: '#FF4D00',
+    desc: 'Periplasmic H⁺ enters MotA/B stator channels',
+    speech: 'Step one: Proton Influx. Protons in the periplasm—driven across the inner membrane by the electrical potential of the proton-motive force—flow through the dual aqueous channels of the MotA-MotB stators, protonating Aspartate-32.'
+  },
+  {
+    step: 2,
+    id: 'c_ring',
+    title: '2. Electrostatic Gear Engagement',
+    shortLabel: '2. C-Ring Drive',
+    badge: 'FliG',
+    col: '#E2A824',
+    desc: 'MotA loops push FliG; C-ring switch spins',
+    speech: 'Step two: Electrostatic Torque. The cytoplasmic loops of MotA engage the charged residues of the FliG switch protein on the C-ring rim, transferring rotational torque like an electrostatic gear to spin the forty-five-nanometer rotor wheel.'
+  },
+  {
+    step: 3,
+    id: 'rod',
+    title: '3. Axial Drive Shaft & Bushings',
+    shortLabel: '3. Drive Shaft',
+    badge: 'ROD',
+    col: '#06D6A0',
+    desc: 'Torque passes through murein & outer membrane',
+    speech: 'Step three: Drive Shaft and Bushings. Rotational torque is transmitted up through the straight axial rod. The rod spins smoothly within molecular sleeve bearings—the P-ring in the peptidoglycan wall and the L-ring in the outer membrane—preventing membrane tearing.'
+  },
+  {
+    step: 4,
+    id: 'hook',
+    title: '4. Universal Hook Joint & Torque Bend',
+    shortLabel: '4. Universal Hook',
+    badge: 'FlgE',
+    col: '#7209B7',
+    desc: 'FlgE flexes to bend rotation around 90° angle',
+    speech: 'Step four: Universal Hook Joint. The flexible fifty-five-nanometer hook acts as a biological universal joint. Composed of FlgE subunits that compress and stretch, it transmits rotational torque around a ninety-degree bend to the off-axis propeller.'
+  },
+  {
+    step: 5,
+    id: 'filament',
+    title: '5. Archimedean Screw Propulsion',
+    shortLabel: '5. Propulsion',
+    badge: 'FliC',
+    col: '#0077B6',
+    desc: 'Helical filament spins at 1,000 RPM pushing medium',
+    speech: 'Step five: Archimedean Screw Propulsion. The fifteen-micrometer helical filament spins at up to one thousand revolutions per minute. Acting as an Archimedean screw, it generates forward thrust that drives the bacterium through water at thirty cell lengths per second.'
+  }
+];
+
+export const RIBOSOME_EXPLANATION_STAGES = [
+  {
+    step: 1,
+    id: 'trna_a_site',
+    title: '1. A-Site Codon Recognition',
+    shortLabel: '1. Codon Docking',
+    badge: 'A-SITE',
+    col: '#E9C46A',
+    desc: 'Ternary complex enters; A1492/A1493 flip out',
+    speech: 'Step one: Codon Recognition. A ternary complex of Elongation Factor Tu, GTP, and aminoacyl-tRNA docks into the ribosomal A-site. Bases Adenine 1492 and 1493 of the 16S rRNA flip out of helix 44 to verify codon-anticodon complementarity.'
+  },
+  {
+    step: 2,
+    id: 'subunit_30s',
+    title: '2. Proofreading & Accommodation',
+    shortLabel: '2. Accommodation',
+    badge: 'EF-Tu',
+    col: '#00F5D4',
+    desc: 'EF-Tu hydrolyzes GTP; aminoacyl stem swings into PTC',
+    speech: 'Step two: Proofreading and Accommodation. Correct base-pairing activates the GTPase center of Elongation Factor Tu. Upon GTP hydrolysis, EF-Tu releases the tRNA, allowing its amino acid stem to swing seventy angstroms into the peptidyl transferase cavity.'
+  },
+  {
+    step: 3,
+    id: 'ptc_core',
+    title: '3. Peptidyl Transferase Catalysis',
+    shortLabel: '3. Peptide Bond',
+    badge: 'PTC',
+    col: '#FFB703',
+    desc: 'α-amino nucleophile attacks ester; peptide bond forms',
+    speech: 'Step three: Peptidyl Transfer Catalysis. Deep within the 23S ribosomal RNA catalytic core, the alpha-amino nucleophile of the A-site amino acid attacks the ester carbonyl of the P-site peptidyl-tRNA, condensing a new peptide bond without any protein enzyme involvement.'
+  },
+  {
+    step: 4,
+    id: 'trna_p_site',
+    title: '4. EF-G Power Stroke Translocation',
+    shortLabel: '4. Translocation',
+    badge: 'EF-G',
+    col: '#7209B7',
+    desc: '30S ratchets against 50S; mRNA advances 1 triplet',
+    speech: 'Step four: EF-G Translocation Stroke. Elongation Factor G binds with GTP and ratchets the 30S subunit against the 50S. Hydrolysis drives Domain IV forward like a mechanical piston, shifting mRNA and both transfer RNAs by exactly one codon triplet.'
+  },
+  {
+    step: 5,
+    id: 'ribosome_70s',
+    title: '5. E-Site Discharge & Continuous Polysome',
+    shortLabel: '5. Steady Translation',
+    badge: '70S',
+    col: '#9E2A5B',
+    desc: 'Empty tRNA expelled; continuous synthesis at 20 aa/s',
+    speech: 'Step five: Deacylated tRNA Discharge. The empty tRNA is expelled through the E-site exit door. The ribosome continues processive translation, lengthening the growing polypeptide chain at twenty amino acids per second with ninety-nine point nine percent fidelity.'
+  }
+];
+
 export const ATP_EXPLANATION_STAGES = [
   {
     step: 1,
@@ -140,6 +246,7 @@ function App() {
   const [isMotorTourPlaying, setIsMotorTourPlaying] = useState<boolean>(false);
   const [motorTourStep, setMotorTourStep] = useState<number>(0);
   const [motorTourPhase, setMotorTourPhase] = useState<'narrating' | 'cooldown' | 'idle'>('idle');
+  const [motorStoryStep, setMotorStoryStep] = useState<number>(0);
 
   // Ribosome scene state
   const [activeRibosomePart, setActiveRibosomePart] = useState<string>('ribosome_70s');
@@ -158,6 +265,7 @@ function App() {
   const [isRibosomeTourPlaying, setIsRibosomeTourPlaying] = useState<boolean>(false);
   const [ribosomeTourStep, setRibosomeTourStep] = useState<number>(0);
   const [ribosomeTourPhase, setRibosomeTourPhase] = useState<'narrating' | 'cooldown' | 'idle'>('idle');
+  const [ribosomeStoryStep, setRibosomeStoryStep] = useState<number>(0);
 
   // ATP Synthase scene state
   const [activeATPPart, setActiveATPPart] = useState<string>('atp_synthase_holoenzyme');
@@ -453,6 +561,26 @@ function App() {
     setIsRibosomeNarrating(false);
     setIsATPNarrating(false);
 
+    setMotorStoryStep(0);
+    setRibosomeStoryStep(0);
+    setAtpStoryStep(0);
+    setIsMotorTourActive(false);
+    setIsMotorTourPlaying(false);
+    setIsRibosomeTourActive(false);
+    setIsRibosomeTourPlaying(false);
+    setIsATPTourActive(false);
+    setIsATPTourPlaying(false);
+
+    if (motorSceneRef.current) {
+      motorSceneRef.current.setExplanationStep(0);
+    }
+    if (ribosomeSceneRef.current) {
+      ribosomeSceneRef.current.setExplanationStep(0);
+    }
+    if (atpSceneRef.current) {
+      atpSceneRef.current.setExplanationStep(0);
+    }
+
     if (nextScenario === 'motor') {
       if (cellSceneRef.current) {
         cellSceneRef.current.stop();
@@ -487,12 +615,6 @@ function App() {
         ribosomeSceneRef.current.stop();
       }
     } else {
-      setIsMotorTourActive(false);
-      setIsMotorTourPlaying(false);
-      setIsRibosomeTourActive(false);
-      setIsRibosomeTourPlaying(false);
-      setIsATPTourActive(false);
-      setIsATPTourPlaying(false);
       if (motorSceneRef.current) {
         motorSceneRef.current.stop();
       }
@@ -548,49 +670,191 @@ function App() {
     }
   };
 
-  const handleMotorNarrate = () => {
-    if (voiceService.isBusy()) {
-      voiceService.stop();
+  const playMotorStoryStep = (stepNumber: number) => {
+    if (stepNumber < 1 || stepNumber > MOTOR_EXPLANATION_STAGES.length) {
+      setMotorStoryStep(0);
       setIsMotorNarrating(false);
+      setIsMotorTourActive(false);
+      setIsMotorTourPlaying(false);
       hideSubtitles();
-    } else if (motorComponentMeta) {
-      const speech = `${motorComponentMeta.name}. ${motorComponentMeta.role || ''}`;
-      setIsMotorNarrating(true);
-      showSubtitles(speech, motorComponentMeta.badge || 'FLAGELLAR MOTOR', 'Kokoro Neural TTS');
-      voiceService.playText(speech, {
-        voice: selectedVoice,
-        onEnd: () => {
-          setIsMotorNarrating(false);
-          hideSubtitles();
-        },
-        onError: () => {
-          setIsMotorNarrating(false);
-          hideSubtitles();
+      if (motorSceneRef.current) {
+        motorSceneRef.current.setExplanationStep(0);
+      }
+      return;
+    }
+
+    const stage = MOTOR_EXPLANATION_STAGES[stepNumber - 1];
+    setMotorStoryStep(stepNumber);
+    setActiveMotorPart(stage.id);
+
+    if (motorSceneRef.current) {
+      motorSceneRef.current.setExplanationStep(stepNumber);
+    }
+
+    showSubtitles(stage.speech, `STAGE ${stage.step} OF 5: ${stage.shortLabel}`, 'Kokoro Neural TTS');
+    setIsMotorNarrating(true);
+
+    voiceService.playText(stage.speech, {
+      voice: selectedVoice,
+      onEnd: () => {
+        setTimeout(() => {
+          if (stepNumber < MOTOR_EXPLANATION_STAGES.length) {
+            playMotorStoryStep(stepNumber + 1);
+          } else {
+            setMotorStoryStep(0);
+            setIsMotorNarrating(false);
+            setIsMotorTourActive(false);
+            setIsMotorTourPlaying(false);
+            hideSubtitles();
+            if (motorSceneRef.current) {
+              motorSceneRef.current.setExplanationStep(0);
+            }
+          }
+        }, 800);
+      },
+      onError: () => {
+        setMotorStoryStep(0);
+        setIsMotorNarrating(false);
+        setIsMotorTourActive(false);
+        setIsMotorTourPlaying(false);
+        hideSubtitles();
+        if (motorSceneRef.current) {
+          motorSceneRef.current.setExplanationStep(0);
         }
-      });
+      }
+    });
+  };
+
+  const stopMotorStoryTrace = () => {
+    voiceService.stop();
+    setIsMotorNarrating(false);
+    setMotorStoryStep(0);
+    setIsMotorTourActive(false);
+    setIsMotorTourPlaying(false);
+    hideSubtitles();
+    if (motorSceneRef.current) {
+      motorSceneRef.current.setExplanationStep(0);
+    }
+  };
+
+  const handleMotorNarrate = () => {
+    if (voiceService.isBusy() || motorStoryStep > 0) {
+      stopMotorStoryTrace();
+    } else {
+      if (!activeMotorPart || activeMotorPart === 'molecular_7cgo') {
+        playMotorStoryStep(1);
+      } else if (motorComponentMeta) {
+        const speech = `${motorComponentMeta.name}. ${motorComponentMeta.role || ''}`;
+        setIsMotorNarrating(true);
+        showSubtitles(speech, motorComponentMeta.badge || 'FLAGELLAR MOTOR', 'Kokoro Neural TTS');
+        voiceService.playText(speech, {
+          voice: selectedVoice,
+          onEnd: () => {
+            setIsMotorNarrating(false);
+            hideSubtitles();
+          },
+          onError: () => {
+            setIsMotorNarrating(false);
+            hideSubtitles();
+          }
+        });
+      }
+    }
+  };
+
+  const playRibosomeStoryStep = (stepNumber: number) => {
+    if (stepNumber < 1 || stepNumber > RIBOSOME_EXPLANATION_STAGES.length) {
+      setRibosomeStoryStep(0);
+      setIsRibosomeNarrating(false);
+      setIsRibosomeTourActive(false);
+      setIsRibosomeTourPlaying(false);
+      hideSubtitles();
+      if (ribosomeSceneRef.current) {
+        ribosomeSceneRef.current.setExplanationStep(0);
+      }
+      return;
+    }
+
+    const stage = RIBOSOME_EXPLANATION_STAGES[stepNumber - 1];
+    setRibosomeStoryStep(stepNumber);
+    setActiveRibosomePart(stage.id);
+    const meta = RIBOSOME_COMPONENTS_META[stage.id];
+    if (meta) {
+      setRibosomeComponentMeta(meta);
+    }
+
+    if (ribosomeSceneRef.current) {
+      ribosomeSceneRef.current.setExplanationStep(stepNumber);
+    }
+
+    showSubtitles(stage.speech, `STAGE ${stage.step} OF 5: ${stage.shortLabel}`, 'Kokoro Neural TTS');
+    setIsRibosomeNarrating(true);
+
+    voiceService.playText(stage.speech, {
+      voice: selectedVoice,
+      onEnd: () => {
+        setTimeout(() => {
+          if (stepNumber < RIBOSOME_EXPLANATION_STAGES.length) {
+            playRibosomeStoryStep(stepNumber + 1);
+          } else {
+            setRibosomeStoryStep(0);
+            setIsRibosomeNarrating(false);
+            setIsRibosomeTourActive(false);
+            setIsRibosomeTourPlaying(false);
+            hideSubtitles();
+            if (ribosomeSceneRef.current) {
+              ribosomeSceneRef.current.setExplanationStep(0);
+            }
+          }
+        }, 800);
+      },
+      onError: () => {
+        setRibosomeStoryStep(0);
+        setIsRibosomeNarrating(false);
+        setIsRibosomeTourActive(false);
+        setIsRibosomeTourPlaying(false);
+        hideSubtitles();
+        if (ribosomeSceneRef.current) {
+          ribosomeSceneRef.current.setExplanationStep(0);
+        }
+      }
+    });
+  };
+
+  const stopRibosomeStoryTrace = () => {
+    voiceService.stop();
+    setIsRibosomeNarrating(false);
+    setRibosomeStoryStep(0);
+    setIsRibosomeTourActive(false);
+    setIsRibosomeTourPlaying(false);
+    hideSubtitles();
+    if (ribosomeSceneRef.current) {
+      ribosomeSceneRef.current.setExplanationStep(0);
     }
   };
 
   const handleRibosomeNarrate = () => {
-    if (voiceService.isBusy()) {
-      voiceService.stop();
-      setIsRibosomeNarrating(false);
-      hideSubtitles();
-    } else if (ribosomeComponentMeta) {
-      const speech = `${ribosomeComponentMeta.name}. ${ribosomeComponentMeta.desc || ''}`;
-      setIsRibosomeNarrating(true);
-      showSubtitles(speech, ribosomeComponentMeta.badge || '70S RIBOSOME', 'Kokoro Neural TTS');
-      voiceService.playText(speech, {
-        voice: selectedVoice,
-        onEnd: () => {
-          setIsRibosomeNarrating(false);
-          hideSubtitles();
-        },
-        onError: () => {
-          setIsRibosomeNarrating(false);
-          hideSubtitles();
-        }
-      });
+    if (voiceService.isBusy() || ribosomeStoryStep > 0) {
+      stopRibosomeStoryTrace();
+    } else {
+      if (!activeRibosomePart || activeRibosomePart === 'ribosome_70s' || activeRibosomePart === 'polysome_complex') {
+        playRibosomeStoryStep(1);
+      } else if (ribosomeComponentMeta) {
+        const speech = `${ribosomeComponentMeta.name}. ${ribosomeComponentMeta.desc || ''}`;
+        setIsRibosomeNarrating(true);
+        showSubtitles(speech, ribosomeComponentMeta.badge || '70S RIBOSOME', 'Kokoro Neural TTS');
+        voiceService.playText(speech, {
+          voice: selectedVoice,
+          onEnd: () => {
+            setIsRibosomeNarrating(false);
+            hideSubtitles();
+          },
+          onError: () => {
+            setIsRibosomeNarrating(false);
+            hideSubtitles();
+          }
+        });
+      }
     }
   };
 
@@ -1241,32 +1505,63 @@ function App() {
         <MotorInspectorDrawer
           data={motorComponentMeta}
           isNarrating={isMotorNarrating}
+          storyStep={motorStoryStep}
+          onSelectStoryStep={(s) => playMotorStoryStep(s)}
+          onStartStoryTrace={() => playMotorStoryStep(1)}
+          onStopStoryTrace={stopMotorStoryTrace}
           onNarrate={handleMotorNarrate}
         />
 
-        {isMotorTourActive && (
+        {(isMotorTourActive || motorStoryStep > 0) && (
           <TourBar
             status={{
-              active: isMotorTourActive,
-              playing: isMotorTourPlaying,
-              stepIndex: motorTourStep,
-              key: MOTOR_TOUR_STOPS[motorTourStep],
-              totalSteps: MOTOR_TOUR_STOPS.length,
+              active: true,
+              playing: isMotorTourPlaying || isMotorNarrating,
+              stepIndex: motorStoryStep > 0 ? motorStoryStep - 1 : motorTourStep,
+              key: motorStoryStep > 0 ? MOTOR_EXPLANATION_STAGES[motorStoryStep - 1]?.id : MOTOR_TOUR_STOPS[motorTourStep],
+              totalSteps: motorStoryStep > 0 ? MOTOR_EXPLANATION_STAGES.length : MOTOR_TOUR_STOPS.length,
               phase: motorTourPhase,
               cooldownRemaining: 2,
               ttsEnabled: true
             }}
-            stepTitle={motorComponentMeta?.name || 'Basal Body Component'}
-            onPrev={() => goToMotorTourStep(motorTourStep - 1)}
-            onTogglePlay={() => setIsMotorTourPlaying(!isMotorTourPlaying)}
-            onNext={() => goToMotorTourStep(motorTourStep + 1)}
+            stepTitle={motorStoryStep > 0 ? MOTOR_EXPLANATION_STAGES[motorStoryStep - 1]?.title : (motorComponentMeta?.name || 'Basal Body Component')}
+            onPrev={() => {
+              if (motorStoryStep > 0) {
+                playMotorStoryStep(Math.max(1, motorStoryStep - 1));
+              } else {
+                goToMotorTourStep(motorTourStep - 1);
+              }
+            }}
+            onTogglePlay={() => {
+              if (motorStoryStep > 0) {
+                if (isMotorNarrating) {
+                  voiceService.stop();
+                  setIsMotorNarrating(false);
+                } else {
+                  playMotorStoryStep(motorStoryStep);
+                }
+              } else {
+                setIsMotorTourPlaying(!isMotorTourPlaying);
+              }
+            }}
+            onNext={() => {
+              if (motorStoryStep > 0) {
+                playMotorStoryStep(Math.min(MOTOR_EXPLANATION_STAGES.length, motorStoryStep + 1));
+              } else {
+                goToMotorTourStep(motorTourStep + 1);
+              }
+            }}
             onToggleVoice={() => {}}
             onExit={() => {
-              setIsMotorTourActive(false);
-              setIsMotorTourPlaying(false);
-              voiceService.stop();
-              setIsMotorNarrating(false);
-              setMotorTourPhase('idle');
+              if (motorStoryStep > 0) {
+                stopMotorStoryTrace();
+              } else {
+                setIsMotorTourActive(false);
+                setIsMotorTourPlaying(false);
+                voiceService.stop();
+                setIsMotorNarrating(false);
+                setMotorTourPhase('idle');
+              }
             }}
           />
         )}
@@ -1346,6 +1641,10 @@ function App() {
           data={ribosomeComponentMeta}
           activeKey={activeRibosomePart}
           isNarrating={isRibosomeNarrating}
+          storyStep={ribosomeStoryStep}
+          onSelectStoryStep={(s) => playRibosomeStoryStep(s)}
+          onStartStoryTrace={() => playRibosomeStoryStep(1)}
+          onStopStoryTrace={stopRibosomeStoryTrace}
           onNarrate={handleRibosomeNarrate}
           onFocus={() => {
             if (ribosomeSceneRef.current && activeRibosomePart) {
@@ -1360,29 +1659,56 @@ function App() {
           }}
         />
 
-        {isRibosomeTourActive && (
+        {(isRibosomeTourActive || ribosomeStoryStep > 0) && (
           <TourBar
             status={{
-              active: isRibosomeTourActive,
-              playing: isRibosomeTourPlaying,
-              stepIndex: ribosomeTourStep,
-              key: RIBOSOME_TOUR_STOPS[ribosomeTourStep],
-              totalSteps: RIBOSOME_TOUR_STOPS.length,
+              active: true,
+              playing: isRibosomeTourPlaying || isRibosomeNarrating,
+              stepIndex: ribosomeStoryStep > 0 ? ribosomeStoryStep - 1 : ribosomeTourStep,
+              key: ribosomeStoryStep > 0 ? RIBOSOME_EXPLANATION_STAGES[ribosomeStoryStep - 1]?.id : RIBOSOME_TOUR_STOPS[ribosomeTourStep],
+              totalSteps: ribosomeStoryStep > 0 ? RIBOSOME_EXPLANATION_STAGES.length : RIBOSOME_TOUR_STOPS.length,
               phase: ribosomeTourPhase,
               cooldownRemaining: 2,
               ttsEnabled: true
             }}
-            stepTitle={ribosomeComponentMeta?.name || 'Ribosome Translation Component'}
-            onPrev={() => goToRibosomeTourStep(ribosomeTourStep - 1)}
-            onTogglePlay={() => setIsRibosomeTourPlaying(!isRibosomeTourPlaying)}
-            onNext={() => goToRibosomeTourStep(ribosomeTourStep + 1)}
+            stepTitle={ribosomeStoryStep > 0 ? RIBOSOME_EXPLANATION_STAGES[ribosomeStoryStep - 1]?.title : (ribosomeComponentMeta?.name || 'Ribosome Translation Component')}
+            onPrev={() => {
+              if (ribosomeStoryStep > 0) {
+                playRibosomeStoryStep(Math.max(1, ribosomeStoryStep - 1));
+              } else {
+                goToRibosomeTourStep(ribosomeTourStep - 1);
+              }
+            }}
+            onTogglePlay={() => {
+              if (ribosomeStoryStep > 0) {
+                if (isRibosomeNarrating) {
+                  voiceService.stop();
+                  setIsRibosomeNarrating(false);
+                } else {
+                  playRibosomeStoryStep(ribosomeStoryStep);
+                }
+              } else {
+                setIsRibosomeTourPlaying(!isRibosomeTourPlaying);
+              }
+            }}
+            onNext={() => {
+              if (ribosomeStoryStep > 0) {
+                playRibosomeStoryStep(Math.min(RIBOSOME_EXPLANATION_STAGES.length, ribosomeStoryStep + 1));
+              } else {
+                goToRibosomeTourStep(ribosomeTourStep + 1);
+              }
+            }}
             onToggleVoice={() => {}}
             onExit={() => {
-              setIsRibosomeTourActive(false);
-              setIsRibosomeTourPlaying(false);
-              voiceService.stop();
-              setIsRibosomeNarrating(false);
-              setRibosomeTourPhase('idle');
+              if (ribosomeStoryStep > 0) {
+                stopRibosomeStoryTrace();
+              } else {
+                setIsRibosomeTourActive(false);
+                setIsRibosomeTourPlaying(false);
+                voiceService.stop();
+                setIsRibosomeNarrating(false);
+                setRibosomeTourPhase('idle');
+              }
             }}
           />
         )}

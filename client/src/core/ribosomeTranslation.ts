@@ -292,6 +292,19 @@ export class RibosomeScene {
     this.isPointerDown = false;
     this.pointerStart = { x: 0, y: 0 };
 
+    // Smooth Camera Transition Engine for Explanatory Traces & Inspections
+    this.cameraTransition = {
+      active: false,
+      startTime: 0,
+      duration: 1.4,
+      startTarget: new THREE.Vector3(),
+      endTarget: new THREE.Vector3(),
+      startSpherical: { radius: 205, theta: 0.05, phi: 1.57 },
+      endSpherical: { radius: 205, theta: 0.05, phi: 1.57 },
+      onComplete: null
+    };
+    this.explanationStep = 0;
+
     this.componentsMeta = RIBOSOME_COMPONENTS_META;
 
     this.onWindowResizeBound = this.onWindowResize.bind(this);
@@ -1778,7 +1791,39 @@ export class RibosomeScene {
     // Keep leader lines & HTML badges synchronized
     this.updateLandmarksAndLeaders();
 
-    if (this.isAutoRotating) {
+    // Smooth Camera Transition Interpolation
+    if (this.cameraTransition && this.cameraTransition.active) {
+      const elapsed = (performance.now() - this.cameraTransition.startTime) / 1000;
+      const progress = Math.min(1.0, elapsed / this.cameraTransition.duration);
+      const ease = progress < 0.5 ? 2 * progress * progress : -1 + (4 - 2 * progress) * progress;
+      this.target.lerpVectors(this.cameraTransition.startTarget, this.cameraTransition.endTarget, ease);
+      this.spherical.radius = THREE.MathUtils.lerp(
+        this.cameraTransition.startSpherical.radius,
+        this.cameraTransition.endSpherical.radius,
+        ease
+      );
+      this.spherical.theta = THREE.MathUtils.lerp(
+        this.cameraTransition.startSpherical.theta,
+        this.cameraTransition.endSpherical.theta,
+        ease
+      );
+      this.spherical.phi = THREE.MathUtils.lerp(
+        this.cameraTransition.startSpherical.phi,
+        this.cameraTransition.endSpherical.phi,
+        ease
+      );
+      this.updateCameraPosition();
+      if (progress >= 1.0) {
+        this.cameraTransition.active = false;
+        if (this.cameraTransition.onComplete) {
+          const cb = this.cameraTransition.onComplete;
+          this.cameraTransition.onComplete = null;
+          cb();
+        }
+      }
+    }
+
+    if (this.isAutoRotating && (!this.cameraTransition || !this.cameraTransition.active)) {
       this.spherical.theta += 0.005;
       this.updateCameraPosition();
     }
@@ -1828,5 +1873,91 @@ export class RibosomeScene {
     }
     if (this.labelsContainer) this.labelsContainer.innerHTML = '';
     if (this.svgOverlay) this.svgOverlay.innerHTML = '';
+  }
+
+  /**
+   * Smoothly interpolate camera target and spherical coordinates
+   */
+  transitionCamera(targetPos, sphericalConfig, durationSec = 1.4, onComplete = null) {
+    if (!this.cameraTransition) return;
+    this.cameraTransition.active = true;
+    this.cameraTransition.startTarget.copy(this.target);
+    this.cameraTransition.endTarget.copy(targetPos);
+    this.cameraTransition.startSpherical = { ...this.spherical };
+    this.cameraTransition.endSpherical = {
+      radius: sphericalConfig.radius !== undefined ? sphericalConfig.radius : this.spherical.radius,
+      theta: sphericalConfig.theta !== undefined ? sphericalConfig.theta : this.spherical.theta,
+      phi: sphericalConfig.phi !== undefined ? sphericalConfig.phi : this.spherical.phi
+    };
+    this.cameraTransition.startTime = performance.now();
+    this.cameraTransition.duration = durationSec;
+    this.cameraTransition.onComplete = onComplete;
+  }
+
+  /**
+   * Explanatory Trace Controller: Orchestrates camera, highlighting, and translation steps
+   */
+  setExplanationStep(stepIndex) {
+    this.explanationStep = stepIndex;
+
+    if (stepIndex === 0) {
+      // Return to full polysome theatrical overview
+      this.isPaused = false;
+      this.translationSpeed = 1.0;
+      this.selectedComponentKey = 'ribosome_70s';
+      this.transitionCamera(
+        new THREE.Vector3(0, 0, -2),
+        { radius: 205, theta: 0.05, phi: 1.57 },
+        1.4
+      );
+      return;
+    }
+
+    if (stepIndex === 1) {
+      // Stage 1: A-Site Codon Recognition & Proofreading
+      this.isPaused = false;
+      this.selectedComponentKey = 'trna_a_site';
+      this.transitionCamera(
+        new THREE.Vector3(6.26, 1.58, -4.63),
+        { radius: 26, theta: 0.25, phi: 1.38 },
+        1.4
+      );
+    } else if (stepIndex === 2) {
+      // Stage 2: GTP Hydrolysis & Acceptor Arm Accommodation
+      this.isPaused = false;
+      this.selectedComponentKey = 'subunit_30s';
+      this.transitionCamera(
+        new THREE.Vector3(1.38, 3.47, -14.57),
+        { radius: 38, theta: 0.18, phi: 1.45 },
+        1.4
+      );
+    } else if (stepIndex === 3) {
+      // Stage 3: Peptidyl Transferase Center Catalysis
+      this.isPaused = false;
+      this.selectedComponentKey = 'ptc_core';
+      this.transitionCamera(
+        new THREE.Vector3(2.48, 1.40, 6.38),
+        { radius: 18, theta: 0.12, phi: 1.35 },
+        1.4
+      );
+    } else if (stepIndex === 4) {
+      // Stage 4: EF-G Ratchet & mRNA Translocation Stroke
+      this.isPaused = false;
+      this.selectedComponentKey = 'trna_p_site';
+      this.transitionCamera(
+        new THREE.Vector3(5.49, -3.70, -3.00),
+        { radius: 28, theta: 0.08, phi: 1.38 },
+        1.4
+      );
+    } else if (stepIndex === 5) {
+      // Stage 5: E-Site Discharge & Continuous Polysome Elongation
+      this.isPaused = false;
+      this.selectedComponentKey = 'ribosome_70s';
+      this.transitionCamera(
+        new THREE.Vector3(0, 0, 0),
+        { radius: 78, theta: 0.08, phi: 1.42 },
+        1.4
+      );
+    }
   }
 }

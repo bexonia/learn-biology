@@ -7,8 +7,8 @@ interface RibosomeHUDCardProps {
   onChangeSpeed: (val: number) => void;
   explodedProgress: number;
   onChangeExploded: (val: number) => void;
-  activeFilter: 'all' | '30s' | '50s' | 'trna' | 'mrna' | 'tunnel';
-  onSelectFilter: (filter: 'all' | '30s' | '50s' | 'trna' | 'mrna' | 'tunnel') => void;
+  activeFilter: string;
+  onSelectFilter: (filter: string) => void;
   onStepCodon: () => void;
 }
 
@@ -85,21 +85,29 @@ export const RibosomeHUDCard: React.FC<RibosomeHUDCardProps> = ({
 
         {/* Subunit Filter Chips */}
         <div className="motor-card-section">
-          <span className="motor-section-title">SUBUNIT ISOLATION</span>
-          <div style={{ display: 'flex', flexWrap: 'wrap', gap: '6px' }}>
+          <span className="motor-section-title">ANATOMICAL PIECES & SUBUNITS</span>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '6px' }}>
             {[
-              { id: 'all', label: 'All Units' },
-              { id: '30s', label: '30S Subunit' },
-              { id: '50s', label: '50S Subunit' },
-              { id: 'trna', label: 'tRNAs (A/P/E)' },
-              { id: 'mrna', label: 'mRNA Ribbon' },
-              { id: 'tunnel', label: 'Exit Tunnel' }
+              { id: 'all', label: 'All Units', col: '#4A5568' },
+              { id: '50s_rrna', label: '50S rRNA (Magenta)', col: '#9E2A5B' },
+              { id: '50s_prot', label: '50S Proteins (Green)', col: '#2D6A4F' },
+              { id: '30s_rrna', label: '30S rRNA (Cyan)', col: '#1A8594' },
+              { id: '30s_prot', label: '30S Proteins (Olive)', col: '#9A9E32' },
+              { id: 'trna', label: 'tRNAs (A, P, E)', col: '#368F8B' },
+              { id: 'mrna', label: 'mRNA (Coral)', col: '#BA4E3B' },
+              { id: 'ptc', label: 'PTC Active Site', col: '#FFB703' },
+              { id: 'peptide', label: 'Growing Protein', col: '#7B2CBF' }
             ].map((f) => (
               <button
                 key={f.id}
                 className={`motor-mode-btn ${activeFilter === f.id ? 'active' : ''}`}
-                style={{ flex: '1 1 30%', padding: '6px 4px', fontSize: '11px' }}
-                onClick={() => onSelectFilter(f.id as any)}
+                style={{
+                  padding: '6px 6px',
+                  fontSize: '11px',
+                  borderLeft: `3px solid ${f.col}`,
+                  textAlign: 'left'
+                }}
+                onClick={() => onSelectFilter(f.id)}
               >
                 {f.label}
               </button>

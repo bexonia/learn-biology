@@ -67,13 +67,31 @@ def build_blender_glb():
     ]
     print(f"[*] Running Blender ({blender_bin}) to export prokaryote_cell.glb...")
     res = subprocess.run(cmd, cwd=str(ROOT_DIR))
+    cell_ok = False
     if res.returncode == 0:
         glb_path = ROOT_DIR / "prokaryote_cell.glb"
         if glb_path.exists():
             print(f"[+] Successfully exported: {glb_path} ({glb_path.stat().st_size} bytes)")
-            return True
-    print("[-] Failed to export 3D cell geometry from Blender.")
-    return False
+            cell_ok = True
+
+    # 3. 70S Ribosome Holoenzyme (PDB: 7K00) Multi-Piece Assembly
+    ribo_script = ROOT_DIR / "scripts" / "generate_7k00_assembled_pieces.py"
+    ribo_ok = False
+    if ribo_script.exists():
+        cmd_ribo = [
+            str(blender_bin),
+            "--background",
+            "--python", str(ribo_script)
+        ]
+        print(f"[*] Running Blender ({blender_bin}) to export 7K00_assembled_pieces.glb...")
+        res_ribo = subprocess.run(cmd_ribo, cwd=str(ROOT_DIR))
+        if res_ribo.returncode == 0:
+            out_ribo = ROOT_DIR / "client" / "public" / "models" / "7K00_assembled_pieces.glb"
+            if out_ribo.exists():
+                print(f"[+] Successfully exported 70S Ribosome: {out_ribo} ({out_ribo.stat().st_size} bytes)")
+                ribo_ok = True
+
+    return cell_ok and ribo_ok
 
 def main():
     print("==================================================")
@@ -82,8 +100,8 @@ def main():
     wasm_ok = build_wasm()
     blender_ok = build_blender_glb()
     print("\n==================================================")
-    print(f"Summary: WASM={wasm_ok}, 3D GLB={blender_ok}")
-    print("To launch the app: python -m http.server 8080")
+    print(f"Summary: WASM={wasm_ok}, 3D GLBs={blender_ok}")
+    print("To launch the app: cd client && pnpm dev")
     print("==================================================")
 
 if __name__ == "__main__":

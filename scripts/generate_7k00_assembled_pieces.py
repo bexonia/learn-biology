@@ -422,6 +422,18 @@ bpy.context.view_layer.objects.active = root_empty
 
 # Export target paths
 project_root = Path(__file__).resolve().parent.parent
+
+# Save master .blend file to models
+models_dir = project_root / "models"
+models_dir.mkdir(parents=True, exist_ok=True)
+blend_ribo = models_dir / "ribosome_70s_25nm.blend"
+print(f"[*] Saving master Ribosome 70S .blend file to:\n    {blend_ribo}")
+bpy.ops.wm.save_as_mainfile(filepath=str(blend_ribo))
+
+if "--blend-only" in sys.argv:
+    print(f"[+] Done! Master Ribosome .blend scene saved to {blend_ribo}")
+    sys.exit(0)
+
 out_client = project_root / "client" / "public" / "models" / "7K00_assembled_pieces.glb"
 out_models = project_root / "models" / "7K00_assembled_pieces.glb"
 

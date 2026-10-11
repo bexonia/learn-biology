@@ -242,6 +242,7 @@ export const SecYEGInspectorDrawer: React.FC<SecYEGInspectorDrawerProps> = ({
           <span className="motor-block-title">SUBUNIT ROLES &amp; COLOR TAXONOMY</span>
           <div style={{ display: 'flex', flexDirection: 'column', gap: '6px', marginTop: '6px' }}>
             {[
+              { id: 'inner_membrane', name: 'Inner Cytoplasmic Membrane', color: '#06D6A0', desc: 'Symmetric phospholipid bilayer matrix insulating the cytoplasm' },
               { id: 'secy_pore', name: 'SecY Hourglass Pore Core', color: '#3A86FF', desc: '10 TM helices, 6-isoleucine pore gasket, and luminal plug helix' },
               { id: 'lateral_gate', name: 'Dynamic Lateral Gate', color: '#00F5D4', desc: 'TM2b/3 & TM7/8 parting helices opening into the lipid bilayer' },
               { id: 'sece_clamp', name: 'SecE Amphipathic Clamp', color: '#FFB703', desc: 'V-shaped structural brace preventing dissociation of SecY halves' },

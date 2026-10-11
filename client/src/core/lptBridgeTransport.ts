@@ -30,6 +30,7 @@ import * as THREE from 'three';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 import type { LptComponentData } from '../types/biology';
+import { KeyboardFlightController } from './keyboardNavigation';
 
 export const LPT_COMPONENTS_META: Record<string, LptComponentData> = {
   'lpt_holoenzyme': {
@@ -43,6 +44,36 @@ export const LPT_COMPONENTS_META: Record<string, LptComponentData> = {
     stoichiometry: '2 LptB + 1 LptF + 1 LptG + 1 LptC + 1–4 LptA + 1 LptD + 1 LptE + bound LPS',
     energySource: 'Cytoplasmic ATP Hydrolysis (LptB2 ABC ATPase dimer)',
     transportRate: '~100–300 LPS molecules/min per export bridge'
+  },
+  'lpt_outer_membrane': {
+    name: 'Outer Asymmetric Membrane (LPS / PL Bilayer)',
+    badge: 'OUTER ENVELOPE BARRIER',
+    dims: 'Thickness: ~2.6 nm, Diameter: ~56 nm',
+    proteins: 'Extracellular LPS Leaflet (Deep Marine #0077B6) + Periplasmic Phospholipid Leaflet (Seafoam Jade #06D6A0)',
+    pdb: 'Cryo-EM Outer Envelope Bilayer',
+    desc: 'The asymmetric outer permeability barrier of Gram-negative bacteria. The outer leaflet is composed exclusively of lipopolysaccharide (LPS) cross-linked by divalent cations (Mg2+/Ca2+), creating a virtually impermeable barrier against antibiotics, bile salts, and detergents.',
+    role: 'Permeability barrier and structural interface with the extracellular milieu.',
+    stoichiometry: 'Outer leaflet: ~100% LPS; Inner leaflet: ~100% Phospholipids.'
+  },
+  'lpt_peptidoglycan': {
+    name: 'Peptidoglycan Murein Sacculus Sheet',
+    badge: 'CELL WALL MUREIN LATTICE',
+    dims: 'Thickness: ~2.0 nm (single-layered mesh in E. coli), Pore Size: ~4–7 nm',
+    proteins: 'Glycan strands (GlcNAc-MurNAc) cross-linked by peptide stems (Warm Terracotta #E76F51)',
+    pdb: 'Periplasmic Stress-Bearing Sacculus',
+    desc: 'The giant single-molecule sacculus that surrounds the bacterium between the inner and outer membranes. Withstands internal turgor pressure (0.3–3 atm). Features pores (~4–7 nm) large enough for the LptA trans-envelope bridge and flagellar basal bodies to pass through.',
+    role: 'Maintains cell shape and prevents osmotic lysis while allowing trans-envelope macromolecular complexes to bridge the envelope.',
+    stoichiometry: '1 Periplasmic sacculus surrounding the entire protoplast.'
+  },
+  'lpt_inner_membrane': {
+    name: 'Inner Cytoplasmic Membrane Bilayer',
+    badge: 'ENERGY TRANSDUCING BILAYER',
+    dims: 'Thickness: ~3.0 nm, Diameter: ~56 nm',
+    proteins: 'Symmetric Phospholipid Bilayer (PE, PG, Cardiolipin) (Seafoam Jade #06D6A0)',
+    pdb: 'Cytoplasmic Lipid Bilayer Matrix',
+    desc: 'The symmetric phospholipid bilayer separating the cytoplasm from the periplasm. Houses the respiratory electron transport complexes, ATP synthase, and the LptB2FG permease engine that extracts newly synthesized LPS from the inner membrane.',
+    role: 'Proton-motive force generation and membrane protein scaffold.',
+    stoichiometry: 'Continuous ~3.0 nm phospholipid bilayer matrix.'
   },
   'lptb_dimer': {
     name: 'LptB2 ABC ATPase Homodimer',
@@ -192,7 +223,9 @@ export class LptBridgeScene {
   private renderer: THREE.WebGLRenderer;
   private controls: OrbitControls;
   private animFrameId: number | null = null;
+  private active: boolean = false;
   private clock = new THREE.Clock();
+  private keyboardFlight: KeyboardFlightController | null = null;
 
   // Model & Subunit groups
   private modelGroup: THREE.Group = new THREE.Group();
@@ -213,11 +246,12 @@ export class LptBridgeScene {
   private svgLayer: SVGSVGElement | null = null;
   private leaderAnchors: {
     key: string;
-    targetMeshName: string;
+    targetMeshName?: string;
     label: string;
     color: string;
-    offset: THREE.Vector3;
+    offset?: THREE.Vector3;
     badge: string;
+    worldPos?: THREE.Vector3;
   }[] = [];
 
   // Interactive States
@@ -306,8 +340,17 @@ export class LptBridgeScene {
     // 10. SVG Overlay
     this.setupSVGOverlay();
 
-    // 11. Start Animation Loop
-    this.animate();
+    // 11. Keyboard navigation (WASD, Arrows, Space, C, Shift, R)
+    this.keyboardFlight = new KeyboardFlightController({
+      camera: this.camera,
+      controls: this.controls,
+      isActive: () => this.active,
+      onReset: () => this.resetCamera(),
+      onUpdate: () => this.updateSVGLeaders()
+    });
+
+    // 12. Start Animation Loop
+    this.start();
   }
 
   private setupLighting() {
@@ -342,14 +385,19 @@ export class LptBridgeScene {
     //    Periplasmic Leaflet at Y = -6.5 nm, Cytoplasmic Leaflet at Y = -9.5 nm
     //    Color: Seafoam Jade #06D6A0 (Hole radius ~ 3.2 nm for LptFG permease)
     // =========================================================================
-    const imPoints: THREE.Vector3[] = [];
+    const imTopPoints: THREE.Vector3[] = [];
+    const imBotPoints: THREE.Vector3[] = [];
     for (let r = 1; r <= numRings; r++) {
       const curR = r * ringSpacing;
       if (curR < 3.2) continue;
       const count = Math.floor(2 * Math.PI * curR / ringSpacing);
       for (let i = 0; i < count; i++) {
-        const theta = (i / count) * Math.PI * 2 + (r % 2) * 0.2;
-        imPoints.push(new THREE.Vector3(curR * Math.cos(theta), 0, curR * Math.sin(theta)));
+        const thetaTop = (i / count) * Math.PI * 2 + (r % 2) * 0.2;
+        imTopPoints.push(new THREE.Vector3(curR * Math.cos(thetaTop), 0, curR * Math.sin(thetaTop)));
+
+        // Stagger cytoplasmic leaflet by half angular spacing for see-through visibility
+        const thetaBot = thetaTop + Math.PI / count;
+        imBotPoints.push(new THREE.Vector3(curR * Math.cos(thetaBot), 0, curR * Math.sin(thetaBot)));
       }
     }
 
@@ -360,13 +408,14 @@ export class LptBridgeScene {
       color: 0x06d6a0,
       roughness: 0.35,
       metalness: 0.1,
-      transparent: true,
-      opacity: 0.85
+      emissive: 0x025c43,
+      emissiveIntensity: 0.25,
+      depthWrite: true
     });
 
     // Periplasmic IM Leaflet (Y = -6.5)
-    const imTopMesh = new THREE.InstancedMesh(sphereGeo, imPlMat, imPoints.length);
-    imPoints.forEach((pt, idx) => {
+    const imTopMesh = new THREE.InstancedMesh(sphereGeo, imPlMat, imTopPoints.length);
+    imTopPoints.forEach((pt, idx) => {
       dummy.position.set(pt.x, -6.5, pt.z);
       dummy.scale.set(0.95, 0.95, 0.95);
       dummy.updateMatrix();
@@ -375,9 +424,9 @@ export class LptBridgeScene {
     imTopMesh.instanceMatrix.needsUpdate = true;
     this.imGroup.add(imTopMesh);
 
-    // Cytoplasmic IM Leaflet (Y = -9.5)
-    const imBotMesh = new THREE.InstancedMesh(sphereGeo, imPlMat, imPoints.length);
-    imPoints.forEach((pt, idx) => {
+    // Cytoplasmic IM Leaflet (Y = -9.5, staggered)
+    const imBotMesh = new THREE.InstancedMesh(sphereGeo, imPlMat, imBotPoints.length);
+    imBotPoints.forEach((pt, idx) => {
       dummy.position.set(pt.x, -9.5, pt.z);
       dummy.scale.set(0.95, 0.95, 0.95);
       dummy.updateMatrix();
@@ -386,32 +435,105 @@ export class LptBridgeScene {
     imBotMesh.instanceMatrix.needsUpdate = true;
     this.imGroup.add(imBotMesh);
 
-    // IM boundary ring
-    const imRingGeo = new THREE.RingGeometry(3.0, 3.2, 48);
-    const imRingMat = new THREE.MeshBasicMaterial({ color: 0x06d6a0, side: THREE.DoubleSide, transparent: true, opacity: 0.4 });
-    const imRing = new THREE.Mesh(imRingGeo, imRingMat);
-    imRing.rotation.x = Math.PI / 2;
-    imRing.position.y = -6.5;
-    this.imGroup.add(imRing);
+    // Translucent Inner Membrane Hydrophobic Core Slab (depth 3.0 nm, spans Y = -9.5 to -6.5 nm)
+    const imShape = new THREE.Shape();
+    imShape.absarc(0, 0, radius, 0, Math.PI * 2, false);
+    const imHole = new THREE.Path();
+    imHole.absarc(0, 0, 3.2, 0, Math.PI * 2, true);
+    imShape.holes.push(imHole);
+    const imCoreGeo = new THREE.ExtrudeGeometry(imShape, { depth: 3.0, bevelEnabled: false, curveSegments: 64 });
+    const imCoreMat = new THREE.MeshStandardMaterial({
+      color: 0x06d6a0, // Ethereal cytological seafoam crystal-clear slab
+      roughness: 0.15,
+      metalness: 0.05,
+      transparent: true,
+      opacity: 0.11, // Super clean translucency
+      depthWrite: false, // Critical: do NOT block spheres, bridge or dots below
+      side: THREE.DoubleSide
+    });
+    const imCoreMesh = new THREE.Mesh(imCoreGeo, imCoreMat);
+    imCoreMesh.rotation.x = Math.PI / 2;
+    imCoreMesh.position.set(0, -6.5, 0); // Extrudes along -Y from -6.5 to -9.5
+    imCoreMesh.renderOrder = 1;
+    this.imGroup.add(imCoreMesh);
+
+    // IM outer boundary rings
+    const imOuterRingGeo = new THREE.RingGeometry(radius - 0.25, radius, 64);
+    const imOuterRingMat = new THREE.MeshBasicMaterial({ color: 0x06d6a0, side: THREE.DoubleSide, transparent: true, opacity: 0.5, depthWrite: false });
+    const imTopOuterRing = new THREE.Mesh(imOuterRingGeo, imOuterRingMat);
+    imTopOuterRing.rotation.x = Math.PI / 2;
+    imTopOuterRing.position.y = -6.5;
+    this.imGroup.add(imTopOuterRing);
+
+    const imBotOuterRing = imTopOuterRing.clone();
+    imBotOuterRing.position.y = -9.5;
+    this.imGroup.add(imBotOuterRing);
+
+    // IM central aperture rings
+    const imInnerRingGeo = new THREE.RingGeometry(3.0, 3.2, 48);
+    const imInnerRingMat = new THREE.MeshBasicMaterial({ color: 0x06d6a0, side: THREE.DoubleSide, transparent: true, opacity: 0.5, depthWrite: false });
+    const imTopInnerRing = new THREE.Mesh(imInnerRingGeo, imInnerRingMat);
+    imTopInnerRing.rotation.x = Math.PI / 2;
+    imTopInnerRing.position.y = -6.5;
+    this.imGroup.add(imTopInnerRing);
+
+    const imBotInnerRing = imTopInnerRing.clone();
+    imBotInnerRing.position.y = -9.5;
+    this.imGroup.add(imBotInnerRing);
 
     // =========================================================================
-    // 2. Periplasmic Peptidoglycan (Murein Sacculus Ring, Y = +2.0 nm)
+    // 2. Periplasmic Peptidoglycan (Murein Sacculus Ring & Slab, Y = +2.0 nm)
     //    Warm Terracotta #E76F51, porous lattice mesh surrounding LptA bridge
     // =========================================================================
     const pgRingGeo = new THREE.RingGeometry(3.4, 26, 40, 8);
     const pgMat = new THREE.MeshStandardMaterial({
       color: 0xe76f51,
       wireframe: true,
-      roughness: 0.6,
+      roughness: 0.4,
       metalness: 0.05,
+      emissive: new THREE.Color(0xe76f51),
+      emissiveIntensity: 0.35,
       transparent: true,
-      opacity: 0.55
+      opacity: 0.85, // Crisp visible lattice lines in the center from all angles
+      depthWrite: false,
+      side: THREE.DoubleSide // Critical: double-sided so visible looking straight down from top!
     });
     const pgRing = new THREE.Mesh(pgRingGeo, pgMat);
     pgRing.rotation.x = Math.PI / 2;
     pgRing.position.y = 2.0;
+    pgRing.renderOrder = 2; // Always render clearly visible through OM slab
     this.envelopeGroup.add(pgRing);
     this.pgMesh = pgRing;
+
+    // Translucent PG murein sacculus gel slab (depth 0.8 nm, spans Y = 1.6 to 2.4 nm)
+    const pgShape = new THREE.Shape();
+    pgShape.absarc(0, 0, 26, 0, Math.PI * 2, false);
+    const pgHole = new THREE.Path();
+    pgHole.absarc(0, 0, 3.4, 0, Math.PI * 2, true);
+    pgShape.holes.push(pgHole);
+    const pgCoreGeo = new THREE.ExtrudeGeometry(pgShape, { depth: 0.8, bevelEnabled: false, curveSegments: 64 });
+    const pgCoreMat = new THREE.MeshStandardMaterial({
+      color: 0xe76f51,
+      roughness: 0.2,
+      metalness: 0.05,
+      transparent: true,
+      opacity: 0.08, // Ethereal translucent murein sheet
+      depthWrite: false, // Critical: do NOT block LptA bridge or dots
+      side: THREE.DoubleSide
+    });
+    const pgCoreMesh = new THREE.Mesh(pgCoreGeo, pgCoreMat);
+    pgCoreMesh.rotation.x = Math.PI / 2;
+    pgCoreMesh.position.set(0, 2.4, 0); // Extrudes from 2.4 down to 1.6
+    pgCoreMesh.renderOrder = 1;
+    this.envelopeGroup.add(pgCoreMesh);
+
+    // PG outer perimeter ring at Y = 2.0
+    const pgOuterRingGeo = new THREE.RingGeometry(25.75, 26, 64);
+    const pgOuterRingMat = new THREE.MeshBasicMaterial({ color: 0xe76f51, side: THREE.DoubleSide, transparent: true, opacity: 0.65, depthWrite: false });
+    const pgOuterRing = new THREE.Mesh(pgOuterRingGeo, pgOuterRingMat);
+    pgOuterRing.rotation.x = Math.PI / 2;
+    pgOuterRing.position.y = 2.0;
+    this.envelopeGroup.add(pgOuterRing);
 
     // =========================================================================
     // 3. Outer Membrane Asymmetric Bilayer (Centered at Y = +11.5 nm)
@@ -419,14 +541,19 @@ export class LptBridgeScene {
     //    Inner Leaflet: Phospholipids (Seafoam Jade #06D6A0) at Y = +10.2 nm
     //    Hole radius ~ 4.0 nm for 26-stranded LptD barrel
     // =========================================================================
-    const omPoints: THREE.Vector3[] = [];
+    const omLpsPoints: THREE.Vector3[] = [];
+    const omPlPoints: THREE.Vector3[] = [];
     for (let r = 1; r <= numRings; r++) {
       const curR = r * ringSpacing;
       if (curR < 4.0) continue;
       const count = Math.floor(2 * Math.PI * curR / ringSpacing);
       for (let i = 0; i < count; i++) {
-        const theta = (i / count) * Math.PI * 2 + (r % 2) * 0.2;
-        omPoints.push(new THREE.Vector3(curR * Math.cos(theta), 0, curR * Math.sin(theta)));
+        const thetaLps = (i / count) * Math.PI * 2 + (r % 2) * 0.2;
+        omLpsPoints.push(new THREE.Vector3(curR * Math.cos(thetaLps), 0, curR * Math.sin(thetaLps)));
+
+        // Stagger periplasmic PL leaflet by half angular spacing for biophysical packing & see-through visibility
+        const thetaPl = thetaLps + Math.PI / count;
+        omPlPoints.push(new THREE.Vector3(curR * Math.cos(thetaPl), 0, curR * Math.sin(thetaPl)));
       }
     }
 
@@ -435,11 +562,12 @@ export class LptBridgeScene {
       color: 0x0077b6,
       roughness: 0.3,
       metalness: 0.15,
-      transparent: true,
-      opacity: 0.90
+      emissive: 0x003f66,
+      emissiveIntensity: 0.25,
+      depthWrite: true
     });
-    const omTopMesh = new THREE.InstancedMesh(sphereGeo, omLpsMat, omPoints.length);
-    omPoints.forEach((pt, idx) => {
+    const omTopMesh = new THREE.InstancedMesh(sphereGeo, omLpsMat, omLpsPoints.length);
+    omLpsPoints.forEach((pt, idx) => {
       dummy.position.set(pt.x, 12.8, pt.z);
       dummy.scale.set(1.15, 1.05, 1.15); // Bulky LPS polysaccharide headgroups
       dummy.updateMatrix();
@@ -448,9 +576,9 @@ export class LptBridgeScene {
     omTopMesh.instanceMatrix.needsUpdate = true;
     this.omGroup.add(omTopMesh);
 
-    // Periplasmic PL Leaflet (Y = +10.2)
-    const omBotMesh = new THREE.InstancedMesh(sphereGeo, imPlMat, omPoints.length);
-    omPoints.forEach((pt, idx) => {
+    // Periplasmic PL Leaflet (Y = +10.2, staggered)
+    const omBotMesh = new THREE.InstancedMesh(sphereGeo, imPlMat, omPlPoints.length);
+    omPlPoints.forEach((pt, idx) => {
       dummy.position.set(pt.x, 10.2, pt.z);
       dummy.scale.set(0.95, 0.95, 0.95);
       dummy.updateMatrix();
@@ -459,16 +587,79 @@ export class LptBridgeScene {
     omBotMesh.instanceMatrix.needsUpdate = true;
     this.omGroup.add(omBotMesh);
 
-    // OM boundary guide ring
-    const omRingGeo = new THREE.RingGeometry(3.8, 4.0, 48);
-    const omRingMat = new THREE.MeshBasicMaterial({ color: 0x0077b6, side: THREE.DoubleSide, transparent: true, opacity: 0.45 });
-    const omRing = new THREE.Mesh(omRingGeo, omRingMat);
-    omRing.rotation.x = Math.PI / 2;
-    omRing.position.y = 12.8;
-    this.omGroup.add(omRing);
+    // Translucent Outer Membrane Hydrophobic Core Slab (depth 2.6 nm, spans Y = 10.2 to 12.8 nm)
+    const omShape = new THREE.Shape();
+    omShape.absarc(0, 0, radius, 0, Math.PI * 2, false);
+    const omHole = new THREE.Path();
+    omHole.absarc(0, 0, 4.0, 0, Math.PI * 2, true);
+    omShape.holes.push(omHole);
+    const omCoreGeo = new THREE.ExtrudeGeometry(omShape, { depth: 2.6, bevelEnabled: false, curveSegments: 64 });
+    const omCoreMat = new THREE.MeshStandardMaterial({
+      color: 0x00b4d8, // Luminous cerulean translucent slab
+      roughness: 0.15,
+      metalness: 0.05,
+      transparent: true,
+      opacity: 0.11, // Super clean translucency: enables looking straight down through OM into PG and IM
+      depthWrite: false, // Critical: do NOT block PG lines, bridge, or dots when viewed from top
+      side: THREE.DoubleSide
+    });
+    const omCoreMesh = new THREE.Mesh(omCoreGeo, omCoreMat);
+    omCoreMesh.rotation.x = Math.PI / 2;
+    omCoreMesh.position.set(0, 12.8, 0); // Extrudes along -Y from 12.8 to 10.2
+    omCoreMesh.renderOrder = 1;
+    this.omGroup.add(omCoreMesh);
+
+    // OM outer boundary rings
+    const omOuterRingGeo = new THREE.RingGeometry(radius - 0.25, radius, 64);
+    const omTopOuterRingMat = new THREE.MeshBasicMaterial({ color: 0x0077b6, side: THREE.DoubleSide, transparent: true, opacity: 0.55, depthWrite: false });
+    const omTopOuterRing = new THREE.Mesh(omOuterRingGeo, omTopOuterRingMat);
+    omTopOuterRing.rotation.x = Math.PI / 2;
+    omTopOuterRing.position.y = 12.8;
+    this.omGroup.add(omTopOuterRing);
+
+    const omBotOuterRingMat = new THREE.MeshBasicMaterial({ color: 0x06d6a0, side: THREE.DoubleSide, transparent: true, opacity: 0.5, depthWrite: false });
+    const omBotOuterRing = new THREE.Mesh(omOuterRingGeo, omBotOuterRingMat);
+    omBotOuterRing.rotation.x = Math.PI / 2;
+    omBotOuterRing.position.y = 10.2;
+    this.omGroup.add(omBotOuterRing);
+
+    // OM central aperture rings (around LptD barrel)
+    const omInnerRingGeo = new THREE.RingGeometry(3.8, 4.0, 48);
+    const omInnerRingMat = new THREE.MeshBasicMaterial({ color: 0x0077b6, side: THREE.DoubleSide, transparent: true, opacity: 0.5, depthWrite: false });
+    const omTopInnerRing = new THREE.Mesh(omInnerRingGeo, omInnerRingMat);
+    omTopInnerRing.rotation.x = Math.PI / 2;
+    omTopInnerRing.position.y = 12.8;
+    this.omGroup.add(omTopInnerRing);
+
+    const omBotInnerRing = omTopInnerRing.clone();
+    omBotInnerRing.position.y = 10.2;
+    this.omGroup.add(omBotInnerRing);
 
     this.envelopeGroup.add(this.imGroup);
     this.envelopeGroup.add(this.omGroup);
+
+    // Central illuminated trans-envelope translocation trajectory line (visible from top and all angles)
+    const trajectoryPoints: THREE.Vector3[] = [];
+    for (let step = 0; step <= 50; step++) {
+      const frac = step / 50;
+      const y = -8.5 + frac * 22.0;
+      const x = Math.sin(frac * Math.PI * 2.5) * 0.6;
+      const z = 0.5 + Math.cos(frac * Math.PI * 2) * 0.4;
+      trajectoryPoints.push(new THREE.Vector3(x, y, z));
+    }
+    const trajectoryGeo = new THREE.BufferGeometry().setFromPoints(trajectoryPoints);
+    const trajectoryMat = new THREE.LineDashedMaterial({
+      color: 0xffb703,
+      dashSize: 0.6,
+      gapSize: 0.3,
+      transparent: true,
+      opacity: 0.85,
+      depthWrite: false
+    });
+    const trajectoryLine = new THREE.Line(trajectoryGeo, trajectoryMat);
+    trajectoryLine.computeLineDistances();
+    trajectoryLine.renderOrder = 2; // Always visible through slabs
+    this.envelopeGroup.add(trajectoryLine);
   }
 
   private buildProcessiveLPSStream() {
@@ -478,29 +669,34 @@ export class LptBridgeScene {
     const tailMat = new THREE.MeshStandardMaterial({
       color: 0xffb703, // Golden Amber
       roughness: 0.3,
-      metalness: 0.15
+      metalness: 0.15,
+      depthWrite: false
     });
 
     const headGeo = new THREE.SphereGeometry(0.32, 12, 12);
     const headMat = new THREE.MeshStandardMaterial({
       color: 0xffe066, // Luminous Gold
       emissive: 0xffb703,
-      emissiveIntensity: 0.5,
+      emissiveIntensity: 0.85,
       roughness: 0.25,
-      metalness: 0.2
+      metalness: 0.2,
+      depthWrite: false
     });
 
     for (let i = 0; i < 16; i++) {
       const lpsCluster = new THREE.Group();
+      lpsCluster.renderOrder = 5; // Ensure trespassing substrate dots are always clearly visible from all angles
 
       // Core headgroup
       const head = new THREE.Mesh(headGeo, headMat);
+      head.renderOrder = 5;
       head.position.set(0, 0.25, 0);
       lpsCluster.add(head);
 
       // 4 Acyl tail beads
       for (let t = 0; t < 4; t++) {
         const tail = new THREE.Mesh(tailGeo, tailMat);
+        tail.renderOrder = 5;
         const angle = (t / 4) * Math.PI * 2;
         tail.position.set(Math.cos(angle) * 0.18, -0.25, Math.sin(angle) * 0.18);
         lpsCluster.add(tail);
@@ -543,6 +739,27 @@ export class LptBridgeScene {
 
   private setupDynamicLeaderAnchors() {
     this.leaderAnchors = [
+      {
+        key: 'lpt_outer_membrane',
+        label: 'Outer Asymmetric Membrane',
+        color: '#0077B6',
+        badge: 'OM',
+        worldPos: new THREE.Vector3(14.0, 12.8, -8.0)
+      },
+      {
+        key: 'lpt_peptidoglycan',
+        label: 'Peptidoglycan Murein Sacculus',
+        color: '#E76F51',
+        badge: 'PG',
+        worldPos: new THREE.Vector3(14.0, 2.0, 7.0)
+      },
+      {
+        key: 'lpt_inner_membrane',
+        label: 'Inner Cytoplasmic Membrane',
+        color: '#06D6A0',
+        badge: 'IM',
+        worldPos: new THREE.Vector3(14.0, -6.5, -8.0)
+      },
       {
         key: 'lptb_dimer',
         targetMeshName: 'Piece_LPT_LptB_Dimer',
@@ -639,11 +856,17 @@ export class LptBridgeScene {
     const height = this.container.clientHeight;
 
     this.leaderAnchors.forEach((anchor) => {
-      const mesh = this.getMeshByNameOrPrefix(anchor.targetMeshName);
-      if (!mesh || !mesh.visible) return;
-
-      const worldPos = anchor.offset.clone();
-      mesh.localToWorld(worldPos);
+      let worldPos: THREE.Vector3;
+      if (anchor.worldPos) {
+        worldPos = anchor.worldPos.clone();
+      } else if (anchor.targetMeshName && anchor.offset) {
+        const mesh = this.getMeshByNameOrPrefix(anchor.targetMeshName);
+        if (!mesh || !mesh.visible) return;
+        worldPos = anchor.offset.clone();
+        mesh.localToWorld(worldPos);
+      } else {
+        return;
+      }
 
       // Project 3D to screen coordinates
       const screenPos = worldPos.clone().project(this.camera);
@@ -658,6 +881,9 @@ export class LptBridgeScene {
       const lx = sx + dx;
       const ly = sy + dy;
 
+      const pillWidth = Math.max(120, anchor.label.length * 7.2 + 38);
+      const cardX = lx > sx ? lx : lx - pillWidth;
+
       html += `
         <g class="lpt-leader-item" data-key="${anchor.key}" style="pointer-events: auto; cursor: pointer;">
           <!-- Hairline leader line -->
@@ -669,11 +895,11 @@ export class LptBridgeScene {
             <animate attributeName="opacity" values="0.8;0.1;0.8" dur="2s" repeatCount="indefinite" />
           </circle>
           <!-- 2D Subpill Badge -->
-          <g transform="translate(${lx > sx ? lx : lx - 125}, ${ly - 12})">
-            <rect width="130" height="26" rx="13" fill="rgba(4, 10, 22, 0.92)" stroke="${anchor.color}" stroke-width="1.2" />
+          <g transform="translate(${cardX}, ${ly - 12})">
+            <rect width="${pillWidth}" height="26" rx="13" fill="rgba(4, 10, 22, 0.92)" stroke="${anchor.color}" stroke-width="1.2" />
             <circle cx="14" cy="13" r="8" fill="${anchor.color}" />
             <text x="14" y="16.5" font-size="9" font-weight="bold" fill="#000" text-anchor="middle" font-family="monospace">${anchor.badge}</text>
-            <text x="30" y="16.5" font-size="10.5" font-weight="600" fill="#f8fafc" font-family="sans-serif">${anchor.label}</text>
+            <text x="28" y="16.5" font-size="10" font-weight="600" fill="#f8fafc" font-family="sans-serif">${anchor.label}</text>
           </g>
         </g>
       `;
@@ -785,9 +1011,11 @@ export class LptBridgeScene {
       if (isTarget) {
         mat.opacity = 1.0;
         mat.transparent = false;
+        mat.depthWrite = true;
       } else {
         mat.opacity = 0.52;
         mat.transparent = true;
+        mat.depthWrite = false; // Prevent transparent pieces from occluding translocating beads inside chute
       }
     });
   }
@@ -820,11 +1048,15 @@ export class LptBridgeScene {
   public focusComponent(key: string) {
     const anchor = this.leaderAnchors.find((a) => a.key === key);
     if (anchor) {
-      const mesh = this.getMeshByNameOrPrefix(anchor.targetMeshName);
-      if (mesh) {
-        const worldPos = anchor.offset.clone();
-        mesh.localToWorld(worldPos);
-        this.transitionCameraTo(worldPos, 22, 0.25, 1.35);
+      if (anchor.worldPos) {
+        this.transitionCameraTo(anchor.worldPos.clone(), 26, 0.25, 1.35);
+      } else if (anchor.targetMeshName && anchor.offset) {
+        const mesh = this.getMeshByNameOrPrefix(anchor.targetMeshName);
+        if (mesh) {
+          const worldPos = anchor.offset.clone();
+          mesh.localToWorld(worldPos);
+          this.transitionCameraTo(worldPos, 22, 0.25, 1.35);
+        }
       }
     } else {
       this.resetCamera();
@@ -855,6 +1087,7 @@ export class LptBridgeScene {
   }
 
   public start() {
+    this.active = true;
     if (!this.animFrameId) {
       this.clock.start();
       this.animate();
@@ -862,6 +1095,10 @@ export class LptBridgeScene {
   }
 
   public stop() {
+    this.active = false;
+    if (this.keyboardFlight) {
+      this.keyboardFlight.resetKeys();
+    }
     if (this.animFrameId) {
       cancelAnimationFrame(this.animFrameId);
       this.animFrameId = null;
@@ -870,6 +1107,10 @@ export class LptBridgeScene {
 
   public dispose() {
     this.stop();
+    if (this.keyboardFlight) {
+      this.keyboardFlight.dispose();
+      this.keyboardFlight = null;
+    }
     if (this.controls) {
       this.controls.dispose();
     }
@@ -886,10 +1127,15 @@ export class LptBridgeScene {
   // ---------------------------------------------------------------------------
 
   private animate = () => {
+    if (!this.active) return;
     this.animFrameId = requestAnimationFrame(this.animate);
 
     const delta = this.clock.getDelta();
     const elapsed = this.clock.getElapsedTime();
+
+    if (this.keyboardFlight) {
+      this.keyboardFlight.update(delta);
+    }
 
     // 1. Camera interpolation
     if (this.camLerpProgress < 1.0) {

@@ -232,6 +232,9 @@ export const LptInspectorDrawer: React.FC<LptInspectorDrawerProps> = ({
           <span className="motor-block-label">SUBUNIT ROLES &amp; COLOR TAXONOMY</span>
           <div style={{ display: 'flex', flexDirection: 'column', gap: '4px', fontSize: '10.5px' }}>
             {[
+              { id: 'lpt_outer_membrane', name: 'Outer Asymmetric Membrane', desc: 'Outer bilayer of lipopolysaccharide and phospholipids', col: '#0077B6' },
+              { id: 'lpt_peptidoglycan', name: 'Peptidoglycan Murein Sacculus', desc: 'Porous periplasmic peptidoglycan mesh maintaining cell shape', col: '#E76F51' },
+              { id: 'lpt_inner_membrane', name: 'Inner Cytoplasmic Membrane', desc: 'Phospholipid bilayer housing the LptB2FG permease engine', col: '#06D6A0' },
               { id: 'lptb_dimer', name: 'LptB2 ABC ATPase Dimer', desc: 'Cytoplasmic motor driving substrate extraction via ATP cycles', col: '#FFB703' },
               { id: 'lptfg_permease', name: 'LptFG IM Permease Cavity', desc: 'Heterodimeric transmembrane pocket accommodating lipid A acyl chains', col: '#06D6A0' },
               { id: 'lptc_coupler', name: 'LptC Periplasmic Coupler', desc: 'Adaptor dock bridging inner membrane cavity to periplasmic bridge', col: '#2EC4B6' },

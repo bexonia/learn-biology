@@ -24,6 +24,7 @@
 import * as THREE from 'three';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
 import type { ATPSynthaseComponentData } from '../types/biology';
+import { KeyboardFlightController } from './keyboardNavigation';
 
 export const ATP_SYNTHASE_COMPONENTS_META: Record<string, ATPSynthaseComponentData> = {
   'atp_synthase_holoenzyme': {
@@ -309,6 +310,7 @@ export class ATPSynthaseScene {
     this.pointerStart = { x: 0, y: 0 };
 
     this.componentsMeta = ATP_SYNTHASE_COMPONENTS_META;
+    this.keyboardFlight = null;
 
     this.onWindowResizeBound = this.onWindowResize.bind(this);
     this.onPointerMoveBound = this.onPointerMove.bind(this);
@@ -1308,6 +1310,16 @@ export class ATPSynthaseScene {
       this.updateCameraPosition();
     }, { passive: false });
 
+    // Keyboard navigation (WASD, Arrows, Space, C, Shift, R)
+    this.keyboardFlight = new KeyboardFlightController({
+      camera: this.camera,
+      target: this.target,
+      spherical: this.spherical,
+      isActive: () => this.active,
+      onReset: () => this.resetCamera(),
+      onUpdate: () => this.updateLeadersAndOverlay()
+    });
+
     this.canvas.addEventListener('click', (e) => {
       if (!this.clickableMeshes.length) return;
       const rect = this.canvas.getBoundingClientRect();
@@ -1641,6 +1653,9 @@ export class ATPSynthaseScene {
     this.animFrameId = requestAnimationFrame(() => this.animate());
 
     const delta = 0.016;
+    if (this.keyboardFlight) {
+      this.keyboardFlight.update(delta);
+    }
     const time = performance.now() * 0.001;
 
     // Smooth Camera Transition Handling
@@ -1824,6 +1839,9 @@ export class ATPSynthaseScene {
 
   stop() {
     this.active = false;
+    if (this.keyboardFlight) {
+      this.keyboardFlight.resetKeys();
+    }
     if (this.animFrameId) {
       cancelAnimationFrame(this.animFrameId);
       this.animFrameId = null;
@@ -1842,6 +1860,10 @@ export class ATPSynthaseScene {
 
   destroy() {
     this.stop();
+    if (this.keyboardFlight) {
+      this.keyboardFlight.dispose();
+      this.keyboardFlight = null;
+    }
     window.removeEventListener('resize', this.onWindowResizeBound);
     window.removeEventListener('pointermove', this.onPointerMoveBound);
     window.removeEventListener('pointerup', this.onPointerUpBound);

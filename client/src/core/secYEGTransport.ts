@@ -27,6 +27,7 @@ import * as THREE from 'three';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 import type { SecYEGComponentData } from '../types/biology';
+import { KeyboardFlightController } from './keyboardNavigation';
 
 export const SECYEG_COMPONENTS_META: Record<string, SecYEGComponentData> = {
   'secyeg_holoenzyme': {
@@ -40,6 +41,16 @@ export const SECYEG_COMPONENTS_META: Record<string, SecYEGComponentData> = {
     stoichiometry: '1 Preprotein + ~1 ATP per 20–25 amino acids translocated + Δp electrical pull.',
     atpConsumption: '1 ATP per 20-aa power stroke (~40–60 aa/sec translocation rate)',
     translocationRate: '40–60 amino acids/sec (continuous processive cycle)'
+  },
+  'inner_membrane': {
+    name: 'Inner Cytoplasmic Membrane Bilayer',
+    badge: 'PHOSPHOLIPID BILAYER',
+    dims: 'Thickness: ~4.4 nm, Span: 36 nm × 36 nm',
+    proteins: 'Symmetric Phospholipid Bilayer (PE, PG, Cardiolipin) (Vivid Jade #06D6A0)',
+    pdb: 'Cytoplasmic Lipid Bilayer Cross-Section',
+    desc: 'The cytoplasmic lipid bilayer containing the SecYEG translocase. The hydrophobic core consists of fatty acid acyl chains. During lateral gating, the TM2b/3 and TM7/8 helices part to allow nascent hydrophobic transmembrane helices to exit sideways directly into this lipid matrix.',
+    role: 'Dielectric insulator, proton-motive force reservoir, and integration matrix for membrane proteins.',
+    stoichiometry: 'Phospholipids (75% PE, 20% PG, 5% CL) forming continuous ~4.4 nm matrix.'
   },
   'secy_pore': {
     name: 'SecY Transmembrane Pore Core',
@@ -186,7 +197,9 @@ export class SecYEGScene {
   private renderer: THREE.WebGLRenderer;
   private controls: any;
   private animFrameId: number | null = null;
+  private active: boolean = false;
   private clock = new THREE.Clock();
+  private keyboardFlight: KeyboardFlightController | null = null;
 
   // Root model group
   private modelGroup: THREE.Group = new THREE.Group();
@@ -210,11 +223,12 @@ export class SecYEGScene {
   private svgLayer: SVGSVGElement | null = null;
   private leaderAnchors: {
     key: string;
-    targetMeshName: string;
+    targetMeshName?: string;
     label: string;
     color: string;
-    offset: THREE.Vector3;
+    offset?: THREE.Vector3;
     badge: string;
+    worldPos?: THREE.Vector3;
   }[] = [];
 
   // Interactive state
@@ -310,8 +324,17 @@ export class SecYEGScene {
     // 11. Event Listeners
     window.addEventListener('resize', this.onWindowResize);
 
+    // Keyboard navigation (WASD, Arrows, Space, C, Shift, R)
+    this.keyboardFlight = new KeyboardFlightController({
+      camera: this.camera,
+      controls: this.controls,
+      isActive: () => this.active,
+      onReset: () => this.resetCamera(),
+      onUpdate: () => this.updateSVGLeaders()
+    });
+
     // 12. Animation Loop
-    this.animate();
+    this.start();
   }
 
   private setupLighting() {
@@ -347,18 +370,33 @@ export class SecYEGScene {
     const span = 36;
     const thickness = 4.4;
 
-    // Translucent hydrophobic core slab with subtle gradient
-    const coreGeo = new THREE.BoxGeometry(span, thickness, span);
+    // Translucent hydrophobic core slab with central aperture for SecY pore channel
+    const shape = new THREE.Shape();
+    const half = span / 2;
+    shape.moveTo(-half, -half);
+    shape.lineTo(half, -half);
+    shape.lineTo(half, half);
+    shape.lineTo(-half, half);
+    shape.closePath();
+
+    const poreHole = new THREE.Path();
+    poreHole.absarc(0, 0, 4.2, 0, Math.PI * 2, true);
+    shape.holes.push(poreHole);
+
+    const coreGeo = new THREE.ExtrudeGeometry(shape, { depth: thickness, bevelEnabled: false, curveSegments: 48 });
     const coreMat = new THREE.MeshStandardMaterial({
-      color: 0x081b29,
-      roughness: 0.85,
-      metalness: 0.1,
+      color: 0x06d6a0, // Ethereal cytological seafoam crystal-clear slab
+      roughness: 0.15,
+      metalness: 0.05,
       transparent: true,
-      opacity: 0.45,
+      opacity: 0.11, // Super clean glass-like translucency: see through from top and bottom
+      depthWrite: false, // Critical: do NOT block spheres, pore channel, or beads behind/below
       side: THREE.DoubleSide
     });
     const coreMesh = new THREE.Mesh(coreGeo, coreMat);
-    coreMesh.position.set(0, 0, 0);
+    coreMesh.rotation.x = Math.PI / 2;
+    coreMesh.position.set(0, thickness / 2, 0); // Extrudes from +2.2 to -2.2
+    coreMesh.renderOrder = 1;
     this.membraneGroup.add(coreMesh);
 
     // Polar headgroups: 2 leaflets of instanced spheres
@@ -368,8 +406,9 @@ export class SecYEGScene {
       color: 0x06d6a0, // Vivid Jade / Seafoam Green
       roughness: 0.35,
       metalness: 0.15,
-      emissive: 0x044d38,
-      emissiveStrength: 0.2
+      emissive: 0x025c43,
+      emissiveIntensity: 0.25,
+      depthWrite: true
     });
 
     const spacing = 1.8;
@@ -396,8 +435,8 @@ export class SecYEGScene {
         dummy.updateMatrix();
         this.headgroupSpheres.setMatrixAt(idx++, dummy.matrix);
 
-        // Bottom Leaflet (Periplasmic side, Y = -2.2)
-        dummy.position.set(x, -thickness / 2 - headRadius * 0.5, z);
+        // Bottom Leaflet (Periplasmic side, Y = -2.2, staggered offset by half spacing for biophysical packing & see-through visibility)
+        dummy.position.set(x + spacing * 0.5, -thickness / 2 - headRadius * 0.5, z + spacing * 0.5);
         dummy.scale.set(1, 1, 1);
         dummy.updateMatrix();
         this.headgroupSpheres.setMatrixAt(idx++, dummy.matrix);
@@ -408,7 +447,7 @@ export class SecYEGScene {
 
     // Membrane boundary guide ring
     const ringGeo = new THREE.RingGeometry(span / 2 - 0.2, span / 2, 48);
-    const ringMat = new THREE.MeshBasicMaterial({ color: 0x06d6a0, side: THREE.DoubleSide, transparent: true, opacity: 0.35 });
+    const ringMat = new THREE.MeshBasicMaterial({ color: 0x06d6a0, side: THREE.DoubleSide, transparent: true, opacity: 0.45, depthWrite: false });
     const topRing = new THREE.Mesh(ringGeo, ringMat);
     topRing.rotation.x = Math.PI / 2;
     topRing.position.y = thickness / 2;
@@ -424,6 +463,7 @@ export class SecYEGScene {
       color: 0x00f5d4,
       transparent: true,
       opacity: 0.0,
+      depthWrite: false,
       side: THREE.DoubleSide
     });
     this.gatePortalMesh = new THREE.Mesh(portalGeo, portalMat);
@@ -445,9 +485,11 @@ export class SecYEGScene {
         roughness: 0.25,
         metalness: 0.2,
         emissive: 0xffb703,
-        emissiveIntensity: 0.5
+        emissiveIntensity: 0.85,
+        depthWrite: false
       });
       const mesh = new THREE.Mesh(beadGeo, mat);
+      mesh.renderOrder = 5; // Ensure translocating dots trespassing through pore are always clearly visible from all angles
       mesh.visible = true;
       this.peptideStreamGroup.add(mesh);
       this.peptideBeads.push(mesh);
@@ -491,6 +533,7 @@ export class SecYEGScene {
 
       // Define Leader Anchors for dynamic SVG callouts
       this.leaderAnchors = [
+        { key: 'inner_membrane', label: 'Inner Cytoplasmic Membrane', color: '#06D6A0', badge: 'IM', worldPos: new THREE.Vector3(12.0, 2.2, -6.0) },
         { key: 'seca_motor', targetMeshName: 'Piece_SecYEG_SecA_Motor', label: 'SecA ATPase Motor', color: '#9D4EDD', badge: 'SecA', offset: new THREE.Vector3(2.5, 5.0, 1.2) },
         { key: 'secy_pore', targetMeshName: 'Piece_SecYEG_SecY', label: 'SecY Hourglass Pore', color: '#3A86FF', badge: 'SecY', offset: new THREE.Vector3(-1.8, 0.2, 1.5) },
         { key: 'lateral_gate', targetMeshName: 'Piece_SecYEG_Lateral_Gate', label: 'Dynamic Lateral Gate', color: '#00F5D4', badge: 'GATE', offset: new THREE.Vector3(0.5, -0.5, -3.2) },
@@ -529,11 +572,17 @@ export class SecYEGScene {
     const height = this.container.clientHeight;
 
     this.leaderAnchors.forEach((anchor) => {
-      const mesh = this.pieceMeshes.get(anchor.targetMeshName);
-      if (!mesh || !mesh.visible) return;
-
-      const worldPos = anchor.offset.clone();
-      mesh.localToWorld(worldPos);
+      let worldPos: THREE.Vector3;
+      if (anchor.worldPos) {
+        worldPos = anchor.worldPos.clone();
+      } else if (anchor.targetMeshName && anchor.offset) {
+        const mesh = this.pieceMeshes.get(anchor.targetMeshName);
+        if (!mesh || !mesh.visible) return;
+        worldPos = anchor.offset.clone();
+        mesh.localToWorld(worldPos);
+      } else {
+        return;
+      }
 
       // Project 3D to screen coordinates
       const screenPos = worldPos.clone().project(this.camera);
@@ -550,6 +599,9 @@ export class SecYEGScene {
       const lx = sx + dx;
       const ly = sy + dy;
 
+      const pillWidth = Math.max(120, anchor.label.length * 7.2 + 38);
+      const cardX = lx > sx ? lx : lx - pillWidth;
+
       html += `
         <g class="secyeg-leader-item" data-key="${anchor.key}" style="pointer-events: auto; cursor: pointer;">
           <!-- Hairline leader line -->
@@ -561,11 +613,11 @@ export class SecYEGScene {
             <animate attributeName="opacity" values="0.8;0.1;0.8" dur="2s" repeatCount="indefinite" />
           </circle>
           <!-- 2D Subpill Badge -->
-          <g transform="translate(${lx > sx ? lx : lx - 110}, ${ly - 12})">
-            <rect width="115" height="26" rx="13" fill="rgba(8, 15, 30, 0.88)" stroke="${anchor.color}" stroke-width="1.2" />
+          <g transform="translate(${cardX}, ${ly - 12})">
+            <rect width="${pillWidth}" height="26" rx="13" fill="rgba(8, 15, 30, 0.88)" stroke="${anchor.color}" stroke-width="1.2" />
             <circle cx="14" cy="13" r="8" fill="${anchor.color}" />
             <text x="14" y="16.5" font-size="9" font-weight="bold" fill="#000" text-anchor="middle" font-family="monospace">${anchor.badge}</text>
-            <text x="30" y="16.5" font-size="10.5" font-weight="600" fill="#f8fafc" font-family="sans-serif">${anchor.label}</text>
+            <text x="28" y="16.5" font-size="10" font-weight="600" fill="#f8fafc" font-family="sans-serif">${anchor.label}</text>
           </g>
         </g>
       `;
@@ -580,6 +632,7 @@ export class SecYEGScene {
         e.stopPropagation();
         const key = item.getAttribute('data-key');
         if (key && SECYEG_COMPONENTS_META[key]) {
+          this.focusComponent(key);
           this.onSelectComponent(SECYEG_COMPONENTS_META[key]);
         }
       });
@@ -702,9 +755,11 @@ export class SecYEGScene {
       if (!targetPiece || name === targetPiece) {
         mat.opacity = 1.0;
         mat.transparent = false;
+        mat.depthWrite = true;
       } else {
         mat.opacity = 0.55;
         mat.transparent = true;
+        mat.depthWrite = false; // Prevent transparent pieces from occluding translocating beads inside pore
       }
     });
   }
@@ -731,10 +786,15 @@ export class SecYEGScene {
   // ---------------------------------------------------------------------------
 
   private animate = () => {
+    if (!this.active) return;
     this.animFrameId = requestAnimationFrame(this.animate);
 
     const delta = this.clock.getDelta();
     const elapsed = this.clock.getElapsedTime();
+
+    if (this.keyboardFlight) {
+      this.keyboardFlight.update(delta);
+    }
 
     // 1. Camera interpolation
     if (this.camLerpProgress < 1.0) {
@@ -868,11 +928,15 @@ export class SecYEGScene {
   public focusComponent(key: string) {
     const anchor = this.leaderAnchors.find((a) => a.key === key);
     if (anchor) {
-      const mesh = this.pieceMeshes.get(anchor.targetMeshName);
-      if (mesh) {
-        const worldPos = anchor.offset.clone();
-        mesh.localToWorld(worldPos);
-        this.transitionCameraTo(worldPos, 22, 0.2, 1.35);
+      if (anchor.worldPos) {
+        this.transitionCameraTo(anchor.worldPos.clone(), 24, 0.2, 1.35);
+      } else if (anchor.targetMeshName && anchor.offset) {
+        const mesh = this.pieceMeshes.get(anchor.targetMeshName);
+        if (mesh) {
+          const worldPos = anchor.offset.clone();
+          mesh.localToWorld(worldPos);
+          this.transitionCameraTo(worldPos, 22, 0.2, 1.35);
+        }
       }
     } else {
       this.resetCamera();
@@ -900,8 +964,24 @@ export class SecYEGScene {
   }
 
   public start() {
+    if (!this.active) {
+      this.active = true;
+      this.clock.start();
+      this.animate();
+    }
     if (this.atpRate === 0 && !this.azideInhibited) {
-      this.atpRate = 1.0;
+      this.atpRate = 1.5;
+    }
+  }
+
+  public stop() {
+    this.active = false;
+    if (this.keyboardFlight) {
+      this.keyboardFlight.resetKeys();
+    }
+    if (this.animFrameId !== null) {
+      cancelAnimationFrame(this.animFrameId);
+      this.animFrameId = null;
     }
   }
 
@@ -910,8 +990,10 @@ export class SecYEGScene {
   }
 
   public dispose() {
-    if (this.animFrameId !== null) {
-      cancelAnimationFrame(this.animFrameId);
+    this.stop();
+    if (this.keyboardFlight) {
+      this.keyboardFlight.dispose();
+      this.keyboardFlight = null;
     }
     window.removeEventListener('resize', this.onWindowResize);
 

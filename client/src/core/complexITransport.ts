@@ -24,6 +24,7 @@
 import * as THREE from 'three';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
 import type { ComplexIComponentData } from '../types/biology';
+import { KeyboardFlightController } from './keyboardNavigation';
 
 export const COMPLEX_I_COMPONENTS_META: Record<string, ComplexIComponentData> = {
   'complex_i_holoenzyme': {
@@ -173,6 +174,7 @@ export class ComplexIScene {
   private prevMousePos = { x: 0, y: 0 };
   private raycaster = new THREE.Raycaster();
   private mouse = new THREE.Vector2();
+  private keyboardFlight: KeyboardFlightController | null = null;
 
   // Simulation parameters
   private isPaused: boolean = false;
@@ -587,6 +589,16 @@ export class ComplexIScene {
     });
 
     window.addEventListener('resize', this.handleResize.bind(this));
+
+    // Keyboard navigation (WASD, Arrows, Space, C, Shift, R)
+    this.keyboardFlight = new KeyboardFlightController({
+      camera: this.camera,
+      target: this.target,
+      spherical: this.spherical,
+      isActive: () => this.active,
+      onReset: () => this.resetCamera(),
+      onUpdate: () => this.updateLeadersAndOverlay()
+    });
   }
 
   public handleResize() {
@@ -860,6 +872,9 @@ export class ComplexIScene {
     this.animFrameId = requestAnimationFrame(this.animate);
 
     const delta = 0.016; // ~60fps step
+    if (this.keyboardFlight) {
+      this.keyboardFlight.update(delta);
+    }
     const rate = this.isPaused ? 0 : this.electronTransferRate;
 
     // 1. Animate Electron Hopping Stream
@@ -903,6 +918,9 @@ export class ComplexIScene {
 
   public stop() {
     this.active = false;
+    if (this.keyboardFlight) {
+      this.keyboardFlight.resetKeys();
+    }
     if (this.animFrameId) {
       cancelAnimationFrame(this.animFrameId);
       this.animFrameId = null;
@@ -922,6 +940,10 @@ export class ComplexIScene {
 
   public destroy() {
     this.stop();
+    if (this.keyboardFlight) {
+      this.keyboardFlight.dispose();
+      this.keyboardFlight = null;
+    }
     window.removeEventListener('resize', this.handleResize.bind(this));
     if (this.renderer && this.renderer.domElement.parentElement) {
       this.renderer.domElement.parentElement.removeChild(this.renderer.domElement);

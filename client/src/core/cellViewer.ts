@@ -1083,7 +1083,8 @@ export class CellViewerScene {
   }
 
   handleKeyDown(e) {
-    if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
+    if (!this.active) return;
+    if (e.target && (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA' || e.target.isContentEditable)) return;
 
     if (e.code === 'KeyW' || e.code === 'ArrowUp') {
       if (this.wasm && this.wasm.add_zoom_impulse) this.wasm.add_zoom_impulse(-0.85);

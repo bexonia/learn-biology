@@ -12,6 +12,8 @@ interface BAMHUDCardProps {
   onFocusComponent?: (key: string) => void;
   isLabelsVisible?: boolean;
   onToggleLabels?: () => void;
+  clientMode?: 'ompf' | 'bama';
+  onChangeClientMode?: (mode: 'ompf' | 'bama') => void;
 }
 
 export const BAMHUDCard: React.FC<BAMHUDCardProps> = ({
@@ -25,7 +27,9 @@ export const BAMHUDCard: React.FC<BAMHUDCardProps> = ({
   onChangeExploded,
   onFocusComponent,
   isLabelsVisible = true,
-  onToggleLabels
+  onToggleLabels,
+  clientMode = 'ompf',
+  onChangeClientMode
 }) => {
   const effectiveSpeed = isPaused ? 0 : insertionSpeed;
   const insertionRatePerMin = (effectiveSpeed * 1.2).toFixed(1);
@@ -48,6 +52,29 @@ export const BAMHUDCard: React.FC<BAMHUDCardProps> = ({
             <div style={{ display: 'flex', alignItems: 'center', gap: '6px', fontSize: '11px', color: '#10B981', fontWeight: 700, padding: '0 8px' }}>
               ⚡ ATP-Independent
             </div>
+          </div>
+        </div>
+
+        {/* Client Substrate Target: Porin vs BamA Auto-Assembly */}
+        <div className="motor-card-section">
+          <span className="motor-section-title">CLIENT SUBSTRATE TARGET</span>
+          <div className="motor-btn-group" style={{ gridTemplateColumns: '1fr 1fr' }}>
+            <button
+              className={`motor-mode-btn ${clientMode !== 'bama' ? 'active' : ''}`}
+              onClick={() => onChangeClientMode && onChangeClientMode('ompf')}
+              style={{ fontSize: '10px', padding: '5px 4px' }}
+              title="Fold nascent 16-stranded OmpF outer membrane nutrient porin"
+            >
+              🔵 OmpF Porin
+            </button>
+            <button
+              className={`motor-mode-btn ${clientMode === 'bama' ? 'active' : ''}`}
+              onClick={() => onChangeClientMode && onChangeClientMode('bama')}
+              style={{ fontSize: '10px', padding: '5px 4px' }}
+              title="Fold nascent BamA core (Auto-Assembly / Self-Replication)"
+            >
+              🧬 BamA (Auto-Assembly)
+            </button>
           </div>
         </div>
 
@@ -150,10 +177,10 @@ export const BAMHUDCard: React.FC<BAMHUDCardProps> = ({
           </div>
           <div style={{ background: 'rgba(235, 240, 248, 0.7)', borderRadius: '6px', padding: '6px 8px' }}>
             <div style={{ fontSize: '9px', color: '#64748B', fontWeight: 700, textTransform: 'uppercase' }}>
-              ATP CONSUMPTION
+              COLOCATED OM BARRELS
             </div>
             <div style={{ fontSize: '11.5px', fontWeight: 800, color: '#10B981' }}>
-              0 ATP (Thermal Sink)
+              5 (1 Active + 4 Diffusing)
             </div>
           </div>
         </div>
@@ -170,7 +197,11 @@ export const BAMHUDCard: React.FC<BAMHUDCardProps> = ({
               { key: 'bamc_lipoprotein', label: 'BamC', col: '#9D4EDD' },
               { key: 'bamd_clamp', label: 'BamD', col: '#E76F51' },
               { key: 'bame_clip', label: 'BamE', col: '#06D6A0' },
-              { key: 'client_omp', label: 'Client β-Hairpin', col: '#FFE066' }
+              { key: 'client_omp', label: 'Client β-Hairpin', col: '#FFE066' },
+              { key: 'budding_barrel', label: 'Budding Barrel', col: '#00B4D8' },
+              { key: 'sura_dock', label: 'SurA Dock', col: '#F77F00' },
+              { key: 'collocated_ompf', label: 'Collocated OmpF', col: '#00B4D8' },
+              { key: 'collocated_bama', label: 'Daughter BamA', col: '#9D4EDD' }
             ].map((sub) => (
               <button
                 key={sub.key}

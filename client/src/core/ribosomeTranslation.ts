@@ -20,6 +20,7 @@
 import * as THREE from 'three';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
 import type { RibosomeComponentData } from '../types/biology';
+import { KeyboardFlightController } from './keyboardNavigation';
 
 export const RIBOSOME_COMPONENTS_META: Record<string, RibosomeComponentData> = {
   'ribosome_70s': {
@@ -230,6 +231,7 @@ export class RibosomeScene {
     this.renderer = null;
     this.canvas = null;
     this.animFrameId = null;
+    this.keyboardFlight = null;
 
     // Groups & Root
     this.rootGroup = null;
@@ -1408,6 +1410,16 @@ export class RibosomeScene {
       this.updateCameraPosition();
     }, { passive: false });
 
+    // Keyboard navigation (WASD, Arrows, Space, C, Shift, R)
+    this.keyboardFlight = new KeyboardFlightController({
+      camera: this.camera,
+      target: this.target,
+      spherical: this.spherical,
+      isActive: () => this.active,
+      onReset: () => this.resetCamera(),
+      onUpdate: () => this.updateLandmarksAndLeaders()
+    });
+
     // Click selection via Raycaster
     this.canvas.addEventListener('click', (e) => {
       const rect = this.canvas.getBoundingClientRect();
@@ -1734,6 +1746,9 @@ export class RibosomeScene {
 
   stop() {
     this.active = false;
+    if (this.keyboardFlight) {
+      this.keyboardFlight.resetKeys();
+    }
     if (this.animFrameId) {
       cancelAnimationFrame(this.animFrameId);
       this.animFrameId = null;
@@ -1745,6 +1760,9 @@ export class RibosomeScene {
     this.animFrameId = requestAnimationFrame(this.animate.bind(this));
 
     const delta = 0.016 * this.translationSpeed;
+    if (this.keyboardFlight) {
+      this.keyboardFlight.update(delta || 0.016);
+    }
 
     if (!this.isPaused) {
       this.cycleTime += delta;
@@ -1850,6 +1868,10 @@ export class RibosomeScene {
 
   dispose() {
     this.stop();
+    if (this.keyboardFlight) {
+      this.keyboardFlight.dispose();
+      this.keyboardFlight = null;
+    }
     window.removeEventListener('resize', this.onWindowResizeBound);
     window.removeEventListener('pointermove', this.onPointerMoveBound);
     window.removeEventListener('pointerup', this.onPointerUpBound);

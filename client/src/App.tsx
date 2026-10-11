@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef, useCallback } from 'react';
+import * as THREE from 'three';
 import type { ScenarioType, MotorComponentData, RibosomeComponentData, ATPSynthaseComponentData, ComplexIComponentData, SecYEGComponentData, BAMComponentData, LptComponentData, TourStatus } from './types/biology';
 import { CellViewerScene, CELL_ANATOMY_DATA, CELL_TOUR_STOPS } from './core/cellViewer';
 import { FlagellarMotorScene } from './core/flagellarMotor';
@@ -9,6 +10,17 @@ import { SecYEGScene, SECYEG_COMPONENTS_META, SECYEG_EXPLANATION_STAGES } from '
 import { BAMComplexScene, BAM_COMPONENTS_META, BAM_EXPLANATION_STAGES } from './core/bamComplexTransport';
 import { LptBridgeScene, LPT_COMPONENTS_META, LPT_EXPLANATION_STAGES } from './core/lptBridgeTransport';
 import voiceService from './core/voiceService';
+
+// Macromolecular 3D models for background pre-caching
+const PRELOAD_MODELS = [
+  '/models/7K00_assembled_pieces.glb', // 70S Ribosome
+  '/models/6RKW_assembled_pieces.glb', // F1F0 ATP Synthase
+  '/models/7Z7V_assembled_pieces.glb', // Complex I
+  '/models/3J46_assembled_pieces.glb', // SecYEG Translocon
+  '/models/5D0O_assembled_pieces.glb', // BAM Complex
+  '/models/9P7P_assembled_pieces.glb', // Lpt Bridge
+  '/models/7CGO_flagellar_motor.glb'   // Flagellar Motor
+];
 
 // UI Components
 import { ScaleNavigator } from './components/Header/ScaleNavigator';
@@ -501,6 +513,7 @@ function App() {
   const [isBAMNarrating, setIsBAMNarrating] = useState<boolean>(false);
   const [isBAMAutoRotating, setIsBAMAutoRotating] = useState<boolean>(false);
   const [bamStoryStep, setBamStoryStep] = useState<number>(0);
+  const [bamClientMode, setBamClientMode] = useState<'ompf' | 'bama'>('ompf');
 
   // BAM Guided Tour State
   const [isBAMTourActive, setIsBAMTourActive] = useState<boolean>(false);
@@ -609,6 +622,7 @@ function App() {
       }
       cellSceneRef.current = cellViewer;
       (window as any).__cellViewer = cellViewer;
+      (window as any).cellScene = cellViewer;
       cellViewer.start();
     });
 
@@ -617,6 +631,33 @@ function App() {
       cellViewer.dispose();
       cellSceneRef.current = null;
     };
+  }, []);
+
+  // --------------------------------------------------------------------------
+  // 1b. Intelligent Background Asset Preloader & Three.js In-Memory Cache
+  // --------------------------------------------------------------------------
+  useEffect(() => {
+    // Enable Three.js internal file caching
+    THREE.Cache.enabled = true;
+
+    // Wait 2.0s after initial Whole Cell render, then sequentially warm cache for other models
+    const timer = setTimeout(() => {
+      let idx = 0;
+      const preloadNext = () => {
+        if (idx >= PRELOAD_MODELS.length) return;
+        const modelUrl = PRELOAD_MODELS[idx++];
+        fetch(modelUrl, { priority: 'low' })
+          .then(() => {
+            setTimeout(preloadNext, 250);
+          })
+          .catch(() => {
+            setTimeout(preloadNext, 250);
+          });
+      };
+      preloadNext();
+    }, 2000);
+
+    return () => clearTimeout(timer);
   }, []);
 
   // --------------------------------------------------------------------------
@@ -646,10 +687,12 @@ function App() {
 
       motorScene.init();
       motorSceneRef.current = motorScene;
+      (window as any).motorScene = motorScene;
       motorScene.start();
       motorScene.setRepresentationMode('molecular');
       motorScene.resetCamera();
     } else {
+      (window as any).motorScene = motorSceneRef.current;
       motorSceneRef.current.start();
       motorSceneRef.current.handleResize();
       motorSceneRef.current.resetCamera();
@@ -1031,214 +1074,66 @@ function App() {
       lptSceneRef.current.setExplanationStep(0);
     }
 
-    if (nextScenario === 'motor') {
-      if (cellSceneRef.current) {
-        cellSceneRef.current.stop();
-        if (tourStatus.active) cellSceneRef.current.exitTour();
-      }
-      if (ribosomeSceneRef.current) {
-        ribosomeSceneRef.current.stop();
-      }
-      if (atpSceneRef.current) {
-        atpSceneRef.current.stop();
-      }
-      if (complexISceneRef.current) {
-        complexISceneRef.current.stop();
-      }
-      if (secYEGSceneRef.current) {
-        secYEGSceneRef.current.dispose();
-      }
-      if (bamSceneRef.current) {
-        bamSceneRef.current.dispose();
-      }
-      if (lptSceneRef.current) {
-        lptSceneRef.current.dispose();
-      }
-    } else if (nextScenario === 'ribosome') {
-      if (cellSceneRef.current) {
-        cellSceneRef.current.stop();
-        if (tourStatus.active) cellSceneRef.current.exitTour();
-      }
-      if (motorSceneRef.current) {
-        motorSceneRef.current.stop();
-      }
-      if (atpSceneRef.current) {
-        atpSceneRef.current.stop();
-      }
-      if (complexISceneRef.current) {
-        complexISceneRef.current.stop();
-      }
-      if (secYEGSceneRef.current) {
-        secYEGSceneRef.current.dispose();
-      }
-      if (bamSceneRef.current) {
-        bamSceneRef.current.dispose();
-      }
-      if (lptSceneRef.current) {
-        lptSceneRef.current.dispose();
-      }
-    } else if (nextScenario === 'atp_synthase') {
-      if (cellSceneRef.current) {
-        cellSceneRef.current.stop();
-        if (tourStatus.active) cellSceneRef.current.exitTour();
-      }
-      if (motorSceneRef.current) {
-        motorSceneRef.current.stop();
-      }
-      if (ribosomeSceneRef.current) {
-        ribosomeSceneRef.current.stop();
-      }
-      if (complexISceneRef.current) {
-        complexISceneRef.current.stop();
-      }
-      if (secYEGSceneRef.current) {
-        secYEGSceneRef.current.dispose();
-      }
-      if (bamSceneRef.current) {
-        bamSceneRef.current.dispose();
-      }
-      if (lptSceneRef.current) {
-        lptSceneRef.current.dispose();
-      }
-    } else if (nextScenario === 'complex_i') {
-      if (cellSceneRef.current) {
-        cellSceneRef.current.stop();
-        if (tourStatus.active) cellSceneRef.current.exitTour();
-      }
-      if (motorSceneRef.current) {
-        motorSceneRef.current.stop();
-      }
-      if (ribosomeSceneRef.current) {
-        ribosomeSceneRef.current.stop();
-      }
-      if (atpSceneRef.current) {
-        atpSceneRef.current.stop();
-      }
-      if (secYEGSceneRef.current) {
-        secYEGSceneRef.current.dispose();
-      }
-      if (bamSceneRef.current) {
-        bamSceneRef.current.dispose();
-      }
-      if (lptSceneRef.current) {
-        lptSceneRef.current.dispose();
-      }
-      if (complexISceneRef.current) {
-        complexISceneRef.current.start();
-        complexISceneRef.current.handleResize();
-        complexISceneRef.current.resetCamera();
-      }
-    } else if (nextScenario === 'secyeg') {
-      if (cellSceneRef.current) {
-        cellSceneRef.current.stop();
-        if (tourStatus.active) cellSceneRef.current.exitTour();
-      }
-      if (motorSceneRef.current) {
-        motorSceneRef.current.stop();
-      }
-      if (ribosomeSceneRef.current) {
-        ribosomeSceneRef.current.stop();
-      }
-      if (atpSceneRef.current) {
-        atpSceneRef.current.stop();
-      }
-      if (complexISceneRef.current) {
-        complexISceneRef.current.stop();
-      }
-      if (bamSceneRef.current) {
-        bamSceneRef.current.dispose();
-      }
-      if (lptSceneRef.current) {
-        lptSceneRef.current.dispose();
-      }
-      if (secYEGSceneRef.current) {
-        secYEGSceneRef.current.start();
-        secYEGSceneRef.current.handleResize();
-        secYEGSceneRef.current.resetCamera();
-      }
-    } else if (nextScenario === 'bam') {
-      if (cellSceneRef.current) {
-        cellSceneRef.current.stop();
-        if (tourStatus.active) cellSceneRef.current.exitTour();
-      }
-      if (motorSceneRef.current) {
-        motorSceneRef.current.stop();
-      }
-      if (ribosomeSceneRef.current) {
-        ribosomeSceneRef.current.stop();
-      }
-      if (atpSceneRef.current) {
-        atpSceneRef.current.stop();
-      }
-      if (complexISceneRef.current) {
-        complexISceneRef.current.stop();
-      }
-      if (secYEGSceneRef.current) {
-        secYEGSceneRef.current.dispose();
-      }
-      if (lptSceneRef.current) {
-        lptSceneRef.current.dispose();
-      }
-      if (bamSceneRef.current) {
-        bamSceneRef.current.start();
-        bamSceneRef.current.handleResize();
-        bamSceneRef.current.resetCamera();
-      }
-    } else if (nextScenario === 'lpt') {
-      if (cellSceneRef.current) {
-        cellSceneRef.current.stop();
-        if (tourStatus.active) cellSceneRef.current.exitTour();
-      }
-      if (motorSceneRef.current) {
-        motorSceneRef.current.stop();
-      }
-      if (ribosomeSceneRef.current) {
-        ribosomeSceneRef.current.stop();
-      }
-      if (atpSceneRef.current) {
-        atpSceneRef.current.stop();
-      }
-      if (complexISceneRef.current) {
-        complexISceneRef.current.stop();
-      }
-      if (secYEGSceneRef.current) {
-        secYEGSceneRef.current.dispose();
-      }
-      if (bamSceneRef.current) {
-        bamSceneRef.current.dispose();
-      }
-      if (lptSceneRef.current) {
-        lptSceneRef.current.start();
-        lptSceneRef.current.handleResize();
-        lptSceneRef.current.resetCamera();
-      }
-    } else {
-      if (motorSceneRef.current) {
-        motorSceneRef.current.stop();
-      }
-      if (ribosomeSceneRef.current) {
-        ribosomeSceneRef.current.stop();
-      }
-      if (atpSceneRef.current) {
-        atpSceneRef.current.stop();
-      }
-      if (complexISceneRef.current) {
-        complexISceneRef.current.stop();
-      }
-      if (secYEGSceneRef.current) {
-        secYEGSceneRef.current.dispose();
-      }
-      if (bamSceneRef.current) {
-        bamSceneRef.current.dispose();
-      }
-      if (lptSceneRef.current) {
-        lptSceneRef.current.dispose();
-      }
-      if (cellSceneRef.current) {
-        cellSceneRef.current.start();
-        cellSceneRef.current.handleResize();
-        cellSceneRef.current.updateLandmarksAndLeaders();
-      }
+    // 1. Cleanly pause all non-target scene render loops (freeing GPU from drawing hidden frames)
+    if (nextScenario !== 'cell' && cellSceneRef.current) {
+      cellSceneRef.current.stop();
+      if (tourStatus.active) cellSceneRef.current.exitTour();
+    }
+    if (nextScenario !== 'motor' && motorSceneRef.current) {
+      motorSceneRef.current.stop();
+    }
+    if (nextScenario !== 'ribosome' && ribosomeSceneRef.current) {
+      ribosomeSceneRef.current.stop();
+    }
+    if (nextScenario !== 'atp_synthase' && atpSceneRef.current) {
+      atpSceneRef.current.stop();
+    }
+    if (nextScenario !== 'complex_i' && complexISceneRef.current) {
+      complexISceneRef.current.stop();
+    }
+    if (nextScenario !== 'secyeg' && secYEGSceneRef.current) {
+      secYEGSceneRef.current.stop();
+    }
+    if (nextScenario !== 'bam' && bamSceneRef.current) {
+      bamSceneRef.current.stop();
+    }
+    if (nextScenario !== 'lpt' && lptSceneRef.current) {
+      lptSceneRef.current.stop();
+    }
+
+    // 2. Resume / activate target scenario (instant 0ms transition for cached models)
+    if (nextScenario === 'cell' && cellSceneRef.current) {
+      cellSceneRef.current.start();
+      cellSceneRef.current.handleResize();
+      cellSceneRef.current.updateLandmarksAndLeaders();
+    } else if (nextScenario === 'motor' && motorSceneRef.current) {
+      motorSceneRef.current.start();
+      motorSceneRef.current.handleResize();
+      motorSceneRef.current.resetCamera();
+    } else if (nextScenario === 'ribosome' && ribosomeSceneRef.current) {
+      ribosomeSceneRef.current.start();
+      ribosomeSceneRef.current.handleResize();
+      ribosomeSceneRef.current.resetCamera();
+    } else if (nextScenario === 'atp_synthase' && atpSceneRef.current) {
+      atpSceneRef.current.start();
+      atpSceneRef.current.handleResize();
+      atpSceneRef.current.resetCamera();
+    } else if (nextScenario === 'complex_i' && complexISceneRef.current) {
+      complexISceneRef.current.start();
+      complexISceneRef.current.handleResize();
+      complexISceneRef.current.resetCamera();
+    } else if (nextScenario === 'secyeg' && secYEGSceneRef.current) {
+      secYEGSceneRef.current.start();
+      secYEGSceneRef.current.handleResize();
+      secYEGSceneRef.current.resetCamera();
+    } else if (nextScenario === 'bam' && bamSceneRef.current) {
+      bamSceneRef.current.start();
+      bamSceneRef.current.handleResize();
+      bamSceneRef.current.resetCamera();
+    } else if (nextScenario === 'lpt' && lptSceneRef.current) {
+      lptSceneRef.current.start();
+      lptSceneRef.current.handleResize();
+      lptSceneRef.current.resetCamera();
     }
   }, [tourStatus.active]);
 
@@ -3402,6 +3297,13 @@ function App() {
             if (bamSceneRef.current) {
               bamSceneRef.current.focusComponent(key);
               bamSceneRef.current.selectComponent(key);
+            }
+          }}
+          clientMode={bamClientMode}
+          onChangeClientMode={(mode) => {
+            setBamClientMode(mode);
+            if (bamSceneRef.current) {
+              bamSceneRef.current.setClientMode(mode);
             }
           }}
         />

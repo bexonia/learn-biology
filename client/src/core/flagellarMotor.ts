@@ -2544,6 +2544,9 @@ export class FlagellarMotorScene {
    */
   stop() {
     this.active = false;
+    if (this.keys) {
+      Object.keys(this.keys).forEach((k) => { this.keys[k] = false; });
+    }
     if (this.animFrameId) {
       cancelAnimationFrame(this.animFrameId);
       this.animFrameId = null;

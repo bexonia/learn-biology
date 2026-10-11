@@ -28,6 +28,7 @@ import * as THREE from 'three';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 import type { BAMComponentData } from '../types/biology';
+import { KeyboardFlightController } from './keyboardNavigation';
 
 export const BAM_COMPONENTS_META: Record<string, BAMComponentData> = {
   'bam_holoenzyme': {
@@ -41,6 +42,16 @@ export const BAM_COMPONENTS_META: Record<string, BAMComponentData> = {
     stoichiometry: '1 BamA + 1 BamB + 1 BamC + 1 BamD + 1 BamE + 1 Unfolded OMP Client.',
     energySource: 'ATP-Independent (Driven purely by client folding free energy Delta G < 0)',
     turnoverRate: '~0.5–2.0 min^-1 per BAM machine under physiological conditions'
+  },
+  'outer_membrane': {
+    name: 'Outer Asymmetric Membrane (LPS / Phospholipid Bilayer)',
+    badge: 'OUTER ENVELOPE BARRIER',
+    dims: 'Thickness: ~3.2 nm, Diameter: ~56 nm',
+    proteins: 'Extracellular LPS Leaflet (Deep Marine #0077B6) + Periplasmic Phospholipid Leaflet (Seafoam Jade #06D6A0)',
+    pdb: 'Cryo-EM Outer Envelope Bilayer',
+    desc: 'The asymmetric lipid bilayer in which the BAM complex operates. Contains an outer leaflet of LPS lipid A molecules and an inner leaflet of phospholipids. BamA thins and destabilizes this bilayer locally to allow insertion of beta-barrel outer membrane proteins.',
+    role: 'Hydrophobic permeability barrier and insertion destination for folded beta-barrels.',
+    stoichiometry: 'Asymmetric outer envelope: outer leaflet ~100% LPS, inner leaflet ~100% phospholipids.'
   },
   'bama_barrel': {
     name: 'BamA Transmembrane Beta-Barrel Core',
@@ -109,10 +120,46 @@ export const BAM_COMPONENTS_META: Record<string, BAMComponentData> = {
     name: 'Nascent Inserting Beta-Hairpin Client',
     badge: 'INSERTING SUBSTRATE POLYPEPTIDE',
     dims: 'Length: ~4.2 nm (16-aa beta-hairpin substrate)',
-    proteins: 'Modelled nascent Outer Membrane Porin beta-hairpin (OmpF precursor)',
+    proteins: 'Modelled nascent Outer Membrane Porin beta-hairpin (OmpF precursor / BamA precursor)',
     pdb: 'Simulated Substrate (Ma et al. / Bakelar et al.)',
     desc: 'The hydrophobic beta-hairpin substrate delivered by SurA. Enters the unzipped lateral seam of BamA, pairing with strand beta-16 to initiate barrel circularization in the membrane.',
     role: 'Substrate undergoing assisted thermodynamic folding into the outer membrane.'
+  },
+  'budding_barrel': {
+    name: 'Nascent Folded Beta-Barrel (OMP Budding)',
+    badge: 'OMP ASSEMBLY & BUDDING',
+    dims: 'Diameter: ~3.3 nm, Height: ~4.0 nm (16-Strand Porin / BamA)',
+    proteins: 'Nascent Outer Membrane Protein (OmpF / BamA auto-insertion)',
+    pdb: 'PDB: 2OMF (OmpF Porin) / 5D0O',
+    desc: 'The newly synthesized and folded outer membrane beta-barrel protein. Assembles at the BamA lateral seam through sequential beta-hairpin template pairing, circularizes into a closed cylinder, and buds laterally into the outer membrane without consuming ATP.',
+    role: 'Nutrient transport porin or new BAM complex component (self-propagation).'
+  },
+  'sura_dock': {
+    name: 'SurA Periplasmic Chaperone Dock',
+    badge: 'CHAPERONE DOCK (POTRA 1–2)',
+    dims: 'Span: ~8.5 nm along periplasmic axis',
+    proteins: 'SurA chaperone (PDB: 1M5Y) bound to POTRA 1–2',
+    pdb: 'PDB: 1M5Y / 5D0O',
+    desc: 'The periplasmic chaperone delivery receptor. SurA binds nascent unfolded outer membrane proteins emerging from SecYEG, preventing aggregation in the aqueous periplasm, and docks specifically at BamA POTRA 1–2 to hand over the client.',
+    role: 'Prevents periplasmic protein aggregation and targets client OMPs to BAM.'
+  },
+  'collocated_ompf': {
+    name: 'Collocated Mature OmpF Porin in Outer Membrane',
+    badge: 'RELEASED OM PORIN (OMPF)',
+    dims: 'Diameter: ~3.3 nm, Height: ~4.0 nm (16-Strand β-Barrel)',
+    proteins: 'Trimeric Outer Membrane Porin F (OmpF)',
+    pdb: 'PDB: 2OMF',
+    desc: 'A mature, previously folded and released 16-stranded beta-barrel nutrient porin. Diffuses laterally in the outer membrane plane around the mother BAM complex, facilitating passive diffusion of small polar molecules and nutrients.',
+    role: 'Forms water-filled channels across the outer membrane to allow nutrient uptake into the periplasm.'
+  },
+  'collocated_bama': {
+    name: 'Auto-Assembled Daughter BamA Complex',
+    badge: 'SELF-PROPAGATED BAMA COMPLEX',
+    dims: 'Diameter: ~4.2 nm (16-Strand β-Barrel + POTRAs)',
+    proteins: 'Newly integrated BamA (Auto-Assembly)',
+    pdb: 'PDB: 5D0O',
+    desc: 'A fully assembled daughter BamA complex integrated into the outer membrane bilayer. Created by the mother BAM complex during cell growth, ready to recruit BamB-C-D-E lipoproteins and become a self-sufficient insertase factory for cell division.',
+    role: 'Expands the outer membrane protein folding capacity during cellular replication and division.'
   }
 };
 
@@ -136,11 +183,11 @@ export const BAM_EXPLANATION_STAGES: BAMExplanationStage[] = [
     badge: 'SurA',
     title: '1. Chaperone Client Handover',
     color: '#F77F00',
-    spoken: 'Step one: Chaperone Client Handover. The periplasmic chaperone SurA delivers an unfolded beta-barrel outer membrane protein to the N-terminal POTRA domains of BamA, preventing toxic aggregation in the periplasm.',
-    target: [0.0, -4.5, 1.8],
-    camRadius: 28,
-    camTheta: 0.25,
-    camPhi: 1.45
+    spoken: 'Step one: Chaperone Client Handover. The periplasmic chaperone SurA delivers an unfolded polypeptide, such as an OmpF porin precursor or newly synthesized BamA, to the N-terminal POTRA domains of BamA, preventing toxic aggregation in the periplasm.',
+    target: [-4.6, -4.8, 1.2],
+    camRadius: 26,
+    camTheta: 0.35,
+    camPhi: 1.40
   },
   {
     step: 2,
@@ -148,11 +195,11 @@ export const BAM_EXPLANATION_STAGES: BAMExplanationStage[] = [
     badge: 'BamD',
     title: '2. POTRA Conformational Gating',
     color: '#E76F51',
-    spoken: 'Step two: POTRA Conformational Gating. POTRA domains 1 through 5 undergo a conformational rearrangement, coordinated by the essential BamD clamp, lifting the client peptide toward the membrane interface.',
-    target: [-1.2, -2.5, 0.4],
-    camRadius: 24,
-    camTheta: 0.65,
-    camPhi: 1.38
+    spoken: 'Step two: POTRA Conformational Gating. POTRA domains 1 through 5 undergo a conformational rearrangement coordinated by the essential BamD clamp, lifting the client peptide along the POTRA chain toward the membrane rim.',
+    target: [-2.2, -2.6, 0.8],
+    camRadius: 22,
+    camTheta: 0.50,
+    camPhi: 1.35
   },
   {
     step: 3,
@@ -160,10 +207,10 @@ export const BAM_EXPLANATION_STAGES: BAMExplanationStage[] = [
     badge: 'SEAM',
     title: '3. Lateral Seam Destabilization',
     color: '#00F5D4',
-    spoken: 'Step three: Lateral Seam Destabilization. The weak hydrogen bonds between beta strands 1 and 16 of the BamA barrel unzip, creating a dynamic opening and locally thinning the surrounding lipid bilayer.',
-    target: [0.2, 0.8, -2.2],
-    camRadius: 20,
-    camTheta: 3.14,
+    spoken: 'Step three: Lateral Seam Destabilization. The weak hydrogen bonds between beta strands 1 and 16 of the BamA barrel unzip, opening a lateral slot directly into the thinned outer membrane lipid bilayer.',
+    target: [0.74, -0.6, 0.35],
+    camRadius: 18,
+    camTheta: 0.20,
     camPhi: 1.35
   },
   {
@@ -172,25 +219,37 @@ export const BAM_EXPLANATION_STAGES: BAMExplanationStage[] = [
     badge: 'HAIRPIN',
     title: '4. Beta-Hairpin Membrane Insertion',
     color: '#FFE066',
-    spoken: 'Step four: Beta-Hairpin Membrane Insertion. The first hydrophobic beta-hairpin of the client protein inserts sideways into the opened seam, using the edge of strand beta-16 as an assembly template.',
-    target: [0.0, 1.0, -1.2],
+    spoken: 'Step four: Beta-Hairpin Membrane Insertion. Consecutive hydrophobic beta-hairpins insert sideways into the opened seam, pairing against strand beta-16 as an assembly template to form the new barrel wall.',
+    target: [1.8, 0.0, 0.25],
     camRadius: 18,
-    camTheta: 2.95,
-    camPhi: 1.42
+    camTheta: 0.15,
+    camPhi: 1.35
   },
   {
     step: 5,
     id: 'barrel_budding',
-    badge: 'BUD',
-    title: '5. Barrel Budding & OM Integration',
+    badge: 'PROPAGATION',
+    title: '5. Barrel Budding & Lateral OM Propagation',
     color: '#0077B6',
-    spoken: 'Step five: Barrel Budding and Release. Consecutive beta-hairpins fold sequentially until the new 16-stranded beta-barrel closes on itself and buds laterally into the outer membrane, driven entirely by folding thermodynamics without ATP.',
-    target: [0.0, 1.5, 0.0],
-    camRadius: 42,
-    camTheta: 0.15,
-    camPhi: 1.40
+    spoken: 'Step five: Barrel Budding and Membrane Propagation. The newly folded beta-barrel circularizes and buds laterally outward into the outer membrane lipid bilayer. Successive folding cycles release mature porins and auto-assembled BamA barrels that diffuse laterally, forming a collocated colony of functional nanomachinery across the bacterial cell surface!',
+    target: [2.0, 0.0, 0.0],
+    camRadius: 36,
+    camTheta: 0.30,
+    camPhi: 1.36
   }
 ];
+
+interface CollocatedBarrel {
+  id: string;
+  name: string;
+  group: THREE.Group;
+  basePos: THREE.Vector3;
+  driftAngle: number;
+  driftSpeed: number;
+  driftRadius: number;
+  stageIntro: number;
+  materials: THREE.MeshStandardMaterial[];
+}
 
 export class BAMComplexScene {
   private container: HTMLElement;
@@ -199,7 +258,9 @@ export class BAMComplexScene {
   private renderer: THREE.WebGLRenderer;
   private controls: OrbitControls;
   private animFrameId: number | null = null;
+  private active: boolean = false;
   private clock = new THREE.Clock();
+  private keyboardFlight: KeyboardFlightController | null = null;
 
   // Model & Subunit groups
   private modelGroup: THREE.Group = new THREE.Group();
@@ -211,10 +272,30 @@ export class BAMComplexScene {
   private innerLPSMesh: THREE.InstancedMesh | null = null;
   private outerPLMesh: THREE.InstancedMesh | null = null;
 
-  // Inserting Client OMP Stream
+  // Inserting Client OMP Stream & Nascent Budding Barrel
   private clientHairpinMesh: THREE.Mesh | null = null;
   private clientBeadsGroup: THREE.Group = new THREE.Group();
   private clientBeads: THREE.Mesh[] = [];
+  private buddingBarrelGroup: THREE.Group = new THREE.Group();
+  private nascentStrandMaterials: THREE.MeshStandardMaterial[] = [];
+  private clientMode: 'ompf' | 'bama' = 'ompf';
+
+  // Collocated Outer Membrane Barrels (Diffusing Porins & Daughter BamA)
+  private collocatedBarrelsGroup: THREE.Group = new THREE.Group();
+  private collocatedBarrels: CollocatedBarrel[] = [];
+  private clientSpline: THREE.CatmullRomCurve3 = new THREE.CatmullRomCurve3([
+    new THREE.Vector3(-4.6, -5.5, 1.2),  // 0: Periplasmic SurA chaperone dock at POTRA 1-2
+    new THREE.Vector3(-4.2, -4.2, 1.1),  // 1: Traversing POTRA 2-3 interface
+    new THREE.Vector3(-3.0, -3.2, 0.9),  // 2: Ascending along POTRA 3-4
+    new THREE.Vector3(-1.5, -2.2, 0.6),  // 3: POTRA 5 conformational hinge
+    new THREE.Vector3(-0.2, -1.4, 0.4),  // 4: Periplasmic entry to BamA barrel base
+    new THREE.Vector3(0.74, -0.9, 0.35), // 5: Entering dynamic lateral seam (between beta-1 and beta-16)
+    new THREE.Vector3(1.3, -0.2, 0.3),   // 6: Translocating across membrane seam interface
+    new THREE.Vector3(2.0, 0.2, 0.2),    // 7: Emerging into outer membrane insertion zone
+    new THREE.Vector3(2.8, 0.0, 0.1),    // 8: Incorporating into nascent beta-barrel wall
+    new THREE.Vector3(3.6, -0.1, 0.0)    // 9: Completing circularized outer membrane barrel
+  ]);
+  private clientGuideLine: THREE.Line | null = null;
 
   // Seam Tracking
   private seamMesh: THREE.Mesh | null = null;
@@ -224,11 +305,12 @@ export class BAMComplexScene {
   private svgLayer: SVGSVGElement | null = null;
   private leaderAnchors: {
     key: string;
-    targetMeshName: string;
+    targetMeshName?: string;
     label: string;
     color: string;
-    offset: THREE.Vector3;
+    offset?: THREE.Vector3;
     badge: string;
+    worldPos?: THREE.Vector3;
   }[] = [];
 
   // Interactive States
@@ -303,22 +385,39 @@ export class BAMComplexScene {
     // 6. Asymmetric Outer Membrane Bilayer Slab
     this.buildAsymmetricOuterMembrane();
 
-    // 7. Inserting Client Polypeptide Stream
+    // 7. Inserting Client Polypeptide Stream & Trajectory Guide
     this.buildClientSubstrateStream();
+    this.buildClientTrajectoryLine();
 
-    // 8. Add Groups to Scene
+    // 8. Nascent Budding Outer Membrane Beta-Barrel Protein
+    this.buildBuddingNascentBarrel();
+
+    // 8b. Collocated Outer Membrane Barrels (Propagated Porins & Daughter BamA)
+    this.buildCollocatedBarrels();
+
+    // 9. Add Groups to Scene
     this.scene.add(this.membraneGroup);
     this.scene.add(this.modelGroup);
     this.scene.add(this.clientBeadsGroup);
+    this.scene.add(this.collocatedBarrelsGroup);
 
-    // 9. Load GLB Model
+    // 10. Load GLB Model
     this.loadModel();
 
-    // 10. SVG Overlay
+    // 11. SVG Overlay
     this.setupSVGOverlay();
 
-    // 11. Start Animation Loop
-    this.animate();
+    // 12. Keyboard navigation (WASD, Arrows, Space, C, Shift, R)
+    this.keyboardFlight = new KeyboardFlightController({
+      camera: this.camera,
+      controls: this.controls,
+      isActive: () => this.active,
+      onReset: () => this.resetCamera(),
+      onUpdate: () => this.updateSVGLeaders()
+    });
+
+    // 13. Start Animation Loop
+    this.start();
   }
 
   private setupLighting() {
@@ -351,17 +450,44 @@ export class BAMComplexScene {
     const ringSpacing = 1.4;
     const numRings = Math.floor(radius / ringSpacing);
 
-    const points: THREE.Vector3[] = [];
+    // Positions of all 5 outer membrane beta-barrels to ensure authentic open aqueous lumens (no lipid spheres inside pores)
+    const barrelCenters = [
+      { x: 3.6, z: 0.1 },  // budding nascent barrel
+      { x: 8.5, z: 2.5 },  // OmpF porin 1
+      { x: 5.5, z: -7.5 }, // OmpC porin 2
+      { x: -6.5, z: -6.8 },// OmpA porin 3
+      { x: -8.2, z: 3.8 }  // daughter BamA 4
+    ];
+    const inBarrelLumen = (x: number, z: number) => {
+      return barrelCenters.some((b) => {
+        const dx = x - b.x;
+        const dz = z - b.z;
+        return (dx * dx + dz * dz) < (1.55 * 1.55);
+      });
+    };
+
+    const lpsPoints: THREE.Vector3[] = [];
+    const plPoints: THREE.Vector3[] = [];
     for (let r = 1; r <= numRings; r++) {
       const curR = r * ringSpacing;
       // Skip hole for BamA barrel (barrel radius ~ 2.4 nm)
       if (curR < 3.2) continue;
       const count = Math.floor(2 * Math.PI * curR / ringSpacing);
       for (let i = 0; i < count; i++) {
-        const theta = (i / count) * Math.PI * 2 + (r % 2) * 0.2;
-        const x = curR * Math.cos(theta);
-        const z = curR * Math.sin(theta);
-        points.push(new THREE.Vector3(x, 0, z));
+        const thetaLps = (i / count) * Math.PI * 2 + (r % 2) * 0.2;
+        const xLps = curR * Math.cos(thetaLps);
+        const zLps = curR * Math.sin(thetaLps);
+        if (!inBarrelLumen(xLps, zLps)) {
+          lpsPoints.push(new THREE.Vector3(xLps, 0, zLps));
+        }
+
+        // Stagger periplasmic PL leaflet by half angular spacing for biophysical packing & see-through visibility
+        const thetaPl = thetaLps + Math.PI / count;
+        const xPl = curR * Math.cos(thetaPl);
+        const zPl = curR * Math.sin(thetaPl);
+        if (!inBarrelLumen(xPl, zPl)) {
+          plPoints.push(new THREE.Vector3(xPl, 0, zPl));
+        }
       }
     }
 
@@ -372,13 +498,14 @@ export class BAMComplexScene {
       color: 0x0077b6,
       roughness: 0.3,
       metalness: 0.15,
-      transparent: true,
-      opacity: 0.88
+      emissive: 0x003f66,
+      emissiveIntensity: 0.25,
+      depthWrite: true
     });
-    const lpsMesh = new THREE.InstancedMesh(sphereGeo, lpsMat, points.length);
+    const lpsMesh = new THREE.InstancedMesh(sphereGeo, lpsMat, lpsPoints.length);
     const dummy = new THREE.Object3D();
 
-    points.forEach((pt, idx) => {
+    lpsPoints.forEach((pt, idx) => {
       dummy.position.set(pt.x, 1.6, pt.z);
       dummy.scale.set(1.1, 1.0, 1.1); // Slightly larger LPS headgroups
       dummy.updateMatrix();
@@ -393,12 +520,13 @@ export class BAMComplexScene {
       color: 0x06d6a0,
       roughness: 0.35,
       metalness: 0.1,
-      transparent: true,
-      opacity: 0.82
+      emissive: 0x025c43,
+      emissiveIntensity: 0.25,
+      depthWrite: true
     });
-    const plMesh = new THREE.InstancedMesh(sphereGeo, plMat, points.length);
+    const plMesh = new THREE.InstancedMesh(sphereGeo, plMat, plPoints.length);
 
-    points.forEach((pt, idx) => {
+    plPoints.forEach((pt, idx) => {
       dummy.position.set(pt.x, -1.6, pt.z);
       dummy.scale.set(0.95, 0.95, 0.95);
       dummy.updateMatrix();
@@ -408,36 +536,297 @@ export class BAMComplexScene {
     this.membraneGroup.add(plMesh);
     this.outerPLMesh = plMesh;
 
-    // Boundary guide rings
-    const ringGeo = new THREE.RingGeometry(3.0, 3.2, 48);
-    const ringMat = new THREE.MeshBasicMaterial({ color: 0x00f5d4, side: THREE.DoubleSide, transparent: true, opacity: 0.4 });
-    const innerRing = new THREE.Mesh(ringGeo, ringMat);
-    innerRing.rotation.x = Math.PI / 2;
-    innerRing.position.y = 1.6;
-    this.membraneGroup.add(innerRing);
+    // 3. Translucent Hydrophobic Core Slab (Extruded disk spanning Y = -1.6 to +1.6 nm, radius 28 nm, central hole 3.2 nm)
+    const omShape = new THREE.Shape();
+    omShape.absarc(0, 0, radius, 0, Math.PI * 2, false);
+    const omHole = new THREE.Path();
+    omHole.absarc(0, 0, 3.2, 0, Math.PI * 2, true);
+    omShape.holes.push(omHole);
 
-    const outerRingGeo = new THREE.RingGeometry(radius - 0.2, radius, 64);
-    const outerRing = new THREE.Mesh(outerRingGeo, ringMat);
-    outerRing.rotation.x = Math.PI / 2;
-    outerRing.position.y = 1.6;
-    this.membraneGroup.add(outerRing);
+    const omExtrudeSettings = {
+      depth: 3.2,
+      bevelEnabled: false,
+      curveSegments: 64
+    };
+    const omCoreGeo = new THREE.ExtrudeGeometry(omShape, omExtrudeSettings);
+    const omCoreMat = new THREE.MeshStandardMaterial({
+      color: 0x00b4d8, // Luminous cerulean translucent slab
+      roughness: 0.15,
+      metalness: 0.05,
+      transparent: true,
+      opacity: 0.11, // Super clean glass-like translucency: see through from top and bottom
+      depthWrite: false, // Critical: do NOT block spheres, seam or beads behind/below
+      side: THREE.DoubleSide
+    });
+    const omCoreMesh = new THREE.Mesh(omCoreGeo, omCoreMat);
+    omCoreMesh.rotation.x = Math.PI / 2;
+    omCoreMesh.position.set(0, 1.6, 0); // Extrudes along -Y from 1.6 down to -1.6
+    omCoreMesh.renderOrder = 1;
+    this.membraneGroup.add(omCoreMesh);
+
+    // Outer Boundary Rings
+    const topOuterRingGeo = new THREE.RingGeometry(radius - 0.25, radius, 64);
+    const topOuterRingMat = new THREE.MeshBasicMaterial({ color: 0x0077b6, side: THREE.DoubleSide, transparent: true, opacity: 0.55, depthWrite: false });
+    const topOuterRing = new THREE.Mesh(topOuterRingGeo, topOuterRingMat);
+    topOuterRing.rotation.x = Math.PI / 2;
+    topOuterRing.position.y = 1.6;
+    this.membraneGroup.add(topOuterRing);
+
+    const botOuterRingMat = new THREE.MeshBasicMaterial({ color: 0x06d6a0, side: THREE.DoubleSide, transparent: true, opacity: 0.5, depthWrite: false });
+    const botOuterRing = new THREE.Mesh(topOuterRingGeo, botOuterRingMat);
+    botOuterRing.rotation.x = Math.PI / 2;
+    botOuterRing.position.y = -1.6;
+    this.membraneGroup.add(botOuterRing);
+
+    // Central aperture inner boundary rings (around BamA barrel at Y = +1.6 and Y = -1.6)
+    const innerRingGeo = new THREE.RingGeometry(3.0, 3.2, 48);
+    const innerRingMat = new THREE.MeshBasicMaterial({ color: 0x00f5d4, side: THREE.DoubleSide, transparent: true, opacity: 0.5, depthWrite: false });
+    const topInnerRing = new THREE.Mesh(innerRingGeo, innerRingMat);
+    topInnerRing.rotation.x = Math.PI / 2;
+    topInnerRing.position.y = 1.6;
+    this.membraneGroup.add(topInnerRing);
+
+    const botInnerRing = topInnerRing.clone();
+    botInnerRing.position.y = -1.6;
+    this.membraneGroup.add(botInnerRing);
   }
 
   private buildClientSubstrateStream() {
-    // 14 moving amino acid spheres illustrating continuous client insertion into seam
-    const beadGeo = new THREE.SphereGeometry(0.24, 12, 12);
+    // 18 moving amino acid spheres illustrating continuous client insertion into seam
+    const beadGeo = new THREE.SphereGeometry(0.25, 12, 12);
     const beadMat = new THREE.MeshStandardMaterial({
       color: 0xffe066,
       emissive: 0xffb703,
-      emissiveIntensity: 0.6,
+      emissiveIntensity: 0.85,
       roughness: 0.25,
-      metalness: 0.2
+      metalness: 0.2,
+      depthWrite: false
     });
 
-    for (let i = 0; i < 14; i++) {
-      const bead = new THREE.Mesh(beadGeo, beadMat);
+    for (let i = 0; i < 18; i++) {
+      const bead = new THREE.Mesh(beadGeo, beadMat.clone());
+      bead.renderOrder = 5; // Ensure substrate beads remain visible from all angles
+      const frac = i / 18;
+      bead.position.copy(this.clientSpline.getPointAt(frac));
       this.clientBeadsGroup.add(bead);
       this.clientBeads.push(bead);
+    }
+  }
+
+  private buildClientTrajectoryLine() {
+    // Glowing dashed translocation guide line from SurA through lateral seam to nascent barrel
+    const points = this.clientSpline.getPoints(80);
+    const lineGeo = new THREE.BufferGeometry().setFromPoints(points);
+    const lineMat = new THREE.LineDashedMaterial({
+      color: 0xffe066,
+      dashSize: 0.35,
+      gapSize: 0.18,
+      transparent: true,
+      opacity: 0.85,
+      depthWrite: false
+    });
+    const line = new THREE.Line(lineGeo, lineMat);
+    line.computeLineDistances();
+    line.renderOrder = 2;
+    this.scene.add(line);
+    this.clientGuideLine = line;
+  }
+
+  private createBarrelMeshGroup(
+    numStrands: number = 16,
+    radius: number = 1.65,
+    barrelColor: number = 0x0077b6,
+    accentColor: number = 0x00f5d4,
+    loopColor: number = 0xffb703,
+    turnColor: number = 0x06d6a0
+  ): { group: THREE.Group; strandMaterials: THREE.MeshStandardMaterial[] } {
+    const group = new THREE.Group();
+    const strandHeight = 3.9;
+    const strandWidth = 0.42;
+    const strandThick = 0.15;
+    const strandGeo = new THREE.BoxGeometry(strandWidth, strandHeight, strandThick);
+    const strandMaterials: THREE.MeshStandardMaterial[] = [];
+
+    for (let i = 0; i < numStrands; i++) {
+      const angle = (i / numStrands) * Math.PI * 2;
+      const x = Math.cos(angle) * radius;
+      const z = Math.sin(angle) * radius;
+
+      let color = barrelColor;
+      let emissive = 0x002845;
+      if (i === 0 || i === numStrands - 1) {
+        color = accentColor;
+        emissive = 0x004875;
+      }
+
+      const mat = new THREE.MeshStandardMaterial({
+        color,
+        emissive,
+        emissiveIntensity: 0.35,
+        roughness: 0.3,
+        metalness: 0.15,
+        side: THREE.DoubleSide
+      });
+      strandMaterials.push(mat);
+
+      const strandMesh = new THREE.Mesh(strandGeo, mat);
+      strandMesh.position.set(x, 0, z);
+
+      // Antiparallel beta-barrel strand tilt (~42 degrees)
+      const tilt = (i % 2 === 0 ? 1 : -1) * 0.45;
+      strandMesh.rotation.y = -angle + Math.PI / 2;
+      strandMesh.rotation.z = tilt;
+      group.add(strandMesh);
+    }
+
+    // Top loop arches at Y = +1.95 (extracellular turns)
+    const loopMat = new THREE.MeshStandardMaterial({
+      color: loopColor,
+      emissive: 0x664400,
+      emissiveIntensity: 0.35,
+      roughness: 0.35,
+      metalness: 0.1
+    });
+
+    for (let i = 0; i < numStrands; i += 2) {
+      const a1 = (i / numStrands) * Math.PI * 2;
+      const a2 = ((i + 1) / numStrands) * Math.PI * 2;
+      const p1 = new THREE.Vector3(Math.cos(a1) * radius, 1.95, Math.sin(a1) * radius);
+      const p2 = new THREE.Vector3(Math.cos(a2) * radius, 1.95, Math.sin(a2) * radius);
+      const mid = p1.clone().add(p2).multiplyScalar(0.5);
+      mid.y += 0.5;
+
+      const curve = new THREE.CatmullRomCurve3([p1, mid, p2]);
+      const loopGeo = new THREE.TubeGeometry(curve, 8, 0.08, 8, false);
+      const loopMesh = new THREE.Mesh(loopGeo, loopMat);
+      group.add(loopMesh);
+    }
+
+    // Bottom loop turns at Y = -1.95 (periplasmic hairpins)
+    const turnMat = new THREE.MeshStandardMaterial({
+      color: turnColor,
+      emissive: 0x023526,
+      emissiveIntensity: 0.35,
+      roughness: 0.35,
+      metalness: 0.1
+    });
+
+    for (let i = 1; i < numStrands; i += 2) {
+      const a1 = (i / numStrands) * Math.PI * 2;
+      const a2 = (((i + 1) % numStrands) / numStrands) * Math.PI * 2;
+      const p1 = new THREE.Vector3(Math.cos(a1) * radius, -1.95, Math.sin(a1) * radius);
+      const p2 = new THREE.Vector3(Math.cos(a2) * radius, -1.95, Math.sin(a2) * radius);
+      const mid = p1.clone().add(p2).multiplyScalar(0.5);
+      mid.y -= 0.45;
+
+      const curve = new THREE.CatmullRomCurve3([p1, mid, p2]);
+      const turnGeo = new THREE.TubeGeometry(curve, 8, 0.08, 8, false);
+      const turnMesh = new THREE.Mesh(turnGeo, turnMat);
+      group.add(turnMesh);
+    }
+
+    return { group, strandMaterials };
+  }
+
+  private buildBuddingNascentBarrel() {
+    const { group, strandMaterials } = this.createBarrelMeshGroup(
+      16,
+      1.65,
+      0x0077b6,
+      0x00f5d4,
+      0xffb703,
+      0x06d6a0
+    );
+    this.buddingBarrelGroup = group;
+    this.buddingBarrelGroup.name = 'Nascent_Budding_Barrel';
+    this.buddingBarrelGroup.position.set(3.6, 0.0, 0.1);
+    this.nascentStrandMaterials = strandMaterials;
+    this.scene.add(this.buddingBarrelGroup);
+  }
+
+  private buildCollocatedBarrels() {
+    this.collocatedBarrels = [];
+    this.collocatedBarrelsGroup.name = 'Collocated_Outer_Membrane_Barrels';
+
+    const barrelConfigs = [
+      {
+        id: 'collocated_ompf_1',
+        name: 'Mature OmpF Porin',
+        basePos: new THREE.Vector3(8.5, 0.0, 2.5),
+        color: 0x0077b6,
+        accent: 0x00f5d4,
+        loop: 0xffb703,
+        turn: 0x06d6a0,
+        driftSpeed: 0.42,
+        driftAngle: 0.0,
+        driftRadius: 0.35,
+        stageIntro: 1
+      },
+      {
+        id: 'collocated_ompc_2',
+        name: 'Mature OmpC Porin',
+        basePos: new THREE.Vector3(5.5, 0.0, -7.5),
+        color: 0x0096c7,
+        accent: 0x00f5d4,
+        loop: 0xffd166,
+        turn: 0x06d6a0,
+        driftSpeed: 0.35,
+        driftAngle: 1.8,
+        driftRadius: 0.4,
+        stageIntro: 2
+      },
+      {
+        id: 'collocated_ompa_3',
+        name: 'Mature OmpA Porin',
+        basePos: new THREE.Vector3(-6.5, 0.0, -6.8),
+        color: 0x023e8a,
+        accent: 0x00b4d8,
+        loop: 0xffb703,
+        turn: 0x06d6a0,
+        driftSpeed: 0.38,
+        driftAngle: 3.4,
+        driftRadius: 0.3,
+        stageIntro: 3
+      },
+      {
+        id: 'collocated_bama_4',
+        name: 'Daughter BamA (Auto-Assembly)',
+        basePos: new THREE.Vector3(-8.2, 0.0, 3.8),
+        color: 0x9d4edd,
+        accent: 0xffb703,
+        loop: 0xffd166,
+        turn: 0x06d6a0,
+        driftSpeed: 0.28,
+        driftAngle: 4.9,
+        driftRadius: 0.35,
+        stageIntro: 4
+      }
+    ];
+
+    for (const cfg of barrelConfigs) {
+      const { group, strandMaterials } = this.createBarrelMeshGroup(
+        16,
+        1.65,
+        cfg.color,
+        cfg.accent,
+        cfg.loop,
+        cfg.turn
+      );
+      group.name = cfg.id;
+      group.position.copy(cfg.basePos);
+      this.collocatedBarrelsGroup.add(group);
+
+      this.collocatedBarrels.push({
+        id: cfg.id,
+        name: cfg.name,
+        group,
+        basePos: cfg.basePos.clone(),
+        driftAngle: cfg.driftAngle,
+        driftSpeed: cfg.driftSpeed,
+        driftRadius: cfg.driftRadius,
+        stageIntro: cfg.stageIntro,
+        materials: strandMaterials
+      });
     }
   }
 
@@ -483,6 +872,13 @@ export class BAMComplexScene {
   private setupDynamicLeaderAnchors() {
     this.leaderAnchors = [
       {
+        key: 'outer_membrane',
+        label: 'Outer Asymmetric Membrane',
+        color: '#0077B6',
+        badge: 'OM',
+        worldPos: new THREE.Vector3(14.0, 1.6, -8.0)
+      },
+      {
         key: 'bama_barrel',
         targetMeshName: 'Piece_BAM_BamA_Barrel',
         label: 'BamA Transmembrane Barrel',
@@ -495,7 +891,7 @@ export class BAMComplexScene {
         targetMeshName: 'Piece_BAM_Lateral_Seam',
         label: 'Dynamic Lateral Seam (β16)',
         color: '#00F5D4',
-        offset: new THREE.Vector3(0.5, 0.8, -2.4),
+        offset: new THREE.Vector3(0.5, 0.8, 0.4),
         badge: 'SEAM'
       },
       {
@@ -543,8 +939,36 @@ export class BAMComplexScene {
         targetMeshName: 'Piece_BAM_Client_OMP',
         label: 'Inserting β-Hairpin Substrate',
         color: '#FFE066',
-        offset: new THREE.Vector3(-0.2, 0.2, -2.2),
+        offset: new THREE.Vector3(0.0, 0.2, 0.2),
         badge: 'CLIENT'
+      },
+      {
+        key: 'budding_barrel',
+        label: 'Nascent Folded β-Barrel (OMP Budding)',
+        color: '#00B4D8',
+        worldPos: new THREE.Vector3(3.6, 2.2, 0.1),
+        badge: 'BUDDING'
+      },
+      {
+        key: 'sura_dock',
+        label: 'SurA Chaperone Delivery Site',
+        color: '#F77F00',
+        worldPos: new THREE.Vector3(-4.6, -5.2, 1.2),
+        badge: 'SurA'
+      },
+      {
+        key: 'collocated_ompf',
+        label: 'Collocated OmpF Porin in OM',
+        color: '#00B4D8',
+        worldPos: new THREE.Vector3(8.5, 2.2, 2.5),
+        badge: 'OMPF'
+      },
+      {
+        key: 'collocated_bama',
+        label: 'Daughter BamA (Auto-Assembly)',
+        color: '#9D4EDD',
+        worldPos: new THREE.Vector3(-8.2, 2.2, 3.8),
+        badge: 'BAMA-II'
       }
     ];
   }
@@ -586,11 +1010,17 @@ export class BAMComplexScene {
     const height = this.container.clientHeight;
 
     this.leaderAnchors.forEach((anchor) => {
-      const mesh = this.getMeshByNameOrPrefix(anchor.targetMeshName);
-      if (!mesh || !mesh.visible) return;
-
-      const worldPos = anchor.offset.clone();
-      mesh.localToWorld(worldPos);
+      let worldPos: THREE.Vector3;
+      if (anchor.worldPos) {
+        worldPos = anchor.worldPos.clone();
+      } else if (anchor.targetMeshName && anchor.offset) {
+        const mesh = this.getMeshByNameOrPrefix(anchor.targetMeshName);
+        if (!mesh || !mesh.visible) return;
+        worldPos = anchor.offset.clone();
+        mesh.localToWorld(worldPos);
+      } else {
+        return;
+      }
 
       // Project 3D to screen coordinates
       const screenPos = worldPos.clone().project(this.camera);
@@ -605,6 +1035,9 @@ export class BAMComplexScene {
       const lx = sx + dx;
       const ly = sy + dy;
 
+      const pillWidth = Math.max(120, anchor.label.length * 7.2 + 38);
+      const cardX = lx > sx ? lx : lx - pillWidth;
+
       html += `
         <g class="bam-leader-item" data-key="${anchor.key}" style="pointer-events: auto; cursor: pointer;">
           <!-- Hairline leader line -->
@@ -616,11 +1049,11 @@ export class BAMComplexScene {
             <animate attributeName="opacity" values="0.8;0.1;0.8" dur="2s" repeatCount="indefinite" />
           </circle>
           <!-- 2D Subpill Badge -->
-          <g transform="translate(${lx > sx ? lx : lx - 120}, ${ly - 12})">
-            <rect width="125" height="26" rx="13" fill="rgba(6, 12, 24, 0.90)" stroke="${anchor.color}" stroke-width="1.2" />
+          <g transform="translate(${cardX}, ${ly - 12})">
+            <rect width="${pillWidth}" height="26" rx="13" fill="rgba(6, 12, 24, 0.90)" stroke="${anchor.color}" stroke-width="1.2" />
             <circle cx="14" cy="13" r="8" fill="${anchor.color}" />
             <text x="14" y="16.5" font-size="9" font-weight="bold" fill="#000" text-anchor="middle" font-family="monospace">${anchor.badge}</text>
-            <text x="30" y="16.5" font-size="10.5" font-weight="600" fill="#f8fafc" font-family="sans-serif">${anchor.label}</text>
+            <text x="28" y="16.5" font-size="10.5" font-weight="600" fill="#f8fafc" font-family="sans-serif">${anchor.label}</text>
           </g>
         </g>
       `;
@@ -675,6 +1108,19 @@ export class BAMComplexScene {
       'Piece_BAM_Client_OMP': new THREE.Vector3(0, -8.0 * this.explodedProgress, -8.0 * this.explodedProgress)
     };
 
+    if (this.buddingBarrelGroup) {
+      this.buddingBarrelGroup.position.set(3.6 + 12.0 * this.explodedProgress, 0, 0.1);
+    }
+
+    for (const b of this.collocatedBarrels) {
+      const radial = new THREE.Vector3(b.basePos.x, 0, b.basePos.z).normalize();
+      b.group.position.set(
+        b.basePos.x + radial.x * 12.0 * this.explodedProgress,
+        b.basePos.y,
+        b.basePos.z + radial.z * 12.0 * this.explodedProgress
+      );
+    }
+
     for (const [name, mesh] of this.pieceMeshes.entries()) {
       const base = this.pieceBasePositions.get(name);
       let vec = vectors[name];
@@ -690,6 +1136,43 @@ export class BAMComplexScene {
         mesh.position.set(base.x + vec.x, base.y + vec.y, base.z + vec.z);
       }
     }
+  }
+
+  public setClientMode(mode: 'ompf' | 'bama') {
+    this.clientMode = mode;
+    if (!this.nascentStrandMaterials) return;
+    const numStrands = this.nascentStrandMaterials.length;
+    for (let i = 0; i < numStrands; i++) {
+      const mat = this.nascentStrandMaterials[i];
+      if (mode === 'ompf') {
+        if (i === 0 || i === 15) {
+          mat.color.setHex(0x00f5d4);
+          mat.emissive.setHex(0x007a6a);
+        } else if (i % 2 === 0) {
+          mat.color.setHex(0x0096c7);
+          mat.emissive.setHex(0x004875);
+        } else {
+          mat.color.setHex(0x0077b6);
+          mat.emissive.setHex(0x003f66);
+        }
+      } else {
+        // BamA Precursor (Auto-Assembly): Marine blue barrel with Lilac & Golden Amber pairing contact
+        if (i === 0 || i === 15) {
+          mat.color.setHex(0xffb703);
+          mat.emissive.setHex(0x996d00);
+        } else if (i % 2 === 0) {
+          mat.color.setHex(0x9d4edd);
+          mat.emissive.setHex(0x5a189a);
+        } else {
+          mat.color.setHex(0x0077b6);
+          mat.emissive.setHex(0x003f66);
+        }
+      }
+    }
+  }
+
+  public getClientMode(): 'ompf' | 'bama' {
+    return this.clientMode;
   }
 
   public setInsertionSpeed(val: number) {
@@ -749,9 +1232,11 @@ export class BAMComplexScene {
       if (isTarget) {
         mat.opacity = 1.0;
         mat.transparent = false;
+        mat.depthWrite = true;
       } else {
         mat.opacity = 0.55;
         mat.transparent = true;
+        mat.depthWrite = false; // Prevent transparent pieces from occluding translocating beads inside pore
       }
     });
   }
@@ -774,6 +1259,7 @@ export class BAMComplexScene {
   }
 
   public resetCamera() {
+    this.isTourActive = false;
     this.transitionCameraTo(new THREE.Vector3(0, -1.0, 0), 46, 0.0, 1.4);
     if (this.controls) {
       this.controls.target.set(0, -1.0, 0);
@@ -784,11 +1270,15 @@ export class BAMComplexScene {
   public focusComponent(key: string) {
     const anchor = this.leaderAnchors.find((a) => a.key === key);
     if (anchor) {
-      const mesh = this.getMeshByNameOrPrefix(anchor.targetMeshName);
-      if (mesh) {
-        const worldPos = anchor.offset.clone();
-        mesh.localToWorld(worldPos);
-        this.transitionCameraTo(worldPos, 22, 0.2, 1.35);
+      if (anchor.worldPos) {
+        this.transitionCameraTo(anchor.worldPos.clone(), 24, 0.2, 1.35);
+      } else if (anchor.targetMeshName && anchor.offset) {
+        const mesh = this.getMeshByNameOrPrefix(anchor.targetMeshName);
+        if (mesh) {
+          const worldPos = anchor.offset.clone();
+          mesh.localToWorld(worldPos);
+          this.transitionCameraTo(worldPos, 22, 0.2, 1.35);
+        }
       }
     } else {
       this.resetCamera();
@@ -819,6 +1309,7 @@ export class BAMComplexScene {
   }
 
   public start() {
+    this.active = true;
     if (!this.animFrameId) {
       this.clock.start();
       this.animate();
@@ -826,6 +1317,10 @@ export class BAMComplexScene {
   }
 
   public stop() {
+    this.active = false;
+    if (this.keyboardFlight) {
+      this.keyboardFlight.resetKeys();
+    }
     if (this.animFrameId) {
       cancelAnimationFrame(this.animFrameId);
       this.animFrameId = null;
@@ -834,6 +1329,10 @@ export class BAMComplexScene {
 
   public dispose() {
     this.stop();
+    if (this.keyboardFlight) {
+      this.keyboardFlight.dispose();
+      this.keyboardFlight = null;
+    }
     if (this.controls) {
       this.controls.dispose();
     }
@@ -850,10 +1349,15 @@ export class BAMComplexScene {
   // ---------------------------------------------------------------------------
 
   private animate = () => {
+    if (!this.active) return;
     this.animFrameId = requestAnimationFrame(this.animate);
 
     const delta = this.clock.getDelta();
     const elapsed = this.clock.getElapsedTime();
+
+    if (this.keyboardFlight) {
+      this.keyboardFlight.update(delta);
+    }
 
     // 1. Camera interpolation
     if (this.camLerpProgress < 1.0) {
@@ -871,25 +1375,56 @@ export class BAMComplexScene {
       this.controls.update();
     }
 
-    // 2. Client beta-hairpin substrate translocation animation
+    // 2. Client beta-hairpin substrate translocation animation along authentic spline
     const effectiveSpeed = this.isPaused ? 0.0 : this.insertionSpeed;
 
     if (effectiveSpeed > 0.001) {
-      const cycle = elapsed * 1.6 * effectiveSpeed;
+      const cycle = elapsed * 0.35 * effectiveSpeed;
       const beadCount = this.clientBeads.length;
 
       for (let i = 0; i < beadCount; i++) {
         const bead = this.clientBeads[i];
         const frac = ((i / beadCount) + (cycle % 1.0)) % 1.0;
 
-        // Path from SurA periplasmic docking (Y=-5.5) -> POTRA 5 hinge (Y=-1.5) -> Lateral Seam (Y=+1.5)
-        const y = -5.5 + frac * 7.5;
-        const x = -0.3 + Math.sin(frac * Math.PI) * 0.4;
-        const z = -2.2 - (this.lateralSeamOpening * Math.sin(frac * Math.PI) * 1.2);
+        // Sample position along authentic biophysical spline
+        const pos = this.clientSpline.getPointAt(frac);
+        bead.position.copy(pos);
 
-        bead.position.set(x, y, z);
-        const scale = 0.8 + 0.4 * Math.sin(frac * Math.PI);
-        bead.scale.set(scale, scale, scale);
+        // Subunit color transition:
+        // Pre-insertion unfolded polypeptide in periplasm -> folding cyan beta-strand at lateral seam -> porin blue in barrel
+        const mat = bead.material as THREE.MeshStandardMaterial;
+        if (frac < 0.55) {
+          // Pre-insertion unfolded polypeptide (Golden Amber)
+          mat.color.setHex(0xffe066);
+          mat.emissive.setHex(0xffb703);
+          bead.scale.setScalar(0.9);
+        } else if (frac < 0.8) {
+          // Inserting beta-hairpin in lateral seam (Luminous Cyan)
+          mat.color.setHex(0x00f5d4);
+          mat.emissive.setHex(0x00a896);
+          bead.scale.setScalar(1.1);
+        } else {
+          // Incorporating into circularized nascent barrel (Royal Blue / Amber)
+          if (this.clientMode === 'ompf') {
+            mat.color.setHex(0x00b4d8);
+            mat.emissive.setHex(0x0077b6);
+          } else {
+            mat.color.setHex(0xffb703);
+            mat.emissive.setHex(0x996d00);
+          }
+          bead.scale.setScalar(0.85);
+        }
+      }
+
+      // Nascent budding barrel gentle assembly breathing & lateral membrane displacement
+      if (this.buddingBarrelGroup) {
+        const breathe = Math.sin(elapsed * 2.5 * effectiveSpeed) * 0.03;
+        this.buddingBarrelGroup.scale.set(1.0 + breathe, 1.0, 1.0 + breathe);
+
+        // In Stage 5 (barrel budding & release) or exploded view, barrel buds laterally into outer membrane
+        const isStage5 = this.currentStageIndex === 4; // Stage 5 is index 4 (0-based)
+        const budTargetX = isStage5 ? 6.2 : (3.6 + this.explodedProgress * 12.0);
+        this.buddingBarrelGroup.position.x = THREE.MathUtils.lerp(this.buddingBarrelGroup.position.x, budTargetX, 0.08);
       }
 
       // Client hairpin loop gentle breathing motion
@@ -899,10 +1434,36 @@ export class BAMComplexScene {
       }
     }
 
-    // 3. Update dynamic SVG leader lines
+    // 3. Collocated outer membrane barrels lateral membrane diffusion & tour stage scaling
+    for (let i = 0; i < this.collocatedBarrels.length; i++) {
+      const b = this.collocatedBarrels[i];
+      let targetScale = 1.0;
+      if (this.isTourActive) {
+        // Progressive emergence across Stages 1 through 5
+        targetScale = (this.currentStageIndex + 1) >= b.stageIntro ? 1.0 : 0.0;
+      }
+      b.group.scale.setScalar(THREE.MathUtils.lerp(b.group.scale.x, targetScale, 0.08));
+
+      // 2D Brownian lateral membrane diffusion in XZ plane
+      const driftX = Math.cos(elapsed * b.driftSpeed + b.driftAngle) * b.driftRadius;
+      const driftZ = Math.sin(elapsed * b.driftSpeed + b.driftAngle) * b.driftRadius;
+
+      // Radial displacement for exploded view
+      const radial = new THREE.Vector3(b.basePos.x, 0, b.basePos.z).normalize();
+      const explX = radial.x * 12.0 * this.explodedProgress;
+      const explZ = radial.z * 12.0 * this.explodedProgress;
+
+      b.group.position.set(
+        b.basePos.x + driftX + explX,
+        b.basePos.y,
+        b.basePos.z + driftZ + explZ
+      );
+    }
+
+    // 4. Update dynamic SVG leader lines
     this.updateSVGLeaders();
 
-    // 4. Render
+    // 5. Render
     this.renderer.render(this.scene, this.camera);
   };
 }

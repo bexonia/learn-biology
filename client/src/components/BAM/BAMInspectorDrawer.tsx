@@ -184,7 +184,25 @@ export const BAMInspectorDrawer: React.FC<BAMInspectorDrawerProps> = ({
           </div>
         </div>
 
-        {/* 2. Biochemical Circuit & Flux I/O Card */}
+        {/* 2. The BAM Auto-Assembly Principle (Self-Replication) Callout Card */}
+        <div className="motor-insp-block" style={{ borderLeft: '3px solid #00F5D4', background: 'rgba(0, 245, 212, 0.05)' }}>
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '6px' }}>
+            <span style={{ fontSize: '10px', fontWeight: 800, color: '#0F766E', letterSpacing: '0.08em', textTransform: 'uppercase' }}>
+              🧬 The BAM Auto-Assembly Paradox (Self-Replication)
+            </span>
+            <span style={{ fontSize: '9px', fontWeight: 700, padding: '2px 6px', borderRadius: '4px', background: '#00F5D4', color: '#06101E' }}>
+              AUTOCATALYTIC
+            </span>
+          </div>
+          <p style={{ fontSize: '10.5px', color: '#334155', margin: '0 0 6px 0', lineHeight: 1.45 }}>
+            <strong>Does the BAM complex replicate itself? YES!</strong> BamA is itself an outer membrane 16-stranded transmembrane β-barrel. Outer membrane β-barrel proteins (OMPs) can <em>never</em> fold spontaneously in the aqueous periplasm or lipid bilayer without BAM catalysis.
+          </p>
+          <p style={{ fontSize: '10.5px', color: '#334155', margin: '0', lineHeight: 1.45 }}>
+            During cell growth and division, newly translated BamA polypeptides emerge from cytoplasmic ribosomes, cross the inner membrane via <strong>SecYEG</strong>, are escorted through the periplasm by <strong>SurA</strong>, and are inserted and circularized by <em>pre-existing BAM complexes</em> in the outer membrane. BAM is an obligate self-propagating nanomachine — bacteria require pre-existing BAM complexes to assemble new BAM complexes!
+          </p>
+        </div>
+
+        {/* 3. Biochemical Circuit & Flux I/O Card */}
         <div className="motor-insp-block" style={{ borderLeft: '3px solid #10B981', background: 'rgba(16, 185, 129, 0.04)' }}>
           <span style={{ fontSize: '10px', fontWeight: 800, color: '#047857', letterSpacing: '0.08em', textTransform: 'uppercase', display: 'block', marginBottom: '4px' }}>
             ⚡ Biochemical Circuit &amp; Flux I/O
@@ -232,6 +250,7 @@ export const BAMInspectorDrawer: React.FC<BAMInspectorDrawerProps> = ({
           <span className="motor-block-label">SUBUNIT ROLES &amp; COLOR TAXONOMY</span>
           <div style={{ display: 'flex', flexDirection: 'column', gap: '4px', fontSize: '10.5px' }}>
             {[
+              { id: 'outer_membrane', name: 'Outer Asymmetric Membrane', desc: 'Asymmetric outer bilayer of lipopolysaccharide and phospholipids', col: '#0077B6' },
               { id: 'bama_barrel', name: 'BamA Transmembrane Barrel', desc: '16-stranded transmembrane β-barrel (strands 1–15)', col: '#0077B6' },
               { id: 'lateral_seam', name: 'Dynamic Lateral Seam', desc: 'Strand β16 unzipping from β1 directly into lipid bilayer', col: '#00F5D4' },
               { id: 'bama_potra', name: 'BamA POTRA Domains (1–5)', desc: 'Periplasmic chaperone receptor and gating hinge', col: '#F77F00' },
@@ -239,7 +258,11 @@ export const BAMInspectorDrawer: React.FC<BAMInspectorDrawerProps> = ({
               { id: 'bamc_lipoprotein', name: 'BamC Lipoprotein', desc: 'Periplasmic lipoprotein with helix-grip motifs', col: '#9D4EDD' },
               { id: 'bamd_clamp', name: 'BamD Essential Clamp', desc: '5 TPR-motif bridge linking POTRA domains to barrel base', col: '#E76F51' },
               { id: 'bame_clip', name: 'BamE Membrane Clip', desc: 'Smallest lipoprotein latching BamD to inner leaflet', col: '#06D6A0' },
-              { id: 'client_omp', name: 'Client β-Hairpin Substrate', desc: 'Nascent polypeptide inserting into the open seam', col: '#FFE066' }
+              { id: 'client_omp', name: 'Client β-Hairpin Substrate', desc: 'Nascent polypeptide inserting into the open seam', col: '#FFE066' },
+              { id: 'budding_barrel', name: 'Nascent Folded β-Barrel', desc: '16-stranded circularizing porin / new BamA (OMP Budding)', col: '#00B4D8' },
+              { id: 'sura_dock', name: 'SurA Chaperone Dock', desc: 'Periplasmic client delivery dock at POTRA 1–2', col: '#F77F00' },
+              { id: 'collocated_ompf', name: 'Collocated OmpF Porins in OM', desc: 'Mature 16-stranded porins diffusing in outer membrane bilayer', col: '#00B4D8' },
+              { id: 'collocated_bama', name: 'Daughter BamA (Auto-Assembly)', desc: 'Self-replicated BamA insertase integrated into outer membrane', col: '#9D4EDD' }
             ].map((sub) => (
               <div
                 key={sub.id}

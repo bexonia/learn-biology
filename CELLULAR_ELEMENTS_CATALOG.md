@@ -179,29 +179,54 @@ This catalog defines the complete set of structural and functional components of
   - `heatShockTemp`: $30\text{--}45^\circ\text{C}$ (triggers $\sigma^{32}$ chaperone induction)
   - `atpConsumptionRate`: $0\text{--}50\,\text{ATP/min}$
 
-#### 2.5 `cytoskeleton_mreb` — MreB Actin-Homolog Cytoskeletal Rails
-- **Scale:** $200\text{--}400\,\text{nm}$ sub-membrane helical filaments
-- **PDB / Asset:** `1JCG` (MreB ATP-dependent filaments)
-- **Status:** 🟡 **Pending Specification**
-- **Biological Role:** Prokaryotic actin homolog; forms antiparallel double filaments beneath the inner membrane that move processively, organizing cell wall synthesis enzymes to preserve rod morphology.
+#### 2.5 `cytoskeleton_mreb` — MreB Actin-Homolog Cytoskeletal Rails & Rod Complex
+- **Scale:** $200\text{--}400\,\text{nm}$ sub-membrane antiparallel helical filaments
+- **PDB / Asset:** `1JCG` (MreB ATP-dependent filaments, 2.10 Å) + `4CZM` (membrane-bound doublet) + `2WUS` (RodZ) + `5LP5` (PBP2)
+- **Status:** 🟢 **Built & Fully Interactive**
+- **Biological Role:** Prokaryotic actin homolog; polymerizes in an ATP-dependent manner into antiparallel double protofilaments bound beneath the inner membrane. Operates as a processive spatial track and velocity governor, coordinating the RodA-PBP2 elongation complex to deposit lateral peptidoglycan and preserve the rod-shaped morphology of the bacterium.
+- **Subunit Decomposition:**
+  - `Piece_MreB_Protofilaments` (`#3A86FF`, Royal Blue): Antiparallel double protofilament rail lattice with 5.1 nm longitudinal subunit repeat.
+  - `Piece_MreB_ATP_Pockets` (`#FFB703`, Golden Amber): Catalytic nucleotide clefts with bound ATP/ANP and catalytic $\text{Mg}^{2+}$.
+  - `Piece_MreB_Membrane_Anchor` (`#00F5D4`, Luminous Cyan): N-terminal amphipathic helix (Met1–Leu11) and insertion loop (85–95) sensing negative curvature.
+  - `Piece_MreB_Inner_Membrane` (`#06D6A0`, Vivid Jade): Curved cytoplasmic membrane bilayer slab with polar headgroups.
+  - `Piece_MreB_RodZ_Adaptor` (`#E63946`, Carmine Red): Bitopic membrane adaptor RodZ (`2WUS`) coupling cytoplasmic MreB to periplasmic synthases.
+  - `Piece_MreB_RodA_Glycosylase` (`#9D4EDD`, Lilac Purple): SEDS transmembrane Lipid II flippase and peptidoglycan transglycosylase (RodA).
+  - `Piece_MreB_PBP2_Transpeptidase` (`#F77F00`, Warm Amber): Penicillin-Binding Protein 2 (PBP2 / MecA) transpeptidase cross-linking peptide stems.
+  - `Piece_MreB_A22_Pocket` (`#E63946`, Carmine Hazard): A22 chemical inhibitor cleft inside nucleotide groove (triggers spherical rounding).
 - **Inter-Element Flux Iteration:**
-  - *Upstream:* Powered by ATP hydrolysis; binds RodZ and inner membrane phospholipids.
-  - *Downstream:* Couples to RodA/PBP2 transpeptidases to coordinate lateral murein wall elongation.
+  - *Upstream:* Powered by ATP hydrolysis; senses negative membrane curvature and anchors via N-terminal amphipathic helices.
+  - *Downstream:* Couples through RodZ to propel RodA-PBP2 synthases at $25\,\text{nm/sec}$, synthesizing the cylindrical peptidoglycan sacculus.
 - **HUD Simulation Controls:**
-  - `mrebFilamentVelocity`: $10\text{--}40\,\text{nm/sec}$
-  - `a22Depolymerization`: Toggle (A22 chemical inhibitor causing spherical rounding)
+  - `filamentVelocity`: $5\text{--}50\,\text{nm/sec}$ (nominal $25\,\text{nm/sec}$)
+  - `a22Inhibition`: Toggle (A22 chemical inhibitor causing filament depolymerization and spherical rounding)
+  - `atpActive`: Toggle (ATP-bound active cycling vs. ADP-depleted state)
+  - `explodedProgress`: $0.0\text{--}1.0$ (dissociation along biological vectors $\vec{v}_{\text{dissoc}}$)
+  - `6-Stage Explanatory Trace`: Rail architecture $\to$ ATP doublet assembly $\to$ membrane insertion $\to$ RodZ coupling $\to$ RodA-PBP2 propulsion $\to$ lateral wall synthesis.
 
-#### 2.6 `divisome_ftsz` — Divisome Contractile Z-Ring (FtsZ)
+#### 2.6 `divisome_ftsz` — Divisome Contractile Z-Ring & Septum (FtsZ)
 - **Scale:** $800\,\text{nm}$ circumference ring at midcell
-- **PDB / Asset:** `1FSZ` (FtsZ GTPase protofilaments)
-- **Status:** 🟡 **Pending Specification**
-- **Biological Role:** Prokaryotic tubulin homolog; polymerizes into a dynamic contractile ring at the future division plane, recruiting $\sim 20$ proteins to synthesize the constricting division septum.
+- **PDB / Asset:** `1FSZ` (FtsZ GTPase protofilaments, 2.80 Å) + `2R6R` (longitudinal dimer) + `4A2A` (FtsA) + `6PL5` (FtsWI)
+- **Status:** 🟢 **Built & Fully Interactive**
+- **Biological Role:** Prokaryotic tubulin homolog; polymerizes head-to-tail into dynamic contractile protofilaments at midcell. Powered by GTP hydrolysis, FtsZ protofilaments undergo continuous directional treadmilling along the inner membrane circumference, serving as the spatial track and velocity governor for peptidoglycan cell-wall synthesis (FtsW-FtsI / PBP3).
+- **Subunit Decomposition:**
+  - `Piece_FtsZ_Protofilaments` (`#3A86FF`, Royal Blue): Head-to-tail FtsZ protofilament lattice from `1FSZ` / `2R6R`.
+  - `Piece_FtsZ_FtsA_Anchor` (`#FFB703`, Golden Amber): FtsA actin-homolog peripheral membrane anchor with C-terminal amphipathic helix.
+  - `Piece_FtsZ_ZipA_Transmembrane` (`#E63946`, Carmine Red): ZipA bitopic membrane anchor bridging FtsZ to the bilayer.
+  - `Piece_FtsZ_Inner_Membrane` (`#06D6A0`, Vivid Jade): Dual-leaflet inner membrane bilayer slab with cytokinetic division furrow.
+  - `Piece_FtsZ_GTP_Pockets` (`#00F5D4`, Luminous Cyan): Catalytic GTP/GDP nucleotide interfaces between adjacent monomers (T7 synergy loop).
+  - `Piece_FtsZ_Septal_Wall` (`#E76F51`, Warm Terracotta): Inward-growing cross-septal peptidoglycan murein cross-wall.
+  - `Piece_FtsZ_FtsWI_Synthase` (`#9D4EDD`, Lilac Purple): Trans-envelope septal cell-wall synthase complex (FtsW-FtsI / PBP3).
+  - `Piece_FtsZ_MinCDE_Barrier` (`#0077B6`, Deep Marine): Polar spatial inhibitor caps preventing aberrant minicell division.
 - **Inter-Element Flux Iteration:**
-  - *Upstream:* Positioned precisely by the MinCDE spatial oscillation system and SlmA nucleoid occlusion.
-  - *Downstream:* Recruits FtsI (PBP3) and FtsW to build the cross-septal peptidoglycan wall.
+  - *Upstream:* Positioned precisely by the MinCDE spatial oscillation system and SlmA nucleoid occlusion; consumes GTP.
+  - *Downstream:* Propels FtsW-FtsI (PBP3) to synthesize the cross-septal peptidoglycan wall and achieve cytokinetic daughter cell scission.
 - **HUD Simulation Controls:**
-  - `septumConstriction`: $0\text{--}100\%$
-  - `gtpTurnoverRate`: $5\text{--}20\,\text{GTP/min}$
+  - `septumConstriction`: $0\text{--}100\%$ ($800\,\text{nm} \to < 50\,\text{nm}$ scission)
+  - `treadmillingSpeed`: $5\text{--}60\,\text{nm/sec}$ (nominal $28\,\text{nm/sec}$)
+  - `pc190723Inhibition`: Toggle (locks straight GTP protofilaments and halts treadmilling)
+  - `gtpActive`: Toggle (GTP-bound active cycling vs. GDP-depleted state)
+  - `explodedProgress`: $0.0\text{--}1.0$ (dissociation along biological vectors $\vec{v}_{\text{dissoc}}$)
+  - `5-Stage Explanatory Trace`: Midcell positioning $\to$ GTP polymerization $\to$ membrane tethering $\to$ treadmilling synthase $\to$ furrow constriction & scission.
 
 #### 2.7 `rna_degradosome` — Membrane-Associated RNA Degradosome
 - **Scale:** $60\text{--}120\,\text{nm}$ inner-membrane scaffolded complex
@@ -385,50 +410,70 @@ This catalog defines the complete set of structural and functional components of
   - `explodedProgress`: $0.0\text{--}1.0$ (dissociation along envelope vectors $\vec{v}_{\text{dissoc}}$)
 
 #### 3.8 `rna_polymerase` — RNA Polymerase Transcription Machine
-- **Scale:** $14\,\text{nm} \times 16\,\text{nm}$ (Molecular mass: $\sim 400\,\text{kDa}$)
-- **PDB / Asset:** `6C9Y` ($\alpha_2\beta\beta'\omega + \sigma^{70}$ Holoenzyme)
-- **Status:** 🟡 **High-Priority Pending Implementation**
-- **Biological Role:** DNA-dependent transcription machine; unwinds the double helix, recognizes promoters via $\sigma$-factors, and synthesizes mRNA, tRNA, and rRNA at 40–80 nt/sec.
+- **Scale:** $14\,\text{nm} \times 16\,\text{nm}$ (Molecular mass: $\sim 430\,\text{kDa}$)
+- **PDB / Asset:** `6C9Y` ($\alpha_2\beta\beta'\omega + \sigma^{70}$ Holoenzyme, 3.80 Å Cryo-EM)
+- **Status:** 🟢 **Built & Fully Interactive**
+- **Biological Role:** DNA-dependent transcription machine; unwinds the double helix without ATP, recognizes promoters via $\sigma^{70}$, and synthesizes mRNA, tRNA, and rRNA at 40–80 nt/sec with error rate $< 10^{-5}$.
 - **Subunit Decomposition:**
-  - `Piece_RNAP_Beta` (`#3A86FF`, Royal Blue): Catalytic claw holding active $\text{Mg}^{2+}$ center.
-  - `Piece_RNAP_BetaPrime` (`#9D4EDD`, Purple): Flexible clamp jaw and bridge helix.
-  - `Piece_RNAP_Alpha_Dimer` (`#06D6A0`, Jade): Scaffold domains interacting with transcription factors.
-  - `Piece_RNAP_Sigma70` (`#FFB703`, Gold): Promoter specificity factor recognizing $-10$ and $-35$ consensus boxes.
+  - `Piece_RNAP_Beta` (`#3A86FF`, Royal Blue): Catalytic claw holding active $\text{Mg}^{2+}$ center and Rifampicin antibiotic binding pocket.
+  - `Piece_RNAP_BetaPrime` (`#9D4EDD`, Lilac Purple): Flexible clamp jaw, bridge helix, trigger loop, and catalytic NADFDGD motif (Asp460, Asp462, Asp464).
+  - `Piece_RNAP_Alpha_Dimer` (`#06D6A0`, Luminous Jade): Assembly scaffold homodimer ($\alpha\text{I}$ and $\alpha\text{II}$) interacting with transcription factors.
+  - `Piece_RNAP_Omega` (`#2EC4B6`, Luminous Teal): Structural chaperone latch wrapping the C-terminus of $\beta'$.
+  - `Piece_RNAP_Sigma70` (`#FFB703`, Golden Amber): Promoter specificity factor recognizing $-10$ and $-35$ consensus boxes.
+  - `Piece_RNAP_DNA_Duplex` (`#7209B7` Royal Violet & `#00F5D4` Cyan): Promoter DNA double helix unwinding into 13-bp open transcription bubble.
+  - `Piece_RNAP_Nascent_RNA` (`#E63946`, Carmine Coral): Newly synthesized mRNA transcript threading out through the RNA exit channel.
+  - `Piece_RNAP_Active_Mg` (`#FFB703`, Glowing Amber-Gold): Catalytic two-metal-ion $\text{Mg}^{2+}$ coordination center.
 - **Inter-Element Flux Iteration:**
-  - *Upstream:* Reads chromosomal template DNA organized by the nucleoid; consumes NTPs ($\text{ATP}, \text{UTP}, \text{GTP}, \text{CTP}$).
+  - *Upstream:* Reads chromosomal template DNA organized by the nucleoid; consumes rNTPs ($\text{ATP}, \text{UTP}, \text{GTP}, \text{CTP}$).
   - *Downstream:* Generates nascent mRNA transcript that immediately docks into lead 70S ribosomes (forming the Expressome complex, `6X9Q`).
 - **HUD Simulation Controls:**
-  - `transcriptionRate`: $10\text{--}100\,\text{nt/sec}$
-  - `rifampicinInhibition`: Toggle (antibiotic blocking nascent RNA path)
+  - `transcriptionRate`: $10\text{--}100\,\text{nt/sec}$ (nominal $50\,\text{nt/sec}$)
+  - `rifampicinInhibition`: Toggle (antibiotic blocking nascent RNA exit channel at $+3\,\text{nt}$)
+  - `explodedProgress`: $0.0\text{--}1.0$ (dissociation along authentic structural vectors $\vec{v}_{\text{dissoc}}$)
+  - `6-Stage Explanatory Trace`: Promoter scanning $\to$ bubble melting $\to$ abortive scrunching $\to$ two-metal elongation $\to$ rifampicin block $\to$ expressome coupling.
 
 #### 3.9 `dna_polymerase_iii` — DNA Polymerase III Holoenzyme Replisome
 - **Scale:** $20\,\text{nm} \times 25\,\text{nm}$ (Molecular mass: $\sim 1\,\text{MDa}$)
-- **PDB / Asset:** `6S8N` (DnaE polymerase, DnaQ proofreader, $\beta_2$-sliding clamp, DnaB helicase)
-- **Status:** 🟡 **High-Priority Pending Implementation**
+- **PDB / Asset:** `5FKV` (Cryo-EM: DnaE polymerase, DnaQ proofreader, $\beta_2$-sliding clamp, DnaB helicase, $\tau$ stalk)
+- **Status:** 🟢 **Built & Fully Interactive**
 - **Biological Role:** High-speed, high-fidelity replication machine; duplicates the 4.64 Mbp circular chromosome bidirectionally at $1,000\,\text{bp/sec}$ with an error rate $< 10^{-8}$.
 - **Subunit Decomposition:**
-  - `Piece_PolIII_Alpha` (`#3A86FF`, Royal Blue): DnaE catalytic polymerization palm.
+  - `Piece_PolIII_Alpha` (`#3A86FF`, Royal Blue): DnaE catalytic polymerization palm, fingers, and thumb.
+  - `Piece_PolIII_Beta_Clamp` (`#FFB703`, Golden Ring): $\beta_2$ homodimeric toroid encircling duplex DNA for processivity.
   - `Piece_PolIII_Epsilon` (`#E63946`, Carmine Red): DnaQ $3'\to 5'$ exonuclease proofreader.
-  - `Piece_PolIII_Beta_Clamp` (`#FFB703`, Golden Ring): $\beta_2$ homodimeric toroid encircling double-stranded DNA.
-  - `Piece_DnaB_Helicase` (`#06D6A0`, Jade Hexamer): Hexameric unwinding ring burning ATP to split the replication fork.
+  - `Piece_PolIII_Tau` (`#9D4EDD`, Lilac Purple): DnaX replisome organizer stalk linking core to helicase.
+  - `Piece_PolIII_DnaB_Helicase` (`#06D6A0`, Jade Hexamer): Hexameric unwinding motor splitting parental duplex at replication fork.
+  - `Piece_PolIII_DNA_Duplex` (`#00F5D4` & `#7209B7`): Synthesized primer/template daughter duplex.
+  - `Piece_PolIII_Parental_Fork` (`#0077B6`, Deep Blue): Incoming parental DNA double helix and trombone loop.
+  - `Piece_PolIII_Active_Palm` (`#FFB703`, Glowing Amber): Two-metal $\text{Mg}^{2+}$ ion catalytic coordination center.
 - **Inter-Element Flux Iteration:**
-  - *Upstream:* Unwinds supercoiled chromosomal DNA relaxed by DNA Gyrase (`6RKW`); consumes dNTPs ($\text{dATP}, \text{dTTP}, \text{dGTP}, \text{dCTP}$).
+  - *Upstream:* Unwinds supercoiled chromosomal DNA relaxed by DNA Gyrase (`1AB4`); consumes dNTPs ($\text{dATP}, \text{dTTP}, \text{dGTP}, \text{dCTP}$).
   - *Downstream:* Generates leading and lagging (Okazaki fragment) daughter DNA strands for cell division.
 - **HUD Simulation Controls:**
   - `replicationSpeed`: $100\text{--}1,200\,\text{bp/sec}$
   - `proofreadingFidelity`: Toggle ($3'\to 5'$ exonuclease on/off)
 
 #### 3.10 `dna_gyrase` — DNA Gyrase Topoisomerase II
-- **Scale:** $12\,\text{nm} \times 14\,\text{nm}$
-- **PDB / Asset:** `6RKW` / `1AB4` ($A_2B_2$ heterotetramer)
-- **Status:** 🟡 **Pending Specification**
-- **Biological Role:** Only topoisomerase capable of introducing negative supercoils into DNA; creates a transient double-strand break, passes an intact DNA duplex through the gate, and reseals the break consuming 2 ATP.
+- **Scale:** $12\,\text{nm} \times 14\,\text{nm}$ (Molecular mass: $374\,\text{kDa}$)
+- **PDB / Asset:** `1AB4` / `2XCT` ($A_2B_2$ heterotetramer: GyrA 59 kDa cleavage core + GyrB 90 kDa ATPase clamp)
+- **Status:** 🟢 **Built & Fully Interactive**
+- **Biological Role:** Only topoisomerase capable of introducing negative supercoils into DNA; creates a transient double-strand break, passes an intact DNA duplex through the gate, and reseals the break consuming 2 ATP ($\Delta Lk = -2$ per cycle).
+- **Subunit Decomposition:**
+  - `Piece_Gyrase_GyrA_Dimer` (`#3A86FF`, Royal Blue): Heart-shaped catalytic cleavage-resealing gate dimer.
+  - `Piece_Gyrase_GyrB_Dimer` (`#FFB703`, Golden Amber): Upper ATPase clamp domains & TOPRIM domains.
+  - `Piece_Gyrase_G_Segment` (`#7209B7`, Royal Violet): Gate DNA double helix bound across catalytic furrow.
+  - `Piece_Gyrase_T_Segment` (`#06D6A0`, Luminous Jade): Transported DNA duplex held in upper chamber.
+  - `Piece_Gyrase_Tyr122_Active` (`#FFB703`, Glowing Gold): Catalytic Tyr122 5'-phosphotyrosyl residues + $\text{Mg}^{2+}$ ions.
+  - `Piece_Gyrase_Cipro_Pocket` (`#E63946`, Carmine): Dual Ciprofloxacin molecules intercalated at cleavage sites.
+  - `Piece_Gyrase_ATP_Sites` (`#00F5D4`, Cyan): Dual ATP nucleotides in GyrB Bergerat ATPase pockets.
+  - `Piece_Gyrase_CTD_Pinwheels` (`#0077B6`, Deep Marine): Dual 6-bladed $\beta$-propeller C-terminal pinwheels of GyrA.
 - **Inter-Element Flux Iteration:**
-  - *Upstream:* Resolves positive supercoiling stress generated ahead of elongating Replisomes (`6S8N`) and RNA Polymerases (`6C9Y`).
-  - *Downstream:* Maintains chromosomal topological underwinding ($\sigma \approx -0.05$) essential for promoter melting.
+  - *Upstream:* Resolves positive supercoiling stress generated ahead of elongating Replisomes (`5FKV`) and RNA Polymerases (`6C9Y`).
+  - *Downstream:* Maintains chromosomal topological underwinding ($\sigma \approx -0.05$) essential for promoter melting and replication initiation.
 - **HUD Simulation Controls:**
-  - `supercoilDeltaL`: $-1\text{ to } -10\,\text{turns/cycle}$
-  - `ciprofloxacinInhibition`: Toggle (stabilizes covalent cleaved complex, causing lethal DNA fragmentation)
+  - `supercoilingRate`: $0.2\text{--}5.0\,\text{cycles/sec}$ ($\Delta Lk = -0.4\text{ to } -10.0\,\text{turns/sec}$)
+  - `ciprofloxacinInhibition`: Toggle (stabilizes covalent cleaved complex, causing lethal double-strand breaks)
+  - `atpHydrolysis`: Toggle (couples 2 ATP hydrolysis to N-gate cycle)
 
 #### 3.11 `groel_groes` — GroEL/GroES Chaperonin Nanocage
 - **Scale:** $14\,\text{nm}$ diameter $\times 18\,\text{nm}$ height
@@ -510,9 +555,9 @@ This catalog defines the complete set of structural and functional components of
 | `flagellar_torque_switch`| `flagellar_motor` | `7CGO` (FliG $CW \leftrightarrow CCW$) | CheY-P binding domain conformational flip reversing stator contact angle. | 🟢 **Built** |
 | `complex_i_fe_s` | `respiratory_complex_i` | `7Z7V` (N1a $\to$ N2 tunnel) | $10\,\text{nm}$ quantum electron tunneling pathway across 8 cubane Fe-S clusters. | 🟢 **Built** |
 | `cytochrome_heme_copper`| `cytochrome_bo3` | `6WTI` (Heme $o_3 - \text{Cu}_B$) | Binuclear center executing $4e^- + 4\text{H}^+ + \text{O}_2 \to 2\text{H}_2\text{O}$ reduction without ROS release. | 🟡 *Pending* |
-| `pol_catalytic_palm`| `dna_polymerase_iii` | `6S8N` (Asp403, Asp405 + $2\text{Mg}^{2+}$)| Two-metal-ion catalyzed nucleophilic attack of $3'\text{-OH}$ on dNTP $\alpha$-phosphate. | 🟡 *Pending* |
-| `rnap_catalytic_claw`| `rna_polymerase` | `6C9Y` (Asp460, Asp462, Asp464) | Active center $\text{Mg}^{2+}$ coordinating incoming rNTP addition. | 🟡 *Pending* |
-| `gyrase_tyr122_core`| `dna_gyrase` | `1AB4` (GyrA Tyr122) | Transient covalent 5'-phosphotyrosyl linkage cleavage and strand passage gate. | 🟡 *Pending* |
+| `pol_catalytic_palm`| `dna_polymerase_iii` | `5FKV` (Asp403, Asp405 + $2\text{Mg}^{2+}$)| Two-metal-ion catalyzed nucleophilic attack of $3'\text{-OH}$ on dNTP $\alpha$-phosphate. | 🟢 **Built** |
+| `rnap_catalytic_claw`| `rna_polymerase` | `6C9Y` (Asp460, Asp462, Asp464) | Active center $\text{Mg}^{2+}$ coordinating incoming rNTP addition. | 🟢 **Built** |
+| `gyrase_tyr122_core`| `dna_gyrase` | `1AB4` (GyrA Tyr122) | Transient covalent 5'-phosphotyrosyl linkage cleavage and strand passage gate. | 🟢 **Built** |
 | `sura_binding_pocket_tyr228`| `sura_chaperone` | `1M5Y` (Tyr228, Trp274 aromatic cleft)| Aromatic $\pi$-$\pi$ stacking coordination pocket recognizing hydrophobic client motifs. | 🟢 **Built** |
 
 ---
@@ -653,14 +698,17 @@ To systematically implement the full prokaryote cell engine, work proceeds in **
   - High-fidelity 7-piece cryo-EM decomposition (`Piece_LPT_LptB_Dimer`, `Piece_LPT_LptFG_Permease`, `Piece_LPT_LptC_Coupler`, `Piece_LPT_LptA_Bridge`, `Piece_LPT_LptD_Barrel`, `Piece_LPT_LptE_Plug`, `Piece_LPT_Bound_LPS`), authentic trans-envelope dual-membrane architecture spanning 28.4 nm (Inner Membrane phospholipid bilayer at $Y \approx -8.0\,\text{nm}$, Porous Peptidoglycan murein ring at $Y \approx +2.0\,\text{nm}$, Asymmetric Outer Membrane bilayer at $Y \approx +11.5\,\text{nm}$), processive trans-envelope LPS export stream along continuous hydrophobic groove, exploded view dissociation along natural biophysical vectors, interactive export flux speed slider with turnover readouts (100–300 LPS/min), ATP hydrolysis state toggle, quick inspect chips, 7 dynamic SVG leader lines with lettered subpill badges, and universal 5-Stage Explanatory Trace.
 
 ### Phase 4: Genetic Central Dogma & Information Replication
-- 🎯 **Milestone 4.1:** **RNA Polymerase Transcription Machine (`6C9Y`)** *(CURRENT NEXT TARGET)*
-  - Implement transcription bubble unwinding, $\sigma^{70}$ promoter recognition, and Expressome coupling to lead ribosome.
-- 🎯 **Milestone 4.2:** **DNA Polymerase III Replisome Holoenzyme (`6S8N`)**
-  - Bidirectional replication fork, $\beta_2$-clamp sliding, and $3'\to 5'$ exonuclease proofreading switch.
-- 🎯 **Milestone 4.3:** **DNA Gyrase Topoisomerase II (`1AB4`)**
-  - Negative supercoiling strand-passage gate and ciprofloxacin target pocket.
+- ✅ **Milestone 4.1:** **RNA Polymerase Transcription Machine (`6C9Y`)** — 🟢 **Built & Fully Interactive**
+  - High-fidelity 8-piece macromolecular decomposition (`Piece_RNAP_Beta`, `Piece_RNAP_BetaPrime`, `Piece_RNAP_Alpha_Dimer`, `Piece_RNAP_Omega`, `Piece_RNAP_Sigma70`, `Piece_RNAP_DNA_Duplex`, `Piece_RNAP_Nascent_RNA`, `Piece_RNAP_Active_Mg`), unwinding of the 13-bp open transcription bubble across the catalytic cleft, incoming rNTP substrate stream through secondary funnel, two-metal-ion $\text{Mg}^{2+}$ coordination center, processive mRNA synthesis at 10–100 nt/s (nominal 50 nt/s), Rifampicin antibiotic steric wall toggle, exploded view dissociation along natural biophysical vectors, quick inspect chips, 9 dynamic SVG leader lines with lettered subpill badges, and universal 6-Stage Explanatory Trace.
+- ✅ **Milestone 4.2:** **DNA Polymerase III Replisome Holoenzyme (`5FKV`)** — 🟢 **Built & Fully Interactive**
+  - High-fidelity 8-piece cryo-EM macromolecular decomposition (`Piece_PolIII_Alpha`, `Piece_PolIII_Beta_Clamp`, `Piece_PolIII_Epsilon`, `Piece_PolIII_Tau`, `Piece_PolIII_DnaB_Helicase`, `Piece_PolIII_DNA_Duplex`, `Piece_PolIII_Parental_Fork`, `Piece_PolIII_Active_Palm`), 28-particle incoming dNTP substrate stream, two-metal $\text{Mg}^{2+}$ catalytic coordination center, bidirectional replication velocity slider (100–1,200 bp/s with genome duplication timer readout), DnaQ proofreading fidelity toggle (High Fidelity $< 10^{-8}$ vs. Mutator Phenotype), exploded view dissociation along natural biophysical vectors, quick inspect chips, 8 dynamic SVG leader lines with lettered subpill badges, and universal 6-Stage Explanatory Trace.
+- ✅ **Milestone 4.3:** **DNA Gyrase Topoisomerase II (`1AB4` / `2XCT`)** — 🟢 **Built & Fully Interactive**
+  - High-fidelity 8-piece cryo-EM / crystal structure macromolecular decomposition (`Piece_Gyrase_GyrA_Dimer`, `Piece_Gyrase_GyrB_Dimer`, `Piece_Gyrase_G_Segment`, `Piece_Gyrase_T_Segment`, `Piece_Gyrase_Tyr122_Active`, `Piece_Gyrase_Cipro_Pocket`, `Piece_Gyrase_ATP_Sites`, `Piece_Gyrase_CTD_Pinwheels`), three-gate harmonic strand-passage cycle ($\Delta Lk = -2$ per cycle), catalytic Tyr122 transesterification 5′-phosphotyrosyl covalent bond intermediate, Ciprofloxacin antibiotic poison mode (stabilizing persistent double-strand break), ATP energy coupling toggle, exploded view dissociation along natural biophysical vectors, quick inspect chips, 8 dynamic SVG leader lines with lettered subpill badges, and universal 5-Stage Explanatory Trace.
 
 ### Phase 5: Cytoskeletal Scaffolds, Divisome & Chemosensory Arrays
-- 🎯 **Milestone 5.1:** **Divisome FtsZ Z-Ring (`1FSZ`)** (Midcell division septum constriction)
-- 🎯 **Milestone 5.2:** **MreB Actin Helical Rails (`1JCG`)** (Wall synthesis elongation guidance)
-- 🎯 **Milestone 5.3:** **Chemosensory Array (`3JA6`)** (Polar MCP-CheA-CheW signaling lattice)
+- ✅ **Milestone 5.1:** **Divisome FtsZ Z-Ring (`1FSZ` / `2R6R`)** — 🟢 **Built & Fully Interactive**
+  - High-fidelity 8-piece macromolecular decomposition (`Piece_FtsZ_Protofilaments`, `Piece_FtsZ_FtsA_Anchor`, `Piece_FtsZ_ZipA_Transmembrane`, `Piece_FtsZ_Inner_Membrane`, `Piece_FtsZ_GTP_Pockets`, `Piece_FtsZ_Septal_Wall`, `Piece_FtsZ_FtsWI_Synthase`, `Piece_FtsZ_MinCDE_Barrier`), directional protofilament treadmilling animation (5–60 nm/s, nominal 28 nm/s), real-time cytokinetic furrow constriction slider (0% to 100% septum closure, 800 nm down to scission < 50 nm), PC190723 antibiotic inhibitor mode toggle (locks straight GTP protofilaments and freezes treadmilling), GTP energy state toggle, exploded view dissociation along natural biophysical vectors, quick inspect chips, 8 dynamic SVG leader lines with lettered subpill badges, and universal 5-Stage Explanatory Trace.
+- ✅ **Milestone 5.2:** **MreB Actin Helical Rails (`1JCG` / `4CZM`)** — 🟢 **Built & Fully Interactive**
+  - High-fidelity 8-piece macromolecular decomposition (`Piece_MreB_Protofilaments`, `Piece_MreB_ATP_Pockets`, `Piece_MreB_Membrane_Anchor`, `Piece_MreB_Inner_Membrane`, `Piece_MreB_RodZ_Adaptor`, `Piece_MreB_RodA_Glycosylase`, `Piece_MreB_PBP2_Transpeptidase`, `Piece_MreB_A22_Pocket`), antiparallel double protofilament rail lattice with 5.1 nm longitudinal subunit repeat, processive directional motion along inner membrane ($10\text{--}50\,\text{nm/s}$, nominal $25\,\text{nm/s}$), A22 antibiotic inhibitor mode (cleft binding, filament depolymerization, spherical cell rounding), ATP energy state toggle, exploded view dissociation along natural biophysical vectors, quick inspect chips, 8 dynamic SVG leader lines with lettered subpill badges, and universal 6-Stage Explanatory Trace.
+- 🎯 **Milestone 5.3:** **Chemosensory Array (`3JA6`)** *(CURRENT NEXT TARGET)*
+  - Polar MCP-CheA-CheW supramolecular signaling lattice, transmembrane kinase cascade, and chemotactic signal amplification.

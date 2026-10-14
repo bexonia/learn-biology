@@ -1,0 +1,11 @@
+{
+  "name": "learn-biology",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Learn Biology — 3D Interactive Cell & Nanomachines",
+  "scripts": {
+    "dev": "pnpm --prefix client dev",
+    "build": "pnpm --prefix client build",
+    "preview": "pnpm --prefix client preview"
+  }
+}

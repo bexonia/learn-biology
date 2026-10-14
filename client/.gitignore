@@ -36,5 +36,10 @@ public/models/*.glb
 !public/models/3J46_assembled_pieces.glb
 !public/models/5D0O_assembled_pieces.glb
 !public/models/9P7P_assembled_pieces.glb
+!public/models/6C9Y_assembled_pieces.glb
+!public/models/5FKV_assembled_pieces.glb
+!public/models/1AB4_assembled_pieces.glb
+!public/models/1FSZ_assembled_pieces.glb
+!public/models/1JCG_assembled_pieces.glb
 public/wasm/*.wasm
 public/prokaryote_cell.glb

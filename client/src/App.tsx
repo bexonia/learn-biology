@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef, useCallback } from 'react';
 import * as THREE from 'three';
-import type { ScenarioType, MotorComponentData, RibosomeComponentData, ATPSynthaseComponentData, ComplexIComponentData, SecYEGComponentData, BAMComponentData, LptComponentData, TourStatus } from './types/biology';
+import type { ScenarioType, MotorComponentData, RibosomeComponentData, ATPSynthaseComponentData, ComplexIComponentData, SecYEGComponentData, BAMComponentData, LptComponentData, RNAPComponentData, PolIIIComponentData, GyraseComponentData, FtsZComponentData, MreBComponentData, TourStatus } from './types/biology';
 import { CellViewerScene, CELL_ANATOMY_DATA, CELL_TOUR_STOPS } from './core/cellViewer';
 import { FlagellarMotorScene } from './core/flagellarMotor';
 import { RibosomeScene, RIBOSOME_COMPONENTS_META, RIBOSOME_TOUR_STOPS } from './core/ribosomeTranslation';
@@ -9,6 +9,11 @@ import { ComplexIScene, COMPLEX_I_COMPONENTS_META, COMPLEX_I_TOUR_STOPS } from '
 import { SecYEGScene, SECYEG_COMPONENTS_META, SECYEG_EXPLANATION_STAGES } from './core/secYEGTransport';
 import { BAMComplexScene, BAM_COMPONENTS_META, BAM_EXPLANATION_STAGES } from './core/bamComplexTransport';
 import { LptBridgeScene, LPT_COMPONENTS_META, LPT_EXPLANATION_STAGES } from './core/lptBridgeTransport';
+import { RNAPScene, RNAP_COMPONENTS_META, RNAP_EXPLANATION_STAGES } from './core/rnapTranscription';
+import { PolIIIReplisomeScene, POL_III_COMPONENTS_META, POL_III_EXPLANATION_STAGES } from './core/polIIIReplication';
+import { DNAGyraseScene, GYRASE_COMPONENTS_META, GYRASE_EXPLANATION_STAGES } from './core/gyraseSupercoiling';
+import { FtsZDivisomeScene, FTSZ_COMPONENTS_META, FTSZ_EXPLANATION_STAGES } from './core/ftszDivisome';
+import { MreBCytoskeletonScene, MREB_COMPONENTS_META, MREB_EXPLANATION_STAGES } from './core/mrebCytoskeleton';
 import voiceService from './core/voiceService';
 
 // Macromolecular 3D models for background pre-caching
@@ -19,6 +24,11 @@ const PRELOAD_MODELS = [
   '/models/3J46_assembled_pieces.glb', // SecYEG Translocon
   '/models/5D0O_assembled_pieces.glb', // BAM Complex
   '/models/9P7P_assembled_pieces.glb', // Lpt Bridge
+  '/models/6C9Y_assembled_pieces.glb', // RNA Polymerase
+  '/models/5FKV_assembled_pieces.glb', // DNA Polymerase III Replisome
+  '/models/1AB4_assembled_pieces.glb', // DNA Gyrase Topoisomerase II
+  '/models/1FSZ_assembled_pieces.glb', // Divisome FtsZ Z-Ring
+  '/models/1JCG_assembled_pieces.glb', // MreB Actin Helical Rails
   '/models/7CGO_flagellar_motor.glb'   // Flagellar Motor
 ];
 
@@ -68,8 +78,92 @@ import { LptHeaderOverlay } from './components/Lpt/LptHeaderOverlay';
 import { LptHUDCard } from './components/Lpt/LptHUDCard';
 import { LptInspectorDrawer } from './components/Lpt/LptInspectorDrawer';
 
+// RNAP Components
+import { RNAPHeaderOverlay } from './components/RNAP/RNAPHeaderOverlay';
+import { RNAPHUDCard } from './components/RNAP/RNAPHUDCard';
+import { RNAPInspectorDrawer } from './components/RNAP/RNAPInspectorDrawer';
+
+// Pol III Components
+import { PolIIIHeaderOverlay } from './components/PolIII/PolIIIHeaderOverlay';
+import { PolIIIHUDCard } from './components/PolIII/PolIIIHUDCard';
+import { PolIIIInspectorDrawer } from './components/PolIII/PolIIIInspectorDrawer';
+
+// Gyrase Components
+import { GyraseHeaderOverlay } from './components/Gyrase/GyraseHeaderOverlay';
+import { GyraseHUDCard } from './components/Gyrase/GyraseHUDCard';
+import { GyraseInspectorDrawer } from './components/Gyrase/GyraseInspectorDrawer';
+
+// FtsZ Components
+import { FtsZHeaderOverlay } from './components/FtsZ/FtsZHeaderOverlay';
+import { FtsZHUDCard } from './components/FtsZ/FtsZHUDCard';
+import { FtsZInspectorDrawer } from './components/FtsZ/FtsZInspectorDrawer';
+
+// MreB Components
+import { MreBHeaderOverlay } from './components/MreB/MreBHeaderOverlay';
+import { MreBHUDCard } from './components/MreB/MreBHUDCard';
+import { MreBInspectorDrawer } from './components/MreB/MreBInspectorDrawer';
+
+export const MREB_TOUR_STOPS = [
+  'mreb_protofilaments',
+  'mreb_atp_pockets',
+  'mreb_membrane_anchor',
+  'mreb_inner_membrane',
+  'mreb_rodz_adaptor',
+  'mreb_roda_glycosylase',
+  'mreb_pbp2_transpeptidase',
+  'mreb_a22_pocket'
+];
+
+export const FTSZ_TOUR_STOPS = [
+  'ftsz_protofilaments',
+  'ftsz_ftsa_anchor',
+  'ftsz_zipa_anchor',
+  'ftsz_inner_membrane',
+  'ftsz_gtp_pockets',
+  'ftsz_septal_wall',
+  'ftsz_ftswi_synthase',
+  'ftsz_mincde_barrier'
+];
+
+export const GYRASE_TOUR_STOPS = [
+  'gyrase_holoenzyme',
+  'gyrase_gyra_dimer',
+  'gyrase_gyrb_dimer',
+  'gyrase_g_segment',
+  'gyrase_t_segment',
+  'gyrase_tyr122_active',
+  'gyrase_cipro_pocket',
+  'gyrase_atp_sites',
+  'gyrase_ctd_pinwheels'
+];
+
+export const POL_III_TOUR_STOPS = [
+  'pol_iii_holoenzyme',
+  'pol_iii_alpha',
+  'pol_iii_beta_clamp',
+  'pol_iii_epsilon',
+  'pol_iii_tau',
+  'pol_iii_dnab_helicase',
+  'pol_iii_dna_duplex',
+  'pol_iii_parental_fork',
+  'pol_iii_active_palm'
+];
+
 // Live Viewport Subtitles
 import { LiveSubtitles } from './components/Viewport/LiveSubtitles';
+
+export const RNAP_TOUR_STOPS = [
+  'rnap_holoenzyme',
+  'rnap_sigma70',
+  'rnap_dna_duplex',
+  'rnap_beta',
+  'rnap_betaprime',
+  'rnap_active_mg',
+  'rnap_rifampicin_pocket',
+  'rnap_nascent_rna',
+  'rnap_alpha_dimer',
+  'rnap_omega'
+];
 
 const DEFAULT_MOTOR_META: MotorComponentData = {
   name: 'Cryo-EM Flagellar Basal Body (Molecular Nodes)',
@@ -539,6 +633,100 @@ function App() {
   const [lptTourStep, setLptTourStep] = useState<number>(0);
   const [lptTourPhase, setLptTourPhase] = useState<'narrating' | 'cooldown' | 'idle'>('idle');
 
+  // RNAP Transcription Scenario State
+  const [activeRnapPart, setActiveRnapPart] = useState<string>('rnap_holoenzyme');
+  const [rnapComponentMeta, setRnapComponentMeta] = useState<RNAPComponentData>(RNAP_COMPONENTS_META['rnap_holoenzyme']);
+  const [isRnapPaused, setIsRnapPaused] = useState<boolean>(false);
+  const [isRnapRifampicinInhibited, setIsRnapRifampicinInhibited] = useState<boolean>(false);
+  const [rnapTranscriptionRate, setRnapTranscriptionRate] = useState<number>(50.0);
+  const [rnapExplodedProgress, setRnapExplodedProgress] = useState<number>(0);
+  const [isRnapLabelsVisible, setIsRnapLabelsVisible] = useState<boolean>(true);
+  const [isRnapNarrating, setIsRnapNarrating] = useState<boolean>(false);
+  const [isRnapAutoRotating, setIsRnapAutoRotating] = useState<boolean>(false);
+  const [rnapStoryStep, setRnapStoryStep] = useState<number>(0);
+
+  // RNAP Guided Tour State
+  const [isRnapTourActive, setIsRnapTourActive] = useState<boolean>(false);
+  const [isRnapTourPlaying, setIsRnapTourPlaying] = useState<boolean>(false);
+  const [rnapTourStep, setRnapTourStep] = useState<number>(0);
+  const [rnapTourPhase, setRnapTourPhase] = useState<'narrating' | 'cooldown' | 'idle'>('idle');
+
+  // Pol III Replisome Scenario State
+  const [activePolIIIPart, setActivePolIIIPart] = useState<string>('pol_iii_holoenzyme');
+  const [polIIIComponentMeta, setPolIIIComponentMeta] = useState<PolIIIComponentData>(POL_III_COMPONENTS_META['pol_iii_holoenzyme']);
+  const [isPolIIIPaused, setIsPolIIIPaused] = useState<boolean>(false);
+  const [isPolIIIProofreadingActive, setIsPolIIIProofreadingActive] = useState<boolean>(true);
+  const [polIIIReplicationSpeed, setPolIIIReplicationSpeed] = useState<number>(1000.0);
+  const [polIIIExplodedProgress, setPolIIIExplodedProgress] = useState<number>(0);
+  const [isPolIIILabelsVisible, setIsPolIIILabelsVisible] = useState<boolean>(true);
+  const [isPolIIINarrating, setIsPolIIINarrating] = useState<boolean>(false);
+  const [isPolIIIAutoRotating, setIsPolIIIAutoRotating] = useState<boolean>(false);
+  const [polIIIStoryStep, setPolIIIStoryStep] = useState<number>(0);
+
+  // Pol III Guided Tour State
+  const [isPolIIITourActive, setIsPolIIITourActive] = useState<boolean>(false);
+  const [isPolIIITourPlaying, setIsPolIIITourPlaying] = useState<boolean>(false);
+  const [polIIITourStep, setPolIIITourStep] = useState<number>(0);
+  const [polIIITourPhase, setPolIIITourPhase] = useState<'narrating' | 'cooldown' | 'idle'>('idle');
+
+  // DNA Gyrase Topoisomerase II Scenario State
+  const [activeGyrasePart, setActiveGyrasePart] = useState<string>('gyrase_holoenzyme');
+  const [gyraseComponentMeta, setGyraseComponentMeta] = useState<GyraseComponentData>(GYRASE_COMPONENTS_META['gyrase_holoenzyme']);
+  const [isGyrasePaused, setIsGyrasePaused] = useState<boolean>(false);
+  const [isGyraseCiproInhibited, setIsGyraseCiproInhibited] = useState<boolean>(false);
+  const [isGyraseATPActive, setIsGyraseATPActive] = useState<boolean>(true);
+  const [gyraseSupercoilingRate, setGyraseSupercoilingRate] = useState<number>(1.5);
+  const [gyraseExplodedProgress, setGyraseExplodedProgress] = useState<number>(0);
+  const [isGyraseLabelsVisible, setIsGyraseLabelsVisible] = useState<boolean>(true);
+  const [isGyraseNarrating, setIsGyraseNarrating] = useState<boolean>(false);
+  const [isGyraseAutoRotating, setIsGyraseAutoRotating] = useState<boolean>(false);
+  const [gyraseStoryStep, setGyraseStoryStep] = useState<number>(0);
+
+  // Gyrase Guided Tour State
+  const [isGyraseTourActive, setIsGyraseTourActive] = useState<boolean>(false);
+  const [isGyraseTourPlaying, setIsGyraseTourPlaying] = useState<boolean>(false);
+  const [gyraseTourStep, setGyraseTourStep] = useState<number>(0);
+  const [gyraseTourPhase, setGyraseTourPhase] = useState<'narrating' | 'cooldown' | 'idle'>('idle');
+
+  // Divisome FtsZ Z-Ring Scenario State
+  const [activeFtsZPart, setActiveFtsZPart] = useState<string>('ftsz_protofilaments');
+  const [ftszComponentMeta, setFtsZComponentMeta] = useState<FtsZComponentData>(FTSZ_COMPONENTS_META['ftsz_protofilaments']);
+  const [isFtsZPaused, setIsFtsZPaused] = useState<boolean>(false);
+  const [isFtsZPC19Inhibited, setIsFtsZPC19Inhibited] = useState<boolean>(false);
+  const [isFtsZGTPActive, setIsFtsZGTPActive] = useState<boolean>(true);
+  const [ftszSeptumConstriction, setFtsZSeptumConstriction] = useState<number>(0.25);
+  const [ftszTreadmillingSpeed, setFtsZTreadmillingSpeed] = useState<number>(28.0);
+  const [ftszExplodedProgress, setFtsZExplodedProgress] = useState<number>(0);
+  const [isFtsZLabelsVisible, setIsFtsZLabelsVisible] = useState<boolean>(true);
+  const [isFtsZNarrating, setIsFtsZNarrating] = useState<boolean>(false);
+  const [isFtsZAutoRotating, setIsFtsZAutoRotating] = useState<boolean>(false);
+  const [ftszStoryStep, setFtsZStoryStep] = useState<number>(0);
+
+  // FtsZ Guided Tour State
+  const [isFtsZTourActive, setIsFtsZTourActive] = useState<boolean>(false);
+  const [isFtsZTourPlaying, setIsFtsZTourPlaying] = useState<boolean>(false);
+  const [ftszTourStep, setFtsZTourStep] = useState<number>(0);
+  const [ftszTourPhase, setFtsZTourPhase] = useState<'narrating' | 'cooldown' | 'idle'>('idle');
+
+  // MreB Actin Helical Rails Scenario State
+  const [activeMreBPart, setActiveMreBPart] = useState<string>('mreb_protofilaments');
+  const [mrebComponentMeta, setMreBComponentMeta] = useState<MreBComponentData>(MREB_COMPONENTS_META['mreb_protofilaments']);
+  const [isMreBPaused, setIsMreBPaused] = useState<boolean>(false);
+  const [isMreBA22Inhibited, setIsMreBA22Inhibited] = useState<boolean>(false);
+  const [isMreBATPActive, setIsMreBATPActive] = useState<boolean>(true);
+  const [mrebFilamentVelocity, setMreBFilamentVelocity] = useState<number>(25.0);
+  const [mrebExplodedProgress, setMreBExplodedProgress] = useState<number>(0);
+  const [isMreBLabelsVisible, setIsMreBLabelsVisible] = useState<boolean>(true);
+  const [isMreBNarrating, setIsMreBNarrating] = useState<boolean>(false);
+  const [isMreBAutoRotating, setIsMreBAutoRotating] = useState<boolean>(false);
+  const [mrebStoryStep, setMreBStoryStep] = useState<number>(0);
+
+  // MreB Guided Tour State
+  const [isMreBTourActive, setIsMreBTourActive] = useState<boolean>(false);
+  const [isMreBTourPlaying, setIsMreBTourPlaying] = useState<boolean>(false);
+  const [mrebTourStep, setMreBTourStep] = useState<number>(0);
+  const [mrebTourPhase, setMreBTourPhase] = useState<'narrating' | 'cooldown' | 'idle'>('idle');
+
   // Live Subtitles State (closed captions for AI narrator with 0.5s pre-display)
   const [subtitleState, setSubtitleState] = useState<{
     visible: boolean;
@@ -574,6 +762,11 @@ function App() {
   const secYEGContainerRef = useRef<HTMLDivElement>(null);
   const bamContainerRef = useRef<HTMLDivElement>(null);
   const lptContainerRef = useRef<HTMLDivElement>(null);
+  const rnapContainerRef = useRef<HTMLDivElement>(null);
+  const polIIIContainerRef = useRef<HTMLDivElement>(null);
+  const gyraseContainerRef = useRef<HTMLDivElement>(null);
+  const ftszContainerRef = useRef<HTMLDivElement>(null);
+  const mrebContainerRef = useRef<HTMLDivElement>(null);
 
   const cellSceneRef = useRef<CellViewerScene | null>(null);
   const motorSceneRef = useRef<FlagellarMotorScene | null>(null);
@@ -583,6 +776,11 @@ function App() {
   const secYEGSceneRef = useRef<SecYEGScene | null>(null);
   const bamSceneRef = useRef<BAMComplexScene | null>(null);
   const lptSceneRef = useRef<LptBridgeScene | null>(null);
+  const rnapSceneRef = useRef<RNAPScene | null>(null);
+  const polIIISceneRef = useRef<PolIIIReplisomeScene | null>(null);
+  const gyraseSceneRef = useRef<DNAGyraseScene | null>(null);
+  const ftszSceneRef = useRef<FtsZDivisomeScene | null>(null);
+  const mrebSceneRef = useRef<MreBCytoskeletonScene | null>(null);
 
   // --------------------------------------------------------------------------
   // 1. Initialize Cell Viewer Scene
@@ -969,6 +1167,221 @@ function App() {
   }, []);
 
   // --------------------------------------------------------------------------
+  // 3h. Initialize / Sync RNA Polymerase Scene when scenario === 'rnap'
+  // --------------------------------------------------------------------------
+  useEffect(() => {
+    if (!rnapContainerRef.current) return;
+    if (scenario !== 'rnap') return;
+
+    if (!rnapSceneRef.current) {
+      const s1 = new RNAPScene(rnapContainerRef.current, {
+        onSelectComponent: (meta: RNAPComponentData) => {
+          if (meta) {
+            setRnapComponentMeta(meta);
+          }
+        },
+        onCameraMove: () => {},
+        onSubtitlesUpdate: (text: string, title?: string, _color?: string) => {
+          showSubtitles(text, title || 'RNA POLYMERASE', 'Kokoro Neural TTS');
+        },
+        onStageChange: (stage: number) => {
+          setRnapStoryStep(stage);
+        }
+      });
+
+      rnapSceneRef.current = s1;
+      (window as any).rnapScene = s1;
+      s1.start();
+      s1.resetCamera();
+    } else {
+      (window as any).rnapScene = rnapSceneRef.current;
+      rnapSceneRef.current.start();
+      rnapSceneRef.current.resetCamera();
+    }
+  }, [scenario]);
+
+  useEffect(() => {
+    return () => {
+      if (rnapSceneRef.current) {
+        rnapSceneRef.current.dispose();
+        rnapSceneRef.current = null;
+      }
+    };
+  }, []);
+
+  // --------------------------------------------------------------------------
+  // 3i. Initialize DNA Polymerase III Replisome Scene
+  // --------------------------------------------------------------------------
+  useEffect(() => {
+    if (!polIIIContainerRef.current) return;
+    if (scenario !== 'pol_iii') return;
+
+    if (!polIIISceneRef.current) {
+      const s1 = new PolIIIReplisomeScene(polIIIContainerRef.current, {
+        onSelectComponent: (meta: PolIIIComponentData) => {
+          if (meta) {
+            setPolIIIComponentMeta(meta);
+          }
+        },
+        onCameraMove: () => {},
+        onSubtitlesUpdate: (text: string, title?: string, _color?: string) => {
+          showSubtitles(text, title || 'DNA POLYMERASE III REPLISOME', 'Kokoro Neural TTS');
+        },
+        onStageChange: (stage: number) => {
+          setPolIIIStoryStep(stage);
+        }
+      });
+
+      polIIISceneRef.current = s1;
+      (window as any).polIIIScene = s1;
+      s1.start();
+      s1.resetCamera();
+    } else {
+      (window as any).polIIIScene = polIIISceneRef.current;
+      polIIISceneRef.current.start();
+      polIIISceneRef.current.resetCamera();
+    }
+  }, [scenario]);
+
+  useEffect(() => {
+    return () => {
+      if (polIIISceneRef.current) {
+        polIIISceneRef.current.dispose();
+        polIIISceneRef.current = null;
+      }
+    };
+  }, []);
+
+  // --------------------------------------------------------------------------
+  // 3j. Initialize DNA Gyrase Topoisomerase II Scene
+  // --------------------------------------------------------------------------
+  useEffect(() => {
+    if (!gyraseContainerRef.current) return;
+    if (scenario !== 'gyrase') return;
+
+    if (!gyraseSceneRef.current) {
+      const s1 = new DNAGyraseScene(gyraseContainerRef.current, {
+        onSelectComponent: (meta: GyraseComponentData) => {
+          if (meta) {
+            setGyraseComponentMeta(meta);
+          }
+        },
+        onCameraMove: () => {},
+        onSubtitlesUpdate: (text: string, title?: string, _color?: string) => {
+          showSubtitles(text, title || 'DNA GYRASE TOPOISOMERASE II', 'Kokoro Neural TTS');
+        },
+        onStageChange: (stage: number) => {
+          setGyraseStoryStep(stage);
+        }
+      });
+
+      gyraseSceneRef.current = s1;
+      (window as any).gyraseScene = s1;
+      s1.start();
+      s1.resetCamera();
+    } else {
+      (window as any).gyraseScene = gyraseSceneRef.current;
+      gyraseSceneRef.current.start();
+      gyraseSceneRef.current.resetCamera();
+    }
+  }, [scenario]);
+
+  useEffect(() => {
+    return () => {
+      if (gyraseSceneRef.current) {
+        gyraseSceneRef.current.dispose();
+        gyraseSceneRef.current = null;
+      }
+    };
+  }, []);
+
+  // --------------------------------------------------------------------------
+  // 3k. Initialize Divisome FtsZ Z-Ring Scene
+  // --------------------------------------------------------------------------
+  useEffect(() => {
+    if (!ftszContainerRef.current) return;
+    if (scenario !== 'ftsz') return;
+
+    if (!ftszSceneRef.current) {
+      const s1 = new FtsZDivisomeScene(ftszContainerRef.current, {
+        onSelectComponent: (meta: FtsZComponentData) => {
+          if (meta) {
+            setFtsZComponentMeta(meta);
+          }
+        },
+        onCameraMove: () => {},
+        onSubtitlesUpdate: (text: string, title?: string, _color?: string) => {
+          showSubtitles(text, title || 'DIVISOME FTSZ Z-RING', 'Kokoro Neural TTS');
+        },
+        onStageChange: (stage: number) => {
+          setFtsZStoryStep(stage);
+        }
+      });
+
+      ftszSceneRef.current = s1;
+      (window as any).ftszScene = s1;
+      s1.start();
+      s1.resetCamera();
+    } else {
+      (window as any).ftszScene = ftszSceneRef.current;
+      ftszSceneRef.current.start();
+      ftszSceneRef.current.resetCamera();
+    }
+  }, [scenario]);
+
+  useEffect(() => {
+    return () => {
+      if (ftszSceneRef.current) {
+        ftszSceneRef.current.dispose();
+        ftszSceneRef.current = null;
+      }
+    };
+  }, []);
+
+  // --------------------------------------------------------------------------
+  // 3l. Initialize MreB Actin Helical Rails Scene
+  // --------------------------------------------------------------------------
+  useEffect(() => {
+    if (!mrebContainerRef.current) return;
+    if (scenario !== 'mreb') return;
+
+    if (!mrebSceneRef.current) {
+      const s1 = new MreBCytoskeletonScene(mrebContainerRef.current, {
+        onSelectComponent: (meta: MreBComponentData) => {
+          if (meta) {
+            setMreBComponentMeta(meta);
+          }
+        },
+        onCameraMove: () => {},
+        onSubtitlesUpdate: (text: string, title?: string, _color?: string) => {
+          showSubtitles(text, title || 'MREB ACTIN HELICAL RAILS', 'Kokoro Neural TTS');
+        },
+        onStageChange: (stage: number) => {
+          setMreBStoryStep(stage);
+        }
+      });
+
+      mrebSceneRef.current = s1;
+      (window as any).mrebScene = s1;
+      s1.start();
+      s1.resetCamera();
+    } else {
+      (window as any).mrebScene = mrebSceneRef.current;
+      mrebSceneRef.current.start();
+      mrebSceneRef.current.resetCamera();
+    }
+  }, [scenario]);
+
+  useEffect(() => {
+    return () => {
+      if (mrebSceneRef.current) {
+        mrebSceneRef.current.dispose();
+        mrebSceneRef.current = null;
+      }
+    };
+  }, []);
+
+  // --------------------------------------------------------------------------
   // 4. Autoplay Whole Cell Overview Narration
   // --------------------------------------------------------------------------
   useEffect(() => {
@@ -1100,6 +1513,21 @@ function App() {
     if (nextScenario !== 'lpt' && lptSceneRef.current) {
       lptSceneRef.current.stop();
     }
+    if (nextScenario !== 'rnap' && rnapSceneRef.current) {
+      rnapSceneRef.current.stop();
+    }
+    if (nextScenario !== 'pol_iii' && polIIISceneRef.current) {
+      polIIISceneRef.current.stop();
+    }
+    if (nextScenario !== 'gyrase' && gyraseSceneRef.current) {
+      gyraseSceneRef.current.stop();
+    }
+    if (nextScenario !== 'ftsz' && ftszSceneRef.current) {
+      ftszSceneRef.current.stop();
+    }
+    if (nextScenario !== 'mreb' && mrebSceneRef.current) {
+      mrebSceneRef.current.stop();
+    }
 
     // 2. Resume / activate target scenario (instant 0ms transition for cached models)
     if (nextScenario === 'cell' && cellSceneRef.current) {
@@ -1134,6 +1562,21 @@ function App() {
       lptSceneRef.current.start();
       lptSceneRef.current.handleResize();
       lptSceneRef.current.resetCamera();
+    } else if (nextScenario === 'rnap' && rnapSceneRef.current) {
+      rnapSceneRef.current.start();
+      rnapSceneRef.current.resetCamera();
+    } else if (nextScenario === 'pol_iii' && polIIISceneRef.current) {
+      polIIISceneRef.current.start();
+      polIIISceneRef.current.resetCamera();
+    } else if (nextScenario === 'gyrase' && gyraseSceneRef.current) {
+      gyraseSceneRef.current.start();
+      gyraseSceneRef.current.resetCamera();
+    } else if (nextScenario === 'ftsz' && ftszSceneRef.current) {
+      ftszSceneRef.current.start();
+      ftszSceneRef.current.resetCamera();
+    } else if (nextScenario === 'mreb' && mrebSceneRef.current) {
+      mrebSceneRef.current.start();
+      mrebSceneRef.current.resetCamera();
     }
   }, [tourStatus.active]);
 
@@ -2008,6 +2451,696 @@ function App() {
   };
 
   // --------------------------------------------------------------------------
+  // 6h. RNA Polymerase Explanatory Trace & Story Controllers
+  // --------------------------------------------------------------------------
+  const playRnapStoryStep = (stepNumber: number) => {
+    if (stepNumber < 1 || stepNumber > RNAP_EXPLANATION_STAGES.length) {
+      setRnapStoryStep(0);
+      setIsRnapNarrating(false);
+      setIsRnapTourActive(false);
+      setIsRnapTourPlaying(false);
+      setRnapTourPhase('idle');
+      if (rnapSceneRef.current) {
+        rnapSceneRef.current.setExplanationStep(0);
+      }
+      return;
+    }
+
+    const stage = RNAP_EXPLANATION_STAGES[stepNumber - 1];
+    setRnapStoryStep(stepNumber);
+    setActiveRnapPart(stage.id);
+    const meta = RNAP_COMPONENTS_META[stage.id] || RNAP_COMPONENTS_META['rnap_holoenzyme'];
+    if (meta) {
+      setRnapComponentMeta(meta);
+    }
+
+    if (rnapSceneRef.current) {
+      rnapSceneRef.current.setExplanationStep(stepNumber);
+    }
+
+    showSubtitles(stage.spoken, `STAGE ${stage.step} OF ${RNAP_EXPLANATION_STAGES.length}: ${stage.title}`, 'Kokoro Neural TTS');
+    voiceService.stop();
+    setIsRnapNarrating(true);
+    setRnapTourPhase('narrating');
+
+    voiceService.playText(stage.spoken, {
+      voice: selectedVoice,
+      onEnd: () => {
+        setIsRnapNarrating(false);
+        if (stepNumber < RNAP_EXPLANATION_STAGES.length) {
+          setRnapTourPhase('cooldown');
+          setTimeout(() => {
+            playRnapStoryStep(stepNumber + 1);
+          }, 850);
+        } else {
+          setRnapStoryStep(0);
+          setIsRnapNarrating(false);
+          setIsRnapTourActive(false);
+          setIsRnapTourPlaying(false);
+          setRnapTourPhase('idle');
+          hideSubtitles();
+          if (rnapSceneRef.current) {
+            rnapSceneRef.current.setExplanationStep(0);
+          }
+        }
+      },
+      onError: () => {
+        setRnapStoryStep(0);
+        setIsRnapNarrating(false);
+        setIsRnapTourActive(false);
+        setIsRnapTourPlaying(false);
+        setRnapTourPhase('idle');
+        hideSubtitles();
+        if (rnapSceneRef.current) {
+          rnapSceneRef.current.setExplanationStep(0);
+        }
+      }
+    });
+  };
+
+  const stopRnapStoryTrace = () => {
+    voiceService.stop();
+    setIsRnapNarrating(false);
+    setRnapStoryStep(0);
+    setIsRnapTourActive(false);
+    setIsRnapTourPlaying(false);
+    setRnapTourPhase('idle');
+    hideSubtitles();
+    if (rnapSceneRef.current) {
+      rnapSceneRef.current.setExplanationStep(0);
+    }
+  };
+
+  const handleRnapNarrate = () => {
+    if (voiceService.isBusy() || rnapStoryStep > 0) {
+      stopRnapStoryTrace();
+      return;
+    }
+    if (!activeRnapPart || activeRnapPart === 'rnap_holoenzyme') {
+      playRnapStoryStep(1);
+    } else if (rnapComponentMeta) {
+      const speech = `${rnapComponentMeta.name}. ${rnapComponentMeta.desc || ''}`;
+      setIsRnapNarrating(true);
+      showSubtitles(speech, rnapComponentMeta.badge || 'RNA POLYMERASE', 'Kokoro Neural TTS');
+      voiceService.playText(speech, {
+        voice: selectedVoice,
+        onEnd: () => {
+          setIsRnapNarrating(false);
+          hideSubtitles();
+        },
+        onError: () => {
+          setIsRnapNarrating(false);
+          hideSubtitles();
+        }
+      });
+    }
+  };
+
+  const handleToggleRnapAutoRotate = () => {
+    setIsRnapAutoRotating(prev => !prev);
+  };
+
+  const handleToggleRnapLabels = () => {
+    setIsRnapLabelsVisible(prev => !prev);
+  };
+
+  const handleToggleRnapTour = () => {
+    if (isRnapTourActive || rnapStoryStep > 0) {
+      stopRnapStoryTrace();
+    } else {
+      setIsRnapTourActive(true);
+      playRnapStoryStep(1);
+    }
+  };
+
+  const goToRnapTourStep = (stepIndex: number) => {
+    const safeIndex = Math.max(0, Math.min(RNAP_TOUR_STOPS.length - 1, stepIndex));
+    setRnapTourStep(safeIndex);
+    const partKey = RNAP_TOUR_STOPS[safeIndex];
+    setActiveRnapPart(partKey);
+    const meta = RNAP_COMPONENTS_META[partKey];
+    if (meta) {
+      setRnapComponentMeta(meta);
+      if (rnapSceneRef.current) {
+        rnapSceneRef.current.focusComponent(partKey);
+      }
+      setRnapTourPhase('narrating');
+    }
+  };
+
+  // --------------------------------------------------------------------------
+  // 6i. Pol III Replisome Explanatory Trace & Story Controllers
+  // --------------------------------------------------------------------------
+  const playPolIIIStoryStep = (stepNumber: number) => {
+    if (stepNumber < 1 || stepNumber > POL_III_EXPLANATION_STAGES.length) {
+      setPolIIIStoryStep(0);
+      setIsPolIIINarrating(false);
+      setIsPolIIITourActive(false);
+      setIsPolIIITourPlaying(false);
+      setPolIIITourPhase('idle');
+      if (polIIISceneRef.current) {
+        polIIISceneRef.current.setExplanationStep(0);
+      }
+      return;
+    }
+
+    const stage = POL_III_EXPLANATION_STAGES[stepNumber - 1];
+    setPolIIIStoryStep(stepNumber);
+    setActivePolIIIPart(stage.id);
+    const meta = POL_III_COMPONENTS_META[stage.id] || POL_III_COMPONENTS_META['pol_iii_holoenzyme'];
+    if (meta) {
+      setPolIIIComponentMeta(meta);
+    }
+
+    if (polIIISceneRef.current) {
+      polIIISceneRef.current.setExplanationStep(stepNumber);
+    }
+
+    showSubtitles(stage.spoken, `STAGE ${stage.step} OF ${POL_III_EXPLANATION_STAGES.length}: ${stage.title}`, 'Kokoro Neural TTS');
+    voiceService.stop();
+    setIsPolIIINarrating(true);
+    setPolIIITourPhase('narrating');
+
+    voiceService.playText(stage.spoken, {
+      voice: selectedVoice,
+      onEnd: () => {
+        setIsPolIIINarrating(false);
+        if (stepNumber < POL_III_EXPLANATION_STAGES.length) {
+          setPolIIITourPhase('cooldown');
+          setTimeout(() => {
+            playPolIIIStoryStep(stepNumber + 1);
+          }, 850);
+        } else {
+          setPolIIIStoryStep(0);
+          setIsPolIIINarrating(false);
+          setIsPolIIITourActive(false);
+          setIsPolIIITourPlaying(false);
+          setPolIIITourPhase('idle');
+          hideSubtitles();
+          if (polIIISceneRef.current) {
+            polIIISceneRef.current.setExplanationStep(0);
+          }
+        }
+      },
+      onError: () => {
+        setPolIIIStoryStep(0);
+        setIsPolIIINarrating(false);
+        setIsPolIIITourActive(false);
+        setIsPolIIITourPlaying(false);
+        setPolIIITourPhase('idle');
+        hideSubtitles();
+        if (polIIISceneRef.current) {
+          polIIISceneRef.current.setExplanationStep(0);
+        }
+      }
+    });
+  };
+
+  const stopPolIIIStoryTrace = () => {
+    voiceService.stop();
+    setIsPolIIINarrating(false);
+    setPolIIIStoryStep(0);
+    setIsPolIIITourActive(false);
+    setIsPolIIITourPlaying(false);
+    setPolIIITourPhase('idle');
+    hideSubtitles();
+    if (polIIISceneRef.current) {
+      polIIISceneRef.current.setExplanationStep(0);
+    }
+  };
+
+  const handlePolIIINarrate = () => {
+    if (voiceService.isBusy() || polIIIStoryStep > 0) {
+      stopPolIIIStoryTrace();
+      return;
+    }
+    if (!activePolIIIPart || activePolIIIPart === 'pol_iii_holoenzyme') {
+      playPolIIIStoryStep(1);
+    } else if (polIIIComponentMeta) {
+      const speech = `${polIIIComponentMeta.name}. ${polIIIComponentMeta.desc || ''}`;
+      setIsPolIIINarrating(true);
+      showSubtitles(speech, polIIIComponentMeta.badge || 'DNA POLYMERASE III', 'Kokoro Neural TTS');
+      voiceService.playText(speech, {
+        voice: selectedVoice,
+        onEnd: () => {
+          setIsPolIIINarrating(false);
+          hideSubtitles();
+        },
+        onError: () => {
+          setIsPolIIINarrating(false);
+          hideSubtitles();
+        }
+      });
+    }
+  };
+
+  const handleTogglePolIIIAutoRotate = () => {
+    setIsPolIIIAutoRotating(prev => !prev);
+  };
+
+  const handleTogglePolIIILabels = () => {
+    setIsPolIIILabelsVisible(prev => !prev);
+  };
+
+  const handleTogglePolIIITour = () => {
+    if (isPolIIITourActive || polIIIStoryStep > 0) {
+      stopPolIIIStoryTrace();
+    } else {
+      setIsPolIIITourActive(true);
+      playPolIIIStoryStep(1);
+    }
+  };
+
+  const goToPolIIITourStep = (stepIndex: number) => {
+    const safeIndex = Math.max(0, Math.min(POL_III_TOUR_STOPS.length - 1, stepIndex));
+    setPolIIITourStep(safeIndex);
+    const partKey = POL_III_TOUR_STOPS[safeIndex];
+    setActivePolIIIPart(partKey);
+    const meta = POL_III_COMPONENTS_META[partKey];
+    if (meta) {
+      setPolIIIComponentMeta(meta);
+      if (polIIISceneRef.current) {
+        polIIISceneRef.current.focusComponent(partKey);
+      }
+      setPolIIITourPhase('narrating');
+    }
+  };
+
+  // --------------------------------------------------------------------------
+  // 6j. DNA Gyrase Topoisomerase II Explanatory Trace & Story Controllers
+  // --------------------------------------------------------------------------
+  const playGyraseStoryStep = (stepNumber: number) => {
+    if (stepNumber < 1 || stepNumber > GYRASE_EXPLANATION_STAGES.length) {
+      setGyraseStoryStep(0);
+      setIsGyraseNarrating(false);
+      setIsGyraseTourActive(false);
+      setIsGyraseTourPlaying(false);
+      setGyraseTourPhase('idle');
+      if (gyraseSceneRef.current) {
+        gyraseSceneRef.current.setExplanationStep(0);
+      }
+      return;
+    }
+
+    const stage = GYRASE_EXPLANATION_STAGES[stepNumber - 1];
+    setGyraseStoryStep(stepNumber);
+    setActiveGyrasePart(stage.id);
+    const meta = GYRASE_COMPONENTS_META[stage.id] || GYRASE_COMPONENTS_META['gyrase_holoenzyme'];
+    if (meta) {
+      setGyraseComponentMeta(meta);
+    }
+
+    if (gyraseSceneRef.current) {
+      gyraseSceneRef.current.setExplanationStep(stepNumber);
+    }
+
+    showSubtitles(stage.spoken, `STAGE ${stage.step} OF ${GYRASE_EXPLANATION_STAGES.length}: ${stage.title}`, 'Kokoro Neural TTS');
+    voiceService.stop();
+    setIsGyraseNarrating(true);
+    setGyraseTourPhase('narrating');
+
+    voiceService.playText(stage.spoken, {
+      voice: selectedVoice,
+      onEnd: () => {
+        setIsGyraseNarrating(false);
+        if (stepNumber < GYRASE_EXPLANATION_STAGES.length) {
+          setGyraseTourPhase('cooldown');
+          setTimeout(() => {
+            playGyraseStoryStep(stepNumber + 1);
+          }, 850);
+        } else {
+          setGyraseStoryStep(0);
+          setIsGyraseNarrating(false);
+          setIsGyraseTourActive(false);
+          setIsGyraseTourPlaying(false);
+          setGyraseTourPhase('idle');
+          hideSubtitles();
+          if (gyraseSceneRef.current) {
+            gyraseSceneRef.current.setExplanationStep(0);
+          }
+        }
+      },
+      onError: () => {
+        setGyraseStoryStep(0);
+        setIsGyraseNarrating(false);
+        setIsGyraseTourActive(false);
+        setIsGyraseTourPlaying(false);
+        setGyraseTourPhase('idle');
+        hideSubtitles();
+        if (gyraseSceneRef.current) {
+          gyraseSceneRef.current.setExplanationStep(0);
+        }
+      }
+    });
+  };
+
+  const stopGyraseStoryTrace = () => {
+    voiceService.stop();
+    setIsGyraseNarrating(false);
+    setGyraseStoryStep(0);
+    setIsGyraseTourActive(false);
+    setIsGyraseTourPlaying(false);
+    setGyraseTourPhase('idle');
+    hideSubtitles();
+    if (gyraseSceneRef.current) {
+      gyraseSceneRef.current.setExplanationStep(0);
+    }
+  };
+
+  const handleGyraseNarrate = () => {
+    if (voiceService.isBusy() || gyraseStoryStep > 0) {
+      stopGyraseStoryTrace();
+      return;
+    }
+    if (!activeGyrasePart || activeGyrasePart === 'gyrase_holoenzyme') {
+      playGyraseStoryStep(1);
+    } else if (gyraseComponentMeta) {
+      const speech = `${gyraseComponentMeta.name}. ${gyraseComponentMeta.desc || ''}`;
+      setIsGyraseNarrating(true);
+      showSubtitles(speech, gyraseComponentMeta.badge || 'DNA GYRASE', 'Kokoro Neural TTS');
+      voiceService.playText(speech, {
+        voice: selectedVoice,
+        onEnd: () => {
+          setIsGyraseNarrating(false);
+          hideSubtitles();
+        },
+        onError: () => {
+          setIsGyraseNarrating(false);
+          hideSubtitles();
+        }
+      });
+    }
+  };
+
+  const handleToggleGyraseAutoRotate = () => {
+    setIsGyraseAutoRotating(prev => !prev);
+  };
+
+  const handleToggleGyraseLabels = () => {
+    setIsGyraseLabelsVisible(prev => !prev);
+  };
+
+  const handleToggleGyraseTour = () => {
+    if (isGyraseTourActive || gyraseStoryStep > 0) {
+      stopGyraseStoryTrace();
+    } else {
+      setIsGyraseTourActive(true);
+      playGyraseStoryStep(1);
+    }
+  };
+
+  const goToGyraseTourStep = (stepIndex: number) => {
+    const safeIndex = Math.max(0, Math.min(GYRASE_TOUR_STOPS.length - 1, stepIndex));
+    setGyraseTourStep(safeIndex);
+    const partKey = GYRASE_TOUR_STOPS[safeIndex];
+    setActiveGyrasePart(partKey);
+    const meta = GYRASE_COMPONENTS_META[partKey];
+    if (meta) {
+      setGyraseComponentMeta(meta);
+      if (gyraseSceneRef.current) {
+        gyraseSceneRef.current.focusComponent(partKey);
+      }
+      setGyraseTourPhase('narrating');
+    }
+  };
+
+  // --------------------------------------------------------------------------
+  // 6k. Divisome FtsZ Z-Ring Explanatory Trace & Story Controllers
+  // --------------------------------------------------------------------------
+  const playFtsZStoryStep = (stepNumber: number) => {
+    if (stepNumber < 1 || stepNumber > FTSZ_EXPLANATION_STAGES.length) {
+      setFtsZStoryStep(0);
+      setIsFtsZNarrating(false);
+      setIsFtsZTourActive(false);
+      setIsFtsZTourPlaying(false);
+      setFtsZTourPhase('idle');
+      if (ftszSceneRef.current) {
+        ftszSceneRef.current.setExplanationStep(0);
+      }
+      return;
+    }
+
+    const stage = FTSZ_EXPLANATION_STAGES[stepNumber - 1];
+    setFtsZStoryStep(stepNumber);
+    setActiveFtsZPart(stage.id);
+    const meta = FTSZ_COMPONENTS_META[stage.id] || FTSZ_COMPONENTS_META['ftsz_protofilaments'];
+    if (meta) {
+      setFtsZComponentMeta(meta);
+    }
+
+    if (ftszSceneRef.current) {
+      ftszSceneRef.current.setExplanationStep(stepNumber);
+    }
+
+    showSubtitles(stage.spoken, `STAGE ${stage.step} OF ${FTSZ_EXPLANATION_STAGES.length}: ${stage.title}`, 'Kokoro Neural TTS');
+    voiceService.stop();
+    setIsFtsZNarrating(true);
+    setFtsZTourPhase('narrating');
+
+    voiceService.playText(stage.spoken, {
+      voice: selectedVoice,
+      onEnd: () => {
+        setIsFtsZNarrating(false);
+        if (stepNumber < FTSZ_EXPLANATION_STAGES.length) {
+          setFtsZTourPhase('cooldown');
+          setTimeout(() => {
+            playFtsZStoryStep(stepNumber + 1);
+          }, 850);
+        } else {
+          setFtsZStoryStep(0);
+          setIsFtsZNarrating(false);
+          setIsFtsZTourActive(false);
+          setIsFtsZTourPlaying(false);
+          setFtsZTourPhase('idle');
+          hideSubtitles();
+          if (ftszSceneRef.current) {
+            ftszSceneRef.current.setExplanationStep(0);
+          }
+        }
+      },
+      onError: () => {
+        setFtsZStoryStep(0);
+        setIsFtsZNarrating(false);
+        setIsFtsZTourActive(false);
+        setIsFtsZTourPlaying(false);
+        setFtsZTourPhase('idle');
+        hideSubtitles();
+        if (ftszSceneRef.current) {
+          ftszSceneRef.current.setExplanationStep(0);
+        }
+      }
+    });
+  };
+
+  const stopFtsZStoryTrace = () => {
+    voiceService.stop();
+    setIsFtsZNarrating(false);
+    setFtsZStoryStep(0);
+    setIsFtsZTourActive(false);
+    setIsFtsZTourPlaying(false);
+    setFtsZTourPhase('idle');
+    hideSubtitles();
+    if (ftszSceneRef.current) {
+      ftszSceneRef.current.setExplanationStep(0);
+    }
+  };
+
+  const handleFtsZNarrate = () => {
+    if (voiceService.isBusy() || ftszStoryStep > 0) {
+      stopFtsZStoryTrace();
+      return;
+    }
+    if (!activeFtsZPart || activeFtsZPart === 'ftsz_protofilaments') {
+      playFtsZStoryStep(1);
+    } else if (ftszComponentMeta) {
+      const speech = `${ftszComponentMeta.name}. ${ftszComponentMeta.desc || ''}`;
+      setIsFtsZNarrating(true);
+      showSubtitles(speech, ftszComponentMeta.badge || 'DIVISOME FTSZ', 'Kokoro Neural TTS');
+      voiceService.playText(speech, {
+        voice: selectedVoice,
+        onEnd: () => {
+          setIsFtsZNarrating(false);
+          hideSubtitles();
+        },
+        onError: () => {
+          setIsFtsZNarrating(false);
+          hideSubtitles();
+        }
+      });
+    }
+  };
+
+  const handleToggleFtsZAutoRotate = () => {
+    setIsFtsZAutoRotating(prev => !prev);
+  };
+
+  const handleToggleFtsZLabels = () => {
+    setIsFtsZLabelsVisible(prev => !prev);
+  };
+
+  const handleToggleFtsZTour = () => {
+    if (isFtsZTourActive || ftszStoryStep > 0) {
+      stopFtsZStoryTrace();
+    } else {
+      setIsFtsZTourActive(true);
+      playFtsZStoryStep(1);
+    }
+  };
+
+  const goToFtsZTourStep = (stepIndex: number) => {
+    const safeIndex = Math.max(0, Math.min(FTSZ_TOUR_STOPS.length - 1, stepIndex));
+    setFtsZTourStep(safeIndex);
+    const partKey = FTSZ_TOUR_STOPS[safeIndex];
+    setActiveFtsZPart(partKey);
+    const meta = FTSZ_COMPONENTS_META[partKey];
+    if (meta) {
+      setFtsZComponentMeta(meta);
+      if (ftszSceneRef.current) {
+        ftszSceneRef.current.focusComponent(partKey);
+      }
+      setFtsZTourPhase('narrating');
+    }
+  };
+
+  // --------------------------------------------------------------------------
+  // 6l. MreB Actin Helical Rails Explanatory Trace & Story Controllers
+  // --------------------------------------------------------------------------
+  const playMreBStoryStep = (stepNumber: number) => {
+    if (stepNumber < 1 || stepNumber > MREB_EXPLANATION_STAGES.length) {
+      setMreBStoryStep(0);
+      setIsMreBNarrating(false);
+      setIsMreBTourActive(false);
+      setIsMreBTourPlaying(false);
+      setMreBTourPhase('idle');
+      if (mrebSceneRef.current) {
+        mrebSceneRef.current.setExplanationStep(0);
+      }
+      return;
+    }
+
+    const stage = MREB_EXPLANATION_STAGES[stepNumber - 1];
+    setMreBStoryStep(stepNumber);
+    setActiveMreBPart(stage.id);
+    const meta = MREB_COMPONENTS_META[stage.id] || MREB_COMPONENTS_META['mreb_protofilaments'];
+    if (meta) {
+      setMreBComponentMeta(meta);
+    }
+
+    if (mrebSceneRef.current) {
+      mrebSceneRef.current.setExplanationStep(stepNumber);
+    }
+
+    showSubtitles(stage.spoken, `STAGE ${stage.step} OF ${MREB_EXPLANATION_STAGES.length}: ${stage.title}`, 'Kokoro Neural TTS');
+    voiceService.stop();
+    setIsMreBNarrating(true);
+    setMreBTourPhase('narrating');
+
+    voiceService.playText(stage.spoken, {
+      voice: selectedVoice,
+      onEnd: () => {
+        setIsMreBNarrating(false);
+        if (stepNumber < MREB_EXPLANATION_STAGES.length) {
+          setMreBTourPhase('cooldown');
+          setTimeout(() => {
+            playMreBStoryStep(stepNumber + 1);
+          }, 850);
+        } else {
+          setMreBStoryStep(0);
+          setIsMreBNarrating(false);
+          setIsMreBTourActive(false);
+          setIsMreBTourPlaying(false);
+          setMreBTourPhase('idle');
+          hideSubtitles();
+          if (mrebSceneRef.current) {
+            mrebSceneRef.current.setExplanationStep(0);
+          }
+        }
+      },
+      onError: () => {
+        setMreBStoryStep(0);
+        setIsMreBNarrating(false);
+        setIsMreBTourActive(false);
+        setIsMreBTourPlaying(false);
+        setMreBTourPhase('idle');
+        hideSubtitles();
+        if (mrebSceneRef.current) {
+          mrebSceneRef.current.setExplanationStep(0);
+        }
+      }
+    });
+  };
+
+  const stopMreBStoryTrace = () => {
+    voiceService.stop();
+    setIsMreBNarrating(false);
+    setMreBStoryStep(0);
+    setIsMreBTourActive(false);
+    setIsMreBTourPlaying(false);
+    setMreBTourPhase('idle');
+    hideSubtitles();
+    if (mrebSceneRef.current) {
+      mrebSceneRef.current.setExplanationStep(0);
+    }
+  };
+
+  const handleMreBNarrate = () => {
+    if (voiceService.isBusy() || mrebStoryStep > 0) {
+      stopMreBStoryTrace();
+      return;
+    }
+    if (!activeMreBPart || activeMreBPart === 'mreb_protofilaments') {
+      playMreBStoryStep(1);
+    } else if (mrebComponentMeta) {
+      const speech = `${mrebComponentMeta.name}. ${mrebComponentMeta.desc || ''}`;
+      setIsMreBNarrating(true);
+      showSubtitles(speech, mrebComponentMeta.badge || 'MREB ACTIN RAILS', 'Kokoro Neural TTS');
+      voiceService.playText(speech, {
+        voice: selectedVoice,
+        onEnd: () => {
+          setIsMreBNarrating(false);
+          hideSubtitles();
+        },
+        onError: () => {
+          setIsMreBNarrating(false);
+          hideSubtitles();
+        }
+      });
+    }
+  };
+
+  const handleToggleMreBAutoRotate = () => {
+    setIsMreBAutoRotating(prev => !prev);
+  };
+
+  const handleToggleMreBLabels = () => {
+    setIsMreBLabelsVisible(prev => !prev);
+  };
+
+  const handleToggleMreBTour = () => {
+    if (isMreBTourActive || mrebStoryStep > 0) {
+      stopMreBStoryTrace();
+    } else {
+      setIsMreBTourActive(true);
+      playMreBStoryStep(1);
+    }
+  };
+
+  const goToMreBTourStep = (stepIndex: number) => {
+    const safeIndex = Math.max(0, Math.min(MREB_TOUR_STOPS.length - 1, stepIndex));
+    setMreBTourStep(safeIndex);
+    const partKey = MREB_TOUR_STOPS[safeIndex];
+    setActiveMreBPart(partKey);
+    const meta = MREB_COMPONENTS_META[partKey];
+    if (meta) {
+      setMreBComponentMeta(meta);
+      if (mrebSceneRef.current) {
+        mrebSceneRef.current.focusComponent(partKey);
+      }
+      setMreBTourPhase('narrating');
+    }
+  };
+
+  // --------------------------------------------------------------------------
   // 7. Top Toolbar Actions (Unified for Cell, Motor, Ribosome, ATP Synthase, Complex I, SecYEG, BAM, & Lpt)
   // --------------------------------------------------------------------------
   const handleResetCamera = () => {
@@ -2027,6 +3160,16 @@ function App() {
       bamSceneRef.current.resetCamera();
     } else if (scenario === 'lpt' && lptSceneRef.current) {
       lptSceneRef.current.resetCamera();
+    } else if (scenario === 'rnap' && rnapSceneRef.current) {
+      rnapSceneRef.current.resetCamera();
+    } else if (scenario === 'pol_iii' && polIIISceneRef.current) {
+      polIIISceneRef.current.resetCamera();
+    } else if (scenario === 'gyrase' && gyraseSceneRef.current) {
+      gyraseSceneRef.current.resetCamera();
+    } else if (scenario === 'ftsz' && ftszSceneRef.current) {
+      ftszSceneRef.current.resetCamera();
+    } else if (scenario === 'mreb' && mrebSceneRef.current) {
+      mrebSceneRef.current.resetCamera();
     }
   };
 
@@ -2382,10 +3525,25 @@ function App() {
     scenario === 'complex_i' ||
     scenario === 'secyeg' ||
     scenario === 'bam' ||
-    scenario === 'lpt';
+    scenario === 'lpt' ||
+    scenario === 'rnap' ||
+    scenario === 'pol_iii' ||
+    scenario === 'gyrase' ||
+    scenario === 'ftsz' ||
+    scenario === 'mreb';
+
+  const isDarkCanvasScenario =
+    scenario === 'rnap' ||
+    scenario === 'pol_iii' ||
+    scenario === 'gyrase' ||
+    scenario === 'ftsz' ||
+    scenario === 'mreb';
 
   return (
-    <div id="app-container" className={isDrawerOpen ? 'drawer-open' : ''}>
+    <div
+      id="app-container"
+      className={`${isDrawerOpen ? 'drawer-open' : ''} ${isDarkCanvasScenario ? 'dark-canvas-scenario' : ''}`.trim()}
+    >
       {/* 1. Header with Scale Navigator */}
       <ScaleNavigator scenario={scenario} onSelectScenario={handleSelectScenario} />
 
@@ -2405,8 +3563,18 @@ function App() {
             : scenario === 'secyeg'
             ? 'Cryo-EM 3J46 / 5EUL • Translocon: Active'
             : scenario === 'bam'
-            ? 'PDB 5D0O (2.90 Å) • Outer Membrane Insertase: Active'
-            : 'Cryo-EM 9P7P (3.40 Å) • Lpt Trans-Envelope Bridge: Active'
+            ? 'PDB 5D0O (2.90 Å) • BAM Insertase: Active'
+            : scenario === 'lpt'
+            ? 'Cryo-EM 9P7P (3.40 Å) • Lpt Bridge: Active'
+            : scenario === 'rnap'
+            ? 'Cryo-EM 6C9Y (3.80 Å) • RNAP: Active'
+            : scenario === 'pol_iii'
+            ? 'Cryo-EM 5FKV / 4ESV • Replisome: Active'
+            : scenario === 'gyrase'
+            ? 'Cryo-EM 6RKU / 1AB4 • DNA Gyrase: Active'
+            : scenario === 'ftsz'
+            ? 'PDB 1FSZ / 6PL5 • Divisome Z-Ring: Active'
+            : 'PDB 1JCG / 6GBS • MreB Rod Complex: Active'
         }
         selectedVoice={selectedVoice}
         onVoiceChange={handleVoiceChange}
@@ -2425,7 +3593,7 @@ function App() {
             ? isSecYEGNarrating
             : scenario === 'bam'
             ? isBAMNarrating
-            : isLptNarrating
+            : scenario === 'rnap' ? isRnapNarrating : scenario === 'pol_iii' ? isPolIIINarrating : scenario === 'gyrase' ? isGyraseNarrating : scenario === 'ftsz' ? isFtsZNarrating : scenario === 'mreb' ? isMreBNarrating : isLptNarrating
         }
         onNarrateClick={
           scenario === 'cell'
@@ -2442,7 +3610,7 @@ function App() {
             ? handleSecYEGNarrate
             : scenario === 'bam'
             ? handleBAMNarrate
-            : handleLptNarrate
+            : scenario === 'rnap' ? handleRnapNarrate : scenario === 'pol_iii' ? handlePolIIINarrate : scenario === 'gyrase' ? handleGyraseNarrate : scenario === 'ftsz' ? handleFtsZNarrate : scenario === 'mreb' ? handleMreBNarrate : handleLptNarrate
         }
         onResetCamera={handleResetCamera}
         isAutoRotating={
@@ -2460,7 +3628,7 @@ function App() {
             ? isSecYEGAutoRotating
             : scenario === 'bam'
             ? isBAMAutoRotating
-            : isLptAutoRotating
+            : scenario === 'rnap' ? isRnapAutoRotating : scenario === 'pol_iii' ? isPolIIIAutoRotating : scenario === 'gyrase' ? isGyraseAutoRotating : scenario === 'ftsz' ? isFtsZAutoRotating : scenario === 'mreb' ? isMreBAutoRotating : isLptAutoRotating
         }
         onToggleAutoRotate={
           scenario === 'cell'
@@ -2477,7 +3645,7 @@ function App() {
             ? handleToggleSecYEGAutoRotate
             : scenario === 'bam'
             ? handleToggleBAMAutoRotate
-            : handleToggleLptAutoRotate
+            : scenario === 'rnap' ? handleToggleRnapAutoRotate : scenario === 'pol_iii' ? handleTogglePolIIIAutoRotate : scenario === 'gyrase' ? handleToggleGyraseAutoRotate : scenario === 'ftsz' ? handleToggleFtsZAutoRotate : scenario === 'mreb' ? handleToggleMreBAutoRotate : handleToggleLptAutoRotate
         }
         showLabels={
           scenario === 'cell'
@@ -2494,7 +3662,7 @@ function App() {
             ? isSecYEGLabelsVisible
             : scenario === 'bam'
             ? isBAMLabelsVisible
-            : isLptLabelsVisible
+            : scenario === 'rnap' ? isRnapLabelsVisible : scenario === 'pol_iii' ? isPolIIILabelsVisible : scenario === 'gyrase' ? isGyraseLabelsVisible : scenario === 'ftsz' ? isFtsZLabelsVisible : scenario === 'mreb' ? isMreBLabelsVisible : isLptLabelsVisible
         }
         onToggleLabels={
           scenario === 'cell'
@@ -2511,7 +3679,7 @@ function App() {
             ? handleToggleSecYEGLabels
             : scenario === 'bam'
             ? handleToggleBAMLabels
-            : handleToggleLptLabels
+            : scenario === 'rnap' ? handleToggleRnapLabels : scenario === 'pol_iii' ? handleTogglePolIIILabels : scenario === 'gyrase' ? handleToggleGyraseLabels : scenario === 'ftsz' ? handleToggleFtsZLabels : scenario === 'mreb' ? handleToggleMreBLabels : handleToggleLptLabels
         }
         isTourActive={
           scenario === 'cell'
@@ -2528,7 +3696,7 @@ function App() {
             ? (isSecYEGTourActive || secYEGStoryStep > 0)
             : scenario === 'bam'
             ? (isBAMTourActive || bamStoryStep > 0)
-            : (isLptTourActive || lptStoryStep > 0)
+            : scenario === 'rnap' ? (isRnapTourActive || rnapStoryStep > 0) : scenario === 'pol_iii' ? (isPolIIITourActive || polIIIStoryStep > 0) : scenario === 'gyrase' ? (isGyraseTourActive || gyraseStoryStep > 0) : scenario === 'ftsz' ? (isFtsZTourActive || ftszStoryStep > 0) : scenario === 'mreb' ? (isMreBTourActive || mrebStoryStep > 0) : (isLptTourActive || lptStoryStep > 0)
         }
         onToggleTour={
           scenario === 'cell'
@@ -2545,7 +3713,7 @@ function App() {
             ? handleToggleSecYEGTour
             : scenario === 'bam'
             ? handleToggleBAMTour
-            : handleToggleLptTour
+            : scenario === 'rnap' ? handleToggleRnapTour : scenario === 'pol_iii' ? handleTogglePolIIITour : scenario === 'gyrase' ? handleToggleGyraseTour : scenario === 'ftsz' ? handleToggleFtsZTour : scenario === 'mreb' ? handleToggleMreBTour : handleToggleLptTour
         }
       />
 
@@ -3496,13 +4664,647 @@ function App() {
         )}
       </div>
 
+      {/* 11. RNA Polymerase Transcription Holoenzyme Scenario Layer */}
+      <div
+        id="rnap-container"
+        className={scenario === 'rnap' ? '' : 'hidden'}
+        style={{ display: scenario === 'rnap' ? 'block' : 'none' }}
+      >
+        <RNAPHeaderOverlay />
+        <div
+          id="rnap-viewport"
+          className="canvas-container"
+          ref={rnapContainerRef}
+          tabIndex={0}
+        />
+        <svg id="rnap-svg-overlay"></svg>
+        <div id="rnap-labels-container"></div>
+        <RNAPHUDCard
+          isPaused={isRnapPaused}
+          onTogglePause={() => {
+            setIsRnapPaused(prev => {
+              const next = !prev;
+              if (rnapSceneRef.current) rnapSceneRef.current.setPaused(next);
+              return next;
+            });
+          }}
+          isRifampicinInhibited={isRnapRifampicinInhibited}
+          onToggleRifampicin={() => {
+            setIsRnapRifampicinInhibited(prev => {
+              const next = !prev;
+              if (rnapSceneRef.current) rnapSceneRef.current.setRifampicinInhibited(next);
+              return next;
+            });
+          }}
+          transcriptionRate={rnapTranscriptionRate}
+          onChangeTranscriptionRate={(rate) => {
+            setRnapTranscriptionRate(rate);
+            if (rnapSceneRef.current) rnapSceneRef.current.setTranscriptionRate(rate);
+          }}
+          explodedProgress={rnapExplodedProgress}
+          onChangeExploded={(exp) => {
+            setRnapExplodedProgress(exp);
+            if (rnapSceneRef.current) rnapSceneRef.current.setExplodedProgress(exp);
+          }}
+          isLabelsVisible={isRnapLabelsVisible}
+          onToggleLabels={handleToggleRnapLabels}
+          onFocusComponent={(key) => {
+            setActiveRnapPart(key);
+            const meta = RNAP_COMPONENTS_META[key];
+            if (meta) setRnapComponentMeta(meta);
+            if (rnapSceneRef.current) {
+              rnapSceneRef.current.focusComponent(key);
+              rnapSceneRef.current.selectComponent(key);
+            }
+          }}
+        />
+        <RNAPInspectorDrawer
+          data={rnapComponentMeta}
+          activeKey={activeRnapPart}
+          isNarrating={isRnapNarrating}
+          storyStep={rnapStoryStep}
+          onSelectStoryStep={(s) => playRnapStoryStep(s)}
+          onStartStoryTrace={() => playRnapStoryStep(1)}
+          onStopStoryTrace={stopRnapStoryTrace}
+          onNarrate={handleRnapNarrate}
+          onFocus={() => {
+            if (rnapSceneRef.current && activeRnapPart) {
+              rnapSceneRef.current.focusComponent(activeRnapPart);
+            }
+          }}
+          onSelectPart={(key: string) => {
+            if (rnapSceneRef.current) {
+              rnapSceneRef.current.selectComponent(key);
+              rnapSceneRef.current.focusComponent(key);
+            }
+          }}
+        />
+
+        {(isRnapTourActive || rnapStoryStep > 0) && (
+          <TourBar
+            status={{
+              active: true,
+              playing: isRnapTourPlaying || isRnapNarrating,
+              stepIndex: rnapStoryStep > 0 ? rnapStoryStep - 1 : rnapTourStep,
+              key: rnapStoryStep > 0 ? RNAP_EXPLANATION_STAGES[rnapStoryStep - 1]?.id : RNAP_TOUR_STOPS[rnapTourStep],
+              totalSteps: rnapStoryStep > 0 ? RNAP_EXPLANATION_STAGES.length : RNAP_TOUR_STOPS.length,
+              phase: rnapTourPhase,
+              cooldownRemaining: 2,
+              ttsEnabled: true
+            }}
+            stepTitle={rnapStoryStep > 0 ? RNAP_EXPLANATION_STAGES[rnapStoryStep - 1]?.title : (rnapComponentMeta?.name || 'RNA Polymerase')}
+            onPrev={() => {
+              if (rnapStoryStep > 0) {
+                playRnapStoryStep(Math.max(1, rnapStoryStep - 1));
+              } else {
+                goToRnapTourStep(rnapTourStep - 1);
+              }
+            }}
+            onTogglePlay={() => {
+              if (rnapStoryStep > 0) {
+                if (isRnapNarrating) {
+                  voiceService.stop();
+                  setIsRnapNarrating(false);
+                } else {
+                  playRnapStoryStep(rnapStoryStep);
+                }
+              } else {
+                setIsRnapTourPlaying(!isRnapTourPlaying);
+              }
+            }}
+            onNext={() => {
+              if (rnapStoryStep > 0) {
+                playRnapStoryStep(Math.min(RNAP_EXPLANATION_STAGES.length, rnapStoryStep + 1));
+              } else {
+                goToRnapTourStep(rnapTourStep + 1);
+              }
+            }}
+            onToggleVoice={() => {}}
+            onExit={stopRnapStoryTrace}
+          />
+        )}
+      </div>
+
+      {/* 12. DNA Polymerase III Replisome Holoenzyme Scenario Layer */}
+      <div
+        id="pol-iii-container"
+        className={scenario === 'pol_iii' ? '' : 'hidden'}
+        style={{ display: scenario === 'pol_iii' ? 'block' : 'none' }}
+      >
+        <PolIIIHeaderOverlay />
+        <div
+          id="pol-iii-viewport"
+          className="canvas-container"
+          ref={polIIIContainerRef}
+          tabIndex={0}
+        />
+        <svg id="pol-iii-svg-overlay"></svg>
+        <div id="pol-iii-labels-container"></div>
+        <PolIIIHUDCard
+          isPaused={isPolIIIPaused}
+          onTogglePause={() => {
+            setIsPolIIIPaused(prev => {
+              const next = !prev;
+              if (polIIISceneRef.current) polIIISceneRef.current.setPaused(next);
+              return next;
+            });
+          }}
+          isProofreadingActive={isPolIIIProofreadingActive}
+          onToggleProofreading={() => {
+            setIsPolIIIProofreadingActive(prev => {
+              const next = !prev;
+              if (polIIISceneRef.current) polIIISceneRef.current.setProofreadingActive(next);
+              return next;
+            });
+          }}
+          replicationSpeed={polIIIReplicationSpeed}
+          onChangeReplicationSpeed={(spd) => {
+            setPolIIIReplicationSpeed(spd);
+            if (polIIISceneRef.current) polIIISceneRef.current.setReplicationSpeed(spd);
+          }}
+          explodedProgress={polIIIExplodedProgress}
+          onChangeExploded={(exp) => {
+            setPolIIIExplodedProgress(exp);
+            if (polIIISceneRef.current) polIIISceneRef.current.setExplodedProgress(exp);
+          }}
+          isLabelsVisible={isPolIIILabelsVisible}
+          onToggleLabels={handleTogglePolIIILabels}
+          onFocusComponent={(key) => {
+            setActivePolIIIPart(key);
+            const meta = POL_III_COMPONENTS_META[key];
+            if (meta) setPolIIIComponentMeta(meta);
+            if (polIIISceneRef.current) {
+              polIIISceneRef.current.focusComponent(key);
+              polIIISceneRef.current.selectComponent(key);
+            }
+          }}
+        />
+        <PolIIIInspectorDrawer
+          data={polIIIComponentMeta}
+          activeKey={activePolIIIPart}
+          isNarrating={isPolIIINarrating}
+          storyStep={polIIIStoryStep}
+          onSelectStoryStep={(s) => playPolIIIStoryStep(s)}
+          onStartStoryTrace={() => playPolIIIStoryStep(1)}
+          onStopStoryTrace={stopPolIIIStoryTrace}
+          onNarrate={handlePolIIINarrate}
+          onFocus={() => {
+            if (polIIISceneRef.current && activePolIIIPart) {
+              polIIISceneRef.current.focusComponent(activePolIIIPart);
+            }
+          }}
+          onSelectPart={(key: string) => {
+            if (polIIISceneRef.current) {
+              polIIISceneRef.current.selectComponent(key);
+              polIIISceneRef.current.focusComponent(key);
+            }
+          }}
+        />
+
+        {(isPolIIITourActive || polIIIStoryStep > 0) && (
+          <TourBar
+            status={{
+              active: true,
+              playing: isPolIIITourPlaying || isPolIIINarrating,
+              stepIndex: polIIIStoryStep > 0 ? polIIIStoryStep - 1 : polIIITourStep,
+              key: polIIIStoryStep > 0 ? POL_III_EXPLANATION_STAGES[polIIIStoryStep - 1]?.id : POL_III_TOUR_STOPS[polIIITourStep],
+              totalSteps: polIIIStoryStep > 0 ? POL_III_EXPLANATION_STAGES.length : POL_III_TOUR_STOPS.length,
+              phase: polIIITourPhase,
+              cooldownRemaining: 2,
+              ttsEnabled: true
+            }}
+            stepTitle={polIIIStoryStep > 0 ? POL_III_EXPLANATION_STAGES[polIIIStoryStep - 1]?.title : (polIIIComponentMeta?.name || 'DNA Polymerase III Replisome')}
+            onPrev={() => {
+              if (polIIIStoryStep > 0) {
+                playPolIIIStoryStep(Math.max(1, polIIIStoryStep - 1));
+              } else {
+                goToPolIIITourStep(polIIITourStep - 1);
+              }
+            }}
+            onTogglePlay={() => {
+              if (polIIIStoryStep > 0) {
+                if (isPolIIINarrating) {
+                  voiceService.stop();
+                  setIsPolIIINarrating(false);
+                } else {
+                  playPolIIIStoryStep(polIIIStoryStep);
+                }
+              } else {
+                setIsPolIIITourPlaying(!isPolIIITourPlaying);
+              }
+            }}
+            onNext={() => {
+              if (polIIIStoryStep > 0) {
+                playPolIIIStoryStep(Math.min(POL_III_EXPLANATION_STAGES.length, polIIIStoryStep + 1));
+              } else {
+                goToPolIIITourStep(polIIITourStep + 1);
+              }
+            }}
+            onToggleVoice={() => {}}
+            onExit={stopPolIIIStoryTrace}
+          />
+        )}
+      </div>
+
+      {/* 13. DNA Gyrase Topoisomerase II Scenario Layer */}
+      <div
+        id="gyrase-container"
+        className={scenario === 'gyrase' ? '' : 'hidden'}
+        style={{ display: scenario === 'gyrase' ? 'block' : 'none' }}
+      >
+        <GyraseHeaderOverlay />
+        <div
+          id="gyrase-viewport"
+          className="canvas-container"
+          ref={gyraseContainerRef}
+          tabIndex={0}
+        />
+        <svg id="gyrase-svg-overlay"></svg>
+        <div id="gyrase-labels-container"></div>
+        <GyraseHUDCard
+          isPaused={isGyrasePaused}
+          onTogglePause={() => {
+            setIsGyrasePaused(prev => {
+              const next = !prev;
+              if (gyraseSceneRef.current) gyraseSceneRef.current.setPaused(next);
+              return next;
+            });
+          }}
+          isCiprofloxacinInhibited={isGyraseCiproInhibited}
+          onToggleCiprofloxacin={() => {
+            setIsGyraseCiproInhibited(prev => {
+              const next = !prev;
+              if (gyraseSceneRef.current) gyraseSceneRef.current.setCiprofloxacinInhibited(next);
+              return next;
+            });
+          }}
+          isATPHydrolysisActive={isGyraseATPActive}
+          onToggleATP={() => {
+            setIsGyraseATPActive(prev => {
+              const next = !prev;
+              if (gyraseSceneRef.current) gyraseSceneRef.current.setATPHydrolysisActive(next);
+              return next;
+            });
+          }}
+          supercoilingRate={gyraseSupercoilingRate}
+          onChangeSupercoilingRate={(rate) => {
+            setGyraseSupercoilingRate(rate);
+            if (gyraseSceneRef.current) gyraseSceneRef.current.setSupercoilingRate(rate);
+          }}
+          explodedProgress={gyraseExplodedProgress}
+          onChangeExploded={(exp) => {
+            setGyraseExplodedProgress(exp);
+            if (gyraseSceneRef.current) gyraseSceneRef.current.setExplodedProgress(exp);
+          }}
+          isLabelsVisible={isGyraseLabelsVisible}
+          onToggleLabels={handleToggleGyraseLabels}
+          onFocusComponent={(key) => {
+            setActiveGyrasePart(key);
+            const meta = GYRASE_COMPONENTS_META[key];
+            if (meta) setGyraseComponentMeta(meta);
+            if (gyraseSceneRef.current) {
+              gyraseSceneRef.current.focusComponent(key);
+              gyraseSceneRef.current.selectComponent(key);
+            }
+          }}
+        />
+        <GyraseInspectorDrawer
+          data={gyraseComponentMeta}
+          activeKey={activeGyrasePart}
+          isNarrating={isGyraseNarrating}
+          storyStep={gyraseStoryStep}
+          onSelectStoryStep={(s) => playGyraseStoryStep(s)}
+          onStartStoryTrace={() => playGyraseStoryStep(1)}
+          onStopStoryTrace={stopGyraseStoryTrace}
+          onNarrate={handleGyraseNarrate}
+          onFocus={() => {
+            if (gyraseSceneRef.current && activeGyrasePart) {
+              gyraseSceneRef.current.focusComponent(activeGyrasePart);
+            }
+          }}
+          onSelectPart={(key: string) => {
+            if (gyraseSceneRef.current) {
+              gyraseSceneRef.current.selectComponent(key);
+              gyraseSceneRef.current.focusComponent(key);
+            }
+          }}
+        />
+
+        {(isGyraseTourActive || gyraseStoryStep > 0) && (
+          <TourBar
+            status={{
+              active: true,
+              playing: isGyraseTourPlaying || isGyraseNarrating,
+              stepIndex: gyraseStoryStep > 0 ? gyraseStoryStep - 1 : gyraseTourStep,
+              key: gyraseStoryStep > 0 ? GYRASE_EXPLANATION_STAGES[gyraseStoryStep - 1]?.id : GYRASE_TOUR_STOPS[gyraseTourStep],
+              totalSteps: gyraseStoryStep > 0 ? GYRASE_EXPLANATION_STAGES.length : GYRASE_TOUR_STOPS.length,
+              phase: gyraseTourPhase,
+              cooldownRemaining: 2,
+              ttsEnabled: true
+            }}
+            stepTitle={gyraseStoryStep > 0 ? GYRASE_EXPLANATION_STAGES[gyraseStoryStep - 1]?.title : (gyraseComponentMeta?.name || 'DNA Gyrase Topoisomerase II')}
+            onPrev={() => {
+              if (gyraseStoryStep > 0) {
+                playGyraseStoryStep(Math.max(1, gyraseStoryStep - 1));
+              } else {
+                goToGyraseTourStep(gyraseTourStep - 1);
+              }
+            }}
+            onTogglePlay={() => {
+              if (gyraseStoryStep > 0) {
+                if (isGyraseNarrating) {
+                  voiceService.stop();
+                  setIsGyraseNarrating(false);
+                } else {
+                  playGyraseStoryStep(gyraseStoryStep);
+                }
+              } else {
+                setIsGyraseTourPlaying(!isGyraseTourPlaying);
+              }
+            }}
+            onNext={() => {
+              if (gyraseStoryStep > 0) {
+                playGyraseStoryStep(Math.min(GYRASE_EXPLANATION_STAGES.length, gyraseStoryStep + 1));
+              } else {
+                goToGyraseTourStep(gyraseTourStep + 1);
+              }
+            }}
+            onToggleVoice={() => {}}
+            onExit={stopGyraseStoryTrace}
+          />
+        )}
+      </div>
+
+      {/* 14. Divisome FtsZ Z-Ring Scenario Layer */}
+      <div
+        id="ftsz-container"
+        className={scenario === 'ftsz' ? '' : 'hidden'}
+        style={{ display: scenario === 'ftsz' ? 'block' : 'none' }}
+      >
+        <FtsZHeaderOverlay />
+        <div
+          id="ftsz-viewport"
+          className="canvas-container"
+          ref={ftszContainerRef}
+          tabIndex={0}
+        />
+        <svg id="ftsz-svg-overlay"></svg>
+        <div id="ftsz-labels-container"></div>
+        <FtsZHUDCard
+          isPaused={isFtsZPaused}
+          onTogglePause={() => {
+            setIsFtsZPaused(prev => {
+              const next = !prev;
+              if (ftszSceneRef.current) ftszSceneRef.current.setPaused(next);
+              return next;
+            });
+          }}
+          isPC190723Inhibited={isFtsZPC19Inhibited}
+          onTogglePC190723={() => {
+            setIsFtsZPC19Inhibited(prev => {
+              const next = !prev;
+              if (ftszSceneRef.current) ftszSceneRef.current.setPC190723Inhibited(next);
+              return next;
+            });
+          }}
+          isGTPActive={isFtsZGTPActive}
+          onToggleGTP={() => {
+            setIsFtsZGTPActive(prev => {
+              const next = !prev;
+              if (ftszSceneRef.current) ftszSceneRef.current.setGTPActive(next);
+              return next;
+            });
+          }}
+          septumConstriction={ftszSeptumConstriction}
+          onChangeConstriction={(val) => {
+            setFtsZSeptumConstriction(val);
+            if (ftszSceneRef.current) ftszSceneRef.current.setSeptumConstriction(val);
+          }}
+          treadmillingSpeed={ftszTreadmillingSpeed}
+          onChangeTreadmillingSpeed={(val) => {
+            setFtsZTreadmillingSpeed(val);
+            if (ftszSceneRef.current) ftszSceneRef.current.setTreadmillingSpeed(val);
+          }}
+          explodedProgress={ftszExplodedProgress}
+          onChangeExploded={(exp) => {
+            setFtsZExplodedProgress(exp);
+            if (ftszSceneRef.current) ftszSceneRef.current.setExplodedProgress(exp);
+          }}
+          isLabelsVisible={isFtsZLabelsVisible}
+          onToggleLabels={handleToggleFtsZLabels}
+          onFocusComponent={(key) => {
+            setActiveFtsZPart(key);
+            const meta = FTSZ_COMPONENTS_META[key];
+            if (meta) setFtsZComponentMeta(meta);
+            if (ftszSceneRef.current) {
+              ftszSceneRef.current.focusComponent(key);
+              ftszSceneRef.current.selectComponent(key);
+            }
+          }}
+        />
+        <FtsZInspectorDrawer
+          data={ftszComponentMeta}
+          activeKey={activeFtsZPart}
+          isNarrating={isFtsZNarrating}
+          storyStep={ftszStoryStep}
+          onSelectStoryStep={(s) => playFtsZStoryStep(s)}
+          onStartStoryTrace={() => playFtsZStoryStep(1)}
+          onStopStoryTrace={stopFtsZStoryTrace}
+          onNarrate={handleFtsZNarrate}
+          onFocus={() => {
+            if (ftszSceneRef.current && activeFtsZPart) {
+              ftszSceneRef.current.focusComponent(activeFtsZPart);
+            }
+          }}
+          onSelectPart={(key: string) => {
+            if (ftszSceneRef.current) {
+              ftszSceneRef.current.selectComponent(key);
+              ftszSceneRef.current.focusComponent(key);
+            }
+          }}
+        />
+
+        {(isFtsZTourActive || ftszStoryStep > 0) && (
+          <TourBar
+            status={{
+              active: true,
+              playing: isFtsZTourPlaying || isFtsZNarrating,
+              stepIndex: ftszStoryStep > 0 ? ftszStoryStep - 1 : ftszTourStep,
+              key: ftszStoryStep > 0 ? FTSZ_EXPLANATION_STAGES[ftszStoryStep - 1]?.id : FTSZ_TOUR_STOPS[ftszTourStep],
+              totalSteps: ftszStoryStep > 0 ? FTSZ_EXPLANATION_STAGES.length : FTSZ_TOUR_STOPS.length,
+              phase: ftszTourPhase,
+              cooldownRemaining: 2,
+              ttsEnabled: true
+            }}
+            stepTitle={ftszStoryStep > 0 ? FTSZ_EXPLANATION_STAGES[ftszStoryStep - 1]?.title : (ftszComponentMeta?.name || 'Divisome FtsZ Z-Ring')}
+            onPrev={() => {
+              if (ftszStoryStep > 0) {
+                playFtsZStoryStep(Math.max(1, ftszStoryStep - 1));
+              } else {
+                goToFtsZTourStep(ftszTourStep - 1);
+              }
+            }}
+            onTogglePlay={() => {
+              if (ftszStoryStep > 0) {
+                if (isFtsZNarrating) {
+                  voiceService.stop();
+                  setIsFtsZNarrating(false);
+                } else {
+                  playFtsZStoryStep(ftszStoryStep);
+                }
+              } else {
+                setIsFtsZTourPlaying(!isFtsZTourPlaying);
+              }
+            }}
+            onNext={() => {
+              if (ftszStoryStep > 0) {
+                playFtsZStoryStep(Math.min(FTSZ_EXPLANATION_STAGES.length, ftszStoryStep + 1));
+              } else {
+                goToFtsZTourStep(ftszTourStep + 1);
+              }
+            }}
+            onToggleVoice={() => {}}
+            onExit={stopFtsZStoryTrace}
+          />
+        )}
+      </div>
+
+      {/* 15. MreB Actin Helical Rails Scenario Layer */}
+      <div
+        id="mreb-container"
+        className={scenario === 'mreb' ? '' : 'hidden'}
+        style={{ display: scenario === 'mreb' ? 'block' : 'none' }}
+      >
+        <MreBHeaderOverlay />
+        <div
+          id="mreb-viewport"
+          className="canvas-container"
+          ref={mrebContainerRef}
+          tabIndex={0}
+        />
+        <svg id="mreb-svg-overlay"></svg>
+        <div id="mreb-labels-container"></div>
+        <MreBHUDCard
+          isPaused={isMreBPaused}
+          onTogglePause={() => {
+            setIsMreBPaused(prev => {
+              const next = !prev;
+              if (mrebSceneRef.current) mrebSceneRef.current.setPaused(next);
+              return next;
+            });
+          }}
+          isA22Inhibited={isMreBA22Inhibited}
+          onToggleA22={() => {
+            setIsMreBA22Inhibited(prev => {
+              const next = !prev;
+              if (mrebSceneRef.current) mrebSceneRef.current.setA22Inhibited(next);
+              return next;
+            });
+          }}
+          isATPActive={isMreBATPActive}
+          onToggleATP={() => {
+            setIsMreBATPActive(prev => {
+              const next = !prev;
+              if (mrebSceneRef.current) mrebSceneRef.current.setATPActive(next);
+              return next;
+            });
+          }}
+          filamentVelocity={mrebFilamentVelocity}
+          onChangeVelocity={(val) => {
+            setMreBFilamentVelocity(val);
+            if (mrebSceneRef.current) mrebSceneRef.current.setFilamentVelocity(val);
+          }}
+          explodedProgress={mrebExplodedProgress}
+          onChangeExploded={(exp) => {
+            setMreBExplodedProgress(exp);
+            if (mrebSceneRef.current) mrebSceneRef.current.setExplodedProgress(exp);
+          }}
+          isLabelsVisible={isMreBLabelsVisible}
+          onToggleLabels={handleToggleMreBLabels}
+          onFocusComponent={(key) => {
+            setActiveMreBPart(key);
+            const meta = MREB_COMPONENTS_META[key];
+            if (meta) setMreBComponentMeta(meta);
+            if (mrebSceneRef.current) {
+              mrebSceneRef.current.focusComponent(key);
+              mrebSceneRef.current.selectComponent(key);
+            }
+          }}
+        />
+        <MreBInspectorDrawer
+          data={mrebComponentMeta}
+          activeKey={activeMreBPart}
+          isNarrating={isMreBNarrating}
+          storyStep={mrebStoryStep}
+          onSelectStoryStep={(s) => playMreBStoryStep(s)}
+          onStartStoryTrace={() => playMreBStoryStep(1)}
+          onStopStoryTrace={stopMreBStoryTrace}
+          onNarrate={handleMreBNarrate}
+          onFocus={() => {
+            if (mrebSceneRef.current && activeMreBPart) {
+              mrebSceneRef.current.focusComponent(activeMreBPart);
+            }
+          }}
+          onSelectPart={(key: string) => {
+            if (mrebSceneRef.current) {
+              mrebSceneRef.current.selectComponent(key);
+              mrebSceneRef.current.focusComponent(key);
+            }
+          }}
+        />
+
+        {(isMreBTourActive || mrebStoryStep > 0) && (
+          <TourBar
+            status={{
+              active: true,
+              playing: isMreBTourPlaying || isMreBNarrating,
+              stepIndex: mrebStoryStep > 0 ? mrebStoryStep - 1 : mrebTourStep,
+              key: mrebStoryStep > 0 ? MREB_EXPLANATION_STAGES[mrebStoryStep - 1]?.id : MREB_TOUR_STOPS[mrebTourStep],
+              totalSteps: mrebStoryStep > 0 ? MREB_EXPLANATION_STAGES.length : MREB_TOUR_STOPS.length,
+              phase: mrebTourPhase,
+              cooldownRemaining: 2,
+              ttsEnabled: true
+            }}
+            stepTitle={mrebStoryStep > 0 ? MREB_EXPLANATION_STAGES[mrebStoryStep - 1]?.title : (mrebComponentMeta?.name || 'MreB Actin Helical Rails')}
+            onPrev={() => {
+              if (mrebStoryStep > 0) {
+                playMreBStoryStep(Math.max(1, mrebStoryStep - 1));
+              } else {
+                goToMreBTourStep(mrebTourStep - 1);
+              }
+            }}
+            onTogglePlay={() => {
+              if (mrebStoryStep > 0) {
+                if (isMreBNarrating) {
+                  voiceService.stop();
+                  setIsMreBNarrating(false);
+                } else {
+                  playMreBStoryStep(mrebStoryStep);
+                }
+              } else {
+                setIsMreBTourPlaying(!isMreBTourPlaying);
+              }
+            }}
+            onNext={() => {
+              if (mrebStoryStep > 0) {
+                playMreBStoryStep(Math.min(MREB_EXPLANATION_STAGES.length, mrebStoryStep + 1));
+              } else {
+                goToMreBTourStep(mrebTourStep + 1);
+              }
+            }}
+            onToggleVoice={() => {}}
+            onExit={stopMreBStoryTrace}
+          />
+        )}
+      </div>
+
       {/* Global Live Subtitles Banner (Closed Captions) */}
       <LiveSubtitles
         visible={subtitleState.visible}
         text={subtitleState.text}
         badge={subtitleState.badge}
         speaker={subtitleState.speaker}
-        hasTourBar={isLptTourActive || lptStoryStep > 0 || isBAMTourActive || bamStoryStep > 0 || isSecYEGTourActive || secYEGStoryStep > 0 || isComplexITourActive || complexIStoryStep > 0 || isATPTourActive || atpStoryStep > 0 || isMotorTourActive || motorStoryStep > 0 || isRibosomeTourActive || ribosomeStoryStep > 0 || tourStatus.active}
+        hasTourBar={isMreBTourActive || mrebStoryStep > 0 || isFtsZTourActive || ftszStoryStep > 0 || isGyraseTourActive || gyraseStoryStep > 0 || isPolIIITourActive || polIIIStoryStep > 0 || isRnapTourActive || rnapStoryStep > 0 || isLptTourActive || lptStoryStep > 0 || isBAMTourActive || bamStoryStep > 0 || isSecYEGTourActive || secYEGStoryStep > 0 || isComplexITourActive || complexIStoryStep > 0 || isATPTourActive || atpStoryStep > 0 || isMotorTourActive || motorStoryStep > 0 || isRibosomeTourActive || ribosomeStoryStep > 0 || tourStatus.active}
         onClose={hideSubtitles}
       />
     </div>

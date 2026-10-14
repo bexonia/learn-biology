@@ -3,9 +3,9 @@
 !client/public/models/*.glb
 *.wasm
 wasm/*.wasm
-models/*.glb
+/models/*.glb
 *.cif
-models/*.cif
+/models/*.cif
 
 # Blender auto-save backups (source .blend is preserved)
 *.blend1

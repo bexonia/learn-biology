@@ -24,7 +24,17 @@ export const ScaleNavigator: React.FC<ScaleNavigatorProps> = ({
       ? 'BACTERIAL SECYEG TRANSLOCON & SECA ATPASE MOTOR'
       : scenario === 'bam'
       ? 'BACTERIAL BAM COMPLEX OUTER MEMBRANE INSERTASE'
-      : 'BACTERIAL LPTA-G LPS TRANS-ENVELOPE EXPORT BRIDGE';
+      : scenario === 'lpt'
+      ? 'BACTERIAL LPTA-G LPS TRANS-ENVELOPE EXPORT BRIDGE'
+      : scenario === 'rnap'
+      ? 'BACTERIAL RNA POLYMERASE TRANSCRIPTION HOLOENZYME'
+      : scenario === 'pol_iii'
+      ? 'BACTERIAL DNA POLYMERASE III REPLISOME HOLOENZYME'
+      : scenario === 'gyrase'
+      ? 'BACTERIAL DNA GYRASE TOPOISOMERASE II'
+      : scenario === 'ftsz'
+      ? 'BACTERIAL DIVISOME FTSZ Z-RING & SEPTAL CELL-WALL SYNTHASE'
+      : 'BACTERIAL MREB ACTIN HELICAL RAILS & ROD COMPLEX';
 
   const subtitle =
     scenario === 'cell'
@@ -41,7 +51,17 @@ export const ScaleNavigator: React.FC<ScaleNavigatorProps> = ({
       ? 'The 11-nanometer universal protein translocation machine coupling SecA ATP power strokes to translocon secretion and lateral gate partitioning.'
       : scenario === 'bam'
       ? 'The 15-nanometer essential outer membrane protein insertase coupling chaperone client handover, POTRA gating, and lateral seam unzipping for beta-barrel integration.'
-      : 'The 28-nanometer trans-envelope bridge spanning the inner membrane, periplasm, and outer membrane for continuous processive lipopolysaccharide export.';
+      : scenario === 'lpt'
+      ? 'The 28-nanometer trans-envelope bridge spanning the inner membrane, periplasm, and outer membrane for continuous processive lipopolysaccharide export.'
+      : scenario === 'rnap'
+      ? 'The 16-nanometer transcription machine unwinding promoter DNA into a 13-bp bubble, pairing rNTPs at two catalytic Mg²⁺ ions, and synthesizing mRNA for expressome coupling.'
+      : scenario === 'pol_iii'
+      ? 'The 20-nanometer chromosomal duplication machine coupling DnaB helicase unwinding to beta-2 clamp processivity, two-metal Mg²⁺ catalysis (1,000 nt/s), and epsilon proofreading.'
+      : scenario === 'gyrase'
+      ? 'The 12-nanometer negative supercoiling machine coupling ATP hydrolysis to three-gate strand passage, catalytic Tyr122 transesterification, and topological underwinding.'
+      : scenario === 'ftsz'
+      ? 'The 800-nanometer cytoskeletal contractile ring coordinating GTPase protofilament treadmilling, membrane tethering (FtsA/ZipA), and septal cell-wall synthesis (FtsW-FtsI / PBP3).'
+      : 'The sub-membrane antiparallel double protofilaments coordinating the RodA-PBP2 elongation machine to synthesize lateral cell wall and maintain rod shape.';
 
   return (
     <header id="editorial-header">
@@ -118,6 +138,51 @@ export const ScaleNavigator: React.FC<ScaleNavigatorProps> = ({
             title="Switch to LptA-G LPS Trans-Envelope Bridge (PDB: 9P7P / 6MIT)"
           >
             <span className="scale-icon">🌉</span> Lpt Bridge <span className="scale-dim">(28 nm)</span>
+          </button>
+          <span className="scale-nav-divider">›</span>
+          <button
+            className={`scale-nav-btn ${scenario === 'rnap' ? 'active' : ''}`}
+            id="btn-nav-rnap"
+            onClick={() => onSelectScenario('rnap')}
+            title="Switch to RNA Polymerase Transcription Holoenzyme (PDB: 6C9Y)"
+          >
+            <span className="scale-icon">📜</span> RNA Polymerase <span className="scale-dim">(16 nm)</span>
+          </button>
+          <span className="scale-nav-divider">›</span>
+          <button
+            className={`scale-nav-btn ${scenario === 'pol_iii' ? 'active' : ''}`}
+            id="btn-nav-pol-iii"
+            onClick={() => onSelectScenario('pol_iii')}
+            title="Switch to DNA Polymerase III Replisome Holoenzyme (PDB: 5FKV)"
+          >
+            <span className="scale-icon">🧬</span> DNA Replisome <span className="scale-dim">(20 nm)</span>
+          </button>
+          <span className="scale-nav-divider">›</span>
+          <button
+            className={`scale-nav-btn ${scenario === 'gyrase' ? 'active' : ''}`}
+            id="btn-nav-gyrase"
+            onClick={() => onSelectScenario('gyrase')}
+            title="Switch to DNA Gyrase Topoisomerase II (PDB: 1AB4 / 2XCT)"
+          >
+            <span className="scale-icon">🌀</span> DNA Gyrase <span className="scale-dim">(12 nm)</span>
+          </button>
+          <span className="scale-nav-divider">›</span>
+          <button
+            className={`scale-nav-btn ${scenario === 'ftsz' ? 'active' : ''}`}
+            id="btn-nav-ftsz"
+            onClick={() => onSelectScenario('ftsz')}
+            title="Switch to Divisome FtsZ Z-Ring (PDB: 1FSZ / 2R6R)"
+          >
+            <span className="scale-icon">🔬</span> Divisome Z-Ring <span className="scale-dim">(800 nm)</span>
+          </button>
+          <span className="scale-nav-divider">›</span>
+          <button
+            className={`scale-nav-btn ${scenario === 'mreb' ? 'active' : ''}`}
+            id="btn-nav-mreb"
+            onClick={() => onSelectScenario('mreb')}
+            title="Switch to MreB Actin Helical Rails (PDB: 1JCG / 4CZM)"
+          >
+            <span className="scale-icon">🛤️</span> MreB Actin Rails <span className="scale-dim">(200 nm)</span>
           </button>
         </div>
       </div>

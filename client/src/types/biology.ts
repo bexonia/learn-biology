@@ -1,4 +1,4 @@
-export type ScenarioType = 'cell' | 'motor' | 'ribosome' | 'atp_synthase' | 'complex_i' | 'secyeg' | 'bam' | 'lpt';
+export type ScenarioType = 'cell' | 'motor' | 'ribosome' | 'atp_synthase' | 'complex_i' | 'secyeg' | 'bam' | 'lpt' | 'rnap' | 'pol_iii' | 'gyrase' | 'ftsz' | 'mreb';
 
 export interface ProteinItem {
   name: string;
@@ -108,6 +108,76 @@ export interface LptComponentData {
   energySource?: string;
   transportRate?: string;
   state?: 'extraction' | 'periplasmic_handover' | 'jellyroll_slide' | 'om_gating' | 'leaflet_deposition';
+}
+
+export interface RNAPComponentData {
+  name: string;
+  badge?: string;
+  dims?: string;
+  proteins?: string;
+  pdb?: string;
+  desc?: string;
+  role?: string;
+  stoichiometry?: string;
+  catalyticTriad?: string;
+  transcriptionRate?: string;
+  state?: 'promoter_binding' | 'bubble_melting' | 'abortive_initiation' | 'processive_elongation' | 'expressome_coupled';
+}
+
+export interface PolIIIComponentData {
+  name: string;
+  badge?: string;
+  dims?: string;
+  proteins?: string;
+  pdb?: string;
+  desc?: string;
+  role?: string;
+  stoichiometry?: string;
+  catalyticPalm?: string;
+  replicationSpeed?: string;
+  state?: 'helicase_unwinding' | 'clamp_loading' | 'leading_synthesis' | 'lagging_trombone' | 'proofreading_editing' | 'processive_duplication';
+}
+
+export interface GyraseComponentData {
+  name: string;
+  badge?: string;
+  dims?: string;
+  proteins?: string;
+  pdb?: string;
+  desc?: string;
+  role?: string;
+  stoichiometry?: string;
+  catalyticTyrosine?: string;
+  supercoilingRate?: string;
+  state?: 'wrapping' | 't_capture' | 'cleavage' | 'strand_passage' | 'religation_exit';
+}
+
+export interface FtsZComponentData {
+  name: string;
+  badge?: string;
+  dims?: string;
+  proteins?: string;
+  pdb?: string;
+  desc?: string;
+  role?: string;
+  stoichiometry?: string;
+  gtpTurnover?: string;
+  treadmillingSpeed?: string;
+  state?: 'midcell_positioning' | 'gtp_polymerization' | 'membrane_tethering' | 'treadmilling_synthase' | 'constriction_scission';
+}
+
+export interface MreBComponentData {
+  name: string;
+  badge?: string;
+  dims?: string;
+  proteins?: string;
+  pdb?: string;
+  desc?: string;
+  role?: string;
+  stoichiometry?: string;
+  atpTurnover?: string;
+  filamentVelocity?: string;
+  state?: 'rail_overview' | 'atp_polymerization' | 'membrane_insertion' | 'rodz_coupling' | 'roda_pbp2_propulsion' | 'lateral_wall_synthesis';
 }
 
 export interface TourStatus {

@@ -1,7 +1,9 @@
 # Module 09: Bacterial RNA Degradosome (`5M3P` / `2YKR`, RNase E, PNPase, RhlB Helicase, Enolase)
 
-* **Status:** `[ ]` Pending Implementation
+* **Status:** `[x]` Python Generator & 3D `.glb` Asset Built (`[ ]` Frontend UI Wiring Pending)
 * **Target Scale ID:** `rna_degradosome`
+* **Discrete Python Generator:** [`./generate_09_rna_degradosome.py`](./generate_09_rna_degradosome.py)
+* **Generated 3D Model:** [`./rna_degradosome_5m3p.glb`](./rna_degradosome_5m3p.glb)
 * **Biological Category:** Membrane-Tethered Multi-Enzyme mRNA Decay & RNA Quality Control Factory ($22\,\text{nm}$)
 
 ---
@@ -81,7 +83,7 @@ The Blender generator [`scripts/generate_5m3p_rna_degradosome.py`](file:///c:/Us
 
 ## 7. Implementation Checklist
 
-- [ ] Create [`scripts/generate_5m3p_rna_degradosome.py`](file:///c:/Users/devcd/GenProjects/learn-biology/scripts/generate_5m3p_rna_degradosome.py) and export `client/public/models/rna_degradosome_5m3p.glb`.
+- [x] Create [`./generate_09_rna_degradosome.py`](./generate_09_rna_degradosome.py) and export [`./rna_degradosome_5m3p.glb`](./rna_degradosome_5m3p.glb) and `../../client/public/models/rna_degradosome_5m3p.glb`.
 - [ ] Create [`client/src/core/rnaDegradosome.ts`](file:///c:/Users/devcd/GenProjects/learn-biology/client/src/core/rnaDegradosome.ts).
 - [ ] Wire `'rna_degradosome'` in [`client/src/types/biology.ts`](file:///c:/Users/devcd/GenProjects/learn-biology/client/src/types/biology.ts), [`ScaleNavigator.tsx`](file:///c:/Users/devcd/GenProjects/learn-biology/client/src/components/Header/ScaleNavigator.tsx), [`App.tsx`](file:///c:/Users/devcd/GenProjects/learn-biology/client/src/App.tsx), and [`CellInspectorDrawer.tsx`](file:///c:/Users/devcd/GenProjects/learn-biology/client/src/components/Inspector/CellInspectorDrawer.tsx).
 - [ ] Verify `pnpm --dir client run build` succeeds with zero errors.

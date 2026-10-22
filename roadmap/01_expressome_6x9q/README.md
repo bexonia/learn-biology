@@ -1,8 +1,10 @@
 # Module 01: Coupled Transcription–Translation Expressome (`6X9Q`) & Eukaryotic Comparison
 
-* **Status:** `[ ]` Pending Implementation
+* **Status:** `[x]` Python Generator & 3D `.glb` Asset Built (`[ ]` Frontend UI Wiring Pending)
 * **Target Scale ID:** `expressome`
-* **Visual Primer Reference:** [`primer_fig4.png`](file:///c:/Users/devcd/GenProjects/primer_fig4.png) (*"THE PROKARYOTIC GENOME" — Coupled Transcription-Translation & Eukaryotic Comparison Inset*)
+* **Discrete Python Generator:** [`./generate_01_expressome_6x9q.py`](./generate_01_expressome_6x9q.py)
+* **Generated 3D Model:** [`./expressome_6x9q.glb`](./expressome_6x9q.glb)
+* **Visual Primer Reference:** [`primer_fig4.png`](../../primer_fig4.png) (*"THE PROKARYOTIC GENOME" — Coupled Transcription-Translation & Eukaryotic Comparison Inset*)
 * **Biological Category:** Macromolecular RNA–Protein Supercomplex (~3.0 MDa, $30\,\text{nm}$)
 
 ---
@@ -81,7 +83,7 @@ The Blender generator [`scripts/generate_6x9q_expressome.py`](file:///c:/Users/d
 
 ## 7. Implementation Checklist
 
-- [ ] Create [`scripts/generate_6x9q_expressome.py`](file:///c:/Users/devcd/GenProjects/learn-biology/scripts/generate_6x9q_expressome.py) and export `client/public/models/expressome_6x9q.glb`.
+- [x] Create [`./generate_01_expressome_6x9q.py`](./generate_01_expressome_6x9q.py) and export [`./expressome_6x9q.glb`](./expressome_6x9q.glb) and `../../client/public/models/expressome_6x9q.glb`.
 - [ ] Create [`client/src/core/expressomeCoupling.ts`](file:///c:/Users/devcd/GenProjects/learn-biology/client/src/core/expressomeCoupling.ts) with `setExplodedProgress`, synchronized mRNA/codon animation, and the Eukaryotic Comparison overlay toggle.
 - [ ] Register `'expressome'` in [`client/src/types/biology.ts`](file:///c:/Users/devcd/GenProjects/learn-biology/client/src/types/biology.ts), [`ScaleNavigator.tsx`](file:///c:/Users/devcd/GenProjects/learn-biology/client/src/components/Header/ScaleNavigator.tsx), [`App.tsx`](file:///c:/Users/devcd/GenProjects/learn-biology/client/src/App.tsx), and [`CellInspectorDrawer.tsx`](file:///c:/Users/devcd/GenProjects/learn-biology/client/src/components/Inspector/CellInspectorDrawer.tsx).
 - [ ] Verify `pnpm --dir client run build` succeeds with zero errors.

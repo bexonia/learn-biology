@@ -1,7 +1,9 @@
 # Module 10: Central Metabolic & Respiratory Hubs — Pyruvate Dehydrogenase (`1EAE`) & Cytochrome $bo_3$ Ubiquinol Oxidase (`6WTI`)
 
-* **Status:** `[ ]` Pending Implementation
+* **Status:** `[x]` Python Generator & 3D `.glb` Asset Built (`[ ]` Frontend UI Wiring Pending)
 * **Target Scale ID:** `metabolic_hubs` (with `pyruvate_dehydrogenase` & `cytochrome_bo3` Selector)
+* **Discrete Python Generator:** [`./generate_10_metabolic_respiratory_hubs.py`](./generate_10_metabolic_respiratory_hubs.py)
+* **Generated 3D Model:** [`./metabolic_hubs.glb`](./metabolic_hubs.glb)
 * **Biological Category:** 4.5 MDa Cubic Metabolic Megacomplex & Terminal Aerobic Respiratory Proton Pump
 
 ---
@@ -87,7 +89,7 @@ The Blender generator [`scripts/generate_metabolic_respiratory_hubs.py`](file://
 
 ## 7. Implementation Checklist
 
-- [ ] Create [`scripts/generate_metabolic_respiratory_hubs.py`](file:///c:/Users/devcd/GenProjects/learn-biology/scripts/generate_metabolic_respiratory_hubs.py) and export `client/public/models/metabolic_hubs.glb`.
+- [x] Create [`./generate_10_metabolic_respiratory_hubs.py`](./generate_10_metabolic_respiratory_hubs.py) and export [`./metabolic_hubs.glb`](./metabolic_hubs.glb) and `../../client/public/models/metabolic_hubs.glb`.
 - [ ] Create [`client/src/core/metabolicRespiratoryHubs.ts`](file:///c:/Users/devcd/GenProjects/learn-biology/client/src/core/metabolicRespiratoryHubs.ts).
 - [ ] Register `'metabolic_hubs'` in [`client/src/types/biology.ts`](file:///c:/Users/devcd/GenProjects/learn-biology/client/src/types/biology.ts), [`ScaleNavigator.tsx`](file:///c:/Users/devcd/GenProjects/learn-biology/client/src/components/Header/ScaleNavigator.tsx), [`App.tsx`](file:///c:/Users/devcd/GenProjects/learn-biology/client/src/App.tsx), and [`CellInspectorDrawer.tsx`](file:///c:/Users/devcd/GenProjects/learn-biology/client/src/components/Inspector/CellInspectorDrawer.tsx).
 - [ ] Verify `pnpm --dir client run build` succeeds with zero errors.

@@ -1,7 +1,9 @@
 # Module 11: Periplasmic Escort & Solute Transport — SurA Holdase (`1M5Y`) & MalE–MalFGK$_2$ ABC Importer (`1OMP` / `2R6G`)
 
-* **Status:** `[ ]` Pending Implementation
+* **Status:** `[x]` Python Generator & 3D `.glb` Asset Built (`[ ]` Frontend UI Wiring Pending)
 * **Target Scale ID:** `periplasmic_transport`
+* **Discrete Python Generator:** [`./generate_11_periplasmic_transport_sura_male.py`](./generate_11_periplasmic_transport_sura_male.py)
+* **Generated 3D Model:** [`./periplasmic_transport.glb`](./periplasmic_transport.glb)
 * **Biological Category:** ATP-Independent Periplasmic $\beta$-Barrel Chaperone Escort & Venus-Flytrap ABC Sugar Transporter
 
 ---
@@ -83,7 +85,7 @@ The Blender generator [`scripts/generate_periplasmic_transport.py`](file:///c:/U
 
 ## 7. Implementation Checklist
 
-- [ ] Create [`scripts/generate_periplasmic_transport.py`](file:///c:/Users/devcd/GenProjects/learn-biology/scripts/generate_periplasmic_transport.py) and export `client/public/models/periplasmic_transport.glb`.
+- [x] Create [`./generate_11_periplasmic_transport_sura_male.py`](./generate_11_periplasmic_transport_sura_male.py) and export [`./periplasmic_transport.glb`](./periplasmic_transport.glb) and `../../client/public/models/periplasmic_transport.glb`.
 - [ ] Create [`client/src/core/periplasmicTransport.ts`](file:///c:/Users/devcd/GenProjects/learn-biology/client/src/core/periplasmicTransport.ts).
 - [ ] Register `'periplasmic_transport'` in [`client/src/types/biology.ts`](file:///c:/Users/devcd/GenProjects/learn-biology/client/src/types/biology.ts), [`ScaleNavigator.tsx`](file:///c:/Users/devcd/GenProjects/learn-biology/client/src/components/Header/ScaleNavigator.tsx), [`App.tsx`](file:///c:/Users/devcd/GenProjects/learn-biology/client/src/App.tsx), and [`CellInspectorDrawer.tsx`](file:///c:/Users/devcd/GenProjects/learn-biology/client/src/components/Inspector/CellInspectorDrawer.tsx).
 - [ ] Verify `pnpm --dir client run build` succeeds with zero errors.

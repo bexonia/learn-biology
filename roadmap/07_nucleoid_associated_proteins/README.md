@@ -1,7 +1,9 @@
 # Module 07: Nucleoid Architecture & Histone-Like NAPs (`HU` `1P71`, `H-NS` `1HNS`, `Fis` `3IV5`, & B-DNA `1BNA`)
 
-* **Status:** `[ ]` Pending Implementation
+* **Status:** `[x]` Python Generator & 3D `.glb` Asset Built (`[ ]` Frontend UI Wiring Pending)
 * **Target Scale ID:** `nucleoid`
+* **Discrete Python Generator:** [`./generate_07_nucleoid_associated_proteins.py`](./generate_07_nucleoid_associated_proteins.py)
+* **Generated 3D Model:** [`./nucleoid_naps.glb`](./nucleoid_naps.glb)
 * **Biological Category:** Chromosomal DNA Supercoiling, Bending, Bridging & Topological Domain Insulation
 
 ---
@@ -79,7 +81,7 @@ The Blender generator [`scripts/generate_1p71_nucleoid_naps.py`](file:///c:/User
 
 ## 7. Implementation Checklist
 
-- [ ] Create [`scripts/generate_1p71_nucleoid_naps.py`](file:///c:/Users/devcd/GenProjects/learn-biology/scripts/generate_1p71_nucleoid_naps.py) and export `client/public/models/nucleoid_naps.glb`.
+- [x] Create [`./generate_07_nucleoid_associated_proteins.py`](./generate_07_nucleoid_associated_proteins.py) and export [`./nucleoid_naps.glb`](./nucleoid_naps.glb) and `../../client/public/models/nucleoid_naps.glb`.
 - [ ] Create [`client/src/core/nucleoidArchitecture.ts`](file:///c:/Users/devcd/GenProjects/learn-biology/client/src/core/nucleoidArchitecture.ts).
 - [ ] Wire the Whole-Cell `'nucleoid'` click target in [`client/src/types/biology.ts`](file:///c:/Users/devcd/GenProjects/learn-biology/client/src/types/biology.ts), [`ScaleNavigator.tsx`](file:///c:/Users/devcd/GenProjects/learn-biology/client/src/components/Header/ScaleNavigator.tsx), [`App.tsx`](file:///c:/Users/devcd/GenProjects/learn-biology/client/src/App.tsx), and [`CellInspectorDrawer.tsx`](file:///c:/Users/devcd/GenProjects/learn-biology/client/src/components/Inspector/CellInspectorDrawer.tsx).
 - [ ] Verify `pnpm --dir client run build` succeeds with zero errors.

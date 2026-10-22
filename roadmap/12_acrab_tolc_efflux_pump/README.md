@@ -1,7 +1,9 @@
 # Module 12: Tripartite Multidrug Efflux Pump (`AcrAB-TolC`, PDB `5V5S` / `5O66`)
 
-* **Status:** `[ ]` Pending Implementation
+* **Status:** `[x]` Python Generator & 3D `.glb` Asset Built (`[ ]` Frontend UI Wiring Pending)
 * **Target Scale ID:** `efflux_pump`
+* **Discrete Python Generator:** [`./generate_12_acrab_tolc_efflux_pump.py`](./generate_12_acrab_tolc_efflux_pump.py)
+* **Generated 3D Model:** [`./efflux_5v5s.glb`](./efflux_5v5s.glb)
 * **Biological Category:** Trans-Envelope Proton-Driven Antibiotic Resistance Cannon ($32\,\text{nm}$ height, 3:6:3 Stoichiometry)
 
 ---
@@ -83,7 +85,7 @@ The Blender generator [`scripts/generate_5v5s_acrab_tolc.py`](file:///c:/Users/d
 
 ## 7. Implementation Checklist
 
-- [ ] Create [`scripts/generate_5v5s_acrab_tolc.py`](file:///c:/Users/devcd/GenProjects/learn-biology/scripts/generate_5v5s_acrab_tolc.py) and export `client/public/models/efflux_5v5s.glb`.
+- [x] Create [`./generate_12_acrab_tolc_efflux_pump.py`](./generate_12_acrab_tolc_efflux_pump.py) and export [`./efflux_5v5s.glb`](./efflux_5v5s.glb) and `../../client/public/models/efflux_5v5s.glb`.
 - [ ] Create [`client/src/core/effluxPump.ts`](file:///c:/Users/devcd/GenProjects/learn-biology/client/src/core/effluxPump.ts).
 - [ ] Register `'efflux_pump'` in [`client/src/types/biology.ts`](file:///c:/Users/devcd/GenProjects/learn-biology/client/src/types/biology.ts), [`ScaleNavigator.tsx`](file:///c:/Users/devcd/GenProjects/learn-biology/client/src/components/Header/ScaleNavigator.tsx), [`App.tsx`](file:///c:/Users/devcd/GenProjects/learn-biology/client/src/App.tsx), and [`CellInspectorDrawer.tsx`](file:///c:/Users/devcd/GenProjects/learn-biology/client/src/components/Inspector/CellInspectorDrawer.tsx).
 - [ ] Verify `pnpm --dir client run build` succeeds with zero errors.

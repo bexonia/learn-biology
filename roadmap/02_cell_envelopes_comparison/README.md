@@ -1,8 +1,10 @@
 # Module 02: Comparing Prokaryotic Cell Envelopes (Gram-Negative vs. Gram-Positive vs. Archaeal S-Layer)
 
-* **Status:** `[ ]` Pending Implementation
+* **Status:** `[x]` Python Generator & 3D `.glb` Asset Built (`[ ]` Frontend UI Wiring Pending)
 * **Target Scale ID:** `envelopes`
-* **Visual Primer Reference:** [`primer_fig7.png`](file:///c:/Users/devcd/GenProjects/primer_fig7.png) (*"COMPARING PROKARYOTIC CELL ENVELOPES"*)
+* **Discrete Python Generator:** [`./generate_02_cell_envelopes_comparison.py`](./generate_02_cell_envelopes_comparison.py)
+* **Generated 3D Model:** [`./envelopes_comparison.glb`](./envelopes_comparison.glb)
+* **Visual Primer Reference:** [`primer_fig7.png`](../../primer_fig7.png) (*"COMPARING PROKARYOTIC CELL ENVELOPES"*)
 * **Biological Category:** Comparative Multi-Layered Cell Wall Architecture + Outer Membrane Porin (`2OMF`) + Peptidoglycan Lattice (`3VMA`) + Braun's Lipoprotein (`1EQ7`)
 
 ---
@@ -94,7 +96,7 @@ The Blender generator [`scripts/generate_prokaryotic_envelopes.py`](file:///c:/U
 
 ## 7. Implementation Checklist
 
-- [ ] Create [`scripts/generate_prokaryotic_envelopes.py`](file:///c:/Users/devcd/GenProjects/learn-biology/scripts/generate_prokaryotic_envelopes.py) and export `client/public/models/envelopes_comparison.glb`.
+- [x] Create [`./generate_02_cell_envelopes_comparison.py`](./generate_02_cell_envelopes_comparison.py) and export [`./envelopes_comparison.glb`](./envelopes_comparison.glb) and `../../client/public/models/envelopes_comparison.glb`.
 - [ ] Create [`client/src/core/prokaryoticEnvelopes.ts`](file:///c:/Users/devcd/GenProjects/learn-biology/client/src/core/prokaryoticEnvelopes.ts).
 - [ ] Register `'envelopes'` in [`client/src/types/biology.ts`](file:///c:/Users/devcd/GenProjects/learn-biology/client/src/types/biology.ts), [`ScaleNavigator.tsx`](file:///c:/Users/devcd/GenProjects/learn-biology/client/src/components/Header/ScaleNavigator.tsx), [`App.tsx`](file:///c:/Users/devcd/GenProjects/learn-biology/client/src/App.tsx), and [`CellInspectorDrawer.tsx`](file:///c:/Users/devcd/GenProjects/learn-biology/client/src/components/Inspector/CellInspectorDrawer.tsx).
 - [ ] Verify `pnpm --dir client run build` succeeds with zero errors.

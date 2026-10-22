@@ -1,7 +1,9 @@
 # Module 06: Type 1 Fimbriae Catch-Bond Adhesin (`6GTO` / `1TR7`) & Curli Amyloid Biofilm Fibers (`4B0M`)
 
-* **Status:** `[ ]` Pending Implementation
+* **Status:** `[x]` Python Generator & 3D `.glb` Asset Built (`[ ]` Frontend UI Wiring Pending)
 * **Target Scale ID:** `pili_fimbriae` (with Curli Biofilm Dual-Inspector Mode)
+* **Discrete Python Generator:** [`./generate_06_pili_fimbriae_curli_biofilm.py`](./generate_06_pili_fimbriae_curli_biofilm.py)
+* **Generated 3D Model:** [`./pili_fimbriae_6gto.glb`](./pili_fimbriae_6gto.glb)
 * **Biological Category:** Extracellular Chaperone-Usher Adhesion Pilus & Functional Amyloid Biofilm Matrix
 
 ---
@@ -84,7 +86,7 @@ The Blender generator [`scripts/generate_pili_and_curli.py`](file:///c:/Users/de
 
 ## 7. Implementation Checklist
 
-- [ ] Create [`scripts/generate_pili_and_curli.py`](file:///c:/Users/devcd/GenProjects/learn-biology/scripts/generate_pili_and_curli.py) and export `client/public/models/pili_fimbriae_6gto.glb`.
+- [x] Create [`./generate_06_pili_fimbriae_curli_biofilm.py`](./generate_06_pili_fimbriae_curli_biofilm.py) and export [`./pili_fimbriae_6gto.glb`](./pili_fimbriae_6gto.glb) and `../../client/public/models/pili_fimbriae_6gto.glb`.
 - [ ] Create [`client/src/core/piliAndCurli.ts`](file:///c:/Users/devcd/GenProjects/learn-biology/client/src/core/piliAndCurli.ts).
 - [ ] Wire Whole-Cell click targets for `pili_fimbriae` and `curli_fibers` in [`client/src/types/biology.ts`](file:///c:/Users/devcd/GenProjects/learn-biology/client/src/types/biology.ts), [`ScaleNavigator.tsx`](file:///c:/Users/devcd/GenProjects/learn-biology/client/src/components/Header/ScaleNavigator.tsx), [`App.tsx`](file:///c:/Users/devcd/GenProjects/learn-biology/client/src/App.tsx), and [`CellInspectorDrawer.tsx`](file:///c:/Users/devcd/GenProjects/learn-biology/client/src/components/Inspector/CellInspectorDrawer.tsx).
 - [ ] Verify `pnpm --dir client run build` succeeds with zero errors.

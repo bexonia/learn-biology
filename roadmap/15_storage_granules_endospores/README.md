@@ -1,7 +1,9 @@
 # Module 15: Cytoplasmic Storage Inclusions (Glycogen, Volutin, PHB, Gas Vesicles, Magnetosomes) & Gram-Positive Endospore Dormancy
 
-* **Status:** `[ ]` Pending Implementation
+* **Status:** `[x]` Python Generator & 3D `.glb` Asset Built (`[ ]` Frontend UI Wiring Pending)
 * **Target Scale ID:** `storage_and_spores`
+* **Discrete Python Generator:** [`./generate_15_storage_granules_endospores.py`](./generate_15_storage_granules_endospores.py)
+* **Generated 3D Model:** [`./storage_and_spores.glb`](./storage_and_spores.glb)
 * **Biological Category:** Subcellular Reserve Inclusions, Buoyancy/Magnetotactic Organelles, & Multi-Layered Dormant Endospore ($50\text{–}800\,\text{nm}$)
 
 ---
@@ -90,7 +92,7 @@ The Blender generator [`scripts/generate_storage_and_spores.py`](file:///c:/User
 
 ## 7. Implementation Checklist
 
-- [ ] Create [`scripts/generate_storage_and_spores.py`](file:///c:/Users/devcd/GenProjects/learn-biology/scripts/generate_storage_and_spores.py) and export `client/public/models/storage_and_spores.glb`.
+- [x] Create [`./generate_15_storage_granules_endospores.py`](./generate_15_storage_granules_endospores.py) and export [`./storage_and_spores.glb`](./storage_and_spores.glb) and `../../client/public/models/storage_and_spores.glb`.
 - [ ] Create [`client/src/core/storageAndSpores.ts`](file:///c:/Users/devcd/GenProjects/learn-biology/client/src/core/storageAndSpores.ts).
 - [ ] Register `'storage_and_spores'` in [`client/src/types/biology.ts`](file:///c:/Users/devcd/GenProjects/learn-biology/client/src/types/biology.ts), [`ScaleNavigator.tsx`](file:///c:/Users/devcd/GenProjects/learn-biology/client/src/components/Header/ScaleNavigator.tsx), [`App.tsx`](file:///c:/Users/devcd/GenProjects/learn-biology/client/src/App.tsx), and [`CellInspectorDrawer.tsx`](file:///c:/Users/devcd/GenProjects/learn-biology/client/src/components/Inspector/CellInspectorDrawer.tsx).
 - [ ] Verify `pnpm --dir client run build` succeeds with zero errors.

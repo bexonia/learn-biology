@@ -1,8 +1,10 @@
 # Module 04: 3D Icosahedral Bacterial Microcompartment (Carboxysome / Pdu BMC Shell, `7O04` / `3I82`)
 
-* **Status:** `[ ]` Pending Implementation
+* **Status:** `[x]` Python Generator & 3D `.glb` Asset Built (`[ ]` Frontend UI Wiring Pending)
 * **Target Scale ID:** `microcompartment`
-* **Visual Primer Reference:** [`primer_fig3.png`](file:///c:/Users/devcd/GenProjects/primer_fig3.png) (*"A TYPICAL PROKARYOTIC CELL" — `INTERNAL ORGANIZATION: microcompartment` Cutaway Shell*)
+* **Discrete Python Generator:** [`./generate_04_bacterial_microcompartment_bmc.py`](./generate_04_bacterial_microcompartment_bmc.py)
+* **Generated 3D Model:** [`./microcompartment_7o04.glb`](./microcompartment_7o04.glb)
+* **Visual Primer Reference:** [`primer_fig3.png`](../../primer_fig3.png) (*"A TYPICAL PROKARYOTIC CELL" — `INTERNAL ORGANIZATION: microcompartment` Cutaway Shell*)
 * **Biological Category:** Prokaryotic Proteinaceous Organelle ($100\text{–}150\,\text{nm}$ Icosahedral Cage)
 
 ---
@@ -79,7 +81,7 @@ A widespread misconception is that prokaryotes have no organelles. While they la
 ## 7. Implementation Checklist
 
 - [ ] Add 3D icosahedral microcompartment mesh to [`scripts/generate_primer_cell_hq.py`](file:///c:/Users/devcd/GenProjects/learn-biology/scripts/generate_primer_cell_hq.py) and wire its Whole-Cell click target in [`cellViewer.ts`](file:///c:/Users/devcd/GenProjects/learn-biology/client/src/core/cellViewer.ts) and [`MicrocompartmentCard.tsx`](file:///c:/Users/devcd/GenProjects/learn-biology/client/src/components/HUD/MicrocompartmentCard.tsx).
-- [ ] Create [`scripts/generate_7o04_microcompartment.py`](file:///c:/Users/devcd/GenProjects/learn-biology/scripts/generate_7o04_microcompartment.py) and export `client/public/models/microcompartment_7o04.glb`.
+- [x] Create [`./generate_04_bacterial_microcompartment_bmc.py`](./generate_04_bacterial_microcompartment_bmc.py) and export [`./microcompartment_7o04.glb`](./microcompartment_7o04.glb) and `../../client/public/models/microcompartment_7o04.glb`.
 - [ ] Create [`client/src/core/bacterialMicrocompartment.ts`](file:///c:/Users/devcd/GenProjects/learn-biology/client/src/core/bacterialMicrocompartment.ts).
 - [ ] Register `'microcompartment'` in [`client/src/types/biology.ts`](file:///c:/Users/devcd/GenProjects/learn-biology/client/src/types/biology.ts), [`ScaleNavigator.tsx`](file:///c:/Users/devcd/GenProjects/learn-biology/client/src/components/Header/ScaleNavigator.tsx), [`App.tsx`](file:///c:/Users/devcd/GenProjects/learn-biology/client/src/App.tsx), and [`CellInspectorDrawer.tsx`](file:///c:/Users/devcd/GenProjects/learn-biology/client/src/components/Inspector/CellInspectorDrawer.tsx).
 - [ ] Verify `pnpm --dir client run build` succeeds with zero errors.

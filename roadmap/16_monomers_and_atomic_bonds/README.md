@@ -1,7 +1,9 @@
 # Module 16: Level 5 Chemical Monomers & Level 6 Quantum / Atomic Bonds (RDKit 3D Conformer & Bond Inspector)
 
-* **Status:** `[ ]` Pending Implementation
+* **Status:** `[x]` Python Generator & 3D `.glb` Asset Built (`[ ]` Frontend UI Wiring Pending)
 * **Target Scale ID:** `atomic_chemistry`
+* **Discrete Python Generator:** [`./generate_16_monomers_and_atomic_bonds.py`](./generate_16_monomers_and_atomic_bonds.py)
+* **Generated 3D Model:** [`./atomic_chemistry.glb`](./atomic_chemistry.glb)
 * **Architectural Reference:** [`ECOLI_RECURSIVE_CELL_ARCHITECTURE.md` Sections 5 & 6](file:///c:/Users/devcd/GenProjects/ECOLI_RECURSIVE_CELL_ARCHITECTURE.md#L562-L678)
 * **Biological Category:** Small-Molecule Building Blocks ($0.5\text{–}1.5\,\text{nm}$) & Sub-Nanometer Covalent / Non-Covalent Bond Physics ($0.1\text{–}0.3\,\text{nm}$)
 
@@ -92,7 +94,7 @@ The Blender + RDKit generator [`scripts/generate_atomic_chemistry.py`](file:///c
 
 ## 7. Implementation Checklist
 
-- [ ] Create [`scripts/generate_atomic_chemistry.py`](file:///c:/Users/devcd/GenProjects/learn-biology/scripts/generate_atomic_chemistry.py) using RDKit (`ETKDGv3` + `MMFF94`) and export `client/public/models/atomic_chemistry.glb`.
+- [x] Create [`./generate_16_monomers_and_atomic_bonds.py`](./generate_16_monomers_and_atomic_bonds.py) using RDKit (`ETKDGv3` + `MMFF94`) and export [`./atomic_chemistry.glb`](./atomic_chemistry.glb) and `../../client/public/models/atomic_chemistry.glb`.
 - [ ] Create [`client/src/core/atomicChemistry.ts`](file:///c:/Users/devcd/GenProjects/learn-biology/client/src/core/atomicChemistry.ts).
 - [ ] Register `'atomic_chemistry'` in [`client/src/types/biology.ts`](file:///c:/Users/devcd/GenProjects/learn-biology/client/src/types/biology.ts), [`ScaleNavigator.tsx`](file:///c:/Users/devcd/GenProjects/learn-biology/client/src/components/Header/ScaleNavigator.tsx), [`App.tsx`](file:///c:/Users/devcd/GenProjects/learn-biology/client/src/App.tsx), and [`CellInspectorDrawer.tsx`](file:///c:/Users/devcd/GenProjects/learn-biology/client/src/components/Inspector/CellInspectorDrawer.tsx).
 - [ ] Verify `pnpm --dir client run build` succeeds with zero errors.

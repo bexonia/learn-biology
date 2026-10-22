@@ -1,7 +1,9 @@
 # Module 05: Chemosensory Receptor Array (`6S1K` / `3JA6`, MCP Trimers-of-Dimers + CheA/CheW Baseplate)
 
-* **Status:** `[ ]` Pending Implementation
+* **Status:** `[x]` Python Generator & 3D `.glb` Asset Built (`[ ]` Frontend UI Wiring Pending)
 * **Target Scale ID:** `chemosensory_mcp`
+* **Discrete Python Generator:** [`./generate_05_chemosensory_mcp_array.py`](./generate_05_chemosensory_mcp_array.py)
+* **Generated 3D Model:** [`./chemosensory_6s1k.glb`](./chemosensory_6s1k.glb)
 * **Biological Category:** Transmembrane Sensory Lattice & Signal Transduction Array ($25\,\text{nm}$ vertical span $\times$ hexagonal polar patch)
 
 ---
@@ -83,7 +85,7 @@ The Blender generator [`scripts/generate_6s1k_chemosensory_array.py`](file:///c:
 
 ## 7. Implementation Checklist
 
-- [ ] Create [`scripts/generate_6s1k_chemosensory_array.py`](file:///c:/Users/devcd/GenProjects/learn-biology/scripts/generate_6s1k_chemosensory_array.py) and export `client/public/models/chemosensory_6s1k.glb`.
+- [x] Create [`./generate_05_chemosensory_mcp_array.py`](./generate_05_chemosensory_mcp_array.py) and export [`./chemosensory_6s1k.glb`](./chemosensory_6s1k.glb) and `../../client/public/models/chemosensory_6s1k.glb`.
 - [ ] Create [`client/src/core/chemosensoryArray.ts`](file:///c:/Users/devcd/GenProjects/learn-biology/client/src/core/chemosensoryArray.ts).
 - [ ] Register `'chemosensory_mcp'` in [`client/src/types/biology.ts`](file:///c:/Users/devcd/GenProjects/learn-biology/client/src/types/biology.ts), [`ScaleNavigator.tsx`](file:///c:/Users/devcd/GenProjects/learn-biology/client/src/components/Header/ScaleNavigator.tsx), [`App.tsx`](file:///c:/Users/devcd/GenProjects/learn-biology/client/src/App.tsx), and [`CellInspectorDrawer.tsx`](file:///c:/Users/devcd/GenProjects/learn-biology/client/src/components/Inspector/CellInspectorDrawer.tsx).
 - [ ] Verify `pnpm --dir client run build` succeeds with zero errors.

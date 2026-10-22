@@ -1,8 +1,10 @@
 # Module 03: The 4 Modes of Prokaryotic Movement (Flagellum, Type IV Pilus Twitching, Gliding, & Archaeal Archaellum)
 
-* **Status:** `[ ]` Pending Implementation
+* **Status:** `[x]` Python Generator & 3D `.glb` Asset Built (`[ ]` Frontend UI Wiring Pending)
 * **Target Scale ID:** `motility_modes`
-* **Visual Primer Reference:** [`primer_fig8.png`](file:///c:/Users/devcd/GenProjects/primer_fig8.png) (*"PROKARYOTIC MOVEMENT" — 1. Bacterial Flagellum, 2. Pilus Retraction Twitching, 3. Gliding Movement, 4. Archaeal Flagellum*)
+* **Discrete Python Generator:** [`./generate_03_prokaryotic_motility_modes.py`](./generate_03_prokaryotic_motility_modes.py)
+* **Generated 3D Model:** [`./motility_modes.glb`](./motility_modes.glb)
+* **Visual Primer Reference:** [`primer_fig8.png`](../../primer_fig8.png) (*"PROKARYOTIC MOVEMENT" — 1. Bacterial Flagellum, 2. Pilus Retraction Twitching, 3. Gliding Movement, 4. Archaeal Flagellum*)
 * **Biological Category:** Comparative Locomotion Nanomachinery ($25\text{–}50\,\text{nm}$ basal motors + micron-scale filaments)
 
 ---
@@ -86,7 +88,7 @@ The Blender generator [`scripts/generate_prokaryotic_motility.py`](file:///c:/Us
 
 ## 7. Implementation Checklist
 
-- [ ] Create [`scripts/generate_prokaryotic_motility.py`](file:///c:/Users/devcd/GenProjects/learn-biology/scripts/generate_prokaryotic_motility.py) and export `client/public/models/motility_modes.glb`.
+- [x] Create [`./generate_03_prokaryotic_motility_modes.py`](./generate_03_prokaryotic_motility_modes.py) and export [`./motility_modes.glb`](./motility_modes.glb) and `../../client/public/models/motility_modes.glb`.
 - [ ] Create [`client/src/core/prokaryoticMotility.ts`](file:///c:/Users/devcd/GenProjects/learn-biology/client/src/core/prokaryoticMotility.ts).
 - [ ] Register `'motility_modes'` in [`client/src/types/biology.ts`](file:///c:/Users/devcd/GenProjects/learn-biology/client/src/types/biology.ts), [`ScaleNavigator.tsx`](file:///c:/Users/devcd/GenProjects/learn-biology/client/src/components/Header/ScaleNavigator.tsx), [`App.tsx`](file:///c:/Users/devcd/GenProjects/learn-biology/client/src/App.tsx), and [`CellInspectorDrawer.tsx`](file:///c:/Users/devcd/GenProjects/learn-biology/client/src/components/Inspector/CellInspectorDrawer.tsx).
 - [ ] Verify `pnpm --dir client run build` succeeds with zero errors.

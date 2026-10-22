@@ -1,7 +1,9 @@
 # Module 14: Prokaryotic Adaptive & Innate Immunity — Type I-E CRISPR-Cas Cascade (`1VY8` / `5H9F`) & EcoRI Restriction Endonuclease (`1ERI`)
 
-* **Status:** `[ ]` Pending Implementation
+* **Status:** `[x]` Python Generator & 3D `.glb` Asset Built (`[ ]` Frontend UI Wiring Pending)
 * **Target Scale ID:** `crispr_defense`
+* **Discrete Python Generator:** [`./generate_14_crispr_cas_phage_defense.py`](./generate_14_crispr_cas_phage_defense.py)
+* **Generated 3D Model:** [`./crispr_defense_1vy8.glb`](./crispr_defense_1vy8.glb)
 * **Biological Category:** Antiviral Ribonucleoprotein Surveillance Complex (405 kDa, $19\,\text{nm}$) & Innate Restriction-Modification DNA Scissors
 
 ---
@@ -82,7 +84,7 @@ The Blender generator [`scripts/generate_1vy8_crispr_defense.py`](file:///c:/Use
 
 ## 7. Implementation Checklist
 
-- [ ] Create [`scripts/generate_1vy8_crispr_defense.py`](file:///c:/Users/devcd/GenProjects/learn-biology/scripts/generate_1vy8_crispr_defense.py) and export `client/public/models/crispr_defense_1vy8.glb`.
+- [x] Create [`./generate_14_crispr_cas_phage_defense.py`](./generate_14_crispr_cas_phage_defense.py) and export [`./crispr_defense_1vy8.glb`](./crispr_defense_1vy8.glb) and `../../client/public/models/crispr_defense_1vy8.glb`.
 - [ ] Create [`client/src/core/crisprDefense.ts`](file:///c:/Users/devcd/GenProjects/learn-biology/client/src/core/crisprDefense.ts).
 - [ ] Register `'crispr_defense'` in [`client/src/types/biology.ts`](file:///c:/Users/devcd/GenProjects/learn-biology/client/src/types/biology.ts), [`ScaleNavigator.tsx`](file:///c:/Users/devcd/GenProjects/learn-biology/client/src/components/Header/ScaleNavigator.tsx), [`App.tsx`](file:///c:/Users/devcd/GenProjects/learn-biology/client/src/App.tsx), and [`CellInspectorDrawer.tsx`](file:///c:/Users/devcd/GenProjects/learn-biology/client/src/components/Inspector/CellInspectorDrawer.tsx).
 - [ ] Verify `pnpm --dir client run build` succeeds with zero errors.

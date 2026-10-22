@@ -1,7 +1,9 @@
 # Module 08: Protein Folding Quality Control — GroEL–GroES Nano-Cage (`1AON`), DnaK/DnaJ/GrpE (`2KHO`), & Trigger Factor (`1W26`)
 
-* **Status:** `[ ]` Pending Implementation
+* **Status:** `[x]` Python Generator & 3D `.glb` Asset Built (`[ ]` Frontend UI Wiring Pending)
 * **Target Scale ID:** `chaperones` (with GroEL–GroES `1AON` & Trigger Factor / DnaK Triage Cascade)
+* **Discrete Python Generator:** [`./generate_08_chaperone_network_groel_dnak.py`](./generate_08_chaperone_network_groel_dnak.py)
+* **Generated 3D Model:** [`./chaperones_1aon.glb`](./chaperones_1aon.glb)
 * **Biological Category:** ATP-Driven Chaperonin Folding Chamber (800 kDa, $18\,\text{nm}$) & Co-Translational Chaperone Relay
 
 ---
@@ -79,7 +81,7 @@ The Blender generator [`scripts/generate_1aon_chaperone_network.py`](file:///c:/
 
 ## 7. Implementation Checklist
 
-- [ ] Create [`scripts/generate_1aon_chaperone_network.py`](file:///c:/Users/devcd/GenProjects/learn-biology/scripts/generate_1aon_chaperone_network.py) and export `client/public/models/chaperones_1aon.glb`.
+- [x] Create [`./generate_08_chaperone_network_groel_dnak.py`](./generate_08_chaperone_network_groel_dnak.py) and export [`./chaperones_1aon.glb`](./chaperones_1aon.glb) and `../../client/public/models/chaperones_1aon.glb`.
 - [ ] Create [`client/src/core/chaperoneNetwork.ts`](file:///c:/Users/devcd/GenProjects/learn-biology/client/src/core/chaperoneNetwork.ts).
 - [ ] Wire `'chaperones'` (and `'groel_groes'` alias) in [`client/src/types/biology.ts`](file:///c:/Users/devcd/GenProjects/learn-biology/client/src/types/biology.ts), [`ScaleNavigator.tsx`](file:///c:/Users/devcd/GenProjects/learn-biology/client/src/components/Header/ScaleNavigator.tsx), [`App.tsx`](file:///c:/Users/devcd/GenProjects/learn-biology/client/src/App.tsx), and [`CellInspectorDrawer.tsx`](file:///c:/Users/devcd/GenProjects/learn-biology/client/src/components/Inspector/CellInspectorDrawer.tsx).
 - [ ] Verify `pnpm --dir client run build` succeeds with zero errors.

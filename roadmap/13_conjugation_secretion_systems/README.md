@@ -1,7 +1,9 @@
 # Module 13: Horizontal Gene Transfer & Secretion Nanomachines — Conjugative F-Pilus T4SS (`7OKO`), T3SS Injectisome (`7AH9`), & T6SS Contractile Spear (`6H3L`)
 
-* **Status:** `[ ]` Pending Implementation
+* **Status:** `[x]` Python Generator & 3D `.glb` Asset Built (`[ ]` Frontend UI Wiring Pending)
 * **Target Scale ID:** `secretion_systems`
+* **Discrete Python Generator:** [`./generate_13_conjugation_secretion_systems.py`](./generate_13_conjugation_secretion_systems.py)
+* **Generated 3D Model:** [`./secretion_systems.glb`](./secretion_systems.glb)
 * **Biological Category:** Trans-Envelope Plasmid DNA Conjugation Bridge & Bacterial Virulence / Inter-Bacterial Warfare Nanomachines ($30\text{–}100\,\text{nm}$)
 
 ---
@@ -83,7 +85,7 @@ The Blender generator [`scripts/generate_secretion_systems.py`](file:///c:/Users
 
 ## 7. Implementation Checklist
 
-- [ ] Create [`scripts/generate_secretion_systems.py`](file:///c:/Users/devcd/GenProjects/learn-biology/scripts/generate_secretion_systems.py) and export `client/public/models/secretion_systems.glb`.
+- [x] Create [`./generate_13_conjugation_secretion_systems.py`](./generate_13_conjugation_secretion_systems.py) and export [`./secretion_systems.glb`](./secretion_systems.glb) and `../../client/public/models/secretion_systems.glb`.
 - [ ] Create [`client/src/core/secretionSystems.ts`](file:///c:/Users/devcd/GenProjects/learn-biology/client/src/core/secretionSystems.ts).
 - [ ] Wire the Whole-Cell `'plasmids'` click target to `'secretion_systems'` in [`client/src/types/biology.ts`](file:///c:/Users/devcd/GenProjects/learn-biology/client/src/types/biology.ts), [`ScaleNavigator.tsx`](file:///c:/Users/devcd/GenProjects/learn-biology/client/src/components/Header/ScaleNavigator.tsx), [`App.tsx`](file:///c:/Users/devcd/GenProjects/learn-biology/client/src/App.tsx), and [`CellInspectorDrawer.tsx`](file:///c:/Users/devcd/GenProjects/learn-biology/client/src/components/Inspector/CellInspectorDrawer.tsx).
 - [ ] Verify `pnpm --dir client run build` succeeds with zero errors.

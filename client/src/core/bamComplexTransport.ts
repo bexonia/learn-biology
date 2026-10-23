@@ -477,7 +477,9 @@ export class BAMComplexScene {
         const thetaLps = (i / count) * Math.PI * 2 + (r % 2) * 0.2;
         const xLps = curR * Math.cos(thetaLps);
         const zLps = curR * Math.sin(thetaLps);
-        if (!inBarrelLumen(xLps, zLps)) {
+        // Clean front cutaway window so POTRA 1-5, BamB-E, and lateral seam are 100% unobstructed
+        const inFrontCutawayLps = (zLps > 1.5 && Math.abs(xLps) < 11.5);
+        if (!inBarrelLumen(xLps, zLps) && !inFrontCutawayLps) {
           lpsPoints.push(new THREE.Vector3(xLps, 0, zLps));
         }
 
@@ -485,7 +487,8 @@ export class BAMComplexScene {
         const thetaPl = thetaLps + Math.PI / count;
         const xPl = curR * Math.cos(thetaPl);
         const zPl = curR * Math.sin(thetaPl);
-        if (!inBarrelLumen(xPl, zPl)) {
+        const inFrontCutawayPl = (zPl > 1.5 && Math.abs(xPl) < 11.5);
+        if (!inBarrelLumen(xPl, zPl) && !inFrontCutawayPl) {
           plPoints.push(new THREE.Vector3(xPl, 0, zPl));
         }
       }
@@ -589,6 +592,25 @@ export class BAMComplexScene {
     const botInnerRing = topInnerRing.clone();
     botInnerRing.position.y = -1.6;
     this.membraneGroup.add(botInnerRing);
+
+    // 4. Extracellular LPS O-Antigen Polysaccharide Chains (Violet/Purple #9D4EDD / #7209B7) matching expected_bam.png
+    const oAntigenGeo = new THREE.CylinderGeometry(0.18, 0.24, 2.8, 8);
+    const oAntigenMat = new THREE.MeshStandardMaterial({
+      color: 0x9d4edd,
+      emissive: 0x480ca8,
+      emissiveIntensity: 0.35,
+      roughness: 0.35,
+      metalness: 0.1
+    });
+    lpsPoints.forEach((pt, idx) => {
+      if (idx % 3 === 0 && Math.abs(pt.x) > 3.6 && Math.abs(pt.x) < 16.0 && pt.z > -8.0 && pt.z < 4.0) {
+        const chain = new THREE.Mesh(oAntigenGeo, oAntigenMat);
+        chain.position.set(pt.x, 3.1, pt.z);
+        chain.rotation.z = Math.sin(idx * 1.7) * 0.15;
+        chain.rotation.x = Math.cos(idx * 1.3) * 0.15;
+        this.membraneGroup.add(chain);
+      }
+    });
   }
 
   private buildClientSubstrateStream() {
@@ -839,11 +861,40 @@ export class BAMComplexScene {
       (gltf) => {
         const root = gltf.scene;
 
+        const bamColorMap: Record<string, { color: number; emissive: number }> = {
+          'Piece_BAM_BamA_Barrel': { color: 0x0077b6, emissive: 0x002845 },
+          'Piece_BAM_Lateral_Seam': { color: 0xffb703, emissive: 0x664400 },
+          'Piece_BAM_BamA_POTRA': { color: 0xf77f00, emissive: 0x5a2800 },
+          'Piece_BAM_BamB': { color: 0x2ec4b6, emissive: 0x0b4f48 },
+          'Piece_BAM_BamC': { color: 0x9d4edd, emissive: 0x3c096c },
+          'Piece_BAM_BamD': { color: 0xe63946, emissive: 0x590d14 },
+          'Piece_BAM_BamE': { color: 0x06d6a0, emissive: 0x024532 },
+          'Piece_BAM_Client_OMP': { color: 0x38b000, emissive: 0x144500 }
+        };
+
         root.traverse((child) => {
           if ((child as THREE.Mesh).isMesh) {
             const mesh = child as THREE.Mesh;
             mesh.castShadow = true;
             mesh.receiveShadow = true;
+
+            for (const [prefix, colCfg] of Object.entries(bamColorMap)) {
+              if (mesh.name.startsWith(prefix)) {
+                if (mesh.geometry && mesh.geometry.attributes && mesh.geometry.attributes.color) {
+                  mesh.geometry.deleteAttribute('color');
+                }
+                mesh.material = new THREE.MeshStandardMaterial({
+                  color: colCfg.color,
+                  emissive: colCfg.emissive,
+                  emissiveIntensity: 0.28,
+                  roughness: 0.34,
+                  metalness: 0.14,
+                  vertexColors: false,
+                  side: THREE.DoubleSide
+                });
+                break;
+              }
+            }
 
             // Retain per-piece materials
             this.pieceMeshes.set(mesh.name, mesh);
@@ -1135,6 +1186,13 @@ export class BAMComplexScene {
       if (base && vec) {
         mesh.position.set(base.x + vec.x, base.y + vec.y, base.z + vec.z);
       }
+    }
+
+    // Smooth camera pullback during exploded disassembly so all BAM subunits & POTRAs stay framed
+    if (this.camLerpProgress >= 1.0 && this.controls) {
+      this.camera.position.set(0, 10 - this.explodedProgress * 2.0, 46 + this.explodedProgress * 22.0);
+      this.controls.target.set(0, -1.0 - this.explodedProgress * 1.5, 0);
+      this.controls.update();
     }
   }
 

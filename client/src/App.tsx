@@ -3547,6 +3547,10 @@ function App() {
     isRoadmapScenario(scenario);
 
   const isDarkCanvasScenario =
+    scenario === 'complex_i' ||
+    scenario === 'secyeg' ||
+    scenario === 'bam' ||
+    scenario === 'lpt' ||
     scenario === 'rnap' ||
     scenario === 'pol_iii' ||
     scenario === 'gyrase' ||

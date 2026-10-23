@@ -425,9 +425,10 @@ export class SecYEGScene {
         const x = -halfSpan + (i + 0.5) * spacing + (Math.sin(j * 0.8) * 0.2);
         const z = -halfSpan + (j + 0.5) * spacing + (Math.cos(i * 0.8) * 0.2);
 
-        // Don't place heads directly inside the SecY channel pore (~5 nm radius)
+        // Don't place heads directly inside the SecY channel pore (~5 nm radius) or front cutaway window
         const distToCenter = Math.sqrt(x * x + z * z);
-        if (distToCenter < 4.2) continue;
+        if (distToCenter < 4.5) continue;
+        if (z > 2.0 && Math.abs(x) < 10.5) continue;
 
         // Top Leaflet (Cytoplasmic side, Y = +2.2)
         dummy.position.set(x, thickness / 2 + headRadius * 0.5, z);
@@ -690,6 +691,13 @@ export class SecYEGScene {
       if (mesh && base) {
         mesh.position.set(base.x + vec.x, base.y + vec.y, base.z + vec.z);
       }
+    }
+
+    // Pull camera back smoothly during exploded disassembly so SecA motor and preprotein stay 100% framed
+    if (this.camLerpProgress >= 1.0 && this.controls) {
+      this.camera.position.set(0, 12 + t * 5.0, 42 + t * 22.0);
+      this.controls.target.set(0, 1.5 + t * 1.5, 0);
+      this.controls.update();
     }
 
     // Dynamic rotation of lateral gate helices TM2b/TM7 swinging outward into bilayer

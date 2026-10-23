@@ -8,7 +8,7 @@ from playwright.sync_api import sync_playwright
 
 BASE_DIR = r"c:\Users\devcd\GenProjects\learn-biology"
 VER_DIR = os.path.join(BASE_DIR, "verification")
-BRAIN_DIR = r"C:\Users\devcd\.gemini\antigravity\brain\9ed371a3-03f3-43db-930d-53362e61f09e"
+BRAIN_DIR = r"C:\Users\devcd\.gemini\antigravity\brain\fc49ad33-7727-4397-853a-39e73281d9aa"
 
 SCENARIOS = [
     {
@@ -197,7 +197,7 @@ def trigger_inspector_or_stage(page, scenario_id: str, step_idx: int):
     if scenario_id == "cell":
         page.evaluate(
             """(idx) => {
-            const pills = Array.from(document.querySelectorAll('.label-pill')).filter(el => el.offsetParent !== null);
+            const pills = Array.from(document.querySelectorAll('.bio-label, .label-pill')).filter(el => el.offsetParent !== null);
             if (pills.length > idx) {
                 pills[idx].click();
             }
@@ -474,7 +474,11 @@ def main():
 
         all_video_paths = []
 
+        import sys
+        filters = set(sys.argv[1:])
         for sc in SCENARIOS:
+            if filters and sc["num"] not in filters and sc["id"] not in filters and sc["folder"] not in filters:
+                continue
             sdir = os.path.join(VER_DIR, sc["folder"])
             os.makedirs(sdir, exist_ok=True)
             frames_dir = os.path.join(sdir, "frames")
@@ -575,6 +579,9 @@ def main():
         shutil.copy2(ribo_asm, stale_ribo)
         print(f"Updated stale {stale_ribo} with fresh 7K00 Molecular Nodes screenshot!")
 
+    if len(sys.argv) > 1:
+        print("Filtered scenarios captured and compared successfully!")
+        return
     # Build Master Compilation Video across all 13 scenarios
     master_mp4 = os.path.join(VER_DIR, "master_13_elements_comparison.mp4")
     print(f"Building master compilation video: {master_mp4} ...")

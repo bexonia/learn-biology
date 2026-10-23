@@ -101,7 +101,9 @@ import { FtsZInspectorDrawer } from './components/FtsZ/FtsZInspectorDrawer';
 // MreB Components
 import { MreBHeaderOverlay } from './components/MreB/MreBHeaderOverlay';
 import { MreBHUDCard } from './components/MreB/MreBHUDCard';
-import { MreBInspectorDrawer } from './components/MreB/MreBInspectorDrawer';
+import { MreBInspectorDrawer } from './components/MreB/MreBInspectorDrawer';
+import { RoadmapScenarioOverlay } from './components/Roadmap/RoadmapScenarioOverlay';
+import { isRoadmapScenario } from './core/roadmapScenariosConfig';
 
 export const MREB_TOUR_STOPS = [
   'mreb_protofilaments',
@@ -5298,6 +5300,15 @@ function App() {
         )}
       </div>
 
+      {/* 16-31. Roadmap Expansion Scenarios (Scenarios 14-29) */}
+      <RoadmapScenarioOverlay
+        scenarioId={isRoadmapScenario(scenario) ? scenario : 'expressome'}
+        active={isRoadmapScenario(scenario)}
+        selectedVoice={selectedVoice}
+        onShowSubtitles={showSubtitles}
+        onHideSubtitles={hideSubtitles}
+      />
+
       {/* Global Live Subtitles Banner (Closed Captions) */}
       <LiveSubtitles
         visible={subtitleState.visible}

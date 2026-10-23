@@ -393,11 +393,19 @@ export class LptBridgeScene {
       const count = Math.floor(2 * Math.PI * curR / ringSpacing);
       for (let i = 0; i < count; i++) {
         const thetaTop = (i / count) * Math.PI * 2 + (r % 2) * 0.2;
-        imTopPoints.push(new THREE.Vector3(curR * Math.cos(thetaTop), 0, curR * Math.sin(thetaTop)));
+        const xTop = curR * Math.cos(thetaTop);
+        const zTop = curR * Math.sin(thetaTop);
+        if (!(zTop > 1.5 && Math.abs(xTop) < 12.0)) {
+          imTopPoints.push(new THREE.Vector3(xTop, 0, zTop));
+        }
 
         // Stagger cytoplasmic leaflet by half angular spacing for see-through visibility
         const thetaBot = thetaTop + Math.PI / count;
-        imBotPoints.push(new THREE.Vector3(curR * Math.cos(thetaBot), 0, curR * Math.sin(thetaBot)));
+        const xBot = curR * Math.cos(thetaBot);
+        const zBot = curR * Math.sin(thetaBot);
+        if (!(zBot > 1.5 && Math.abs(xBot) < 12.0)) {
+          imBotPoints.push(new THREE.Vector3(xBot, 0, zBot));
+        }
       }
     }
 
@@ -549,11 +557,19 @@ export class LptBridgeScene {
       const count = Math.floor(2 * Math.PI * curR / ringSpacing);
       for (let i = 0; i < count; i++) {
         const thetaLps = (i / count) * Math.PI * 2 + (r % 2) * 0.2;
-        omLpsPoints.push(new THREE.Vector3(curR * Math.cos(thetaLps), 0, curR * Math.sin(thetaLps)));
+        const xLps = curR * Math.cos(thetaLps);
+        const zLps = curR * Math.sin(thetaLps);
+        if (!(zLps > 1.5 && Math.abs(xLps) < 12.0)) {
+          omLpsPoints.push(new THREE.Vector3(xLps, 0, zLps));
+        }
 
         // Stagger periplasmic PL leaflet by half angular spacing for biophysical packing & see-through visibility
         const thetaPl = thetaLps + Math.PI / count;
-        omPlPoints.push(new THREE.Vector3(curR * Math.cos(thetaPl), 0, curR * Math.sin(thetaPl)));
+        const xPl = curR * Math.cos(thetaPl);
+        const zPl = curR * Math.sin(thetaPl);
+        if (!(zPl > 1.5 && Math.abs(xPl) < 12.0)) {
+          omPlPoints.push(new THREE.Vector3(xPl, 0, zPl));
+        }
       }
     }
 
@@ -716,11 +732,39 @@ export class LptBridgeScene {
       (gltf) => {
         const root = gltf.scene;
 
+        const lptColorMap: Record<string, { color: number; emissive: number }> = {
+          'Piece_LPT_LptD_Barrel': { color: 0x0077b6, emissive: 0x002845 },
+          'Piece_LPT_LptE_Plug': { color: 0xe63946, emissive: 0x590d14 },
+          'Piece_LPT_LptA_Bridge': { color: 0xf77f00, emissive: 0x5a2800 },
+          'Piece_LPT_LptC_Coupler': { color: 0x2ec4b6, emissive: 0x0b4f48 },
+          'Piece_LPT_LptFG_Permease': { color: 0x06d6a0, emissive: 0x024532 },
+          'Piece_LPT_LptB_Dimer': { color: 0xffb703, emissive: 0x664400 },
+          'Piece_LPT_Bound_LPS': { color: 0xffe066, emissive: 0xffb703 }
+        };
+
         root.traverse((child) => {
           if ((child as THREE.Mesh).isMesh) {
             const mesh = child as THREE.Mesh;
             mesh.castShadow = true;
             mesh.receiveShadow = true;
+
+            for (const [prefix, colCfg] of Object.entries(lptColorMap)) {
+              if (mesh.name.startsWith(prefix)) {
+                if (mesh.geometry && mesh.geometry.attributes && mesh.geometry.attributes.color) {
+                  mesh.geometry.deleteAttribute('color');
+                }
+                mesh.material = new THREE.MeshStandardMaterial({
+                  color: colCfg.color,
+                  emissive: colCfg.emissive,
+                  emissiveIntensity: 0.28,
+                  roughness: 0.34,
+                  metalness: 0.14,
+                  vertexColors: false,
+                  side: THREE.DoubleSide
+                });
+                break;
+              }
+            }
 
             this.pieceMeshes.set(mesh.name, mesh);
             this.pieceBasePositions.set(mesh.name, mesh.position.clone());
@@ -953,6 +997,13 @@ export class LptBridgeScene {
       if (base && vec) {
         mesh.position.set(base.x + vec.x, base.y + vec.y, base.z + vec.z);
       }
+    }
+
+    // Smooth camera pullback during exploded disassembly so LptD/LptE at top and LptB2 at bottom stay 100% framed
+    if (this.camLerpProgress >= 1.0 && this.controls) {
+      this.camera.position.set(0, 4.0, 52 + this.explodedProgress * 26.0);
+      this.controls.target.set(0, 1.5, 0);
+      this.controls.update();
     }
   }
 

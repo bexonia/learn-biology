@@ -310,52 +310,88 @@ export class FlagellarMotorScene {
 
     // =========================================================================
     // 1. Cutaway Bacterial Cell Envelope Membranes (Framing the Basal Body)
-    // Translucent lipid bilayer aesthetic allowing clear internal molecular visibility
+    // Translucent lipid bilayer aesthetic + cross-sectional headgroups matching expected_motor.png
     // =========================================================================
-    const cutawayThetaStart = Math.PI * 0.45; // Starts at +80 deg
-    const cutawayThetaLength = Math.PI * 1.1; // Wraps 200 deg around the back
+    const cutawayThetaStart = Math.PI * 0.42; // Starts at +75 deg
+    const cutawayThetaLength = Math.PI * 1.16; // Wraps 210 deg around the back
 
     // Inner Cytoplasmic Membrane (Translucent Jade Bilayer #06D6A0)
-    const imGeo = new THREE.CylinderGeometry(36, 36, 4.5, 48, 1, false, cutawayThetaStart, cutawayThetaLength);
+    const imGeo = new THREE.CylinderGeometry(52, 52, 4.8, 56, 1, false, cutawayThetaStart, cutawayThetaLength);
     const imMat = new THREE.MeshStandardMaterial({
       color: 0x06D6A0,
-      roughness: 0.35,
+      roughness: 0.32,
       metalness: 0.08,
       side: THREE.DoubleSide,
       transparent: true,
-      opacity: 0.38
+      opacity: 0.52
     });
     const imMesh = new THREE.Mesh(imGeo, imMat);
     imMesh.position.y = -8;
     this.membraneGroup.add(imMesh);
 
     // Peptidoglycan Murein Sacculus (Translucent Terracotta #E76F51)
-    const pgGeo = new THREE.CylinderGeometry(36, 36, 3.2, 48, 1, false, cutawayThetaStart, cutawayThetaLength);
+    const pgGeo = new THREE.CylinderGeometry(52, 52, 3.6, 56, 1, false, cutawayThetaStart, cutawayThetaLength);
     const pgMat = new THREE.MeshStandardMaterial({
       color: 0xE76F51,
-      roughness: 0.45,
+      roughness: 0.40,
       metalness: 0.08,
       side: THREE.DoubleSide,
       transparent: true,
-      opacity: 0.32
+      opacity: 0.48
     });
     const pgMesh = new THREE.Mesh(pgGeo, pgMat);
-    pgMesh.position.y = 10;
+    pgMesh.position.y = 11;
     this.membraneGroup.add(pgMesh);
 
     // Outer Membrane LPS (Translucent Deep Marine / Royal Blue #0077B6)
-    const omGeo = new THREE.CylinderGeometry(36, 36, 5.5, 48, 1, false, cutawayThetaStart, cutawayThetaLength);
+    const omGeo = new THREE.CylinderGeometry(52, 52, 5.5, 56, 1, false, cutawayThetaStart, cutawayThetaLength);
     const omMat = new THREE.MeshStandardMaterial({
       color: 0x0077B6,
-      roughness: 0.35,
+      roughness: 0.32,
       metalness: 0.08,
       side: THREE.DoubleSide,
       transparent: true,
-      opacity: 0.38
+      opacity: 0.52
     });
     const omMesh = new THREE.Mesh(omGeo, omMat);
     omMesh.position.y = 24;
     this.membraneGroup.add(omMesh);
+
+    // Cross-sectional lipid bilayer headgroup beads & LPS chains along left/right cutaway wings
+    const headSphereGeo = new THREE.SphereGeometry(0.95, 10, 10);
+    const imHeadMat = new THREE.MeshStandardMaterial({ color: 0x06D6A0, roughness: 0.3, metalness: 0.1 });
+    const pgBeadMat = new THREE.MeshStandardMaterial({ color: 0xE76F51, roughness: 0.38, metalness: 0.08 });
+    const omHeadMat = new THREE.MeshStandardMaterial({ color: 0x0077B6, roughness: 0.3, metalness: 0.1 });
+    const lpsChainGeo = new THREE.CylinderGeometry(0.32, 0.38, 3.8, 8);
+    const lpsChainMat = new THREE.MeshStandardMaterial({ color: 0x48CAE4, roughness: 0.35, metalness: 0.08 });
+
+    for (const side of [-1, 1]) {
+      for (let r = 27; r <= 52; r += 2.4) {
+        const x = side * r;
+        const z = -2.0;
+        // Inner Membrane top & bottom leaflet headgroups (Y = -5.6, -10.4)
+        for (const dy of [-2.4, 2.4]) {
+          const h = new THREE.Mesh(headSphereGeo, imHeadMat);
+          h.position.set(x, -8 + dy, z);
+          this.membraneGroup.add(h);
+        }
+        // Peptidoglycan cross-linked murein strand beads (Y = 11)
+        const pgB = new THREE.Mesh(headSphereGeo, pgBeadMat);
+        pgB.scale.set(1.15, 0.85, 1.0);
+        pgB.position.set(x, 11 + ((Math.round(r) % 2 === 0) ? 0.6 : -0.6), z);
+        this.membraneGroup.add(pgB);
+        // Outer Membrane top & bottom leaflet headgroups (Y = 21.2, 26.8) + LPS chains
+        for (const dy of [-2.7, 2.7]) {
+          const h = new THREE.Mesh(headSphereGeo, omHeadMat);
+          h.position.set(x, 24 + dy, z);
+          this.membraneGroup.add(h);
+        }
+        const lps = new THREE.Mesh(lpsChainGeo, lpsChainMat);
+        lps.position.set(x, 28.6, z);
+        lps.rotation.z = side * 0.08;
+        this.membraneGroup.add(lps);
+      }
+    }
 
     // =========================================================================
     // 2. Rotor: C-Ring Switch Complex (FliG, FliM, FliN) - Cytoplasmic
@@ -1411,6 +1447,7 @@ export class FlagellarMotorScene {
               pMesh.castShadow = true;
               pMesh.receiveShadow = true;
               pMesh.userData.componentKey = 'p_ring';
+              this.mnPRingMesh = pMesh;
               this.mnBushingGroup.add(pMesh);
             }
 
@@ -1421,6 +1458,7 @@ export class FlagellarMotorScene {
               lMesh.castShadow = true;
               lMesh.receiveShadow = true;
               lMesh.userData.componentKey = 'l_ring';
+              this.mnLRingMesh = lMesh;
               this.mnBushingGroup.add(lMesh);
             }
 
@@ -1628,7 +1666,7 @@ export class FlagellarMotorScene {
     // Explode schematic stators radially outward
     if (this.schematicStatorUnits && this.schematicStatorUnits.length > 0) {
       for (const unit of this.schematicStatorUnits) {
-        const rad = unit.userData.baseRadius + this.explodedProgress * 16.0;
+        const rad = unit.userData.baseRadius + this.explodedProgress * 22.0;
         const angle = unit.userData.baseAngle;
         unit.position.x = Math.cos(angle) * rad;
         unit.position.z = Math.sin(angle) * rad;
@@ -1638,22 +1676,29 @@ export class FlagellarMotorScene {
     // Explode Molecular Nodes stators radially outward to expose the rotor-stator interface!
     if (this.mnStatorUnits && this.mnStatorUnits.length > 0) {
       for (const unit of this.mnStatorUnits) {
-        const rad = unit.userData.baseRadius + this.explodedProgress * 16.0;
+        const rad = unit.userData.baseRadius + this.explodedProgress * 24.0;
         const angle = unit.userData.baseAngle;
         unit.position.x = Math.cos(angle) * rad;
+        unit.position.y = unit.userData.baseY - 4.0 * this.explodedProgress;
         unit.position.z = Math.sin(angle) * rad;
       }
     }
 
     // Explode Molecular Nodes 7CGO functional sub-groups along Y
     if (this.mnCRingGroup) {
-      this.mnCRingGroup.position.y = 4.0 - 13.0 * this.explodedProgress;
+      this.mnCRingGroup.position.y = 4.0 - 28.0 * this.explodedProgress;
     }
     if (this.mnMSRingGroup) {
-      this.mnMSRingGroup.position.y = 4.0 - 7.0 * this.explodedProgress;
+      this.mnMSRingGroup.position.y = 4.0 - 12.0 * this.explodedProgress;
     }
     if (this.mnHookGroup) {
-      this.mnHookGroup.position.y = 4.0 + 14.0 * this.explodedProgress;
+      this.mnHookGroup.position.y = 4.0 + 22.0 * this.explodedProgress;
+    }
+    if (this.mnPRingMesh) {
+      this.mnPRingMesh.position.y = 2.0 * this.explodedProgress;
+    }
+    if (this.mnLRingMesh) {
+      this.mnLRingMesh.position.y = 8.0 * this.explodedProgress;
     }
     // Static sub-groups (axial rod, bushings) remain stationary at Y = 4.0
     if (this.mnRodGroup) {
@@ -1661,6 +1706,13 @@ export class FlagellarMotorScene {
     }
     if (this.mnBushingGroup) {
       this.mnBushingGroup.position.y = 4.0;
+    }
+
+    // Smooth camera pullback during exploded disassembly so all rings & filament stay framed
+    if (!this.cameraTransition.active) {
+      this.spherical.radius = 275 + this.explodedProgress * 45;
+      this.target.y = 65 + this.explodedProgress * 6;
+      this.updateCameraPosition();
     }
 
     // Dynamically update stationary anchor layer positions (matching elevation & radius without rotating)

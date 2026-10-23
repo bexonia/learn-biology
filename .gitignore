@@ -7,11 +7,23 @@ wasm/*.wasm
 *.cif
 /models/*.cif
 
-# Blender auto-save backups (source .blend is preserved)
+# Blender auto-save backups & generated .blend files
 *.blend1
 *.blend2
 *.blend@*
 *.blend.MNSession
+models/*.blend
+!models/atp_synthase_6rkw.blend
+!models/bam_5d0o.blend
+!models/complex_i_7z7v.blend
+!models/divisome_ftsz_1fsz.blend
+!models/gyrase_1ab4.blend
+!models/lpt_9p7p.blend
+!models/mreb_cytoskeleton_1jcg.blend
+!models/pol_iii_5fkv.blend
+!models/ribosome_70s_25nm.blend
+!models/rnap_6c9y.blend
+!models/secyeg_3j46.blend
 
 # Python & Environment caches
 __pycache__/
@@ -20,13 +32,16 @@ __pycache__/
 .venv/
 venv/
 
-# OS metadata & logs
+# OS metadata, IDE & logs
+.idea/
 Thumbs.db
 .DS_Store
 *.log
 .playwright-mcp/
 node_modules/
 scratch/
+screenshots/
+client/dist/
 
 # Temporary & debug screenshots (curated docs live in readme_images/)
 screenshot*.png

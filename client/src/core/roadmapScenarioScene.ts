@@ -167,17 +167,17 @@ export class RoadmapScenarioScene {
 
     const loader = new GLTFLoader();
     loader.load(
-      `${cfg.glb}?v=roadmap_v2`,
+      `${cfg.glb}?v=mn_authentic_v5`,
       (gltf) => {
         const group = gltf.scene;
-        // Auto-fit & center group into a comfortable ~11-unit radius box
+        // Auto-fit & center group into a comfortable ~9.8-unit span box between left HUD and right drawer
         const box = new THREE.Box3().setFromObject(group);
         const size = new THREE.Vector3();
         const center = new THREE.Vector3();
         box.getSize(size);
         box.getCenter(center);
         const maxDim = Math.max(size.x, size.y, size.z, 0.001);
-        const targetSpan = 12.5;
+        const targetSpan = 9.8;
         const scale = targetSpan / maxDim;
         group.scale.setScalar(scale);
         group.position.set(-center.x * scale, -center.y * scale, -center.z * scale);
@@ -186,19 +186,29 @@ export class RoadmapScenarioScene {
         cfg.pieces.forEach((pieceCfg) => {
           const node = group.getObjectByName(pieceCfg.meshName);
           if (node) {
-            const col = new THREE.Color(pieceCfg.color);
-            const isMembrane = pieceCfg.meshName.includes('Membrane') || pieceCfg.meshName.includes('SLayer');
+            const fallbackCol = new THREE.Color(pieceCfg.color);
             node.traverse((child) => {
               if (child instanceof THREE.Mesh) {
+                const origMat = child.material as THREE.MeshStandardMaterial | undefined;
+                const keepCustomColor =
+                  origMat &&
+                  origMat.name &&
+                  (origMat.name.startsWith('Mat_CPK_') || origMat.name.startsWith('Mat_Keep_'));
+                const col = keepCustomColor && origMat.color ? origMat.color.clone() : fallbackCol;
+                // Remove any default white vertex color attribute from Molecular Nodes so PBR color shows cleanly
+                if (child.geometry && child.geometry.attributes && child.geometry.attributes.color) {
+                  child.geometry.deleteAttribute('color');
+                }
+
                 child.material = new THREE.MeshStandardMaterial({
                   color: col,
                   emissive: col,
-                  emissiveIntensity: isMembrane ? 0.08 : 0.24,
-                  roughness: isMembrane ? 0.48 : 0.32,
-                  metalness: isMembrane ? 0.05 : 0.14,
-                  transparent: isMembrane,
-                  opacity: isMembrane ? 0.34 : 1.0,
-                  depthWrite: !isMembrane,
+                  emissiveIntensity: 0.15,
+                  roughness: 0.35,
+                  metalness: 0.10,
+                  transparent: false,
+                  opacity: 1.0,
+                  depthWrite: true,
                   side: THREE.DoubleSide
                 });
               }
@@ -304,17 +314,12 @@ export class RoadmapScenarioScene {
 
   private highlightPiece(targetMesh: string | null): void {
     this.pieceNodes.forEach((obj, name) => {
-      const isMembrane = name.includes('Membrane') || name.includes('SLayer');
       const isTarget = !targetMesh || name === targetMesh;
       obj.traverse((child) => {
         if (child instanceof THREE.Mesh && child.material instanceof THREE.MeshStandardMaterial) {
-          if (isMembrane) {
-            child.material.opacity = isTarget ? 0.45 : 0.25;
-          } else {
-            child.material.emissiveIntensity = isTarget ? 0.42 : 0.12;
-            child.material.opacity = isTarget ? 1.0 : 0.72;
-            child.material.transparent = !isTarget;
-          }
+          child.material.emissiveIntensity = !targetMesh ? 0.16 : isTarget ? 0.42 : 0.08;
+          child.material.opacity = isTarget ? 1.0 : 0.72;
+          child.material.transparent = !isTarget;
         }
       });
     });
@@ -340,7 +345,7 @@ export class RoadmapScenarioScene {
   }
 
   public resetCamera(): void {
-    this.flyCameraTo(new THREE.Vector3(0, 4.8, 19.5), new THREE.Vector3(0, 0.2, 0));
+    this.flyCameraTo(new THREE.Vector3(0, 4.2, 18.8), new THREE.Vector3(0, 0.0, 0));
     this.highlightPiece(null);
   }
 
@@ -359,29 +364,60 @@ export class RoadmapScenarioScene {
 
     const width = this.container.clientWidth || window.innerWidth;
     const height = this.container.clientHeight || window.innerHeight;
+    const midX = width * 0.5;
     let html = '';
 
+    type AnchorInfo = {
+      p: RoadmapPieceConfig;
+      sx: number;
+      sy: number;
+      side: number;
+      ly: number;
+    };
+
+    const rawItems: AnchorInfo[] = [];
     cfg.pieces.forEach((p, idx) => {
       const worldPos = this.pieceWorldCentroids.get(p.meshName);
       if (!worldPos) return;
-
       const screenPos = worldPos.clone().project(this.camera);
       if (screenPos.z > 1.0) return;
-
       const sx = ((screenPos.x + 1) * width) / 2;
       const sy = ((-screenPos.y + 1) * height) / 2;
+      const side = sx < midX - 15 ? -1 : sx > midX + 15 ? 1 : idx % 2 === 0 ? -1 : 1;
+      rawItems.push({ p, sx, sy, side, ly: sy });
+    });
 
-      const side = idx % 2 === 0 ? -1 : 1;
-      const verticalSpread = ((idx % 4) - 1.5) * 32;
-      const lx = sx + side * 85;
-      const ly = Math.max(95, Math.min(height - 65, sy + verticalSpread));
+    // De-overlap left and right columns independently so pills never collide or cover the 3D complex
+    [-1, 1].forEach((sideVal) => {
+      const col = rawItems.filter((it) => it.side === sideVal).sort((a, b) => a.sy - b.sy);
+      const minGap = 36;
+      const minY = 125;
+      const maxY = height - 75;
+      for (let i = 0; i < col.length; i++) {
+        if (i === 0) {
+          col[i].ly = Math.max(minY, Math.min(maxY, col[i].sy));
+        } else {
+          col[i].ly = Math.max(col[i - 1].ly + minGap, Math.min(maxY, col[i].sy));
+        }
+      }
+      for (let i = col.length - 1; i >= 0; i--) {
+        if (i === col.length - 1) {
+          col[i].ly = Math.min(maxY, col[i].ly);
+        } else {
+          col[i].ly = Math.min(col[i].ly, col[i + 1].ly - minGap);
+        }
+      }
+    });
 
-      const pillWidth = Math.max(135, p.name.length * 6.2 + 44);
+    rawItems.forEach(({ p, sx, sy, side, ly }) => {
+      const pillWidth = Math.max(145, p.name.slice(0, 26).length * 6.3 + 46);
+      const marginOffset = 225;
+      const lx = side > 0 ? Math.max(sx + 70, midX + marginOffset) : Math.min(sx - 70, midX - marginOffset);
       const cardX = side > 0 ? lx : lx - pillWidth;
 
       html += `
         <g class="roadmap-leader-item" data-mesh="${p.meshName}" style="pointer-events: auto; cursor: pointer;">
-          <line x1="${sx}" y1="${sy}" x2="${lx}" y2="${ly}" stroke="${p.color}" stroke-width="1.3" stroke-dasharray="3 2" opacity="0.88" />
+          <line x1="${sx}" y1="${sy}" x2="${lx}" y2="${ly}" stroke="${p.color}" stroke-width="1.35" stroke-dasharray="3 2" opacity="0.88" />
           <circle cx="${sx}" cy="${sy}" r="3.5" fill="${p.color}" />
           <circle cx="${sx}" cy="${sy}" r="7" stroke="${p.color}" stroke-width="1" fill="none" opacity="0.65" />
           <g transform="translate(${cardX}, ${ly - 13})">

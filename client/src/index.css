@@ -1186,7 +1186,8 @@ html, body {
 #pol-iii-container .motor-overlay-header,
 #gyrase-container .motor-overlay-header,
 #ftsz-container .motor-overlay-header,
-#mreb-container .motor-overlay-header {
+#mreb-container .motor-overlay-header,
+#roadmap-scenario-container .motor-overlay-header {
   display: none;
 }
 
@@ -1197,7 +1198,8 @@ html, body {
 #pol-iii-container,
 #gyrase-container,
 #ftsz-container,
-#mreb-container {
+#mreb-container,
+#roadmap-scenario-container {
   position: absolute;
   top: 0;
   left: 0;

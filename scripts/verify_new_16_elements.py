@@ -408,6 +408,23 @@ def build_comparison_video(sc: dict, sdir: str, frame_paths: list):
 
 
 def main():
+    only_ids = [arg.strip() for arg in sys.argv[1:] if not arg.startswith("-")]
+    scenarios_to_run = [sc for sc in NEW_SCENARIOS if not only_ids or sc["id"] in only_ids or sc["num"] in only_ids]
+    if not scenarios_to_run:
+        print(f"No matching scenarios for filter: {only_ids}")
+        return
+
+    # Sync any updated GLBs from client/public/models to client/dist/models
+    pub_models = os.path.join(BASE_DIR, "client", "public", "models")
+    dist_models = os.path.join(BASE_DIR, "client", "dist", "models")
+    if os.path.exists(pub_models) and os.path.exists(dist_models):
+        for fn in os.listdir(pub_models):
+            if fn.endswith(".glb"):
+                src_f = os.path.join(pub_models, fn)
+                dst_f = os.path.join(dist_models, fn)
+                if not os.path.exists(dst_f) or os.path.getmtime(src_f) > os.path.getmtime(dst_f):
+                    shutil.copy2(src_f, dst_f)
+
     dist_dir = os.path.join(BASE_DIR, "client", "dist")
     handler = functools.partial(SimpleHTTPRequestHandler, directory=dist_dir)
     httpd = ThreadingHTTPServer(("127.0.0.1", 5188), handler)
@@ -428,7 +445,7 @@ def main():
         page.goto("http://127.0.0.1:5188/", wait_until="domcontentloaded", timeout=30000)
         time.sleep(3.0)
 
-        for sc in NEW_SCENARIOS:
+        for sc in scenarios_to_run:
             sdir = os.path.join(VER_DIR, sc["folder"])
             os.makedirs(sdir, exist_ok=True)
             frames_dir = os.path.join(sdir, "frames")

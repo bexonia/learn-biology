@@ -98,7 +98,17 @@ def build_blender_glb():
                 print(f"[+] Successfully exported 70S Ribosome: {out_ribo} ({out_ribo.stat().st_size} bytes)")
                 ribo_ok = True
 
-    return cell_ok and ribo_ok
+    # 4. Iterate over all authentic Molecular Nodes & RDKit roadmap generators (scripts/generate_14_*.py .. generate_29_*.py)
+    roadmap_scripts = sorted((ROOT_DIR / "scripts").glob("generate_[12][0-9]_*.py"))
+    roadmap_ok = True
+    for r_script in roadmap_scripts:
+        print(f"[*] Running Authentic Molecular Nodes / RDKit Generator: {r_script.relative_to(ROOT_DIR)}...")
+        res_rm = subprocess.run([str(blender_bin), "--background", "--python", str(r_script)], cwd=str(ROOT_DIR))
+        if res_rm.returncode != 0:
+            print(f"[-] Failed on {r_script.name}")
+            roadmap_ok = False
+
+    return cell_ok and ribo_ok and roadmap_ok
 
 def main():
     print("==================================================")

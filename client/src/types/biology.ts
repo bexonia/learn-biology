@@ -1,4 +1,51 @@
-export type ScenarioType = 'cell' | 'motor' | 'ribosome' | 'atp_synthase' | 'complex_i' | 'secyeg' | 'bam' | 'lpt' | 'rnap' | 'pol_iii' | 'gyrase' | 'ftsz' | 'mreb';
+export type ScenarioType =
+  | 'cell'
+  | 'motor'
+  | 'ribosome'
+  | 'atp_synthase'
+  | 'complex_i'
+  | 'secyeg'
+  | 'bam'
+  | 'lpt'
+  | 'rnap'
+  | 'pol_iii'
+  | 'gyrase'
+  | 'ftsz'
+  | 'mreb'
+  | 'expressome'
+  | 'envelopes'
+  | 'motility_modes'
+  | 'microcompartment'
+  | 'chemosensory_mcp'
+  | 'pili_fimbriae'
+  | 'nucleoid'
+  | 'chaperones'
+  | 'rna_degradosome'
+  | 'metabolic_hubs'
+  | 'periplasmic_transport'
+  | 'efflux_pump'
+  | 'secretion_systems'
+  | 'crispr_defense'
+  | 'storage_and_spores'
+  | 'atomic_chemistry';
+
+export type RoadmapScenarioId =
+  | 'expressome'
+  | 'envelopes'
+  | 'motility_modes'
+  | 'microcompartment'
+  | 'chemosensory_mcp'
+  | 'pili_fimbriae'
+  | 'nucleoid'
+  | 'chaperones'
+  | 'rna_degradosome'
+  | 'metabolic_hubs'
+  | 'periplasmic_transport'
+  | 'efflux_pump'
+  | 'secretion_systems'
+  | 'crispr_defense'
+  | 'storage_and_spores'
+  | 'atomic_chemistry';
 
 export interface ProteinItem {
   name: string;

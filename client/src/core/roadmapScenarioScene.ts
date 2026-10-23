@@ -332,6 +332,17 @@ export class RoadmapScenarioScene {
     }
   }
 
+  public toggleLabels(): boolean {
+    this.setLabelsVisible(!this.isLabelsVisible);
+    return this.isLabelsVisible;
+  }
+
+  public toggleAutoRotate(): boolean {
+    this.controls.autoRotate = !this.controls.autoRotate;
+    this.controls.autoRotateSpeed = 1.2;
+    return this.controls.autoRotate;
+  }
+
   public setPaused(paused: boolean): void {
     this.isPaused = paused;
   }

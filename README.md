@@ -156,45 +156,49 @@ learn-biology/
 
 ---
 
-## 🗺️ Prokaryotic Cell Modeling Status & Pending Roadmap
+## 🗺️ Prokaryotic Cell Modeling Status & Visual Verification Suite
 
-### ✅ Implemented Scenarios (Levels 1–13)
-| Level | Scenario ID | Biological Structure / Nanomachine | PDB Reference | Status |
-| :--- | :--- | :--- | :--- | :--- |
-| **L1** | `cell` | Whole Prokaryotic Cell Cutaway ($1.5\,\mu\text{m}$) | Procedural + Cryo-ET | ✅ Built |
-| **L2** | `motor` | Flagellar Rotary Motor & Stator Ring | `7CGO` | ✅ Built |
-| **L3** | `ribosome` | 70S Translating Ribosome & Polysome | `7K00` | ✅ Built |
-| **L4** | `atp_synthase` | $F_1F_0$-ATP Synthase Bioenergetic Dynamo | `6OQR` / `6RKW` | ✅ Built |
-| **L5** | `complex_i` | Respiratory Complex I Proton Pump | `4HEA` | ✅ Built |
-| **L6** | `secyeg` | SecYEG Translocon & SecA ATPase | `3J46` | ✅ Built |
-| **L7** | `bam` | BAM $\beta$-Barrel Assembly Machine | `5D0O` | ✅ Built |
-| **L8** | `lpt` | LptA–G Trans-Envelope LPS Bridge | `5IV9` / `4Q35` | ✅ Built |
-| **L9** | `rnap` | Bacterial RNA Polymerase Holoenzyme | `6ALH` | ✅ Built |
-| **L10** | `pol_iii` | DNA Polymerase III Replisome | `5FKV` | ✅ Built |
-| **L11** | `gyrase` | DNA Gyrase Topoisomerase II | `6RKW` | ✅ Built |
-| **L12** | `ftsz` | FtsZ Cytokinetic Divisome Ring | `6UNX` | ✅ Built |
-| **L13** | `mreb` | MreB Rod-Shape Elongasome | `4CZJ` | ✅ Built |
+> **🔬 Full Visual Verification & Side-by-Side Comparison Suite (29 / 29 Scenarios Verified):**
+> - **Interactive Browser HTML Dashboard (Open Directly):** [**`verification/index.html`**](verification/index.html) or [**`verification.html`**](verification.html)
+> - **Markdown Verification Index:** [**`verification/README.md`**](verification/README.md)
+> - Includes all 29 **Expected Goodsell Reference + RCSB PDB vs. Live 3D Browser Result** comparison plates (`2400×1380`), official RCSB PDB structures, `1920×1080` `.mp4` comparison videos ([`master_13_elements_comparison.mp4`](verification/master_13_elements_comparison.mp4)), interactive wipe comparators, and per-element architectural recommendations.
 
-### ⏳ Pending Prokaryotic Targets & Biology Primer Expansions
-1. **Biology Primer Visual Suite Completions (`primer_fig3`, `fig4`, `fig7`, `fig8`):**
-   - **Coupled Transcription–Translation Expressome (`6X9Q`):** Physical RNAP–NusG–70S ribosome coupling on nascent mRNA emerging from the nucleoid + **Eukaryotic Comparison** inset (*Figure 4*).
-   - **Comparing Prokaryotic Cell Envelopes (*Figure 7*):** Side-by-side 3D comparison of **Gram-Negative** (Outer LPS + thin peptidoglycan + inner membrane), **Gram-Positive** (thick multi-layered peptidoglycan + teichoic & lipoteichoic acids), and **Archaeal** (crystalline protein **S-Layer** + ether-linked isoprenoid membrane).
-   - **4 Modes of Prokaryotic Movement (*Figure 8*):** Adding **Type IV Pilus Retraction (Twitching Motility, `PilB`/`PilT`)**, **Focal-Adhesion Gliding Motility (`GldLM`)**, and the **ATP-driven Archaeal Archaellum** alongside bacterial flagellar swimming.
-   - **3D Icosahedral Bacterial Microcompartment (Carboxysome / BMC, `7O04`):** In-situ 3D cut-open proteinaceous organelle shell inside the Whole Cell cytoplasm and standalone 3D inspector (*Figure 3*).
-2. **Whole-Cell Organelle Drill-Downs (`CELLULAR_ELEMENTS_CATALOG.md` Phases 1–4):**
-   - **Chemosensory Receptor Array (`chemosensory_mcp`, `6S1K`):** Transmembrane MCP trimers-of-dimers + CheA/CheW histidine kinase baseplate signaling `CheY-P` to the flagellar C-ring.
-   - **Type 1 Fimbriae & Catch-Bond Adhesin (`pili_fimbriae`, `6GTO`/`1TR7`):** FimD usher-chaperone assembly and FimH shear-enhanced mannose catch-bond.
-   - **Curli Extracellular Amyloid Biofilm Fibers (`curli_fibers`, `4B0M`):** CsgG outer-membrane nonameric channel and CsgA cross-$\beta$ amyloid biofilm matrix.
-   - **Nucleoid-Associated Proteins (`nucleoid`, `1P71`/`6O6S`):** HU, H-NS, and Fis architectural DNA bending, bridging, and topological domain insulation.
-   - **Chaperone Quality Control (`groel_groes` `1AON` & `chaperones` `2KHO`/`4JNE`):** GroEL–GroES barrel nano-cage, DnaK/DnaJ/GrpE HSP70 cycle, and ribosome-bound Trigger Factor.
-   - **RNA Degradosome (`rna_degradosome`, `5M3P`):** RNase E tetrameric scaffold with PNPase, RhlB helicase, and enolase for rapid mRNA turnover.
-   - **Metabolic & Periplasmic Hubs:** Pyruvate Dehydrogenase E1–E2–E3 megacomplex (`1EAE`), Cytochrome $bo_3$ terminal ubiquinol oxidase (`6WTI`), SurA periplasmic chaperone (`1M5Y`), MalE–MalFGK$_2$ maltose ABC transporter (`1OMP`/`2R6G`), and OmpF trimeric porin (`2OMF`).
-3. **Defense, Efflux, Horizontal Gene Transfer & Survival Systems:**
-   - **Tripartite Multidrug Efflux Pump (`AcrAB-TolC`, `5V5S`)** & **Braun's Lipoprotein (`Lpp`, `1EQ7`)** envelope staples.
-   - **Bacterial Secretion & Conjugation:** Conjugative F-Pilus / Type IV Secretion System (`7OKO`), Type III Secretion Injectisome (`7AH9`), and Type VI Contractile Spear.
-   - **CRISPR-Cas Adaptive Immunity (`1VY8` Cascade / `4OO8` Cas9)** & Restriction-Modification endonucleases (`1ERI`).
-   - **Cytoplasmic Storage Granules** (glycogen, polyphosphate volutin, PHB carbonosomes, gas vesicles, magnetosomes) and **Gram-Positive Endospores**.
-   - **Level 5 & Level 6 Monomer / Atomic Bond Views:** Interactive inspection of Lipid II, $\text{Mg}^{2+}\cdot\text{ATP}$, phospholipids, planar peptide bonds, Watson-Crick H-bonds, and Grotthuss proton wires.
+### ✅ Phase 0: Baseline Scenarios (Levels 1–13)
+| Level | Scenario ID | Biological Structure / Nanomachine | PDB Reference | Side-by-Side Plate | Comparison Video | Status |
+| :--- | :--- | :--- | :--- | :--- | :--- | :--- |
+| **L1** | `cell` | Whole Prokaryotic Cell Cutaway ($1.5\,\mu\text{m}$) | *Biology Primer* Fig. 3 & 4 | [`comparison_cell.png`](verification/01_cell/comparison_cell.png) | [`comparison_cell.mp4`](verification/01_cell/comparison_cell.mp4) | ✅ Verified |
+| **L2** | `motor` | Flagellar Rotary Motor & Stator Ring | `7CGO` / `6YKM` | [`comparison_motor.png`](verification/02_motor/comparison_motor.png) | [`comparison_motor.mp4`](verification/02_motor/comparison_motor.mp4) | ✅ Verified |
+| **L3** | `ribosome` | 70S Translating Ribosome & Polysome | `7K00` | [`comparison_ribosome.png`](verification/03_ribosome/comparison_ribosome.png) | [`comparison_ribosome.mp4`](verification/03_ribosome/comparison_ribosome.mp4) | ✅ Verified |
+| **L4** | `atp_synthase` | $F_1F_0$-ATP Synthase Bioenergetic Dynamo | `6OQR` / `6RKW` | [`comparison_atp_synthase.png`](verification/04_atp_synthase/comparison_atp_synthase.png) | [`comparison_atp_synthase.mp4`](verification/04_atp_synthase/comparison_atp_synthase.mp4) | ✅ Verified |
+| **L5** | `complex_i` | Respiratory Complex I Proton Pump | `7Z7V` / `4HEA` | [`comparison_complex_i.png`](verification/05_complex_i/comparison_complex_i.png) | [`comparison_complex_i.mp4`](verification/05_complex_i/comparison_complex_i.mp4) | ✅ Verified |
+| **L6** | `secyeg` | SecYEG Translocon & SecA ATPase | `3J46` / `6ITC` | [`comparison_secyeg.png`](verification/06_secyeg/comparison_secyeg.png) | [`comparison_secyeg.mp4`](verification/06_secyeg/comparison_secyeg.mp4) | ✅ Verified |
+| **L7** | `bam` | BAM $\beta$-Barrel Assembly Machine | `5D0O` | [`comparison_bam.png`](verification/07_bam/comparison_bam.png) | [`comparison_bam.mp4`](verification/07_bam/comparison_bam.mp4) | ✅ Verified |
+| **L8** | `lpt` | LptA–G Trans-Envelope LPS Bridge | `9P7P` / `6MIT` | [`comparison_lpt.png`](verification/08_lpt/comparison_lpt.png) | [`comparison_lpt.mp4`](verification/08_lpt/comparison_lpt.mp4) | ✅ Verified |
+| **L9** | `rnap` | Bacterial RNA Polymerase Holoenzyme | `6C9Y` / `6ALH` | [`comparison_rnap.png`](verification/09_rnap/comparison_rnap.png) | [`comparison_rnap.mp4`](verification/09_rnap/comparison_rnap.mp4) | ✅ Verified |
+| **L10** | `pol_iii` | DNA Polymerase III Replisome | `5FKV` | [`comparison_pol_iii.png`](verification/10_pol_iii/comparison_pol_iii.png) | [`comparison_pol_iii.mp4`](verification/10_pol_iii/comparison_pol_iii.mp4) | ✅ Verified |
+| **L11** | `gyrase` | DNA Gyrase Topoisomerase II | `1AB4` / `2XCT` | [`comparison_gyrase.png`](verification/11_gyrase/comparison_gyrase.png) | [`comparison_gyrase.mp4`](verification/11_gyrase/comparison_gyrase.mp4) | ✅ Verified |
+| **L12** | `ftsz` | FtsZ Cytokinetic Divisome Ring | `1FSZ` / `6UNX` | [`comparison_ftsz.png`](verification/12_ftsz/comparison_ftsz.png) | [`comparison_ftsz.mp4`](verification/12_ftsz/comparison_ftsz.mp4) | ✅ Verified |
+| **L13** | `mreb` | MreB Rod-Shape Elongasome | `1JCG` / `4CZJ` | [`comparison_mreb.png`](verification/13_mreb/comparison_mreb.png) | [`comparison_mreb.mp4`](verification/13_mreb/comparison_mreb.mp4) | ✅ Verified |
+
+### ✅ Phase 1–4: Prokaryote Expansion Roadmap Scenarios (Levels 14–29)
+| Level | Scenario ID | Biological Structure / Nanomachine | PDB Reference | Goodsell Diagram | RCSB PDB Render | Side-by-Side Plate | Comparison Video | Status |
+| :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
+| **L14** | `expressome` | Coupled RNAP–NusG–70S Expressome | `6X9Q` | [`expected_expressome.png`](verification/14_expressome/expected_expressome.png) | [`rcsb_6X9Q.jpg`](verification/14_expressome/rcsb_6X9Q.jpg) | [`comparison_expressome.png`](verification/14_expressome/comparison_expressome.png) | [`comparison_expressome.mp4`](verification/14_expressome/comparison_expressome.mp4) | ✅ Verified |
+| **L15** | `envelopes` | Gram(−), Gram(+) & Acid-Fast Cell Envelopes | `2OMF` / `3VMA` | [`expected_envelopes.png`](verification/15_envelopes/expected_envelopes.png) | [`rcsb_2OMF.jpg`](verification/15_envelopes/rcsb_2OMF.jpg) | [`comparison_envelopes.png`](verification/15_envelopes/comparison_envelopes.png) | [`comparison_envelopes.mp4`](verification/15_envelopes/comparison_envelopes.mp4) | ✅ Verified |
+| **L16** | `motility_modes` | Type IV Pilus Twitching, Spirochete & Gliding | `6W6M` / `3JC8` | [`expected_motility_modes.png`](verification/16_motility_modes/expected_motility_modes.png) | [`rcsb_6W6M.jpg`](verification/16_motility_modes/rcsb_6W6M.jpg) | [`comparison_motility_modes.png`](verification/16_motility_modes/comparison_motility_modes.png) | [`comparison_motility_modes.mp4`](verification/16_motility_modes/comparison_motility_modes.mp4) | ✅ Verified |
+| **L17** | `microcompartment` | Icosahedral Carboxysome / BMC Organelle | `7O04` / `3I82` | [`expected_microcompartment.png`](verification/17_microcompartment/expected_microcompartment.png) | [`rcsb_7O04.jpg`](verification/17_microcompartment/rcsb_7O04.jpg) | [`comparison_microcompartment.png`](verification/17_microcompartment/comparison_microcompartment.png) | [`comparison_microcompartment.mp4`](verification/17_microcompartment/comparison_microcompartment.mp4) | ✅ Verified |
+| **L18** | `chemosensory_mcp` | Chemosensory MCP–CheA–CheW Array | `6S1K` / `3JA6` | [`expected_chemosensory_mcp.png`](verification/18_chemosensory_mcp/expected_chemosensory_mcp.png) | [`rcsb_6S1K.jpg`](verification/18_chemosensory_mcp/rcsb_6S1K.jpg) | [`comparison_chemosensory_mcp.png`](verification/18_chemosensory_mcp/comparison_chemosensory_mcp.png) | [`comparison_chemosensory_mcp.mp4`](verification/18_chemosensory_mcp/comparison_chemosensory_mcp.mp4) | ✅ Verified |
+| **L19** | `pili_fimbriae` | Type 1 FimH Catch-Bond Pilus & Curli Biofilm | `6GTO` / `4B0M` | [`expected_pili_fimbriae.png`](verification/19_pili_fimbriae/expected_pili_fimbriae.png) | [`rcsb_6GTO.jpg`](verification/19_pili_fimbriae/rcsb_6GTO.jpg) | [`comparison_pili_fimbriae.png`](verification/19_pili_fimbriae/comparison_pili_fimbriae.png) | [`comparison_pili_fimbriae.mp4`](verification/19_pili_fimbriae/comparison_pili_fimbriae.mp4) | ✅ Verified |
+| **L20** | `nucleoid` | Bacterial Nucleoid & NAP Compaction (`HU`/`H-NS`) | `1P71` / `1BNA` | [`expected_nucleoid.png`](verification/20_nucleoid/expected_nucleoid.png) | [`rcsb_1P71.jpg`](verification/20_nucleoid/rcsb_1P71.jpg) | [`comparison_nucleoid.png`](verification/20_nucleoid/comparison_nucleoid.png) | [`comparison_nucleoid.mp4`](verification/20_nucleoid/comparison_nucleoid.mp4) | ✅ Verified |
+| **L21** | `chaperones` | GroEL–GroES Anfinsen Cage & DnaK/DnaJ | `1AON` / `2KHO` | [`expected_chaperones.png`](verification/21_chaperones/expected_chaperones.png) | [`rcsb_1AON.jpg`](verification/21_chaperones/rcsb_1AON.jpg) | [`comparison_chaperones.png`](verification/21_chaperones/comparison_chaperones.png) | [`comparison_chaperones.mp4`](verification/21_chaperones/comparison_chaperones.mp4) | ✅ Verified |
+| **L22** | `rna_degradosome` | Bacterial RNA Degradosome (`RNase E`/`PNPase`) | `2C0B` / `5M3P` | [`expected_rna_degradosome.png`](verification/22_rna_degradosome/expected_rna_degradosome.png) | [`rcsb_2C0B.jpg`](verification/22_rna_degradosome/rcsb_2C0B.jpg) | [`comparison_rna_degradosome.png`](verification/22_rna_degradosome/comparison_rna_degradosome.png) | [`comparison_rna_degradosome.mp4`](verification/22_rna_degradosome/comparison_rna_degradosome.mp4) | ✅ Verified |
+| **L23** | `metabolic_hubs` | Pyruvate Dehydrogenase Cube & Cyt $bd$ Oxidase | `1EAE` / `6WTI` | [`expected_metabolic_hubs.png`](verification/23_metabolic_hubs/expected_metabolic_hubs.png) | [`rcsb_1EAE.jpg`](verification/23_metabolic_hubs/rcsb_1EAE.jpg) | [`comparison_metabolic_hubs.png`](verification/23_metabolic_hubs/comparison_metabolic_hubs.png) | [`comparison_metabolic_hubs.mp4`](verification/23_metabolic_hubs/comparison_metabolic_hubs.mp4) | ✅ Verified |
+| **L24** | `periplasmic_transport` | SurA OMP Chaperone & MalEFGK$_2$ ABC Importer | `1M5Y` / `1OMP` | [`expected_periplasmic_transport.png`](verification/24_periplasmic_transport/expected_periplasmic_transport.png) | [`rcsb_1M5Y.jpg`](verification/24_periplasmic_transport/rcsb_1M5Y.jpg) | [`comparison_periplasmic_transport.png`](verification/24_periplasmic_transport/comparison_periplasmic_transport.png) | [`comparison_periplasmic_transport.mp4`](verification/24_periplasmic_transport/comparison_periplasmic_transport.mp4) | ✅ Verified |
+| **L25** | `efflux_pump` | AcrAB–TolC Multidrug Efflux Pump | `5V5S` | [`expected_efflux_pump.png`](verification/25_efflux_pump/expected_efflux_pump.png) | [`rcsb_5V5S.jpg`](verification/25_efflux_pump/rcsb_5V5S.jpg) | [`comparison_efflux_pump.png`](verification/25_efflux_pump/comparison_efflux_pump.png) | [`comparison_efflux_pump.mp4`](verification/25_efflux_pump/comparison_efflux_pump.mp4) | ✅ Verified |
+| **L26** | `secretion_systems` | T3SS Injectisome, T4SS Pilus & T6SS Spear | `7OKO` / `7AH9` | [`expected_secretion_systems.png`](verification/26_secretion_systems/expected_secretion_systems.png) | [`rcsb_7OKO.jpg`](verification/26_secretion_systems/rcsb_7OKO.jpg) | [`comparison_secretion_systems.png`](verification/26_secretion_systems/comparison_secretion_systems.png) | [`comparison_secretion_systems.mp4`](verification/26_secretion_systems/comparison_secretion_systems.mp4) | ✅ Verified |
+| **L27** | `crispr_defense` | CRISPR–Cas9 R-Loop, Cascade & EcoRI Defense | `5H9F` / `1VY8` | [`expected_crispr_defense.png`](verification/27_crispr_defense/expected_crispr_defense.png) | [`rcsb_5H9F.jpg`](verification/27_crispr_defense/rcsb_5H9F.jpg) | [`comparison_crispr_defense.png`](verification/27_crispr_defense/comparison_crispr_defense.png) | [`comparison_crispr_defense.mp4`](verification/27_crispr_defense/comparison_crispr_defense.mp4) | ✅ Verified |
+| **L28** | `storage_and_spores` | Bacterioferritin, Magnetosomes & Endospore | `7R04` / `1BFR` | [`expected_storage_and_spores.png`](verification/28_storage_and_spores/expected_storage_and_spores.png) | [`rcsb_7R04.jpg`](verification/28_storage_and_spores/rcsb_7R04.jpg) | [`comparison_storage_and_spores.png`](verification/28_storage_and_spores/comparison_storage_and_spores.png) | [`comparison_storage_and_spores.mp4`](verification/28_storage_and_spores/comparison_storage_and_spores.mp4) | ✅ Verified |
+| **L29** | `atomic_chemistry` | Level 5 & 6 Biomolecular Monomers & Bonds | `1BNA` / `MMFF94` | [`expected_atomic_chemistry.png`](verification/29_atomic_chemistry/expected_atomic_chemistry.png) | [`rcsb_1BNA.jpg`](verification/29_atomic_chemistry/rcsb_1BNA.jpg) | [`comparison_atomic_chemistry.png`](verification/29_atomic_chemistry/comparison_atomic_chemistry.png) | [`comparison_atomic_chemistry.mp4`](verification/29_atomic_chemistry/comparison_atomic_chemistry.mp4) | ✅ Verified |
 
 ---
 

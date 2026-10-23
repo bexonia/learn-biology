@@ -1,8 +1,18 @@
-import React, { useEffect, useRef, useState } from 'react';
-import type { RoadmapScenarioId } from '../../types/biology';
+import { forwardRef, useEffect, useImperativeHandle, useRef, useState } from 'react';
+import type { RoadmapScenarioId, ScenarioType } from '../../types/biology';
 import { ROADMAP_SCENARIOS_CONFIG, type RoadmapPieceConfig } from '../../core/roadmapScenariosConfig';
 import { RoadmapScenarioScene } from '../../core/roadmapScenarioScene';
+import { TourBar } from '../Tour/TourBar';
 import voiceService from '../../core/voiceService';
+
+export interface RoadmapScenarioOverlayHandle {
+  handleNarrate: () => void;
+  handleToggleTour: () => void;
+  handleResetCamera: () => void;
+  handleToggleAutoRotate: () => boolean;
+  handleToggleLabels: () => boolean;
+  stopStoryTrace: () => void;
+}
 
 interface RoadmapScenarioOverlayProps {
   scenarioId: RoadmapScenarioId;
@@ -10,17 +20,27 @@ interface RoadmapScenarioOverlayProps {
   selectedVoice: string;
   onShowSubtitles: (text: string, badge: string, speaker: string) => void;
   onHideSubtitles: () => void;
+  onSelectScenario?: (scenario: ScenarioType) => void;
+  onStateChange?: (state: {
+    isNarrating: boolean;
+    isTourActive: boolean;
+    isAutoRotating: boolean;
+    isLabelsVisible: boolean;
+  }) => void;
 }
 
-export const RoadmapScenarioOverlay: React.FC<RoadmapScenarioOverlayProps> = ({
+export const RoadmapScenarioOverlay = forwardRef<RoadmapScenarioOverlayHandle, RoadmapScenarioOverlayProps>(({
   scenarioId,
   active,
   selectedVoice,
   onShowSubtitles,
-  onHideSubtitles
-}) => {
+  onHideSubtitles,
+  onSelectScenario,
+  onStateChange
+}, ref) => {
   const containerRef = useRef<HTMLDivElement | null>(null);
   const sceneRef = useRef<RoadmapScenarioScene | null>(null);
+  const autoAdvanceTimerRef = useRef<number | null>(null);
 
   const cfg = ROADMAP_SCENARIOS_CONFIG[scenarioId];
 
@@ -31,8 +51,27 @@ export const RoadmapScenarioOverlay: React.FC<RoadmapScenarioOverlayProps> = ({
   const [sliderVal, setSliderVal] = useState<number>(cfg.sliderDefault);
   const [explodedProgress, setExplodedProgress] = useState<number>(0);
   const [isLabelsVisible, setIsLabelsVisible] = useState<boolean>(true);
+  const [isAutoRotating, setIsAutoRotating] = useState<boolean>(false);
   const [storyStep, setStoryStep] = useState<number>(0);
+  const [isTourActive, setIsTourActive] = useState<boolean>(false);
   const [isNarrating, setIsNarrating] = useState<boolean>(false);
+
+  // Sync status up to App toolbar
+  useEffect(() => {
+    onStateChange?.({
+      isNarrating,
+      isTourActive: isTourActive || storyStep > 0,
+      isAutoRotating,
+      isLabelsVisible
+    });
+  }, [isNarrating, isTourActive, storyStep, isAutoRotating, isLabelsVisible]);
+
+  const clearAutoAdvance = () => {
+    if (autoAdvanceTimerRef.current !== null) {
+      window.clearTimeout(autoAdvanceTimerRef.current);
+      autoAdvanceTimerRef.current = null;
+    }
+  };
 
   // Initialize single shared WebGL scene instance
   useEffect(() => {
@@ -45,6 +84,7 @@ export const RoadmapScenarioOverlay: React.FC<RoadmapScenarioOverlayProps> = ({
       (window as any).roadmapScene = sc;
     }
     return () => {
+      clearAutoAdvance();
       if (sceneRef.current) {
         sceneRef.current.dispose();
         sceneRef.current = null;
@@ -54,6 +94,7 @@ export const RoadmapScenarioOverlay: React.FC<RoadmapScenarioOverlayProps> = ({
 
   // Respond to active state or scenarioId change
   useEffect(() => {
+    clearAutoAdvance();
     if (!sceneRef.current) return;
     if (active) {
       const nextCfg = ROADMAP_SCENARIOS_CONFIG[scenarioId];
@@ -64,6 +105,7 @@ export const RoadmapScenarioOverlay: React.FC<RoadmapScenarioOverlayProps> = ({
       setIsInhibited(false);
       setIsEnergyActive(true);
       setStoryStep(0);
+      setIsTourActive(false);
       setIsNarrating(false);
 
       sceneRef.current.start();
@@ -74,23 +116,42 @@ export const RoadmapScenarioOverlay: React.FC<RoadmapScenarioOverlayProps> = ({
     }
   }, [active, scenarioId]);
 
-  const handlePlayStage = (stepNum: number) => {
-    const stage = cfg.stages.find((s) => s.step === stepNum);
+  const stopStoryTrace = () => {
+    clearAutoAdvance();
+    voiceService.stop();
+    setIsNarrating(false);
+    setStoryStep(0);
+    setIsTourActive(false);
+    onHideSubtitles();
+    sceneRef.current?.resetCamera();
+  };
+
+  const handlePlayStage = (stepNum: number, autoAdvance: boolean = true) => {
+    clearAutoAdvance();
+    const currentCfg = ROADMAP_SCENARIOS_CONFIG[scenarioId];
+    const stage = currentCfg.stages.find((s) => s.step === stepNum);
     if (!stage) {
-      setStoryStep(0);
-      setIsNarrating(false);
-      onHideSubtitles();
-      sceneRef.current?.resetCamera();
+      stopStoryTrace();
       return;
     }
     setStoryStep(stepNum);
+    setIsTourActive(true);
     sceneRef.current?.focusPiece(stage.targetPiece);
-    onShowSubtitles(stage.spoken, `STAGE ${stage.step} OF ${cfg.stages.length}`, 'Kokoro Neural TTS');
+    onShowSubtitles(stage.spoken, `STAGE ${stage.step} OF ${currentCfg.stages.length}: ${stage.title}`, 'Kokoro Neural TTS');
     setIsNarrating(true);
     voiceService.playText(stage.spoken, {
       voice: selectedVoice,
       onEnd: () => {
         setIsNarrating(false);
+        if (autoAdvance) {
+          autoAdvanceTimerRef.current = window.setTimeout(() => {
+            if (stepNum < currentCfg.stages.length) {
+              handlePlayStage(stepNum + 1, true);
+            } else {
+              stopStoryTrace();
+            }
+          }, 800);
+        }
       },
       onError: () => {
         setIsNarrating(false);
@@ -99,10 +160,9 @@ export const RoadmapScenarioOverlay: React.FC<RoadmapScenarioOverlayProps> = ({
   };
 
   const handleNarratePiece = () => {
-    if (isNarrating) {
-      voiceService.stop();
-      setIsNarrating(false);
-      onHideSubtitles();
+    clearAutoAdvance();
+    if (isNarrating || storyStep > 0) {
+      stopStoryTrace();
       return;
     }
     const text = `${selectedPiece.name}. ${selectedPiece.desc}`;
@@ -121,6 +181,37 @@ export const RoadmapScenarioOverlay: React.FC<RoadmapScenarioOverlayProps> = ({
     });
   };
 
+  useImperativeHandle(ref, () => ({
+    handleNarrate: () => {
+      if (voiceService.isBusy() || isNarrating || storyStep > 0) {
+        stopStoryTrace();
+      } else {
+        handlePlayStage(1, true);
+      }
+    },
+    handleToggleTour: () => {
+      if (isTourActive || storyStep > 0) {
+        stopStoryTrace();
+      } else {
+        handlePlayStage(1, true);
+      }
+    },
+    handleResetCamera: () => {
+      sceneRef.current?.resetCamera();
+    },
+    handleToggleAutoRotate: () => {
+      const next = sceneRef.current?.toggleAutoRotate() ?? false;
+      setIsAutoRotating(next);
+      return next;
+    },
+    handleToggleLabels: () => {
+      const next = sceneRef.current?.toggleLabels() ?? true;
+      setIsLabelsVisible(next);
+      return next;
+    },
+    stopStoryTrace
+  }));
+
   const pdbBadges = cfg.pdb.split(',').map((s) => s.trim());
 
   return (
@@ -131,6 +222,15 @@ export const RoadmapScenarioOverlay: React.FC<RoadmapScenarioOverlayProps> = ({
     >
       {/* Header Overlay */}
       <div className="motor-overlay-header">
+        {onSelectScenario && (
+          <button
+            className="btn-back-cell"
+            onClick={() => onSelectScenario('cell')}
+            title="Return to Whole Cell (1.5 µm) Masterclass Overview"
+          >
+            ← Whole Cell (1.5 µm)
+          </button>
+        )}
         <div className="motor-header-text">
           <span className="motor-scale-tag">{cfg.scaleTag}</span>
           <h2 className="motor-main-heading">{cfg.title}</h2>
@@ -325,12 +425,24 @@ export const RoadmapScenarioOverlay: React.FC<RoadmapScenarioOverlayProps> = ({
           {/* 5-Stage Explanatory Trace */}
           <div className="motor-insp-block" style={{ borderLeft: '3px solid #00F5D4', background: 'rgba(0, 245, 212, 0.04)' }}>
             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '6px' }}>
-              <span style={{ fontSize: '10px', fontWeight: 800, color: '#00F5D4', letterSpacing: '0.08em', textTransform: 'uppercase' }}>
-                🎬 5-Stage Explanatory Trace
+              <span style={{ fontSize: '10px', fontWeight: 800, color: '#0F766E', letterSpacing: '0.08em', textTransform: 'uppercase' }}>
+                🎬 5-Stage Masterclass Trace
               </span>
-              <span style={{ fontSize: '9px', fontWeight: 700, padding: '2px 6px', borderRadius: '4px', background: storyStep > 0 ? '#00F5D4' : '#E2DACD', color: storyStep > 0 ? '#000000' : '#4A5568' }}>
-                {storyStep > 0 ? `STAGE ${storyStep} OF ${cfg.stages.length}` : 'READY'}
-              </span>
+              <button
+                onClick={() => (storyStep > 0 ? stopStoryTrace() : handlePlayStage(1, true))}
+                style={{
+                  fontSize: '9.5px',
+                  fontWeight: 800,
+                  padding: '2px 8px',
+                  borderRadius: '4px',
+                  border: 'none',
+                  cursor: 'pointer',
+                  background: storyStep > 0 ? '#E63946' : '#00F5D4',
+                  color: storyStep > 0 ? '#FFFFFF' : '#000000'
+                }}
+              >
+                {storyStep > 0 ? `⏹ STOP (STAGE ${storyStep}/${cfg.stages.length})` : '▶ PLAY ALL 5 STAGES'}
+              </button>
             </div>
             <div style={{ display: 'flex', flexDirection: 'column', gap: '5px' }}>
               {cfg.stages.map((st) => {
@@ -338,7 +450,7 @@ export const RoadmapScenarioOverlay: React.FC<RoadmapScenarioOverlayProps> = ({
                 return (
                   <div
                     key={st.step}
-                    onClick={() => handlePlayStage(st.step)}
+                    onClick={() => handlePlayStage(st.step, true)}
                     style={{
                       display: 'flex',
                       alignItems: 'center',
@@ -377,9 +489,68 @@ export const RoadmapScenarioOverlay: React.FC<RoadmapScenarioOverlayProps> = ({
 
           {/* Role & Function */}
           <div className="motor-insp-block">
-            <span className="motor-insp-block-title">ROLE &amp; FUNCTION</span>
+            <span className="motor-insp-block-title">ROLE &amp; BIOPHYSICAL MECHANISM</span>
             <p className="motor-insp-text">{selectedPiece.desc}</p>
           </div>
+
+          {/* Masterclass Analogy Callout */}
+          {cfg.analogy && (
+            <div
+              className="motor-insp-block"
+              style={{
+                background: 'linear-gradient(135deg, rgba(255, 183, 3, 0.11) 0%, rgba(0, 119, 182, 0.07) 100%)',
+                border: '1px solid rgba(255, 183, 3, 0.42)',
+                borderLeft: '3.5px solid #FFB703',
+                borderRadius: '8px',
+                padding: '9px 11px'
+              }}
+            >
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '4px' }}>
+                <span style={{ fontSize: '9.5px', fontWeight: 800, letterSpacing: '0.07em', color: '#9A5B00', textTransform: 'uppercase' }}>
+                  💡 MASTERCLASS ANALOGY &amp; INTUITION
+                </span>
+                <button
+                  onClick={() => {
+                    clearAutoAdvance();
+                    if (isNarrating) {
+                      voiceService.stop();
+                      setIsNarrating(false);
+                      onHideSubtitles();
+                      return;
+                    }
+                    setIsNarrating(true);
+                    onShowSubtitles(cfg.analogy!, 'MASTERCLASS ANALOGY', 'Kokoro Neural TTS');
+                    voiceService.playText(cfg.analogy!, {
+                      voice: selectedVoice,
+                      onEnd: () => {
+                        setIsNarrating(false);
+                        onHideSubtitles();
+                      },
+                      onError: () => {
+                        setIsNarrating(false);
+                        onHideSubtitles();
+                      }
+                    });
+                  }}
+                  style={{
+                    fontSize: '9px',
+                    fontWeight: 700,
+                    padding: '2px 6px',
+                    borderRadius: '4px',
+                    border: '1px solid rgba(154, 91, 0, 0.35)',
+                    background: 'rgba(255, 255, 255, 0.8)',
+                    color: '#7C4700',
+                    cursor: 'pointer'
+                  }}
+                >
+                  🔊 Listen
+                </button>
+              </div>
+              <p className="motor-insp-text" style={{ margin: 0, fontSize: '11px', lineHeight: 1.48, color: '#2D3748' }}>
+                {cfg.analogy}
+              </p>
+            </div>
+          )}
 
           {/* Biochemical Mechanism 2x2 Grid */}
           <div className="motor-insp-block">
@@ -421,7 +592,7 @@ export const RoadmapScenarioOverlay: React.FC<RoadmapScenarioOverlayProps> = ({
                         <span style={{ display: 'inline-block', width: '8px', height: '8px', borderRadius: '50%', background: p.color, marginRight: '6px' }} />
                         {p.name}
                       </div>
-                      <div style={{ fontSize: '9.5px', color: '#5C6E64', marginLeft: '14px' }}>{p.desc.slice(0, 68)}...</div>
+                      <div style={{ fontSize: '9.5px', color: '#5C6E64', marginLeft: '14px' }}>{p.desc.slice(0, 82)}...</div>
                     </div>
                     {isSelected && <span style={{ fontSize: '12px', color: '#00F5D4' }}>✓</span>}
                   </button>
@@ -453,6 +624,36 @@ export const RoadmapScenarioOverlay: React.FC<RoadmapScenarioOverlayProps> = ({
           </div>
         </div>
       </aside>
+
+      {/* Bottom TourBar when 5-Stage Guided Tour is active */}
+      {(isTourActive || storyStep > 0) && (
+        <TourBar
+          status={{
+            active: true,
+            playing: isNarrating,
+            stepIndex: Math.max(0, storyStep - 1),
+            key: cfg.stages[Math.max(0, storyStep - 1)]?.targetPiece || cfg.pieces[0].meshName,
+            totalSteps: cfg.stages.length,
+            phase: isNarrating ? 'narrating' : 'cooldown',
+            cooldownRemaining: 1,
+            ttsEnabled: true
+          }}
+          stepTitle={cfg.stages[Math.max(0, storyStep - 1)]?.title || cfg.title}
+          onPrev={() => handlePlayStage(Math.max(1, storyStep - 1), true)}
+          onTogglePlay={() => {
+            if (isNarrating) {
+              clearAutoAdvance();
+              voiceService.stop();
+              setIsNarrating(false);
+            } else {
+              handlePlayStage(storyStep > 0 ? storyStep : 1, true);
+            }
+          }}
+          onNext={() => handlePlayStage(Math.min(cfg.stages.length, (storyStep || 1) + 1), true)}
+          onToggleVoice={() => {}}
+          onExit={stopStoryTrace}
+        />
+      )}
     </div>
   );
-};
+});

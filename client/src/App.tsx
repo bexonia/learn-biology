@@ -103,9 +103,9 @@ import { MreBHeaderOverlay } from './components/MreB/MreBHeaderOverlay';
 import { MreBHUDCard } from './components/MreB/MreBHUDCard';
 import { MreBInspectorDrawer } from './components/MreB/MreBInspectorDrawer';
 
-import { RoadmapScenarioOverlay } from './components/Roadmap/RoadmapScenarioOverlay';
+import { RoadmapScenarioOverlay, type RoadmapScenarioOverlayHandle } from './components/Roadmap/RoadmapScenarioOverlay';
 
-import { isRoadmapScenario } from './core/roadmapScenariosConfig';
+import { isRoadmapScenario, ROADMAP_SCENARIOS_CONFIG } from './core/roadmapScenariosConfig';
 
 export const MREB_TOUR_STOPS = [
   'mreb_protofilaments',
@@ -785,6 +785,13 @@ function App() {
   const gyraseSceneRef = useRef<DNAGyraseScene | null>(null);
   const ftszSceneRef = useRef<FtsZDivisomeScene | null>(null);
   const mrebSceneRef = useRef<MreBCytoskeletonScene | null>(null);
+  const roadmapOverlayRef = useRef<RoadmapScenarioOverlayHandle | null>(null);
+  const [roadmapUiState, setRoadmapUiState] = useState({
+    isNarrating: false,
+    isTourActive: false,
+    isAutoRotating: false,
+    isLabelsVisible: true
+  });
 
   // --------------------------------------------------------------------------
   // 1. Initialize Cell Viewer Scene
@@ -814,6 +821,12 @@ function App() {
       },
       onWasmStatus: (status: string) => {
         setWasmStatus(status);
+      },
+      onShowSubtitles: (t: string, b?: string, s?: string) => {
+        showSubtitles(t, b, s);
+      },
+      onHideSubtitles: () => {
+        hideSubtitles();
       }
     });
 
@@ -1394,10 +1407,7 @@ function App() {
       if (triggered) return;
       triggered = true;
       const data = CELL_ANATOMY_DATA['overview'];
-      let narrative = `${data.title}. `;
-      if (data.scientific) narrative += `Scientific designation: ${data.scientific}. `;
-      if (data.subtitle) narrative += `${data.subtitle}. `;
-      narrative += data.description;
+      const narrative = data.narration || `${data.title}. ${data.subtitle}. ${data.description}`;
 
       setIsCellNarrating(true);
       showSubtitles(narrative, 'WHOLE CELL OVERVIEW', 'Kokoro Neural TTS');
@@ -1601,10 +1611,7 @@ function App() {
       hideSubtitles();
     } else {
       const data = CELL_ANATOMY_DATA[selectedOrganelleKey] || CELL_ANATOMY_DATA['overview'];
-      let narrative = `${data.title}. `;
-      if (data.scientific) narrative += `Scientific designation: ${data.scientific}. `;
-      if (data.subtitle) narrative += `${data.subtitle}. `;
-      narrative += data.description;
+      const narrative = data.narration || `${data.title}. ${data.subtitle}. ${data.description}`;
 
       setIsCellNarrating(true);
       showSubtitles(narrative, data.title || 'CELLULAR ANATOMY', 'Kokoro Neural TTS');
@@ -3174,6 +3181,8 @@ function App() {
       ftszSceneRef.current.resetCamera();
     } else if (scenario === 'mreb' && mrebSceneRef.current) {
       mrebSceneRef.current.resetCamera();
+    } else if (isRoadmapScenario(scenario) && roadmapOverlayRef.current) {
+      roadmapOverlayRef.current.handleResetCamera();
     }
   };
 
@@ -3580,7 +3589,11 @@ function App() {
             ? 'Cryo-EM 6RKU / 1AB4 • DNA Gyrase: Active'
             : scenario === 'ftsz'
             ? 'PDB 1FSZ / 6PL5 • Divisome Z-Ring: Active'
-            : 'PDB 1JCG / 6GBS • MreB Rod Complex: Active'
+            : scenario === 'mreb'
+            ? 'PDB 1JCG / 6GBS • MreB Rod Complex: Active'
+            : isRoadmapScenario(scenario)
+            ? `PDB ${ROADMAP_SCENARIOS_CONFIG[scenario].pdb} • Active`
+            : 'Cryo-EM 9P7P (3.40 Å) • Lpt Bridge: Active'
         }
         selectedVoice={selectedVoice}
         onVoiceChange={handleVoiceChange}
@@ -3599,7 +3612,7 @@ function App() {
             ? isSecYEGNarrating
             : scenario === 'bam'
             ? isBAMNarrating
-            : scenario === 'rnap' ? isRnapNarrating : scenario === 'pol_iii' ? isPolIIINarrating : scenario === 'gyrase' ? isGyraseNarrating : scenario === 'ftsz' ? isFtsZNarrating : scenario === 'mreb' ? isMreBNarrating : isLptNarrating
+            : scenario === 'rnap' ? isRnapNarrating : scenario === 'pol_iii' ? isPolIIINarrating : scenario === 'gyrase' ? isGyraseNarrating : scenario === 'ftsz' ? isFtsZNarrating : scenario === 'mreb' ? isMreBNarrating : isRoadmapScenario(scenario) ? roadmapUiState.isNarrating : isLptNarrating
         }
         onNarrateClick={
           scenario === 'cell'
@@ -3616,7 +3629,7 @@ function App() {
             ? handleSecYEGNarrate
             : scenario === 'bam'
             ? handleBAMNarrate
-            : scenario === 'rnap' ? handleRnapNarrate : scenario === 'pol_iii' ? handlePolIIINarrate : scenario === 'gyrase' ? handleGyraseNarrate : scenario === 'ftsz' ? handleFtsZNarrate : scenario === 'mreb' ? handleMreBNarrate : handleLptNarrate
+            : scenario === 'rnap' ? handleRnapNarrate : scenario === 'pol_iii' ? handlePolIIINarrate : scenario === 'gyrase' ? handleGyraseNarrate : scenario === 'ftsz' ? handleFtsZNarrate : scenario === 'mreb' ? handleMreBNarrate : isRoadmapScenario(scenario) ? () => roadmapOverlayRef.current?.handleNarrate() : handleLptNarrate
         }
         onResetCamera={handleResetCamera}
         isAutoRotating={
@@ -3634,7 +3647,7 @@ function App() {
             ? isSecYEGAutoRotating
             : scenario === 'bam'
             ? isBAMAutoRotating
-            : scenario === 'rnap' ? isRnapAutoRotating : scenario === 'pol_iii' ? isPolIIIAutoRotating : scenario === 'gyrase' ? isGyraseAutoRotating : scenario === 'ftsz' ? isFtsZAutoRotating : scenario === 'mreb' ? isMreBAutoRotating : isLptAutoRotating
+            : scenario === 'rnap' ? isRnapAutoRotating : scenario === 'pol_iii' ? isPolIIIAutoRotating : scenario === 'gyrase' ? isGyraseAutoRotating : scenario === 'ftsz' ? isFtsZAutoRotating : scenario === 'mreb' ? isMreBAutoRotating : isRoadmapScenario(scenario) ? roadmapUiState.isAutoRotating : isLptAutoRotating
         }
         onToggleAutoRotate={
           scenario === 'cell'
@@ -3651,7 +3664,7 @@ function App() {
             ? handleToggleSecYEGAutoRotate
             : scenario === 'bam'
             ? handleToggleBAMAutoRotate
-            : scenario === 'rnap' ? handleToggleRnapAutoRotate : scenario === 'pol_iii' ? handleTogglePolIIIAutoRotate : scenario === 'gyrase' ? handleToggleGyraseAutoRotate : scenario === 'ftsz' ? handleToggleFtsZAutoRotate : scenario === 'mreb' ? handleToggleMreBAutoRotate : handleToggleLptAutoRotate
+            : scenario === 'rnap' ? handleToggleRnapAutoRotate : scenario === 'pol_iii' ? handleTogglePolIIIAutoRotate : scenario === 'gyrase' ? handleToggleGyraseAutoRotate : scenario === 'ftsz' ? handleToggleFtsZAutoRotate : scenario === 'mreb' ? handleToggleMreBAutoRotate : isRoadmapScenario(scenario) ? () => { roadmapOverlayRef.current?.handleToggleAutoRotate(); } : handleToggleLptAutoRotate
         }
         showLabels={
           scenario === 'cell'
@@ -3668,7 +3681,7 @@ function App() {
             ? isSecYEGLabelsVisible
             : scenario === 'bam'
             ? isBAMLabelsVisible
-            : scenario === 'rnap' ? isRnapLabelsVisible : scenario === 'pol_iii' ? isPolIIILabelsVisible : scenario === 'gyrase' ? isGyraseLabelsVisible : scenario === 'ftsz' ? isFtsZLabelsVisible : scenario === 'mreb' ? isMreBLabelsVisible : isLptLabelsVisible
+            : scenario === 'rnap' ? isRnapLabelsVisible : scenario === 'pol_iii' ? isPolIIILabelsVisible : scenario === 'gyrase' ? isGyraseLabelsVisible : scenario === 'ftsz' ? isFtsZLabelsVisible : scenario === 'mreb' ? isMreBLabelsVisible : isRoadmapScenario(scenario) ? roadmapUiState.isLabelsVisible : isLptLabelsVisible
         }
         onToggleLabels={
           scenario === 'cell'
@@ -3685,7 +3698,7 @@ function App() {
             ? handleToggleSecYEGLabels
             : scenario === 'bam'
             ? handleToggleBAMLabels
-            : scenario === 'rnap' ? handleToggleRnapLabels : scenario === 'pol_iii' ? handleTogglePolIIILabels : scenario === 'gyrase' ? handleToggleGyraseLabels : scenario === 'ftsz' ? handleToggleFtsZLabels : scenario === 'mreb' ? handleToggleMreBLabels : handleToggleLptLabels
+            : scenario === 'rnap' ? handleToggleRnapLabels : scenario === 'pol_iii' ? handleTogglePolIIILabels : scenario === 'gyrase' ? handleToggleGyraseLabels : scenario === 'ftsz' ? handleToggleFtsZLabels : scenario === 'mreb' ? handleToggleMreBLabels : isRoadmapScenario(scenario) ? () => { roadmapOverlayRef.current?.handleToggleLabels(); } : handleToggleLptLabels
         }
         isTourActive={
           scenario === 'cell'
@@ -3702,7 +3715,7 @@ function App() {
             ? (isSecYEGTourActive || secYEGStoryStep > 0)
             : scenario === 'bam'
             ? (isBAMTourActive || bamStoryStep > 0)
-            : scenario === 'rnap' ? (isRnapTourActive || rnapStoryStep > 0) : scenario === 'pol_iii' ? (isPolIIITourActive || polIIIStoryStep > 0) : scenario === 'gyrase' ? (isGyraseTourActive || gyraseStoryStep > 0) : scenario === 'ftsz' ? (isFtsZTourActive || ftszStoryStep > 0) : scenario === 'mreb' ? (isMreBTourActive || mrebStoryStep > 0) : (isLptTourActive || lptStoryStep > 0)
+            : scenario === 'rnap' ? (isRnapTourActive || rnapStoryStep > 0) : scenario === 'pol_iii' ? (isPolIIITourActive || polIIIStoryStep > 0) : scenario === 'gyrase' ? (isGyraseTourActive || gyraseStoryStep > 0) : scenario === 'ftsz' ? (isFtsZTourActive || ftszStoryStep > 0) : scenario === 'mreb' ? (isMreBTourActive || mrebStoryStep > 0) : isRoadmapScenario(scenario) ? roadmapUiState.isTourActive : (isLptTourActive || lptStoryStep > 0)
         }
         onToggleTour={
           scenario === 'cell'
@@ -3719,7 +3732,7 @@ function App() {
             ? handleToggleSecYEGTour
             : scenario === 'bam'
             ? handleToggleBAMTour
-            : scenario === 'rnap' ? handleToggleRnapTour : scenario === 'pol_iii' ? handleTogglePolIIITour : scenario === 'gyrase' ? handleToggleGyraseTour : scenario === 'ftsz' ? handleToggleFtsZTour : scenario === 'mreb' ? handleToggleMreBTour : handleToggleLptTour
+            : scenario === 'rnap' ? handleToggleRnapTour : scenario === 'pol_iii' ? handleTogglePolIIITour : scenario === 'gyrase' ? handleToggleGyraseTour : scenario === 'ftsz' ? handleToggleFtsZTour : scenario === 'mreb' ? handleToggleMreBTour : isRoadmapScenario(scenario) ? () => roadmapOverlayRef.current?.handleToggleTour() : handleToggleLptTour
         }
       />
 
@@ -3735,7 +3748,7 @@ function App() {
         </div>
 
         <CellScaleCard />
-        <MicrocompartmentCard />
+        <MicrocompartmentCard onSelectScenario={handleSelectScenario} />
 
         <CellInspectorDrawer
           isOpen={isCellInspectorOpen}
@@ -3749,6 +3762,7 @@ function App() {
               handleSelectScenario('motor');
             }
           }}
+          onSelectScenario={handleSelectScenario}
           isNarrating={isCellNarrating}
           onNarrate={handleCellNarrate}
         />
@@ -5307,20 +5321,15 @@ function App() {
       {/* 16-31. Roadmap Expansion Scenarios (Scenarios 14-29) */}
 
       <RoadmapScenarioOverlay
-
+        ref={roadmapOverlayRef}
         scenarioId={isRoadmapScenario(scenario) ? scenario : 'expressome'}
-
         active={isRoadmapScenario(scenario)}
-
         selectedVoice={selectedVoice}
-
         onShowSubtitles={showSubtitles}
-
         onHideSubtitles={hideSubtitles}
-
+        onSelectScenario={handleSelectScenario}
+        onStateChange={setRoadmapUiState}
       />
-
-
 
       {/* Global Live Subtitles Banner (Closed Captions) */}
       <LiveSubtitles
@@ -5328,7 +5337,7 @@ function App() {
         text={subtitleState.text}
         badge={subtitleState.badge}
         speaker={subtitleState.speaker}
-        hasTourBar={isMreBTourActive || mrebStoryStep > 0 || isFtsZTourActive || ftszStoryStep > 0 || isGyraseTourActive || gyraseStoryStep > 0 || isPolIIITourActive || polIIIStoryStep > 0 || isRnapTourActive || rnapStoryStep > 0 || isLptTourActive || lptStoryStep > 0 || isBAMTourActive || bamStoryStep > 0 || isSecYEGTourActive || secYEGStoryStep > 0 || isComplexITourActive || complexIStoryStep > 0 || isATPTourActive || atpStoryStep > 0 || isMotorTourActive || motorStoryStep > 0 || isRibosomeTourActive || ribosomeStoryStep > 0 || tourStatus.active}
+        hasTourBar={roadmapUiState.isTourActive || isMreBTourActive || mrebStoryStep > 0 || isFtsZTourActive || ftszStoryStep > 0 || isGyraseTourActive || gyraseStoryStep > 0 || isPolIIITourActive || polIIIStoryStep > 0 || isRnapTourActive || rnapStoryStep > 0 || isLptTourActive || lptStoryStep > 0 || isBAMTourActive || bamStoryStep > 0 || isSecYEGTourActive || secYEGStoryStep > 0 || isComplexITourActive || complexIStoryStep > 0 || isATPTourActive || atpStoryStep > 0 || isMotorTourActive || motorStoryStep > 0 || isRibosomeTourActive || ribosomeStoryStep > 0 || tourStatus.active}
         onClose={hideSubtitles}
       />
     </div>

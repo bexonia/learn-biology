@@ -51,6 +51,14 @@ export interface ProteinItem {
   name: string;
   tag: string;
   desc: string;
+  scenario?: ScenarioType;
+}
+
+export interface OrganelleDrilldown {
+  label: string;
+  scenario: ScenarioType;
+  badge: string;
+  pdb?: string;
 }
 
 export interface OrganelleData {
@@ -65,7 +73,10 @@ export interface OrganelleData {
   abundance: string;
   composition: string;
   description: string;
+  analogy?: string;
+  narration?: string;
   proteins: ProteinItem[];
+  drilldowns?: OrganelleDrilldown[];
   camPos?: any;
   camTarget?: any;
   hasDrilldown?: boolean;

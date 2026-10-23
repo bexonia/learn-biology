@@ -1177,6 +1177,8 @@ html, body {
   pointer-events: auto;
 }
 
+#motor-container .motor-overlay-header,
+#ribosome-container .motor-overlay-header,
 #atp-synthase-container .motor-overlay-header,
 #complex-i-container .motor-overlay-header,
 #secyeg-container .motor-overlay-header,

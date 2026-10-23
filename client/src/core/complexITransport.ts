@@ -287,10 +287,11 @@ export class ComplexIScene {
     const cols = 28;
     for (let r = 0; r < rows; r++) {
       for (let c = 0; c < cols; c++) {
-        // Skip cutout area where transmembrane helices pierce through
+        // Skip cutout area where transmembrane helices pierce through and front cutaway window
         const x = (c - cols / 2) * 1.45 + (Math.random() - 0.5) * 0.3;
         const z = (r - rows / 2) * 1.35 + (Math.random() - 0.5) * 0.3;
         if (Math.abs(x) < 13 && Math.abs(z) < 6.5) continue;
+        if (z > 1.8 && Math.abs(x) < 14.0) continue;
 
         // Cytoplasmic upper leaflet (+Y = +2.2)
         const headTop = new THREE.Mesh(headGeo, headMatTop);
@@ -488,28 +489,83 @@ export class ComplexIScene {
           this.modelGroup.name = 'ComplexI_7Z7V_Assembly';
           this.scene.add(this.modelGroup);
 
-          // Find pieces
+          // Helper to apply explicit domain PBR color (disabling MN default cyan vertexColors)
+          const applyPieceColor = (rootObj: THREE.Object3D, hex: number, emissiveHex: number = 0x000000, emissiveIntensity: number = 0.0, roughness: number = 0.34) => {
+            const mat = new THREE.MeshStandardMaterial({
+              color: hex,
+              emissive: emissiveHex,
+              emissiveIntensity,
+              roughness,
+              metalness: 0.14,
+              vertexColors: false,
+              side: THREE.DoubleSide
+            });
+            rootObj.traverse((node) => {
+              if ((node as THREE.Mesh).isMesh) {
+                const m = node as THREE.Mesh;
+                if (m.geometry && m.geometry.attributes && m.geometry.attributes.color) {
+                  m.geometry.deleteAttribute('color');
+                }
+                m.material = mat;
+                m.castShadow = true;
+                m.receiveShadow = true;
+              }
+            });
+          };
+
+          // Find pieces & apply BIOLOGICAL_COLOR_TAXONOMY_SYSTEM.md domain colors
           this.modelGroup.traverse((child) => {
             if (child.name.includes('Piece_ComplexI_Hydrophilic_NuoEFG')) {
               this.pieceHydrophilic_NuoEFG = child;
+              applyPieceColor(child, 0x2563EB, 0x0A1E5E, 0.22, 0.34); // Royal Blue NADH Arm
             } else if (child.name.includes('Piece_ComplexI_Connecting_NuoBCI')) {
               this.pieceConnecting_NuoBCI = child;
+              applyPieceColor(child, 0xF77F00, 0x5A2800, 0.22, 0.35); // Warm Amber/Orange Connecting Arm (NuoCD/B/I)
             } else if (child.name.includes('Piece_ComplexI_Transmembrane_NuoAHJK')) {
               this.pieceTransmembrane_NuoAHJK = child;
+              applyPieceColor(child, 0x06D6A0, 0x024532, 0.20, 0.36); // Vivid Jade Proximal Anchor
             } else if (child.name.includes('Piece_ComplexI_Antiporter_NuoNM')) {
               this.pieceAntiporter_NuoNM = child;
+              applyPieceColor(child, 0x00B4D8, 0x003D4D, 0.22, 0.36); // Cerulean/Teal Antiporter Modules (NuoN, NuoM)
             } else if (child.name.includes('Piece_ComplexI_Lateral_Piston_NuoL')) {
               this.pieceLateral_Piston_NuoL = child;
+              applyPieceColor(child, 0xE76F51, 0x4D190D, 0.24, 0.35); // Warm Terracotta Distal Pump (NuoL)
             } else if (child.name.includes('Piece_ComplexI_FeS_Clusters')) {
               this.pieceFeS_Clusters = child;
+              applyPieceColor(child, 0xFFB703, 0xFF9900, 0.85, 0.22); // Glowing Pyrite Gold Fe-S Wire
             } else if (child.name.includes('Piece_ComplexI_FMN')) {
               this.pieceFMN = child;
+              applyPieceColor(child, 0xFF006E, 0xFF006E, 0.65, 0.25); // Hot Magenta FMN Cofactor
             } else if (child.name.includes('Piece_ComplexI_NADH_Substrate')) {
               this.pieceNADH_Substrate = child;
+              applyPieceColor(child, 0x00F5D4, 0x00F5D4, 0.65, 0.25); // Luminous Cyan NADH Substrate
             } else if (child.name.includes('Piece_ComplexI_Ubiquinone')) {
               this.pieceUbiquinone = child;
+              applyPieceColor(child, 0xFFE066, 0xFFB703, 0.75, 0.25); // Radiant Gold Ubiquinone Q8
             }
           });
+
+          // Add explicit horizontal 110 Å HL Lateral Coupling Piston Helix (Crimson #E63946) across NuoL -> NuoM -> NuoN
+          if (this.pieceLateral_Piston_NuoL) {
+            const pistonPts = [
+              new THREE.Vector3(-2.2, 1.5, 2.1),
+              new THREE.Vector3(1.5, 1.6, 2.2),
+              new THREE.Vector3(5.2, 1.5, 2.1),
+              new THREE.Vector3(8.8, 1.4, 1.8)
+            ];
+            const pistonCurve = new THREE.CatmullRomCurve3(pistonPts);
+            const pistonGeo = new THREE.TubeGeometry(pistonCurve, 36, 0.42, 14, false);
+            const pistonMat = new THREE.MeshStandardMaterial({
+              color: 0xE63946,
+              emissive: 0x7A0C18,
+              emissiveIntensity: 0.45,
+              roughness: 0.28,
+              metalness: 0.18
+            });
+            const pistonMesh = new THREE.Mesh(pistonGeo, pistonMat);
+            pistonMesh.name = 'NuoL_HL_Lateral_Piston_Helix';
+            this.pieceLateral_Piston_NuoL.add(pistonMesh);
+          }
 
           // Setup dynamic flow streams
           this.setupElectronTunnelingStream();
@@ -686,30 +742,44 @@ export class ComplexIScene {
   // --------------------------------------------------------------------------
   public setExplodedProgress(val: number) {
     this.explodedProgress = Math.max(0, Math.min(1.0, val));
-    const separationY = this.explodedProgress * 12.0; // Separate hydrophilic arm upwards along +Y
-    const separationX = this.explodedProgress * 5.0;  // Separate NuoL laterally
+    const separationY = this.explodedProgress * 11.0; // Separate hydrophilic arm upwards along +Y
+    const separationX = this.explodedProgress * 6.5;  // Separate membrane modules laterally
 
-    // Hydrophilic pieces separate upwards
+    // Hydrophilic pieces separate upwards and slightly left
     if (this.pieceHydrophilic_NuoEFG) {
-      this.pieceHydrophilic_NuoEFG.position.y = separationY;
+      this.pieceHydrophilic_NuoEFG.position.set(-2.5 * this.explodedProgress, separationY, 0);
     }
     if (this.pieceConnecting_NuoBCI) {
-      this.pieceConnecting_NuoBCI.position.y = separationY * 0.75;
+      this.pieceConnecting_NuoBCI.position.set(-1.5 * this.explodedProgress, separationY * 0.55, 0);
     }
     if (this.pieceFeS_Clusters) {
-      this.pieceFeS_Clusters.position.y = separationY * 0.85;
+      this.pieceFeS_Clusters.position.set(-2.0 * this.explodedProgress, separationY * 0.80, 0.8 * this.explodedProgress);
     }
     if (this.pieceFMN) {
-      this.pieceFMN.position.y = separationY;
+      this.pieceFMN.position.set(-3.2 * this.explodedProgress, separationY * 1.05, 1.2 * this.explodedProgress);
     }
     if (this.pieceNADH_Substrate) {
-      this.pieceNADH_Substrate.position.y = separationY;
+      this.pieceNADH_Substrate.position.set(-4.5 * this.explodedProgress, separationY * 1.15, 1.8 * this.explodedProgress);
+    }
+    if (this.pieceUbiquinone) {
+      this.pieceUbiquinone.position.set(-3.5 * this.explodedProgress, 1.5 * this.explodedProgress, 2.2 * this.explodedProgress);
     }
 
-    // NuoL separates laterally along +X
-    if (this.pieceLateral_Piston_NuoL) {
-      this.pieceLateral_Piston_NuoL.position.x = separationX;
+    // Membrane antiporter modules separate laterally along X
+    if (this.pieceTransmembrane_NuoAHJK) {
+      this.pieceTransmembrane_NuoAHJK.position.x = -2.2 * this.explodedProgress;
     }
+    if (this.pieceAntiporter_NuoNM) {
+      this.pieceAntiporter_NuoNM.position.x = separationX * 0.45;
+    }
+    if (this.pieceLateral_Piston_NuoL) {
+      this.pieceLateral_Piston_NuoL.position.x = separationX * 1.15;
+    }
+
+    // Pull camera back smoothly as complex explodes so all separated pieces stay framed
+    this.spherical.radius = this.baseRadius + this.explodedProgress * 16.0;
+    this.target.set(0.5 * this.explodedProgress, 4.0 + this.explodedProgress * 3.0, 0);
+    this.updateCameraPosition();
   }
 
   public setSubunitFilter(filter: string) {

@@ -17,182 +17,258 @@ if (typeof window !== 'undefined') {
 
 export const CELL_ANATOMY_DATA: Record<string, OrganelleData> = {
   overview: {
-    zone: 'Zone 0: Whole Cell Morphology',
+    zone: 'Zone 0: Whole Cell Masterclass Overview',
     title: 'A Typical Prokaryotic Cell',
-    scientific: 'Escherichia coli K-12 (Bacterium)',
+    scientific: 'Escherichia coli K-12 (Gram-Negative Bacterium)',
     phonetic: 'Pronounced: /ˌɛʃ.əˈrɪk.i.ə ˈkoʊ.laɪ/ (Named after Theodor Escherich)',
-    subtitle: 'Gram-Negative Bacillus Model Organism',
+    subtitle: 'Complete Layer-by-Layer Architecture of a Self-Replicating Nanofactory',
     color: '#D1C2A5',
     colorName: 'Warm Biological Palette',
-    scale: '1.5 µm × 0.8 µm (Volume ~1 µm³)',
-    abundance: 'Single autonomous unicellular organism',
-    composition: 'Multi-layer envelope, genetic core, and cytosol',
-    description: 'Prokaryotes are single-celled organisms defined by the absence of a membrane-enclosed nucleus and membrane-bound eukaryotic organelles (mitochondria, chloroplasts, Golgi). In Gram-negative bacteria such as Escherichia coli, the cell is enveloped by a complex multi-layered architecture: an outer capsule/glycocalyx, an outer membrane, a periplasmic space housing the thin peptidoglycan cell wall, and an inner cytoplasmic (plasma) membrane generating the electrochemical proton gradient that fuels cellular life.',
+    scale: '1.5 µm × 0.8 µm (Volume ~1 µm³ | ~1 picogram mass)',
+    abundance: 'Single autonomous unicellular organism (~2.4 million protein molecules)',
+    composition: '4-layer cell envelope + periplasmic space + crowded cytoplasm + nucleoid DNA',
+    description: 'Prokaryotes are single-celled organisms defined by the absence of a membrane-enclosed nucleus. Moving from the outside in, a Gram-negative bacterium like Escherichia coli is built from concentric functional layers: (1) an outermost hydrated polysaccharide Capsule and adhesive Pili/Fimbriae; (2) an asymmetric Lipopolysaccharide (LPS) Outer Membrane; (3) the Periplasmic Space—an oxidizing compartment housing the rigid Peptidoglycan (murein) cell wall; (4) the Inner Cytoplasmic Membrane, which acts as the cell\'s power grid by maintaining the proton-motive force; and (5) the interior Cytoplasm, a dense macromolecular gel containing 70S Ribosomes, metabolic hubs, protein microcompartments, extrachromosomal Plasmids, and the supercoiled Nucleoid chromosome.',
+    analogy: 'Think of the prokaryotic cell as a self-replicating microscopic submarine with an open-floor-plan factory inside: its multi-layered hull (capsule, outer membrane, peptidoglycan wall, and periplasmic airlock) shields it from crushing osmotic pressure, its inner membrane acts as a 180-millivolt hydroelectric dam, and because there is no nuclear wall separating the blueprint library (nucleoid DNA) from the 3D printers (ribosomes), proteins are built directly off genetic blueprints as fast as they are read.',
+    narration: 'Welcome to the Prokaryotic Cell Masterclass. We begin at the whole-cell scale with Escherichia coli K-12, a rod-shaped Gram-negative bacterium measuring 1.5 micrometers long by 0.8 micrometers wide. Unlike eukaryotic cells, prokaryotes have no membrane-bound nucleus: think of this cell as a pressurized microscopic submarine with an open-floor-plan factory inside. Moving from the outside in, the cell is protected by four concentric envelope layers: first, a slippery outer polysaccharide capsule; second, a selective lipopolysaccharide outer membrane; third, an aqueous moat called the periplasm that houses the rigid peptidoglycan cell wall; and fourth, the inner plasma membrane, which acts like a hydroelectric dam generating a 180-millivolt proton gradient. Inside that inner membrane lies the cytoplasm—a bustling macromolecular gel packed with 70S ribosomes, metabolic assembly lines, circular plasmids, and the supercoiled nucleoid chromosome. Click any layer or use the Guided Tour to peel back the cell step by step.',
     proteins: [
-      { name: 'FtsZ (Divisome Z-Ring)', tag: '4 nm', desc: 'Tubulin-homolog GTPase that polymerizes into a constricting ring to divide the cell in two.' },
-      { name: 'MreB (Actin Cytoskeleton)', tag: '5 nm', desc: 'Actin-homolog helical cables orchestrating rod shape (bacillus) elongation.' },
-      { name: 'DNA Polymerase III Holoenzyme', tag: '10–12 nm', desc: 'Massive 10-subunit replication engine duplicating the chromosome at 1,000 bp/sec.' }
+      { name: 'Coupled Expressome (RNAP–NusG–70S)', tag: 'PDB: 6X9Q', desc: 'Direct physical bridge linking RNA Polymerase transcription to 70S ribosomal translation in the open prokaryotic cytoplasm.', scenario: 'expressome' },
+      { name: 'FtsZ Divisome Z-Ring', tag: 'PDB: 1FSZ', desc: 'Tubulin-homolog GTPase that polymerizes into a constricting cytokinetic ring at mid-cell to divide one bacterium into two.', scenario: 'ftsz' },
+      { name: 'MreB Rod Elongasome', tag: 'PDB: 1JCG', desc: 'Actin-homolog helical tracks beneath the inner membrane that guide peptidoglycan wall synthesis to maintain the rod shape.', scenario: 'mreb' },
+      { name: 'Biomolecular Monomers & Quantum Bonds', tag: 'Level 5 & 6', desc: 'All-atom chemical building blocks—ATP-Mg²⁺, peptidoglycan cross-links, phospholipids, and Watson-Crick base pairs.', scenario: 'atomic_chemistry' }
+    ],
+    drilldowns: [
+      { label: '15. Compare All 3 Prokaryotic Envelopes (Gram− / Gram+ / Acid-Fast)', scenario: 'envelopes', badge: '2OMF / 3VMA' },
+      { label: '14. Coupled Expressome (RNAP–NusG–70S Ribosome)', scenario: 'expressome', badge: '6X9Q' },
+      { label: '12. Divisome FtsZ Cytokinetic Z-Ring', scenario: 'ftsz', badge: '1FSZ' },
+      { label: '29. Level 5 & 6 Biomolecular Monomers & Quantum Bonds', scenario: 'atomic_chemistry', badge: '1BNA / RDKit' }
     ],
     camPos: new THREE.Vector3(0.54, 0.98, 10.8),
     camTarget: new THREE.Vector3(-0.6, 0.0, 0.0)
   },
   capsule: {
-    zone: 'Zone 1: Cell Envelope Boundary',
-    title: 'Capsule',
-    scientific: 'Glycocalyx Capsularis (K-Antigen)',
+    zone: 'Zone 1: Outermost Surface Layer',
+    title: 'Capsule, Pili & Biofilm Matrix',
+    scientific: 'Glycocalyx Capsularis (K-Antigen) & Chaperone-Usher Fimbriae',
     phonetic: 'Pronounced: /ˈkæp.sjuːl/ • /ˌɡlaɪ.koʊˈkeɪ.lɪks/ (Greek: glykys "sweet" + kalyx "husk")',
-    subtitle: 'Outer Polysaccharide Hydration & Slime Shield',
+    subtitle: 'Outermost Polysaccharide Hydration Cloak & Surface Adhesin Grappling Hooks',
     color: '#40916C',
     colorName: '#40916C Mint Glycocalyx',
-    scale: '100–400 nm thick coat',
-    abundance: '1 continuous outermost coat',
-    composition: 'High-molecular-weight acidic polysaccharides (CPS) & colanic acid',
-    description: 'The outermost non-living protective envelope layer. Formed from high-molecular-weight extracellular polysaccharides linked into a dense, gelatinous matrix, the capsule shields the bacterium against desiccation, acts as a physical barrier against bacteriophage infection, and prevents complement deposition and macrophage phagocytosis in host immune environments.',
+    scale: 'Capsule: 100–400 nm thick | Type 1 Fimbriae: 7 nm × 1 µm',
+    abundance: '1 continuous hydrated coat + 100–500 surface fimbriae/pili',
+    composition: 'High-molecular-weight acidic polysaccharides (CPS), colanic acid, FimA/FimH rods & CsgA curli',
+    description: 'The outermost layer contacting the external world. The capsule (glycocalyx) is a dense, heavily hydrated hydrogel of high-molecular-weight polysaccharides anchored to the outer membrane. Projecting through this coat are hundreds of hair-like Chaperone-Usher fimbriae (Type 1 pili tipped with FimH mannose-binding catch-bond lectins) and curli amyloid fibers (CsgA/CsgB). Together, they shield the bacterium against drying out, block bacteriophage viral attachment, disguise the cell from host immune phagocytes, and anchor communities into protective biofilms.',
+    analogy: 'Think of the capsule as a slippery, water-retaining Teflon raincoat that prevents immune cells from getting a grip, while the fimbriae and curli fibers act like spring-loaded Velcro grappling hooks that lock Tighter when flowing fluids try to wash the bacterium away.',
+    narration: 'Layer one, on the very outside of the bacterium, is the Capsule and Surface Adhesin zone. The capsule, or glycocalyx, is a 100-to-400-nanometer hydrogel woven from negatively charged polysaccharide chains. Think of it as a slippery, water-holding Teflon raincoat: it prevents the cell from drying out, blocks bacteriophage viruses from landing on the membrane, and stops host white blood cells from engulfing the bacterium. Extending right through this coat are hundreds of hair-like fimbriae and curli amyloid fibrils. Tipped with the catch-bond lectin FimH, these fibers work like spring-loaded Velcro grappling hooks that actually grip tighter under fluid shear stress and weave bacteria together into resilient biofilms.',
     proteins: [
-      { name: 'Wza Translocon Octamer', tag: 'Secretory Outer Ring', desc: 'Large 8-stranded α-helical barrel conducting capsular polysaccharides across the outer membrane.' },
-      { name: 'Wzb / Wzc Tyrosine Kinase', tag: 'Polymerization Motor', desc: 'Inner membrane autophosphorylating tyrosine kinase regulating polymer chain length.' },
-      { name: 'Capsular Glycosyltransferases', tag: 'Polysaccharide Synthase', desc: 'Assembly enzymes linking UDP-sugar monomers into long polysaccharide repeat units.' }
+      { name: 'Type 1 Fimbriae & FimH Catch-Bond Tip', tag: 'PDB: 6GTO', desc: 'Helical FimA rod assembled by the FimC chaperone and FimD outer membrane usher, tipped with the FimH mannose adhesin.', scenario: 'pili_fimbriae' },
+      { name: 'CsgG Secretin & CsgA Curli Amyloid', tag: 'PDB: 4B0M', desc: 'Nonameric outer membrane beta-barrel extruding functional cross-beta amyloid fibers that form the structural scaffold of biofilms.', scenario: 'pili_fimbriae' },
+      { name: 'Wza–Wzc Capsular Export Complex', tag: 'Octameric Barrel', desc: 'Trans-envelope polysaccharide polymerase and outer membrane octameric channel secreting K-antigen capsule polymers.', scenario: 'envelopes' }
+    ],
+    drilldowns: [
+      { label: '19. Chaperone-Usher Fimbriae, FimH Catch-Bond & Curli Biofilm', scenario: 'pili_fimbriae', badge: '6GTO / 4B0M' },
+      { label: '15. Comparative Prokaryotic Cell Envelopes', scenario: 'envelopes', badge: '2OMF / 3VMA' }
     ],
     camPos: new THREE.Vector3(-0.95, 0.35, 4.4),
     camTarget: new THREE.Vector3(-0.957, -0.285, 1.854)
   },
   wall: {
-    zone: 'Zone 1: Cell Envelope Boundary',
-    title: 'Peptidoglycan Cell Wall',
-    scientific: 'Murein Sacculus & Outer Membrane',
+    zone: 'Zone 1: Outer Membrane & Peptidoglycan Exoskeleton',
+    title: 'Outer Membrane & Peptidoglycan Wall',
+    scientific: 'Membrana Externa (LPS) & Murein Sacculus',
     phonetic: 'Pronounced: /ˌpɛp.tɪ.doʊˈɡlaɪ.kæn/ • /ˈmjʊər.iːn/ (Latin: murus "wall")',
-    subtitle: 'Crosslinked Glycan Structural Exoskeleton',
+    subtitle: 'Asymmetric Lipopolysaccharide Armor & Cross-Linked Murein Exoskeleton',
     color: '#3F6636',
     colorName: '#3F6636 Forest Green Sandstone',
-    scale: '15–30 nm thickness (mesh pores ~2–4 nm)',
-    abundance: '1 continuous covalently closed macromolecular bag',
-    composition: 'Poly-NAG-NAM glycan chains + D-alanine/D-glutamate crosslinks',
-    description: 'The rigid exoskeleton of the bacterium. In Gram-negative cells, the cell wall consists of a thin, elastic single-layered sheet of murein peptidoglycan situated directly inside the periplasm, beneath the lipopolysaccharide (LPS) outer membrane. It preserves the distinctive bacillus rod shape and counteracts internal osmotic turgor pressure (2–5 atm), preventing osmotic lysis.',
+    scale: 'Outer Membrane: 7 nm | Peptidoglycan Sacculus: 3–6 nm (Gram−) or 30–80 nm (Gram+)',
+    abundance: '1 continuous covalently closed macromolecular bag + ~2 million LPS molecules',
+    composition: 'Outer Leaflet: Lipopolysaccharide (LPS) | Wall: Poly-(GlcNAc-MurNAc) + D-Ala/DAP peptide cross-links',
+    description: 'Directly beneath the capsule lies the structural armor of the bacterium. In Gram-negative bacteria, this consists of two collaborative layers: first, an asymmetric Outer Membrane whose outer leaflet is packed with Lipopolysaccharide (LPS) exported across a 7-protein trans-envelope bridge (LptA–G) and studded with beta-barrel porins (OmpF) folded by the BAM insertase (BamA–E); and second, right beneath the outer membrane inside the periplasm, the Peptidoglycan (murein) cell wall. Built from alternating GlcNAc and MurNAc sugar chains cross-linked by short D-amino acid stems, the murein sacculus forms a single giant covalent bag steered by MreB actin cables that withstands 2 to 5 atmospheres of internal osmotic turgor pressure.',
+    analogy: 'Imagine a high-pressure carbon-fiber mesh cage (the peptidoglycan sacculus) bolted directly to a chemical-proof armored shield (the LPS outer membrane) via millions of molecular rivets called Braun\'s lipoprotein. Without this mesh cage, the cell\'s internal water pressure—equal to a heavy truck tire—would cause it to burst instantly, which is exactly how penicillin kills bacteria.',
+    narration: 'Stepping beneath the capsule, we reach the Outer Membrane and Peptidoglycan Cell Wall—the mechanical and chemical armor of the bacterium. In Gram-negative bacteria like E. coli, the outer membrane is a unique asymmetric shield: its inner face is phospholipid, while its outer face is tiled with tightly packed lipopolysaccharide, or LPS, delivered across the envelope by the Lpt seven-protein bridge and pierced by trimeric OmpF beta-barrel porins folded by the BAM complex. Immediately underneath that outer membrane, suspended in the periplasm and riveted to the outer membrane by Braun\'s lipoprotein, sits the peptidoglycan cell wall. Think of peptidoglycan as a single, seamless carbon-fiber chainmail bag woven from sugar chains and cross-linked peptide stems. Guided by sub-membrane MreB actin tracks, this mesh holds back two to five atmospheres of internal osmotic pressure—the pressure inside a truck tire—preventing the cell from bursting.',
     proteins: [
-      { name: 'Penicillin-Binding Proteins (PBPs)', tag: 'Transpeptidases', desc: 'Transpeptidases and transglycosylases that crosslink peptide stems; prime targets of β-lactam antibiotics.' },
-      { name: 'MurA-F Biosynthetic Cascade', tag: 'Metabolic Pathway', desc: 'Sequential cytosolic enzymes synthesizing the lipid II murein precursor from UDP-GlcNAc.' },
-      { name: 'Lytic Transglycosylases', tag: 'Space Cutters', desc: 'Enzymes that selectively cleave glycan bonds to allow insertion of flagellar basal bodies and secretion systems.' }
+      { name: 'BAM Outer Membrane β-Barrel Insertase', tag: 'PDB: 5D0O', desc: 'Five-subunit machine (BamA–E) with a lateral gate that folds and inserts beta-barrel porins into the outer membrane without ATP.', scenario: 'bam' },
+      { name: 'LptA–G Lipopolysaccharide Export Bridge', tag: 'PDB: 9P7P', desc: 'Continuous trans-envelope protein PEZ dispenser pushing amphipathic LPS molecules from the inner membrane to the outer leaflet.', scenario: 'lpt' },
+      { name: 'MreB Rod Elongasome & PBP2 Transpeptidase', tag: 'PDB: 1JCG', desc: 'Helical actin-like filaments beneath the inner membrane that steer RodA and PBP2 to weave new peptidoglycan hoops.', scenario: 'mreb' },
+      { name: 'Gram(−), Gram(+) & Acid-Fast Envelopes', tag: 'PDB: 2OMF', desc: 'Side-by-side comparison of thin Gram-negative murein, thick Gram-positive teichoic-acid walls, and waxy mycobacterial mycomembranes.', scenario: 'envelopes' }
+    ],
+    drilldowns: [
+      { label: '07. BAM Complex Outer Membrane Insertase (BamA–E)', scenario: 'bam', badge: '5D0O' },
+      { label: '08. LptA–G Lipopolysaccharide Trans-Envelope Bridge', scenario: 'lpt', badge: '9P7P' },
+      { label: '13. MreB Actin Cytoskeleton & Rod Elongasome', scenario: 'mreb', badge: '1JCG / 6GBS' },
+      { label: '15. Comparative Cell Envelopes (Gram− / Gram+ / Acid-Fast)', scenario: 'envelopes', badge: '2OMF / 3VMA' }
     ],
     camPos: new THREE.Vector3(-0.55, 0.45, 4.0),
     camTarget: new THREE.Vector3(-0.594, -0.182, 1.627)
   },
   membrane: {
-    zone: 'Zone 1: Cell Envelope Boundary',
+    zone: 'Zone 1: Periplasmic Space & Inner Plasma Membrane',
     title: 'Periplasmic Space & Inner Membrane',
-    scientific: 'Spatium Periplasmicum & Membrana Interna',
+    scientific: 'Spatium Periplasmicum & Membrana Cytoplasmica',
     phonetic: 'Pronounced: /ˌpɛr.ɪˈplæz.əm/ (Greek: peri- "around" + plasma "formed substance")',
-    subtitle: 'Proton Motive Force & Trans-Envelope Gateway',
+    subtitle: 'The Oxidizing Periplasmic Moat & The 180 mV Bioenergetic Power Grid',
     color: '#E2A824',
     colorName: '#E2A824 Golden Amber',
-    scale: 'Periplasm: 10–25 nm width | Inner Bilayer: 4–5 nm',
-    abundance: '1 continuous periplasmic compartment & 1 inner bilayer',
-    composition: 'Periplasmic gel (SurA/Skp/DegP) + Phospholipid bilayer (PE 75%, PG 20%, CL 5%)',
-    description: 'In Gram-negative bacteria such as E. coli, this critical boundary encompasses both the periplasmic space (an oxidizing, protein-dense aqueous gel between the outer wall and inner membrane) and the inner cytoplasmic membrane. The inner membrane acts as the primary impermeable barrier that maintains the electrochemical proton motive force (PMF), powering ATP synthase and flagellar rotation, while the periplasm orchestrates protein folding, solute binding (MalE), and peptidoglycan assembly.',
+    scale: 'Periplasmic Space: 15–25 nm wide | Inner Phospholipid Bilayer: 4.5 nm thick',
+    abundance: '~10–15% of total cell volume (Periplasm) + 1 continuous inner membrane',
+    composition: 'Periplasmic gel (SurA, Skp, MalE, DsbA) + Inner Bilayer (75% PE, 20% PG, 5% Cardiolipin)',
+    description: 'Here we see two intimately coupled compartments: the Periplasmic Space and the Inner Cytoplasmic Membrane. What is the periplasm? It is a 15-to-25-nanometer oxidizing compartment sandwiched between the outer and inner membranes. Because ATP cannot cross into the periplasm, it relies on specialized ATP-independent holdase chaperones like SurA to escort unfolded proteins safely to the outer membrane, and Venus-flytrap binding proteins like MalE to capture sugars and hand them to inner-membrane ABC transporters (MalFGK₂). Directly beneath the periplasm is the Inner Cytoplasmic Membrane—a hydrophobic phospholipid bilayer that serves as the bacterium\'s master bioenergetic power grid. Respiratory Complex I and Cytochrome bd oxidase pump protons (H⁺) out into the periplasm, creating a −140 to −180 mV electrochemical proton-motive force (Δp) that drives F₁F₀-ATP Synthase, SecYEG protein translocation, and AcrAB–TolC multidrug efflux.',
+    analogy: 'Think of the Periplasm as a high-security castle moat and staging courtyard between the outer wall and the inner keep: scout proteins (MalE) catch incoming food deliveries, while escort guards (SurA) carry building materials to the outer wall. The Inner Membrane is the castle\'s hydroelectric dam: respiratory pumps push protons up into the periplasmic moat so they can rush back down through rotary turbines (ATP Synthase) to generate all the cell\'s electricity and ATP fuel.',
+    narration: 'Moving deeper, we enter the Periplasmic Space and the Inner Cytoplasmic Membrane. What exactly is the periplasm? Think of it as a 20-nanometer castle moat and staging courtyard sandwiched between the outer membrane and the inner membrane. Unlike the cytoplasm, the periplasm is an oxidizing environment and contains no free ATP. Instead, cradle-shaped chaperones like SurA ferry unfolded outer-membrane proteins across this moat, while Venus-flytrap scout proteins like MalE snap shut around maltose sugars and deliver them to inner-membrane MalEFGK2 importers. Directly beneath the periplasm sits the Inner Cytoplasmic Membrane—the hydroelectric dam of the bacterial cell. Embedded in this 4.5-nanometer phospholipid bilayer, Respiratory Complex I oxidizes NADH and pumps protons out into the periplasmic moat, building up a 180-millivolt proton-motive force. As those protons rush back inward through the F1-F0 ATP Synthase rotary turbine, they spin its central camshaft to mint ATP, while SecYEG channels thread newly made proteins into the periplasm and AcrAB-TolC cannons pump out toxic antibiotics.',
     proteins: [
-      { name: 'SurA & Skp Chaperones', tag: 'Periplasmic Foldases', desc: 'Periplasmic escort chaperones preventing aggregation of outer membrane proteins (OMPs) across the periplasmic space.' },
-      { name: 'ATP Synthase F₁F₀ (6RKW)', tag: '10 nm Rotary Motor', desc: 'Rotary nanomachine converting the electrochemical proton gradient into chemical ATP energy as H⁺ flows from periplasm into cytosol.' },
-      { name: 'SecYEG Protein Translocon', tag: 'Secretory Channel', desc: 'Conserved heterotrimeric channel mediating translocation of unfolded polypeptides across or into the inner membrane.' }
+      { name: 'F₁F₀-ATP Synthase Rotary Dynamo', tag: 'PDB: 6OQR / 6RKW', desc: 'Rotary molecular turbine driven by periplasmic H⁺ influx (10 H⁺ per 360° turn) to synthesize 3 ATP molecules in its α₃β₃ head.', scenario: 'atp_synthase' },
+      { name: 'Respiratory Complex I (NADH Dehydrogenase)', tag: 'PDB: 7Z7V', desc: 'L-shaped 530 kDa redox engine tunneling electrons down an 8 Fe-S cluster wire to pump 4 H⁺ into the periplasm per NADH.', scenario: 'complex_i' },
+      { name: 'SecYEG Translocon & SecA ATPase Motor', tag: 'PDB: 3J46', desc: 'Hourglass transmembrane protein channel and two-helix-finger ATP piston exporting polypeptides into the periplasm or inner membrane.', scenario: 'secyeg' },
+      { name: 'Periplasmic SurA Holdase & MalEFGK₂ ABC Importer', tag: 'PDB: 1M5Y / 1OMP', desc: 'ATP-independent periplasmic OMP chaperone relay and Venus-flytrap maltose ABC transporter spanning the inner membrane.', scenario: 'periplasmic_transport' },
+      { name: 'AcrAB–TolC Tripartite Multidrug Efflux Pump', tag: 'PDB: 5V5S', desc: '32-nm trans-envelope proton-driven peristaltic cannon that captures antibiotics in the membrane and expels them outside the cell.', scenario: 'efflux_pump' }
+    ],
+    drilldowns: [
+      { label: '04. F₁F₀-ATP Synthase Rotary Dynamo', scenario: 'atp_synthase', badge: '6OQR / 6RKW' },
+      { label: '05. Respiratory Complex I (NADH Dehydrogenase)', scenario: 'complex_i', badge: '7Z7V' },
+      { label: '06. SecYEG Protein Translocon & SecA Motor', scenario: 'secyeg', badge: '3J46' },
+      { label: '24. Periplasmic Chaperones (SurA) & ABC Transport (MalEFGK₂)', scenario: 'periplasmic_transport', badge: '1M5Y / 1OMP' },
+      { label: '25. AcrAB–TolC Multidrug Efflux Pump', scenario: 'efflux_pump', badge: '5V5S' }
     ],
     camPos: new THREE.Vector3(0.85, 1.35, -2.8),
     camTarget: new THREE.Vector3(0.625, 0.652, -1.348)
   },
   cytoplasm: {
-    zone: 'Zone 2: Cytosol & Metabolic Bedding',
-    title: 'Cytoplasm & Protein Soup',
-    scientific: 'Cytosol Solutio & Macromolecular Crowd',
+    zone: 'Zone 2: Interior Cytosol & Metabolic Organelles',
+    title: 'Cytoplasm, Chaperones & Metabolic Hubs',
+    scientific: 'Cytosol Solutio, Chaperonins & Bacterial Microcompartments',
     phonetic: 'Pronounced: /ˈsaɪ.təˌplæz.əm/ (Greek: kytos "vessel" + plasma)',
-    subtitle: 'Crowded Viscoelastic Colloidal Matrix',
+    subtitle: 'Crowded Macromolecular Gel, Anfinsen Folding Cages & Icosahedral Reaction Rooms',
     color: '#B08968',
     colorName: '#B08968 Colloidal Bedding',
-    scale: 'Viscosity: 2–5x water | 300–400 mg/mL macromolecules',
-    abundance: '~70% water, 30% macromolecules',
-    composition: 'Proteins (55%), RNA (20%), Lipids (10%), Metabolites & Ions (15%)',
-    description: 'The dense, aqueous colloid filling the bacterial cell interior. Far from an empty dilute solution, the bacterial cytoplasm is an intensely crowded gel (~300–400 mg/mL macromolecules) undergoing relentless Brownian motion. Solutes, small metabolites (ATP, amino acids), chaperones (GroEL/ES), and intermediate metabolic complexes constantly collide at microsecond timescales to drive enzymatic cascades.',
+    scale: '300–400 mg/mL macromolecular density | Viscosity: 3–5× pure water',
+    abundance: '~70% water, 30% macromolecules (~2.4 million proteins + metabolites)',
+    composition: 'Enzymes (55%), RNA (20%), Lipids (10%), Metabolites/ATP/Ions (15%), BMCs & Granules',
+    description: 'Crossing inside the inner membrane brings us into the Cytoplasm (cytosol). Far from a dilute bag of water, the bacterial cytoplasm is an ultra-crowded viscoelastic gel packed with 300 to 400 milligrams of macromolecules per milliliter—where proteins are separated by less than their own diameter! Despite lacking lipid-bound organelles, bacteria organize their cytoplasm using giant proteinaceous nanomachines: (1) 24-subunit Pyruvate Dehydrogenase metabolic hubs that channel substrates directly between active sites on swinging lipoyl arms; (2) GroEL–GroES barrel-shaped chaperonin cages and DnaK/DnaJ Hsp70 holdases that isolate misfolded proteins so they can fold safely; (3) 202-subunit icosahedral Bacterial Microcompartments (Carboxysomes) that trap volatile CO₂ or toxic aldehydes inside semi-permeable protein shells; and (4) Bacterioferritin iron cages, PHB carbon granules, magnetosome compass chains, and dormant endospores.',
+    analogy: 'Imagine the cytoplasm not as a swimming pool, but as a packed Tokyo subway station at rush hour: molecules jostle millions of times per second via Brownian motion. To prevent newly made proteins from tangling in the crowd, GroEL–GroES acts like a private soundproof VIP dressing booth where a protein can fold in peace, while Bacterial Microcompartments act like geodesic greenhouse domes that lock volatile gases inside with their enzymes.',
+    narration: 'Crossing through the inner membrane, we arrive inside the Cytoplasm. Forget the textbook myth of the cell as an empty bag of water: the bacterial cytoplasm is packed with 300 to 400 milligrams of protein and RNA per milliliter, more like a crowded rush-hour train station where molecules collide millions of times every second. To keep order in this crowd without lipid organelles, bacteria build specialized protein megastructures. First, giant Pyruvate Dehydrogenase cubes use swinging lipoyl crane arms to pass metabolic intermediates directly from one enzyme pocket to the next. Second, barrel-shaped GroEL-GroES chaperonin cages act like private VIP dressing rooms: they trap a misfolded protein inside a hydrophilic chamber for ten seconds so it can fold without clumping. Third, icosahedral Bacterial Microcompartments tile together 202 hexameric and pentameric plates into a geodesic protein shell that concentrates carbon dioxide around RuBisCO enzymes. Finally, storage granules like 24-subunit bacterioferritin iron vaults, PHB carbon droplets, magnetosome compass chains, and armored endospores allow prokaryotes to survive extreme starvation.',
     proteins: [
-      { name: 'DNA Helicase (DnaB)', tag: '8 nm Hexamer', desc: 'ATP-powered rotary ring unzipping the double-stranded DNA helix ahead of the replication fork.' },
-      { name: 'GroEL / GroES Chaperonin', tag: '14 nm Nano-Cage', desc: 'Double-ring protein cylinder providing an isolated chamber for unfolded proteins to reach native fold.' },
-      { name: 'Glycolytic Enzymes (GAPDH, Pyk)', tag: '3–6 nm Globular', desc: 'Metabolic assembly line converting glucose into pyruvate, yielding ATP and NADH reducing equivalents.' }
+      { name: 'GroEL–GroES Chaperonin Cage & DnaK–DnaJ Network', tag: 'PDB: 1AON / 2KHO', desc: 'ATP-driven 14-subunit double-ring Anfinsen folding chamber and Hsp70 holdase system preventing cytoplasmic protein aggregation.', scenario: 'chaperones' },
+      { name: 'Pyruvate Dehydrogenase Cube & Cytochrome bd Hub', tag: 'PDB: 1EAE / 6WTI', desc: 'Supramolecular 24-mer E2 transacetylase core with swinging lipoyl arms and high-affinity microaerobic quinol oxidase.', scenario: 'metabolic_hubs' },
+      { name: 'Icosahedral Bacterial Microcompartment (Carboxysome)', tag: 'PDB: 7O04 / 3I82', desc: '202-subunit semi-permeable proteinaceous organelle (BMC-H/T/P shell) encapsulating RuBisCO and carbonic anhydrase.', scenario: 'microcompartment' },
+      { name: 'Storage Granules, Magnetosomes & Endospores', tag: 'PDB: 1BFR / 7R04', desc: 'Bacterioferritin iron cages, PhaP-coated PHB carbon granules, MamK magnetite compass chains, and Ca-DPA dormant endospores.', scenario: 'storage_and_spores' }
+    ],
+    drilldowns: [
+      { label: '21. Chaperone Network: GroEL–GroES Cage & DnaK–DnaJ', scenario: 'chaperones', badge: '1AON / 2KHO' },
+      { label: '23. Metabolic & Respiratory Hubs (PDH Cube & Cyt bd)', scenario: 'metabolic_hubs', badge: '1EAE / 6WTI' },
+      { label: '17. Icosahedral Bacterial Microcompartment & Carboxysome', scenario: 'microcompartment', badge: '7O04 / 3I82' },
+      { label: '28. Storage Granules, Magnetosomes & Endospore Dormancy', scenario: 'storage_and_spores', badge: '1BFR / 7R04' }
     ],
     camPos: new THREE.Vector3(0.35, 0.95, 2.7),
     camTarget: new THREE.Vector3(0.35, -0.05, 0.40)
   },
   ribosomes: {
-    zone: 'Zone 3: Genetic & Translation Machinery',
-    title: '70S Polyribosomes',
-    scientific: 'Ribonucleoprotein Complex (30S + 50S)',
+    zone: 'Zone 3: Protein Synthesis & RNA Quality Control',
+    title: '70S Polyribosomes & Expressome',
+    scientific: 'Ribonucleoprotein Ribozyme Complex (30S + 50S)',
     phonetic: 'Pronounced: /ˈraɪ.bəˌsoʊm/ (Ribonucleic acid + Greek: soma "body")',
-    subtitle: 'Macromolecular Protein Translation Factories',
+    subtitle: 'Programmable 2.5 MDa Ribozyme Translation Factories & mRNA Lifecycle',
     color: '#E06D53',
     colorName: '#E06D53 Warm Coral Terracotta',
     scale: '25 nm diameter (210 Å × 290 Å | 2.5 MDa mass)',
-    abundance: '20,000–70,000 ribosomes per actively growing cell',
+    abundance: '20,000–70,000 ribosomes per actively growing cell (up to 40% of dry mass)',
     composition: 'Ribosomal RNA (65%: 16S, 23S, 5S) + 55 ribosomal proteins (35%)',
-    description: 'Universal programmable molecular assembly engines that translate messenger RNA (mRNA) sequences into polypeptide chains. In prokaryotes, because there is no nuclear membrane separating transcription from translation, ribosomes bind to nascent mRNA transcripts while they are still being synthesized by RNA polymerase off the nucleoid DNA—a coordinated phenomenon called the "expressome".',
+    description: 'Suspended throughout the cytoplasm and clustered around the nucleoid border are 20,000 to 70,000 70S Ribosomes—the universal molecular machines that translate genetic messenger RNA (mRNA) into proteins at 20 amino acids per second. Each 70S ribosome combines two subunits: the small 30S subunit (containing 16S rRNA), which reads three-letter mRNA codons using A1492/A1493 molecular fingers, and the large 50S subunit (containing 23S and 5S rRNA), whose Peptidyl Transferase Center (PTC) is an ancient RNA ribozyme that welds amino acids into polypeptide chains. Because bacteria have no nuclear membrane, the leading 70S ribosome physically docks onto RNA Polymerase via NusG and NusA bridges to form the Coupled Expressome (PDB: 6X9Q), translating mRNA while it is still being transcribed! Once an mRNA transcript has served its purpose, the membrane-tethered RNA Degradosome (RNase E + PNPase + RhlB helicase) shreds it back into reusable nucleotides within 2 to 5 minutes.',
+    analogy: 'Think of the 70S Ribosome as a high-speed, two-part 3D molecular printer: the 30S bottom unit is a digital barcode scanner reading ticker-tape mRNA instructions three letters at a time, while the 50S top dome is a robotic welding head that stitches amino acid building blocks into a finished protein chain. In bacteria, this printer is bolted directly onto the Xerox copier (RNA Polymerase) as the Expressome, and old ticker tapes are recycled within minutes by the RNA Degradosome paper shredder.',
+    narration: 'Zone three brings us to the 70S Polyribosomes—up to 70,000 programmable protein factories accounting for nearly forty percent of a rapidly dividing bacterium\'s weight. Think of each 70S ribosome as a two-part 3D molecular printer. Its small 30S subunit acts like a barcode scanner: it threads a messenger RNA ticker tape through its neck and uses 16S ribosomal RNA bases to proofread every three-letter codon against incoming transfer RNAs. Its large 50S subunit is a catalytic RNA welding dome—a true ribozyme—that stitches amino acids together at twenty peptide bonds per second. Because prokaryotes have no nuclear membrane, the leading ribosome physically clips onto RNA Polymerase via the NusG bridge, forming the Coupled Expressome so translation happens in lockstep with transcription. And when an mRNA message is no longer needed, the inner-membrane RNA Degradosome—built from RNase E, RhlB helicase, and the PNPase exoribonuclease ring—shreds the transcript back into fresh nucleotides in just three minutes.',
     proteins: [
-      { name: '50S Large Subunit (23S & 5S rRNA)', tag: 'Welding Engine', desc: 'Contains the Peptidyl Transferase Center (PTC), an RNA ribozyme catalyzing peptide bond formation.' },
-      { name: '30S Small Subunit (16S rRNA)', tag: 'Barcode Scanner', desc: 'Decodes mRNA codons by verifying codon-anticodon base pairing with aminoacyl-tRNA molecules.' },
-      { name: 'Elongation Factors (EF-Tu & EF-G)', tag: 'GTPase Drivers', desc: 'GTP-driven molecular switches shuttling aminoacyl-tRNA to the A-site and ratcheting the mRNA strand.' }
+      { name: '70S Ribosome Ribozyme Translation Factory', tag: 'PDB: 7K00', desc: 'Complete 2.0 Å cryo-EM holoenzyme showing 30S decoding center, 50S Peptidyl Transferase Center, A/P/E-site tRNAs, and nascent peptide.', scenario: 'ribosome' },
+      { name: 'Coupled Transcription–Translation Expressome', tag: 'PDB: 6X9Q', desc: 'RNAP holoenzyme physically bridged to the leading 70S ribosome by NusG and NusA, preventing premature Rho termination.', scenario: 'expressome' },
+      { name: 'Membrane-Tethered RNA Degradosome', tag: 'PDB: 2C0B / 5M3P', desc: 'RNase E tetramer, RhlB DEAD-box helicase, enolase, and trimeric PNPase phosphorolytic ring recycling mRNA transcripts.', scenario: 'rna_degradosome' }
+    ],
+    drilldowns: [
+      { label: '03. 70S Ribosome & Polysome Translation Factory', scenario: 'ribosome', badge: '7K00 (2.0 Å)' },
+      { label: '14. Coupled Transcription–Translation Expressome', scenario: 'expressome', badge: '6X9Q' },
+      { label: '22. Bacterial RNA Degradosome & mRNA Decay Factory', scenario: 'rna_degradosome', badge: '2C0B / 5M3P' }
     ],
     camPos: new THREE.Vector3(2.10, 0.85, 1.55),
     camTarget: new THREE.Vector3(1.574, 0.356, 0.293),
     hasDrilldown: true
   },
   nucleoid: {
-    zone: 'Zone 3: Genetic & Translation Machinery',
-    title: 'Nucleoid',
-    scientific: 'Bacterial Chromosome (dsDNA Genophore)',
+    zone: 'Zone 3: Master Chromosome, Replication & Transcription',
+    title: 'The Nucleoid & Genome Engines',
+    scientific: 'Bacterial Chromosome (4.64 Mbp Circular dsDNA Genophore)',
     phonetic: 'Pronounced: /ˈnjuː.kli.ɔɪd/ (Latin: nucleus + Greek: -oeides "resembling")',
-    subtitle: 'Supercoiled Master Genetic Chromatin Skein',
+    subtitle: '1,000-Fold Supercoiled Chromatin Skein, Replisome & Transcription Machinery',
     color: '#7209B7',
     colorName: '#7209B7 Royal Amethyst DNA',
-    scale: '4.64 Mbp (~1.5 mm contour length compacted into ~1 µm region)',
-    abundance: '1 master circular chromosome (often 2–4 replication forks)',
-    composition: 'Closed circular dsDNA (80%) + NAPs (10%) + nascent RNA (10%)',
-    description: 'The irregular, non-membrane-enclosed region where the master genetic material resides. The single circular double-stranded DNA genome measures ~1.5 mm when stretched out, but is compacted >1,000-fold into the bacterial cell volume through negative supercoiling by DNA gyrase and structural organization into ~400 topologically isolated loops by Nucleoid-Associated Proteins (NAPs).',
+    scale: '4.64 Mbp (~1.5 mm linear DNA compacted into a ~0.5 µm³ nucleoid)',
+    abundance: '1 master circular chromosome (~4,300 genes; 2–4 active replication forks)',
+    composition: 'Closed circular dsDNA (80%) + Nucleoid-Associated Proteins (10%) + nascent RNA (10%)',
+    description: 'At the heart of the cytoplasm lies the Nucleoid—the non-membrane-enclosed region housing Escherichia coli\'s single circular chromosome of 4.64 million base pairs. If stretched straight, this DNA molecule would measure 1.5 millimeters long—1,000 times longer than the entire bacterial cell! How does the cell pack 1.5 millimeters of DNA into a 1-micrometer space while simultaneously reading and copying it? Through three coordinated systems: (1) Architectural Compaction & Topology—Nucleoid-Associated Proteins (IHF and HU bending DNA into 160° U-turns, H-NS bridging silent genes, and MukBEF SMC condensin clamps) organize the chromosome into ~400 plectonemic loop domains, while DNA Gyrase (Topoisomerase II) burns ATP to pump negative supercoils into the helix; (2) Transcription—RNA Polymerase holoenzyme (with Sigma-70) locates promoters and transcribes genes at 50 nucleotides per second; and (3) Replication & Division—the 10-subunit DNA Polymerase III Replisome copies both leading and lagging strands simultaneously at 1,000 base pairs per second ahead of FtsZ Z-ring cell division.',
+    analogy: 'Packing the 1.5-millimeter chromosome into a 1-micrometer bacterium is equivalent to coiling 500 meters of headphone cable inside a small backpack—while still being able to pull out any exact centimeter of wire to read or copy at 1,000 letters per second without a single tangle! IHF/HU and MukBEF act as cable organizers, DNA Gyrase acts as a swivel detangler that cuts one wire, passes the other through, and welds it shut, and the Pol III Replisome is a twin-engine high-speed photocopier.',
+    narration: 'At the center of the cell lies the Nucleoid—the master genetic control center of Escherichia coli. This single circular chromosome contains 4.64 million base pairs encoding 4,300 genes. If you stretched this DNA out straight, it would be 1.5 millimeters long—one thousand times longer than the cell itself! Packing it inside the nucleoid is like coiling 500 meters of cable inside a backpack without a single knot. Bacteria achieve this feat using Nucleoid-Associated Proteins: IHF and HU bend DNA into sharp 160-degree U-turns, H-NS bridges and silences foreign genes, MukBEF condensin rings clamp macrodomain loops, and DNA Gyrase acts as a molecular swivel—slicing one DNA double helix, passing another strand right through the break, and resealing it to introduce negative supercoils. Meanwhile, RNA Polymerase patrols these loops transcribing genes into mRNA at 50 nucleotides per second, and the twin-engine DNA Polymerase III Replisome unzips and duplicates the entire genome at an astonishing 1,000 base pairs per second before the FtsZ divisome ring pinches the cell in two.',
     proteins: [
-      { name: 'Nucleoid-Associated Proteins (HU, H-NS)', tag: 'Histone Analogs', desc: 'Bacterial chromatin architecture proteins that bridge, bend, and loop DNA strands into a compact skein.' },
-      { name: 'RNA Polymerase Core & Sigma-70', tag: 'Transcription Engine', desc: 'Multiprotein machine unwinding promoter DNA and synthesizing complementary mRNA transcripts.' },
-      { name: 'DNA Topoisomerase IV & Gyrase', tag: 'Tension Relievers', desc: 'Enzymes introducing negative supercoils and resolving catenated DNA rings during chromosome segregation.' }
+      { name: 'Nucleoid-Associated Proteins (IHF, HU, H-NS & MukBEF)', tag: 'PDB: 1P71 / 3EUH', desc: 'Architectural proteins bending DNA 160°, bridging plectonemic supercoiled loops, and organizing chromosomal macrodomains.', scenario: 'nucleoid' },
+      { name: 'RNA Polymerase Holoenzyme (α₂ββ\'ω + σ⁷⁰)', tag: 'PDB: 6C9Y', desc: '450 kDa transcription machine recognizing −35/−10 promoters, melting a 13-bp DNA bubble, and synthesizing RNA.', scenario: 'rnap' },
+      { name: 'DNA Polymerase III Replisome Holoenzyme', tag: 'PDB: 5FKV', desc: 'Asymmetric 10-subunit replication factory coupling DnaB helicase unwinding to Simultaneous leading and trombone lagging strand synthesis.', scenario: 'pol_iii' },
+      { name: 'DNA Gyrase (Type IIA Topoisomerase)', tag: 'PDB: 1AB4 / 6RKU', desc: 'GyrA₂GyrB₂ molecular swivel that introduces negative supercoils via transient double-strand breaks; target of ciprofloxacin.', scenario: 'gyrase' },
+      { name: 'Divisome FtsZ Cytokinetic Z-Ring', tag: 'PDB: 1FSZ / 6PL5', desc: 'GTP-treadmilling tubulin homolog tethered by FtsA and ZipA that constricts the mid-cell septum after nucleoid segregation.', scenario: 'ftsz' }
+    ],
+    drilldowns: [
+      { label: '20. Bacterial Nucleoid & NAP Compaction (IHF / H-NS / MukBEF)', scenario: 'nucleoid', badge: '1P71 / 3EUH' },
+      { label: '09. RNA Polymerase Transcription Holoenzyme', scenario: 'rnap', badge: '6C9Y' },
+      { label: '10. DNA Polymerase III Replisome Factory', scenario: 'pol_iii', badge: '5FKV' },
+      { label: '11. DNA Gyrase Topoisomerase II Supercoiling Engine', scenario: 'gyrase', badge: '1AB4 / 6RKU' },
+      { label: '12. Divisome FtsZ Cytokinetic Z-Ring', scenario: 'ftsz', badge: '1FSZ' }
     ],
     camPos: new THREE.Vector3(0.12, 1.65, 2.15),
     camTarget: new THREE.Vector3(0.098, 0.647, 0.304)
   },
   plasmid: {
-    zone: 'Zone 3: Genetic & Translation Machinery',
-    title: 'Plasmids',
-    scientific: 'Extrachromosomal Autonomous Replicon (dsDNA)',
+    zone: 'Zone 3: Horizontal Gene Transfer, Secretion & Phage Immunity',
+    title: 'Plasmids, Conjugation & CRISPR Defense',
+    scientific: 'Extrachromosomal Replicons, Secretion Nanomachines & Antiphage Immunity',
     phonetic: 'Pronounced: /ˈplæz.mɪd/ (From cytoplasm + -id)',
-    subtitle: 'Mobile Genetic Cassettes & Resistance Rings',
+    subtitle: 'Mobile Genetic Flash Drives, Trans-Envelope Weapons (T3SS/T4SS/T6SS) & CRISPR–Cas',
     color: '#00B4D8',
     colorName: '#00B4D8 Electric Azure Cyan',
-    scale: '2 kb to 200 kb (~50–150 nm circular diameter)',
-    abundance: '1 to 50+ copies per cell depending on copy control origin',
-    composition: 'Covalently closed circular double-stranded DNA (cccDNA)',
-    description: 'Small, extrachromosomal circular DNA duplexes that replicate independently of the master bacterial chromosome. Plasmids carry non-essential yet selectively advantageous genes—such as antibiotic-degrading enzymes, heavy metal resistance operons, and virulence determinants—and can be horizontally transferred between bacterial species via conjugative pili.',
+    scale: 'Plasmids: 2–200 kbp (50–150 nm rings) | Secretion Injectisomes: 35–80 nm',
+    abundance: '1 to 50+ plasmid copies per cell + adaptive CRISPR surveillance arrays',
+    composition: 'Covalently closed circular dsDNA (cccDNA), T3SS/T4SS/T6SS complexes & CRISPR–Cascade/EcoRI',
+    description: 'Floating in the cytoplasm alongside the main nucleoid are Plasmids—small, autonomously replicating circular DNA rings (2 to 200 kilobase pairs). Plasmids are the key drivers of rapid bacterial evolution and horizontal gene transfer: they carry "plug-and-play" gene cassettes for antibiotic resistance (such as β-lactamase), virulence effectors, and heavy-metal pumps. Using Type IV Secretion Systems (T4SS conjugative pili), a donor bacterium can reel in a neighbor and pump a single-stranded copy of a plasmid directly across both cell envelopes! Related trans-envelope nanomachines include the Type III Secretion System (T3SS molecular syringe injecting effectors into host cells) and the Type VI Secretion System (T6SS spring-loaded contractile speargun). Conversely, to protect the cell against hostile foreign DNA and invading bacteriophage viruses, bacteria deploy innate Restriction–Modification enzymes (EcoRI) and adaptive RNA-guided CRISPR–Cascade / Cas9 immune surveillance complexes.',
+    analogy: 'If the main nucleoid chromosome is the bacterium\'s pre-installed operating system, Plasmids are shareable USB flash drives loaded with survival apps like antibiotic resistance. T4SS Conjugative Pili act as a high-speed data cable to copy those flash drives into neighboring bacteria, T3SS and T6SS act as hypodermic syringes and spring-loaded harpoons, and CRISPR–Cas acts as an adaptive antivirus scanner that stores mugshots of past viral invaders to shred them on sight.',
+    narration: 'Here we see Plasmids—small circular DNA rings floating independently in the cytoplasm. If the main chromosome is the cell\'s operating system, think of plasmids as shareable USB flash drives loaded with plug-and-play survival apps, such as beta-lactamase enzymes that destroy penicillin or multidrug efflux pumps. Bacteria trade these genetic flash drives with neighbors through horizontal gene transfer using the Type 4 Secretion System, which extends a conjugative pilus grappling hook and pumps single-stranded plasmid DNA across both cell envelopes. Alongside conjugation, bacteria wield Type 3 Secretion System molecular syringes and Type 6 spring-loaded contractile crossbows. Finally, because foreign DNA can also come from deadly bacteriophage viruses, bacteria guard their cytoplasm with two layers of immunity: innate EcoRI restriction enzymes that chop up unmethylated viral DNA, and adaptive CRISPR-Cascade and Cas9 complexes that use stored viral RNA mugshots to hunt down and shred invading phage genomes.',
     proteins: [
-      { name: 'RepA Initiator Protein', tag: 'Plasmid Replication', desc: 'Protein binding specifically to the plasmid origin (oriV) to recruit host DNA polymerase III.' },
-      { name: 'Beta-Lactamase (Bla)', tag: 'Antibiotic Defense', desc: 'Secreted periplasmic enzyme that hydrolyzes the β-lactam ring of penicillin, rendering it ineffective.' },
-      { name: 'Tra Conjugation Machinery', tag: 'Horizontal Transfer', desc: 'Type IV secretion system assembling the conjugative pilus to transfer plasmid DNA to recipient bacteria.' }
+      { name: 'Bacterial Secretion Nanomachines (T3SS, T4SS & T6SS)', tag: 'PDB: 7OKO / 7AH9 / 6H3L', desc: 'Trans-envelope virulence injectisome needle (7OKO), T4SS conjugative plasmid transfer complex (7AH9), and T6SS contractile speargun (6H3L).', scenario: 'secretion_systems' },
+      { name: 'CRISPR–Cascade, Cas9 & EcoRI Phage Defense', tag: 'PDB: 5H9F / 1VY8 / 1ERI', desc: 'RNA-guided R-loop adaptive immunity surveillance complexes and palindromic restriction endonuclease dimers.', scenario: 'crispr_defense' },
+      { name: 'AcrAB–TolC Multidrug Resistance Efflux Cannon', tag: 'PDB: 5V5S', desc: 'Tripartite trans-envelope RND efflux pump often up-regulated alongside plasmid-borne beta-lactamase resistance.', scenario: 'efflux_pump' }
+    ],
+    drilldowns: [
+      { label: '26. Trans-Envelope Secretion Systems (T3SS, T4SS Conjugation & T6SS)', scenario: 'secretion_systems', badge: '7OKO / 7AH9 / 6H3L' },
+      { label: '27. Phage Defense: CRISPR–Cascade, Cas9 & EcoRI Restriction', scenario: 'crispr_defense', badge: '5H9F / 1VY8 / 1ERI' },
+      { label: '25. AcrAB–TolC Multidrug Resistance Efflux Pump', scenario: 'efflux_pump', badge: '5V5S' }
     ],
     camPos: new THREE.Vector3(-0.06, 0.95, 2.05),
     camTarget: new THREE.Vector3(-0.058, 0.184, 0.576)
   },
   flagellum: {
-    zone: 'Zone 2: Surface Appendages & Nanomachinery',
-    title: 'Flagellum & Rotary Motor',
-    scientific: 'FliC Axoneme & Proton-Driven Basal Body',
+    zone: 'Zone 2: Rotary Motility & Chemosensory Navigation',
+    title: 'Flagellar Rotary Motor & Chemotaxis',
+    scientific: 'FliC Helical Propeller, 7CGO Basal Body & 6S1K Chemoreceptor Array',
     phonetic: 'Pronounced: /fləˈdʒɛl.əm/ (Latin: flagellum "whip")',
-    subtitle: 'Archimedean Screw Propulsion Engine',
+    subtitle: '1,000 RPM Proton-Driven Rotary Turbine & Hexagonal Chemical Nose Array',
     color: '#0077B6',
     colorName: '#0077B6 Marine Propulsion',
-    scale: 'Filament: 20 nm wide × 10–15 µm long | Motor: 45 nm diameter',
-    abundance: '3 to 8 peritrichous helical filaments per cell',
-    composition: 'FliC flagellin protofilaments + MS/P/L/C protein rings + MotA/B stators',
-    description: 'A sophisticated supramolecular nanomachine providing bacterial motility. The motor spans the outer membrane, peptidoglycan wall, periplasmic space, and inner membrane. Driven by proton flow through MotA/MotB stators down the electrochemical gradient, the basal body spins at 200–1,000 RPM, rotating the helical flagellin filament to propel the cell in a "run and tumble" chemotactic migration.',
+    scale: 'Filament: 20 nm × 10–15 µm | Basal Motor: 45 nm × 51 nm (PDB: 7CGO)',
+    abundance: '4 to 8 peritrichous flagella + ~15,000 polar MCP chemoreceptors',
+    composition: 'MotAB H⁺ stators, FliG/M/N C-ring switch, FliF MS-ring, FlgI/H bushings, FlgE hook, FliC filament',
+    description: 'Anchoring the bacterial propulsion system across all four layers of the cell envelope is the Flagellar Rotary Motor—one of nature\'s most extraordinary nanomachines. Powered not by ATP, but directly by protons (H⁺) rushing inward through transmembrane MotA5MotB2 stator channels down the proton-motive force, electrostatic gears on MotA push the 45-nanometer FliG C-ring rotor at up to 1,000 revolutions per minute (100 Hz). Torque travels up the axial rod through frictionless P-ring and L-ring bushings in the cell wall and outer membrane, bends 90° through the flexible FlgE universal joint hook, and spins a 10-micrometer hollow FliC helical propeller at 30 cell lengths per second! How does the motor know which way to swim? At the cell pole sits a crystal-like hexagonal array of Methyl-Accepting Chemotaxis Proteins (MCPs, PDB: 6S1K) coupled to CheA histidine kinases. When attractants bind, the array keeps the motor spinning Counter-Clockwise (CCW) so all flagella bundle into a smooth forward "Run"; when nutrients drop, CheA phosphorylates CheY-P, which binds the C-ring and flips rotation to Clockwise (CW), splaying the bundle into a random "Tumble" to reorient the bacterium. Across the prokaryotic kingdom, bacteria also use Type IV Pilus grappling hooks, periplasmic spirochete endoflagella, and flavobacterial gliding tracks.',
+    analogy: 'The flagellar motor is a true electric rotary outboard motor built from proteins: proton flow through MotAB stators acts as the electric current, the C-ring and MS-ring form the spinning armature, the P- and L-rings are greased ball bearings through the hull, the hook is a universal drive-shaft joint, and the filament is a marine screw propeller. Steering this motor is the polar MCP chemosensory array—a molecular "smart nose" with short-term methylation memory that plays a game of "hotter or colder" to guide the cell toward food.',
+    narration: 'Our final stop on the Whole Cell tour is the Flagellar Rotary Motor and Chemosensory Navigation system. Embedded across the inner membrane, peptidoglycan wall, and outer membrane, the flagellar basal body is a true 45-nanometer rotary electric motor. Instead of burning ATP, it runs directly on proton current: as protons flow inward through MotA-MotB stator channels, they spin the cytoplasmic C-ring gear at up to 1,000 revolutions per minute. That torque travels up a central drive shaft through frictionless P-ring and L-ring sleeve bearings, bends around a flexible universal joint called the hook, and whips a 10-micrometer helical propeller to drive the bacterium forward at thirty body lengths per second. How does a bacterium steer without eyes? At the cell pole sits a hexagonal lattice of chemoreceptor dimers—a molecular nose with built-in chemical memory. When the cell senses rising nutrients, its motors spin counter-clockwise in a smooth forward Run; when nutrients fall, phosphorylated CheY-P messengers flip the motor switch clockwise, triggering a brief Tumble to pick a new direction. You can now click any of the 3D drill-down buttons below to inspect the Flagellar Motor, alternative Prokaryotic Motility Modes, or the Chemosensory Array in full atomic detail.',
     proteins: [
-      { name: 'Flagellin (FliC)', tag: 'Filament Subunit', desc: 'Globular protein polymerizing into an 11-protofilament hollow helical cylinder.' },
-      { name: 'MotA / MotB Proton Stators', tag: 'Ion Turbines', desc: 'Transmembrane proton-conducting channels converting electrochemical gradient into torque.' },
-      { name: 'FliG / FliM / FliN (C-Ring Switch)', tag: 'Direction Rotor', desc: 'Chemotaxis-responsive rotor switch reversing rotation from counter-clockwise (run) to clockwise (tumble).' }
+      { name: 'Bacterial Flagellar Rotary Motor & Stators', tag: 'PDB: 7CGO / 6YKM', desc: 'Complete 45 nm cryo-EM basal body (C-ring, MS-ring, Rod, P/L-rings, Hook) driven by pentameric MotA₅MotB₂ proton turbines.', scenario: 'motor' },
+      { name: 'Chemosensory Transduction Array (MCP–CheA–CheW)', tag: 'PDB: 6S1K / 3JA6', desc: 'Hexagonal trimers-of-dimers receptor lattice amplifying nanomolar chemical gradients to switch flagellar rotation via CheY-P.', scenario: 'chemosensory_mcp' },
+      { name: 'Prokaryotic Motility Modes: Pili, Spirochete & Gliding', tag: 'PDB: 6W6M / 3JC8', desc: 'Comparative non-flagellar locomotion engines: Type IV pilus grappling hooks, periplasmic endoflagella, and SprB rotary gliding tracks.', scenario: 'motility_modes' }
+    ],
+    drilldowns: [
+      { label: '02. Bacterial Flagellar Rotary Motor (Cryo-EM Basal Body)', scenario: 'motor', badge: '7CGO / 6YKM' },
+      { label: '18. Chemosensory Transduction Array (MCP–CheA–CheW)', scenario: 'chemosensory_mcp', badge: '6S1K / 3JA6' },
+      { label: '16. Prokaryotic Motility Modes (Pili Twitching, Spirochete & Gliding)', scenario: 'motility_modes', badge: '6W6M / 3JC8' }
     ],
     camPos: new THREE.Vector3(-4.50, 0.30, 4.60),
     camTarget: new THREE.Vector3(-3.792, -0.896, 1.741),
@@ -287,6 +363,8 @@ export class CellViewerScene {
     this.onSelectOrganelle = options.onSelectOrganelle || (() => {});
     this.onTourStepChange = options.onTourStepChange || (() => {});
     this.onWasmStatus = options.onWasmStatus || (() => {});
+    this.onShowSubtitles = options.onShowSubtitles || (() => {});
+    this.onHideSubtitles = options.onHideSubtitles || (() => {});
 
     this.active = false;
     this.disposed = false;
@@ -938,8 +1016,13 @@ export class CellViewerScene {
     const data = CELL_ANATOMY_DATA[key];
     if (!data) return;
 
-    const speech = `Step ${stepIndex + 1} of ${CELL_TOUR_STOPS.length}: ${data.title}. ${data.description}`;
+    const bodyText = data.narration || data.description;
+    const speech = `Masterclass Step ${stepIndex + 1} of ${CELL_TOUR_STOPS.length}: ${data.title}. ${bodyText}`;
     const voice = this.voiceService?.getSelectedVoice?.() || 'af_heart';
+
+    if (this.onShowSubtitles) {
+      this.onShowSubtitles(speech, `STEP ${stepIndex + 1} OF ${CELL_TOUR_STOPS.length}: ${data.title.toUpperCase()}`, 'Kokoro Neural TTS');
+    }
 
     if (this.voiceService?.playText) {
       this.voiceService.playText(speech, {
@@ -985,6 +1068,7 @@ export class CellViewerScene {
     this.tourActive = false;
     this.tourPlaying = false;
     if (this.voiceService) this.voiceService.stop();
+    if (this.onHideSubtitles) this.onHideSubtitles();
     this.notifyTourStep();
   }
 

@@ -226,10 +226,19 @@ export default function EukaryoteExplorer() {
               ← Whole Animal Cell (20 µm)
             </button>
           )}
-          <div className="motor-header-text">
-            <span className="motor-scale-tag">{cfg.scaleTag}</span>
-            <h2 className="motor-main-heading">{cfg.title}</h2>
-            <div style={{ fontSize: '11px', color: '#5C6E64', marginTop: '2px' }}>{cfg.subtitle}</div>
+          <div className="motor-header-text" style={{ maxWidth: '420px' }}>
+            <span className="motor-scale-tag" style={{ color: '#38BDF8', textShadow: '0 1px 6px rgba(0, 0, 0, 0.85)' }}>
+              {cfg.scaleTag}
+            </span>
+            <h2
+              className="motor-main-heading"
+              style={{ color: '#F8FAFC', textShadow: '0 2px 10px rgba(0, 0, 0, 0.88)', fontSize: '18px', lineHeight: 1.2 }}
+            >
+              {cfg.title}
+            </h2>
+            <div style={{ fontSize: '11px', color: '#CBD5E1', marginTop: '3px', textShadow: '0 1px 6px rgba(0, 0, 0, 0.88)' }}>
+              {cfg.subtitle}
+            </div>
           </div>
         </div>
 
@@ -306,7 +315,7 @@ export default function EukaryoteExplorer() {
                 max={cfg.sliderMax}
                 step={(cfg.sliderMax - cfg.sliderMin) / 50}
                 value={sliderVal}
-                onChange={(e) => setSliderVal(parseFloat(e.target.value))}
+                onChange={(e) => { const v = parseFloat(e.target.value); setSliderVal(v); sceneRef.current?.setCutawayTranslucency(v); }}
                 className="motor-slider-track"
               />
               <div className="motor-slider-scale">

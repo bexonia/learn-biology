@@ -74,6 +74,8 @@ export class EukaryoteScenarioScene {
     this.controls = new OrbitControls(this.camera, this.renderer.domElement);
     this.controls.enableDamping = true;
     this.controls.dampingFactor = 0.06;
+    this.controls.minDistance = 1.0;
+    this.controls.maxDistance = 42.0;
     this.controls.target.set(0, 0, 0);
 
     this.setupLighting();
@@ -109,6 +111,11 @@ export class EukaryoteScenarioScene {
     const fillLight = new THREE.DirectionalLight(0x90b8f8, 0.58);
     fillLight.position.set(-16, 8, 18);
     this.scene.add(fillLight);
+
+    // Bottom hemisphere studio light so orbiting underneath the 3D cell illuminates lower ER, Nucleus & Mitochondria
+    const bottomLight = new THREE.DirectionalLight(0x7cc6fe, 0.95);
+    bottomLight.position.set(0, -24, 8);
+    this.scene.add(bottomLight);
 
     // Subtle warm subsurface internal glow near center
     const sssGlow = new THREE.PointLight(0xffb703, 0.55, 18);
@@ -183,27 +190,37 @@ export class EukaryoteScenarioScene {
     const isTopRim = matName.includes('Rim') || matName.includes('CristaeApricot');
 
     if (isGlassBowl) {
-      return new THREE.MeshPhysicalMaterial({
+      const isCytosolVeil = matName.includes('CytosolGlass');
+      const baseOp = isCytosolVeil ? 0.20 : matName.includes('CellBowlGlass') ? 0.35 : matName.includes('Flap') ? 0.46 : 0.56;
+      const gMat = new THREE.MeshPhysicalMaterial({
         name: matName,
         color: col,
         emissive: col.clone(),
-        emissiveIntensity: 0.14,
-        roughness: 0.12,
+        emissiveIntensity: isCytosolVeil ? 0.08 : 0.14,
+        roughness: isCytosolVeil ? 0.16 : 0.12,
         metalness: 0.02,
         clearcoat: 1.0,
         clearcoatRoughness: 0.10,
-        transmission: 0.42,
+        transmission: isCytosolVeil ? 0.62 : 0.48,
         thickness: 0.8,
-        ior: 1.42,
+        ior: 1.38,
         transparent: true,
-        opacity: origMat && origMat.opacity < 0.99 ? origMat.opacity : 0.52,
+        opacity: baseOp,
         depthWrite: false,
         side: THREE.DoubleSide
       });
+      gMat.userData.baseOpacity = baseOp;
+      gMat.userData.isGlassBowl = true;
+      return gMat;
     }
 
     const baseEmissive = isDarkLumen ? 0.01 : isTopRim ? 0.08 : 0.03;
     const baseRoughness = isDarkLumen ? 0.54 : isTopRim ? 0.22 : 0.30;
+    const isOrganelleWall =
+      matName.includes('Envelope') ||
+      matName.includes('Wall') ||
+      matName.includes('Hull') ||
+      matName.includes('Nucleoplasm');
 
     const mat = new THREE.MeshPhysicalMaterial({
       name: matName,
@@ -212,17 +229,19 @@ export class EukaryoteScenarioScene {
       emissiveIntensity: baseEmissive,
       roughness: baseRoughness,
       metalness: 0.04,
-      clearcoat: isDarkLumen ? 0.04 : 0.32,
-      clearcoatRoughness: 0.26,
-      sheen: isDarkLumen ? 0.0 : 0.24,
-      sheenRoughness: 0.42,
+      clearcoat: isDarkLumen ? 0.04 : 0.36,
+      clearcoatRoughness: 0.24,
+      sheen: isDarkLumen ? 0.0 : 0.26,
+      sheenRoughness: 0.40,
       sheenColor: col.clone().lerp(new THREE.Color(0xffffff), 0.16),
-      transparent: false,
-      opacity: 1.0,
+      transparent: isOrganelleWall,
+      opacity: isOrganelleWall ? 0.92 : 1.0,
       depthWrite: true,
       side: THREE.DoubleSide
     });
     mat.userData.baseEmissive = baseEmissive;
+    mat.userData.baseOpacity = isOrganelleWall ? 0.92 : 1.0;
+    mat.userData.isOrganelleWall = isOrganelleWall;
     return mat;
   }
 
@@ -246,7 +265,7 @@ export class EukaryoteScenarioScene {
 
     const loader = new GLTFLoader();
     loader.load(
-      `${cfg.glb}?v=euk_editorial_v3`,
+      `${cfg.glb}?v=euk_editorial_v5`,
       (gltf) => {
         if (this.disposed) return;
         const group = gltf.scene;
@@ -297,6 +316,39 @@ export class EukaryoteScenarioScene {
     );
   }
 
+  private static readonly CELL_ANCHOR_OFFSETS: Record<string, [number, number, number]> = {
+    Piece_Cell_PlasmaMembrane: [-5.55, -0.44, 1.12],
+    Piece_Cell_Nucleus: [0.55, 0.92, -0.41],
+    Piece_Cell_RoughSmoothER: [-2.15, 0.96, -1.38],
+    Piece_Cell_GolgiStack: [-1.72, -0.59, 2.06],
+    Piece_Cell_Mitochondria: [4.25, 0.09, 0.42],
+    Piece_Cell_CytoskeletonCentrosome: [-2.15, 0.40, -0.61],
+    Piece_Cell_LysosomePeroxisome: [2.60, 1.39, -2.94]
+  };
+
+  private static readonly CELL_DISSOC_VECTORS: Record<string, [number, number, number]> = {
+    Piece_Cell_PlasmaMembrane: [0.0, -1.35, -1.85],
+    Piece_Cell_Nucleus: [0.65, 1.85, -0.85],
+    Piece_Cell_RoughSmoothER: [-2.15, 0.65, -0.45],
+    Piece_Cell_GolgiStack: [-1.75, -1.05, 1.45],
+    Piece_Cell_Mitochondria: [2.35, 0.45, 0.65],
+    Piece_Cell_CytoskeletonCentrosome: [-2.25, 1.35, 0.55],
+    Piece_Cell_LysosomePeroxisome: [2.05, -0.95, 1.25]
+  };
+
+  private computePieceCentroid(meshName: string, obj: THREE.Object3D): THREE.Vector3 {
+    if (this.currentScenarioId === 'eukaryotic_animal_cell') {
+      const localOff = EukaryoteScenarioScene.CELL_ANCHOR_OFFSETS[meshName];
+      if (localOff) {
+        return obj.localToWorld(new THREE.Vector3(localOff[0], localOff[1], localOff[2]));
+      }
+    }
+    const pBox = new THREE.Box3().setFromObject(obj);
+    const pCenter = new THREE.Vector3();
+    pBox.getCenter(pCenter);
+    return pCenter;
+  }
+
   private mountGroup(group: THREE.Group, pieces: EukaryotePieceConfig[]): void {
     this.activeGroup = group;
     this.scene.add(group);
@@ -316,11 +368,7 @@ export class EukaryoteScenarioScene {
           obj.position.copy(obj.userData.basePos);
         }
         this.pieceBasePositions.set(p.meshName, obj.userData.basePos.clone());
-
-        const pBox = new THREE.Box3().setFromObject(obj);
-        const pCenter = new THREE.Vector3();
-        pBox.getCenter(pCenter);
-        this.pieceWorldCentroids.set(p.meshName, pCenter);
+        this.pieceWorldCentroids.set(p.meshName, this.computePieceCentroid(p.meshName, obj));
       }
     });
 
@@ -336,15 +384,18 @@ export class EukaryoteScenarioScene {
     const cfg = EUKARYOTE_SCENARIOS_CONFIG[this.currentScenarioId];
     if (!cfg || !this.activeGroup) return;
 
+    const isWholeCell = this.currentScenarioId === 'eukaryotic_animal_cell';
     const invScale = 1.0 / (this.activeGroup.scale.x || 1.0);
     cfg.pieces.forEach((p) => {
       const obj = this.pieceNodes.get(p.meshName);
       const base = this.pieceBasePositions.get(p.meshName);
       if (obj && base) {
+        const dv = (isWholeCell && EukaryoteScenarioScene.CELL_DISSOC_VECTORS[p.meshName]) || p.dissocVector;
+        const mult = isWholeCell ? 1.0 : 0.75;
         const off = new THREE.Vector3(
-          p.dissocVector[0] * this.explodedProgress * invScale * 0.75,
-          p.dissocVector[1] * this.explodedProgress * invScale * 0.75,
-          p.dissocVector[2] * this.explodedProgress * invScale * 0.75
+          dv[0] * this.explodedProgress * invScale * mult,
+          dv[1] * this.explodedProgress * invScale * mult,
+          dv[2] * this.explodedProgress * invScale * mult
         );
         obj.position.copy(base).add(off);
       }
@@ -354,12 +405,20 @@ export class EukaryoteScenarioScene {
     cfg.pieces.forEach((p) => {
       const obj = this.pieceNodes.get(p.meshName);
       if (obj) {
-        const pBox = new THREE.Box3().setFromObject(obj);
-        const pCenter = new THREE.Vector3();
-        pBox.getCenter(pCenter);
-        this.pieceWorldCentroids.set(p.meshName, pCenter);
+        this.pieceWorldCentroids.set(p.meshName, this.computePieceCentroid(p.meshName, obj));
       }
     });
+
+    if (isWholeCell) {
+      this.camera.position.set(
+        0,
+        7.6 + 2.4 * this.explodedProgress,
+        13.8 + 4.8 * this.explodedProgress
+      );
+      this.controls.target.set(0, -0.25 + 0.15 * this.explodedProgress, 0);
+      this.camLerpProgress = 1.0;
+      this.controls.update();
+    }
   }
 
   public selectPiece(meshName: string): void {
@@ -376,7 +435,11 @@ export class EukaryoteScenarioScene {
     this.selectPiece(meshName);
     const centroid = this.pieceWorldCentroids.get(meshName);
     if (centroid) {
-      const camPos = centroid.clone().add(new THREE.Vector3(0, 3.2, 13.5));
+      const offset =
+        this.currentScenarioId === 'eukaryotic_animal_cell'
+          ? new THREE.Vector3(0, 4.2, 8.2)
+          : new THREE.Vector3(0, 3.2, 13.5);
+      const camPos = centroid.clone().add(offset);
       this.flyCameraTo(camPos, centroid.clone());
     }
   }
@@ -426,6 +489,27 @@ export class EukaryoteScenarioScene {
 
   public setEnergyActive(active: boolean): void {
     this.isEnergyActive = active;
+  }
+
+  public setCutawayTranslucency(percent: number): void {
+    if (!this.activeGroup) return;
+    const factor = Math.max(0.08, Math.min(2.0, percent / 100.0));
+    this.activeGroup.traverse((child) => {
+      if (child instanceof THREE.Mesh) {
+        const mats = Array.isArray(child.material) ? child.material : [child.material];
+        mats.forEach((m) => {
+          if (m instanceof THREE.MeshPhysicalMaterial) {
+            const baseOp = m.userData.baseOpacity ?? 1.0;
+            if (m.userData.isGlassBowl) {
+              m.opacity = Math.max(0.06, Math.min(0.88, baseOp * factor));
+            } else if (m.userData.isOrganelleWall) {
+              m.transparent = true;
+              m.opacity = factor < 1.0 ? Math.max(0.28, baseOp * (0.35 + 0.65 * factor)) : Math.min(1.0, baseOp * factor);
+            }
+          }
+        });
+      }
+    });
   }
 
   public resetCamera(): void {
@@ -498,9 +582,18 @@ export class EukaryoteScenarioScene {
 
     rawItems.forEach(({ p, sx, sy, side, ly }) => {
       const pillWidth = Math.max(145, p.name.slice(0, 26).length * 6.3 + 46);
-      const marginOffset = 225;
-      const lx = side > 0 ? Math.max(sx + 70, midX + marginOffset) : Math.min(sx - 70, midX - marginOffset);
-      const cardX = side > 0 ? lx : lx - pillWidth;
+      const marginOffset = 195;
+      let cardX: number;
+      let lx: number;
+      if (side > 0) {
+        const maxRightCardX = Math.max(midX + 60, width - 388 - pillWidth);
+        cardX = Math.min(maxRightCardX, Math.max(sx + 50, midX + marginOffset));
+        lx = cardX;
+      } else {
+        const minLeftCardX = Math.min(midX - 60 - pillWidth, 405);
+        cardX = Math.max(minLeftCardX, Math.min(sx - 50 - pillWidth, midX - marginOffset - pillWidth));
+        lx = cardX + pillWidth;
+      }
 
       html += `
         <g class="roadmap-leader-item" data-mesh="${p.meshName}" style="pointer-events: auto; cursor: pointer;">

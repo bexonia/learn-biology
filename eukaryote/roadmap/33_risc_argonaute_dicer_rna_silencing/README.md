@@ -105,3 +105,15 @@ To support continuous **Exploded View (`setExplodedProgress(0.0 → 1.0)`)**, ra
 - [RCSB PDB Structure 4W5N — Human Argonaute-2 Bound to Guide and Target RNAs](https://www.rcsb.org/structure/4W5N)
 - [RCSB PDB Structure 5ZAL — Cryo-EM Structure of Human Dicer–TRBP–Pre-let-7 Complex](https://www.rcsb.org/structure/5ZAL)
 - [NCBI Bookshelf — Molecular Biology of the Cell: Post-Transcriptional Controls & RNA Interference](https://www.ncbi.nlm.nih.gov/books/NBK26896/)
+
+## 12. 3D Implementation & Visual Verification Assets
+
+- **Status:** `[x] Implemented, Exported to 3D GLB & Visually Verified`
+- **3D Model Asset (`.glb`):** [`risc_argonaute_dicer_rna_silencing.glb`](./risc_argonaute_dicer_rna_silencing.glb) (also mirrored in `eukaryote/models/risc_argonaute_dicer_rna_silencing.glb` and `client/public/eukaryote/models/risc_argonaute_dicer_rna_silencing.glb`)
+- **Blender 5.2 + Molecular Nodes Generator Script:** [`generate_33_risc_argonaute_dicer_rna_silencing.py`](./generate_33_risc_argonaute_dicer_rna_silencing.py)
+- **Live WebGL Assembled Capture (`0%`):** [`browser_risc_argonaute_dicer_rna_silencing_assembled.png`](../../verification/33_risc_argonaute_dicer_rna_silencing/browser_risc_argonaute_dicer_rna_silencing_assembled.png)
+- **Live WebGL Exploded Capture (`75%`):** [`browser_risc_argonaute_dicer_rna_silencing_exploded.png`](../../verification/33_risc_argonaute_dicer_rna_silencing/browser_risc_argonaute_dicer_rna_silencing_exploded.png)
+- **Side-by-Side Input vs. Output Comparison Plate (`2400×1380`):** [`comparison_risc_argonaute_dicer_rna_silencing.png`](../../verification/33_risc_argonaute_dicer_rna_silencing/comparison_risc_argonaute_dicer_rna_silencing.png)
+- **Animated Side-by-Side Comparison Video (`1920×1080 MP4`):** [`comparison_risc_argonaute_dicer_rna_silencing.mp4`](../../verification/33_risc_argonaute_dicer_rna_silencing/comparison_risc_argonaute_dicer_rna_silencing.mp4)
+
+![Side-by-Side Comparison Plate — RNA Interference (RNAi) & Post-Transcriptional Silencing: Dicer Molecular Ruler, Argonaute-2 (RISC) & GW182](../../verification/33_risc_argonaute_dicer_rna_silencing/comparison_risc_argonaute_dicer_rna_silencing.png)

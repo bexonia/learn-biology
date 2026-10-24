@@ -105,3 +105,15 @@ To support continuous **Exploded View (`setExplodedProgress(0.0 → 1.0)`)**, ra
 - [RCSB PDB-101 — Molecule of the Month: Cytochrome c Oxidase](https://pdb101.rcsb.org/motm/5)
 - [RCSB PDB Structure 5XTE — Human Mitochondrial Respiratory Megacomplex I₁III₂IV₁](https://www.rcsb.org/structure/5XTE)
 - [RCSB PDB Structure 1ZOY — Mitochondrial Respiratory Complex II](https://www.rcsb.org/structure/1ZOY)
+
+## 12. 3D Implementation & Visual Verification Assets
+
+- **Status:** `[x] Implemented, Exported to 3D GLB & Visually Verified`
+- **3D Model Asset (`.glb`):** [`mitochondrial_respirasome_etc.glb`](./mitochondrial_respirasome_etc.glb) (also mirrored in `eukaryote/models/mitochondrial_respirasome_etc.glb` and `client/public/eukaryote/models/mitochondrial_respirasome_etc.glb`)
+- **Blender 5.2 + Molecular Nodes Generator Script:** [`generate_20_mitochondrial_respirasome_etc.py`](./generate_20_mitochondrial_respirasome_etc.py)
+- **Live WebGL Assembled Capture (`0%`):** [`browser_mitochondrial_respirasome_etc_assembled.png`](../../verification/20_mitochondrial_respirasome_etc/browser_mitochondrial_respirasome_etc_assembled.png)
+- **Live WebGL Exploded Capture (`75%`):** [`browser_mitochondrial_respirasome_etc_exploded.png`](../../verification/20_mitochondrial_respirasome_etc/browser_mitochondrial_respirasome_etc_exploded.png)
+- **Side-by-Side Input vs. Output Comparison Plate (`2400×1380`):** [`comparison_mitochondrial_respirasome_etc.png`](../../verification/20_mitochondrial_respirasome_etc/comparison_mitochondrial_respirasome_etc.png)
+- **Animated Side-by-Side Comparison Video (`1920×1080 MP4`):** [`comparison_mitochondrial_respirasome_etc.mp4`](../../verification/20_mitochondrial_respirasome_etc/comparison_mitochondrial_respirasome_etc.mp4)
+
+![Side-by-Side Comparison Plate — Mitochondrial Respiratory Supercomplex (I₁III₂IV₁ Respirasome) & Cytochrome c Shuttle](../../verification/20_mitochondrial_respirasome_etc/comparison_mitochondrial_respirasome_etc.png)

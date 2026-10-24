@@ -105,3 +105,15 @@ To support continuous **Exploded View (`setExplodedProgress(0.0 → 1.0)`)**, ra
 - [RCSB PDB Structure 7CP9 — Human Mitochondrial TOM Core Complex](https://www.rcsb.org/structure/7CP9)
 - [RCSB PDB Structure 3J2T — Human Apaf-1 Apoptosome Holoenzyme](https://www.rcsb.org/structure/3J2T)
 - [Nature Reviews Molecular Cell Biology — Mitochondrial Protein Import Machinery](https://www.nature.com/articles/nrm.2016.127)
+
+## 12. 3D Implementation & Visual Verification Assets
+
+- **Status:** `[x] Implemented, Exported to 3D GLB & Visually Verified`
+- **3D Model Asset (`.glb`):** [`mitochondrial_tim_tom_apoptosis.glb`](./mitochondrial_tim_tom_apoptosis.glb) (also mirrored in `eukaryote/models/mitochondrial_tim_tom_apoptosis.glb` and `client/public/eukaryote/models/mitochondrial_tim_tom_apoptosis.glb`)
+- **Blender 5.2 + Molecular Nodes Generator Script:** [`generate_22_mitochondrial_tim_tom_apoptosis.py`](./generate_22_mitochondrial_tim_tom_apoptosis.py)
+- **Live WebGL Assembled Capture (`0%`):** [`browser_mitochondrial_tim_tom_apoptosis_assembled.png`](../../verification/22_mitochondrial_tim_tom_apoptosis/browser_mitochondrial_tim_tom_apoptosis_assembled.png)
+- **Live WebGL Exploded Capture (`75%`):** [`browser_mitochondrial_tim_tom_apoptosis_exploded.png`](../../verification/22_mitochondrial_tim_tom_apoptosis/browser_mitochondrial_tim_tom_apoptosis_exploded.png)
+- **Side-by-Side Input vs. Output Comparison Plate (`2400×1380`):** [`comparison_mitochondrial_tim_tom_apoptosis.png`](../../verification/22_mitochondrial_tim_tom_apoptosis/comparison_mitochondrial_tim_tom_apoptosis.png)
+- **Animated Side-by-Side Comparison Video (`1920×1080 MP4`):** [`comparison_mitochondrial_tim_tom_apoptosis.mp4`](../../verification/22_mitochondrial_tim_tom_apoptosis/comparison_mitochondrial_tim_tom_apoptosis.mp4)
+
+![Side-by-Side Comparison Plate — TOM/TIM23 Protein Import, Drp1 Fission Ring & BAX/BAK–Apoptosome Wheel](../../verification/22_mitochondrial_tim_tom_apoptosis/comparison_mitochondrial_tim_tom_apoptosis.png)

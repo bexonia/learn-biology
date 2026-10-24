@@ -105,3 +105,15 @@ To support continuous **Exploded View (`setExplodedProgress(0.0 → 1.0)`)**, ra
 - [RCSB PDB Structure 2ZW3 — Human Connexin-26 Gap Junction Channel](https://www.rcsb.org/structure/2ZW3)
 - [RCSB PDB Structure 3Q2V — E-Cadherin Ectodomain](https://www.rcsb.org/structure/3Q2V)
 - [NCBI Bookshelf — Molecular Biology of the Cell: Cell Junctions](https://www.ncbi.nlm.nih.gov/books/NBK26857/)
+
+## 12. 3D Implementation & Visual Verification Assets
+
+- **Status:** `[x] Implemented, Exported to 3D GLB & Visually Verified`
+- **3D Model Asset (`.glb`):** [`cell_junctions_plasmodesmata.glb`](./cell_junctions_plasmodesmata.glb) (also mirrored in `eukaryote/models/cell_junctions_plasmodesmata.glb` and `client/public/eukaryote/models/cell_junctions_plasmodesmata.glb`)
+- **Blender 5.2 + Molecular Nodes Generator Script:** [`generate_08_cell_junctions_plasmodesmata.py`](./generate_08_cell_junctions_plasmodesmata.py)
+- **Live WebGL Assembled Capture (`0%`):** [`browser_cell_junctions_plasmodesmata_assembled.png`](../../verification/08_cell_junctions_plasmodesmata/browser_cell_junctions_plasmodesmata_assembled.png)
+- **Live WebGL Exploded Capture (`75%`):** [`browser_cell_junctions_plasmodesmata_exploded.png`](../../verification/08_cell_junctions_plasmodesmata/browser_cell_junctions_plasmodesmata_exploded.png)
+- **Side-by-Side Input vs. Output Comparison Plate (`2400×1380`):** [`comparison_cell_junctions_plasmodesmata.png`](../../verification/08_cell_junctions_plasmodesmata/comparison_cell_junctions_plasmodesmata.png)
+- **Animated Side-by-Side Comparison Video (`1920×1080 MP4`):** [`comparison_cell_junctions_plasmodesmata.mp4`](../../verification/08_cell_junctions_plasmodesmata/comparison_cell_junctions_plasmodesmata.mp4)
+
+![Side-by-Side Comparison Plate — Intercellular Junctions: Tight, Adherens, Desmosomes, Gap Junction Connexons & Plant Plasmodesmata](../../verification/08_cell_junctions_plasmodesmata/comparison_cell_junctions_plasmodesmata.png)

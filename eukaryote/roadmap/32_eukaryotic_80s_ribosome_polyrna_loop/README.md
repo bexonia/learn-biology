@@ -105,3 +105,15 @@ To support continuous **Exploded View (`setExplodedProgress(0.0 → 1.0)`)**, ra
 - [RCSB PDB Structure 4V6X — High-Resolution Cryo-EM Structure of the Human 80S Ribosome](https://www.rcsb.org/structure/4V6X)
 - [RCSB PDB Structure 7QP6 — Human 48S Translation Initiation Complex](https://www.rcsb.org/structure/7QP6)
 - [NCBI Bookshelf — Molecular Biology of the Cell: From RNA to Protein (Eukaryotic Translation)](https://www.ncbi.nlm.nih.gov/books/NBK26829/)
+
+## 12. 3D Implementation & Visual Verification Assets
+
+- **Status:** `[x] Implemented, Exported to 3D GLB & Visually Verified`
+- **3D Model Asset (`.glb`):** [`eukaryotic_80s_ribosome_polyrna_loop.glb`](./eukaryotic_80s_ribosome_polyrna_loop.glb) (also mirrored in `eukaryote/models/eukaryotic_80s_ribosome_polyrna_loop.glb` and `client/public/eukaryote/models/eukaryotic_80s_ribosome_polyrna_loop.glb`)
+- **Blender 5.2 + Molecular Nodes Generator Script:** [`generate_32_eukaryotic_80s_ribosome_polyrna_loop.py`](./generate_32_eukaryotic_80s_ribosome_polyrna_loop.py)
+- **Live WebGL Assembled Capture (`0%`):** [`browser_eukaryotic_80s_ribosome_polyrna_loop_assembled.png`](../../verification/32_eukaryotic_80s_ribosome_polyrna_loop/browser_eukaryotic_80s_ribosome_polyrna_loop_assembled.png)
+- **Live WebGL Exploded Capture (`75%`):** [`browser_eukaryotic_80s_ribosome_polyrna_loop_exploded.png`](../../verification/32_eukaryotic_80s_ribosome_polyrna_loop/browser_eukaryotic_80s_ribosome_polyrna_loop_exploded.png)
+- **Side-by-Side Input vs. Output Comparison Plate (`2400×1380`):** [`comparison_eukaryotic_80s_ribosome_polyrna_loop.png`](../../verification/32_eukaryotic_80s_ribosome_polyrna_loop/comparison_eukaryotic_80s_ribosome_polyrna_loop.png)
+- **Animated Side-by-Side Comparison Video (`1920×1080 MP4`):** [`comparison_eukaryotic_80s_ribosome_polyrna_loop.mp4`](../../verification/32_eukaryotic_80s_ribosome_polyrna_loop/comparison_eukaryotic_80s_ribosome_polyrna_loop.mp4)
+
+![Side-by-Side Comparison Plate — Cytoplasmic Translation: The 80S Ribosome (60S + 40S) & Circular Closed-Loop Polysome (m⁷G–eIF4E–eIF4G–PABP–PolyA)](../../verification/32_eukaryotic_80s_ribosome_polyrna_loop/comparison_eukaryotic_80s_ribosome_polyrna_loop.png)

@@ -105,3 +105,15 @@ To support continuous **Exploded View (`setExplodedProgress(0.0 → 1.0)`)**, ra
 - [RCSB PDB Structure 3TNU — Keratin 5/14 Heterodimer](https://www.rcsb.org/structure/3TNU)
 - [NCBI Bookshelf — Molecular Biology of the Cell: Intermediate Filaments](https://www.ncbi.nlm.nih.gov/books/NBK26862/)
 - [Cold Spring Harbor Perspectives — Intermediate Filaments & Nuclear Lamins](https://cshperspectives.cshlp.org/content/8/11/a018242.full)
+
+## 12. 3D Implementation & Visual Verification Assets
+
+- **Status:** `[x] Implemented, Exported to 3D GLB & Visually Verified`
+- **3D Model Asset (`.glb`):** [`intermediate_filaments_lamins.glb`](./intermediate_filaments_lamins.glb) (also mirrored in `eukaryote/models/intermediate_filaments_lamins.glb` and `client/public/eukaryote/models/intermediate_filaments_lamins.glb`)
+- **Blender 5.2 + Molecular Nodes Generator Script:** [`generate_11_intermediate_filaments_lamins.py`](./generate_11_intermediate_filaments_lamins.py)
+- **Live WebGL Assembled Capture (`0%`):** [`browser_intermediate_filaments_lamins_assembled.png`](../../verification/11_intermediate_filaments_lamins/browser_intermediate_filaments_lamins_assembled.png)
+- **Live WebGL Exploded Capture (`75%`):** [`browser_intermediate_filaments_lamins_exploded.png`](../../verification/11_intermediate_filaments_lamins/browser_intermediate_filaments_lamins_exploded.png)
+- **Side-by-Side Input vs. Output Comparison Plate (`2400×1380`):** [`comparison_intermediate_filaments_lamins.png`](../../verification/11_intermediate_filaments_lamins/comparison_intermediate_filaments_lamins.png)
+- **Animated Side-by-Side Comparison Video (`1920×1080 MP4`):** [`comparison_intermediate_filaments_lamins.mp4`](../../verification/11_intermediate_filaments_lamins/comparison_intermediate_filaments_lamins.mp4)
+
+![Side-by-Side Comparison Plate — Intermediate Filaments: Coiled-Coil Keratin Ropes & Nuclear Lamin Meshwork](../../verification/11_intermediate_filaments_lamins/comparison_intermediate_filaments_lamins.png)

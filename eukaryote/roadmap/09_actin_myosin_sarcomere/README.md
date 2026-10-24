@@ -105,3 +105,15 @@ To support continuous **Exploded View (`setExplodedProgress(0.0 → 1.0)`)**, ra
 - [RCSB PDB-101 — Molecule of the Month: Myosin](https://pdb101.rcsb.org/motm/18)
 - [RCSB PDB Structure 6X5Z — Native Cardiac Thin Filament with Myosin](https://www.rcsb.org/structure/6X5Z)
 - [RCSB PDB Structure 6UHC — Active Arp2/3 Actin Branch Junction](https://www.rcsb.org/structure/6UHC)
+
+## 12. 3D Implementation & Visual Verification Assets
+
+- **Status:** `[x] Implemented, Exported to 3D GLB & Visually Verified`
+- **3D Model Asset (`.glb`):** [`actin_myosin_sarcomere.glb`](./actin_myosin_sarcomere.glb) (also mirrored in `eukaryote/models/actin_myosin_sarcomere.glb` and `client/public/eukaryote/models/actin_myosin_sarcomere.glb`)
+- **Blender 5.2 + Molecular Nodes Generator Script:** [`generate_09_actin_myosin_sarcomere.py`](./generate_09_actin_myosin_sarcomere.py)
+- **Live WebGL Assembled Capture (`0%`):** [`browser_actin_myosin_sarcomere_assembled.png`](../../verification/09_actin_myosin_sarcomere/browser_actin_myosin_sarcomere_assembled.png)
+- **Live WebGL Exploded Capture (`75%`):** [`browser_actin_myosin_sarcomere_exploded.png`](../../verification/09_actin_myosin_sarcomere/browser_actin_myosin_sarcomere_exploded.png)
+- **Side-by-Side Input vs. Output Comparison Plate (`2400×1380`):** [`comparison_actin_myosin_sarcomere.png`](../../verification/09_actin_myosin_sarcomere/comparison_actin_myosin_sarcomere.png)
+- **Animated Side-by-Side Comparison Video (`1920×1080 MP4`):** [`comparison_actin_myosin_sarcomere.mp4`](../../verification/09_actin_myosin_sarcomere/comparison_actin_myosin_sarcomere.mp4)
+
+![Side-by-Side Comparison Plate — F-Actin Double-Helical Microfilaments, Arp2/3 Branching & Myosin Power Stroke](../../verification/09_actin_myosin_sarcomere/comparison_actin_myosin_sarcomere.png)

@@ -105,3 +105,15 @@ To support continuous **Exploded View (`setExplodedProgress(0.0 → 1.0)`)**, ra
 - [RCSB PDB Structure 7R5K — Human Nuclear Pore Complex in the Nuclear Envelope](https://www.rcsb.org/structure/7R5K)
 - [RCSB PDB Structure 6L8Q — Human Nucleolar 90S Pre-Ribosome (SSU Processome)](https://www.rcsb.org/structure/6L8Q)
 - [NCBI Bookshelf — Molecular Biology of the Cell: The Compartmentalization of the Nucleus](https://www.ncbi.nlm.nih.gov/books/NBK26865/)
+
+## 12. 3D Implementation & Visual Verification Assets
+
+- **Status:** `[x] Implemented, Exported to 3D GLB & Visually Verified`
+- **3D Model Asset (`.glb`):** [`nucleus_envelope_nucleolus.glb`](./nucleus_envelope_nucleolus.glb) (also mirrored in `eukaryote/models/nucleus_envelope_nucleolus.glb` and `client/public/eukaryote/models/nucleus_envelope_nucleolus.glb`)
+- **Blender 5.2 + Molecular Nodes Generator Script:** [`generate_26_nucleus_envelope_nucleolus.py`](./generate_26_nucleus_envelope_nucleolus.py)
+- **Live WebGL Assembled Capture (`0%`):** [`browser_nucleus_envelope_nucleolus_assembled.png`](../../verification/26_nucleus_envelope_nucleolus/browser_nucleus_envelope_nucleolus_assembled.png)
+- **Live WebGL Exploded Capture (`75%`):** [`browser_nucleus_envelope_nucleolus_exploded.png`](../../verification/26_nucleus_envelope_nucleolus/browser_nucleus_envelope_nucleolus_exploded.png)
+- **Side-by-Side Input vs. Output Comparison Plate (`2400×1380`):** [`comparison_nucleus_envelope_nucleolus.png`](../../verification/26_nucleus_envelope_nucleolus/comparison_nucleus_envelope_nucleolus.png)
+- **Animated Side-by-Side Comparison Video (`1920×1080 MP4`):** [`comparison_nucleus_envelope_nucleolus.mp4`](../../verification/26_nucleus_envelope_nucleolus/comparison_nucleus_envelope_nucleolus.mp4)
+
+![Side-by-Side Comparison Plate — The Nucleus: Double Nuclear Envelope, Nuclear Lamina Meshwork, Chromatin Territories & Tripartite Nucleolus](../../verification/26_nucleus_envelope_nucleolus/comparison_nucleus_envelope_nucleolus.png)

@@ -105,3 +105,15 @@ To support continuous **Exploded View (`setExplodedProgress(0.0 → 1.0)`)**, ra
 - [RCSB PDB-101 — Molecule of the Month: SNARE Proteins](https://pdb101.rcsb.org/motm/166)
 - [RCSB PDB Structure 1XI4 — Clathrin D6 Barrel](https://www.rcsb.org/structure/1XI4)
 - [RCSB PDB Structure 1SFC — Neuronal Synaptic Fusion Complex](https://www.rcsb.org/structure/1SFC)
+
+## 12. 3D Implementation & Visual Verification Assets
+
+- **Status:** `[x] Implemented, Exported to 3D GLB & Visually Verified`
+- **3D Model Asset (`.glb`):** [`clathrin_endocytosis_snare.glb`](./clathrin_endocytosis_snare.glb) (also mirrored in `eukaryote/models/clathrin_endocytosis_snare.glb` and `client/public/eukaryote/models/clathrin_endocytosis_snare.glb`)
+- **Blender 5.2 + Molecular Nodes Generator Script:** [`generate_07_clathrin_endocytosis_snare.py`](./generate_07_clathrin_endocytosis_snare.py)
+- **Live WebGL Assembled Capture (`0%`):** [`browser_clathrin_endocytosis_snare_assembled.png`](../../verification/07_clathrin_endocytosis_snare/browser_clathrin_endocytosis_snare_assembled.png)
+- **Live WebGL Exploded Capture (`75%`):** [`browser_clathrin_endocytosis_snare_exploded.png`](../../verification/07_clathrin_endocytosis_snare/browser_clathrin_endocytosis_snare_exploded.png)
+- **Side-by-Side Input vs. Output Comparison Plate (`2400×1380`):** [`comparison_clathrin_endocytosis_snare.png`](../../verification/07_clathrin_endocytosis_snare/comparison_clathrin_endocytosis_snare.png)
+- **Animated Side-by-Side Comparison Video (`1920×1080 MP4`):** [`comparison_clathrin_endocytosis_snare.mp4`](../../verification/07_clathrin_endocytosis_snare/comparison_clathrin_endocytosis_snare.mp4)
+
+![Side-by-Side Comparison Plate — Clathrin Triskelion Cage, Dynamin Scission Ring & SNARE Membrane Fusion](../../verification/07_clathrin_endocytosis_snare/comparison_clathrin_endocytosis_snare.png)

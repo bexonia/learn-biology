@@ -105,3 +105,15 @@ To support continuous **Exploded View (`setExplodedProgress(0.0 → 1.0)`)**, ra
 - [RCSB PDB Structure 4HG6 — Cellulose Synthase Complex](https://www.rcsb.org/structure/4HG6)
 - [RCSB PDB-101 — Molecule of the Month: Cellulose Synthase](https://pdb101.rcsb.org/motm/242)
 - [Nature Reviews Microbiology — Architecture of the Fungal Cell Wall](https://www.nature.com/articles/nrmicro.2017.109)
+
+## 12. 3D Implementation & Visual Verification Assets
+
+- **Status:** `[x] Implemented, Exported to 3D GLB & Visually Verified`
+- **3D Model Asset (`.glb`):** [`kingdom_cell_comparison.glb`](./kingdom_cell_comparison.glb) (also mirrored in `eukaryote/models/kingdom_cell_comparison.glb` and `client/public/eukaryote/models/kingdom_cell_comparison.glb`)
+- **Blender 5.2 + Molecular Nodes Generator Script:** [`generate_02_kingdom_cell_comparison.py`](./generate_02_kingdom_cell_comparison.py)
+- **Live WebGL Assembled Capture (`0%`):** [`browser_kingdom_cell_comparison_assembled.png`](../../verification/02_kingdom_cell_comparison/browser_kingdom_cell_comparison_assembled.png)
+- **Live WebGL Exploded Capture (`75%`):** [`browser_kingdom_cell_comparison_exploded.png`](../../verification/02_kingdom_cell_comparison/browser_kingdom_cell_comparison_exploded.png)
+- **Side-by-Side Input vs. Output Comparison Plate (`2400×1380`):** [`comparison_kingdom_cell_comparison.png`](../../verification/02_kingdom_cell_comparison/comparison_kingdom_cell_comparison.png)
+- **Animated Side-by-Side Comparison Video (`1920×1080 MP4`):** [`comparison_kingdom_cell_comparison.mp4`](../../verification/02_kingdom_cell_comparison/comparison_kingdom_cell_comparison.mp4)
+
+![Side-by-Side Comparison Plate — Comparative Eukaryotes: Animal vs. Plant vs. Fungal Cell Envelopes & Organelles](../../verification/02_kingdom_cell_comparison/comparison_kingdom_cell_comparison.png)

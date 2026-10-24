@@ -104,3 +104,15 @@ To support continuous **Exploded View (`setExplodedProgress(0.0 → 1.0)`)**, ra
 - [RCSB PDB Structure 5I32 — Plant Tonoplast Aquaporin AtTIP2;1](https://www.rcsb.org/structure/5I32)
 - [RCSB PDB Structure 4A01 — H⁺-Translocating Pyrophosphatase](https://www.rcsb.org/structure/4A01)
 - [Plant Physiology — Vacuolar Transporters & Turgor Regulation](https://academic.oup.com/plphys/article/179/4/1200/6116634)
+
+## 12. 3D Implementation & Visual Verification Assets
+
+- **Status:** `[x] Implemented, Exported to 3D GLB & Visually Verified`
+- **3D Model Asset (`.glb`):** [`plant_vacuole_tonoplast.glb`](./plant_vacuole_tonoplast.glb) (also mirrored in `eukaryote/models/plant_vacuole_tonoplast.glb` and `client/public/eukaryote/models/plant_vacuole_tonoplast.glb`)
+- **Blender 5.2 + Molecular Nodes Generator Script:** [`generate_18_plant_vacuole_tonoplast.py`](./generate_18_plant_vacuole_tonoplast.py)
+- **Live WebGL Assembled Capture (`0%`):** [`browser_plant_vacuole_tonoplast_assembled.png`](../../verification/18_plant_vacuole_tonoplast/browser_plant_vacuole_tonoplast_assembled.png)
+- **Live WebGL Exploded Capture (`75%`):** [`browser_plant_vacuole_tonoplast_exploded.png`](../../verification/18_plant_vacuole_tonoplast/browser_plant_vacuole_tonoplast_exploded.png)
+- **Side-by-Side Input vs. Output Comparison Plate (`2400×1380`):** [`comparison_plant_vacuole_tonoplast.png`](../../verification/18_plant_vacuole_tonoplast/comparison_plant_vacuole_tonoplast.png)
+- **Animated Side-by-Side Comparison Video (`1920×1080 MP4`):** [`comparison_plant_vacuole_tonoplast.mp4`](../../verification/18_plant_vacuole_tonoplast/comparison_plant_vacuole_tonoplast.mp4)
+
+![Side-by-Side Comparison Plate — Plant Central Vacuole, Tonoplast Aquaporin Tetramers & Osmotic Turgor Engine](../../verification/18_plant_vacuole_tonoplast/comparison_plant_vacuole_tonoplast.png)

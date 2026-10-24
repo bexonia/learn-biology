@@ -106,3 +106,15 @@ To support continuous **Exploded View (`setExplodedProgress(0.0 → 1.0)`)**, ra
 - [RCSB PDB-101 — Cellular Landscapes by David Goodsell](https://pdb101.rcsb.org/sci-art/goodsell-gallery)
 - [Allen Institute for Cell Science — 3D Cell Viewer](https://www.allencell.org/3d-cell-viewer.html)
 - [RCSB PDB Structure 4V6X — Human 80S Ribosome](https://www.rcsb.org/structure/4V6X)
+
+## 12. 3D Implementation & Visual Verification Assets
+
+- **Status:** `[x] Implemented, Exported to 3D GLB & Visually Verified`
+- **3D Model Asset (`.glb`):** [`eukaryotic_animal_cell.glb`](./eukaryotic_animal_cell.glb) (also mirrored in `eukaryote/models/eukaryotic_animal_cell.glb` and `client/public/eukaryote/models/eukaryotic_animal_cell.glb`)
+- **Blender 5.2 + Molecular Nodes Generator Script:** [`generate_01_eukaryotic_animal_cell.py`](./generate_01_eukaryotic_animal_cell.py)
+- **Live WebGL Assembled Capture (`0%`):** [`browser_eukaryotic_animal_cell_assembled.png`](../../verification/01_eukaryotic_animal_cell/browser_eukaryotic_animal_cell_assembled.png)
+- **Live WebGL Exploded Capture (`75%`):** [`browser_eukaryotic_animal_cell_exploded.png`](../../verification/01_eukaryotic_animal_cell/browser_eukaryotic_animal_cell_exploded.png)
+- **Side-by-Side Input vs. Output Comparison Plate (`2400×1380`):** [`comparison_eukaryotic_animal_cell.png`](../../verification/01_eukaryotic_animal_cell/comparison_eukaryotic_animal_cell.png)
+- **Animated Side-by-Side Comparison Video (`1920×1080 MP4`):** [`comparison_eukaryotic_animal_cell.mp4`](../../verification/01_eukaryotic_animal_cell/comparison_eukaryotic_animal_cell.mp4)
+
+![Side-by-Side Comparison Plate — Whole Animal Cell 3/4 Cutaway & Interactive Organelle Atlas](../../verification/01_eukaryotic_animal_cell/comparison_eukaryotic_animal_cell.png)

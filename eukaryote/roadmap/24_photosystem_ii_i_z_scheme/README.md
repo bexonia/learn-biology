@@ -104,3 +104,15 @@ To support continuous **Exploded View (`setExplodedProgress(0.0 → 1.0)`)**, ra
 - [RCSB PDB-101 — Molecule of the Month: Photosystem I](https://pdb101.rcsb.org/motm/22)
 - [RCSB PDB Structure 5XNL — Plant C₂S₂M₂ PSII–LHCII Supercomplex](https://www.rcsb.org/structure/5XNL)
 - [RCSB PDB Structure 5ZJI — Plant PSI–LHCI Supercomplex](https://www.rcsb.org/structure/5ZJI)
+
+## 12. 3D Implementation & Visual Verification Assets
+
+- **Status:** `[x] Implemented, Exported to 3D GLB & Visually Verified`
+- **3D Model Asset (`.glb`):** [`photosystem_ii_i_z_scheme.glb`](./photosystem_ii_i_z_scheme.glb) (also mirrored in `eukaryote/models/photosystem_ii_i_z_scheme.glb` and `client/public/eukaryote/models/photosystem_ii_i_z_scheme.glb`)
+- **Blender 5.2 + Molecular Nodes Generator Script:** [`generate_24_photosystem_ii_i_z_scheme.py`](./generate_24_photosystem_ii_i_z_scheme.py)
+- **Live WebGL Assembled Capture (`0%`):** [`browser_photosystem_ii_i_z_scheme_assembled.png`](../../verification/24_photosystem_ii_i_z_scheme/browser_photosystem_ii_i_z_scheme_assembled.png)
+- **Live WebGL Exploded Capture (`75%`):** [`browser_photosystem_ii_i_z_scheme_exploded.png`](../../verification/24_photosystem_ii_i_z_scheme/browser_photosystem_ii_i_z_scheme_exploded.png)
+- **Side-by-Side Input vs. Output Comparison Plate (`2400×1380`):** [`comparison_photosystem_ii_i_z_scheme.png`](../../verification/24_photosystem_ii_i_z_scheme/comparison_photosystem_ii_i_z_scheme.png)
+- **Animated Side-by-Side Comparison Video (`1920×1080 MP4`):** [`comparison_photosystem_ii_i_z_scheme.mp4`](../../verification/24_photosystem_ii_i_z_scheme/comparison_photosystem_ii_i_z_scheme.mp4)
+
+![Side-by-Side Comparison Plate — Thylakoid Light Reactions: Photosystem II (Mn₄CaO₅ Water-Splitting), Cytochrome b₆f, Photosystem I & CF₁CFo-ATP Synthase](../../verification/24_photosystem_ii_i_z_scheme/comparison_photosystem_ii_i_z_scheme.png)

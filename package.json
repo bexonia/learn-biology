@@ -2,13 +2,14 @@
   "name": "learn-biology",
   "version": "1.0.0",
   "private": true,
-  "description": "Learn Biology — 3D Interactive Prokaryotic Cell & 29 Nanomachines",
+  "description": "Learn Biology — 3D Interactive Prokaryotic & Eukaryotic Cell Explorer",
   "scripts": {
     "start": "npm --prefix client run dev -- --open",
     "dev": "npm --prefix client run dev",
     "open": "npm --prefix client run dev -- --open",
     "build": "npm --prefix client run build",
     "preview": "npm --prefix client run preview",
+    "test": "\"c:/Users/devcd/GenProjects/blender-mcp-server/.venv/Scripts/python.exe\" prokaryote/scripts/test_prokaryote_suite.py",
     "install-client": "npm --prefix client install"
   }
 }

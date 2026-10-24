@@ -105,3 +105,15 @@ To support continuous **Exploded View (`setExplodedProgress(0.0 → 1.0)`)**, ra
 - [RCSB PDB-101 — Molecule of the Month: Kinesin](https://pdb101.rcsb.org/motm/64)
 - [RCSB PDB-101 — Molecule of the Month: Dynein](https://pdb101.rcsb.org/motm/214)
 - [RCSB PDB Structure 6U42 — Human γ-Tubulin Ring Complex](https://www.rcsb.org/structure/6U42)
+
+## 12. 3D Implementation & Visual Verification Assets
+
+- **Status:** `[x] Implemented, Exported to 3D GLB & Visually Verified`
+- **3D Model Asset (`.glb`):** [`microtubules_centrosome_motors.glb`](./microtubules_centrosome_motors.glb) (also mirrored in `eukaryote/models/microtubules_centrosome_motors.glb` and `client/public/eukaryote/models/microtubules_centrosome_motors.glb`)
+- **Blender 5.2 + Molecular Nodes Generator Script:** [`generate_10_microtubules_centrosome_motors.py`](./generate_10_microtubules_centrosome_motors.py)
+- **Live WebGL Assembled Capture (`0%`):** [`browser_microtubules_centrosome_motors_assembled.png`](../../verification/10_microtubules_centrosome_motors/browser_microtubules_centrosome_motors_assembled.png)
+- **Live WebGL Exploded Capture (`75%`):** [`browser_microtubules_centrosome_motors_exploded.png`](../../verification/10_microtubules_centrosome_motors/browser_microtubules_centrosome_motors_exploded.png)
+- **Side-by-Side Input vs. Output Comparison Plate (`2400×1380`):** [`comparison_microtubules_centrosome_motors.png`](../../verification/10_microtubules_centrosome_motors/comparison_microtubules_centrosome_motors.png)
+- **Animated Side-by-Side Comparison Video (`1920×1080 MP4`):** [`comparison_microtubules_centrosome_motors.mp4`](../../verification/10_microtubules_centrosome_motors/comparison_microtubules_centrosome_motors.mp4)
+
+![Side-by-Side Comparison Plate — Microtubule 13-Protofilament Hollow Tube, Centrosome (γ-TuRC) & Kinesin / Dynein Walkers](../../verification/10_microtubules_centrosome_motors/comparison_microtubules_centrosome_motors.png)

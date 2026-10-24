@@ -105,3 +105,15 @@ To support continuous **Exploded View (`setExplodedProgress(0.0 → 1.0)`)**, ra
 - [RCSB PDB-101 — Molecule of the Month: Chaperonins](https://pdb101.rcsb.org/motm/32)
 - [RCSB PDB Structure 7LUM — Human TRiC/CCT Chaperonin Folding Tubulin](https://www.rcsb.org/structure/7LUM)
 - [RCSB PDB Structure 6MSB — Substrate-Engaged Human 26S Proteasome Cryo-EM Structure](https://www.rcsb.org/structure/6MSB)
+
+## 12. 3D Implementation & Visual Verification Assets
+
+- **Status:** `[x] Implemented, Exported to 3D GLB & Visually Verified`
+- **3D Model Asset (`.glb`):** [`chaperonin_tric_26s_proteasome.glb`](./chaperonin_tric_26s_proteasome.glb) (also mirrored in `eukaryote/models/chaperonin_tric_26s_proteasome.glb` and `client/public/eukaryote/models/chaperonin_tric_26s_proteasome.glb`)
+- **Blender 5.2 + Molecular Nodes Generator Script:** [`generate_34_chaperonin_tric_26s_proteasome.py`](./generate_34_chaperonin_tric_26s_proteasome.py)
+- **Live WebGL Assembled Capture (`0%`):** [`browser_chaperonin_tric_26s_proteasome_assembled.png`](../../verification/34_chaperonin_tric_26s_proteasome/browser_chaperonin_tric_26s_proteasome_assembled.png)
+- **Live WebGL Exploded Capture (`75%`):** [`browser_chaperonin_tric_26s_proteasome_exploded.png`](../../verification/34_chaperonin_tric_26s_proteasome/browser_chaperonin_tric_26s_proteasome_exploded.png)
+- **Side-by-Side Input vs. Output Comparison Plate (`2400×1380`):** [`comparison_chaperonin_tric_26s_proteasome.png`](../../verification/34_chaperonin_tric_26s_proteasome/comparison_chaperonin_tric_26s_proteasome.png)
+- **Animated Side-by-Side Comparison Video (`1920×1080 MP4`):** [`comparison_chaperonin_tric_26s_proteasome.mp4`](../../verification/34_chaperonin_tric_26s_proteasome/comparison_chaperonin_tric_26s_proteasome.mp4)
+
+![Side-by-Side Comparison Plate — Eukaryotic Proteostasis: TRiC/CCT Chaperonin Folding Cage, E1–E2–E3 Ubiquitin Cascade & The 26S Proteasome](../../verification/34_chaperonin_tric_26s_proteasome/comparison_chaperonin_tric_26s_proteasome.png)

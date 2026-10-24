@@ -105,3 +105,15 @@ To support continuous **Exploded View (`setExplodedProgress(0.0 → 1.0)`)**, ra
 - [RCSB PDB Structure 8B6X — Anterograde Intraflagellar Transport Train](https://www.rcsb.org/structure/8B6X)
 - [RCSB PDB-101 — Molecule of the Month: Dynein](https://pdb101.rcsb.org/motm/214)
 - [Nature Reviews Molecular Cell Biology — Structure and Function of Cilia and Flagella](https://www.nature.com/articles/s41580-018-0092-2)
+
+## 12. 3D Implementation & Visual Verification Assets
+
+- **Status:** `[x] Implemented, Exported to 3D GLB & Visually Verified`
+- **3D Model Asset (`.glb`):** [`eukaryotic_cilium_axoneme.glb`](./eukaryotic_cilium_axoneme.glb) (also mirrored in `eukaryote/models/eukaryotic_cilium_axoneme.glb` and `client/public/eukaryote/models/eukaryotic_cilium_axoneme.glb`)
+- **Blender 5.2 + Molecular Nodes Generator Script:** [`generate_12_eukaryotic_cilium_axoneme.py`](./generate_12_eukaryotic_cilium_axoneme.py)
+- **Live WebGL Assembled Capture (`0%`):** [`browser_eukaryotic_cilium_axoneme_assembled.png`](../../verification/12_eukaryotic_cilium_axoneme/browser_eukaryotic_cilium_axoneme_assembled.png)
+- **Live WebGL Exploded Capture (`75%`):** [`browser_eukaryotic_cilium_axoneme_exploded.png`](../../verification/12_eukaryotic_cilium_axoneme/browser_eukaryotic_cilium_axoneme_exploded.png)
+- **Side-by-Side Input vs. Output Comparison Plate (`2400×1380`):** [`comparison_eukaryotic_cilium_axoneme.png`](../../verification/12_eukaryotic_cilium_axoneme/comparison_eukaryotic_cilium_axoneme.png)
+- **Animated Side-by-Side Comparison Video (`1920×1080 MP4`):** [`comparison_eukaryotic_cilium_axoneme.mp4`](../../verification/12_eukaryotic_cilium_axoneme/comparison_eukaryotic_cilium_axoneme.mp4)
+
+![Side-by-Side Comparison Plate — Eukaryotic 9+2 Motile Cilium / Flagellum Axoneme & Intraflagellar Transport (IFT)](../../verification/12_eukaryotic_cilium_axoneme/comparison_eukaryotic_cilium_axoneme.png)

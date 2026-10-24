@@ -105,3 +105,15 @@ To support continuous **Exploded View (`setExplodedProgress(0.0 → 1.0)`)**, ra
 - [RCSB PDB Structure 3EMN — Mitochondrial VDAC-1 Porin](https://www.rcsb.org/structure/3EMN)
 - [RCSB PDB Structure 3TMM — Human TFAM Bound to Mitochondrial DNA](https://www.rcsb.org/structure/3TMM)
 - [RCSB PDB Structure 3J9M — Complete Human 55S Mitochondrial Ribosome](https://www.rcsb.org/structure/3J9M)
+
+## 12. 3D Implementation & Visual Verification Assets
+
+- **Status:** `[x] Implemented, Exported to 3D GLB & Visually Verified`
+- **3D Model Asset (`.glb`):** [`mitochondrion_cristae_mtdna.glb`](./mitochondrion_cristae_mtdna.glb) (also mirrored in `eukaryote/models/mitochondrion_cristae_mtdna.glb` and `client/public/eukaryote/models/mitochondrion_cristae_mtdna.glb`)
+- **Blender 5.2 + Molecular Nodes Generator Script:** [`generate_19_mitochondrion_cristae_mtdna.py`](./generate_19_mitochondrion_cristae_mtdna.py)
+- **Live WebGL Assembled Capture (`0%`):** [`browser_mitochondrion_cristae_mtdna_assembled.png`](../../verification/19_mitochondrion_cristae_mtdna/browser_mitochondrion_cristae_mtdna_assembled.png)
+- **Live WebGL Exploded Capture (`75%`):** [`browser_mitochondrion_cristae_mtdna_exploded.png`](../../verification/19_mitochondrion_cristae_mtdna/browser_mitochondrion_cristae_mtdna_exploded.png)
+- **Side-by-Side Input vs. Output Comparison Plate (`2400×1380`):** [`comparison_mitochondrion_cristae_mtdna.png`](../../verification/19_mitochondrion_cristae_mtdna/comparison_mitochondrion_cristae_mtdna.png)
+- **Animated Side-by-Side Comparison Video (`1920×1080 MP4`):** [`comparison_mitochondrion_cristae_mtdna.mp4`](../../verification/19_mitochondrion_cristae_mtdna/comparison_mitochondrion_cristae_mtdna.mp4)
+
+![Side-by-Side Comparison Plate — Whole Mitochondrion Cutaway: Double Membrane, MICOS Cristae, Matrix TCA & Circular mtDNA Ring](../../verification/19_mitochondrion_cristae_mtdna/comparison_mitochondrion_cristae_mtdna.png)

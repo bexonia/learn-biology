@@ -105,3 +105,15 @@ To support continuous **Exploded View (`setExplodedProgress(0.0 → 1.0)`)**, ra
 - [RCSB PDB Structure 5Z56 — Cryo-EM Structure of the Human Catalytic Step I Spliceosome](https://www.rcsb.org/structure/5Z56)
 - [RCSB PDB Structure 2P89 — Heptameric Sm Core Ring of Human Spliceosomal snRNPs](https://www.rcsb.org/structure/2P89)
 - [NCBI Bookshelf — Molecular Biology of the Cell: RNA Splicing & the Spliceosome](https://www.ncbi.nlm.nih.gov/books/NBK26887/#_A1095_)
+
+## 12. 3D Implementation & Visual Verification Assets
+
+- **Status:** `[x] Implemented, Exported to 3D GLB & Visually Verified`
+- **3D Model Asset (`.glb`):** [`spliceosome_rna_lariat_rings.glb`](./spliceosome_rna_lariat_rings.glb) (also mirrored in `eukaryote/models/spliceosome_rna_lariat_rings.glb` and `client/public/eukaryote/models/spliceosome_rna_lariat_rings.glb`)
+- **Blender 5.2 + Molecular Nodes Generator Script:** [`generate_31_spliceosome_rna_lariat_rings.py`](./generate_31_spliceosome_rna_lariat_rings.py)
+- **Live WebGL Assembled Capture (`0%`):** [`browser_spliceosome_rna_lariat_rings_assembled.png`](../../verification/31_spliceosome_rna_lariat_rings/browser_spliceosome_rna_lariat_rings_assembled.png)
+- **Live WebGL Exploded Capture (`75%`):** [`browser_spliceosome_rna_lariat_rings_exploded.png`](../../verification/31_spliceosome_rna_lariat_rings/browser_spliceosome_rna_lariat_rings_exploded.png)
+- **Side-by-Side Input vs. Output Comparison Plate (`2400×1380`):** [`comparison_spliceosome_rna_lariat_rings.png`](../../verification/31_spliceosome_rna_lariat_rings/comparison_spliceosome_rna_lariat_rings.png)
+- **Animated Side-by-Side Comparison Video (`1920×1080 MP4`):** [`comparison_spliceosome_rna_lariat_rings.mp4`](../../verification/31_spliceosome_rna_lariat_rings/comparison_spliceosome_rna_lariat_rings.mp4)
+
+![Side-by-Side Comparison Plate — The Spliceosome (U1–U6 snRNPs): Intron Excision, RNA Lariat Rings, Exon Ligation & Exon Junction Complex (EJC)](../../verification/31_spliceosome_rna_lariat_rings/comparison_spliceosome_rna_lariat_rings.png)

@@ -105,3 +105,15 @@ To support continuous **Exploded View (`setExplodedProgress(0.0 → 1.0)`)**, ra
 - [RCSB PDB Structure 1AOI — 2.8 Å Crystal Structure of the Nucleosome Core Particle](https://www.rcsb.org/structure/1AOI)
 - [RCSB PDB Structure 6WG3 — Human Cohesin–NIPBL–DNA Loop-Extrusion Complex](https://www.rcsb.org/structure/6WG3)
 - [NCBI Bookshelf — Molecular Biology of the Cell: Chromosomal DNA and Its Packaging in the Chromatin Fiber](https://www.ncbi.nlm.nih.gov/books/NBK26834/)
+
+## 12. 3D Implementation & Visual Verification Assets
+
+- **Status:** `[x] Implemented, Exported to 3D GLB & Visually Verified`
+- **3D Model Asset (`.glb`):** [`chromatin_nucleosome_cohesin_rings.glb`](./chromatin_nucleosome_cohesin_rings.glb) (also mirrored in `eukaryote/models/chromatin_nucleosome_cohesin_rings.glb` and `client/public/eukaryote/models/chromatin_nucleosome_cohesin_rings.glb`)
+- **Blender 5.2 + Molecular Nodes Generator Script:** [`generate_28_chromatin_nucleosome_cohesin_rings.py`](./generate_28_chromatin_nucleosome_cohesin_rings.py)
+- **Live WebGL Assembled Capture (`0%`):** [`browser_chromatin_nucleosome_cohesin_rings_assembled.png`](../../verification/28_chromatin_nucleosome_cohesin_rings/browser_chromatin_nucleosome_cohesin_rings_assembled.png)
+- **Live WebGL Exploded Capture (`75%`):** [`browser_chromatin_nucleosome_cohesin_rings_exploded.png`](../../verification/28_chromatin_nucleosome_cohesin_rings/browser_chromatin_nucleosome_cohesin_rings_exploded.png)
+- **Side-by-Side Input vs. Output Comparison Plate (`2400×1380`):** [`comparison_chromatin_nucleosome_cohesin_rings.png`](../../verification/28_chromatin_nucleosome_cohesin_rings/comparison_chromatin_nucleosome_cohesin_rings.png)
+- **Animated Side-by-Side Comparison Video (`1920×1080 MP4`):** [`comparison_chromatin_nucleosome_cohesin_rings.mp4`](../../verification/28_chromatin_nucleosome_cohesin_rings/comparison_chromatin_nucleosome_cohesin_rings.mp4)
+
+![Side-by-Side Comparison Plate — Chromatin Architecture: Nucleosome Histone Octamer, Epigenetic Tails, CTCF & Cohesin/Condensin Loop-Extrusion Rings](../../verification/28_chromatin_nucleosome_cohesin_rings/comparison_chromatin_nucleosome_cohesin_rings.png)

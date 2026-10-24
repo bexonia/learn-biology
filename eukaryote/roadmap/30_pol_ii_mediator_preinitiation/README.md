@@ -105,3 +105,15 @@ To support continuous **Exploded View (`setExplodedProgress(0.0 → 1.0)`)**, ra
 - [RCSB PDB Structure 7LBM — Human Mediator-Bound RNA Pol II Pre-Initiation Complex](https://www.rcsb.org/structure/7LBM)
 - [RCSB PDB Structure 1YTB — TATA-Box Binding Protein (TBP)–DNA Complex](https://www.rcsb.org/structure/1YTB)
 - [NCBI Bookshelf — Molecular Biology of the Cell: From DNA to RNA (Eukaryotic Transcription)](https://www.ncbi.nlm.nih.gov/books/NBK26887/)
+
+## 12. 3D Implementation & Visual Verification Assets
+
+- **Status:** `[x] Implemented, Exported to 3D GLB & Visually Verified`
+- **3D Model Asset (`.glb`):** [`pol_ii_mediator_preinitiation.glb`](./pol_ii_mediator_preinitiation.glb) (also mirrored in `eukaryote/models/pol_ii_mediator_preinitiation.glb` and `client/public/eukaryote/models/pol_ii_mediator_preinitiation.glb`)
+- **Blender 5.2 + Molecular Nodes Generator Script:** [`generate_30_pol_ii_mediator_preinitiation.py`](./generate_30_pol_ii_mediator_preinitiation.py)
+- **Live WebGL Assembled Capture (`0%`):** [`browser_pol_ii_mediator_preinitiation_assembled.png`](../../verification/30_pol_ii_mediator_preinitiation/browser_pol_ii_mediator_preinitiation_assembled.png)
+- **Live WebGL Exploded Capture (`75%`):** [`browser_pol_ii_mediator_preinitiation_exploded.png`](../../verification/30_pol_ii_mediator_preinitiation/browser_pol_ii_mediator_preinitiation_exploded.png)
+- **Side-by-Side Input vs. Output Comparison Plate (`2400×1380`):** [`comparison_pol_ii_mediator_preinitiation.png`](../../verification/30_pol_ii_mediator_preinitiation/comparison_pol_ii_mediator_preinitiation.png)
+- **Animated Side-by-Side Comparison Video (`1920×1080 MP4`):** [`comparison_pol_ii_mediator_preinitiation.mp4`](../../verification/30_pol_ii_mediator_preinitiation/comparison_pol_ii_mediator_preinitiation.mp4)
+
+![Side-by-Side Comparison Plate — Transcription Factory: RNA Polymerase II, 26-Subunit Mediator Bridge, TFIID/TFIIH Pre-Initiation Complex & 5'-Capping](../../verification/30_pol_ii_mediator_preinitiation/comparison_pol_ii_mediator_preinitiation.png)

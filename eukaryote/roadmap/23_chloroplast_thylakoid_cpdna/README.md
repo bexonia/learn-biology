@@ -104,3 +104,15 @@ To support continuous **Exploded View (`setExplodedProgress(0.0 → 1.0)`)**, ra
 - [RCSB PDB Structure 5MMJ — Spinach 70S Chloroplast Ribosome](https://www.rcsb.org/structure/5MMJ)
 - [NCBI Bookshelf — Molecular Biology of the Cell: Chloroplasts and Photosynthesis](https://www.ncbi.nlm.nih.gov/books/NBK26819/)
 - [Cell — Cryo-ET Architecture of Native Plant Thylakoid Grana Membranes](https://www.cell.com/cell/fulltext/S0092-8674(19)31271-1)
+
+## 12. 3D Implementation & Visual Verification Assets
+
+- **Status:** `[x] Implemented, Exported to 3D GLB & Visually Verified`
+- **3D Model Asset (`.glb`):** [`chloroplast_thylakoid_cpdna.glb`](./chloroplast_thylakoid_cpdna.glb) (also mirrored in `eukaryote/models/chloroplast_thylakoid_cpdna.glb` and `client/public/eukaryote/models/chloroplast_thylakoid_cpdna.glb`)
+- **Blender 5.2 + Molecular Nodes Generator Script:** [`generate_23_chloroplast_thylakoid_cpdna.py`](./generate_23_chloroplast_thylakoid_cpdna.py)
+- **Live WebGL Assembled Capture (`0%`):** [`browser_chloroplast_thylakoid_cpdna_assembled.png`](../../verification/23_chloroplast_thylakoid_cpdna/browser_chloroplast_thylakoid_cpdna_assembled.png)
+- **Live WebGL Exploded Capture (`75%`):** [`browser_chloroplast_thylakoid_cpdna_exploded.png`](../../verification/23_chloroplast_thylakoid_cpdna/browser_chloroplast_thylakoid_cpdna_exploded.png)
+- **Side-by-Side Input vs. Output Comparison Plate (`2400×1380`):** [`comparison_chloroplast_thylakoid_cpdna.png`](../../verification/23_chloroplast_thylakoid_cpdna/comparison_chloroplast_thylakoid_cpdna.png)
+- **Animated Side-by-Side Comparison Video (`1920×1080 MP4`):** [`comparison_chloroplast_thylakoid_cpdna.mp4`](../../verification/23_chloroplast_thylakoid_cpdna/comparison_chloroplast_thylakoid_cpdna.mp4)
+
+![Side-by-Side Comparison Plate — Whole Plant Chloroplast Cutaway: TOC/TIC Envelope, Stroma, Grana Thylakoids & Circular cpDNA Ring](../../verification/23_chloroplast_thylakoid_cpdna/comparison_chloroplast_thylakoid_cpdna.png)

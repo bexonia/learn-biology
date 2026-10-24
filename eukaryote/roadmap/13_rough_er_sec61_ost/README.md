@@ -105,3 +105,15 @@ To support continuous **Exploded View (`setExplodedProgress(0.0 → 1.0)`)**, ra
 - [RCSB PDB Structure 7K5I — Mammalian 80S Ribosome–Sec61–OST Complex](https://www.rcsb.org/structure/7K5I)
 - [RCSB PDB Structure 7O7F — Human SRP–Receptor Pre-Handover Complex](https://www.rcsb.org/structure/7O7F)
 - [NCBI Bookshelf — Molecular Biology of the Cell: The Endoplasmic Reticulum](https://www.ncbi.nlm.nih.gov/books/NBK26841/)
+
+## 12. 3D Implementation & Visual Verification Assets
+
+- **Status:** `[x] Implemented, Exported to 3D GLB & Visually Verified`
+- **3D Model Asset (`.glb`):** [`rough_er_sec61_ost.glb`](./rough_er_sec61_ost.glb) (also mirrored in `eukaryote/models/rough_er_sec61_ost.glb` and `client/public/eukaryote/models/rough_er_sec61_ost.glb`)
+- **Blender 5.2 + Molecular Nodes Generator Script:** [`generate_13_rough_er_sec61_ost.py`](./generate_13_rough_er_sec61_ost.py)
+- **Live WebGL Assembled Capture (`0%`):** [`browser_rough_er_sec61_ost_assembled.png`](../../verification/13_rough_er_sec61_ost/browser_rough_er_sec61_ost_assembled.png)
+- **Live WebGL Exploded Capture (`75%`):** [`browser_rough_er_sec61_ost_exploded.png`](../../verification/13_rough_er_sec61_ost/browser_rough_er_sec61_ost_exploded.png)
+- **Side-by-Side Input vs. Output Comparison Plate (`2400×1380`):** [`comparison_rough_er_sec61_ost.png`](../../verification/13_rough_er_sec61_ost/comparison_rough_er_sec61_ost.png)
+- **Animated Side-by-Side Comparison Video (`1920×1080 MP4`):** [`comparison_rough_er_sec61_ost.mp4`](../../verification/13_rough_er_sec61_ost/comparison_rough_er_sec61_ost.mp4)
+
+![Side-by-Side Comparison Plate — Rough Endoplasmic Reticulum, Signal Recognition Particle (SRP), Sec61 Translocon & N-Glycosylation](../../verification/13_rough_er_sec61_ost/comparison_rough_er_sec61_ost.png)

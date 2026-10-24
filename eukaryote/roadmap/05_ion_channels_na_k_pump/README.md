@@ -105,3 +105,15 @@ To support continuous **Exploded View (`setExplodedProgress(0.0 → 1.0)`)**, ra
 - [RCSB PDB-101 — Molecule of the Month: Potassium Channels](https://pdb101.rcsb.org/motm/38)
 - [RCSB PDB Structure 2ZXE — Sodium-Potassium Pump](https://www.rcsb.org/structure/2ZXE)
 - [RCSB PDB Structure 2R9R — Voltage-Gated Potassium Channel Kv1.2/2.1](https://www.rcsb.org/structure/2R9R)
+
+## 12. 3D Implementation & Visual Verification Assets
+
+- **Status:** `[x] Implemented, Exported to 3D GLB & Visually Verified`
+- **3D Model Asset (`.glb`):** [`ion_channels_na_k_pump.glb`](./ion_channels_na_k_pump.glb) (also mirrored in `eukaryote/models/ion_channels_na_k_pump.glb` and `client/public/eukaryote/models/ion_channels_na_k_pump.glb`)
+- **Blender 5.2 + Molecular Nodes Generator Script:** [`generate_05_ion_channels_na_k_pump.py`](./generate_05_ion_channels_na_k_pump.py)
+- **Live WebGL Assembled Capture (`0%`):** [`browser_ion_channels_na_k_pump_assembled.png`](../../verification/05_ion_channels_na_k_pump/browser_ion_channels_na_k_pump_assembled.png)
+- **Live WebGL Exploded Capture (`75%`):** [`browser_ion_channels_na_k_pump_exploded.png`](../../verification/05_ion_channels_na_k_pump/browser_ion_channels_na_k_pump_exploded.png)
+- **Side-by-Side Input vs. Output Comparison Plate (`2400×1380`):** [`comparison_ion_channels_na_k_pump.png`](../../verification/05_ion_channels_na_k_pump/comparison_ion_channels_na_k_pump.png)
+- **Animated Side-by-Side Comparison Video (`1920×1080 MP4`):** [`comparison_ion_channels_na_k_pump.mp4`](../../verification/05_ion_channels_na_k_pump/comparison_ion_channels_na_k_pump.mp4)
+
+![Side-by-Side Comparison Plate — Na⁺/K⁺-ATPase Electrogenic Pump & Voltage-Gated K⁺/Na⁺ Ion Channels](../../verification/05_ion_channels_na_k_pump/comparison_ion_channels_na_k_pump.png)

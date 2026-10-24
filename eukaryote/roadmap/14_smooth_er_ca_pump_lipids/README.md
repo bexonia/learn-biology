@@ -104,3 +104,15 @@ To support continuous **Exploded View (`setExplodedProgress(0.0 → 1.0)`)**, ra
 - [RCSB PDB-101 — Molecule of the Month: Cytochrome P450](https://pdb101.rcsb.org/motm/82)
 - [RCSB PDB Structure 1SU4 — Calcium ATPase SERCA1a](https://www.rcsb.org/structure/1SU4)
 - [RCSB PDB Structure 6U8A — Human Seipin Lipid-Droplet Assembly Ring](https://www.rcsb.org/structure/6U8A)
+
+## 12. 3D Implementation & Visual Verification Assets
+
+- **Status:** `[x] Implemented, Exported to 3D GLB & Visually Verified`
+- **3D Model Asset (`.glb`):** [`smooth_er_ca_pump_lipids.glb`](./smooth_er_ca_pump_lipids.glb) (also mirrored in `eukaryote/models/smooth_er_ca_pump_lipids.glb` and `client/public/eukaryote/models/smooth_er_ca_pump_lipids.glb`)
+- **Blender 5.2 + Molecular Nodes Generator Script:** [`generate_14_smooth_er_ca_pump_lipids.py`](./generate_14_smooth_er_ca_pump_lipids.py)
+- **Live WebGL Assembled Capture (`0%`):** [`browser_smooth_er_ca_pump_lipids_assembled.png`](../../verification/14_smooth_er_ca_pump_lipids/browser_smooth_er_ca_pump_lipids_assembled.png)
+- **Live WebGL Exploded Capture (`75%`):** [`browser_smooth_er_ca_pump_lipids_exploded.png`](../../verification/14_smooth_er_ca_pump_lipids/browser_smooth_er_ca_pump_lipids_exploded.png)
+- **Side-by-Side Input vs. Output Comparison Plate (`2400×1380`):** [`comparison_smooth_er_ca_pump_lipids.png`](../../verification/14_smooth_er_ca_pump_lipids/comparison_smooth_er_ca_pump_lipids.png)
+- **Animated Side-by-Side Comparison Video (`1920×1080 MP4`):** [`comparison_smooth_er_ca_pump_lipids.mp4`](../../verification/14_smooth_er_ca_pump_lipids/comparison_smooth_er_ca_pump_lipids.mp4)
+
+![Side-by-Side Comparison Plate — Smooth ER Tubular Network, SERCA Ca²⁺-ATPase Pump & Lipid Biogenesis](../../verification/14_smooth_er_ca_pump_lipids/comparison_smooth_er_ca_pump_lipids.png)

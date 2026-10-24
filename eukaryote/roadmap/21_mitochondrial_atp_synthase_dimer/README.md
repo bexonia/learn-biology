@@ -105,3 +105,15 @@ To support continuous **Exploded View (`setExplodedProgress(0.0 → 1.0)`)**, ra
 - [RCSB PDB Structure 1OKC — Mitochondrial ADP/ATP Carrier](https://www.rcsb.org/structure/1OKC)
 - [RCSB PDB-101 — Molecule of the Month: ATP Synthase](https://pdb101.rcsb.org/motm/72)
 - [RCSB PDB-101 — Molecule of the Month: ADP/ATP Carrier](https://pdb101.rcsb.org/motm/260)
+
+## 12. 3D Implementation & Visual Verification Assets
+
+- **Status:** `[x] Implemented, Exported to 3D GLB & Visually Verified`
+- **3D Model Asset (`.glb`):** [`mitochondrial_atp_synthase_dimer.glb`](./mitochondrial_atp_synthase_dimer.glb) (also mirrored in `eukaryote/models/mitochondrial_atp_synthase_dimer.glb` and `client/public/eukaryote/models/mitochondrial_atp_synthase_dimer.glb`)
+- **Blender 5.2 + Molecular Nodes Generator Script:** [`generate_21_mitochondrial_atp_synthase_dimer.py`](./generate_21_mitochondrial_atp_synthase_dimer.py)
+- **Live WebGL Assembled Capture (`0%`):** [`browser_mitochondrial_atp_synthase_dimer_assembled.png`](../../verification/21_mitochondrial_atp_synthase_dimer/browser_mitochondrial_atp_synthase_dimer_assembled.png)
+- **Live WebGL Exploded Capture (`75%`):** [`browser_mitochondrial_atp_synthase_dimer_exploded.png`](../../verification/21_mitochondrial_atp_synthase_dimer/browser_mitochondrial_atp_synthase_dimer_exploded.png)
+- **Side-by-Side Input vs. Output Comparison Plate (`2400×1380`):** [`comparison_mitochondrial_atp_synthase_dimer.png`](../../verification/21_mitochondrial_atp_synthase_dimer/comparison_mitochondrial_atp_synthase_dimer.png)
+- **Animated Side-by-Side Comparison Video (`1920×1080 MP4`):** [`comparison_mitochondrial_atp_synthase_dimer.mp4`](../../verification/21_mitochondrial_atp_synthase_dimer/comparison_mitochondrial_atp_synthase_dimer.mp4)
+
+![Side-by-Side Comparison Plate — V-Shaped Mitochondrial F₁Fo-ATP Synthase Dimer & ADP/ATP Translocase (AAC)](../../verification/21_mitochondrial_atp_synthase_dimer/comparison_mitochondrial_atp_synthase_dimer.png)

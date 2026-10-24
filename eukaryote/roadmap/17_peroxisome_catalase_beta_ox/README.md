@@ -105,3 +105,15 @@ To support continuous **Exploded View (`setExplodedProgress(0.0 → 1.0)`)**, ra
 - [RCSB PDB Structure 1DGF — Human Erythrocyte Catalase](https://www.rcsb.org/structure/1DGF)
 - [RCSB PDB Structure 7N5K — Human Peroxisomal ABCD1 Transporter](https://www.rcsb.org/structure/7N5K)
 - [NCBI Bookshelf — Molecular Biology of the Cell: Peroxisomes](https://www.ncbi.nlm.nih.gov/books/NBK26858/)
+
+## 12. 3D Implementation & Visual Verification Assets
+
+- **Status:** `[x] Implemented, Exported to 3D GLB & Visually Verified`
+- **3D Model Asset (`.glb`):** [`peroxisome_catalase_beta_ox.glb`](./peroxisome_catalase_beta_ox.glb) (also mirrored in `eukaryote/models/peroxisome_catalase_beta_ox.glb` and `client/public/eukaryote/models/peroxisome_catalase_beta_ox.glb`)
+- **Blender 5.2 + Molecular Nodes Generator Script:** [`generate_17_peroxisome_catalase_beta_ox.py`](./generate_17_peroxisome_catalase_beta_ox.py)
+- **Live WebGL Assembled Capture (`0%`):** [`browser_peroxisome_catalase_beta_ox_assembled.png`](../../verification/17_peroxisome_catalase_beta_ox/browser_peroxisome_catalase_beta_ox_assembled.png)
+- **Live WebGL Exploded Capture (`75%`):** [`browser_peroxisome_catalase_beta_ox_exploded.png`](../../verification/17_peroxisome_catalase_beta_ox/browser_peroxisome_catalase_beta_ox_exploded.png)
+- **Side-by-Side Input vs. Output Comparison Plate (`2400×1380`):** [`comparison_peroxisome_catalase_beta_ox.png`](../../verification/17_peroxisome_catalase_beta_ox/comparison_peroxisome_catalase_beta_ox.png)
+- **Animated Side-by-Side Comparison Video (`1920×1080 MP4`):** [`comparison_peroxisome_catalase_beta_ox.mp4`](../../verification/17_peroxisome_catalase_beta_ox/comparison_peroxisome_catalase_beta_ox.mp4)
+
+![Side-by-Side Comparison Plate — Peroxisome, PEX5/PEX14 Importomer, Fatty Acid β-Oxidation & Tetrameric Heme Catalase](../../verification/17_peroxisome_catalase_beta_ox/comparison_peroxisome_catalase_beta_ox.png)

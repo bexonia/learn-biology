@@ -106,3 +106,15 @@ To support continuous **Exploded View (`setExplodedProgress(0.0 → 1.0)`)**, ra
 - [RCSB PDB-101 — Molecule of the Month: Collagen](https://pdb101.rcsb.org/motm/4)
 - [RCSB PDB Structure 3VI4 — Integrin α5β1 Headpiece with RGD](https://www.rcsb.org/structure/3VI4)
 - [Nature Reviews Molecular Cell Biology — Integrin Mechanotransduction](https://www.nature.com/articles/nrm.2016.78)
+
+## 12. 3D Implementation & Visual Verification Assets
+
+- **Status:** `[x] Implemented, Exported to 3D GLB & Visually Verified`
+- **3D Model Asset (`.glb`):** [`ecm_integrin_focal_adhesion.glb`](./ecm_integrin_focal_adhesion.glb) (also mirrored in `eukaryote/models/ecm_integrin_focal_adhesion.glb` and `client/public/eukaryote/models/ecm_integrin_focal_adhesion.glb`)
+- **Blender 5.2 + Molecular Nodes Generator Script:** [`generate_03_ecm_integrin_focal_adhesion.py`](./generate_03_ecm_integrin_focal_adhesion.py)
+- **Live WebGL Assembled Capture (`0%`):** [`browser_ecm_integrin_focal_adhesion_assembled.png`](../../verification/03_ecm_integrin_focal_adhesion/browser_ecm_integrin_focal_adhesion_assembled.png)
+- **Live WebGL Exploded Capture (`75%`):** [`browser_ecm_integrin_focal_adhesion_exploded.png`](../../verification/03_ecm_integrin_focal_adhesion/browser_ecm_integrin_focal_adhesion_exploded.png)
+- **Side-by-Side Input vs. Output Comparison Plate (`2400×1380`):** [`comparison_ecm_integrin_focal_adhesion.png`](../../verification/03_ecm_integrin_focal_adhesion/comparison_ecm_integrin_focal_adhesion.png)
+- **Animated Side-by-Side Comparison Video (`1920×1080 MP4`):** [`comparison_ecm_integrin_focal_adhesion.mp4`](../../verification/03_ecm_integrin_focal_adhesion/comparison_ecm_integrin_focal_adhesion.mp4)
+
+![Side-by-Side Comparison Plate — Extracellular Matrix (ECM), Collagen Triple Helix & Integrin Focal Adhesion](../../verification/03_ecm_integrin_focal_adhesion/comparison_ecm_integrin_focal_adhesion.png)

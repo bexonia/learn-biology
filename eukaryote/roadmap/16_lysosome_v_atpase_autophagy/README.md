@@ -105,3 +105,15 @@ To support continuous **Exploded View (`setExplodedProgress(0.0 → 1.0)`)**, ra
 - [RCSB PDB-101 — Molecule of the Month: mTOR](https://pdb101.rcsb.org/motm/219)
 - [RCSB PDB-101 — Molecule of the Month: Autophagy](https://pdb101.rcsb.org/motm/204)
 - [NCBI Bookshelf — Molecular Biology of the Cell: Lysosomes](https://www.ncbi.nlm.nih.gov/books/NBK26844/)
+
+## 12. 3D Implementation & Visual Verification Assets
+
+- **Status:** `[x] Implemented, Exported to 3D GLB & Visually Verified`
+- **3D Model Asset (`.glb`):** [`lysosome_v_atpase_autophagy.glb`](./lysosome_v_atpase_autophagy.glb) (also mirrored in `eukaryote/models/lysosome_v_atpase_autophagy.glb` and `client/public/eukaryote/models/lysosome_v_atpase_autophagy.glb`)
+- **Blender 5.2 + Molecular Nodes Generator Script:** [`generate_16_lysosome_v_atpase_autophagy.py`](./generate_16_lysosome_v_atpase_autophagy.py)
+- **Live WebGL Assembled Capture (`0%`):** [`browser_lysosome_v_atpase_autophagy_assembled.png`](../../verification/16_lysosome_v_atpase_autophagy/browser_lysosome_v_atpase_autophagy_assembled.png)
+- **Live WebGL Exploded Capture (`75%`):** [`browser_lysosome_v_atpase_autophagy_exploded.png`](../../verification/16_lysosome_v_atpase_autophagy/browser_lysosome_v_atpase_autophagy_exploded.png)
+- **Side-by-Side Input vs. Output Comparison Plate (`2400×1380`):** [`comparison_lysosome_v_atpase_autophagy.png`](../../verification/16_lysosome_v_atpase_autophagy/comparison_lysosome_v_atpase_autophagy.png)
+- **Animated Side-by-Side Comparison Video (`1920×1080 MP4`):** [`comparison_lysosome_v_atpase_autophagy.mp4`](../../verification/16_lysosome_v_atpase_autophagy/comparison_lysosome_v_atpase_autophagy.mp4)
+
+![Side-by-Side Comparison Plate — Lysosome, Rotary V-ATPase Proton Pump (pH 4.5) & Autophagosome (LC3) Fusion](../../verification/16_lysosome_v_atpase_autophagy/comparison_lysosome_v_atpase_autophagy.png)

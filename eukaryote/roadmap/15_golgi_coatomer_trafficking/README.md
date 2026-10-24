@@ -105,3 +105,15 @@ To support continuous **Exploded View (`setExplodedProgress(0.0 → 1.0)`)**, ra
 - [RCSB PDB Structure 5A1U — COPI Coat Leaf Triad](https://www.rcsb.org/structure/5A1U)
 - [RCSB PDB Structure 6I6B — KDEL Receptor Bound to KDEL Peptide](https://www.rcsb.org/structure/6I6B)
 - [NCBI Bookshelf — Molecular Biology of the Cell: Transport from the ER through the Golgi](https://www.ncbi.nlm.nih.gov/books/NBK26941/)
+
+## 12. 3D Implementation & Visual Verification Assets
+
+- **Status:** `[x] Implemented, Exported to 3D GLB & Visually Verified`
+- **3D Model Asset (`.glb`):** [`golgi_coatomer_trafficking.glb`](./golgi_coatomer_trafficking.glb) (also mirrored in `eukaryote/models/golgi_coatomer_trafficking.glb` and `client/public/eukaryote/models/golgi_coatomer_trafficking.glb`)
+- **Blender 5.2 + Molecular Nodes Generator Script:** [`generate_15_golgi_coatomer_trafficking.py`](./generate_15_golgi_coatomer_trafficking.py)
+- **Live WebGL Assembled Capture (`0%`):** [`browser_golgi_coatomer_trafficking_assembled.png`](../../verification/15_golgi_coatomer_trafficking/browser_golgi_coatomer_trafficking_assembled.png)
+- **Live WebGL Exploded Capture (`75%`):** [`browser_golgi_coatomer_trafficking_exploded.png`](../../verification/15_golgi_coatomer_trafficking/browser_golgi_coatomer_trafficking_exploded.png)
+- **Side-by-Side Input vs. Output Comparison Plate (`2400×1380`):** [`comparison_golgi_coatomer_trafficking.png`](../../verification/15_golgi_coatomer_trafficking/comparison_golgi_coatomer_trafficking.png)
+- **Animated Side-by-Side Comparison Video (`1920×1080 MP4`):** [`comparison_golgi_coatomer_trafficking.mp4`](../../verification/15_golgi_coatomer_trafficking/comparison_golgi_coatomer_trafficking.mp4)
+
+![Side-by-Side Comparison Plate — Golgi Apparatus Cisternae Stack (Cis → Medial → Trans) & COPII / COPI Vesicle Coats](../../verification/15_golgi_coatomer_trafficking/comparison_golgi_coatomer_trafficking.png)

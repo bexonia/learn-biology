@@ -105,3 +105,15 @@ To support continuous **Exploded View (`setExplodedProgress(0.0 → 1.0)`)**, ra
 - [RCSB PDB Structure 7CBT — Human P4-ATPase Lipid Flippase ATP8A1](https://www.rcsb.org/structure/7CBT)
 - [RCSB PDB Structure 7VGI — Human Caveolin-1 8S Complex](https://www.rcsb.org/structure/7VGI)
 - [Nature Reviews Molecular Cell Biology — Lipid Rafts & Membrane Organization](https://www.nature.com/articles/nrm.2017.16)
+
+## 12. 3D Implementation & Visual Verification Assets
+
+- **Status:** `[x] Implemented, Exported to 3D GLB & Visually Verified`
+- **3D Model Asset (`.glb`):** [`plasma_membrane_lipid_raft.glb`](./plasma_membrane_lipid_raft.glb) (also mirrored in `eukaryote/models/plasma_membrane_lipid_raft.glb` and `client/public/eukaryote/models/plasma_membrane_lipid_raft.glb`)
+- **Blender 5.2 + Molecular Nodes Generator Script:** [`generate_04_plasma_membrane_lipid_raft.py`](./generate_04_plasma_membrane_lipid_raft.py)
+- **Live WebGL Assembled Capture (`0%`):** [`browser_plasma_membrane_lipid_raft_assembled.png`](../../verification/04_plasma_membrane_lipid_raft/browser_plasma_membrane_lipid_raft_assembled.png)
+- **Live WebGL Exploded Capture (`75%`):** [`browser_plasma_membrane_lipid_raft_exploded.png`](../../verification/04_plasma_membrane_lipid_raft/browser_plasma_membrane_lipid_raft_exploded.png)
+- **Side-by-Side Input vs. Output Comparison Plate (`2400×1380`):** [`comparison_plasma_membrane_lipid_raft.png`](../../verification/04_plasma_membrane_lipid_raft/comparison_plasma_membrane_lipid_raft.png)
+- **Animated Side-by-Side Comparison Video (`1920×1080 MP4`):** [`comparison_plasma_membrane_lipid_raft.mp4`](../../verification/04_plasma_membrane_lipid_raft/comparison_plasma_membrane_lipid_raft.mp4)
+
+![Side-by-Side Comparison Plate — Eukaryotic Plasma Membrane, Cholesterol Stiffening Rings & Glycocalyx](../../verification/04_plasma_membrane_lipid_raft/comparison_plasma_membrane_lipid_raft.png)

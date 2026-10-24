@@ -105,3 +105,15 @@ To support continuous **Exploded View (`setExplodedProgress(0.0 → 1.0)`)**, ra
 - [RCSB PDB Structure 7R5K — Cryo-EM Structure of the Human Nuclear Pore Complex](https://www.rcsb.org/structure/7R5K)
 - [RCSB PDB Structure 1IBR — Complex of Importin-β with RanGTP](https://www.rcsb.org/structure/1IBR)
 - [NCBI Bookshelf — Molecular Biology of the Cell: The Transport of Molecules Between the Nucleus and the Cytosol](https://www.ncbi.nlm.nih.gov/books/NBK26932/)
+
+## 12. 3D Implementation & Visual Verification Assets
+
+- **Status:** `[x] Implemented, Exported to 3D GLB & Visually Verified`
+- **3D Model Asset (`.glb`):** [`nuclear_pore_complex_npc.glb`](./nuclear_pore_complex_npc.glb) (also mirrored in `eukaryote/models/nuclear_pore_complex_npc.glb` and `client/public/eukaryote/models/nuclear_pore_complex_npc.glb`)
+- **Blender 5.2 + Molecular Nodes Generator Script:** [`generate_27_nuclear_pore_complex_npc.py`](./generate_27_nuclear_pore_complex_npc.py)
+- **Live WebGL Assembled Capture (`0%`):** [`browser_nuclear_pore_complex_npc_assembled.png`](../../verification/27_nuclear_pore_complex_npc/browser_nuclear_pore_complex_npc_assembled.png)
+- **Live WebGL Exploded Capture (`75%`):** [`browser_nuclear_pore_complex_npc_exploded.png`](../../verification/27_nuclear_pore_complex_npc/browser_nuclear_pore_complex_npc_exploded.png)
+- **Side-by-Side Input vs. Output Comparison Plate (`2400×1380`):** [`comparison_nuclear_pore_complex_npc.png`](../../verification/27_nuclear_pore_complex_npc/comparison_nuclear_pore_complex_npc.png)
+- **Animated Side-by-Side Comparison Video (`1920×1080 MP4`):** [`comparison_nuclear_pore_complex_npc.mp4`](../../verification/27_nuclear_pore_complex_npc/comparison_nuclear_pore_complex_npc.mp4)
+
+![Side-by-Side Comparison Plate — The Nuclear Pore Complex (NPC): 120 MDa Octagonal Gate, FG-Repeat Hydrogel & RanGTP/RanGDP Transport Cycle](../../verification/27_nuclear_pore_complex_npc/comparison_nuclear_pore_complex_npc.png)

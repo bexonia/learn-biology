@@ -105,3 +105,15 @@ To support continuous **Exploded View (`setExplodedProgress(0.0 → 1.0)`)**, ra
 - [RCSB PDB-101 — Molecule of the Month: Transfer RNA (tRNA)](https://pdb101.rcsb.org/motm/15)
 - [RCSB PDB Structure 1BNA — Structure of a B-DNA Dodecamer (Drew–Dickerson)](https://www.rcsb.org/structure/1BNA)
 - [RCSB PDB Structure 1EHZ — Atomic Resolution Structure of Yeast Phenylalanine tRNA](https://www.rcsb.org/structure/1EHZ)
+
+## 12. 3D Implementation & Visual Verification Assets
+
+- **Status:** `[x] Implemented, Exported to 3D GLB & Visually Verified`
+- **3D Model Asset (`.glb`):** [`eukaryotic_monomers_dna_rna_rings.glb`](./eukaryotic_monomers_dna_rna_rings.glb) (also mirrored in `eukaryote/models/eukaryotic_monomers_dna_rna_rings.glb` and `client/public/eukaryote/models/eukaryotic_monomers_dna_rna_rings.glb`)
+- **Blender 5.2 + Molecular Nodes Generator Script:** [`generate_36_eukaryotic_monomers_dna_rna_rings.py`](./generate_36_eukaryotic_monomers_dna_rna_rings.py)
+- **Live WebGL Assembled Capture (`0%`):** [`browser_eukaryotic_monomers_dna_rna_rings_assembled.png`](../../verification/36_eukaryotic_monomers_dna_rna_rings/browser_eukaryotic_monomers_dna_rna_rings_assembled.png)
+- **Live WebGL Exploded Capture (`75%`):** [`browser_eukaryotic_monomers_dna_rna_rings_exploded.png`](../../verification/36_eukaryotic_monomers_dna_rna_rings/browser_eukaryotic_monomers_dna_rna_rings_exploded.png)
+- **Side-by-Side Input vs. Output Comparison Plate (`2400×1380`):** [`comparison_eukaryotic_monomers_dna_rna_rings.png`](../../verification/36_eukaryotic_monomers_dna_rna_rings/comparison_eukaryotic_monomers_dna_rna_rings.png)
+- **Animated Side-by-Side Comparison Video (`1920×1080 MP4`):** [`comparison_eukaryotic_monomers_dna_rna_rings.mp4`](../../verification/36_eukaryotic_monomers_dna_rna_rings/comparison_eukaryotic_monomers_dna_rna_rings.mp4)
+
+![Side-by-Side Comparison Plate — The Atomic & Monomeric Foundation: B-DNA vs. A-RNA Helices, Purine/Pyrimidine Rings, 5-MeC, m⁷G Cap, ATP & Cholesterol](../../verification/36_eukaryotic_monomers_dna_rna_rings/comparison_eukaryotic_monomers_dna_rna_rings.png)

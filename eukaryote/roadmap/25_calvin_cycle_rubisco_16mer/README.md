@@ -105,3 +105,15 @@ To support continuous **Exploded View (`setExplodedProgress(0.0 → 1.0)`)**, ra
 - [RCSB PDB Structure 1RBL — Spinach L₈S₈ RuBisCO Hexadecamer](https://www.rcsb.org/structure/1RBL)
 - [RCSB PDB Structure 3ZUH — Chloroplast RuBisCO Activase AAA+ Hexamer](https://www.rcsb.org/structure/3ZUH)
 - [NCBI Bookshelf — Biochemistry: The Calvin Cycle & Photosynthetic Carbon Assimilation](https://www.ncbi.nlm.nih.gov/books/NBK22468/)
+
+## 12. 3D Implementation & Visual Verification Assets
+
+- **Status:** `[x] Implemented, Exported to 3D GLB & Visually Verified`
+- **3D Model Asset (`.glb`):** [`calvin_cycle_rubisco_16mer.glb`](./calvin_cycle_rubisco_16mer.glb) (also mirrored in `eukaryote/models/calvin_cycle_rubisco_16mer.glb` and `client/public/eukaryote/models/calvin_cycle_rubisco_16mer.glb`)
+- **Blender 5.2 + Molecular Nodes Generator Script:** [`generate_25_calvin_cycle_rubisco_16mer.py`](./generate_25_calvin_cycle_rubisco_16mer.py)
+- **Live WebGL Assembled Capture (`0%`):** [`browser_calvin_cycle_rubisco_16mer_assembled.png`](../../verification/25_calvin_cycle_rubisco_16mer/browser_calvin_cycle_rubisco_16mer_assembled.png)
+- **Live WebGL Exploded Capture (`75%`):** [`browser_calvin_cycle_rubisco_16mer_exploded.png`](../../verification/25_calvin_cycle_rubisco_16mer/browser_calvin_cycle_rubisco_16mer_exploded.png)
+- **Side-by-Side Input vs. Output Comparison Plate (`2400×1380`):** [`comparison_calvin_cycle_rubisco_16mer.png`](../../verification/25_calvin_cycle_rubisco_16mer/comparison_calvin_cycle_rubisco_16mer.png)
+- **Animated Side-by-Side Comparison Video (`1920×1080 MP4`):** [`comparison_calvin_cycle_rubisco_16mer.mp4`](../../verification/25_calvin_cycle_rubisco_16mer/comparison_calvin_cycle_rubisco_16mer.mp4)
+
+![Side-by-Side Comparison Plate — The Calvin–Benson Cycle & RuBisCO Hexadecamer (L₈S₈ Carbon Fixation vs. Photorespiration)](../../verification/25_calvin_cycle_rubisco_16mer/comparison_calvin_cycle_rubisco_16mer.png)

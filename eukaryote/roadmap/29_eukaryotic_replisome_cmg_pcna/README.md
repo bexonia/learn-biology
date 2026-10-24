@@ -105,3 +105,15 @@ To support continuous **Exploded View (`setExplodedProgress(0.0 → 1.0)`)**, ra
 - [RCSB PDB Structure 6UOM — Human CMG Helicase on a Replication Fork](https://www.rcsb.org/structure/6UOM)
 - [RCSB PDB Structure 1PLQ — Eukaryotic PCNA Homotrimeric Sliding Clamp Ring](https://www.rcsb.org/structure/1PLQ)
 - [NCBI Bookshelf — Molecular Biology of the Cell: DNA Replication Mechanisms](https://www.ncbi.nlm.nih.gov/books/NBK26850/)
+
+## 12. 3D Implementation & Visual Verification Assets
+
+- **Status:** `[x] Implemented, Exported to 3D GLB & Visually Verified`
+- **3D Model Asset (`.glb`):** [`eukaryotic_replisome_cmg_pcna.glb`](./eukaryotic_replisome_cmg_pcna.glb) (also mirrored in `eukaryote/models/eukaryotic_replisome_cmg_pcna.glb` and `client/public/eukaryote/models/eukaryotic_replisome_cmg_pcna.glb`)
+- **Blender 5.2 + Molecular Nodes Generator Script:** [`generate_29_eukaryotic_replisome_cmg_pcna.py`](./generate_29_eukaryotic_replisome_cmg_pcna.py)
+- **Live WebGL Assembled Capture (`0%`):** [`browser_eukaryotic_replisome_cmg_pcna_assembled.png`](../../verification/29_eukaryotic_replisome_cmg_pcna/browser_eukaryotic_replisome_cmg_pcna_assembled.png)
+- **Live WebGL Exploded Capture (`75%`):** [`browser_eukaryotic_replisome_cmg_pcna_exploded.png`](../../verification/29_eukaryotic_replisome_cmg_pcna/browser_eukaryotic_replisome_cmg_pcna_exploded.png)
+- **Side-by-Side Input vs. Output Comparison Plate (`2400×1380`):** [`comparison_eukaryotic_replisome_cmg_pcna.png`](../../verification/29_eukaryotic_replisome_cmg_pcna/comparison_eukaryotic_replisome_cmg_pcna.png)
+- **Animated Side-by-Side Comparison Video (`1920×1080 MP4`):** [`comparison_eukaryotic_replisome_cmg_pcna.mp4`](../../verification/29_eukaryotic_replisome_cmg_pcna/comparison_eukaryotic_replisome_cmg_pcna.mp4)
+
+![Side-by-Side Comparison Plate — The Eukaryotic Replisome: CMG Helicase (Cdc45–MCM2-7–GINS), Pol ε/δ/α, RFC & homotrimeric PCNA Sliding Clamp Rings](../../verification/29_eukaryotic_replisome_cmg_pcna/comparison_eukaryotic_replisome_cmg_pcna.png)

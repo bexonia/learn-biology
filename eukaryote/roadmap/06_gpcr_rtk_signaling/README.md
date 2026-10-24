@@ -106,3 +106,15 @@ To support continuous **Exploded View (`setExplodedProgress(0.0 → 1.0)`)**, ra
 - [RCSB PDB-101 — Molecule of the Month: Epidermal Growth Factor](https://pdb101.rcsb.org/motm/126)
 - [RCSB PDB Structure 3SN6 — Nobel-Prize β₂-AR–Gs Complex](https://www.rcsb.org/structure/3SN6)
 - [RCSB PDB Structure 8H36 — Human Adenylyl Cyclase AC9](https://www.rcsb.org/structure/8H36)
+
+## 12. 3D Implementation & Visual Verification Assets
+
+- **Status:** `[x] Implemented, Exported to 3D GLB & Visually Verified`
+- **3D Model Asset (`.glb`):** [`gpcr_rtk_signaling.glb`](./gpcr_rtk_signaling.glb) (also mirrored in `eukaryote/models/gpcr_rtk_signaling.glb` and `client/public/eukaryote/models/gpcr_rtk_signaling.glb`)
+- **Blender 5.2 + Molecular Nodes Generator Script:** [`generate_06_gpcr_rtk_signaling.py`](./generate_06_gpcr_rtk_signaling.py)
+- **Live WebGL Assembled Capture (`0%`):** [`browser_gpcr_rtk_signaling_assembled.png`](../../verification/06_gpcr_rtk_signaling/browser_gpcr_rtk_signaling_assembled.png)
+- **Live WebGL Exploded Capture (`75%`):** [`browser_gpcr_rtk_signaling_exploded.png`](../../verification/06_gpcr_rtk_signaling/browser_gpcr_rtk_signaling_exploded.png)
+- **Side-by-Side Input vs. Output Comparison Plate (`2400×1380`):** [`comparison_gpcr_rtk_signaling.png`](../../verification/06_gpcr_rtk_signaling/comparison_gpcr_rtk_signaling.png)
+- **Animated Side-by-Side Comparison Video (`1920×1080 MP4`):** [`comparison_gpcr_rtk_signaling.mp4`](../../verification/06_gpcr_rtk_signaling/comparison_gpcr_rtk_signaling.mp4)
+
+![Side-by-Side Comparison Plate — GPCR 7-Transmembrane Receptor, Heterotrimeric G-Protein & RTK Dimerization](../../verification/06_gpcr_rtk_signaling/comparison_gpcr_rtk_signaling.png)

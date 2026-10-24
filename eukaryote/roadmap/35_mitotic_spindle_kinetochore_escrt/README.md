@@ -105,3 +105,15 @@ To support continuous **Exploded View (`setExplodedProgress(0.0 → 1.0)`)**, ra
 - [RCSB PDB Structure 5TCS — Human Centromeric CENP-A Nucleosome Complex](https://www.rcsb.org/structure/5TCS)
 - [RCSB PDB Structure 6VME — Cryo-EM Structure of ESCRT-III Helical Filaments with VPS4](https://www.rcsb.org/structure/6VME)
 - [NCBI Bookshelf — Molecular Biology of the Cell: Mitosis & Cytokinesis](https://www.ncbi.nlm.nih.gov/books/NBK26934/)
+
+## 12. 3D Implementation & Visual Verification Assets
+
+- **Status:** `[x] Implemented, Exported to 3D GLB & Visually Verified`
+- **3D Model Asset (`.glb`):** [`mitotic_spindle_kinetochore_escrt.glb`](./mitotic_spindle_kinetochore_escrt.glb) (also mirrored in `eukaryote/models/mitotic_spindle_kinetochore_escrt.glb` and `client/public/eukaryote/models/mitotic_spindle_kinetochore_escrt.glb`)
+- **Blender 5.2 + Molecular Nodes Generator Script:** [`generate_35_mitotic_spindle_kinetochore_escrt.py`](./generate_35_mitotic_spindle_kinetochore_escrt.py)
+- **Live WebGL Assembled Capture (`0%`):** [`browser_mitotic_spindle_kinetochore_escrt_assembled.png`](../../verification/35_mitotic_spindle_kinetochore_escrt/browser_mitotic_spindle_kinetochore_escrt_assembled.png)
+- **Live WebGL Exploded Capture (`75%`):** [`browser_mitotic_spindle_kinetochore_escrt_exploded.png`](../../verification/35_mitotic_spindle_kinetochore_escrt/browser_mitotic_spindle_kinetochore_escrt_exploded.png)
+- **Side-by-Side Input vs. Output Comparison Plate (`2400×1380`):** [`comparison_mitotic_spindle_kinetochore_escrt.png`](../../verification/35_mitotic_spindle_kinetochore_escrt/comparison_mitotic_spindle_kinetochore_escrt.png)
+- **Animated Side-by-Side Comparison Video (`1920×1080 MP4`):** [`comparison_mitotic_spindle_kinetochore_escrt.mp4`](../../verification/35_mitotic_spindle_kinetochore_escrt/comparison_mitotic_spindle_kinetochore_escrt.mp4)
+
+![Side-by-Side Comparison Plate — Eukaryotic Cell Division (Mitosis & Cytokinesis): Bipolar Centrosome Spindle, Ndc80 Kinetochore, APC/C & ESCRT-III Abscission](../../verification/35_mitotic_spindle_kinetochore_escrt/comparison_mitotic_spindle_kinetochore_escrt.png)

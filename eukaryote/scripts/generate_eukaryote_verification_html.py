@@ -48,13 +48,19 @@ def build_html(prefix: str) -> str:
         pdb2_key = pdb2.split("_")[0]
         pdb2_url = f"https://www.rcsb.org/structure/{pdb2_key}"
 
-        exp_url = f"{p}{folder}/expected_{sid}.png"
-        rcsb1_url = f"{p}{folder}/rcsb_{pdb1}.jpg"
-        rcsb2_url = f"{p}{folder}/rcsb_{pdb2}.jpg"
-        asm_url = f"{p}{folder}/browser_{sid}_assembled.png"
-        exp3d_url = f"{p}{folder}/browser_{sid}_exploded.png"
-        comp_url = f"{p}{folder}/comparison_{sid}.png"
-        mp4_url = f"{p}{folder}/comparison_{sid}.mp4"
+        def _ver(rel_fname: str) -> str:
+            full_p = os.path.join(VER_DIR, folder, rel_fname)
+            if os.path.exists(full_p):
+                return f"?v={int(os.path.getmtime(full_p))}"
+            return ""
+
+        exp_url = f"{p}{folder}/expected_{sid}.png{_ver(f'expected_{sid}.png')}"
+        rcsb1_url = f"{p}{folder}/rcsb_{pdb1}.jpg{_ver(f'rcsb_{pdb1}.jpg')}"
+        rcsb2_url = f"{p}{folder}/rcsb_{pdb2}.jpg{_ver(f'rcsb_{pdb2}.jpg')}"
+        asm_url = f"{p}{folder}/browser_{sid}_assembled.png{_ver(f'browser_{sid}_assembled.png')}"
+        exp3d_url = f"{p}{folder}/browser_{sid}_exploded.png{_ver(f'browser_{sid}_exploded.png')}"
+        comp_url = f"{p}{folder}/comparison_{sid}.png{_ver(f'comparison_{sid}.png')}"
+        mp4_url = f"{p}{folder}/comparison_{sid}.mp4{_ver(f'comparison_{sid}.mp4')}"
 
         refs_links_html = " · ".join(
             f'<a href="{r[1]}" target="_blank" rel="noopener" class="ref-ext-link">📖 {r[0]} ↗</a>'

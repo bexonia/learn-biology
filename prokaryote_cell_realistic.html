@@ -620,11 +620,14 @@ function buildFlagella() {
     }
     // the hook bends the axis toward the back of the cell, where the filaments gather into a bundle as it swims (forward is +x)
     const D = V(-1.6, 0, 0).add(n).normalize(), h = p.clone().addScaledVector(n, .45).addScaledVector(D, .3);
-    cell.add(new THREE.Mesh(new THREE.TubeGeometry(new THREE.CatmullRomCurve3([at(.01), p.clone().addScaledVector(n, .25), p.clone().addScaledVector(n, .4).addScaledVector(D, .12), h]), 24, .09, 12), reg('flag', phys({ color: '#b8c4ff', roughness: .35, clearcoat: .5 }))));
+    // (it starts inside the L ring, and is never cut away: it lies outside the cell, like the filament it turns)
+    cell.add(new THREE.Mesh(new THREE.TubeGeometry(new THREE.CatmullRomCurve3([at(.05), p.clone().addScaledVector(n, .25), p.clone().addScaledVector(n, .4).addScaledVector(D, .12), h]), 24, .09, 12), reg('flag', phys({ color: '#b8c4ff', roughness: .35, clearcoat: .5, side: THREE.DoubleSide, clippingPlanes: [] }))));
     // the filament: a left-handed helix 0.4 µm across with a 2.3 µm pitch (its normal form), built round its own axis so it can spin
-    const g = new THREE.Group(); g.position.copy(h); g.quaternion.setFromUnitVectors(V(1, 0, 0), D); cell.add(g);
+    // its local x is the helix axis and local y points away from the cell, so the filament leaves the hook straight and swings outward
+    const yo = n.clone().addScaledVector(D, -n.dot(D)).normalize(), g = new THREE.Group(); g.position.copy(h); g.quaternion.setFromRotationMatrix(new THREE.Matrix4().makeBasis(D, yo, D.clone().cross(yo))); cell.add(g);
     const S = balls('flag', g, false), fc = col('#dfe6ff'); let last = V();
-    for (let s = .08; s < 50; s += .1) { const A = 2 * sm(Math.min(1, s / 6)), a = -2 * Math.PI * s / 23, q = V(s, A * Math.cos(a), A * Math.sin(a)); S.stick(last, q, .1, fc, fc); last = q; }
+    for (let s = .08; s < 50; s += .1) { const A = 2 * sm(Math.min(1, s / 15)), a = -2 * Math.PI * s / 23,   // the helix widens slowly, so near the cell it never swings back into it
+      q = V(s, A * Math.cos(a), A * Math.sin(a)); S.stick(last, q, .1, fc, fc); last = q; }
     S.done();
     const m = { c: at(.315), n, peri: at(.2), cyto: at(.5), hook: h, p, g, at, stators, D }; motors.push(m); FLAGELLA.push(m);
     return m;

@@ -209,7 +209,8 @@ A ~530 bp stretch laid flat on the long face near the nucleoid's edge, registere
 - **Membrane proteins** sit at random spots on the inner membrane's mid-plane, up to 22 nm behind a face. Each records `c` (centre), `n` (outward), `cyto` and `peri` (where molecules dock on each side) for the metabolism.
 - **Flagella:**
   - Each filament is built in its own group: local x is the helix axis, and the group's origin is the hook's end. The frame loop calls `group.rotateX`, which spins the helix like a corkscrew.
-  - The filament axis points back and out (`D = normalize(−1.6 x̂ + n)`), so the filaments trail behind a cell swimming toward +x. Their helix amplitude grows over the first 600 nm, so they clear the cell body.
+  - The filament axis points back and out (`D = normalize(−1.6 x̂ + n)`), so the filaments trail behind a cell swimming toward +x. The group's local y points away from the cell, and the helix amplitude grows over the first 1.5 µm, so the filament leaves the hook straight and never swings back into the cell body.
+  - The hook (a tube from inside the L ring to the filament's start) is two-sided and never clipped, like the filament, so it stays whole even on the motor that sits on the cut.
   - Base spin is 1.8 rad/s × the speed slider. Each time a motor completes its proton recipe, its spin jumps (§8).
 - **`rnaFold` option `o.ok(q)`:** a candidate step is penalised if `ok` is false. The pages use `inCytoCut` (inside the cytoplasm, not in the wedge), so mRNAs never cross membranes.
 
@@ -337,6 +338,7 @@ As for the animal cell (local save server, `__cell` hook, screenshots), plus:
 | A tag missing in the gene close-up | HU sits on the DNA, so the DNA tag had already taken its spot on screen | place the HU tag before the DNA tag |
 | Chemoreceptor array buried in proteins | the array was not in the occupancy grid | grid-register receptors, the baseplate, MreB and motors |
 | ATP synthase inside a motor's C ring | membrane proteins were placed before motors | build flagella first |
+| The filament seemed to grow out of the membrane away from its motor | the hook lay in the cut plane and was half clipped, one-sided, so it vanished; the helix widened within 600 nm, swinging its first stretch back down to the cell | the hook is never clipped and is two-sided; the filament's frame turns its first swing outward, and the helix widens over 1.5 µm |
 | C ring floating below the motor; the rod vanished at the cut; proteins inside the C ring | no part joined the C ring to the MS ring; one-sided materials hid sliced parts; the grid only checks neighbouring cells, so a few large markers did not keep the crowd out | a FliG collar joins them and the rod runs from the export gate up; motor parts two-sided; the motor's volume filled with small grid markers |
 | `Identifier 'nearest' has already been declared` | an embed helper reused a metabolism name | renamed it `frontmost` |
 | Outer membrane looked like cream plastic | pale gel colour and strong sheen over a pink inner membrane | green gel colour and attenuation, less sheen, darker inner membrane |

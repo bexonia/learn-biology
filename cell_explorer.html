@@ -435,19 +435,11 @@ function buildCell() {
     an.push(A(golgi.position, 'Golgi apparatus', 'golgi'));
   }
 
-  const mitos = [];
+  // the same mitochondrion model as its own level, scaled down (clones share geometry and materials)
+  const mitoProto = makeMitochondrion().group, mitos = [];
   for (let i = 0; i < 11; i++) {
-    const m = new THREE.Group(), len = rr(1.3, 2.4), r = rr(.45, .62);
-    m.add(new THREE.Mesh(displace(new THREE.CapsuleGeometry(r, len, 12, 32), .04, 1.6, rand() * 50, 3), xray(C.mito, .95, 2.2, .015)));
-    m.add(new THREE.Mesh(new THREE.CapsuleGeometry(r * .86, len * .95, 10, 28), xray(C.mito, .45, 1.6, .01)));
-    const cr = xray(C.mito, .9, 1, .1);
-    for (let s = 0; s < 3; s++) {
-      const pts = [], n = 34, ph = rand() * 6;
-      for (let k = 0; k <= n; k++) { const y = (k / n - .5) * (len + r * .8), env = Math.sqrt(Math.max(0, 1 - (2 * y / (len + r * 1.6)) ** 2)); pts.push(V(Math.sin(k * 1.35 + ph) * r * .72 * env, y, (s - 1) * r * .38)); }
-      m.add(tube(pts, .022, cr, 4));
-    }
-    m.position.copy(spot(len / 2 + r)); m.rotation.set(rr(0, 6.3), rr(0, 6.3), rr(0, 6.3));
-    g.add(m); mitos.push(m.position);
+    const sc = rr(.28, .38), sy = sc * rr(.85, 1.15), m = mitoProto.clone(); m.scale.set(sc, sy, sc);
+    m.position.copy(spot(4 * sy)); m.rotation.set(rr(0, 6.3), rr(0, 6.3), rr(0, 6.3)); g.add(m); mitos.push(m.position);
   }
   an.push(A(front(mitos), 'Mitochondrion', 'mitochondrion'));
 
@@ -1081,31 +1073,48 @@ function buildVesicle() {
 // =====================================================================
 // Energy and recycling: mitochondrion, ATP synthase, lysosome
 // =====================================================================
-function buildMito() {
-  const g = new THREE.Group(), body = new THREE.Group(), L = 2.4; g.add(body);
+// One mitochondrion, used both at its own level and (scaled down) in the whole-cell views.
+// Two membranes; the cristae are hollow folds of the inner membrane, each joined to it
+// through a narrow crista junction and reaching partway across from alternating sides.
+function makeMitochondrion() {
+  const g = new THREE.Group(), L = 2.4, RO = 1.6, RI = 1.42, an = {}, q = new THREE.Quaternion();
   const prof = r => { const pts = []; for (let i = 0; i <= 12; i++) { const a = -Math.PI / 2 + i / 12 * Math.PI / 2; pts.push(new THREE.Vector2(Math.max(r * Math.cos(a), .001), -L + r * Math.sin(a))); } for (let i = 12; i >= 0; i--) { const a = Math.PI / 2 - i / 12 * Math.PI / 2; pts.push(new THREE.Vector2(Math.max(r * Math.cos(a), .001), L + r * Math.sin(a))); } return pts; };
   const lathe = (r, int, col) => new THREE.Mesh(new THREE.LatheGeometry(prof(r), 120, Math.PI / 4, Math.PI * 1.5), xray(col, int, 2.2, .015));
-  body.add(lathe(1.6, 1.2, '#ffe066'), lathe(1.42, .7, '#ffd23d'));
-  const plates = [];
+  g.add(lathe(RO, 1.2, C.mito), lathe(RI, .75, '#ffd23d'));
+  const rAt = y => { const o = Math.max(0, Math.abs(y) - L); return Math.sqrt(Math.max(0, RI * RI - o * o)); };
+  const cm = xray('#fff0a8', 1, 2.4, .004), jm = xray('#ffd23d', 1.3, 1.2, .08), st = [], hd = [], cr = [];
   for (let k = 0; k < 11; k++) {
-    const y = -3.3 + k * .66, over = Math.max(0, Math.abs(y) - L), rad = 1.3 * Math.sqrt(Math.max(.05, 1 - (over / 1.42) ** 2));
-    const geo = displace(new THREE.SphereGeometry(1, 48, 16), .08, 1.8, k * 3.1, 3); geo.scale(rad * .95, .07, rad * .95);
-    const m = new THREE.Mesh(geo, xray('#ffe066', .9, 1.4, .03)); m.position.set(k % 2 ? .22 : -.22, y, 0); m.rotation.set(rr(-.12, .12), 0, rr(-.12, .12)); body.add(m); plates.push({ y, rad, x: m.position.x });
+    const y = -3.25 + k * .65, R = rAt(y) - .04; if (R < .6) continue;
+    const s = k % 2 ? 1 : -1, a = R * .6, x0 = s * (R - .22 - a), c = .86 * Math.sqrt(Math.max(.01, R * R - x0 * x0)), th = .11;
+    const geo = displace(new THREE.SphereGeometry(1, 48, 16), .05, 2, k * 3.1, 3); geo.scale(a, th, c);
+    const m = new THREE.Mesh(geo, cm); m.position.set(x0, y, 0); g.add(m);
+    const jx0 = x0 + s * a * .96, jx1 = s * (R + .04), neck = new THREE.Mesh(new THREE.CylinderGeometry(.085, .085, 1, 12, 1, true), jm);
+    neck.position.set((jx0 + jx1) / 2, y, 0); neck.rotation.z = Math.PI / 2; neck.scale.y = Math.abs(jx1 - jx0) + .06; g.add(neck);
+    cr.push({ y, x0, a, c, th, jx: (jx0 + jx1) / 2 });
+    // ATP synthase studs both outer faces of the fold, heads pointing into the matrix
+    for (let i = 0; i < 16; i++) {
+      const u = rr(-.85, .85), v = rr(-.85, .85) * Math.sqrt(1 - u * u), f = rand() < .5 ? 1 : -1, b = V(x0 + a * u, y + f * th * Math.sqrt(Math.max(0, 1 - u * u - v * v)), c * v);
+      st.push(cylM(b, b.clone().add(V(0, f * .12, 0)), .015)); const h = b.clone().add(V(0, f * .17, 0)); hd.push(M4(h, q, .05));
+      if (h.z > .3 && (!an.atp || h.z > an.atp.z)) an.atp = h.clone();
+    }
   }
-  const st = [], hd = [], q = new THREE.Quaternion(); let atp = null;
-  for (let i = 0; i < 180; i++) {
-    const pl = plates[Math.floor(rand() * plates.length)], a = rr(0, Math.PI * 2), r = pl.rad * rr(.3, .9), b = V(pl.x + r * Math.sin(a), pl.y + .07, r * Math.cos(a));
-    st.push(cylM(b, b.clone().add(V(0, .12, 0)), .015)); hd.push(M4(b.clone().add(V(0, .17, 0)), q, .055));
-    if (!inCut(V(b.x, 0, b.z).normalize()) || (atp && b.z < atp.z)) continue; atp = b.clone().add(V(0, .17, 0));
-  }
-  body.add(instanced(unitCyl, std('#ffb35c'), st), instanced(sphGeo, std('#ff6b6b', { glow: .4 }), hd));
-  cloud(body, 700, () => { let v; do { v = V(rr(-1.3, 1.3), rr(-3.4, 3.4), rr(-1.3, 1.3)); } while (Math.hypot(v.x, v.z) > 1.3); return v; }, '#fff2b0', .05, .35);
-  const dnas = []; for (let i = 0; i < 3; i++) { const k = new THREE.Mesh(new THREE.TorusKnotGeometry(.18, .025, 64, 8, 2, 3), std('#7fd8ff', { glow: .5 })); k.position.set(rr(-.6, .6), -2 + i * 1.8, rr(.2, .7)); body.add(k); dnas.push(k.position.clone()); }
-  const mr = []; for (let i = 0; i < 40; i++) mr.push(M4(V(rr(-1, 1), rr(-3, 3), rr(-1, 1)), q, .05)); body.add(instanced(sphGeo, std('#ffb3c0', { glow: .4 }), mr));
-  body.rotation.z = Math.PI / 2; body.updateMatrix();
+  g.add(instanced(unitCyl, std('#ffb35c'), st), instanced(sphGeo, std('#ff6b6b', { glow: .4 }), hd));
+  cloud(g, 700, () => { let v; do { v = V(rr(-1.3, 1.3), rr(-3.4, 3.4), rr(-1.3, 1.3)); } while (Math.hypot(v.x, v.z) > rAt(v.y) * .9); return v; }, '#fff2b0', .05, .35);
+  const dnas = []; for (let i = 0; i < 3; i++) { const k = new THREE.Mesh(new THREE.TorusKnotGeometry(.16, .022, 64, 8, 2, 3), std('#7fd8ff', { glow: .5 })); k.position.set(rr(-.4, .4), -1.95 + i * 1.95, rr(.3, .7)); g.add(k); dnas.push(k.position.clone()); }
+  const mr = []; for (let i = 0; i < 40; i++) { const k = Math.floor(rand() * (cr.length - 1)), y = (cr[k].y + cr[k + 1].y) / 2; mr.push(M4(V(rr(-.9, .9), y + rr(-.1, .1), rr(-.9, .9)), q, .05)); } g.add(instanced(sphGeo, std('#ffb3c0', { glow: .4 }), mr));
+  const c7 = cr[Math.min(7, cr.length - 1)], c4 = cr[Math.min(4, cr.length - 1)], c5 = cr[Math.min(5, cr.length - 1)];
+  Object.assign(an, { outer: V(-1.13, 1.2, 1.13), inner: V(-1.0, -1.2, 1.0), ims: V(-1.07, 2.2, 1.07), crista: V(c7.x0, c7.y, c7.c * .92), junction: V(c4.jx, c4.y, .1),
+    lumen: V(c5.x0, c5.y, c5.c * .45), matrix: V(0, (cr[2].y + cr[3].y) / 2, .6), etc: V(c7.x0 + c7.a * .3, c7.y + c7.th, c7.c * .5), dna: dnas[1], rib: mr.length ? V().setFromMatrixPosition(mr[0]) : V() });
+  an.atp = an.atp ?? an.etc;
+  return { group: g, an };
+}
+function buildMito() {
+  const g = new THREE.Group(), m = makeMitochondrion(), body = m.group, a = m.an; g.add(body);
+  body.rotation.set(0, .4, Math.PI / 2); body.updateMatrix();   // turned so the default camera sees the cristae edge-on, as in a micrograph
   const t = p => p.clone().applyMatrix4(body.matrix);
-  return finalize(g, [A(t(V(-1.13, 1.2, 1.13)), 'Outer membrane', 'phospholipid'), A(t(V(-1.0, -1.2, 1.0)), 'Inner membrane'), A(t(V(0, plates[7].y, 1.15)), 'Crista (inner fold)'), A(t(V(-.3, plates[3].y, 1.0)), 'Electron transport chain', 'electron-transport-chain'),
-    A(t(V(0, -.6, .5)), 'Matrix'), A(t(V(-1.07, 2.2, 1.07)), 'Intermembrane space'), A(t(atp ?? V(0, 0, 1)), 'ATP synthase', 'atp-synthase'), A(t(dnas[1]), 'mtDNA', 'dna'), A(t(V(.5, 2.6, .6)), 'Mitoribosome', 'ribosome')], 4.4);
+  return finalize(g, [A(t(a.outer), 'Outer membrane', 'phospholipid'), A(t(a.inner), 'Inner boundary membrane'), A(t(a.crista), 'Crista (fold of the inner membrane)'), A(t(a.junction), 'Crista junction'),
+    A(t(a.lumen), 'Intracristal space'), A(t(a.ims), 'Intermembrane space'), A(t(a.matrix), 'Matrix'), A(t(a.atp), 'ATP synthase', 'atp-synthase'), A(t(a.etc), 'Electron transport chain', 'electron-transport-chain'),
+    A(t(a.dna), 'mtDNA', 'dna'), A(t(a.rib), 'Mitoribosome', 'ribosome')], 4.4);
 }
 function buildATPsynthase() {
   const g = new THREE.Group(), rotor = new THREE.Group();
@@ -1307,12 +1316,11 @@ function buildPlantCell() {
   }
   an.push(A(front(chl), 'Chloroplast', 'chloroplast'));
 
-  const mitos = [];
+  // same mitochondrion model, lying flat along the thin cytoplasm layer
+  const mitoProto = makeMitochondrion().group, mitos = [];
   for (let i = 0; i < 8; i++) {
-    const p = spot(.4, .9); if (!p) break;
-    const m = new THREE.Group(), r = .28, len = .7;
-    m.add(new THREE.Mesh(new THREE.CapsuleGeometry(r, len, 8, 20), xray(C.mito, 1, 2.2, .015)), new THREE.Mesh(new THREE.CapsuleGeometry(r * .8, len * .9, 8, 16), xray(C.mito, .5, 1.5, .02)));
-    m.position.copy(p); m.rotation.set(rr(0, 6.3), rr(0, 6.3), rr(0, 6.3)); g.add(m); mitos.push(p);
+    const p = spot(.3, .8); if (!p) break;
+    const m = mitoProto.clone(), tan = superN(p, AX, BY, BY, 6).cross(randDir()).normalize(); m.scale.setScalar(.16); m.position.copy(p); m.quaternion.copy(qFromTo(UP, tan)); g.add(m); mitos.push(p);
   }
   if (mitos.length) an.push(A(front(mitos), 'Mitochondrion', 'mitochondrion'));
 
@@ -2351,7 +2359,7 @@ const NODES = {
   'vesicle': { name: 'Vesicle', scale: '50–100 nm', b: buildVesicle, children: ['phospholipid', 'protein'],
     desc: 'A small membrane bubble that carries cargo between organelles or to the cell surface. Shown as a cutaway with a clathrin coat on the far side.' },
   'mitochondrion': { name: 'Mitochondrion', scale: '0.5–3 µm', b: buildMito, children: ['atp-synthase', 'dna', 'ribosome', 'phospholipid', 'electron-transport-chain'],
-    desc: 'The power plant. It burns food molecules with oxygen and stores the energy as ATP. It has its own DNA and ribosomes, a legacy of an ancient bacterial ancestor.' },
+    desc: 'The power plant. It burns food molecules with oxygen and stores the energy as ATP. Two membranes wrap it: a smooth outer one, and an inner one folded into cristae, hollow pockets joined to it by narrow crista junctions, which pack in the machinery that makes ATP. It has its own DNA and ribosomes, a legacy of an ancient bacterial ancestor. Shown as a cutaway; the same model is used in the whole-cell views.' },
   'atp-synthase': { name: 'ATP synthase', scale: '~15 nm', b: buildATPsynthase, children: ['protein'],
     desc: 'A rotary molecular motor. Protons flowing through the F₀ ring spin the central stalk, which turns the F₁ head to make ATP. Mitochondria and chloroplasts use the same machine. The rotor is animated.' },
   'lysosome': { name: 'Lysosome', scale: '0.1–1.2 µm', b: buildLysosome, children: ['protein', 'phospholipid'],

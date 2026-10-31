@@ -2794,9 +2794,9 @@ function setLook(real) {
 
 const $ = id => document.getElementById(id);
 const labelsEl = $('labels'), svg = $('lines'), NS = 'http://www.w3.org/2000/svg';
-const ROOTS = [['cell', 'Animal cell'], ['real-cell', 'Realistic cell'], ['plant-cell', 'Plant cell'], ['prokaryote', 'Prokaryote'], ['real-bacterium', 'Realistic bacterium']], isRoot = id => ROOTS.some(r => r[0] === id);
+const ROOTS = [['real-cell', 'Realistic cell'], ['real-bacterium', 'Realistic bacterium']], isRoot = id => ROOTS.some(r => r[0] === id);
 const cache = new Map(), expanded = new Set(ROOTS.map(r => r[0]));
-let curPath = ['cell'], cur = null, labelEls = [], showTags = true, enterT = 0, goToken = 0;
+let curPath = ['real-cell'], cur = null, labelEls = [], showTags = true, enterT = 0, goToken = 0;
 
 function build(id) {
   if (cache.has(id)) return cache.get(id);
@@ -2926,7 +2926,7 @@ function updateRings(now) {
 // hovering works only for parts that appear in the current model
 const hoverable = el => { el.onmouseenter = () => { const id = el.dataset.id; if (cur && (cur.anchors.some(a => a.id === id) || partsOf(id).length)) setHover(id); }; el.onmouseleave = () => setHover(null); };
 function go(path) {
-  if (!path.length || !isRoot(path[0])) path = ['cell'];
+  if (!path.length || !isRoot(path[0])) path = ['real-cell'];
   curPath = path;
   for (let i = 1; i <= path.length; i++) expanded.add(path.slice(0, i).join('/'));
   history.replaceState(null, '', '#' + path.join('/'));
@@ -3057,7 +3057,7 @@ addEventListener('keydown', e => { const k = wasd(e); if (k && cur?.real) toReal
 addEventListener('keyup', e => { const k = wasd(e); if (k) toReal({ cmd: 'key', key: k, down: false }); });
 addEventListener('blur', () => 'wasd'.split('').forEach(k => toReal({ cmd: 'key', key: k, down: false })));
 addEventListener('hashchange', () => { const p = location.hash.slice(1).split('/').filter(Boolean); if (p.join('/') !== curPath.join('/')) go(validPath(p)); });
-function validPath(p) { const out = []; for (const id of p) { if (!NODES[id] || (out.length && !NODES[out.at(-1)].children.includes(id))) break; out.push(id); } return isRoot(out[0]) ? out : ['cell']; }
+function validPath(p) { const out = []; for (const id of p) { if (!NODES[id] || (out.length && !NODES[out.at(-1)].children.includes(id))) break; out.push(id); } return isRoot(out[0]) ? out : ['real-cell']; }
 
 let last = performance.now();
 renderer.setAnimationLoop(now => {

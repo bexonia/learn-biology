@@ -4,7 +4,7 @@ Interactive 3D models of cells, from the whole cell down to molecules and atoms.
 
 | File | What it is |
 |---|---|
-| `cell_explorer.html` | The main explorer: animal, plant and prokaryotic cells as a recursive tree of parts, each with its own 3D model, tagged leader lines, an x-ray and a realistic look, and PNG export. Its *Realistic cell* and *Realistic bacterium* roots show the two realistic pages inside it, with tags, descriptions and drill-down for every part |
+| `cell_explorer.html` | The main explorer, with two roots: *Realistic cell* and *Realistic bacterium*. Each shows its realistic page inside it, with tags, descriptions and drill-down for every part; deeper levels open a recursive tree of parts, each with its own 3D model, tagged leader lines, an x-ray and a realistic look, and PNG export |
 | `animal_cell_realistic.html` | A realistic cutaway animal cell: a nucleus built molecule by molecule (DNA on histones, mRNA, rRNA in the nucleolus) and animated metabolism, where organelles gather their inputs, light up and send out what they make, with a speed control |
 | `prokaryote_cell_realistic.html` | A realistic cutaway *E. coli* with everything at true scale: the gram-negative envelope molecule by molecule, the whole 4.6 Mb chromosome folded into plectonemes (drawn base pair by base pair wherever you zoom in), coupled transcription and translation on busy polysomes, a replication fork copying the chromosome, efflux pumps spanning the envelope, flagella that spin, 32 real structures from the Protein Data Bank, and proton-driven metabolism |
 | `molecules_preview.html` | A preview of simpler DNA and RNA styles and of 14 real proteins from the Protein Data Bank, grouped by where they work in the cell and drawn to the same scale |

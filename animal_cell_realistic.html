@@ -31,8 +31,9 @@
   .mol:hover { background: rgba(159,216,255,.14); }
   .mol canvas { width: 22px; height: 22px; flex: none; }
   #tools { position: absolute; right: 16px; bottom: 16px; display: flex; gap: 8px; }
-  #tools button { background: rgba(8,11,18,.72); color: var(--fg); border: 1px solid rgba(255,255,255,.22); border-radius: 8px; padding: 7px 12px; font: inherit; font-size: 13px; cursor: pointer; }
-  #tools button:hover { border-color: var(--accent); }
+  #tools button, #tools select { background: rgba(8,11,18,.72); color: var(--fg); border: 1px solid rgba(255,255,255,.22); border-radius: 8px; padding: 7px 12px; font: inherit; font-size: 13px; cursor: pointer; }
+  #tools button:hover, #tools select:hover { border-color: var(--accent); }
+  #tools option { background: #10141e; color: var(--fg); }
   #hint { position: absolute; right: 18px; bottom: 58px; font-size: 12px; color: var(--muted); pointer-events: none; }
   #busy { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; color: var(--muted); font-size: 14px; pointer-events: none; }
   @media (max-width: 720px) {
@@ -54,7 +55,7 @@
 <div id="legend"></div>
 <div id="flows"><h2>What moves</h2><label class="speed">Speed <input id="speed" type="range" min="-3" max="2" step=".1" value="0"><span id="spd">1×</span></label><div id="tip"></div><div id="mols"></div></div>
 <div id="hint">Drag to look around · W A S D to move · scroll to zoom · right-drag to pan · hover a name to highlight it</div>
-<div id="tools"><button id="view">View: cell</button><button id="flow">Metabolism: on</button><button id="look">Organelles: gel</button><button id="cut">Close cutaway</button><button id="motion">Pause</button><button id="snap">Save PNG</button></div>
+<div id="tools"><button id="view">View: cell</button><select id="focus" title="Depth of field"><option value="sharp">Focus: sharp</option><option value="auto">Focus: auto</option><option value="soft">Focus: soft</option></select><button id="flow">Metabolism: on</button><button id="look">Organelles: gel</button><button id="cut">Close cutaway</button><button id="motion">Pause</button><button id="snap">Save PNG</button></div>
 <script type="module">
 import * as THREE from 'three';
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
@@ -1221,6 +1222,7 @@ const lens = new ShaderPass({ uniforms: { tDiffuse: { value: null }, uRes: { val
       gl_FragColor = vec4(c, 1.);
     }` });
 composer.addPass(new RenderPass(scene, camera)); composer.addPass(bokeh); composer.addPass(bloom); composer.addPass(new OutputPass()); composer.addPass(lens);
+bokeh.enabled = false;   // sharp until a focus mode is chosen
 
 function resize() {
   renderer.setSize(innerWidth, innerHeight); composer.setSize(innerWidth, innerHeight); bloom.resolution.set(innerWidth, innerHeight);
@@ -1276,6 +1278,20 @@ let motion = true, sway = 0, last = performance.now();
 const VIEWS = [['cell', V(23, 12.5, 30), V(-3, -.4, 0)], ['nucleus', V(6.5, 4.2, 8.2), V(-.6, .3, -.5)], ['nucleolus', V(2.9, 1.6, 2.2), V(-.2, 1, 1.3)], ['DNA', V(.95, -1.65, .55), V(.8, -1.77, -.13)]];
 let view = 0;
 document.getElementById('view').onclick = e => { view = (view + 1) % VIEWS.length; const [name, p, t] = VIEWS[view]; camera.position.copy(cell.localToWorld(p.clone())); controls.target.copy(cell.localToWorld(t.clone())); e.target.textContent = `View: ${name}`; };
+// focus: sharp everywhere (no depth of field), auto (a lens focused on whatever is in the middle of the screen), or soft (a light lens blur)
+let focusMode = 'sharp', focusAt = 30, focusCheck = 0;
+const focusRay = new THREE.Raycaster(), centre = new THREE.Vector2(), FOCUS_HIT = [];
+const FOCUS = { sharp: null, auto: [.00028, .006], soft: [.00009, .0025] };   // aperture and largest blur
+const setFocus = m => { focusMode = m; bokeh.enabled = !!FOCUS[m]; if (FOCUS[m]) { bokeh.uniforms.aperture.value = FOCUS[m][0]; bokeh.uniforms.maxblur.value = FOCUS[m][1]; } };
+document.getElementById('focus').onchange = e => { setFocus(e.target.value); e.target.blur(); };
+// what lies in the middle of the view: the nearest solid surface that the cutaway has not removed
+function centreDistance() {
+  if (!FOCUS_HIT.length) cell.traverse(o => { if (o.isMesh && !o.isInstancedMesh) FOCUS_HIT.push(o); });
+  focusRay.setFromCamera(centre, camera); focusRay.far = 200;
+  const local = V();
+  for (const h of focusRay.intersectObjects(FOCUS_HIT, false)) { if (!h.object.visible) continue; cell.worldToLocal(local.copy(h.point)); if (cutOn && local.x > 0 && local.z > 0) continue; return h.distance; }
+  return camera.position.distanceTo(controls.target);
+}
 document.getElementById('look').onclick = e => { organelleLook = LOOKS[(LOOKS.indexOf(organelleLook) + 1) % LOOKS.length]; applyLook(); e.target.textContent = `Organelles: ${organelleLook}`; };
 document.getElementById('cut').onclick = e => { cutOn = !cutOn; caps.visible = cutOn; e.target.textContent = cutOn ? 'Close cutaway' : 'Open cutaway'; };
 document.getElementById('flow').onclick = e => {
@@ -1331,7 +1347,8 @@ function frame(now) {
   cell.updateMatrixWorld(); updateCut(); fxFollow(); applyGlows();
   lightView.copy(key.position).normalize().transformDirection(camera.matrixWorldInverse); impMats.forEach(m => m.uniforms.uLight.value.copy(lightView));
   if (hi) { const k = .55 + .45 * Math.sin(now / 180), c = hiCol(hi); REG[hi].mats.forEach(m => { m.emissive.copy(c); m.emissiveIntensity = .25 + .75 * k; }); REG[hi].imp.forEach(m => { m.uniforms.uHi.value = k; }); }
-  bokeh.uniforms.focus.value = camera.position.distanceTo(controls.target) * .97;
+  if (focusMode === 'auto') { if ((focusCheck -= dt) <= 0) { focusCheck = .2; focusAt = centreDistance(); } bokeh.uniforms.focus.value += (focusAt - bokeh.uniforms.focus.value) * Math.min(1, dt * 6); }   // eases onto what is in the middle
+  else bokeh.uniforms.focus.value = camera.position.distanceTo(controls.target) * .97;
   lens.uniforms.uTime.value = now / 1000;
   freeMove(dt); controls.update(); composer.render();
 }

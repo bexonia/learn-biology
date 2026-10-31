@@ -13,6 +13,12 @@ Interactive 3D models of cells, from the whole cell down to molecules and atoms.
 | `eukaryotic_cell_3d.html` | A translucent eukaryotic cell with nine colour palettes |
 | `dna_styles.html` | Ten artistic renderings of the same DNA/RNA transcription scene, for comparing styles |
 
-How the realistic cells are built (techniques, algorithms, verification and pitfalls) is written up in [docs/animal_cell_realistic_manual.md](docs/animal_cell_realistic_manual.md), [docs/plant_cell_realistic_manual.md](docs/plant_cell_realistic_manual.md) and [docs/prokaryote_cell_realistic_manual.md](docs/prokaryote_cell_realistic_manual.md).
+How everything is built (techniques, algorithms, verification and pitfalls) is written up for agents and people:
+
+- [AGENTS.md](AGENTS.md): where to start. What to read for each kind of task, and the rules to follow.
+- [docs/how_to_build_a_cell_or_organelle.md](docs/how_to_build_a_cell_or_organelle.md): step by step, building each part in isolation, then composing it into the cell.
+- [docs/cell_explorer_manual.md](docs/cell_explorer_manual.md): the explorer's recursive tree, models, looks, tags and menu.
+- [docs/animal_cell_realistic_manual.md](docs/animal_cell_realistic_manual.md), [docs/plant_cell_realistic_manual.md](docs/plant_cell_realistic_manual.md) and [docs/prokaryote_cell_realistic_manual.md](docs/prokaryote_cell_realistic_manual.md): the three realistic cells.
+- [tools/README.md](tools/README.md): downloading, coarse-graining and embedding the real protein structures (reproducible byte for byte), and the local server used for checks.
 
 Models are schematic: shapes and arrangements follow real biology, but sizes are not to scale between levels.

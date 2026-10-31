@@ -194,6 +194,8 @@ About 450 real proteins placed at random (skipping the wedge): PCNA clamps (PDB 
 
 The real models are pre-processed **offline** and embedded, so the page never fetches anything at run time:
 
+The script that does steps 1–3 is [tools/coarse_molecules.py](../tools/coarse_molecules.py); [tools/README.md](../tools/README.md) explains how to run it and embed its output.
+
 1. **Download** coordinates: `https://files.rcsb.org/download/<ID>.pdb`.
 2. **Coarse-grain**: read `ATOM` records from the first model, keeping alt-loc A and the chosen chains. Per amino acid, keep 2 beads: the Cα, and the centre of the side-chain atoms (none for glycine). Per nucleotide, keep the phosphate and the base centre (and record the base letter).
 3. **Encode**: centre the beads, store xyz as Int16 in 0.1 Å units, base64. Store one byte per bead, `chain × 4 + part` (0 backbone, 1 side chain, 2 nucleic backbone, 3 base).
@@ -296,7 +298,7 @@ Supply rules:
 
 ### 10.1 Inside the Cell Explorer (`?embed`)
 
-`cell_explorer.html` shows this page as its **Realistic cell** root, in an iframe filling its stage (`animal_cell_realistic.html?embed`). The realistic bacterium (`prokaryote_cell_realistic.html`) is embedded the same way; the explorer keeps one iframe per page in `PAGES` and tells their messages apart by `event.source`. The model and its animation are untouched; the explorer supplies the tree, tags, descriptions and "Made of" lists.
+`cell_explorer.html` shows this page as its **Realistic cell** root, in an iframe filling its stage (`animal_cell_realistic.html?embed`). The realistic bacterium (`prokaryote_cell_realistic.html`) and the realistic plant cell (`plant_cell_realistic.html`) are embedded the same way; the explorer keeps one iframe per page in `PAGES` and tells their messages apart by `event.source`. The model and its animation are untouched; the explorer supplies the tree, tags, descriptions and "Made of" lists.
 
 - **Embed mode:** a tiny head script adds the class `embed` to `<html>` when the URL has `embed`. CSS then hides this page's own HUD, legend, panels, hint and buttons.
 - **Messages, explorer → page** (`{ to: 'realistic-cell', cmd, … }`): `view` (a preset name, the named points to track and a sequence number), `hi` (highlight a part), `mol` (follow a molecule), `motion`, `look`, `cut`, `flow`, `speed`, `key` (W A S D pressed or released on the explorer) and `snap`.
@@ -367,7 +369,7 @@ The page was never judged by reading code alone. Every change was rendered and l
 **Add a molecule symbol**
 
 1. Add a `MOL` entry (name, colour, atlas index, size).
-2. Draw its shape in `glyph()`; the atlas holds 16 cells.
+2. Draw its shape in `glyph()`, and raise the `ATLAS` loop's bound (`k < 15`). This atlas holds 16 cells, so one is free (the plant page's holds 20).
 
 **Add a real protein**
 

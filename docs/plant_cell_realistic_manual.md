@@ -35,7 +35,7 @@ To make the true-size close-ups possible, the camera's near plane follows the zo
 
 ## 3. How the file was made
 
-The page was assembled from the animal page by a script that copied its shared sections verbatim, applied small listed substitutions, and inserted new pieces. That script lived in a temporary folder and is not in the repo. The table shows where each section of the file came from.
+The page was assembled from the animal page by a script that copied its shared sections verbatim, applied small listed substitutions, and inserted new pieces. That one-off script is not kept: the page has been edited directly since, so it no longer applies. The table shows where each section of the file came from.
 
 | Section | Source |
 |---|---|
@@ -238,7 +238,7 @@ Membrane proteins come from OPM with the membrane normal along z and +z to the l
 - **Reduced models:** k-means on the amino acids only.
 - **Where the full models go:** they are embedded in the page for the close-ups, and also in the explorer's `BPDB`.
 
-The coarse-graining script (`coarse_plant.py`) was in the temporary build folder and is not in the repo. The downloads came from `https://opm-assets.storage.googleapis.com/pdb/<id>.pdb` and `https://files.rcsb.org/download/<ID>.pdb` (assembly: `.pdb1`).
+The script is [tools/coarse_plant.py](../tools/coarse_plant.py). [tools/README.md](../tools/README.md) explains how to download the structures (`tools/fetch_structures.sh`), run it, and write its output into the page and the explorer (`tools/embed_structures.py`).
 
 ---
 
@@ -273,7 +273,7 @@ The engine is the animal cell's: symbols, splashes, halos, processors that ask, 
 
 ### 9.1 What changes
 
-- **Symbols:** 19 molecules, in a 5 × 4 atlas (640 × 512). The shader indexes it with `mod(vG, 5)` and `floor(vG / 5)`. The molecules are light, water, O₂, CO₂, triose phosphate, sucrose, pyruvate, ATP, ADP, glycolate, glycine, serine, glycerate, H₂O₂, mRNA, ribosome halves, amino acids, proteins and vesicles.
+- **Symbols:** 19 molecules, in a 5 × 4 atlas (640 × 512). The shader indexes it with `mod(vG, 5)` and `floor(vG / 5)`, and the `ATLAS` loop draws 19 (`k < 19`), so one cell is free. The molecules are light, water, O₂, CO₂, triose phosphate, sucrose, pyruvate, ATP, ADP, glycolate, glycine, serine, glycerate, H₂O₂, mRNA, ribosome halves, amino acids, proteins and vesicles.
 - **Routes:**
   - `cytoPts` puts a waypoint about every 1.1 µm. `keepIn` pushes each one into the cytoplasm layer and out of the nucleus, so molecules travel round the vacuole, never across it.
   - Photons come straight in from the key light's direction (`LDIR`), at 6 µm/s.
@@ -298,6 +298,7 @@ The engine is the animal cell's: symbols, splashes, halos, processors that ask, 
 ### 9.3 Supply rules
 
 - **Water:** in through the nearest membrane.
+- **Queued molecules:** `WANT` has a fixed set of keys, `{ atp, amino, o2, co2, sucrose }`. Each key also has a `SINKS` entry (where it goes when nobody asked) and a `FALLBACK` (what happens when a request waits too long). `WAITS` sets that delay per type, default 6 s. A new molecule handed out with `give()` needs all three.
 - **CO₂ and O₂:** queued in `WANT`. Mitochondria and chloroplasts give them, and the fallback brings them from the air spaces after 1.2 s and 3 s.
 - **Pyruvate:** a sucrose request flagged `as: 'pyruvate'`. It splits on the way, by glycolysis, into 2 pyruvate and 2 ATP.
 - **Sucrose:** made by chloroplasts. It goes to whoever asked; otherwise 60% leaves through a plasmodesma and 40% is stored in the vacuole. The fallback comes from the vacuole's store.
@@ -364,7 +365,7 @@ The explorer only updates tags while its page is drawing frames. In a hidden bro
 | Chromosome arms stopped after a few nucleosomes | the arm walk started inside its packed chromocenter, with nowhere free to step | start from a free point just outside it |
 | Tags missing in the explorer (starch, lamella, ribosome, mRNA, wall parts) | the explorer's stage is narrower than the page, so points near the edge fell outside | tag points moved nearer the middle; a starch grain, a ribosome and the first CESA and PIP placed near the centre |
 | A comment swallowed the rest of a line | an edit put `//` mid-line | comments only at line ends (as in the animal manual) |
-| Port 8765 busy | another session's server | a second launch entry, `plant-renderer`, on port 8766 |
+| Port 8765 busy | another session's server | a second launch entry, `plant-renderer`, on port 8766 (both entries in `.claude/launch.json` run `tools/serve.py`) |
 
 ---
 

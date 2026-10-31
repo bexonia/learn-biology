@@ -78,7 +78,7 @@ The page is one HTML file of about 1,700 lines and 500 KB. Most of its size is t
 12. Post-processing, `resize`, legend, buttons, `VIEWS`/`setViews`, controls, the `frame` loop (it also spins the flagella), `shot`.
 13. Embed mode (§9) and `window.__cell`.
 
-The page was assembled from the animal page. The shared sections are verbatim copies with small, listed changes, and the rest is new. Edit the HTML directly: there is no build step. (The pieces it was assembled from, and the coarse-graining scripts, lived in a temporary build folder and are not in the repo.)
+The page was assembled from the animal page. The shared sections are verbatim copies with small, listed changes, and the rest is new. Edit the HTML directly: there is no build step. (The one-off assembly scripts are not kept, as the page has been edited directly since. The coarse-graining scripts are in [tools/](../tools/README.md).)
 
 ---
 
@@ -251,7 +251,7 @@ A growing *E. coli* copies its chromosome nearly all the time, so one replisome 
 
 ## 7. Real structures: download and coarse-graining
 
-Two scripts did this, `coarse2.py` (the first eight structures) and `coarse3.py` (the other 24); they were in the build folder and are not in the repo. Their steps:
+Two scripts did this, `coarse2.py` (the first eight structures) and `coarse3.py` (the other 24). They are now in the repo as [tools/coarse_bacterium.py](../tools/coarse_bacterium.py) and [tools/coarse_bacterium_more.py](../tools/coarse_bacterium_more.py); [tools/README.md](../tools/README.md) explains how to download, run and embed them. Their steps:
 
 1. **Download:**
    - `files.rcsb.org/download/<ID>.pdb` for 4YG2, 2OMF, 1AON, 1EFC, 1DC4, 1MUL and 1QU7
@@ -267,7 +267,7 @@ Two scripts did this, `coarse2.py` (the first eight structures) and `coarse3.py`
    - 4YBB: the 30S chains `A*` and whichever 50S copy (`C*` or `D*`) has its centroid nearer
    - 1AON: GroEL A–N and GroES O–U
 5. **Encode** as in the animal page: centred, Int16 in 0.1 Å, base64, plus a kind byte `group × 4 + part` (part 0 protein, 2 RNA). Groups are chosen for colouring: subunit type, ring, 30S/50S, chain or copy.
-6. **Place the origin** (`coarse3.py`): membrane proteins on the membrane's mid-plane (for MscS, set by hand at z = −82 Å, as OPM's planes for 2OAU are off); ring proteins (DnaB, the β clamp) with the ring's axis turned to z; Pol III with its DNA's axis turned to z, the origin in its clamp and +z toward the polymerase; everything else centred.
+6. **Place the origin** (`coarse_bacterium_more.py`): membrane proteins on the membrane's mid-plane (for MscS, set by hand at z = −82 Å, as OPM's planes for 2OAU are off); ring proteins (DnaB, the β clamp) with the ring's axis turned to z; Pol III with its DNA's axis turned to z, the origin in its clamp and +z toward the polymerase; everything else centred.
 7. **Reduce** for the crowd with k-means (40 iterations), to 220 balls for the ribosome, 110 for GroEL, 60 for RNA polymerase, 34 for GAPDH, 27 for OmpF, 24 for the receptor, 13 for EF-Tu and 6 for HU; and in `coarse3.py` 600 for the pump, 450 for ATP synthase and complex I, 40–160 for the other membrane proteins, 150 for gyrase and 9–40 for tRNA and the ternary complex. Full models are kept only where the page draws them bead by bead (the fork's proteins, Fis, IHF); the full ATP synthase, complex I, pump, DnaB, Pol III and gyrase go to the explorer instead. Each ball's radius matches the volume of its members (140 Å³ per amino acid, 330 Å³ per nucleotide), swollen by 1.25 so neighbours touch. Radii are stored as bytes in 0.25 Å units.
 
 In the page, `placeMol(S, key, at, q, colour(group, part), full)` draws a molecule at true size, rotated by `q`:
@@ -390,9 +390,9 @@ As for the animal cell (local save server, `__cell` hook, screenshots), plus:
 ## 12. How to extend it
 
 - **A new protein in the crowd:**
-  1. Add it to `coarse2.py` (with its chains, any BIOMT copies, and a k for the reduced form) and re-embed the `PDB` constant.
+  1. Add it to `tools/coarse_bacterium.py` (with its chains, any BIOMT copies, and a k for the reduced form) and re-embed the `PDB` constant (`tools/embed_structures.py`).
   2. Add an entry `[weight, key, colour]` to `kinds` in `buildCrowd`.
-- **A new membrane machine:** get its OPM file, add a `mem(...)` line to `coarse3.py`, then a block in `buildMembraneProteins` that uses `site(radius)` (so it gets `c`, `n`, `cyto` and `peri`) and `put(S, key, s, colour)`; then add a recipe in `KINDS` and a processor in `buildFlows` (`memProc`).
+- **A new membrane machine:** get its OPM file, add a `mem(...)` line to `tools/coarse_bacterium_more.py`, then a block in `buildMembraneProteins` that uses `site(radius)` (so it gets `c`, `n`, `cyto` and `peri`) and `put(S, key, s, colour)`; then add a recipe in `KINDS` and a processor in `buildFlows` (`memProc`).
 - **A new view:** push `[name, camera, target]` to `VIEWS` (in `setViews` if it depends on the build), add its points in `pointsOf`, and add a node with `real: name, page: …, tags: [...]` in the explorer.
 - **More DNA in full:** raise `LOD_NEAR`/`LOD_FAR` (how far round the camera) or `LOD_MAX`; raise `SKIN_DNA` only for DNA that must be detailed from the start. Each extra 0.1 unit of `SKIN_DNA` adds roughly 200,000 base pairs and a million primitives.
 

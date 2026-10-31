@@ -11,4 +11,6 @@ Interactive 3D models of cells, from the whole cell down to molecules and atoms.
 | `eukaryotic_cell_3d.html` | A translucent eukaryotic cell with nine colour palettes |
 | `dna_styles.html` | Ten artistic renderings of the same DNA/RNA transcription scene, for comparing styles |
 
+How the realistic cell is built (techniques, algorithms, verification and pitfalls) is written up in [docs/animal_cell_realistic_manual.md](docs/animal_cell_realistic_manual.md).
+
 Models are schematic: shapes and arrangements follow real biology, but sizes are not to scale between levels.

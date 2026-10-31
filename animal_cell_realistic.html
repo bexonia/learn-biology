@@ -53,7 +53,7 @@
 <div id="hud"><h1>Animal cell</h1><p>Realistic rendering test · cutaway view</p></div>
 <div id="legend"></div>
 <div id="flows"><h2>What moves</h2><label class="speed">Speed <input id="speed" type="range" min="-3" max="2" step=".1" value="0"><span id="spd">1×</span></label><div id="tip"></div><div id="mols"></div></div>
-<div id="hint">Drag to rotate · scroll to zoom · right-drag to pan · hover a name to highlight it</div>
+<div id="hint">Drag to look around · W A S D to move · scroll to zoom · right-drag to pan · hover a name to highlight it</div>
 <div id="tools"><button id="view">View: cell</button><button id="flow">Metabolism: on</button><button id="look">Organelles: gel</button><button id="cut">Close cutaway</button><button id="motion">Pause</button><button id="snap">Save PNG</button></div>
 <script type="module">
 import * as THREE from 'three';
@@ -1288,6 +1288,21 @@ speed.oninput = () => { flowSpeed = 2 ** +speed.value; spd.textContent = `${flow
 speed.ondblclick = () => { speed.value = 0; speed.oninput(); };
 document.getElementById('motion').onclick = e => { motion = !motion; e.target.textContent = motion ? 'Pause' : 'Play'; };
 document.getElementById('snap').onclick = () => { composer.render(); const a = document.createElement('a'); a.download = 'animal-cell-realistic.png'; a.href = renderer.domElement.toDataURL('image/png'); a.click(); };
+// free look: W and S move along the view, A and D sideways; the camera and the point it turns around move together,
+// so dragging still turns the view as before. Steps scale with the zoom, so moving feels the same close up and far away
+const held = new Set();
+addEventListener('keydown', e => { const k = e.key.toLowerCase(); if (k.length === 1 && 'wasd'.includes(k) && !e.target.closest?.('input, textarea') && !e.metaKey && !e.ctrlKey) held.add(k); });
+addEventListener('keyup', e => held.delete(e.key.toLowerCase()));
+addEventListener('blur', () => held.clear());
+const fwd = V(), side = V(), step = V();
+function freeMove(dt) {
+  if (!held.size) return;
+  camera.getWorldDirection(fwd); side.crossVectors(fwd, camera.up).normalize();
+  step.set(0, 0, 0).addScaledVector(fwd, held.has('w') - held.has('s')).addScaledVector(side, held.has('d') - held.has('a'));
+  if (step.lengthSq() < 1e-6) return;
+  step.normalize().multiplyScalar(dt * Math.max(1.5, camera.position.distanceTo(controls.target) * .5));
+  camera.position.add(step); controls.target.add(step);
+}
 const lightView = V();
 function frame(now) {
   const dt = Math.min(.05, (now - last) / 1000); last = now;
@@ -1304,7 +1319,7 @@ function frame(now) {
   if (hi) { const k = .55 + .45 * Math.sin(now / 180), c = hiCol(hi); REG[hi].mats.forEach(m => { m.emissive.copy(c); m.emissiveIntensity = .25 + .75 * k; }); REG[hi].imp.forEach(m => { m.uniforms.uHi.value = k; }); }
   bokeh.uniforms.focus.value = camera.position.distanceTo(controls.target) * .97;
   lens.uniforms.uTime.value = now / 1000;
-  controls.update(); composer.render();
+  freeMove(dt); controls.update(); composer.render();
 }
 setTimeout(() => {   // a moment for the "Building" note to show; a timer rather than a frame, so a page opened in the background builds too
   build(); buildFlows(); applyLook(); resize(); renderer.setAnimationLoop(frame);

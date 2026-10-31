@@ -178,7 +178,7 @@ const PARTS = [
   ['rer', 'Rough ER', '#f3a3b8'], ['ribosome', 'Ribosomes', '#5d55c8'], ['ser', 'Smooth ER', '#f6b98a'], ['golgi', 'Golgi apparatus', '#f2b84e'],
   ['mito', 'Mitochondria', '#ff7656'], ['lyso', 'Lysosomes', '#8ed16a'], ['perox', 'Peroxisomes', '#46c3b5'], ['vesicle', 'Vesicles & endosomes', '#a8d2ff'],
   ['lipid', 'Lipid droplets', '#ffd16b'], ['centro', 'Centrosome', '#ffd36b'], ['mt', 'Microtubules', '#cfefff'], ['actin', 'Actin cortex', '#ff9ab4'],
-  ['if', 'Intermediate filaments', '#9df0c4'], ['cilium', 'Primary cilium & microvilli', '#dfe9ff'], ['cytosol', 'Cytosol proteins', '#9a92c4'],
+  ['if', 'Intermediate filaments', '#9df0c4'], ['cilium', 'Primary cilium', '#dfe9ff'], ['villi', 'Microvilli', '#b7abe0'], ['cytosol', 'Cytosol proteins', '#9a92c4'],
 ];
 const REG = {};
 const reg = (key, m) => { const r = REG[key] ??= { mats: [], imp: [] }; (m.isShaderMaterial ? r.imp : r.mats).push(m); return m; };
@@ -201,20 +201,20 @@ function applyLook() {
 const impMats = [];
 function impostorMat(key) {
   const m = new THREE.ShaderMaterial({
-    uniforms: { uScale: { value: 1 }, uLight: { value: V(.4, .6, .7).normalize() }, uHi: { value: 0 } },
+    uniforms: { uScale: { value: 1 }, uLight: { value: V(.4, .6, .7).normalize() }, uHi: { value: 0 }, uDim: { value: 1 } },
     vertexShader: `attribute float size; attribute vec3 icol; uniform float uScale; varying vec3 vCol;
       #include <clipping_planes_pars_vertex>
       void main() { vCol = icol; vec4 mvPosition = modelViewMatrix * vec4(position, 1.); gl_PointSize = size * uScale / max(.01, -mvPosition.z); gl_Position = projectionMatrix * mvPosition;
         #include <clipping_planes_vertex>
       }`,
-    fragmentShader: `uniform vec3 uLight; uniform float uHi; varying vec3 vCol;
+    fragmentShader: `uniform vec3 uLight; uniform float uHi, uDim; varying vec3 vCol;
       #include <clipping_planes_pars_fragment>
       void main() {
         #include <clipping_planes_fragment>
         vec2 q = gl_PointCoord * 2. - 1.; q.y = -q.y; float r2 = dot(q, q); if (r2 > 1.) discard;
         vec3 n = vec3(q, sqrt(1. - r2)); float d = max(dot(n, uLight), 0.); vec3 h = normalize(uLight + vec3(0., 0., 1.));
         vec3 c = vCol * (.26 + .95 * d) + pow(max(dot(n, h), 0.), 30.) * .22 + vCol * pow(1. - n.z, 3.) * .3;
-        gl_FragColor = vec4(mix(c, c * 1.7 + .12, uHi), 1.);
+        gl_FragColor = vec4(mix(c, c * 1.7 + .12, uHi), uDim);   // uDim < 1 only while the guided tour fades this part
       }`,
     clipping: true, clippingPlanes: CUT, clipIntersection: true,
   });
@@ -224,7 +224,7 @@ function impostorMat(key) {
 // would be far too heavy): DNA and RNA strands, and the bases, which take one colour for each half of the rod
 function stickMat(key) {
   const m = new THREE.ShaderMaterial({
-    uniforms: { uScale: { value: 1 }, uLight: { value: V(.4, .6, .7).normalize() }, uHi: { value: 0 } },
+    uniforms: { uScale: { value: 1 }, uLight: { value: V(.4, .6, .7).normalize() }, uHi: { value: 0 }, uDim: { value: 1 } },
     vertexShader: `attribute vec2 corner; attribute vec3 aA, aB, aC1, aC2; attribute float aR; uniform float uScale; varying vec3 vC1, vC2, vSide; varying vec2 vUV;
       #include <clipping_planes_pars_vertex>
       void main() {
@@ -237,13 +237,13 @@ function stickMat(key) {
         gl_Position = projectionMatrix * mvPosition;
         #include <clipping_planes_vertex>
       }`,
-    fragmentShader: `uniform vec3 uLight; uniform float uHi; varying vec3 vC1, vC2, vSide; varying vec2 vUV;
+    fragmentShader: `uniform vec3 uLight; uniform float uHi, uDim; varying vec3 vC1, vC2, vSide; varying vec2 vUV;
       #include <clipping_planes_pars_fragment>
       void main() {
         #include <clipping_planes_fragment>
         float u = vUV.y; vec3 n = normalize(vSide * u + vec3(0., 0., sqrt(max(0., 1. - u * u)))), h = normalize(uLight + vec3(0., 0., 1.));
         vec3 col = vUV.x < .5 ? vC1 : vC2, c = col * (.26 + .95 * max(dot(n, uLight), 0.)) + pow(max(dot(n, h), 0.), 30.) * .22;
-        gl_FragColor = vec4(mix(c, c * 1.7 + .12, uHi), 1.);
+        gl_FragColor = vec4(mix(c, c * 1.7 + .12, uHi), uDim);   // uDim < 1 only while the guided tour fades this part
       }`,
     clipping: true, clippingPlanes: CUT, clipIntersection: true, side: THREE.DoubleSide,
   });
@@ -626,7 +626,7 @@ function build() {
   const innerMat = reg('membrane', phys({ color: '#756a90', roughness: .85, side: THREE.BackSide, normalMap: bump(10, 5), normalScale: new THREE.Vector2(.35, .35), clipShadows: false }));
   cell.add(shade(new THREE.Mesh(shellGeo(V(), d => cellR(d) - MT, 160), innerMat), false, true));
   const bilayer = [[0, .3, '#ff9b86'], [.3, .7, '#ffe0a8'], [.7, 1, '#ff9b86']], capMat = new THREE.MeshStandardMaterial({ vertexColors: true, roughness: .55, side: THREE.DoubleSide });
-  for (const ax of ['x', 'z']) caps.add(new THREE.Mesh(capStrip(V(), cellR, ax, MT, bilayer), capMat));
+  for (const ax of ['x', 'z']) caps.add(new THREE.Mesh(capStrip(V(), cellR, ax, MT, bilayer), reg('membrane', capMat)));
   // microvilli on the upper surface
   const mv = [];
   for (let i = 0; i < 170; i++) {
@@ -634,14 +634,15 @@ function build() {
     const base = d.clone().multiplyScalar(cellR(d) - .06), len = rr(.28, .6), r = rr(.06, .085), g = new THREE.CapsuleGeometry(r, len, 6, 12);
     g.translate(0, len / 2 + r * .2, 0); g.applyQuaternion(new THREE.Quaternion().setFromUnitVectors(UP, d.clone().add(randDir().multiplyScalar(.15)).normalize())); g.translate(base.x, base.y, base.z); mv.push(g);
   }
-  const villusMat = reg('cilium', phys({ color: '#b7abe0', roughness: .25, clearcoat: .6, sheen: .9, sheenColor: '#ffe6f4', transparent: true, opacity: .6, depthWrite: false, clipShadows: false }));
+  const villusMat = reg('villi', phys({ color: '#b7abe0', roughness: .25, clearcoat: .6, sheen: .9, sheenColor: '#ffe6f4', transparent: true, opacity: .6, depthWrite: false, clipShadows: false }));
   cell.add(shade(new THREE.Mesh(mergeGeometries(mv), villusMat), false, false));
 
   // ---- nucleus: double envelope with pores; inside, the chromosomes, mRNA and the nucleolus, molecule by molecule
   const envOut = reg('nucleus', phys({ color: '#6b52c6', roughness: .38, clearcoat: .5, clearcoatRoughness: .3, sheen: .8, sheenColor: '#d9c4ff', side: THREE.DoubleSide, normalMap: bump(6, 3), normalScale: new THREE.Vector2(.3, .3) }));
   const envIn = reg('nucleus', phys({ color: '#8f7ae0', roughness: .55, side: THREE.BackSide }));
   cell.add(shade(new THREE.Mesh(shellGeo(N0, nucR, 160), envOut)), shade(new THREE.Mesh(shellGeo(N0, d => nucR(d) - .16, 128), envIn)));
-  for (const ax of ['x', 'z']) caps.add(new THREE.Mesh(capStrip(N0, nucR, ax, .16, [[0, .32, '#a38cf2'], [.32, .68, '#2a1f4a'], [.68, 1, '#a38cf2']]), capMat));
+  const capN = reg('nucleus', capMat.clone());   // its own copy, so the nucleus's cut edge can light up or fade apart from the membrane's
+  for (const ax of ['x', 'z']) caps.add(new THREE.Mesh(capStrip(N0, nucR, ax, .16, [[0, .32, '#a38cf2'], [.32, .68, '#2a1f4a'], [.68, 1, '#a38cf2']]), capN));
   const pores = ORG.pores;
   {
     const ring = [], plug = [], z = V(0, 0, 1);
@@ -881,11 +882,11 @@ function build() {
     const dc = V(-.25, 1, .55).normalize(), side = dc.clone().cross(V(1, 0, 0)).normalize(), B = dc.clone().multiplyScalar(cellR(dc) - .1);
     const path = new THREE.CatmullRomCurve3([B.clone().addScaledVector(dc, -.3), B.clone().addScaledVector(dc, .9).addScaledVector(side, .15), B.clone().addScaledVector(dc, 1.9).addScaledVector(side, .35), B.clone().addScaledVector(dc, 2.8).addScaledVector(side, .25)]);
     const L = path.getLength(), k = .14 / L * 2, rFn = t => t < 1 - k ? .14 : .14 * Math.sqrt(Math.max(0, 1 - ((t - (1 - k)) / k) ** 2));
-    cell.add(new THREE.Mesh(sweepGeo(path, rFn, 64, 20), memMat));
+    const ciMat = reg('cilium', memMat.clone()); ciMat.clippingPlanes = CUT;   // the membrane's glass, in its own copy so the cilium lights up alone
+    cell.add(new THREE.Mesh(sweepGeo(path, rFn, 64, 20), ciMat));
     const fr = ptFrames(path, 64), ax = [];
     for (let j = 0; j < 9; j++) { const a = j / 9 * Math.PI * 2, pts = []; for (let i = 0; i <= 56; i++) { const t = i / 64; pts.push(path.getPointAt(t).addScaledVector(fr.N[i], Math.cos(a) * .075).addScaledVector(fr.B[i], Math.sin(a) * .075)); } ax.push(new THREE.TubeGeometry(new THREE.CatmullRomCurve3(pts), 56, .012, 4)); }
     cell.add(new THREE.Mesh(mergeGeometries(ax), reg('cilium', phys({ color: '#bfe6ff', emissive: '#8fd6ff', emissiveIntensity: .12, roughness: .35 }))));
-    REG.cilium.mats.push(memMat);
   }
 
   // ---- crowded cytoplasm: free ribosomes, polysomes and soluble proteins
@@ -1343,6 +1344,7 @@ function showInfo(k) {
   tipBox.append(b, document.createElement('br'), `Takes in: ${inf[0]}`, document.createElement('br'), `Gives out: ${inf[1]}`);
 }
 function setHi(k) {
+  blinkT0 = null;
   if (hi && REG[hi]) { REG[hi].mats.forEach(m => { m.emissive.copy(m.userData.e0); m.emissiveIntensity = m.userData.i0; }); REG[hi].imp.forEach(m => { m.uniforms.uHi.value = 0; }); }
   hi = k && REG[k] ? k : null;
   if (hi) REG[hi].mats.forEach(m => { m.userData.e0 ??= m.emissive.clone(); m.userData.i0 ??= m.emissiveIntensity; });
@@ -1382,18 +1384,139 @@ renderer.domElement.addEventListener('pointerdown', e => { if (e.button === 0) {
 renderer.domElement.addEventListener('pointermove', e => {
   if (!lookFrom) return;
   const dx = e.clientX - lookFrom[0], dy = e.clientY - lookFrom[1]; lookFrom = [e.clientX, e.clientY];
+  if (tour.on) { tour.yaw = Math.min(.44, Math.max(-.44, tour.yaw - dx * .004)); tour.pitch = Math.min(.44, Math.max(-.44, tour.pitch + dy * .004)); return; }   // the tour holds the camera: a drag only glances around, then springs back
   aim.setFromVector3(controls.target.clone().sub(camera.position));
   aim.theta -= dx * .004; aim.phi = Math.min(Math.PI - .05, Math.max(.05, aim.phi + dy * .004));
   controls.target.copy(camera.position).add(V().setFromSpherical(aim));
 });
 for (const ev of ['pointerup', 'pointercancel']) renderer.domElement.addEventListener(ev, () => { lookFrom = null; });
 function freeMove(dt) {
-  if (!held.size) return;
+  if (!held.size || tour.on) return;
   camera.getWorldDirection(fwd); side.crossVectors(fwd, camera.up).normalize();
   step.set(0, 0, 0).addScaledVector(fwd, held.has('w') - held.has('s')).addScaledVector(side, held.has('d') - held.has('a'));
   if (step.lengthSq() < 1e-6) return;
   step.normalize().multiplyScalar(dt * Math.max(1.5, camera.position.distanceTo(controls.target) * .5));
   camera.position.add(step); controls.target.add(step);
+}
+// ---------------------------------------------------------------------
+// The guided tour (driven by the Cell Explorer): camera flights, a framing for each part, a blink, and fading the rest of the cell
+// ---------------------------------------------------------------------
+// while the tour holds the camera its pose is kept in the cell's own frame, so it rides the cell's slow sway with everything else
+const tour = { on: false, from: null, to: null, t: 1, dur: 1, seq: 0, orbit: 0, yaw: 0, pitch: 0, sent: true };
+const smoother = x => x * x * x * (x * (x * 6 - 15) + 10);
+function poseOf(m) {   // a pose in cell space: a preset view, a part's framing, or one given outright
+  if (m.view) { const v = VIEWS.find(x => x[0] === m.view); return v && { p: v[1].clone(), t: v[2].clone() }; }
+  if (m.part) { const f = focusOf(m.part); return f && { p: f.c.clone().addScaledVector(f.dir, (m.dist ?? 1) * f.r / Math.sin(camera.fov * Math.PI / 360)), t: f.c.clone() }; }
+  if (m.pos) return { p: V(...m.pos), t: V(...m.target) };
+  return null;
+}
+function flyTo(m) {
+  const to = poseOf(m); if (!to) return false;
+  cell.updateMatrixWorld();
+  tour.from = { p: cell.worldToLocal(camera.position.clone()), t: cell.worldToLocal(controls.target.clone()) }; tour.to = to;
+  Object.assign(tour, { on: true, t: m.dur > 0 ? 0 : 1, dur: m.dur || 1, seq: m.seq ?? 0, orbit: m.orbit ?? 0, sent: false });
+  controls.enabled = false; held.clear(); return true;
+}
+function freeCamera() { tour.on = false; tour.yaw = tour.pitch = 0; controls.enabled = true; }
+const fp = V(), ft = V(), qa = V(), qb = V(), look = V(), right = V();
+function tourFrame(dt) {
+  if (!tour.on) return;
+  const { from, to } = tour;
+  if (tour.t < 1) tour.t = Math.min(1, tour.t + dt / tour.dur);
+  else if (tour.orbit) to.p.sub(to.t).applyAxisAngle(UP, tour.orbit * Math.PI / 180 * dt).add(to.t);   // a slow turn keeps a still shot alive
+  const e = smoother(tour.t);
+  ft.lerpVectors(from.t, to.t, e);
+  // the position swings round the nucleus, direction and distance blended apart (distance on a log scale, so zooming feels even),
+  // and rises outward on the way between two places far apart: the camera pulls back to see the cell, and never cuts through the nucleus
+  qa.copy(from.p).sub(N0); qb.copy(to.p).sub(N0); const ra = Math.max(.05, qa.length()), rb = Math.max(.05, qb.length()); qa.normalize(); qb.normalize();
+  const ang = Math.acos(Math.min(1, Math.max(-1, qa.dot(qb))));
+  if (ang < 1e-3 || ang > 3.1) fp.lerpVectors(qa, qb, e).normalize(); else fp.copy(qa).multiplyScalar(Math.sin((1 - e) * ang)).addScaledVector(qb, Math.sin(e * ang)).divideScalar(Math.sin(ang));
+  fp.multiplyScalar(ra ** (1 - e) * rb ** e * (1 + Math.min(.8, ang * .45) * Math.sin(Math.PI * e))).add(N0);
+  // a drag glances round from the held pose, and springs back once let go
+  if (!lookFrom) { const k = Math.exp(-dt / .2); tour.yaw *= k; tour.pitch *= k; }
+  look.copy(ft).sub(fp);
+  if (tour.yaw || tour.pitch) { right.crossVectors(look, UP).normalize(); look.applyAxisAngle(UP, tour.yaw).applyAxisAngle(right, -tour.pitch); }
+  camera.position.copy(fp); cell.localToWorld(camera.position); controls.target.copy(fp).add(look); cell.localToWorld(controls.target); camera.lookAt(controls.target);
+  if (tour.t >= 1 && !tour.sent) { tour.sent = true; if (EMBED) toExplorer({ type: 'arrived', seq: tour.seq }); }
+}
+// a framing for each part: its centre and size in cell space, and the side to look from. The side is chosen among evenly spread
+// directions (so no random numbers are drawn): the line of sight should cross as little of the cell as it can (coming in through
+// the open wedge, or from outside), should not pass through the nucleus, and should keep near the direction of the opening view
+const FOCUS = {}, PREF = V(23, 12.5, 30).sub(V(-3, -.4, 0)).normalize(), DIRS = fib(240);
+const ALIAS = { ribo: 'ribosome', endo: 'endo' };
+function inst(list, f, r) {   // the instance easiest to see: one the cut slices open, or else the one closest behind a cut face; not low down
+  let best = null, bs = Infinity;
+  list.forEach(o => { const p = f(o), w = inWedge(p) ? Math.min(p.x, p.z) : behindCut(p); if (w > r(o) * .25 && inWedge(p)) return;   // most of it cut away
+    const s = Math.abs(w) * 4 + Math.max(0, -p.y - 2) + Math.abs(cellRel(p) - .6) * 3; if (s < bs) { bs = s; best = o; } });
+  return best;
+}
+function focusOf(key) {
+  const k = ALIAS[key] ?? key; if (k in FOCUS) return FOCUS[k];
+  const P = pointsOf('cell'), dc = V(-.25, 1, .55).normalize(), mid = list => list.reduce((a, b) => a.add(b), V()).divideScalar(list.length);
+  const AT = {   // centre, radius, and whether it is best seen from outside the cell
+    membrane: () => [P.membrane, 4.2, true], villi: () => [P.villi, 1.4, true], cilium: () => [dc.clone().multiplyScalar(cellR(dc) + 1.25), 1.7, true],
+    nucleus: () => [N0.clone(), 4.4], rer: () => [N0.clone(), 6.2], ribosome: () => [P.rer, 1], ser: () => [mid(ORG.ser), 2.6],
+    golgi: () => [ORG.golgi.c.clone(), 2.3], vesicle: () => [ORG.golgi.c.clone(), 2.7], centro: () => [ORG.centro.clone(), .8], mt: () => [ORG.centro.clone(), 4.6],
+    mito: () => { const m = inst(ORG.mitos, o => o.mid, o => o.R); return [m.mid.clone(), m.curve.getLength() / 2 + m.R]; },
+    lyso: () => { const o = inst(ORG.lysos, o => o.p, o => o.r); return [o.p.clone(), o.r * 2.4]; }, perox: () => { const o = inst(ORG.peroxs, o => o.p, o => o.r); return [o.p.clone(), o.r * 2.6]; },
+    endo: () => { const o = inst(ORG.endos, o => o.p, o => o.r); return [o.p.clone(), o.r * 2.8]; }, lipid: () => { const o = inst(ORG.lipids, o => o.p, o => o.r); return [o.p.clone(), o.r * 2.4]; },
+    actin: () => [P.actin, 1.3], if: () => [P.if, 2.2], cytosol: () => [P.cytosol, 1.2],
+  };
+  if (!AT[k]) return FOCUS[k] = null;
+  const [c, r, outside] = AT[k](), d = r / Math.sin(camera.fov * Math.PI / 360), q = V();
+  let best = DIRS[0], bs = Infinity;
+  DIRS.forEach(dir => {
+    let s = (1 - dir.dot(PREF)) * 6 + (Math.abs(dir.y) > .8 ? 20 : 0);
+    if (outside && cellRel(q.copy(c).addScaledVector(dir, d)) < 1.05) s += 30;
+    let was = 'in';
+    for (let i = 1; i <= 24; i++) {   // samples along the line of sight, beyond the part itself
+      q.copy(c).addScaledVector(dir, r * .7 + (d - r * .7) * i / 24);
+      const at = cellRel(q) >= 1 ? 'out' : inWedge(q) ? 'wedge' : 'in';
+      if (at === 'in') s += 1;
+      if (!outside && was === 'in' && at === 'out') s += 8;   // out through the membrane, not the open wedge: seen through frosted glass
+      was = at;
+      if (k !== 'nucleus' && nucGap(q) < 0) s += 3;
+    }
+    if (s < bs) { bs = s; best = dir; }
+  });
+  return FOCUS[k] = { c, r, dir: best.clone() };
+}
+// fade (ghost) or hide (isolate) every part except those kept; each material's settings are saved first and put back after
+const KIN = { nucleus: ['chromatin', 'mrna', 'nucleolus', 'rrna', 'nucleoplasm'] };   // what lies inside a kept part stays with it
+const saved = new Map(), hidden = [];
+let ghostArgs = null, OBJS = null;
+function objsOf() {   // the objects drawn with each part's materials
+  const of = new Map(), out = {};
+  Object.entries(REG).forEach(([k, r]) => [...r.mats, ...r.imp].forEach(m => { if (!of.has(m)) of.set(m, k); }));
+  cell.traverse(o => { const k = o.material && of.get(o.material); if (k) (out[k] ??= []).push(o); });
+  return out;
+}
+function ghost(keep = null, amount = .1, hide = false) {
+  saved.forEach((v, m) => { Object.assign(m, v); if (m.uniforms) m.uniforms.uDim.value = 1; m.needsUpdate = true; }); saved.clear();
+  hidden.forEach(o => { o.visible = true; }); hidden.length = 0;
+  ghostArgs = keep ? [keep, amount, hide] : null; if (!keep) return;
+  const K = new Set(keep.flatMap(k => [k, ...(KIN[k] ?? [])]));
+  Object.entries(REG).forEach(([k, r]) => {
+    if (K.has(k)) return;
+    if (hide) { (OBJS ??= objsOf())[k]?.forEach(o => { if (o.visible) { o.visible = false; hidden.push(o); } }); return; }
+    r.mats.forEach(m => { if (saved.has(m)) return; saved.set(m, { transparent: m.transparent, opacity: m.opacity, depthWrite: m.depthWrite, ...('transmission' in m && { transmission: m.transmission }) });
+      m.transparent = true; m.opacity = Math.min(m.opacity, amount); m.depthWrite = false; if ('transmission' in m) m.transmission = 0; m.needsUpdate = true; });
+    r.imp.forEach(m => { if (saved.has(m)) return; saved.set(m, { transparent: m.transparent, depthWrite: m.depthWrite }); m.uniforms.uDim.value = amount * .5; m.transparent = true; m.depthWrite = false; m.needsUpdate = true; });
+  });
+}
+// a part blinks a few times (1.5 a second), then keeps a steady glow; hovering a name pulses it as before
+let blinkT0 = null, blinkN = 3;
+function blink(k, n = 3) { setHi(k); if (hi) { blinkT0 = performance.now(); blinkN = n; } }
+const hiLevel = now => { if (blinkT0 === null) return .55 + .45 * Math.sin(now / 180); const t = (now - blinkT0) / 1000; return t < blinkN / 1.5 ? .5 - .5 * Math.cos(t * 3 * Math.PI) : .3 + .06 * Math.sin(now / 400); };
+const HI_GAIN = { membrane: .35, cilium: .5, villi: .6 };   // the glassy outer parts would wash the whole view out at full glow
+// the tour sets each switch outright (the buttons only toggle); a look or cutaway change is made under any fading, which is then put back
+function setState(m) {
+  const g = ghostArgs; if (g) ghost(null);
+  if (m.look && m.look !== organelleLook) { organelleLook = m.look; applyLook(); }
+  if (m.cut !== undefined && m.cut !== cutOn) { cutOn = m.cut; caps.visible = cutOn; }
+  if (m.flow !== undefined && m.flow !== flowsOn) document.getElementById('flow').click();
+  if (m.motion !== undefined) motion = m.motion;
+  if (g) ghost(...g);
 }
 const lightView = V();
 function frame(now) {
@@ -1408,9 +1531,9 @@ function frame(now) {
   flowBoost(camera.position.distanceTo(controls.target));
   cell.updateMatrixWorld(); updateCut(); fxFollow(); applyGlows();
   lightView.copy(key.position).normalize().transformDirection(camera.matrixWorldInverse); impMats.forEach(m => m.uniforms.uLight.value.copy(lightView));
-  if (hi) { const k = .55 + .45 * Math.sin(now / 180), c = hiCol(hi); REG[hi].mats.forEach(m => { m.emissive.copy(c); m.emissiveIntensity = .25 + .75 * k; }); REG[hi].imp.forEach(m => { m.uniforms.uHi.value = k; }); }
+  if (hi) { const k = hiLevel(now), c = hiCol(hi), g = HI_GAIN[hi] ?? 1; REG[hi].mats.forEach(m => { m.emissive.copy(c); m.emissiveIntensity = (.25 + .75 * k) * g; }); REG[hi].imp.forEach(m => { m.uniforms.uHi.value = k; }); }
   lens.uniforms.uTime.value = now / 1000;
-  freeMove(dt); controls.update(); composer.render();
+  freeMove(dt); controls.update(); tourFrame(dt); composer.render();
   if (EMBED) embedFrame();
 }
 setTimeout(() => {   // a moment for the "Building" note to show; a timer rather than a frame, so a page opened in the background builds too
@@ -1513,9 +1636,16 @@ if (EMBED) {
     const m = e.data; if (!m || m.to !== 'realistic-cell') return;
     if (m.cmd === 'view') {
       const v = VIEWS.findIndex(x => x[0] === m.view); if (v < 0) return;
-      view = v; const [, p, t] = VIEWS[v]; camera.position.copy(cell.localToWorld(p.clone())); controls.target.copy(cell.localToWorld(t.clone()));
+      freeCamera(); view = v; const [, p, t] = VIEWS[v]; camera.position.copy(cell.localToWorld(p.clone())); controls.target.copy(cell.localToWorld(t.clone()));
       const P = pointsOf(m.view); tagPts = m.points.map(k => P[k] ?? null); tagSeq = m.seq;
     }
+    // the guided tour: tag points without moving the camera (each a point name in the given view, or [view, name]); flights; blinking; fading
+    if (m.cmd === 'track') { tagPts = m.points.map(x => { const [v, k] = Array.isArray(x) ? x : [m.view ?? 'cell', x]; return (v === 'focus' ? focusOf(k)?.c : pointsOf(v)[k]) ?? null; }); tagSeq = m.seq; }   // 'focus': the centre of the part a flight frames
+    if (m.cmd === 'fly' && !flyTo(m)) toExplorer({ type: 'arrived', seq: m.seq ?? 0, missed: true });
+    if (m.cmd === 'free') freeCamera();
+    if (m.cmd === 'blink') { if (m.key) blink(m.key, m.n ?? 3); else setHi(null); }
+    if (m.cmd === 'ghost') ghost(m.keep ?? null, m.amount ?? .1, !!m.hide);
+    if (m.cmd === 'set') setState(m);
     if (m.cmd === 'hi') setHi(m.key);
     if (m.cmd === 'mol') molHi = m.key;
     if (m.cmd === 'motion') motion = !motion;
@@ -1527,9 +1657,13 @@ if (EMBED) {
     if (m.cmd === 'snap') { composer.render(); toExplorer({ type: 'snap', url: renderer.domElement.toDataURL('image/png') }); }
     say();
   });
-  addEventListener('keydown', e => { if (e.key === 'Escape') toExplorer({ type: 'key', key: 'Escape' }); });
+  // Escape goes up a level; the guided tour's keys are passed on too, as the keyboard stays here once the cell has been dragged
+  addEventListener('keydown', e => {
+    if (e.key === 'Escape') toExplorer({ type: 'key', key: 'Escape' });
+    else if (!e.metaKey && !e.ctrlKey && !e.altKey && (/^(Arrow(Left|Right)|Page(Up|Down)| )$/.test(e.key) || /^[cnem1-9]$/i.test(e.key))) { if (e.key === ' ') e.preventDefault(); toExplorer({ type: 'key', key: e.key, shift: e.shiftKey }); }
+  });
 }
-window.__cell = { renderer, composer, camera, controls, scene, cell, REG, shells, setHi, shot, V, setLook: k => { organelleLook = k; applyLook(); }, get placed() { return placed.length; }, get sites() { return SITES; }, get flows() { return live; }, get org() { return ORG; }, get procs() { return PROCS; }, setMol: k => { molHi = k; }, step: (dt = .05, n = 1) => { for (let i = 0; i < n; i++) { updateFlows(dt); updateMTs(dt); } } };
+window.__cell = { renderer, composer, camera, controls, scene, cell, REG, shells, setHi, shot, V, focusOf, flyTo, freeCamera, ghost, blink, setState, tour, pointsOf, setLook: k => { organelleLook = k; applyLook(); }, get placed() { return placed.length; }, get sites() { return SITES; }, get flows() { return live; }, get org() { return ORG; }, get procs() { return PROCS; }, setMol: k => { molHi = k; }, step: (dt = .05, n = 1) => { for (let i = 0; i < n; i++) { updateFlows(dt); updateMTs(dt); } } };
 </script>
 </body>
 </html>

@@ -12,6 +12,7 @@ This project is a set of single-file three.js pages that show cells, from the wh
 | `prokaryote_cell_realistic.html` | realistic *E. coli*, everything at true size | [docs/prokaryote_cell_realistic_manual.md](docs/prokaryote_cell_realistic_manual.md) |
 | `molecules_preview.html`, `dna_styles.html`, `eukaryotic_cell_3d.html`, `prokaryotic_cell_3d.html` | earlier previews and style studies | — |
 | `tools/` | download, coarse-grain and embed real protein structures; a local server for checks | [tools/README.md](tools/README.md) |
+| `tours/` | guided tour scripts (chapters, steps, subtitle cues), played by the explorer | [docs/cell_explorer_manual.md](docs/cell_explorer_manual.md) §12 |
 
 ## What to read for your task
 
@@ -26,7 +27,7 @@ This project is a set of single-file three.js pages that show cells, from the wh
 | **Metabolism** (molecules moving, organelles glowing) | animal manual §8, §14 → that cell's "Metabolism" section |
 | **Tags**, views, or a realistic level in the explorer | explorer manual §6, §7, §9.2 → that cell's "Views" section |
 | **Looks and materials** (translucent, glass, gel, x-ray) | animal manual §4.4, §9 (realistic pages) → explorer manual §4.2, §5 (explorer) |
-| The **guided tour** (tutorial mode, subtitles, narrator hook) | [docs/tutorial_mode_spec.md](docs/tutorial_mode_spec.md), whole → explorer manual §2, §6, §7 → animal manual §4.6, §10, §11 |
+| The **guided tour** (tutorial mode, subtitles, narrator hook) | explorer manual §12 → animal manual §10.2 → the header comment of `tours/eukaryotic_cell.js` → [docs/tutorial_mode_spec.md](docs/tutorial_mode_spec.md) (the design, and §15 for what differs) |
 | **Fixing** something that looks wrong | the "Pitfalls" table of every manual involved: it is probably there already |
 
 ## Rules
@@ -37,6 +38,7 @@ This project is a set of single-file three.js pages that show cells, from the wh
    - **Random draws:** each page uses a seeded random stream, so new code that draws random numbers goes at the end or on its own stream (`const outer = seed; seed = N; …; seed = outer;`).
    - **Explorer seeds:** each explorer level is seeded by its own id.
 4. **Edit the HTML directly.** There is no build step.
+   - **The one exception:** tour scripts live in `tours/*.js`, plain scripts loaded with `<script src>`, so writers can change the words without touching code. Cue ids there are permanent (recorded narration is filed under them).
    - **Data lines:** the protein data sits on single lines that `tools/embed_structures.py` rewrites. Keep them on one line, and regenerate them with the tools rather than by hand.
 5. **Code style:**
    - Match the surrounding code: dense, with comments that explain the biology or the reason.
@@ -57,7 +59,7 @@ This project is a set of single-file three.js pages that show cells, from the wh
 ## Quick facts
 
 - **three.js:** 0.160, loaded from `cdn.jsdelivr.net` by an import map, so the pages need internet.
-- **Debug hooks:** every realistic page exposes `window.__cell` with `shot`, `step`, `sites`, `procs` and `flows`. The plant page also has `VIEWS`, `pointsOf` and `org`; the bacterium `views` and `pointsOf`; the animal page `org`. The explorer exposes `window.__explorer` (`showNow`, `build`, `NODES`, `cur`).
+- **Debug hooks:** every realistic page exposes `window.__cell` with `shot`, `step`, `sites`, `procs` and `flows`. The plant page also has `VIEWS`, `pointsOf` and `org`; the bacterium `views` and `pointsOf`; the animal page `org`, `pointsOf` and the tour's `focusOf`, `flyTo`, `ghost` and `blink`. The explorer exposes `window.__explorer` (`showNow`, `build`, `NODES`, `cur`) and `window.__tour` (the guided tour: `goto`, `state`, `cues`, `setNarrator`).
 - **The explorer embeds each realistic page** as `<page>?embed` in an iframe and talks to it with `postMessage` (`to: 'realistic-cell'`, `from: 'realistic-cell'`).
 - **Hidden browser panes:** a hidden or background browser pane stops animation frames, so realistic pages don't send their tags until the pane is visible.
 - **Ignored folders:** `renders/` (check images) and `structures/` (downloaded and coarse-grained data) are git-ignored.

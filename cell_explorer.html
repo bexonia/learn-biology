@@ -74,6 +74,64 @@
   .mol:hover { background: var(--accent-bg); }
   .mol img { width: 22px; height: 22px; flex: none; }
   .note { margin-top: 22px; font-size: 12px; color: var(--muted); line-height: 1.5; border-top: 1px solid var(--line); padding-top: 12px; }
+  /* the guided tour (docs/tutorial_mode_spec.md): the stage takes the whole window; subtitles at the bottom, controls under them */
+  [hidden] { display: none !important; }
+  #app.touring { grid-template-columns: 1fr; }
+  #app.touring.tmore { grid-template-columns: 1fr 330px; }
+  #app.touring #tree, #app.touring #info, #app.touring #toolbar, #app.touring #hint, #app.touring #crumbs { display: none; }
+  #app.touring.tmore #info { display: block; }
+  #app.touring.tdetail #crumbs { display: flex; top: 48px; }
+  .tour { position: absolute; z-index: 5; }
+  #tourBar { top: 10px; left: 12px; right: 12px; display: flex; align-items: center; gap: 10px; font-size: 13px; }
+  #tChap { flex: 1; min-width: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; text-shadow: 0 1px 3px #000; }
+  #tDots { display: flex; gap: 4px; }
+  #tDots button { width: 18px; height: 6px; border-radius: 3px; border: 0; padding: 0; background: rgba(255,255,255,.22); cursor: pointer; }
+  #tDots button.done { background: rgba(127,216,255,.45); }
+  #tDots button.on { background: var(--accent); }
+  #tCount { color: var(--muted); font-variant-numeric: tabular-nums; }
+  .tbtn, #tourCtl button, #tPill button, #tCard button { background: rgba(6,10,18,.8); border: 1px solid var(--line-2); border-radius: 7px; padding: 5px 10px; cursor: pointer; font-size: 12.5px; }
+  .tbtn.on, #tourCtl button.on { border-color: var(--accent); color: var(--accent); }
+  #tourCtl button:disabled { opacity: .35; cursor: default; }
+  #tourCtl { bottom: 12px; left: 12px; right: 12px; display: flex; flex-wrap: wrap; gap: 6px; align-items: center; justify-content: center; }
+  #tNarr { display: inline-flex; gap: 6px; align-items: center; }
+  #tVol { width: 70px; accent-color: var(--accent); }
+  #subs { left: 50%; transform: translateX(-50%); bottom: 58px; width: max-content; max-width: min(820px, calc(100% - 32px)); background: rgba(0,0,0,.72); border-radius: 10px; padding: 9px 18px 10px;
+    text-align: center; font-size: var(--subs, 18px); line-height: 1.42; color: #fff; transition: opacity .15s; cursor: pointer; }
+  #subs.fade { opacity: 0; }
+  #subs.empty { display: none; }
+  #subs .kw { font: inherit; background: none; border: 0; padding: 0; cursor: pointer; font-weight: 650; text-decoration: underline dotted rgba(255,255,255,.4); text-underline-offset: 4px; }
+  #subs .hint { display: block; font-size: .7em; color: var(--muted); margin-top: 3px; }
+  #tNote { bottom: 140px; left: 50%; transform: translateX(-50%); background: rgba(6,10,18,.9); border: 1px solid var(--line-2); border-radius: 8px; padding: 6px 12px; font-size: 13px; }
+  #tMenu { top: 44px; left: 12px; width: min(360px, calc(100% - 24px)); max-height: calc(100% - 130px); overflow-y: auto; background: rgba(10,14,22,.96); border: 1px solid var(--line-2); border-radius: 10px; padding: 6px 10px 12px; font-size: 13px; }
+  #tMenu h3 { font-size: 11px; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); font-weight: 500; margin: 12px 6px 6px; }
+  #tMenu .ch, #tMenu .cueRow { display: block; width: 100%; text-align: left; background: none; border: 0; padding: 5px 6px; border-radius: 6px; cursor: pointer; line-height: 1.35; }
+  #tMenu .ch:hover, #tMenu .cueRow:hover { background: var(--accent-bg); }
+  #tMenu .ch.on, #tMenu .cueRow.on { color: var(--accent); }
+  #tMenu .ok { color: var(--accent); float: right; }
+  #tMenu .st { color: var(--muted); font-size: 11px; margin: 9px 6px 2px; }
+  #tMenu label { display: flex; gap: 8px; align-items: center; margin: 6px; }
+  #tMenu select { background: var(--panel-2); color: var(--fg); border: 1px solid var(--line-2); border-radius: 6px; }
+  #tCard { position: absolute; z-index: 6; left: 50%; top: 50%; transform: translate(-50%, -50%); width: min(470px, calc(100% - 32px)); background: rgba(8,12,20,.9); border: 1px solid var(--line-2); border-radius: 14px; padding: 22px 24px; text-align: center; }
+  #tCard h2 { margin: 0 0 8px; font-size: 22px; font-weight: 600; }
+  #tCard p { color: #c8d1de; line-height: 1.55; font-size: 14px; margin: 6px 0; }
+  #tCard p.keys { color: var(--muted); font-size: 12.5px; }
+  #tCard .acts { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; margin-top: 14px; }
+  #tCard button { padding: 8px 14px; font-size: 13.5px; }
+  #tCard button.main { background: var(--accent); color: #04121a; border-color: var(--accent); font-weight: 600; }
+  #tPill { top: 10px; left: 50%; transform: translateX(-50%); display: flex; gap: 8px; align-items: center; background: rgba(6,10,18,.88); border: 1px solid rgba(127,216,255,.55); border-radius: 999px; padding: 4px 5px 4px 14px; font-size: 13px; white-space: nowrap; }
+  #tPill button { border-radius: 999px; }
+  #tFade { position: absolute; inset: 0; background: #000; opacity: 0; pointer-events: none; transition: opacity .3s; z-index: 4; }
+  #tFade.on { opacity: 1; transition: none; }
+  .tarrow { fill: none; stroke-width: 3.5; stroke-linecap: round; stroke-dasharray: 12 8; animation: tflow 1.1s linear infinite; filter: drop-shadow(0 0 2px rgba(0,0,0,.9)); }   /* the dashes run from source to target */
+  @keyframes tflow { to { stroke-dashoffset: -20; } }
+  @media (prefers-reduced-motion: reduce) { .tarrow { animation: none; } }
+  .tlab { font-size: 13.5px; font-weight: 700; paint-order: stroke; stroke: rgba(0,0,0,.8); stroke-width: 3px; }
+  #tourBtn { border-color: rgba(127,216,255,.55); color: var(--accent); }
+  @media (max-width: 720px) {
+    #tSize, #tPace, #tAlone, #tMore, #tPrevStep, #tNextStep, #tDots, #tVol { display: none !important; }
+    #subs { bottom: 54px; --subs: 16px; }
+  }
+  @media (max-width: 900px) { #app.touring { grid-template-rows: 100vh; } }
   @media (max-width: 900px) {
     html, body { overflow: auto; }
     #app { grid-template-columns: 1fr; grid-template-rows: 62vh auto auto; height: auto; }
@@ -84,6 +142,7 @@
     #hint { display: none; }
   }
 </style>
+<script src="tours/eukaryotic_cell.js"></script>
 <script type="importmap">
 { "imports": {
   "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js",
@@ -101,6 +160,7 @@
     <div id="legend"></div>
     <div id="hint">Drag to rotate · scroll to zoom · click a blue tag to go deeper · Esc to go up</div>
     <div id="toolbar">
+      <button id="tourBtn" hidden title="A guided tour of this cell, with subtitles">Guided tour</button>
       <button id="up">Up one level</button>
       <button id="tags">Hide tags</button>
       <button id="spin">Pause</button>
@@ -109,6 +169,31 @@
       <button id="snap">Save PNG</button>
     </div>
     <div id="busy">Building model…</div>
+    <div id="tFade"></div>
+    <div id="tourBar" class="tour" hidden>
+      <button id="tMenuBtn" class="tbtn" title="Chapters, transcript and settings (M)">≡ Chapters</button>
+      <div id="tChap"></div><div id="tDots"></div><div id="tCount"></div>
+      <button id="tExit" class="tbtn" title="Leave the tour (Esc twice)">✕ Exit</button>
+    </div>
+    <div id="subs" class="tour empty" hidden aria-live="polite" title="Click to pause or play"></div>
+    <div id="tNote" class="tour" hidden></div>
+    <div id="tourCtl" class="tour" hidden>
+      <button id="tPrevStep" title="Previous part (Shift + ←)" aria-label="Previous part">⏮</button>
+      <button id="tPrev" title="Previous line (←)" aria-label="Previous line">◀</button>
+      <button id="tPlay" title="Pause or play (Space)" aria-label="Pause">⏸</button>
+      <button id="tNext" title="Next line (→)" aria-label="Next line">▶</button>
+      <button id="tNextStep" title="Next part (Shift + →)" aria-label="Next part">⏭</button>
+      <button id="tCC" class="on" title="Subtitles on or off (C)">CC</button>
+      <button id="tSize" title="Subtitle size">Aa</button>
+      <span id="tNarr" hidden><button id="tNarrBtn" class="on" title="Narration on or off (N)">🔊 Narration</button><input id="tVol" type="range" min="0" max="1" step=".05" value="1" aria-label="Narration volume"></span>
+      <button id="tPace" title="Tour pace">Pace 1×</button>
+      <button id="tAlone" title="Show this part alone, hiding the rest">Show alone</button>
+      <button id="tMore" title="More about this part">More ▸</button>
+      <button id="tExplore" title="Explore on your own (E)">Explore</button>
+    </div>
+    <div id="tMenu" class="tour" hidden></div>
+    <div id="tPill" class="tour" hidden><span>Exploring on your own</span><button id="tBack">Back to tour (E)</button><button id="tLeave">Exit tour</button></div>
+    <div id="tCard" hidden></div>
   </main>
   <aside id="info">
     <div id="lvl"></div>
@@ -2673,7 +2758,7 @@ const NODES = {
       ['ser', 'Smooth ER', 'smooth-er', 'ser'], ['golgi', 'Golgi apparatus', 'golgi', 'golgi'], ['mito', 'Mitochondrion', 'mitochondrion', 'mito'], ['lyso', 'Lysosome', 'lysosome', 'lyso'],
       ['perox', 'Peroxisome', 'peroxisome', 'perox'], ['endo', 'Endosome & vesicles', 'vesicle', 'vesicle'], ['lipid', 'Lipid droplet', 'lipid-droplet', 'lipid'], ['centro', 'Centrosome', 'centrosome', 'centro'],
       ['mt', 'Microtubules', 'microtubule', 'mt'], ['actin', 'Actin cortex', 'actin-filament', 'actin'], ['if', 'Intermediate filaments', 'intermediate-filament', 'if'], ['cilium', 'Primary cilium', 'cilium', 'cilium'],
-      ['villi', 'Microvilli', 'microvillus', 'cilium'], ['cytosol', 'Cytosol', 'cytosol', 'cytosol']],
+      ['villi', 'Microvilli', 'microvillus', 'villi'], ['cytosol', 'Cytosol', 'cytosol', 'cytosol']],
     desc: 'The same animal cell drawn as realistically as this project can: cut open, with gel-like organelles in a crowded cytoplasm and a nucleus built molecule by molecule. It is alive: molecules travel between the organelles, dock on the one that asked for them, and it lights up as it makes its product. Shapes and arrangements follow real biology; molecules are drawn far larger than life so they can be seen.' },
   'real-nucleus': { name: 'Nucleus (realistic)', scale: '5–10 µm', real: 'nucleus', hi: 'nucleus',
     children: ['nuclear-envelope', 'nuclear-pore', 'chromosome', 'real-dna', 'real-nucleolus', 'rna', 'pcna', 'ubiquitin'],
@@ -2999,12 +3084,14 @@ addEventListener('message', e => {
   const here = P === page && !!cur?.real;
   if (m.type === 'pts' && here && m.seq === viewSeq) realPts = m.pts;   // points for an earlier view may still be on their way
   if (m.type === 'state') { P.state = m; syncToolbar(); }
-  if (m.type === 'key' && here && m.key === 'Escape' && curPath.length > 1) go(curPath.slice(0, -1));
+  if (m.type === 'key' && here && !tourKey(m.key, m.shift) && m.key === 'Escape' && curPath.length > 1) go(curPath.slice(0, -1));
+  if (m.type === 'arrived') tourArrived(m.seq);
   if (m.type === 'snap' && here) { const img = new Image(); img.onload = () => savePNG(img); img.src = m.url; }
   if (m.type === 'ready') {
     P.ready = true; P.data = m; if (P.pending) toReal(P.pending, P);
     if (here) { $('busy').style.display = 'none'; renderMols(); }
     renderInfo();
+    if (T.waitReady !== null && P === PAGES[TOUR_PAGE]) startTour(T.waitReady);
   }
 });
 // what a part of the realistic cell takes in and gives out (from the realistic page), or the default note on how the flows work
@@ -3017,7 +3104,8 @@ function showTip(key) {
 }
 // light up a tagged part in the realistic page, with its tag, line, tree row and recipe
 function realHover(a) {
-  toReal({ cmd: 'hi', key: a?.hi ?? null }); showTip(a?.hi);
+  if (!a && T.hiKey) toReal({ cmd: 'blink', key: T.hiKey, n: 0 }); else toReal({ cmd: 'hi', key: a?.hi ?? null });   // the tour's lit part comes back
+  showTip(a?.hi);
   labelEls.forEach((L, i) => { const b = cur.anchors[i], on = !!a && (a.id ? b.id === a.id : b === a); L.el.classList.toggle('hov', on); L.ln.classList.toggle('hot', on); });
   document.querySelectorAll('.row[data-id]').forEach(r => r.classList.toggle('hov', !!a?.id && r.dataset.id === a.id));
 }
@@ -3060,6 +3148,7 @@ function go(path) {
   for (let i = 1; i <= path.length; i++) expanded.add(path.slice(0, i).join('/'));
   history.replaceState(null, '', '#' + path.join('/'));
   renderTree(); renderInfo();
+  if (T.on && T.mode === 'detail') detailLevel(path.at(-1));
   const token = ++goToken, id = path.at(-1);
   const real = !!NODES[id].real;
   if (real ? !PAGES[pageOf(id)].ready : !cache.has(id)) $('busy').style.display = 'flex';
@@ -3107,6 +3196,7 @@ function renderInfo() {
   const cr = $('crumbs'); cr.innerHTML = '';
   curPath.forEach((p, i) => { if (i) { const s = document.createElement('span'); s.textContent = '›'; cr.append(s); } const b = document.createElement('button'); b.textContent = NODES[p].name; b.onclick = () => go(curPath.slice(0, i + 1)); cr.append(b); });
   $('up').disabled = curPath.length === 1;
+  $('tourBtn').hidden = !TOUR || curPath[0] !== TOUR.root || T.on;
 }
 
 function makeLabels() {
@@ -3115,7 +3205,7 @@ function makeLabels() {
     const el = document.createElement(a.id ? 'button' : 'div'); el.className = 'lbl' + (a.id ? ' link' : ''); el.textContent = a.text;
     const ln = document.createElementNS(NS, 'polyline'); ln.setAttribute('class', 'ln' + (a.id ? ' link' : ''));
     const dot = document.createElementNS(NS, 'circle'); dot.setAttribute('r', '2.6'); dot.setAttribute('class', 'dt' + (a.id ? ' link' : ''));
-    if (a.id) { el.onclick = () => go(curPath.concat(a.id)); el.title = `Open ${NODES[a.id].name}`; }
+    if (a.id) { el.onclick = () => (a.path ? openDetail(a.path) : go(curPath.concat(a.id))); el.title = `Open ${NODES[a.id].name}`; }
     el.onmouseenter = () => { ln.classList.add('hot'); if (cur.real) realHover(a); else if (a.id) setHover(a.id); };
     el.onmouseleave = () => { ln.classList.remove('hot'); if (cur.real) realHover(null); else if (a.id) setHover(null); };
     labelsEl.append(el); svg.append(ln, dot);
@@ -3134,9 +3224,9 @@ function layoutLabels() {
     L.el.style.display = vis ? 'block' : 'none'; L.ln.style.display = L.dot.style.display = vis ? '' : 'none';
     if (vis) { if (!L.w) L.w = L.el.offsetWidth; side[x < w / 2 ? 'L' : 'R'].push({ i, x, y }); }
   });
-  const lg = $('legend'), topL = lg.style.display === 'block' ? lg.offsetTop + lg.offsetHeight + 16 : 52, bottom = h - 56, gap = 30;
+  const touring = $('app').classList.contains('touring'), lg = $('legend'), top0 = touring ? 60 : 52, topL = lg.style.display === 'block' ? lg.offsetTop + lg.offsetHeight + 16 : top0, bottom = h - (touring ? 150 : 56), gap = 30;
   for (const s of ['L', 'R']) {
-    const list = side[s].sort((a, b) => a.y - b.y), ys = list.map(p => p.y), top = s === 'L' ? topL : 52;
+    const list = side[s].sort((a, b) => a.y - b.y), ys = list.map(p => p.y), top = s === 'L' ? topL : top0;
     for (let k = 0; k < ys.length; k++) ys[k] = Math.max(ys[k], top, k ? ys[k - 1] + gap : -1e9);
     for (let k = ys.length - 1; k >= 0; k--) ys[k] = Math.min(ys[k], bottom - (ys.length - 1 - k) * gap);
     list.forEach((p, k) => {
@@ -3146,6 +3236,7 @@ function layoutLabels() {
       L.dot.setAttribute('cx', p.x); L.dot.setAttribute('cy', p.y);
     });
   }
+  layoutArrows();
 }
 
 function resize() {
@@ -3179,18 +3270,353 @@ function savePNG(src) {
   }
   const a = document.createElement('a'); a.download = `cell-${curPath.at(-1)}.png`; a.href = c.toDataURL('image/png'); a.click();
 }
-addEventListener('keydown', e => { if (e.key === 'Escape' && curPath.length > 1) go(curPath.slice(0, -1)); });
+addEventListener('keydown', e => { if (e.key === 'Escape' && curPath.length > 1 && !T.on) go(curPath.slice(0, -1)); });
 // W A S D move the camera in the realistic cell, also while the keyboard is on this page rather than in the embedded one
 const wasd = e => { const k = e.key.toLowerCase(); return k.length === 1 && 'wasd'.includes(k) && !e.metaKey && !e.ctrlKey && !e.target.closest?.('input, textarea') ? k : null; };
-addEventListener('keydown', e => { const k = wasd(e); if (k && cur?.real) toReal({ cmd: 'key', key: k, down: true }); });
+addEventListener('keydown', e => { const k = wasd(e); if (k && cur?.real && !tourHolds()) toReal({ cmd: 'key', key: k, down: true }); });
 addEventListener('keyup', e => { const k = wasd(e); if (k) toReal({ cmd: 'key', key: k, down: false }); });
 addEventListener('blur', () => 'wasd'.split('').forEach(k => toReal({ cmd: 'key', key: k, down: false })));
-addEventListener('hashchange', () => { const p = location.hash.slice(1).split('/').filter(Boolean); if (p.join('/') !== curPath.join('/')) go(validPath(p)); });
+addEventListener('hashchange', () => { const t = location.hash.match(TOUR_HASH); if (t) return startTour(t[1] ?? true); const p = location.hash.slice(1).split('/').filter(Boolean); if (p.join('/') !== curPath.join('/')) go(validPath(p)); });
 function validPath(p) { const out = []; for (const id of p) { if (!NODES[id] || (out.length && !NODES[out.at(-1)].children.includes(id))) break; out.push(id); } return isRoot(out[0]) ? out : ['real-cell']; }
+
+// ---------------------------------------------------------------------
+// The guided tour (docs/tutorial_mode_spec.md): a script of chapters, steps and subtitle cues (tours/eukaryotic_cell.js) played over
+// the realistic cell. The page flies the camera, blinks a part and fades the rest; this page keeps the time and draws the subtitles,
+// controls, tags and arrows. There is no voice: a narrator can be plugged in with window.__tour.setNarrator
+// ---------------------------------------------------------------------
+const TOUR = window.TOURS?.eukaryotic ?? null, TOUR_PAGE = 'animal_cell_realistic.html', TOUR_HASH = /^#tour(?:=([\w.-]+))?$/;
+const STEPS = TOUR ? TOUR.chapters.flatMap((c, ci) => c.steps.map((s, si) => ({ ...s, ch: c, ci, si }))) : [];
+const VIEW_NODE = { cell: 'real-cell', focus: 'real-cell', nucleus: 'real-nucleus', nucleolus: 'real-nucleolus', DNA: 'real-dna' };   // the explorer level whose tags a view's points are
+const store = { get(k, d) { try { const v = localStorage.getItem(k); return v === null ? d : JSON.parse(v); } catch { return d; } }, set(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); } catch { /* storage may be blocked */ } } };
+// mode: off, intro, tour, detail (a part's own level), explore (free), finished. phase, within tour and detail: flying (the camera is
+// on its way), lead (the part blinks before the words), cue, gap (between two cues), wait (the step's words are done)
+const T = { on: false, mode: 'off', phase: 'idle', i: 0, cue: -1, pending: 0, list: [], seq: 0, until: 0, left: 0, paused: false, voice: 0, speaking: false,
+  narrator: null, narr: true, subs: true, size: 1, pace: 1, auto: store.get('tourAuto', true), reduce: matchMedia('(prefers-reduced-motion: reduce)').matches, alone: false,
+  hiKey: null, links: -1, more: false, esc: 0, user: null, waitReady: null, seen: new Set(store.get('tourSeen', [])) };
+const tp = m => toReal(m, PAGES[TOUR_PAGE]);
+const stepNow = () => STEPS[T.i];
+const tourHolds = () => T.on && T.mode !== 'explore' && T.mode !== 'detail';
+const plainOf = t => t.replace(/\[\[([^|\]]+)(?:\|[^\]]+)?\]\]/g, '$1');
+const cueInfo = (c, s = stepNow()) => ({ id: c.id, text: c.text, plain: plainOf(c.text), say: c.say ?? plainOf(c.text), chapter: s?.ch.id ?? null, step: s?.id ?? null });
+function emit(type, detail = {}) { dispatchEvent(new CustomEvent('tour:' + type, { detail })); if (parent !== window) parent.postMessage({ from: 'cell-tour', type, ...detail }, '*'); }
+// the shortest way down the tree from the root to a node, so a part opened from the tour has its real path
+function pathTo(id, from = TOUR?.root ?? 'real-cell') {
+  const seen = new Set([from]), q = [[from]];
+  while (q.length) { const p = q.shift(); if (p.at(-1) === id) return p; for (const c of NODES[p.at(-1)].children) if (!seen.has(c)) { seen.add(c); q.push(p.concat(c)); } }
+  return null;
+}
+const lighter = new THREE.Color(), WHITE = new THREE.Color('#ffffff');
+function partColour(k) { const c = PAGES[TOUR_PAGE].data?.parts?.find(p => p[0] === k)?.[2]; return c ? '#' + lighter.set(c).lerp(WHITE, .3).getHexString() : '#7fd8ff'; }   // a little lighter, to read on the dark box
+function detailFor(part) { const s = stepNow(); if (s?.detail && (s.blink === part || !part)) return pathTo(s.detail); const t = NODES[TOUR.root].tags.find(x => x[3] === part && x[2]); return t ? pathTo(t[2]) : null; }
+const restoreHi = () => tp(T.hiKey ? { cmd: 'blink', key: T.hiKey, n: 0 } : { cmd: 'hi', key: null });
+
+// ---- subtitles: [[label|part]] becomes the part's name in its colour, which lights the part when hovered and opens it when clicked;
+//      a line longer than 42 characters is broken at the space nearest its middle, never inside a name
+function renderCue(c, hint = null) {
+  const box = $('subs'); box.replaceChildren(); box.classList.remove('fade');
+  box.classList.toggle('empty', !c && !hint);
+  if (c) {
+    const toks = [], dflt = T.mode === 'tour' ? stepNow()?.blink : null; let last = 0;
+    const words = t => t.split(/(\s+)/).forEach(w => w && toks.push({ w }));
+    for (const m of c.text.matchAll(/\[\[([^|\]]+)(?:\|([^\]]+))?\]\]/g)) { words(c.text.slice(last, m.index)); toks.push({ w: m[1], part: m[2] ?? dflt }); last = m.index + m[0].length; }
+    words(c.text.slice(last));
+    const len = plainOf(c.text).length; let brk = -1;
+    if (len > 42 && len <= 84) { let n = 0, best = 1e9; toks.forEach((t, k) => { if (!t.part && /^\s+$/.test(t.w) && Math.abs(n - len / 2) < best) { best = Math.abs(n - len / 2); brk = k; } n += t.w.length; }); }
+    toks.forEach((t, k) => {
+      if (k === brk) return box.append(document.createElement('br'));
+      if (!t.part) return box.append(t.w);
+      const b = document.createElement('button'); b.className = 'kw'; b.textContent = t.w; b.style.color = partColour(t.part); b.title = 'Open this part';
+      b.onmouseenter = () => tp({ cmd: 'hi', key: t.part }); b.onmouseleave = restoreHi; b.onclick = e => { e.stopPropagation(); openDetail(detailFor(t.part)); };
+      box.append(b);
+    });
+  }
+  if (hint) { const h = document.createElement('span'); h.className = 'hint'; h.textContent = hint; box.append(h); }
+}
+function flashNote(text) { const n = $('tNote'); n.textContent = text; n.hidden = false; clearTimeout(flashNote.t); flashNote.t = setTimeout(() => { n.hidden = true; }, 2500); }
+
+// ---- tags and arrows for a step: its tags are the explorer's own tags of that view, pointed at by the page
+function showStepTags(s) {
+  const pts = [], split = x => (x.includes(':') ? x.split(':') : ['cell', x]);
+  const anchors = (s.tags ?? []).map(tag => {
+    const [v, pt] = split(tag), node = NODES[VIEW_NODE[v]], def = node.tags.find(t => t[0] === pt) ?? [pt, pt, null, null];
+    pts.push([v, pt]);
+    return { pt, text: def[1], id: def[2], hi: def[3], path: def[2] ? pathTo(VIEW_NODE[v]).concat(def[2]) : null };
+  });
+  (s.links ?? []).forEach(([a, b]) => pts.push(split(a), split(b)));
+  cur = { real: 'cell', anchors, tour: true }; makeLabels(); arrowsFor(s);
+  realPts = []; tp({ cmd: 'track', points: pts, seq: ++viewSeq });
+}
+function restoreRootTags() {   // the root's own tags, at the points of the cell view, without moving the camera
+  if (!cur?.real || curPath.join('/') !== TOUR.root) return;
+  cur = { real: 'cell', anchors: NODES[TOUR.root].tags.map(([pt, text, to, hi]) => ({ pt, text, id: to, hi })) }; makeLabels();
+  realPts = []; tp({ cmd: 'track', view: 'cell', points: cur.anchors.map(a => a.pt), seq: ++viewSeq });
+}
+let arrows = [];
+function arrowsFor(s) {
+  arrows = (s.links ?? []).map(([, , label, part]) => {
+    const p = document.createElementNS(NS, 'path'), t = document.createElementNS(NS, 'text'), col = partColour(part);
+    p.setAttribute('class', 'tarrow'); p.setAttribute('stroke', col); p.setAttribute('marker-end', 'url(#tHead)'); t.setAttribute('class', 'tlab'); t.setAttribute('fill', col); t.textContent = label ?? '';
+    svg.append(p, t); return { p, t };
+  });
+  if (arrows.length) { const d = document.createElementNS(NS, 'defs'); d.innerHTML = '<marker id="tHead" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#fff3c8"/></marker>'; svg.prepend(d); }
+}
+function layoutArrows() {   // arrow k appears with cue k, as a curve between the screen points of its two ends
+  if (!cur?.tour || !arrows.length) return;
+  const nA = cur.anchors.length;
+  arrows.forEach((A, k) => {
+    const a = realPts[nA + 2 * k], b = realPts[nA + 2 * k + 1], on = k <= T.links && !!a?.[2] && !!b?.[2];
+    A.p.style.display = A.t.style.display = on ? '' : 'none'; if (!on) return;
+    const mx = (a[0] + b[0]) / 2, my = (a[1] + b[1]) / 2, cx = mx - (b[1] - a[1]) * .22, cy = my + (b[0] - a[0]) * .22;
+    A.p.setAttribute('d', `M${a[0]},${a[1]} Q${cx},${cy} ${b[0]},${b[1]}`); A.t.setAttribute('x', (mx + cx) / 2 + 6); A.t.setAttribute('y', (my + cy) / 2);
+  });
+}
+
+// ---- playing: a step flies the camera, then lights its part, then shows its cues one by one
+function playStep(i, cue = 0) {
+  i = Math.max(0, Math.min(STEPS.length - 1, i));
+  const s = STEPS[i], seq = ++T.seq;
+  Object.assign(T, { i, cue: -1, pending: Math.max(0, Math.min(cue, s.cues.length - 1)), list: s.cues, phase: 'flying', paused: false, links: -1, hiKey: null });
+  stopVoice(); setPlay();
+  tp({ cmd: 'blink', key: null }); tp({ cmd: 'ghost', keep: null }); tp({ cmd: 'mol', key: null });
+  tp({ cmd: 'set', look: s.look ?? 'gel', cut: s.cut ?? true, flow: s.flow ?? false, motion: s.motion ?? true });
+  showStepTags(s); renderCue(null);
+  const dur = T.reduce ? 0 : (s.camera.dur ?? 2.6) / T.pace;
+  if (T.reduce) $('tFade').classList.add('on');   // reduced motion: a quick fade instead of a flight
+  tp({ cmd: 'fly', ...s.camera, dur, orbit: T.reduce ? 0 : s.camera.orbit ?? 0, seq });
+  T.until = performance.now() + (dur + 2.5) * 1000;   // if the page's frames are paused (a hidden tab), go on anyway
+  renderBar(); if (T.more) showMore(); if (!$('tMenu').hidden) renderMenu();
+  store.set('tourPos', s.id); emit('step', { id: s.id, chapter: s.ch.id, title: s.title });
+}
+function tourArrived(seq) { if (T.on && T.phase === 'flying' && seq === T.seq) arrive(); }
+function ghostOf(s) { const keep = s.ghost === false ? null : Array.isArray(s.ghost) ? s.ghost : s.blink ? [s.blink] : null; return keep ?? (T.alone && s.blink ? [s.blink] : null); }
+function arrive() {
+  const s = stepNow(); T.phase = 'lead'; $('tFade').classList.remove('on');
+  if (s.blink) { T.hiKey = s.blink; tp({ cmd: 'blink', key: s.blink, n: T.reduce ? 0 : 3 }); }
+  const keep = ghostOf(s); if (keep) tp({ cmd: 'ghost', keep, hide: T.alone });
+  if (s.follow) tp({ cmd: 'mol', key: s.follow });
+  T.until = performance.now() + (s.blink && !T.reduce ? 1300 : 300) / T.pace;   // show the part, then name it
+}
+function startCue(j) {
+  const c = T.list[j]; if (!c) return;
+  T.cue = j; T.phase = 'cue'; if (T.mode === 'tour') T.links = j;
+  renderCue(T.subs ? c : null);
+  const len = plainOf(c.text).length, cap = T.mode === 'detail' ? 14 : 7;   // a description's sentences run longer than the script's lines
+  T.until = performance.now() + (c.dur ?? Math.min(cap, Math.max(1.5, len / 15)) + .3) * 1000 / T.pace;
+  if (c.blink) { T.hiKey = c.blink; tp({ cmd: 'blink', key: c.blink, n: T.reduce ? 0 : 2 }); }
+  speak(c); markTranscript(); emit('cue', cueInfo(c, T.mode === 'tour' ? stepNow() : null));
+}
+function endCue() {
+  if (T.cue + 1 < T.list.length) { T.phase = 'gap'; T.until = performance.now() + 150; $('subs').classList.add('fade'); return; }
+  T.phase = 'wait';
+  if (T.mode === 'tour' && T.auto) { T.until = performance.now() + 800 / T.pace; return; }
+  T.until = Infinity;
+  renderCue(T.subs ? T.list[T.cue] : null, T.mode === 'detail' ? 'Back to tour: E' : 'Next: → or ▶');
+}
+function tourTick(now) {
+  if (!T.on || T.paused) return;
+  if (T.phase === 'flying' && now > T.until) arrive();
+  else if (T.phase === 'lead' && now >= T.until) startCue(T.pending);
+  else if (T.phase === 'cue' && now >= T.until && !T.speaking) endCue();
+  else if (T.phase === 'gap' && now >= T.until) startCue(T.cue + 1);
+  else if (T.phase === 'wait' && now >= T.until) nextStep();
+}
+// ---- the narrator: each cue is handed to it, and stays up until it has finished speaking
+function speak(c) {
+  T.speaking = false; if (!T.narr || !T.narrator) return;
+  const tok = ++T.voice; T.speaking = true;
+  Promise.resolve().then(() => T.narrator.speak(cueInfo(c, T.mode === 'tour' ? stepNow() : null))).catch(e => console.warn('narrator:', e)).finally(() => { if (tok === T.voice) T.speaking = false; });
+}
+function stopVoice() { T.voice++; T.speaking = false; try { T.narrator?.stop?.(); } catch (e) { console.warn('narrator:', e); } }
+
+// ---- moving through the tour
+function toStep(i, cue = 0) {
+  if (i >= STEPS.length) return finish();
+  if (T.mode !== 'tour') { T.mode = 'tour'; T.more = false; enterRoot(); setLayout(); }
+  playStep(i, cue);
+}
+function nextStep() { const s = stepNow(); if (T.mode === 'tour' && (T.i + 1 >= STEPS.length || STEPS[T.i + 1].ci !== s.ci)) markSeen(s.ch.id); toStep(T.i + 1); }
+function prevStep() { toStep(Math.max(0, T.i - 1)); }
+function nextCue() {
+  if (T.mode === 'tour' && (T.phase === 'flying' || T.phase === 'lead')) { if (T.phase === 'flying') arrive(); return startCue(T.pending); }
+  if (T.cue + 1 < T.list.length) return startCue(T.cue + 1);
+  if (T.mode === 'tour') nextStep();
+}
+function prevCue() {
+  if (T.cue > 0 && T.phase !== 'flying') return startCue(T.cue - 1);
+  if (T.mode === 'tour' && T.i > 0) toStep(T.i - 1, STEPS[T.i - 1].cues.length - 1);
+}
+function gotoChapter(ci) { const i = STEPS.findIndex(s => s.ci === ci); if (i >= 0) { $('tMenu').hidden = true; $('tCard').hidden = true; toStep(i); } }
+function togglePause() {
+  if (T.mode !== 'tour' && T.mode !== 'detail') return;
+  T.paused = !T.paused; const now = performance.now();
+  if (T.paused) { stopVoice(); T.left = T.until - now; }
+  else if (T.phase === 'cue') startCue(T.cue);   // a paused line starts again from its beginning
+  else T.until = now + T.left;
+  setPlay(); emit('state', { state: T.mode, paused: T.paused });
+}
+function markSeen(id) { T.seen.add(id); store.set('tourSeen', [...T.seen]); }
+function settings(m) { return { look: m?.look ?? 'gel', cut: m?.cut ?? true, flow: m?.flow ?? true, motion: m?.motion ?? true }; }
+function calm() { tp({ cmd: 'ghost', keep: null }); tp({ cmd: 'blink', key: null }); tp({ cmd: 'mol', key: null }); T.hiKey = null; }   // nothing lit, nothing faded
+// back on the realistic cell itself, cancelling any level change still on its way
+function enterRoot() {
+  goToken++;
+  if (curPath.join('/') === TOUR.root && cur?.real) return;
+  curPath = [TOUR.root]; history.replaceState(null, '', '#' + TOUR.root); renderTree(); renderInfo(); showReal(TOUR.root);
+}
+function startTour(at = true) {
+  if (!TOUR) return;
+  const P = PAGES[TOUR_PAGE];
+  if (!P.ready) { T.waitReady = at; enterRoot(); $('busy').style.display = 'flex'; return; }   // the realistic cell is still being built
+  T.waitReady = null;
+  if (!T.on) { T.on = true; T.user = settings(P.state); }
+  $('tMenu').hidden = true; enterRoot();
+  const i = typeof at === 'number' ? at : typeof at === 'string' ? STEPS.findIndex(s => s.id === at) : -1;
+  if (i >= 0) { T.mode = 'tour'; setLayout(); return playStep(i); }
+  T.mode = 'intro'; T.phase = 'idle'; calm(); showCard(); setLayout();
+  tp({ cmd: 'set', look: 'gel', cut: true, flow: true, motion: true }); showStepTags({});
+  tp({ cmd: 'fly', view: 'cell', dur: T.reduce ? 0 : 2, orbit: T.reduce ? 0 : 3, seq: ++T.seq });
+}
+function finish() {
+  markSeen(stepNow().ch.id); stopVoice(); calm();
+  T.mode = 'finished'; T.phase = 'idle'; showCard(); setLayout(); renderCue(null);
+  tp({ cmd: 'set', flow: true }); tp({ cmd: 'fly', view: 'cell', dur: T.reduce ? 0 : 2, orbit: T.reduce ? 0 : 3, seq: ++T.seq });
+  emit('end');
+}
+function explore() {
+  stopVoice(); T.mode = 'explore'; T.paused = false; T.phase = 'idle'; T.more = false;
+  tp({ cmd: 'free' }); calm(); tp({ cmd: 'set', ...T.user });
+  setLayout(); restoreRootTags(); renderInfo();
+}
+function backToTour() { toStep(T.i, Math.max(0, T.cue)); }
+function exitTour() {
+  stopVoice(); calm(); tp({ cmd: 'free' }); if (T.user) tp({ cmd: 'set', ...T.user });
+  Object.assign(T, { on: false, mode: 'off', phase: 'idle', paused: false, more: false, waitReady: null });
+  $('tMenu').hidden = true; setLayout(); restoreRootTags(); renderInfo(); syncToolbar();
+}
+// ---- "more detail": the part's own explorer level, with its description as subtitles (or a short script of its own)
+function openDetail(path) {
+  if (!path || !T.on) { if (path) go(path); return; }
+  stopVoice(); calm(); tp({ cmd: 'free' });
+  T.mode = 'detail'; T.paused = false; T.more = false; setLayout(); go(path);
+}
+function detailLevel(id) {
+  const n = NODES[id], own = TOUR.details?.[id]?.cues;
+  T.list = own ?? (n.desc.match(/[^.!?]+(?:[.!?]+(?=\s|$)|$)/g) ?? [n.desc]).map((t, k) => ({ id: `detail.${id}.${k + 1}`, text: t.trim() })).filter(c => c.text);
+  T.cue = -1; T.pending = 0; T.phase = 'lead'; T.until = performance.now() + 700; T.links = -1; renderCue(null); renderBar();
+}
+function showMore() {   // the info panel, about the step's part rather than the cell
+  const s = stepNow(), dp = s?.detail ? pathTo(s.detail) : null;
+  if (!dp) { renderInfo(); return; }
+  const keep = curPath; curPath = dp; renderInfo(); curPath = keep;
+  document.querySelectorAll('#kids .kid').forEach(b => { b.onclick = () => openDetail(dp.concat(b.dataset.id)); });
+  const open = document.createElement('button'); open.className = 'kid'; open.innerHTML = '<span>Open this part</span><small>more detail ›</small>'; open.onclick = () => openDetail(dp); $('kids').prepend(open);
+}
+
+// ---- what is on screen
+function setLayout() {
+  const on = T.on && T.mode !== 'explore' && T.mode !== 'off', app = $('app'), playing = T.mode === 'tour' || T.mode === 'detail';
+  app.classList.toggle('touring', on); app.classList.toggle('tmore', on && (T.more || T.mode === 'detail')); app.classList.toggle('tdetail', on && T.mode === 'detail');
+  $('tourBar').hidden = $('tourCtl').hidden = !playing; $('subs').hidden = !playing;
+  $('tPill').hidden = !(T.on && T.mode === 'explore'); $('tCard').hidden = !(T.mode === 'intro' || T.mode === 'finished');
+  if (!on || !playing) $('tMenu').hidden = !on || $('tMenu').hidden;
+  if (!(T.more || T.mode === 'detail')) renderInfo();
+  renderBar(); syncToolbar(); emit('state', { state: T.mode, paused: T.paused });
+}
+function renderBar() {
+  const s = stepNow(); if (!s) return;
+  $('tChap').textContent = T.mode === 'detail' ? `More detail · ${NODES[curPath.at(-1)].name}` : `${s.ci ? `Chapter ${s.ci} · ` : ''}${s.ch.title} — ${s.title}`;
+  $('tDots').replaceChildren(...s.ch.steps.map((x, k) => { const b = document.createElement('button'), i = T.i - s.si + k; b.className = i === T.i ? 'on' : i < T.i || T.seen.has(s.ch.id) ? 'done' : ''; b.title = x.title; b.setAttribute('aria-label', x.title); b.onclick = () => toStep(i); return b; }));
+  $('tCount').textContent = `${s.si + 1}/${s.ch.steps.length}`;
+  $('tExplore').textContent = T.mode === 'detail' ? 'Back to tour' : 'Explore';
+  $('tAlone').classList.toggle('on', T.alone); $('tAlone').disabled = T.mode !== 'tour'; $('tMore').classList.toggle('on', T.more); $('tMore').disabled = T.mode !== 'tour' || !s.detail;
+  $('tPrevStep').disabled = T.mode === 'tour' && T.i === 0;
+}
+function setPlay() { const b = $('tPlay'); b.textContent = T.paused ? '▶ Play' : '⏸'; b.setAttribute('aria-label', T.paused ? 'Play' : 'Pause'); b.classList.toggle('on', T.paused); }
+function showCard() {
+  const c = $('tCard'), fin = T.mode === 'finished', saved = STEPS.findIndex(s => s.id === store.get('tourPos', null));
+  const h = document.createElement('h2'), p = document.createElement('p'), k = document.createElement('p'), acts = document.createElement('div'); acts.className = 'acts'; k.className = 'keys';
+  const btn = (text, fn, main) => { const b = document.createElement('button'); b.textContent = text; b.onclick = fn; if (main) b.className = 'main'; acts.append(b); };
+  if (fin) {
+    h.textContent = 'Tour complete'; p.textContent = 'Now explore on your own: click any tag to go deeper, down to molecules and atoms.';
+    btn('Explore', explore, true); btn('Replay a chapter', toggleMenu); btn('Leave the tour', exitTour);
+  } else {
+    h.textContent = TOUR.title; p.textContent = 'From the whole cell down to a gene being read: each part lights up, the camera flies to it, and subtitles explain it. About eight minutes.';
+    k.textContent = 'Space pauses · → next line · Shift + → next part · E explore · M chapters';
+    btn('Start', () => toStep(0), true); if (saved > 0) btn(`Continue: ${STEPS[saved].title}`, () => toStep(saved)); btn('Choose a chapter', toggleMenu);
+  }
+  c.replaceChildren(h, p, ...(fin ? [] : [k]), acts);
+}
+function toggleMenu() { const m = $('tMenu'); m.hidden = !m.hidden; if (!m.hidden) renderMenu(); }
+function renderMenu() {
+  const m = $('tMenu'), s = stepNow(), h3 = t => { const e = document.createElement('h3'); e.textContent = t; return e; };
+  const chs = TOUR.chapters.map((c, ci) => { const b = document.createElement('button'); b.className = 'ch' + (T.mode === 'tour' && s.ci === ci ? ' on' : ''); b.textContent = `${ci ? ci + '. ' : ''}${c.title}`;
+    if (T.seen.has(c.id)) { const ok = document.createElement('span'); ok.className = 'ok'; ok.textContent = '✓'; b.append(ok); } b.onclick = () => gotoChapter(ci); return b; });
+  const lines = [];
+  STEPS.forEach((x, i) => { if (x.ci !== s.ci) return; const st = document.createElement('div'); st.className = 'st'; st.textContent = x.title; lines.push(st);
+    x.cues.forEach((c, j) => { const b = document.createElement('button'); b.className = 'cueRow' + (T.mode === 'tour' && i === T.i && j === T.cue ? ' on' : ''); b.dataset.cue = c.id; b.textContent = plainOf(c.text); b.onclick = () => { m.hidden = true; toStep(i, j); }; lines.push(b); }); });
+  const opt = (label, el) => { const l = document.createElement('label'); l.append(el, label); return l; };
+  const check = (on, fn) => { const i = document.createElement('input'); i.type = 'checkbox'; i.checked = on; i.onchange = () => fn(i.checked); return i; };
+  const pick = (vals, v, fn) => { const sel = document.createElement('select'); vals.forEach(([val, t]) => { const o = document.createElement('option'); o.value = val; o.textContent = t; o.selected = val == v; sel.append(o); }); sel.onchange = () => fn(+sel.value); return sel; };
+  m.replaceChildren(h3('Chapters'), ...chs, h3(`Transcript · ${s.ch.title}`), ...lines, h3('Settings'),
+    opt('Go on to the next part by itself', check(T.auto, v => { T.auto = v; store.set('tourAuto', v); })),
+    opt('Reduce motion (fade instead of flying)', check(T.reduce, v => { T.reduce = v; })),
+    opt(' Subtitle size', pick([[0, 'Small'], [1, 'Medium'], [2, 'Large']], T.size, setSize)),
+    opt(' Pace', pick([[.75, '0.75×'], [1, '1×'], [1.25, '1.25×']], T.pace, setPace)));
+}
+function markTranscript() { document.querySelectorAll('#tMenu .cueRow').forEach(b => b.classList.toggle('on', T.mode === 'tour' && b.dataset.cue === T.list[T.cue]?.id)); }
+function setSize(v) { T.size = v; $('subs').style.setProperty('--subs', [15, 18, 24][v] + 'px'); $('tSize').textContent = ['Aa·S', 'Aa', 'Aa·L'][v]; }
+function setPace(v) { T.pace = v; $('tPace').textContent = `Pace ${v}×`; }
+function toggleSubs() { T.subs = !T.subs; $('tCC').classList.toggle('on', T.subs); renderCue(T.subs && T.phase === 'cue' ? T.list[T.cue] : null); }
+function toggleNarr() { if (!T.narrator) return; T.narr = !T.narr; $('tNarrBtn').classList.toggle('on', T.narr); if (!T.narr) stopVoice(); }
+function toggleAlone() { T.alone = !T.alone; const s = stepNow(), keep = ghostOf(s); if (T.mode === 'tour' && T.phase !== 'flying') tp({ cmd: 'ghost', keep, hide: T.alone && !!keep }); renderBar(); }
+// the tour's keys (also passed on by the realistic page once it has the keyboard); W A S D stay with the camera
+function tourKey(key, shift = false, target = null) {
+  if (!T.on || !key || target?.closest?.('input, select, textarea')) return false;
+  const k = key.length === 1 ? key.toLowerCase() : key;
+  if (T.mode === 'intro' || T.mode === 'finished') {
+    if (k === ' ' || k === 'Enter') { T.mode === 'intro' ? toStep(0) : explore(); return true; }
+    if (k === 'Escape') { exitTour(); return true; }
+    if (k === 'm') { toggleMenu(); return true; }
+    return false;
+  }
+  if (T.mode === 'explore') { if (k === 'e' || k === 'Escape') { backToTour(); return true; } return false; }
+  const act = {
+    ' ': togglePause, ArrowRight: () => (shift ? nextStep() : nextCue()), ArrowLeft: () => (shift ? prevStep() : prevCue()),
+    PageDown: () => gotoChapter(stepNow().ci + 1), PageUp: () => gotoChapter(stepNow().ci - 1), c: toggleSubs, n: toggleNarr, m: toggleMenu,
+    e: () => (T.mode === 'detail' ? backToTour() : explore()),
+    Escape: () => { if (T.mode === 'detail') return backToTour(); if (performance.now() - T.esc < 2500) return exitTour(); T.esc = performance.now(); flashNote('Press Esc again to leave the tour'); },
+  }[k] ?? (/^[1-9]$/.test(k) ? () => gotoChapter(+k) : null);
+  if (!act) return false;
+  act(); return true;
+}
+addEventListener('keydown', e => { if (!e.metaKey && !e.ctrlKey && !e.altKey && tourKey(e.key, e.shiftKey, e.target)) e.preventDefault(); });
+$('tourBtn').onclick = () => startTour();
+$('tMenuBtn').onclick = toggleMenu; $('tExit').onclick = exitTour;
+$('tPrevStep').onclick = prevStep; $('tPrev').onclick = prevCue; $('tPlay').onclick = togglePause; $('tNext').onclick = nextCue; $('tNextStep').onclick = nextStep;
+$('subs').onclick = togglePause; $('tCC').onclick = toggleSubs; $('tNarrBtn').onclick = toggleNarr; $('tVol').oninput = () => T.narrator?.setVolume?.(+$('tVol').value);
+$('tSize').onclick = () => setSize((T.size + 1) % 3); $('tPace').onclick = () => setPace({ .75: 1, 1: 1.25, 1.25: .75 }[T.pace]);
+$('tAlone').onclick = toggleAlone; $('tMore').onclick = () => { T.more = !T.more; setLayout(); if (T.more) showMore(); };
+$('tExplore').onclick = () => (T.mode === 'detail' ? backToTour() : explore()); $('tBack').onclick = backToTour; $('tLeave').onclick = exitTour;
+// the script is checked once: every line fits two lines of 42 characters, and every coloured name is a part of the cell
+if (TOUR) STEPS.forEach(s => s.cues.forEach(c => {
+  if (plainOf(c.text).length > 84) console.warn(`tour: ${c.id} is longer than two subtitle lines`);
+  for (const m of c.text.matchAll(/\[\[[^|\]]+\|([^\]]+)\]\]/g)) if (!NODES[TOUR.root].tags.some(t => t[3] === m[1]) && !['nucleus', 'chromatin', 'mrna', 'nucleolus', 'rrna'].includes(m[1])) console.warn(`tour: ${c.id} names an unknown part ${m[1]}`);
+}));
+window.__tour = {
+  start: at => startTour(at), exit: exitTour, play: () => T.paused && togglePause(), pause: () => !T.paused && togglePause(),
+  next: nextCue, prev: prevCue, nextStep, prevStep, explore, back: backToTour,
+  goto(id) { const i = STEPS.findIndex(s => s.id === id || s.cues.some(c => c.id === id)); if (i < 0) return false; if (!T.on) startTour(STEPS[i].id); else toStep(i, Math.max(0, STEPS[i].cues.findIndex(c => c.id === id))); return true; },
+  get state() { return { on: T.on, mode: T.mode, phase: T.phase, step: stepNow()?.id ?? null, cue: T.list[T.cue]?.id ?? null, paused: T.paused }; },
+  cues: () => STEPS.flatMap(s => s.cues.map(c => cueInfo(c, s))),
+  setNarrator(n) { T.narrator = n; $('tNarr').hidden = !n; if (!n) stopVoice(); },
+  on: (type, fn) => addEventListener('tour:' + type, e => fn(e.detail)),
+  setReduceMotion(v) { T.reduce = !!v; }, setAuto(v) { T.auto = !!v; }, T,
+};
 
 let last = performance.now();
 renderer.setAnimationLoop(now => {
   const dt = Math.min(.05, (now - last) / 1000); last = now;
+  tourTick(now);
   if (!cur?.real) {   // the realistic cell draws itself
     if (cur) {
       const k = Math.min(1, (now - enterT) / 450), e = 1 - (1 - k) ** 3; cur.group.scale.setScalar(.9 + .1 * e);
@@ -3203,14 +3629,16 @@ renderer.setAnimationLoop(now => {
   layoutLabels();
 });
 try { if (localStorage.getItem('cellLook') === 'real') setLook(true); } catch { /* storage may be blocked */ }
-go(validPath(location.hash.slice(1).split('/').filter(Boolean)));
+const tourAt = location.hash.match(TOUR_HASH);   // #tour, or #tour=<step id>: start the guided tour
+go(validPath(tourAt ? [] : location.hash.slice(1).split('/').filter(Boolean)));
+if (tourAt) startTour(tourAt[1] ?? true);
 // synchronous view switch + single frame; used for scripted checks when animation frames are throttled
 const showNow = path => {
   goToken++; curPath = path; resize(); renderTree(); renderInfo();
   if (NODES[path.at(-1)].real) { showReal(path.at(-1)); layoutLabels(); return; }
   setModel(build(path.at(-1))); enterT = -1e9; cur.group.scale.setScalar(1); cur.onFrame?.(); controls.update(); composer.render(); layoutLabels(); $('busy').style.display = 'none';
 };
-window.__explorer = { NODES, build, go, showNow, setLook, setHover, THREE, scene, renderer, camera, composer, controls, bloom, get cur() { return cur; }, get frame() { return page?.el; }, get realPts() { return realPts; }, layoutLabels };
+window.__explorer = { NODES, build, go, showNow, tour: window.__tour, setLook, setHover, THREE, scene, renderer, camera, composer, controls, bloom, get cur() { return cur; }, get frame() { return page?.el; }, get realPts() { return realPts; }, layoutLabels };
 </script>
 </body>
 </html>

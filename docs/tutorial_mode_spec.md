@@ -1,6 +1,6 @@
 # Spec: the guided tour (tutorial mode) for the eukaryotic cell
 
-**Status:** specification only; nothing here is built yet. The tour works like a video game's tutorial: a guided path through the realistic animal cell, with subtitles at the bottom. You can stop at any moment to look around, open a part in more detail, and then go back to the tour.
+**Status:** built (first version). How it is built is in [cell_explorer_manual.md](cell_explorer_manual.md) §12 and [animal_cell_realistic_manual.md](animal_cell_realistic_manual.md) §10.2; where the build differs from this spec is listed in §15. The tour works like a video game's tutorial: a guided path through the realistic animal cell, with subtitles at the bottom. You can stop at any moment to look around, open a part in more detail, and then go back to the tour.
 
 **Scope of the first version:**
 
@@ -416,3 +416,26 @@ About 50 cues; at 1× roughly 6 minutes, plus the time anyone spends exploring. 
 2. **Audience:** secondary school, university, or general? This sets the cue wording and length.
 3. **Default advance:** automatic, like a video (this spec), or click to continue after each step, like a game tutorial? Both can be offered with an "Auto-advance" setting.
 4. **Languages** for the subtitles in the first version.
+
+---
+
+## 15. As built: differences from this spec, and the open questions
+
+**Differences.**
+
+- **Subtitle size:** a separate **Aa** button and a menu setting, instead of a long-press on CC.
+- **Narrow screens:** below 720 px the extra controls are hidden and reached through the ≡ menu, which holds pace, size, auto-advance and reduced motion. There is no "⋯" menu.
+- **Pausing during a flight:** the flight finishes; the first line waits until play. A paused line starts again from its beginning when resumed, as §6 says.
+- **Keywords:** clicking one opens the part in more detail. The arrows' labels are drawn in the source part's colour (lightened to read on the dark box).
+- **Recap:** the "roll call" uses a per-cue `blink` field, which §8.1 did not list.
+- **Default fade:** a step fades everything but its blinked part unless it says `ghost: false`.
+- **Part framing:** `focus` is a camera form `{ part }`, and `focus:<part>` is a tag view, for tags on the framed instance.
+- **Script length:** about 93 lines in 31 steps (about eight minutes), not 50.
+
+**The open questions of §14, answered with defaults until the owner decides.**
+
+1. **The narrator:** both kinds work. `speak(cue)` returns a promise; a narrator built on recorded files plays `audio/<cue.id>.mp3`, and `cues()` lists every id to record. So cue ids are treated as permanent.
+2. **Audience:** general and secondary school. The wording avoids jargon, and names a term (nucleosome, cristae) only once it is shown.
+3. **Advancing:** automatic by default, with a "Go on to the next part by itself" setting that waits for → or ▶ after each part.
+4. **Languages:** English only. A cue's `text` can later become `{ en, es, … }` with the same ids.
+

@@ -103,7 +103,7 @@ Each realistic page exposes `window.__cell`:
 | `shot(cameraPos, target, name)` | renders one frame and saves `renders/<name>.png` through this server (all three pages) |
 | `step(dt, n)` | runs the metabolism without animation frames (all three) |
 | `sites`, `procs`, `flows` | read-only access to the built cell (all three); `org` in the animal and plant pages |
-| `VIEWS` and `pointsOf(view)` (plant); `views` and `pointsOf` (bacterium) | the preset views and their tag points. The animal page has neither: add them to its `__cell` if you need them. |
+| `VIEWS` and `pointsOf(view)` (plant); `views` and `pointsOf` (bacterium); `pointsOf` (animal) | the preset views and their tag points. The animal page also has the guided tour's `focusOf(part)` (a part's framing), `flyTo`, `ghost` and `blink`. |
 
 The explorer exposes `window.__explorer`, with `showNow(path)`, `build(id)`, `NODES`, `cur`, and more (see the explorer manual §10).
 

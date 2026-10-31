@@ -301,10 +301,75 @@ Supply rules:
 `cell_explorer.html` shows this page as its **Realistic cell** root, in an iframe filling its stage (`animal_cell_realistic.html?embed`). The realistic bacterium (`prokaryote_cell_realistic.html`) and the realistic plant cell (`plant_cell_realistic.html`) are embedded the same way; the explorer keeps one iframe per page in `PAGES` and tells their messages apart by `event.source`. The model and its animation are untouched; the explorer supplies the tree, tags, descriptions and "Made of" lists.
 
 - **Embed mode:** a tiny head script adds the class `embed` to `<html>` when the URL has `embed`. CSS then hides this page's own HUD, legend, panels, hint and buttons.
-- **Messages, explorer → page** (`{ to: 'realistic-cell', cmd, … }`): `view` (a preset name, the named points to track and a sequence number), `hi` (highlight a part), `mol` (follow a molecule), `motion`, `look`, `cut`, `flow`, `speed`, `key` (W A S D pressed or released on the explorer) and `snap`.
-- **Messages, page → explorer** (`{ from: 'realistic-cell', type, … }`): `ready` (once built: molecule symbols as data URLs, the `INFO` recipes and `PARTS`), `pts` every frame (screen x, y and in-front flag for each tracked point, tagged with the view's sequence number so late points for an old view are dropped), `state` (motion, look, cut, flow, for the button labels), `snap` (a PNG data URL) and `key` (Escape, to go up a level).
+- **Messages, explorer → page** (`{ to: 'realistic-cell', cmd, … }`): `view` (a preset name, the named points to track and a sequence number), `hi` (highlight a part), `mol` (follow a molecule), `motion`, `look`, `cut`, `flow`, `speed`, `key` (W A S D pressed or released on the explorer) and `snap`. The guided tour adds `track`, `fly`, `free`, `blink`, `ghost` and `set` (§10.2).
+- **Messages, page → explorer** (`{ from: 'realistic-cell', type, … }`): `ready` (once built: molecule symbols as data URLs, the `INFO` recipes and `PARTS`), `pts` every frame (screen x, y and in-front flag for each tracked point, tagged with the view's sequence number so late points for an old view are dropped), `state` (motion, look, cut, flow, for the button labels), `snap` (a PNG data URL), `key` (Escape, to go up a level, and the guided tour's keys) and `arrived` (a tour flight has ended).
 - **Tag points** are found per view by `pointsOf(view)` and cached. The build records extra landmarks in `SITES` (all nucleosome centres, genes being read with their mRNA and DNA, finished mRNAs, RNA polymerase I, rRNA trees, pre-ribosomes, PCNA and ubiquitin) by pushing points it already has, so **no random numbers are drawn and the layout is unchanged**. Two pickers choose among candidates: `ranked` prefers places just behind a cut face and near the middle of the view; `frontmost` (for the gene close-up) projects with the preset camera and takes the place nearest the camera that is inside the frame, not hidden behind the polymerase, and away on screen from tags already placed.
 - **The explorer's side:** each realistic level is a tree node with `real: <view>` and `tags: [[point, text, child, part]]`. Clicking a tag opens the child, which is one of the explorer's own models (mitochondrion, ribosome …) or a deeper realistic view (nucleus → nucleolus, nucleus → gene being read). Inside the realistic branch the info panel shows each organelle's "Takes in / Gives out" from `INFO`, and the realistic levels show the "What moves" key, the speed slider and the metabolism switch.
+
+### 10.2 The guided tour (`?embed`, driven by the explorer)
+
+The explorer's guided tour (explorer manual §12) drives this page with six more messages. The code is the section after the `// The guided tour (driven by the Cell Explorer)` banner. None of it draws random numbers, so the cell's layout is unchanged; this was checked by comparing a fingerprint against the version before it.
+
+| Message | What it does |
+|---|---|
+| `track { points, view?, seq }` | tag points without moving the camera. Each point is a name in `view` (default `cell`), or `[view, name]`; the view `focus` gives the centre of a part's framing (`focusOf(name).c`). The answer comes in `pts`, as for `view`. |
+| `fly { view \| part, dist \| pos, target; dur, orbit, seq }` | flies the camera there, and replies `arrived { seq }` when it lands. An unknown part replies at once with `missed: true`. `dur: 0` jumps. |
+| `free` | gives the camera back to the user (also done by `view`) |
+| `blink { key, n }` | the part blinks `n` times (1.5 a second), then glows steadily; `key: null` clears it |
+| `ghost { keep, amount = .1, hide }` | every part not in `keep` fades to `amount` (or is hidden, with `hide`); `keep: null` puts everything back |
+| `set { look, cut, flow, motion }` | sets the switches outright (the older messages only toggle) |
+
+**Flights (`flyTo`, `tourFrame`).**
+
+- **The held pose:** while the tour holds the camera (`tour.on`), its pose is kept in the cell's own frame, so it rides the cell's slow sway.
+- **The path:**
+  - **The target** moves in a straight line.
+  - **The position** swings round the nucleus: its direction from `N0` is blended along a great circle, and its distance on a log scale, so zooming feels even.
+  - **Far apart:** between two places far apart it rises outward by up to 80 %. The camera pulls back to see the cell, and never passes through the nucleus.
+  - **Easing:** smootherstep.
+- **Controls during the tour:**
+  - `OrbitControls` is disabled and W A S D are ignored.
+  - A left-drag only glances round (yaw and pitch up to 0.44 rad) and springs back with a 0.2 s time constant.
+- **Orbiting:** a step can orbit slowly round its target (`orbit`, in degrees a second).
+
+**Framing a part (`focusOf`, cached in `FOCUS`).**
+
+- **Centre and radius:** each part has a centre and radius in `AT`, taken from `ORG`, `pointsOf('cell')` and the build's constants.
+  - **Many-instance parts** (mitochondria, lysosomes, peroxisomes, endosomes, lipid droplets): `inst` picks the instance the cut slices open (its centre at most a quarter of its radius inside the removed wedge) or, failing that, the one just behind a cut face, preferring ones not low down.
+  - **`ribo` and `endo`** are aliases for the cell view's tag names.
+- **The camera's side:** chosen among 240 evenly spread directions (`fib`), by these rules:
+  - **Through the cell:** 24 samples along the line of sight cost 1 for each inside the solid cell.
+  - **Through the membrane:** 8 for leaving through the membrane rather than the open wedge (frosted glass hides what is behind it).
+  - **Through the nucleus:** 3 for each sample inside the nucleus.
+  - **Away from the opening view:** a cost for turning away from it (`PREF`).
+  - **Straight up or down:** a heavy cost.
+  - **Surface parts** (membrane, microvilli, cilium) must also be seen from outside.
+- **Distance:** `dist × r / sin(fov/2)`.
+- **Checking:** `__cell.focusOf(key)` returns `{ c, r, dir }`.
+
+**Fading (`ghost`).**
+
+- **Saving:** every material of the other parts is saved first: `transparent`, `opacity`, `depthWrite` and `transmission`.
+- **Fading:**
+  - **Meshes:** become see-through at `amount`, with no transmission.
+  - **Impostors:** take the new `uDim` uniform, the alpha of their fragment.
+- **Restoring:** everything is put back from the saved copy.
+- **Hiding:** `hide` sets `visible = false` on the parts' objects (`objsOf`, found once).
+- **What goes with a kept part:** `KIN` keeps the nucleus's contents with it.
+- **Changing a switch while faded:** `setState` undoes the fade, changes the look or cutaway, and fades again, so a look change never leaves stale saved values.
+
+**Blinking.**
+
+- **`hiLevel`** replaces the hover pulse while a blink runs: `n` full pulses, then a steady 0.3 with a slow breath.
+- **`HI_GAIN`** turns down the glow of the glassy outer parts (membrane 0.35, cilium 0.5, microvilli 0.6), which otherwise wash the whole view white.
+
+**Separate keys made for the tour:**
+
+- **Microvilli:** they have their own legend key, `villi`. They used to share `cilium` with the primary cilium.
+- **The cilium:** its tube uses its own copy of the membrane's glass, so it lights up alone.
+- **The cut edges:** the cut-edge strips of the membrane and the nucleus are registered under `membrane` and `nucleus` (the nucleus with its own copy of the material), so they light and fade with their part.
+
+**Debug hook additions:** `__cell.focusOf`, `flyTo`, `freeCamera`, `ghost`, `blink`, `setState`, `tour` and `pointsOf`.
 
 ---
 
@@ -313,6 +378,7 @@ Supply rules:
 - **Left-drag = mouse look** (first person). OrbitControls' rotation is off. A drag converts `target − position` to spherical coordinates, changes θ by `−dx·0.004` and φ by `dy·0.004` (clamped short of the poles), and moves the target. The camera itself never moves.
 - **W A S D** move the camera **and** the target together along the view direction and sideways, with a step of `dt · max(1.5, 0.5·distance-to-target)`. Keys are ignored while typing in an input.
 - **Scroll** zooms and **right-drag** pans, as in OrbitControls.
+- **During the guided tour** the tour holds the camera: drags only glance round, and W A S D, scroll and pan are off (§10.2).
 
 ---
 

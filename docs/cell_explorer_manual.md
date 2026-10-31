@@ -36,6 +36,7 @@ The toolbar buttons:
 
 | Button | What it does |
 |---|---|
+| Guided tour | starts the guided tour (§12); shown only on the *Realistic cell* root |
 | Up one level | goes to the parent |
 | Hide tags | hides or shows the tags |
 | Pause / Rotate | stops or starts the turntable; in a realistic page, pauses its animation |
@@ -45,7 +46,7 @@ The toolbar buttons:
 
 Keyboard and mouse:
 
-- **Esc:** up one level.
+- **Esc:** up one level (during the guided tour, the tour's own keys apply: §12.5).
 - **W A S D:** move the camera in realistic pages (forwarded to the iframe).
 - **Mouse:** drag to rotate, scroll to zoom. In realistic pages, drag turns the camera in place (mouse look).
 - **Narrow screens** (below 900 px): the columns stack.
@@ -55,6 +56,7 @@ Keyboard and mouse:
 - **Back/forward and shared links work:** `hashchange` calls `go(validPath(...))`.
 - **Bad paths are cut short:** `validPath` keeps the longest prefix where each id exists and is a child of the one before.
 - **The first id must be a root:** otherwise the path falls back to `real-cell`.
+- **`#tour`** opens the guided tour's title card, and **`#tour=<step id>`** starts the tour at that step (§12).
 
 ---
 
@@ -291,7 +293,7 @@ How this data is made is in [tools/README.md](../tools/README.md).
 
 ## 10. Scripted checks
 
-`window.__explorer` exposes `NODES`, `build`, `go`, `showNow`, `setLook`, `setHover`, the `scene`, `renderer`, `camera`, `composer`, `controls`, `cur` (the shown model, with `.anchors`), `frame` (the current iframe), `realPts` and `layoutLabels`.
+`window.__explorer` exposes `NODES`, `build`, `go`, `showNow`, `setLook`, `setHover`, the `scene`, `renderer`, `camera`, `composer`, `controls`, `cur` (the shown model, with `.anchors`), `frame` (the current iframe), `realPts`, `layoutLabels` and `tour` (the same object as `window.__tour`, §12.6).
 
 - **`showNow(path)`** switches level synchronously and renders one frame. Use it when animation frames are throttled.
 - **Checking tags:** after a switch, `document.querySelectorAll('#labels > *')` are the tags. A tag with `style.display === 'none'` is hidden (off screen or behind the camera).
@@ -318,3 +320,167 @@ Check every new or changed level this way:
 | An edited realistic page doesn't change in the explorer | iframe cache | `fetch(page, { cache: 'reload' })`, then reload |
 | A copied model is not cut by its cell's cutaway | its materials lack the cell's clipping planes | `withClip(copy, planes)` |
 | Realistic look turns an organelle into milky glass | its x-ray colour is not in `DENSE` | add `colourHex: [opacity, tint]` to `DENSE` |
+| A tour step never gets past its flight | the pane is hidden, so the page sends no `arrived` | the engine goes on after the flight time plus 2.5 s anyway; bring the pane up to check visually |
+| A tour tag points at a different organelle than the one framed | the tag uses the cell view's point (`cell:mito`), which picks its own instance | use `focus:mito`: the centre of the framed part |
+| A tour step's part is hidden behind others | the step does not fade the rest | leave `ghost` out (it defaults to the blinked part), or list the parts to keep |
+| Explorer keys don't work during the tour after clicking the cell | the iframe has the keyboard | the page forwards the tour's keys (`key` messages); add a new key to both the page's forward list and `tourKey` |
+
+---
+
+## 12. The guided tour
+
+A tutorial mode for the realistic animal cell, designed in [tutorial_mode_spec.md](tutorial_mode_spec.md). It works like a video game's tutorial:
+
+- **The path:** the camera flies from the whole cell to each part in turn.
+- **For each part:**
+  - it blinks three times, then glows, while the rest of the cell fades;
+  - subtitles explain it, one short line at a time;
+  - arrows and travelling molecules link it to the parts it works with.
+- **At any moment you can:**
+  - **explore** freely, then go back to the tour;
+  - **open the part in more detail:** its own explorer level, down to molecules.
+
+There is no voice. A narrator can be plugged in (§12.6).
+
+### 12.1 Where the pieces are
+
+| Piece | Where |
+|---|---|
+| The script | `tours/eukaryotic_cell.js`, a plain script that sets `window.TOURS.eukaryotic`. Its header comment documents every field. It is the one file outside the HTML pages, so writers can edit the words without touching code, and a `<script src>` also loads from `file://`. |
+| The engine, subtitles and controls | `cell_explorer.html`, the section after the `// The guided tour` banner (`T`, `playStep`, `arrive`, `startCue`, `tourTick`, `tourKey` …), with the markup in `#stage` (`#tourBar`, `#subs`, `#tourCtl`, `#tMenu`, `#tPill`, `#tCard`, `#tFade`) and the styles after the `/* the guided tour */` comment |
+| Camera flights, framing, blink and fade | `animal_cell_realistic.html`, the section after `// The guided tour (driven by the Cell Explorer)`. Its messages are in [animal_cell_realistic_manual.md](animal_cell_realistic_manual.md) §10.2. |
+
+### 12.2 The script
+
+The script has chapters, which hold steps, which hold cues. Every field is documented in the script's header comment; the important ones:
+
+- **`camera`:** where the camera goes, in one of three forms:
+  - a preset view, `{ view: 'cell' | 'nucleus' | 'nucleolus' | 'DNA' }`;
+  - a framed part, `{ part, dist }`;
+  - an explicit pose, `{ pos, target }`.
+
+  `dur` (seconds at 1×) and `orbit` (degrees a second) are optional.
+- **`blink` and `ghost`:** the part that lights up, and the parts that stay while the rest fades. Leave `ghost` out to keep only the blinked part; set it to `false` to fade nothing.
+- **`tags`:** written `view:point`.
+  - **The view** is `cell`, `nucleus`, `nucleolus`, `DNA` or `focus`.
+  - **The tag's text and the child it opens** come from the explorer node of that view (`VIEW_NODE`: `real-cell`, `real-nucleus`, `real-nucleolus`, `real-dna`).
+  - **`focus:<part>`** points at the centre of the part the camera framed, and takes its text from `real-cell`'s tags.
+- **`links`:** arrows, written `[from, to, label, colour part]`. Arrow *k* appears with cue *k*.
+- **`detail`:** the node opened by **More detail**, by the step's tag, or by the blinked part's name in a subtitle.
+- **`cues`:**
+  - **`id`:** permanent, because recorded narration is filed under it.
+  - **`text`:** at most two lines of 42 characters. The engine warns in the console when a cue is longer, or when it names an unknown part.
+  - **`say`:** optional, a version written for speaking.
+  - **`dur`:** optional, a fixed duration.
+  - **`blink`:** optional, a part lit while the cue shows (used for the roll call and the "working together" chapter).
+- **Coloured names:** `[[label|part]]` draws a part's name in its legend colour; hovering it lights the part, and clicking it opens the part in more detail. `[[label]]` uses the step's blinked part.
+
+### 12.3 How a step plays (`playStep` → `arrive` → `startCue`)
+
+1. **Start of the step:**
+   - clear the last step's blink, fade and followed molecule;
+   - set the page's switches (`set`: look, cut, flow, motion);
+   - show the step's tags (`showStepTags` sends `track`, so their points come back every frame);
+   - send `fly` with a sequence number.
+2. **The flight ends:** the page replies `arrived` with that number. A reply for an older step is ignored, so fast clicking never stacks flights. If no reply comes (a hidden pane has no animation frames), the engine goes on after the flight time plus 2.5 s.
+3. **Show the part:** `blink` and `ghost` (or `isolate`, when **Show alone** is on); `mol` if the step follows a molecule.
+4. **Then the words:** after 1.3 s, the first cue.
+5. **Each cue's duration:**
+   - **On reading time alone:** 1.5 to 7 s, at 15 characters a second, plus 0.3 s, divided by the pace.
+   - **With a narrator:** the cue also waits until the narrator's promise resolves.
+   - **Between cues:** a 0.15 s fade.
+6. **After the last cue:** the next step starts 0.8 s later, or a "Next" hint waits when auto-advance is off. The chapter is marked as seen (`localStorage` `tourSeen`), and the position is saved in `tourPos`.
+
+### 12.4 Modes
+
+| Mode | What shows | How it starts and ends |
+|---|---|---|
+| `intro` | the title card over a slowly turning cell | **Guided tour** button or `#tour`; Start, Continue (from `tourPos`), Choose a chapter |
+| `tour` | full-width stage, tour bar, subtitles, control bar; the tree, info panel and toolbar are hidden | pauses with Space; More ▸ opens the info panel about the step's part (`showMore`) |
+| `detail` | the part's explorer level, with the info panel and breadcrumbs; its description is read as subtitles, a sentence at a time (or `TOUR.details[id].cues`) | a tag, a coloured name, or More ▸ → Open this part; **Back to tour** or E restarts the step |
+| `explore` | the normal explorer, with a "Back to tour" pill; the page's own camera and the user's settings come back | Explore or E; Back to tour or E or Esc restarts the step at its line |
+| `finished` | a card: Explore, Replay a chapter, Leave the tour | after the last cue |
+
+**Leaving the tour.** Exit, or Esc pressed twice within 2.5 s. This frees the camera, clears the blink and fade, and puts back the look, cutaway, metabolism and motion the user had before the tour.
+
+### 12.5 Controls and keys
+
+The control bar holds:
+
+- **Moving:** ⏮ ⏭ (previous and next part), ◀ ▶ (previous and next line), ⏸ / ▶ Play.
+- **Subtitles:** CC (on and off) and Aa (size S/M/L).
+- **🔊 Narration** with a volume slider, shown only once a narrator is set.
+- **Pace:** 0.75×, 1× or 1.25×. It changes the subtitle timing and the flights, not the metabolism.
+- **Show alone, More ▸ and Explore.**
+
+Two more places hold settings and navigation:
+
+- **The menu (≡ Chapters):** chapters with ticks; the current chapter's transcript, where clicking a line jumps to it; and settings for auto-advance, reduced motion, size and pace.
+- **The subtitle box:** clicking it pauses.
+
+| Key | Action |
+|---|---|
+| Space | pause / play |
+| → / ← | next / previous line |
+| Shift + → / ← | next / previous part |
+| PageDown / PageUp | next / previous chapter |
+| 1–7 | jump to a chapter |
+| C / N / M | subtitles / narration / menu |
+| E | Explore, or back to the tour |
+| Esc | twice to leave; in Explore or a detail level, back to the tour |
+
+The keys also work once the cell has the keyboard, for example after a drag: the realistic page forwards them as `key` messages. W A S D move the camera only in Explore and detail. During the tour a drag only glances around (up to 25°) and springs back.
+
+**Reduced motion** is taken from `prefers-reduced-motion`, or set in the menu. With it on:
+
+- flights become a 0.3 s fade (`#tFade`);
+- blinks become a steady glow;
+- the arrows stop moving.
+
+**Narrow screens:**
+
+- **Below 720 px,** the bar keeps ◀ ⏯ ▶, CC and Explore; the other controls are in the menu.
+- **Below 900 px,** the stage takes the whole height.
+
+### 12.6 The narrator, events and the API
+
+`window.__tour` (also `__explorer.tour`):
+
+| Call | Does |
+|---|---|
+| `start(at?)` | the title card, or a step by id (also `#tour`, `#tour=<step>`) |
+| `goto(stepOrCueId)` | jump there (starting the tour if needed) |
+| `play()`, `pause()`, `next()`, `prev()`, `nextStep()`, `prevStep()`, `explore()`, `back()`, `exit()` | as the controls |
+| `state` | `{ on, mode, phase, step, cue, paused }` |
+| `cues()` | every cue: `{ id, text, plain, say, chapter, step }`, for recording narration |
+| `setNarrator({ speak(cue) → Promise, stop(), setVolume(v) })` | plug in a voice; `null` removes it |
+| `on(type, fn)` | `cue`, `step`, `state`, `end` (also `CustomEvent`s `tour:<type>` on `window`, and `postMessage({ from: 'cell-tour', type, … })` to a parent frame) |
+| `setReduceMotion(v)`, `setAuto(v)` | the two settings |
+
+A narrator built on recorded files plays `audio/<cue.id>.mp3` in `speak` and resolves when it ends. A narrator that speaks live uses `cue.say`.
+
+### 12.7 Adding to the tour
+
+- **A cue:** add it with a new, permanent `id`. Keep it under 84 characters, and check the console for warnings.
+- **A step:**
+  1. Choose its camera.
+     - **A part that `focusOf` already knows:** `{ part }`.
+     - **A new one:** add its centre and radius to `AT` in the page's `focusOf` (animal manual §10.2).
+  2. Check the framing with `__tour.goto(id)` and a screenshot. The part should show, not be hidden behind others, and not be under the subtitles.
+  3. If the step should open an explorer level, give it a `detail`.
+- **A tour for another cell:**
+  1. Give that page the same messages (`track`, `fly`, `free`, `blink`, `ghost`, `set`, `arrived`).
+  2. Write `tours/<cell>.js`.
+  3. Generalise `TOUR` and `TOUR_PAGE` to choose by root.
+
+### 12.8 How it was checked
+
+- **Every step's framing:** all 31 steps, with the tags and subtitles, screenshotted at 1400 × 860.
+- **Fast clicking:** 20 quick presses of next and next part leave one flight and one subtitle, matching the step (the page's `tour.seq` equals the engine's).
+- **Explore and detail:** Explore → Back, and a tag → detail → Back, return to the same step.
+- **Narrator:** a fake narrator with 7 s of speech holds a 2.6 s line for 7.2 s; pausing calls `stop`; the 93 cue ids are unique.
+- **Keys:** they work from both the explorer and the iframe; Esc twice exits.
+- **Reduced motion:** the first line shows 0.3 s after a step starts.
+- **Phone screens:** the layout works at 375 px.
+- **Speed:** the frame rate with the rest faded is not lower than without (91 against 80 fps).
+- **Layout:** the realistic cell's fingerprint is unchanged by the page's new code.

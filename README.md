@@ -18,6 +18,7 @@ How everything is built (techniques, algorithms, verification and pitfalls) is w
 - [AGENTS.md](AGENTS.md): where to start. What to read for each kind of task, and the rules to follow.
 - [docs/how_to_build_a_cell_or_organelle.md](docs/how_to_build_a_cell_or_organelle.md): step by step, building each part in isolation, then composing it into the cell.
 - [docs/cell_explorer_manual.md](docs/cell_explorer_manual.md): the explorer's recursive tree, models, looks, tags and menu.
+- [docs/tutorial_mode_spec.md](docs/tutorial_mode_spec.md): the spec for a guided tour of the eukaryotic cell, with subtitles and a narrator hook (not built yet).
 - [docs/animal_cell_realistic_manual.md](docs/animal_cell_realistic_manual.md), [docs/plant_cell_realistic_manual.md](docs/plant_cell_realistic_manual.md) and [docs/prokaryote_cell_realistic_manual.md](docs/prokaryote_cell_realistic_manual.md): the three realistic cells.
 - [tools/README.md](tools/README.md): downloading, coarse-graining and embedding the real protein structures (reproducible byte for byte), and the local server used for checks.
 

@@ -26,6 +26,7 @@ This project is a set of single-file three.js pages that show cells, from the wh
 | **Metabolism** (molecules moving, organelles glowing) | animal manual §8, §14 → that cell's "Metabolism" section |
 | **Tags**, views, or a realistic level in the explorer | explorer manual §6, §7, §9.2 → that cell's "Views" section |
 | **Looks and materials** (translucent, glass, gel, x-ray) | animal manual §4.4, §9 (realistic pages) → explorer manual §4.2, §5 (explorer) |
+| The **guided tour** (tutorial mode, subtitles, narrator hook) | [docs/tutorial_mode_spec.md](docs/tutorial_mode_spec.md), whole → explorer manual §2, §6, §7 → animal manual §4.6, §10, §11 |
 | **Fixing** something that looks wrong | the "Pitfalls" table of every manual involved: it is probably there already |
 
 ## Rules

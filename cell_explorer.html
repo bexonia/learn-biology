@@ -39,7 +39,8 @@
   .lbl { position: absolute; left: 0; top: 0; padding: 4px 9px; border-radius: 6px; background: rgba(6,10,18,.82); border: 1px solid var(--line-2); font-size: 12px; white-space: nowrap; pointer-events: auto; color: #d6deea; display: none; }
   .lbl.link { border-color: rgba(127,216,255,.55); color: #c9f1ff; cursor: pointer; }
   .lbl.link::after { content: " \203A"; color: var(--accent); }
-  .lbl.link:hover { background: rgba(127,216,255,.2); }
+  .lbl.link:hover, .lbl.hov { background: rgba(127,216,255,.28); border-color: var(--accent); color: #fff; }
+  .row.hov { background: rgba(127,216,255,.08); }
   #legend { position: absolute; top: 46px; left: 12px; background: rgba(6,10,18,.84); border: 1px solid var(--line-2); border-radius: 8px; padding: 8px 12px 8px 10px; font-size: 12px; display: none; pointer-events: none; }
   #legend .it { display: flex; align-items: center; gap: 8px; margin: 4px 0; white-space: nowrap; }
   #legend .sw { width: 20px; height: 20px; border-radius: 50%; display: grid; place-items: center; font-weight: 800; font-size: 11px; color: #141820; background: #fff; flex: none; }
@@ -118,6 +119,7 @@ import { OutputPass } from 'three/addons/postprocessing/OutputPass.js';
 import { BokehPass } from 'three/addons/postprocessing/BokehPass.js';
 import { ShaderPass } from 'three/addons/postprocessing/ShaderPass.js';
 import { RoomEnvironment } from 'three/addons/environments/RoomEnvironment.js';
+import { OutlinePass } from 'three/addons/postprocessing/OutlinePass.js';
 import { mergeVertices } from 'three/addons/utils/BufferGeometryUtils.js';
 
 // =====================================================================
@@ -360,6 +362,8 @@ function liteModel(key, fn) { const s = seed; setSeed(hashStr(key)); const out =
 const partModel = id => liteModel(id, () => NODES[id].b());
 // give every material of a copied model the cut plane of the cell it sits in
 function withClip(obj, clip) { const done = new Map(); obj.traverse(o => { if (!o.material) return; if (!done.has(o.material)) { const m = o.material.clone(); m.clippingPlanes = clip; done.set(o.material, m); } o.material = done.get(o.material); }); return obj; }
+// label everything added to g since index `from` as one tree part, so hovering it in the menu outlines it
+function tagFrom(g, from, id) { for (let i = from; i < g.children.length; i++) if (!g.children[i].isPoints) g.children[i].userData.part = id; return g.children.length; }
 // place a built sub-model inside another and carry its anchors along
 function nest(parent, built, pos = V(), scale = 1, rot = null) {
   const g = built.group; g.position.copy(pos); if (rot) g.rotation.copy(rot); g.scale.setScalar(scale); g.updateMatrix();
@@ -386,6 +390,7 @@ function buildCell() {
   g.add(new THREE.Mesh(displace(new THREE.SphereGeometry(R * .985, 128, 90), .06, .55, 9.4, 5), xray(C.mem, .16, 1.8, 0)));
   g.add(new THREE.Mesh(displace(new THREE.SphereGeometry(R * 1.02, 96, 64), .03, .25, 21, 3), xray(C.mem, .25, 4, 0)));
   an.push(A(V(-.62, .62, .48).normalize().multiplyScalar(R), 'Plasma membrane', 'plasma-membrane'));
+  let mk = tagFrom(g, 0, 'plasma-membrane');
 
   const fm = xray(C.mem, .9, 1.2, .05), mids = [];
   for (let i = 0; i < 70; i++) {
@@ -394,10 +399,12 @@ function buildCell() {
     g.add(tube(pts, rr(.012, .03), fm, 4)); mids.push(pts[5]);
   }
   an.push(A(front(mids), 'Cytoskeleton', 'cytoskeleton'));
+  mk = tagFrom(g, mk, 'cytoskeleton');
 
   // nucleus, Golgi, lysosomes, vesicles, centrosome, peroxisomes and cilium are scaled copies of their own levels' models
   const nuc = partModel('nucleus').group; nuc.scale.setScalar(NR / 5); nuc.position.copy(NUC); g.add(nuc);
   an.push(A(NUC.clone().add(V(-.45, .55, .7).normalize().multiplyScalar(NR)), 'Nucleus', 'nucleus'));
+  mk = tagFrom(g, mk, 'nucleus');
 
   for (let i = 0; i < 6; i++) {
     const m = new THREE.Mesh(displace(new THREE.SphereGeometry(NR + .45 + i * .38, 140, 100), .05 + i * .006, 1.05 + i * .08, 30 + i * 4.3, 5), xray(C.er, .26 - i * .02, 1.5, .002));
@@ -406,10 +413,12 @@ function buildCell() {
   an.push(A(NUC.clone().add(V(.75, .5, .45).normalize().multiplyScalar(NR + 1.6)), 'Rough ER', 'rough-er'));
   const erTub = xray(C.er, 1, 1.1, .08);
   for (let i = 0; i < 16; i++) g.add(tube(walk(V(rr(-3.5, 2.5), rr(-7.8, -5.6), rr(-2.5, 3.5)), 21, .35), rr(.06, .11), erTub, 6));
+  mk = tagFrom(g, mk, 'rough-er');
 
   cloud(g, 2600, () => randDir().multiplyScalar(NR + rr(.5, 2.8)).add(NUC), C.dots, .07, .22);
   cloud(g, 3500, () => { let v; do { v = randDir().multiplyScalar(R * Math.cbrt(rand()) * .96); } while (v.distanceTo(NUC) < NR + 2.6); return v; }, C.dots, .06, .16);
   an.push(A(NUC.clone().add(V(.85, -.35, .45).normalize().multiplyScalar(NR + 2.5)), 'Ribosomes', 'ribosome'));
+  mk = tagFrom(g, mk, 'ribosome');
 
   {
     const golgi = partModel('golgi').group; golgi.scale.setScalar(.38);
@@ -417,6 +426,7 @@ function buildCell() {
     g.add(golgi);
     an.push(A(golgi.position, 'Golgi apparatus', 'golgi'));
   }
+  mk = tagFrom(g, mk, 'golgi');
 
   // the same mitochondrion model as its own level, scaled down (clones share geometry and materials)
   const mitoProto = makeMitochondrion().group, mitos = [];
@@ -425,10 +435,12 @@ function buildCell() {
     m.position.copy(spot(4 * sy)); m.rotation.set(rr(0, 6.3), rr(0, 6.3), rr(0, 6.3)); g.add(m); mitos.push(m.position);
   }
   an.push(A(front(mitos), 'Mitochondrion', 'mitochondrion'));
+  mk = tagFrom(g, mk, 'mitochondrion');
 
   const lysoM = partModel('lysosome').group, lysos = [];
   for (let i = 0; i < 12; i++) { const r = rr(.38, .62), l = lysoM.clone(); l.scale.setScalar(r / 4); l.position.copy(spot(r)); l.rotation.set(rr(0, 6.3), rr(0, 6.3), rr(0, 6.3)); g.add(l); lysos.push(l.position); }
   an.push(A(front(lysos), 'Lysosome', 'lysosome'));
+  mk = tagFrom(g, mk, 'lysosome');
 
   const vesM = liteModel('vesicle', () => buildVesicle(true)).group, vacs = [];
   for (let i = 0; i < 35; i++) {
@@ -436,11 +448,13 @@ function buildCell() {
     m.position.copy(big ? spot(r) : randDir().multiplyScalar(rr(6.2, 9))); g.add(m); if (big) vacs.push(m.position);
   }
   an.push(A(front(vacs), 'Vesicle', 'vesicle'));
+  mk = tagFrom(g, mk, 'vesicle');
 
   {
     const cen = partModel('centrosome').group; cen.scale.setScalar(.11); cen.position.copy(spot(1.2, 4.9, 5.6)); cen.rotation.set(.4, .8, .2); g.add(cen);
     an.push(A(cen.position, 'Centrosome', 'centrosome'));
   }
+  mk = tagFrom(g, mk, 'centrosome');
 
   {
     const c = spot(2.2, 6, 7.6), nodes = [];
@@ -450,16 +464,19 @@ function buildCell() {
       .forEach(([, j]) => g.add(tube([a, a.clone().lerp(nodes[j], .5).add(randDir().multiplyScalar(.2)), nodes[j]], .08, mat, 6))));
     an.push(A(c, 'Smooth ER', 'smooth-er'));
   }
+  mk = tagFrom(g, mk, 'smooth-er');
 
   const pxM = partModel('peroxisome').group, perox = [];
   for (let i = 0; i < 6; i++) { const r = rr(.3, .42), p = spot(r), m = pxM.clone(); m.scale.setScalar(r / 4); m.position.copy(p); m.rotation.set(rr(0, 6.3), rr(0, 6.3), 0); g.add(m); perox.push(p); }
   an.push(A(front(perox), 'Peroxisome', 'peroxisome'));
+  mk = tagFrom(g, mk, 'peroxisome');
   // primary cilium: the cilium level's model (light version), its basal body just under the membrane
   {
     const base = V(-.3, .82, .48).normalize().multiplyScalar(R * .985), dir = base.clone().normalize(), ci = liteModel('cilium', () => buildCilium(true)).group, sc = .1, q = qFromTo(UP, dir);
     ci.scale.setScalar(sc); ci.quaternion.copy(q); ci.position.copy(base).sub(ci.children[0].position.clone().multiplyScalar(sc).applyQuaternion(q)); g.add(ci);
     an.push(A(base.clone().addScaledVector(dir, 1.6), 'Primary cilium', 'cilium'));
   }
+  mk = tagFrom(g, mk, 'cilium');
   an.push(A(V(4.8, -5.6, 5.2), 'Cytosol', 'cytosol'));
   return finalize(g, an, R * 1.04);
 }
@@ -1233,9 +1250,11 @@ function buildPlantCell() {
     g.add(tube(pts, .02, fm, 3));
   }
   an.push(A(onBox(V(-.55, .7, .6), AX + W, BY + W, BY + W), 'Cell wall', 'cell-wall'));
+  let mk = tagFrom(g, 0, 'cell-wall');
 
   g.add(new THREE.Mesh(displace(superBox(AX, BY, BY, 6, 130), .025, .4, 12, 4), xray(C.mem, .5, 2.2, .003)));
   an.push(A(onBox(V(.5, -.75, .55), AX, BY, BY), 'Plasma membrane', 'plasma-membrane'));
+  mk = tagFrom(g, mk, 'plasma-membrane');
 
   const pdm = xray('#eaffb0', 1.4, 1, .15), pds = [];
   for (let i = 0; i < 70; i++) {
@@ -1243,6 +1262,7 @@ function buildPlantCell() {
     g.add(stick(a, b.clone().addScaledVector(b.clone().sub(a).normalize(), .1), .07, pdm)); pds.push(b);
   }
   an.push(A(front(pds), 'Plasmodesmata', 'plasmodesma'));
+  mk = tagFrom(g, mk, 'plasmodesma');
 
   // the central vacuole fills most of the cell and squeezes the cytoplasm into a thin layer
   const vac = new THREE.Group(); vac.position.copy(VC); g.add(vac);
@@ -1250,10 +1270,12 @@ function buildPlantCell() {
   vac.add(new THREE.Mesh(displace(superBox(VA[0] * .98, VA[1] * .97, VA[2] * .97, 4, 100), .05, .45, 23, 4), xray(CP.vac, .3, 1.5, .002)));
   cloud(vac, 1400, () => { let v; do { v = V(rr(-VA[0], VA[0]), rr(-VA[1], VA[1]), rr(-VA[2], VA[2])); } while (superK(v, ...VA, 4) > .95); return v; }, '#bfe4ff', .06, .12);
   an.push(A(onBox(V(.15, .35, 1), ...VA, 4).add(VC), 'Central vacuole', 'central-vacuole'));
+  mk = tagFrom(g, mk, 'central-vacuole');
 
   // nucleus, chloroplasts, peroxisomes, amyloplasts and Golgi stacks are scaled copies of their own levels' models
   const nuc = partModel('nucleus').group; nuc.scale.setScalar(NR / 5); nuc.position.copy(NUC); g.add(nuc);
   an.push(A(NUC.clone().add(V(-.3, .55, .8).normalize().multiplyScalar(NR)), 'Nucleus', 'nucleus'));
+  mk = tagFrom(g, mk, 'nucleus');
 
   const erTub = xray(C.er, 1, 1.1, .08), erPts = [];
   for (let i = 0; i < 30; i++) {
@@ -1263,10 +1285,12 @@ function buildPlantCell() {
   }
   for (let i = 0; i < 24; i++) { const pts = walk(cytoPt(), 16, .45, q => inCyto(q, .05)); if (pts.length > 2) g.add(tube(pts, .045, erTub, 5)); }
   an.push(A(erPts.length ? front(erPts) : NUC.clone().add(V(2, 0, 1)), 'Rough ER', 'rough-er'));
+  mk = tagFrom(g, mk, 'rough-er');
   cloud(g, 1500, () => { let v; do { v = NUC.clone().add(randDir().multiplyScalar(NR + rr(.3, 2))); } while (!inCyto(v, 0)); return v; }, C.dots, .06, .22);
   cloud(g, 3000, cytoPt, C.dots, .05, .16);
   let rib = null; for (let t = 0; t < 2000 && !rib; t++) { const v = cytoPt(); if (v.z > 5 && v.x > -5 && v.x < -1 && Math.abs(v.y) < 3) rib = v; }
   an.push(A(rib ?? cytoPt(), 'Ribosomes', 'ribosome'));
+  mk = tagFrom(g, mk, 'ribosome');
 
   // chloroplasts lie flat against the membrane
   const chlM = partModel('chloroplast').group, chl = [];
@@ -1275,6 +1299,7 @@ function buildPlantCell() {
     const c = chlM.clone(); c.scale.setScalar(.25); c.position.copy(p); c.quaternion.copy(qFromTo(UP, superN(p, AX, BY, BY, 6))); c.rotateY(rr(0, 6.3)); g.add(c); chl.push(p);
   }
   an.push(A(front(chl), 'Chloroplast', 'chloroplast'));
+  mk = tagFrom(g, mk, 'chloroplast');
 
   // same mitochondrion model, lying flat along the thin cytoplasm layer
   const mitoProto = makeMitochondrion().group, mitos = [];
@@ -1283,13 +1308,16 @@ function buildPlantCell() {
     const m = mitoProto.clone(), tan = superN(p, AX, BY, BY, 6).cross(randDir()).normalize(); m.scale.setScalar(.16); m.position.copy(p); m.quaternion.copy(qFromTo(UP, tan)); g.add(m); mitos.push(p);
   }
   if (mitos.length) an.push(A(front(mitos), 'Mitochondrion', 'mitochondrion'));
+  mk = tagFrom(g, mk, 'mitochondrion');
 
   const pxM = partModel('peroxisome').group, perox = [];
   for (let i = 0; i < 6; i++) { const p = spot(.3, .45); if (!p) break; const m = pxM.clone(); m.scale.setScalar(.075); m.position.copy(p); m.rotation.set(rr(0, 6.3), rr(0, 6.3), 0); g.add(m); perox.push(p); }
   if (perox.length) an.push(A(front(perox), 'Peroxisome', 'peroxisome'));
+  mk = tagFrom(g, mk, 'peroxisome');
   const amyM = partModel('amyloplast').group, amy = [];
   for (let i = 0; i < 3; i++) { const p = spot(.5, .7); if (!p) break; const m = amyM.clone(); m.scale.setScalar(.13); m.position.copy(p); m.quaternion.copy(qFromTo(UP, superN(p, AX, BY, BY, 6))); g.add(m); amy.push(p); }
   if (amy.length) an.push(A(front(amy), 'Amyloplast (starch store)', 'amyloplast'));
+  mk = tagFrom(g, mk, 'amyloplast');
 
   // plants have many small Golgi stacks (dictyosomes) scattered through the cytoplasm
   const golM = partModel('golgi').group;
@@ -1298,6 +1326,7 @@ function buildPlantCell() {
     const golgi = golM.clone(); golgi.scale.setScalar(.2); golgi.position.copy(gp); golgi.quaternion.copy(qFromTo(UP, superN(gp, AX, BY, BY, 6).negate())); g.add(golgi);
     if (!s) an.push(A(gp, 'Golgi (dictyosome)', 'golgi'));
   }
+  mk = tagFrom(g, mk, 'golgi');
 
   // cortical microtubules run in hoops around the long axis, just under the membrane
   const mtm = xray(C.mem, 1, 1.2, .06), mts = [];
@@ -1308,6 +1337,7 @@ function buildPlantCell() {
     g.add(tube(pts, .02, mtm, 3, 120)); mts.push(pts[20]);
   }
   an.push(A(front(mts), 'Cortical microtubules', 'cytoskeleton'));
+  mk = tagFrom(g, mk, 'cytoskeleton');
   an.push(A(V(3, -6.4, 3.5), 'Cytosol', 'cytosol'));
   return finalize(g, an, 14.5);
 }
@@ -1674,16 +1704,17 @@ function buildProkaryote() {
   // cut plane in the cell's own frame (keep z < PCZ); the world copy is refreshed every frame
   const local = new THREE.Plane(V(0, 0, -1), PCZ), world = local.clone(), clip = [world];
   const coat = new THREE.Mesh(pebble(proCapsule(PR.out, 200), .24, 3.4), new THREE.MeshPhysicalMaterial({ color: '#c2cba4', roughness: .42, clearcoat: .7, clearcoatRoughness: .3, sheen: .8, sheenColor: '#f2f6dc', transparent: true, opacity: .7, side: THREE.DoubleSide, clippingPlanes: clip, depthWrite: false }));
-  coat.renderOrder = 2; cg.add(coat);
+  coat.renderOrder = 2; coat.userData.part = 'capsule'; cg.add(coat);
   cg.add(new THREE.Mesh(proCapsule(PR.wall), proStd('#5b6c3e', { clip, side: THREE.DoubleSide })), new THREE.Mesh(proCapsule(PR.mem), proStd('#c99f48', { clip, rough: .4 })), new THREE.Mesh(proCapsule(PR.inner), proStd('#e4d3ae', { clip, side: THREE.BackSide, rough: .8 })));
+  cg.children.at(-3).userData.part = 'bacterial-wall'; cg.children.at(-2).userData.part = 'plasma-membrane';
   [[PR.out - .04, PR.wall, '#c3cba3', .9], [PR.wall, PR.gap, '#55663a', .6], [PR.gap, PR.mem, '#e6dfba', .5], [PR.mem, PR.inner, '#c99a3e', .35], [PR.mem - .035, PR.mem - .065, '#f3d98c', .25]]
-    .forEach(([a, b, c, ro], i) => { const m = new THREE.Mesh(stadiumRing(a, b), proStd(c, { rough: ro, side: THREE.DoubleSide })); m.position.z = i === 4 ? .001 : 0; cg.add(m); });
+    .forEach(([a, b, c, ro], i) => { const m = new THREE.Mesh(stadiumRing(a, b), proStd(c, { rough: ro, side: THREE.DoubleSide })); m.position.z = i === 4 ? .001 : 0; m.userData.part = ['capsule', 'bacterial-wall', 'bacterial-wall', 'plasma-membrane', 'plasma-membrane'][i]; cg.add(m); });
   // cytoplasm granules
   const ms = [], cs = [], big = [], bc = [];
   for (let n = 0; n < 9000 && ms.length < 5200; n++) { const p = V(rr(-PL / 2 - 1.2, PL / 2 + 1.2), rr(-1.2, 1.2), rr(-1.2, PCZ - .015)); if (proInside(p, PR.inner - .04)) { ms.push(M4(p, undefined, rr(.022, .045))); cs.push(PGRAIN[Math.floor(rand() * PGRAIN.length)]); } }
   for (let n = 0; n < 6000 && big.length < 520; n++) { const p = V(rr(-PL / 2 - 1.2, PL / 2 + 1.2), rr(-1.2, 1.2), rr(-1.1, PCZ - .05)); if (proInside(p, PR.inner - .08)) { big.push(M4(p, undefined, rr(.05, .085))); bc.push(PGRAIN[Math.floor(rand() * PGRAIN.length)]); } }
   const gm = new THREE.MeshStandardMaterial({ color: '#fff', roughness: .35, clippingPlanes: clip });
-  cg.add(instanced(new THREE.SphereGeometry(1, 10, 8), gm, ms, cs), instanced(new THREE.SphereGeometry(1, 16, 12), gm, big, bc));
+  cg.add(instanced(new THREE.SphereGeometry(1, 10, 8), gm, ms, cs), instanced(new THREE.SphereGeometry(1, 16, 12), gm, big, bc)); cg.children.at(-1).userData.part = 'ribosome-70s';
   const rib = big.map(m => V().setFromMatrixPosition(m)).filter(p => p.x > .9 && p.x < 1.7 && p.y < -.25 && p.y > -.8).sort((a, b) => b.z - a.z)[0] ?? V(1.2, -.5, PCZ - .1);
   // nucleoid, plasmids, microcompartments
   // nucleoid: each coil is drawn as two twisted strands, so the DNA reads as a double helix
@@ -1691,19 +1722,19 @@ function buildProkaryote() {
   const rnapM = proStd('#3fd0c0', { clip, rough: .35 }); let np = null, rnapP = null;
   for (let s = 0; s < 30; s++) {
     const c = V(rr(-2.1, 2.1), rr(-.4, .4), PCZ - rr(.38, .62)), d = V(1, rr(-.5, .5), rr(-.4, .4)).normalize(), loops = 3 + Math.floor(rand() * 4), cv = proCoil(c, d, loops, rr(.2, .32), loops * rr(.13, .2));
-    cg.add(coilAlong(cv, loops * 9, .03, .022, nm, loops * 110).mesh, coilAlong(cv, loops * 9, -.03, .022, nm2, loops * 110).mesh);
+    cg.add(...[coilAlong(cv, loops * 9, .03, .022, nm, loops * 110).mesh, coilAlong(cv, loops * 9, -.03, .022, nm2, loops * 110).mesh].map(m => { m.userData.part = 'nucleoid'; return m; }));
     const q = cv.getPoint(.5); if (q.x > .6 && q.x < 1.6 && (!np || q.z > np.z)) np = q;
-    if (s % 3 === 0) { const rp = cv.getPoint(rr(.2, .8)), b = new THREE.Mesh(new THREE.SphereGeometry(.075, 14, 10), rnapM); b.position.copy(rp); cg.add(b); if (rp.x < -.4 && (!rnapP || rp.z > rnapP.z)) rnapP = rp; }
+    if (s % 3 === 0) { const rp = cv.getPoint(rr(.2, .8)), b = new THREE.Mesh(new THREE.SphereGeometry(.075, 14, 10), rnapM); b.position.copy(rp); b.userData.part = 'rna-polymerase'; cg.add(b); if (rp.x < -.4 && (!rnapP || rp.z > rnapP.z)) rnapP = rp; }
   }
   // plasmids and microcompartments are scaled copies of their own levels' models
   const plM = withClip(partModel('plasmid').group, clip), plas = [];
-  [[-2.2, .85], [-1.3, -.95], [.4, -.95], [2.5, .9], [1.9, -.35], [-2.9, -.2], [3.3, -.6]].forEach(([x, y]) => { const t = plM.clone(); t.scale.setScalar(rr(.019, .024)); t.position.set(x, y, PCZ - rr(.12, .2)); t.rotation.set(rr(-.5, .5), rr(-.5, .5), rr(0, 6.3)); cg.add(t); plas.push(t.position.clone()); });
+  [[-2.2, .85], [-1.3, -.95], [.4, -.95], [2.5, .9], [1.9, -.35], [-2.9, -.2], [3.3, -.6]].forEach(([x, y]) => { const t = plM.clone(); t.userData.part = 'plasmid'; t.scale.setScalar(rr(.019, .024)); t.position.set(x, y, PCZ - rr(.12, .2)); t.rotation.set(rr(-.5, .5), rr(-.5, .5), rr(0, 6.3)); cg.add(t); plas.push(t.position.clone()); });
   // storage granules: polyphosphate (dark), glycogen (white), PHB (cream)
   const gran = [];
-  [[-1.6, -.75, '#4a3a5a'], [2.9, .55, '#f4f0e6'], [-3.9, .45, '#fff2c8'], [1.2, .9, '#4a3a5a'], [-2.6, -.9, '#f4f0e6']].forEach(([x, y, c]) => { const s = new THREE.Mesh(new THREE.SphereGeometry(rr(.14, .2), 24, 18), proStd(c, { clip, rough: .25 })); s.position.set(x, y, PCZ - .2); cg.add(s); gran.push(s.position.clone()); });
+  [[-1.6, -.75, '#4a3a5a'], [2.9, .55, '#f4f0e6'], [-3.9, .45, '#fff2c8'], [1.2, .9, '#4a3a5a'], [-2.6, -.9, '#f4f0e6']].forEach(([x, y, c]) => { const s = new THREE.Mesh(new THREE.SphereGeometry(rr(.14, .2), 24, 18), proStd(c, { clip, rough: .25 })); s.userData.part = 'storage-granule'; s.position.set(x, y, PCZ - .2); cg.add(s); gran.push(s.position.clone()); });
   const mcp = [];
   const mcM = withClip(partModel('microcompartment').group, clip);
-  [[-3.4, .55], [3.6, .2], [-.6, .95]].forEach(([x, y]) => { const s = mcM.clone(); s.scale.setScalar(.028); s.position.set(x, y, PCZ - .22); s.rotation.set(rr(0, 3), rr(0, 3), 0); cg.add(s); mcp.push(s.position.clone()); });
+  [[-3.4, .55], [3.6, .2], [-.6, .95]].forEach(([x, y]) => { const s = mcM.clone(); s.userData.part = 'microcompartment'; s.scale.setScalar(.028); s.position.set(x, y, PCZ - .22); s.rotation.set(rr(0, 3), rr(0, 3), 0); cg.add(s); mcp.push(s.position.clone()); });
   // pili
   const hairMat = proStd('#ccb07a', { rough: .5 }); let tip = null;
   for (let i = 0; i < 520; i++) {
@@ -1713,17 +1744,17 @@ function buildProkaryote() {
     if (base.z > PCZ - .12) continue;
     const len = rr(.7, 1.5), side = randDir().cross(n).normalize(), ph = rr(0, 6), pts = [];
     for (let k = 0; k <= 14; k++) { const t = k / 14; pts.push(base.clone().addScaledVector(n, t * len).addScaledVector(side, Math.sin(t * 7 + ph) * .1 * t)); }
-    cg.add(new THREE.Mesh(new THREE.TubeGeometry(new THREE.CatmullRomCurve3(pts), 22, rr(.016, .024), 4), hairMat));
+    { const hm = new THREE.Mesh(new THREE.TubeGeometry(new THREE.CatmullRomCurve3(pts), 22, rr(.016, .024), 4), hairMat); hm.userData.part = 'pilus'; cg.add(hm); }
     if (n.y > .5 && base.x > 0 && base.x < 2.5 && (!tip || pts.at(-1).z > tip.z)) tip = pts.at(-1);
   }
   // flagella: two basal bodies at one pole, three banded filaments
   const knobMat = proStd('#a88f4a', { rough: .35, metal: .25 }), knobs = [V(-PL / 2 - 1.55, .62, 1.0), V(-PL / 2 - 1.72, -.18, 1.02)]; let fp = null;
-  knobs.forEach(k => { const s = new THREE.Mesh(new THREE.SphereGeometry(.27, 32, 24), knobMat); s.position.copy(k); cg.add(s); const col = new THREE.Mesh(new THREE.TorusGeometry(.2, .055, 12, 32), proStd('#7a6834', { rough: .4 })); col.position.copy(k).add(V(-.12, 0, .05)); col.rotation.y = Math.PI / 2; cg.add(col); });
+  knobs.forEach(k => { const s = new THREE.Mesh(new THREE.SphereGeometry(.27, 32, 24), knobMat); s.position.copy(k); s.userData.part = 'flagellum'; cg.add(s); const col = new THREE.Mesh(new THREE.TorusGeometry(.2, .055, 12, 32), proStd('#7a6834', { rough: .4 })); col.position.copy(k).add(V(-.12, 0, .05)); col.rotation.y = Math.PI / 2; cg.add(col); });
   [[0, -.18, 11.5, 0], [0, -.42, 12.5, 1.7], [1, -.62, 12, 3.1]].forEach(([ki, tilt, len, ph]) => {
     const k = knobs[ki], d = V(-1, tilt, -.08).normalize(), u = V(-d.y, d.x, 0).normalize(), w = d.clone().cross(u), pts = [];
     for (let i = 0; i <= 260; i++) { const s = i / 260 * len, a = Math.min(1, s / 1.4) * .5; pts.push(k.clone().addScaledVector(d, s + .2).addScaledVector(u, Math.sin(s * 1.15 + ph) * a).addScaledVector(w, Math.cos(s * 1.15 + ph) * a * .3)); }
     const tex = stripeTex.clone(); tex.needsUpdate = true; tex.repeat.set(len * 2.4, 1);
-    cg.add(new THREE.Mesh(new THREE.TubeGeometry(new THREE.CatmullRomCurve3(pts), 520, .075, 8), new THREE.MeshStandardMaterial({ map: tex, roughness: .5 }))); if (ki === 1) fp = pts[40];
+    const fl = new THREE.Mesh(new THREE.TubeGeometry(new THREE.CatmullRomCurve3(pts), 520, .075, 8), new THREE.MeshStandardMaterial({ map: tex, roughness: .5 })); fl.userData.part = 'flagellum'; cg.add(fl); if (ki === 1) fp = pts[40];
   });
   cg.updateMatrix();
   const T = p => p.clone().applyMatrix4(cg.matrix);
@@ -2416,7 +2447,11 @@ const lens = new ShaderPass({ uniforms: { tDiffuse: { value: null }, uRes: { val
       gl_FragColor = vec4(c, 1.);
     }` });
 bokeh.enabled = lens.enabled = false;
-composer.addPass(new RenderPass(scene, camera)); composer.addPass(bokeh); composer.addPass(bloom); composer.addPass(new OutputPass()); composer.addPass(lens);
+// glowing outline drawn around whatever part is hovered in the tree, the list or a tag
+const outline = new OutlinePass(new THREE.Vector2(1, 1), scene, camera);
+// parts usually sit behind a translucent membrane, so hidden edges glow as brightly as visible ones
+Object.assign(outline, { edgeStrength: 12, edgeGlow: 1.6, edgeThickness: 3, pulsePeriod: 2 }); outline.visibleEdgeColor.set('#c8f4ff'); outline.hiddenEdgeColor.set('#c8f4ff');
+composer.addPass(new RenderPass(scene, camera)); composer.addPass(outline); composer.addPass(bokeh); composer.addPass(bloom); composer.addPass(new OutputPass()); composer.addPass(lens);
 
 // "Realistic" look: glass shells over the large x-ray meshes, studio reflections, rim light, dark-field backdrop
 const envMap = new THREE.PMREMGenerator(renderer).fromScene(new RoomEnvironment(), .04).texture;
@@ -2498,8 +2533,33 @@ function frame(r) {
 }
 function setModel(out) {
   if (cur) scene.remove(cur.group);
-  cur = out; applyLook(out); scene.add(out.group); enterT = performance.now(); frame(out.radius); makeLabels();
+  cur = out; applyLook(out); scene.add(out.group); enterT = performance.now(); frame(out.radius); makeLabels(); setHover(null);
 }
+
+// ---- hover highlight: outline the tagged parts, or pulse rings at the tag points when the part is not a separate object
+const ringMat = (() => {
+  const c = document.createElement('canvas'); c.width = c.height = 128; const g2 = c.getContext('2d');
+  g2.strokeStyle = '#7fd8ff'; g2.lineWidth = 9; g2.shadowColor = '#7fd8ff'; g2.shadowBlur = 14; g2.beginPath(); g2.arc(64, 64, 46, 0, 7); g2.stroke();
+  const t = new THREE.CanvasTexture(c); t.colorSpace = THREE.SRGBColorSpace; return new THREE.SpriteMaterial({ map: t, depthTest: false, transparent: true });
+})();
+const rings = [];
+let hoverId = null;
+function partsOf(id) { const out = []; cur.group.traverse(o => { if (o.userData.part === id) out.push(o); }); return out; }
+function setHover(id) {
+  hoverId = cur && id ? id : null;
+  const parts = hoverId ? partsOf(hoverId) : [], pts = hoverId ? cur.anchors.filter(a => a.id === hoverId) : [];
+  outline.selectedObjects = parts;
+  rings.forEach(r => { r.visible = false; });
+  if (!parts.length) pts.forEach((a, i) => { if (!rings[i]) { rings[i] = new THREE.Sprite(ringMat); rings[i].renderOrder = 999; scene.add(rings[i]); } rings[i].userData.p = a.p; rings[i].visible = true; });
+  labelEls.forEach((L, i) => { const on = !!hoverId && cur.anchors[i]?.id === hoverId; L.el.classList.toggle('hov', on); L.ln.classList.toggle('hot', on); });
+  document.querySelectorAll('.row[data-id]').forEach(r => r.classList.toggle('hov', r.dataset.id === hoverId));
+}
+function updateRings(now) {
+  if (!cur) return; const s = cur.radius * .15 * (1 + .18 * Math.sin(now / 160));
+  rings.forEach(r => { if (!r.visible) return; r.position.copy(r.userData.p); cur.group.localToWorld(r.position); r.scale.setScalar(s); });
+}
+// hovering works only for parts that appear in the current model
+const hoverable = el => { el.onmouseenter = () => { const id = el.dataset.id; if (cur && (cur.anchors.some(a => a.id === id) || partsOf(id).length)) setHover(id); }; el.onmouseleave = () => setHover(null); };
 function go(path) {
   if (!path.length || !isRoot(path[0])) path = ['cell'];
   curPath = path;
@@ -2528,7 +2588,7 @@ function treeNode(path) {
   car.className = 'car' + (n.children.length ? '' : ' leaf'); car.textContent = n.children.length ? (open ? '▾' : '▸') : '•';
   car.setAttribute('aria-label', open ? 'Collapse' : 'Expand');
   car.onclick = () => { if (!n.children.length) return; open ? expanded.delete(key) : expanded.add(key); renderTree(); };
-  const nm = document.createElement('button'); nm.className = 'nm'; nm.textContent = n.name; nm.onclick = () => go(path);
+  const nm = document.createElement('button'); nm.className = 'nm'; nm.textContent = n.name; nm.onclick = () => go(path); row.dataset.id = id; nm.dataset.id = id; hoverable(nm);
   row.append(car, nm); wrap.append(row);
   if (open) n.children.forEach(c => wrap.append(treeNode(path.concat(c))));
   return wrap;
@@ -2544,7 +2604,7 @@ function renderInfo() {
   });
   const kids = $('kids'); kids.innerHTML = '';
   if (!n.children.length) { const p = document.createElement('p'); p.className = 'muted'; p.textContent = 'This is the smallest level in this model. An atom is a nucleus of protons and neutrons (each made of three quarks) surrounded by electrons.'; kids.append(p); }
-  n.children.forEach(c => { const b = document.createElement('button'); b.className = 'kid'; const s = document.createElement('span'); s.textContent = NODES[c].name; const sm = document.createElement('small'); sm.textContent = NODES[c].scale; b.append(s, sm); b.onclick = () => go(curPath.concat(c)); kids.append(b); });
+  n.children.forEach(c => { const b = document.createElement('button'); b.className = 'kid'; const s = document.createElement('span'); s.textContent = NODES[c].name; const sm = document.createElement('small'); sm.textContent = NODES[c].scale; b.append(s, sm); b.onclick = () => go(curPath.concat(c)); b.dataset.id = c; hoverable(b); kids.append(b); });
   const cr = $('crumbs'); cr.innerHTML = '';
   curPath.forEach((p, i) => { if (i) { const s = document.createElement('span'); s.textContent = '›'; cr.append(s); } const b = document.createElement('button'); b.textContent = NODES[p].name; b.onclick = () => go(curPath.slice(0, i + 1)); cr.append(b); });
   $('up').disabled = curPath.length === 1;
@@ -2557,7 +2617,7 @@ function makeLabels() {
     const ln = document.createElementNS(NS, 'polyline'); ln.setAttribute('class', 'ln' + (a.id ? ' link' : ''));
     const dot = document.createElementNS(NS, 'circle'); dot.setAttribute('r', '2.6'); dot.setAttribute('class', 'dt' + (a.id ? ' link' : ''));
     if (a.id) { el.onclick = () => go(curPath.concat(a.id)); el.title = `Open ${NODES[a.id].name}`; }
-    el.onmouseenter = () => ln.classList.add('hot'); el.onmouseleave = () => ln.classList.remove('hot');
+    el.onmouseenter = () => { ln.classList.add('hot'); if (a.id) setHover(a.id); }; el.onmouseleave = () => { ln.classList.remove('hot'); if (a.id) setHover(null); };
     labelsEl.append(el); svg.append(ln, dot);
     return { el, ln, dot, w: 0 };
   });
@@ -2625,13 +2685,13 @@ renderer.setAnimationLoop(now => {
     // keep the focal plane just in front of the orbit centre, with blur scaled to the model size
     if (realLook) { bokeh.uniforms.focus.value = camera.position.distanceTo(controls.target) * .92; bokeh.uniforms.aperture.value = .007 / cur.radius; lens.uniforms.uTime.value = now / 1000; }
   }
-  controls.update(); composer.render(); layoutLabels();
+  updateRings(now); controls.update(); composer.render(); layoutLabels();
 });
 try { if (localStorage.getItem('cellLook') === 'real') setLook(true); } catch { /* storage may be blocked */ }
 go(validPath(location.hash.slice(1).split('/').filter(Boolean)));
 // synchronous view switch + single frame; used for scripted checks when animation frames are throttled
 const showNow = path => { goToken++; curPath = path; resize(); renderTree(); renderInfo(); setModel(build(path.at(-1))); enterT = -1e9; cur.group.scale.setScalar(1); cur.onFrame?.(); controls.update(); composer.render(); layoutLabels(); $('busy').style.display = 'none'; };
-window.__explorer = { NODES, build, go, showNow, setLook, THREE, scene, renderer, camera, composer, controls, bloom, get cur() { return cur; } };
+window.__explorer = { NODES, build, go, showNow, setLook, setHover, THREE, scene, renderer, camera, composer, controls, bloom, get cur() { return cur; } };
 </script>
 </body>
 </html>

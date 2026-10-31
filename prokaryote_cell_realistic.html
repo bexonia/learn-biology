@@ -603,15 +603,17 @@ function buildMembraneProteins() {
 // ---- flagella: a rotary motor about 45 nm across set in the envelope, a hook, and a helical filament 20 nm thick and many times the
 //      cell's length, all spinning
 function buildFlagella() {
-  const M = { c: [], ring: [], rod: [], gate: [], stator: [], arm: [] }, motors = [], zAx = V(0, 0, 1);
+  const M = { c: [], collar: [], ring: [], rod: [], gate: [], stator: [], arm: [] }, motors = [], zAx = V(0, 0, 1);
   const tq = n => new THREE.Quaternion().setFromUnitVectors(zAx, n);
   const add = (p, n) => {   // p on the outer surface, n outward
     const at = d => p.clone().addScaledVector(n, -d), q = new THREE.Quaternion().setFromUnitVectors(UP, n);
     M.c.push(atS(at(.44), V(.225, .17, .225), q));   // C ring: the switch that sets the direction of spin
+    M.collar.push(atS(at(.36), 1, q));   // FliG on the C ring's top edge, joining it to the MS ring above (the stators push here)
     M.ring.push(atS(at(.315), V(.125, .125, .1), tq(n)), atS(at(.115), V(.105, .105, .1), tq(n)), atS(at(.035), V(.105, .105, .1), tq(n)));   // MS ring in the inner membrane, P ring in the wall, L ring in the outer membrane
-    M.rod.push(cylM(at(.36), at(-.01), .035)); M.gate.push(atS(at(.42), .055));   // the drive rod; the export gate inside the C ring
-    for (const d of [.04, .12, .2, .3, .4, .5]) gAdd(at(d), d > .36 ? .25 : .2);
+    M.rod.push(cylM(at(.42), at(-.01), .035)); M.gate.push(atS(at(.42), .055));   // the drive rod, from the export gate inside the C ring up through every ring
     const t = across(randDir(), n), b = n.clone().cross(t), stators = [];
+    // keep the crowd out of its whole volume (the grid only looks at neighbouring cells, so the space is filled with small markers)
+    for (let d = .02; d < .54; d += .05) { const r = d > .34 ? .24 : .2; for (let x = -r; x <= r; x += .05) for (let y = -r; y <= r; y += .05) if (x * x + y * y <= r * r) gAdd(at(d).addScaledVector(t, x).addScaledVector(b, y), .035); }
     for (let k = 0; k < 11; k++) {   // eleven MotA/MotB stators round it, each anchored to the wall: protons flowing through them turn the rotor
       const a = k / 11 * Math.PI * 2, o = t.clone().multiplyScalar(Math.cos(a) * .18).addScaledVector(b, Math.sin(a) * .18);
       M.stator.push(atS(at(.31).add(o), V(.035, .045, .035), q)); M.arm.push(cylM(at(.27).add(o), at(.125).add(o.clone().multiplyScalar(.75)), .012)); stators.push(at(.31).add(o));
@@ -634,8 +636,9 @@ function buildFlagella() {
     add(p, radial(p)); i++;
   }
   SITES.motors = motors;
-  const fm = c => reg('flag', phys({ color: c, roughness: .35, clearcoat: .5 }));
-  cell.add(instanced(new THREE.CylinderGeometry(1, 1, 1, 48, 1, true), reg('flag', phys({ color: '#9aa8ff', roughness: .4, side: THREE.DoubleSide })), M.c),
+  const fm = c => reg('flag', phys({ color: c, roughness: .35, clearcoat: .5, side: THREE.DoubleSide }));   // two-sided, so parts sliced by the cut still show
+  const cMat = reg('flag', phys({ color: '#9aa8ff', roughness: .4, side: THREE.DoubleSide }));
+  cell.add(instanced(new THREE.CylinderGeometry(1, 1, 1, 48, 1, true), cMat, M.c), instanced(new THREE.CylinderGeometry(.115, .225, .06, 48, 1, true), cMat, M.collar),
     instanced(new THREE.TorusGeometry(1, .3, 12, 48), fm('#c9d2ff'), M.ring), instanced(new THREE.CylinderGeometry(1, 1, 1, 16), fm('#e6ebff'), M.rod),
     instanced(new THREE.SphereGeometry(1, 16, 12), fm('#7f8cff'), M.gate), instanced(new THREE.CapsuleGeometry(1, 1, 4, 10), fm('#ff9ad5'), M.stator), instanced(new THREE.CylinderGeometry(1, 1, 1, 8), fm('#ffc2e6'), M.arm));
 }

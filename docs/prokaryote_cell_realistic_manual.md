@@ -42,7 +42,7 @@ This manual covers what is new or different.
 | ATP synthase | Fo ring, stalks and F1 head (instanced meshes), 80 along the cut | head 10 nm |
 | Respiratory chain | NADH dehydrogenase I (L-shaped) and cytochrome bo3, 60 | 18 nm arm |
 | Transporters, Sec translocon | blobs in the membrane; SecA on the inner side | 5–9 nm |
-| Flagella | 7 motors, one exactly on the cut so it shows in section: C ring, MS ring, 11 stators, rod, P and L rings, hook; filament a left-handed helix 0.4 µm across, 2.3 µm pitch, 5 µm long, spinning | motor 45 nm, filament 20 nm |
+| Flagella | 7 motors, one exactly on the cut so it shows in section: C ring (joined to the MS ring by a FliG collar), MS ring, 11 stators, rod from the export gate to the hook, P and L rings, hook; filament a left-handed helix 0.4 µm across, 2.3 µm pitch, 5 µm long, spinning | motor 45 nm, filament 20 nm |
 | Pili | 80 type 1 pili with FimH tips | 7 nm × 0.4–1 µm |
 | Chemoreceptor array | a honeycomb at the +x pole: receptor dimers (1QU7) in trimers 12 nm apart, CheA and CheW below, sensing domains above; half removed by the cut | ~250 nm |
 | MreB | 60 short double filaments under the inner membrane, running round the rod | 5 nm monomers |
@@ -337,6 +337,7 @@ As for the animal cell (local save server, `__cell` hook, screenshots), plus:
 | A tag missing in the gene close-up | HU sits on the DNA, so the DNA tag had already taken its spot on screen | place the HU tag before the DNA tag |
 | Chemoreceptor array buried in proteins | the array was not in the occupancy grid | grid-register receptors, the baseplate, MreB and motors |
 | ATP synthase inside a motor's C ring | membrane proteins were placed before motors | build flagella first |
+| C ring floating below the motor; the rod vanished at the cut; proteins inside the C ring | no part joined the C ring to the MS ring; one-sided materials hid sliced parts; the grid only checks neighbouring cells, so a few large markers did not keep the crowd out | a FliG collar joins them and the rod runs from the export gate up; motor parts two-sided; the motor's volume filled with small grid markers |
 | `Identifier 'nearest' has already been declared` | an embed helper reused a metabolism name | renamed it `frontmost` |
 | Outer membrane looked like cream plastic | pale gel colour and strong sheen over a pink inner membrane | green gel colour and attenuation, less sheen, darker inner membrane |
 

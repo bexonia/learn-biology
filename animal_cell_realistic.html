@@ -1295,6 +1295,20 @@ addEventListener('keydown', e => { const k = e.key.toLowerCase(); if (k.length =
 addEventListener('keyup', e => held.delete(e.key.toLowerCase()));
 addEventListener('blur', () => held.clear());
 const fwd = V(), side = V(), step = V();
+// mouse look: a left-drag turns the camera where it stands (drag right to look right, down to look down) instead of swinging
+// it around the cell; the point the camera looks at is moved in front of it, so scrolling and right-drag panning still work
+controls.enableRotate = false;
+let lookFrom = null;
+const aim = new THREE.Spherical();
+renderer.domElement.addEventListener('pointerdown', e => { if (e.button === 0) { lookFrom = [e.clientX, e.clientY]; renderer.domElement.setPointerCapture(e.pointerId); } });
+renderer.domElement.addEventListener('pointermove', e => {
+  if (!lookFrom) return;
+  const dx = e.clientX - lookFrom[0], dy = e.clientY - lookFrom[1]; lookFrom = [e.clientX, e.clientY];
+  aim.setFromVector3(controls.target.clone().sub(camera.position));
+  aim.theta -= dx * .004; aim.phi = Math.min(Math.PI - .05, Math.max(.05, aim.phi + dy * .004));
+  controls.target.copy(camera.position).add(V().setFromSpherical(aim));
+});
+for (const ev of ['pointerup', 'pointercancel']) renderer.domElement.addEventListener(ev, () => { lookFrom = null; });
 function freeMove(dt) {
   if (!held.size) return;
   camera.getWorldDirection(fwd); side.crossVectors(fwd, camera.up).normalize();

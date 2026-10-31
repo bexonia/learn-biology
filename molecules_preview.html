@@ -74,18 +74,20 @@ function label(at, html, cls = 'lab') { const d = document.createElement('div');
 //      with a small silver dot where the rod joins each strand
 function newDNA(origin, len) {
   const g = new THREE.Group(); g.position.copy(origin); scene.add(g);
-  const R = .9, rise = .34, tw = 2 * Math.PI / 10.5, groove = 140 * Math.PI / 180, n = Math.round(len / rise), s1 = [], s2 = [], dots = [], rods = [], cols = [];
+  const R = .9, rise = .34, tw = 2 * Math.PI / 10.5, groove = 140 * Math.PI / 180, n = Math.round(len / rise), s1 = [], s2 = [], rods = [], cols = [], joints = [];
   const rod = (a, b) => { const d = b.clone().sub(a); return new THREE.Matrix4().compose(a.clone().addScaledVector(d, .5), new THREE.Quaternion().setFromUnitVectors(V(0, 1, 0), d.clone().normalize()), V(.075, d.length(), .075)); };
   for (let i = 0; i <= n; i++) {
     const x = i * rise - len / 2, a = i * tw, b = a + groove, p = V(x, R * Math.cos(a), R * Math.sin(a)), q = V(x, R * Math.cos(b), R * Math.sin(b));
     s1.push(p); s2.push(q);
-    const base = 'ATGC'[Math.floor(rand() * 4)], j1 = p.clone().lerp(q, .1), mid = p.clone().lerp(q, .5), j2 = p.clone().lerp(q, .9);
+    const base = 'ATGC'[Math.floor(rand() * 4)], j1 = p.clone().lerp(q, .07), mid = p.clone().lerp(q, .5), j2 = p.clone().lerp(q, .93);   // joints on the inner side of each strand
     rods.push(rod(j1, mid), rod(mid, j2)); cols.push(new THREE.Color(BASE[base]), new THREE.Color(BASE[PAIR[base]]));
-    dots.push({ p: j1, s: .3, c: '#d4d9e2' }, { p: j2, s: .3, c: '#d4d9e2' });   // the joints between a base and its strand
+    joints.push(j1, j2);   // a base meets its strand here; the rod ends inside the sphere
   }
   line(s1, .13, BACKBONE[0], g); line(s2, .13, BACKBONE[1], g);
   const rm = new THREE.InstancedMesh(new THREE.CylinderGeometry(1, 1, 1, 10), new THREE.MeshStandardMaterial({ roughness: .4 }), rods.length);
-  rods.forEach((m, i) => { rm.setMatrixAt(i, m); rm.setColorAt(i, cols[i]); }); g.add(rm); balls(dots, g);
+  rods.forEach((m, i) => { rm.setMatrixAt(i, m); rm.setColorAt(i, cols[i]); }); g.add(rm);
+  const jm = new THREE.InstancedMesh(new THREE.SphereGeometry(.15, 16, 12), new THREE.MeshStandardMaterial({ color: '#e4e8ef', metalness: .25, roughness: .3 }), joints.length);
+  joints.forEach((j, i) => jm.setMatrixAt(i, new THREE.Matrix4().makeTranslation(j.x, j.y, j.z))); g.add(jm);
   return g;
 }
 // ---- the new RNA: one orange line, with a small dot for each base

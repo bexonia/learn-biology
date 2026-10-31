@@ -186,9 +186,7 @@ The nucleolus is sliced open by the cut:
 
 ### 6.5 Nucleoplasm proteins
 
-About 450 real proteins placed at random (skipping the wedge): PCNA clamps (PDB 1AXC, pink) and ubiquitin (1UBQ, yellow).
-
-> **Known error:** the PCNA data keeps chains A, B and C of 1AXC. In that file chains A, C and E are the three PCNA proteins and B, D and F are short p21 peptides, so each "clamp" in the cell is two thirds of the ring plus one peptide. The Cell Explorer's own PCNA page uses the full ring (A, C, E). Fixing the cell means re-encoding with chains `ACE`, which changes no random draws.
+About 450 real proteins placed at random (skipping the wedge): PCNA clamps (PDB 1AXC chains A, C and E, the three proteins of the ring, pink) and ubiquitin (1UBQ, yellow). Chains B, D and F of 1AXC are short p21 peptides and are left out; read a structure's `COMPND` records before choosing chains.
 
 ---
 
@@ -352,6 +350,7 @@ The page was never judged by reading code alone. Every change was rendered and l
 | `SyntaxError: Identifier 'a' has already been declared` | a new `const a` inside a loop that already declared `a` | rename (`j1`, `mid`, `j2`) |
 | A comment swallowed the rest of a line of passes | an inline `//` comment inserted mid-line | put comments at the end of lines only |
 | Embedded page would not load (`'nearest' has already been declared`) | a new embed helper reused a name the metabolism code had | renamed it `frontmost` |
+| PCNA clamps were open rings with a stray peptide | chains A, B, C of 1AXC were kept, but B is a p21 fragment and the third PCNA is chain E | keep chains A, C, E (in the cell, the preview and the explorer) |
 | Tags in the gene close-up pointed off screen | fixed indices along the RNA and DNA, chosen for a wider window | pick by projecting with the preset camera (`frontmost`) |
 
 ---

@@ -90,14 +90,30 @@ function newDNA(origin, len) {
   joints.forEach((j, i) => jm.setMatrixAt(i, new THREE.Matrix4().makeTranslation(j.x, j.y, j.z))); g.add(jm);
   return g;
 }
-// ---- the new RNA: one orange line, with a small dot for each base
+// ---- the new RNA: one orange strand, each base a short rod on one side, joined to the strand by a silver ball.
+//      Where the strand folds back on itself (a hairpin) its bases pair up, and that stretch looks like DNA
+const RPAIR = { A: 'U', U: 'A', G: 'C', C: 'G' };
 function newRNA(origin, len) {
   const g = new THREE.Group(); g.position.copy(origin); scene.add(g);
-  const pts = [], dots = [], n = Math.round(len / .6);
-  for (let i = 0; i <= n; i++) pts.push(V(i * .6 - len / 2, 1.6 * Math.sin(i * .21) + .5 * Math.sin(i * .67), 1.2 * Math.cos(i * .17)));
-  const cv = new THREE.CatmullRomCurve3(pts); line(pts, .13, MRNA, g);
-  for (let i = 0; i <= n; i++) { const t = i / n, p = cv.getPointAt(t), tg = cv.getTangentAt(t), side = V(0, 0, 1).cross(tg).normalize().applyAxisAngle(tg, i * .6); dots.push({ p: p.addScaledVector(side, .38), s: .36, c: BASE['AUGC'[Math.floor(rand() * 4)]] }); }
-  balls(dots, g);
+  const nts = [], rodsM = [], cols = [], joints = [], letter = () => 'AUGC'[Math.floor(rand() * 4)];
+  const free = (from, to, n) => { for (let i = 0; i < n; i++) { const t = i / n, p = from.clone().lerp(to, t).add(V(0, .7 * Math.sin(t * 9), .6 * Math.cos(t * 7))); nts.push({ p, b: letter(), dir: V(0, -1, 0).applyAxisAngle(V(1, 0, 0), i * .5), len: .9 }); } };
+  // a hairpin standing up from the strand: an A-form stem of paired bases and a small loop at the top
+  const hairpin = (foot, k) => {
+    const rise = .28, R = .9, tw = 2 * Math.PI / 11, at = (j, off, r = R, lift = 0) => { const a = j * tw + off; return foot.clone().add(V(r * Math.cos(a), (j + lift) * rise, r * Math.sin(a))); };
+    const up = [], down = [], seq = [];
+    for (let j = 0; j < k; j++) { up.push(at(j, 0)); down.push(at(j, 2.6)); seq.push(letter()); }
+    up.forEach((x, j) => nts.push({ p: x, b: seq[j], dir: down[j].clone().sub(x).normalize(), len: x.distanceTo(down[j]) / 2 }));
+    for (let m = 1; m <= 5; m++) { const f = m / 6, x = at(k - 1, 2.6 * f, R * 1.3, .8 + 1.8 * Math.sin(Math.PI * f)); nts.push({ p: x, b: letter(), dir: x.clone().sub(foot).setY(0).normalize(), len: .9 }); }
+    for (let j = k - 1; j >= 0; j--) nts.push({ p: down[j], b: RPAIR[seq[j]], dir: up[j].clone().sub(down[j]).normalize(), len: up[j].distanceTo(down[j]) / 2 });
+  };
+  free(V(-len / 2, 0, 0), V(-2, 0, 0), 26); hairpin(V(-1.2, .4, 0), 8); free(V(1.2, 0, 0), V(len / 2, 0, 0), 26);
+  line(nts.map(n => n.p), .13, MRNA, g);
+  const rod = (a, b) => { const d = b.clone().sub(a); return new THREE.Matrix4().compose(a.clone().addScaledVector(d, .5), new THREE.Quaternion().setFromUnitVectors(V(0, 1, 0), d.clone().normalize()), V(.075, d.length(), .075)); };
+  nts.forEach(n => { const j = n.p.clone().addScaledVector(n.dir, .1); rodsM.push(rod(j, n.p.clone().addScaledVector(n.dir, n.len))); cols.push(new THREE.Color(BASE[n.b])); joints.push(j); });
+  const rm = new THREE.InstancedMesh(new THREE.CylinderGeometry(1, 1, 1, 10), new THREE.MeshStandardMaterial({ roughness: .4 }), rodsM.length);
+  rodsM.forEach((m, i) => { rm.setMatrixAt(i, m); rm.setColorAt(i, cols[i]); }); g.add(rm);
+  const jm = new THREE.InstancedMesh(new THREE.SphereGeometry(.15, 16, 12), new THREE.MeshStandardMaterial({ color: '#e4e8ef', metalness: .25, roughness: .3 }), joints.length);
+  joints.forEach((j, i) => jm.setMatrixAt(i, new THREE.Matrix4().makeTranslation(j.x, j.y, j.z))); g.add(jm);
   return g;
 }
 
@@ -142,7 +158,7 @@ let y = 30;
 ROWS.forEach(([title, keys]) => {
   if (!keys) {
     newDNA(V(-12, y, 0), 30); newRNA(V(24, y, 0), 30);
-    label(V(-12, y - 3, 0), '<b>DNA</b><br><span>two strands, joined by base pairs (A–T, G–C)</span>'); label(V(24, y - 3.2, 0), '<b>RNA</b><br><span>one strand, with its bases (A, U, G, C)</span>');
+    label(V(-12, y - 3, 0), '<b>DNA</b><br><span>two strands, joined by base pairs (A–T, G–C)</span>'); label(V(24, y - 3.2, 0), '<b>RNA</b><br><span>one strand with its bases (A, U, G, C); a hairpin where it folds back and pairs</span>');
     label(V(6, y + 4.5, 0), title, 'grp'); y -= 26; return;
   }
   const widths = keys.map(W), gap = 16, total = widths.reduce((a, b) => a + b, 0) + gap * (keys.length - 1);

@@ -20,6 +20,7 @@ How everything is built (techniques, algorithms, verification and pitfalls) is w
 - [docs/cell_explorer_manual.md](docs/cell_explorer_manual.md): the explorer's recursive tree, models, looks, tags and menu.
 - [docs/tutorial_mode_spec.md](docs/tutorial_mode_spec.md): the design of the guided tour of the eukaryotic cell (subtitles, controls, a narrator hook); how it is built is in the explorer manual §12.
 - [docs/animal_cell_realistic_manual.md](docs/animal_cell_realistic_manual.md), [docs/plant_cell_realistic_manual.md](docs/plant_cell_realistic_manual.md) and [docs/prokaryote_cell_realistic_manual.md](docs/prokaryote_cell_realistic_manual.md): the three realistic cells.
+- [docs/optional_where_to_research.md](docs/optional_where_to_research.md) (optional): where to research the biology of a new part, the sources to check, and the project's key numbers still to be checked against them.
 - [tools/README.md](tools/README.md): downloading, coarse-graining and embedding the real protein structures (reproducible byte for byte), and the local server used for checks.
 
 Models are schematic: shapes and arrangements follow real biology, but sizes are not to scale between levels.

@@ -40,7 +40,10 @@
     #hint, #flows { display: none; }
     #hud h1 { font-size: 18px; }
   }
+  /* inside the Cell Explorer, which draws its own tree, tags and panels */
+  .embed #hud, .embed #legend, .embed #flows, .embed #hint, .embed #tools, .embed #busy { display: none !important; }
 </style>
+<script>if (/[?&]embed\b/.test(location.search)) document.documentElement.classList.add('embed');</script>
 <script type="importmap">
 { "imports": {
   "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js",
@@ -486,9 +489,9 @@ function placeProtein(S, key, at, q, colour) {
 }
 const turn = () => new THREE.Quaternion().setFromEuler(new THREE.Euler(rr(0, 6.283), rr(0, 6.283), rr(0, 6.283)));
 
-let SITES = null;   // where the genes being read, the exporting pores and the fibrillar centres are (for scripted checks)
+let SITES = null;   // where the genes being read, the exporting pores, the fibrillar centres and other landmarks are (for scripted checks and the explorer's tags)
 function buildNucleusInterior(pores) {
-  SITES = { genes: [], pores: [], fcs: [] };
+  SITES = { genes: [], pores: [], fcs: [], nucs: [], read: [], mrnps: [], pol1: [], trees: [], preribo: [], pcna: [], ubiq: [] };
   const CH = balls('chromatin'), MR = balls('mrna'), RR = balls('rrna'), NL = balls('nucleolus'), NP = balls('nucleoplasm');
   const polCol = ['#7fffd0', '#a6f0e0', '#c38cff', '#9fe6ff', '#d6b0ff'].map(c => [col(c), col(new THREE.Color(c).offsetHSL(0, 0, .08).getStyle())]);   // RNA polymerase II, a shade per chain
   const inside = (q, m) => nucGap(q) < -m, wedge = q => q.x > 0 && q.z > 0, nuc = () => N0.clone().add(V(rr(-NA, NA), rr(-NB, NB), rr(-NC, NC)));
@@ -503,7 +506,7 @@ function buildNucleusInterior(pores) {
     for (let t = 0; t < 60; t++) { const q = nuc(); if (!inside(q, Math.min(.9, R * .5)) || q.distanceTo(NO) < NOR + .3) continue; const d = centres.reduce((m, c) => Math.min(m, c.distanceTo(q)), 9); if (d > bd) { bd = d; best = q; } }
     if (!best) return;
     centres.push(best);
-    const C = fold(best, R, n, ok), open = new Set();
+    const C = fold(best, R, n, ok), open = new Set(); SITES.nucs.push(...C);
     // about a third of the chromosomes have a gene being read, picked just behind a cut face where possible so it can be seen:
     // three nucleosomes are cleared and RNA polymerase II sits on the bare DNA
     let g = -1;
@@ -519,6 +522,7 @@ function buildNucleusInterior(pores) {
     const rna = rnaFold(MR, at.clone().addScaledVector(up, .17), up, Math.floor(rr(70, 190)), MRNA, { pull: up, pullW: 1, hairpin: .02 });
     rna.forEach((x, i) => { if (i % 18 === 9) MR.add(x.clone().add(randDir().multiplyScalar(.022)), rr(.04, .05), col('#8fd3ff')); });   // RNA-binding proteins join as it grows
     clump(MR, rna.at(-1), .02, 3, ['#ffd24f'], .03, .04);   // the cap-binding complex on the 5′ end
+    SITES.read.push({ at, rna, dna: ax.slice(Math.max(0, bi - 300), bi + 300) });
   });
 
   // ---- finished mRNAs, wrapped in proteins, in the spaces between the chromosomes
@@ -528,7 +532,7 @@ function buildNucleusInterior(pores) {
     const rna = rnaFold(MR, c, randDir(), Math.floor(rr(140, 260)), MRNA, { home: c, rad: .07, hairpin: .03 });
     rna.forEach((x, k) => { if (k % 16 === 8) MR.add(x.clone().add(randDir().multiplyScalar(.02)), rr(.035, .05), col(k % 3 ? '#8fd3ff' : '#7dffb0')); });
     clump(MR, rna[0], .02, 3, ['#ffd24f'], .03, .04); clump(MR, rna.at(-1), .025, 4, ['#ffb0d0'], .03, .042);   // the cap on one end, poly(A)-binding proteins on the other
-    gAdd(c, .11);
+    gAdd(c, .11); SITES.mrnps.push(c);
   }
   // ---- mRNAs leaving through pores beside the cut, cap first
   const nearCut = (p, a, b) => p.y > -2.4 && p.y < 2.6 && p[a] < -.06 && p[a] > -.45 && p[b] > .8;
@@ -558,16 +562,17 @@ function buildNucleusInterior(pores) {
     const dna = resample(loop, BP); emitDNA(CH, dna);
     for (let j = 0; j < 11; j++) {   // the gene takes most of the loop; the rest is spacer
       const at = dna[Math.floor((j + .5) / 11 * .75 * dna.length)], out = at.clone().sub(c).normalize();
-      clump(NL, at.clone().addScaledVector(out, .02), .022, 4, POL, .04, .05);
+      clump(NL, at.clone().addScaledVector(out, .02), .022, 4, POL, .04, .05); if (j === 6) SITES.pol1.push(at);
       const rna = rnaFold(RR, at.clone().addScaledVector(out, .05), out, 12 + j * 16, RRNA, { pull: out, pullW: 1.1, hairpin: .06 });
       if (j > 2) clump(NL, rna.at(-1), .02 + j * .002, 4 + j, ['#ffd37a', '#ffe8a8'], .03, .042);   // the terminal knob: a processome assembling on the 5′ end
+      if (j === 9) SITES.trees.push(rna[Math.floor(rna.length / 2)]);
     }
     for (let k = 0; k < 150; k++) NL.add(c.clone().addScaledVector(randDir(), r + rr(.05, .22)), rr(.018, .026), col(rand() < .6 ? '#b8306a' : '#d9487f'));   // processing proteins (fibrillarin and its snoRNAs)
   });
   for (let i = 0, made = 0; i < 16000 && made < 1300; i++) {
     const p = NO.clone().addScaledVector(randDir(), NOR * Math.cbrt(rand()));
     if (wedge(p) || fcs.some(f => f.c.distanceTo(p) < f.r + .32) || !gFree(p, .045)) continue;
-    made++; gAdd(p, .045);
+    made++; gAdd(p, .045); SITES.preribo.push(p);
     rnaFold(RR, p, randDir(), Math.floor(rr(50, 80)), RRNA, { home: p, rad: .022, hairpin: .09 });
     clump(NL, p, .035, 6, ['#e9b3cf', '#d7a1e6', '#f4cfa8'], .022, .03);   // ribosomal proteins
   }
@@ -577,7 +582,7 @@ function buildNucleusInterior(pores) {
   const pcnaCol = ['#e98bb0', '#d672a0', '#f2a6c4'].map(c => [col(c), col(new THREE.Color(c).offsetHSL(0, 0, .08).getStyle())]), ubCol = [col('#e8d26a'), col('#f4e49a')];
   for (let i = 0, made = 0; i < 4000 && made < 450; i++) {
     const p = N0.clone().add(randDir().multiplyScalar(rr(0, 4.2))); if (wedge(p) || !inside(p, .3) || p.distanceTo(NO) < NOR + .1) continue;
-    made++; if (rand() < .3) placeProtein(NP, 'pcna', p, turn(), (ch, part) => pcnaCol[ch % 3][part === 1 ? 1 : 0]); else placeProtein(NP, 'ubiquitin', p, turn(), (ch, part) => ubCol[part === 1 ? 1 : 0]);
+    made++; if (rand() < .3) { placeProtein(NP, 'pcna', p, turn(), (ch, part) => pcnaCol[ch % 3][part === 1 ? 1 : 0]); SITES.pcna.push(p); } else { placeProtein(NP, 'ubiquitin', p, turn(), (ch, part) => ubCol[part === 1 ? 1 : 0]); SITES.ubiq.push(p); }
   }
   [CH, MR, RR, NL, NP].forEach(S => S.done());
 }
@@ -1406,6 +1411,7 @@ function frame(now) {
   if (hi) { const k = .55 + .45 * Math.sin(now / 180), c = hiCol(hi); REG[hi].mats.forEach(m => { m.emissive.copy(c); m.emissiveIntensity = .25 + .75 * k; }); REG[hi].imp.forEach(m => { m.uniforms.uHi.value = k; }); }
   lens.uniforms.uTime.value = now / 1000;
   freeMove(dt); controls.update(); composer.render();
+  if (EMBED) embedFrame();
 }
 setTimeout(() => {   // a moment for the "Building" note to show; a timer rather than a frame, so a page opened in the background builds too
   build(); buildFlows(); applyLook(); resize(); renderer.setAnimationLoop(frame);
@@ -1419,6 +1425,109 @@ async function shot(pos, target, name) {
   const blob = await new Promise(r => renderer.domElement.toBlob(r, 'image/png'));
   camera.position.copy(p0); controls.target.copy(t0); camera.lookAt(t0); composer.render();
   await fetch('/save?name=' + name, { method: 'POST', body: blob }); return name;
+}
+
+// ---------------------------------------------------------------------
+// Embedded in the Cell Explorer (?embed): the explorer draws the tree, tags and panels. It asks for a preset view and a list of
+// named points; each frame this page sends back where those points are on screen, and it takes the explorer's button presses.
+// ---------------------------------------------------------------------
+const EMBED = document.documentElement.classList.contains('embed');
+const toExplorer = m => parent.postMessage({ from: 'realistic-cell', ...m }, '*');
+// how far a point lies behind the nearest cut face (the removed wedge is x > 0 and z > 0)
+const behindCut = q => q.z > 0 ? (q.x > 0 ? -1 : -q.x) : q.x > 0 ? -q.z : Math.hypot(q.x, q.z);
+// some candidate places, easiest to see from a preset view first: close behind a cut face and near the middle of the view
+function ranked(list, view, f = p => p) {
+  const [, cam, tgt] = VIEWS.find(v => v[0] === view), axis = tgt.clone().sub(cam).normalize();
+  return list.map(f).filter(p => p && !inWedge(p)).map(p => [p, Math.max(0, behindCut(p)) * 3 + (1 - p.clone().sub(cam).normalize().dot(axis)) * 40]).sort((a, b) => a[1] - b[1]).map(x => x[0].clone());
+}
+const easiest = (list, view, f) => ranked(list, view, f)[0] ?? null;
+// for a close-up: of the places in `list`, the one nearest the camera that shows well inside the frame, is not hidden behind the
+// ball `block` ([centre, radius]), and is away (on screen) from those already tagged
+const seg = new THREE.Line3();
+function frontmost(list, view, taken, block = null, gap = .3) {
+  const [, cam, tgt] = VIEWS.find(v => v[0] === view), cm = camera.clone(), q = V();
+  cm.position.copy(cam); cm.lookAt(tgt); cm.updateMatrixWorld();
+  let best = null, bd = 1e9;
+  list.forEach(p => {
+    if (!p || inWedge(p)) return;
+    q.copy(p).project(cm); if (q.z > 1 || Math.abs(q.x) > .9 || Math.abs(q.y) > .85 || taken.some(t => Math.hypot(t.x - q.x, t.y - q.y) < gap)) return;
+    if (block && seg.set(cam, p).closestPointToPoint(block[0], true, q).distanceTo(block[0]) < block[1]) return;
+    const d = p.distanceTo(cam); if (d < bd) { bd = d; best = p; }
+  });
+  if (best) taken.push(best.clone().project(cm));
+  return best?.clone() ?? null;
+}
+const onCell = (x, y, z, out = 0) => { const d = V(x, y, z).normalize(); return d.multiplyScalar(cellR(d) + out); };
+const onNuc = (x, y, z, out = 0) => { const d = V(x, y, z).normalize(); return N0.clone().addScaledVector(d, nucR(d) + out); };
+const POINTS = {};
+function pointsOf(view) {
+  if (POINTS[view]) return POINTS[view];
+  const gene = SITES.read.reduce((a, b) => (b.at.distanceTo(VIEWS[3][2]) < a.at.distanceTo(VIEWS[3][2]) ? b : a));   // the gene the DNA view looks at
+  let P = {};
+  if (view === 'cell') P = {
+    membrane: onCell(-.42, .38, .82), nucleus: onNuc(-.25, .55, .8), rer: easiest(ORG.er, view), ribo: easiest(ORG.poly, view), ser: easiest(ORG.ser, view),
+    golgi: ORG.golgi.c.clone(), centro: ORG.centro.clone(), mito: easiest(ORG.mitos, view, m => m.mid), lyso: easiest(ORG.lysos, view, o => o.p), perox: easiest(ORG.peroxs, view, o => o.p),
+    endo: easiest(ORG.endos, view, o => o.p), lipid: easiest(ORG.lipids, view, o => o.p), mt: easiest(ORG.mt, view, c => c.getPointAt(.75)),
+    actin: onCell(-.02, -.45, .9, -MT - .12), if: onNuc(-.03, -.7, .72, .3), cilium: (d => d.multiplyScalar(cellR(d) + 1.3))(V(-.25, 1, .55).normalize()),
+    villi: onCell(-.55, .72, .42, .25), cytosol: V(-.05, -4.6, 5.4),
+  };
+  if (view === 'nucleus') {
+    const [pore, out] = ranked(SITES.pores, view, o => o.p).map(p => SITES.pores.find(o => o.p.equals(p)));
+    P = {
+    env: onNuc(-.3, .7, .65), pore: pore?.p.clone(), export: out ? out.p.clone().addScaledVector(out.d, .25) : null,
+    chromatin: easiest(SITES.nucs, view), gene: gene.at.clone(), nucleolus: NO.clone().add(V(-.05, .35, .2)),
+    mrnp: easiest(SITES.mrnps, view), pcna: easiest(SITES.pcna, view),
+    };
+    P.ubiq = ranked(SITES.ubiq, view).find(p => p.distanceTo(P.pcna) > .9) ?? null;   // not right beside the PCNA tag
+  }
+  if (view === 'nucleolus') {
+    const near = easiest(SITES.fcs, view, f => f.c), fc = SITES.fcs.find(f => f.c.equals(near)), cam = VIEWS[2][1];
+    P = { fc: fc.c.clone(), pol1: easiest(SITES.pol1, view), tree: easiest(SITES.trees, view), dfc: fc.c.clone().addScaledVector(cam.clone().sub(fc.c).normalize(), fc.r + .14), gc: easiest(SITES.preribo, view) };
+  }
+  if (view === 'DNA') {
+    const taken = [], pol = [gene.at, .17], pol2 = frontmost([gene.at], view, taken), nascent = frontmost(gene.rna, view, taken, pol), dna = frontmost(gene.dna, view, taken, pol), bp = frontmost(gene.dna, view, taken, pol), cam = VIEWS[3][1];
+    const near = SITES.nucs.filter(c => { const d = c.distanceTo(gene.at); return d > .4 && d < 1.2; }), nuc = frontmost(near, view, taken, pol), hist = frontmost(near, view, taken, pol);   // any chromosome's, not the cleared ones
+    // the nucleosome's tag goes on its DNA, on the side facing the viewer; the histone core's on the middle of another
+    P = { pol2, nascent, dna, bp, nuc: nuc && nuc.addScaledVector(cam.clone().sub(nuc).normalize(), SH_R), hist };
+  }
+  return POINTS[view] = P;
+}
+let tagPts = [], tagSeq = 0, sentReady = false;
+const scr = V();
+function embedFrame() {
+  if (!sentReady) {
+    sentReady = true;
+    const mols = Object.entries(MOL).map(([k, [name, colour, g]]) => { const cv = document.createElement('canvas'); cv.width = cv.height = 44; glyph(cv.getContext('2d'), g, 3, 3, 38, colour); return [k, name, cv.toDataURL()]; });
+    toExplorer({ type: 'ready', mols, info: INFO, parts: PARTS });
+  }
+  const w = innerWidth, h = innerHeight;
+  toExplorer({ type: 'pts', seq: tagSeq, pts: tagPts.map(p => {
+    if (!p) return null;
+    scr.copy(p); cell.localToWorld(scr); scr.project(camera);
+    return [(scr.x * .5 + .5) * w, (-scr.y * .5 + .5) * h, scr.z < 1];
+  }) });
+}
+const say = () => toExplorer({ type: 'state', motion, look: organelleLook, cut: cutOn, flow: flowsOn });
+if (EMBED) {
+  addEventListener('message', e => {
+    const m = e.data; if (!m || m.to !== 'realistic-cell') return;
+    if (m.cmd === 'view') {
+      const v = VIEWS.findIndex(x => x[0] === m.view); if (v < 0) return;
+      view = v; const [, p, t] = VIEWS[v]; camera.position.copy(cell.localToWorld(p.clone())); controls.target.copy(cell.localToWorld(t.clone()));
+      const P = pointsOf(m.view); tagPts = m.points.map(k => P[k] ?? null); tagSeq = m.seq;
+    }
+    if (m.cmd === 'hi') setHi(m.key);
+    if (m.cmd === 'mol') molHi = m.key;
+    if (m.cmd === 'motion') motion = !motion;
+    if (m.cmd === 'look') { organelleLook = LOOKS[(LOOKS.indexOf(organelleLook) + 1) % LOOKS.length]; applyLook(); }
+    if (m.cmd === 'cut') { cutOn = !cutOn; caps.visible = cutOn; }
+    if (m.cmd === 'flow') document.getElementById('flow').click();
+    if (m.cmd === 'speed') { speed.value = m.v; speed.oninput(); }
+    if (m.cmd === 'key') m.down ? held.add(m.key) : held.delete(m.key);
+    if (m.cmd === 'snap') { composer.render(); toExplorer({ type: 'snap', url: renderer.domElement.toDataURL('image/png') }); }
+    say();
+  });
+  addEventListener('keydown', e => { if (e.key === 'Escape') toExplorer({ type: 'key', key: 'Escape' }); });
 }
 window.__cell = { renderer, composer, camera, controls, scene, cell, REG, shells, setHi, shot, V, setLook: k => { organelleLook = k; applyLook(); }, get placed() { return placed.length; }, get sites() { return SITES; }, get flows() { return live; }, get org() { return ORG; }, get procs() { return PROCS; }, setMol: k => { molHi = k; }, step: (dt = .05, n = 1) => { for (let i = 0; i < n; i++) { updateFlows(dt); updateMTs(dt); } } };
 </script>

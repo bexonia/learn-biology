@@ -186,7 +186,9 @@ The nucleolus is sliced open by the cut:
 
 ### 6.5 Nucleoplasm proteins
 
-About 450 real proteins placed at random (skipping the wedge): PCNA clamps (PDB 1AXC, three chains, pink) and ubiquitin (1UBQ, yellow).
+About 450 real proteins placed at random (skipping the wedge): PCNA clamps (PDB 1AXC, pink) and ubiquitin (1UBQ, yellow).
+
+> **Known error:** the PCNA data keeps chains A, B and C of 1AXC. In that file chains A, C and E are the three PCNA proteins and B, D and F are short p21 peptides, so each "clamp" in the cell is two thirds of the ring plus one peptide. The Cell Explorer's own PCNA page uses the full ring (A, C, E). Fixing the cell means re-encoding with chains `ACE`, which changes no random draws.
 
 ---
 
@@ -294,6 +296,16 @@ Supply rules:
   - **Close/Open cutaway**, **Pause**, and **Save PNG** (`preserveDrawingBuffer: true`).
 - **Narrow screens:** below 720 px the legend becomes a two-column grid at the bottom, and the right panel and hint are hidden.
 
+### 10.1 Inside the Cell Explorer (`?embed`)
+
+`cell_explorer.html` shows this page as its **Realistic cell** root, in an iframe filling its stage (`animal_cell_realistic.html?embed`). The model and its animation are untouched; the explorer supplies the tree, tags, descriptions and "Made of" lists.
+
+- **Embed mode:** a tiny head script adds the class `embed` to `<html>` when the URL has `embed`. CSS then hides this page's own HUD, legend, panels, hint and buttons.
+- **Messages, explorer → page** (`{ to: 'realistic-cell', cmd, … }`): `view` (a preset name, the named points to track and a sequence number), `hi` (highlight a part), `mol` (follow a molecule), `motion`, `look`, `cut`, `flow`, `speed`, `key` (W A S D pressed or released on the explorer) and `snap`.
+- **Messages, page → explorer** (`{ from: 'realistic-cell', type, … }`): `ready` (once built: molecule symbols as data URLs, the `INFO` recipes and `PARTS`), `pts` every frame (screen x, y and in-front flag for each tracked point, tagged with the view's sequence number so late points for an old view are dropped), `state` (motion, look, cut, flow, for the button labels), `snap` (a PNG data URL) and `key` (Escape, to go up a level).
+- **Tag points** are found per view by `pointsOf(view)` and cached. The build records extra landmarks in `SITES` (all nucleosome centres, genes being read with their mRNA and DNA, finished mRNAs, RNA polymerase I, rRNA trees, pre-ribosomes, PCNA and ubiquitin) by pushing points it already has, so **no random numbers are drawn and the layout is unchanged**. Two pickers choose among candidates: `ranked` prefers places just behind a cut face and near the middle of the view; `frontmost` (for the gene close-up) projects with the preset camera and takes the place nearest the camera that is inside the frame, not hidden behind the polymerase, and away on screen from tags already placed.
+- **The explorer's side:** each realistic level is a tree node with `real: <view>` and `tags: [[point, text, child, part]]`. Clicking a tag opens the child, which is one of the explorer's own models (mitochondrion, ribosome …) or a deeper realistic view (nucleus → nucleolus, nucleus → gene being read). Inside the realistic branch the info panel shows each organelle's "Takes in / Gives out" from `INFO`, and the realistic levels show the "What moves" key, the speed slider and the metabolism switch.
+
 ---
 
 ## 11. Camera controls
@@ -339,6 +351,8 @@ The page was never judged by reading code alone. Every change was rendered and l
 | Mitochondria starved | oxygen came from far membrane points | pick the nearest of 8 sources; shorter rests |
 | `SyntaxError: Identifier 'a' has already been declared` | a new `const a` inside a loop that already declared `a` | rename (`j1`, `mid`, `j2`) |
 | A comment swallowed the rest of a line of passes | an inline `//` comment inserted mid-line | put comments at the end of lines only |
+| Embedded page would not load (`'nearest' has already been declared`) | a new embed helper reused a name the metabolism code had | renamed it `frontmost` |
+| Tags in the gene close-up pointed off screen | fixed indices along the RNA and DNA, chosen for a wider window | pick by projecting with the preset camera (`frontmost`) |
 
 ---
 

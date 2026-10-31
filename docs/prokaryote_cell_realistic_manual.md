@@ -21,8 +21,8 @@ This manual covers what is new or different.
 
 1. **True scale, everywhere.** One scene unit is 100 nm, and molecules use that same scale (`NM = .01` units per nanometre). The animal cell magnified its molecules about 20 times; the bacterium needs no magnification, because the whole cell is only 2 µm long.
 2. **Real structures.** Every large molecule is coarse-grained from a real Protein Data Bank structure: ribosome, RNA polymerase, porin, chaperonin, EF-Tu, GAPDH, HU and chemoreceptor.
-3. **The whole genome.** All 4,641,652 base pairs of the chromosome (strain MG1655) are folded into the nucleoid. Wherever DNA can be seen, it is drawn base pair by base pair, in the same model as the animal cell's DNA.
-4. **Spend detail only where it can be seen.** The cytoplasm is so crowded that nothing more than about 30–60 nm behind a cut face is visible. So molecules near the cut are drawn in full, and everything deeper is drawn simply (§4).
+3. **The whole genome.** All 4,641,652 base pairs of the chromosome (strain MG1655) are folded into the nucleoid. Wherever DNA can be seen up close, it is drawn base pair by base pair, in the same model as the animal cell's DNA. Near the cut it always is; elsewhere it is built as the camera comes near (zoom-based detail, §5.5).
+4. **Spend detail only where it can be seen.** The cytoplasm is so crowded that nothing more than about 30–60 nm behind a cut face is visible. So molecules near the cut are drawn in full, everything deeper is drawn simply (§4), and the DNA gains full detail wherever the camera goes (§5.5).
 5. **Everything happens on the cut faces.** Metabolism routes are pulled onto the cut faces, so every moving symbol stays in sight.
 6. **Embeddable.** The page runs on its own and also inside `cell_explorer.html` as the *Realistic bacterium* root (§9).
 
@@ -115,14 +115,14 @@ The removed wedge is x > 0 and z > 0, as in the animal cell. `depthOf(q)` is the
 ### 4.3 Two levels of detail
 
 - **Skin.** Within a few tens of nanometres of a cut face, everything is a real structure, at bead or reduced-ball detail:
-  - DNA within 30 nm, base pair by base pair
+  - DNA within 10 nm, base pair by base pair (and anywhere near the camera, §5.5)
   - ribosomes within 32 nm, as 220 balls each
   - proteins within 30 nm, as reduced models
   - membranes within 4 nm, as rows of lipids
 - **Deep.** Beyond that:
   - ribosomes are pairs of balls (from 60 nm)
   - proteins are single balls (from 45 nm)
-  - DNA is two thin dark strands per plectoneme, without bases
+  - DNA is two thin dark strands per plectoneme, without bases, until the camera comes near (§5.5)
 
 You cannot see the deep layer from the preset views, but it keeps the cell full when you fly inside with W A S D. `cutPoint(d, r, test)` samples skin points: a random point on one of the two cut faces (the cross-section is about 27% of the cut area), `d` behind it.
 
@@ -159,11 +159,11 @@ Its length is `nbp × BP / (2 × PL_RATIO)`. Two strands share it, and each is l
 - a half-turn loop joins them at the tip
 - the path is out, round the tip, and back
 
-Points closer than `SKIN_DNA = .3` to a cut face go to `emitPath`, which resamples runs to one point per base pair (`BP = .34 nm`) and calls **`emitDNA`, the animal cell's DNA model**: blue and purple strands 140° apart (so the grooves show), a two-colour rod per base pair, and silver joints. Deeper segments are drawn as two thin, darker strands, three rods per axis step and without bases. About 680,000 base pairs are drawn in full.
+`plectonemePath(A)` returns the centreline of both double helices (out, round the tip, back). Points closer than `SKIN_DNA = .1` to a cut face go to `emitPath`, which resamples runs to one point per base pair (`BP = .34 nm`) and calls **`emitDNA`, the animal cell's DNA model**: blue and purple strands 140° apart (so the grooves show), a two-colour rod per base pair, and silver joints. About 180,000 base pairs are always drawn this way. The rest of each plectoneme is drawn as two thin, darker strands (three rods per axis step, no bases), filed into chunks so the camera can swap them for the full model (§5.5).
 
 ### 5.3 Proteins on the DNA
 
-HU dimers (full 1MUL model) sit beside the drawn DNA every 150–350 bp, offset 1.7 nm from the axis.
+HU dimers (full 1MUL model) sit beside the drawn DNA every 150–350 bp, offset 1.7 nm from the axis. Two more sit on the close-up gene's DNA, either side of its polymerase. Chunks built in full get their own HU too (§5.5).
 
 ### 5.4 Genes being read (coupled transcription and translation)
 
@@ -176,7 +176,28 @@ HU dimers (full 1MUL model) sit beside the drawn DNA every 150–350 bp, offset 
   - ribosomes from the far 5′ end toward the polymerase, every 75–110 nt
 - **Each ribosome** (`ribosomeOn`) leans back behind the face, uses the full 4YBB model at the close-up gene and reduced models elsewhere, and grows a chain of balls for its protein. The chain is longer the further the ribosome has read.
 
-### 5.5 The rRNA gene
+### 5.5 Zoom-based detail
+
+The nucleoid is cut into **chunks** 100 nm on a side (`CS = 1`), about 170 of which hold DNA.
+
+- **At build time:** every plectoneme axis segment is filed into the chunk that holds its midpoint (`chunkAt`). The plectoneme's id goes into that chunk's set, and its thin strands go into that chunk's own group. All chunks share one pair of DNA materials (`DNA_MATS`), so hover highlighting still works and nothing leaks.
+- **Each frame,** `updateDNA()` runs:
+  1. It puts the camera and its view frustum into the cell's own frame.
+  2. A chunk in view and within `LOD_NEAR = 2.6` units (260 nm) of the camera is **built in full** (`buildFull`), nearest first, for at most about 10 ms a frame and up to `LOD_MAX = 70` chunks at once.
+  3. A chunk further than `LOD_FAR = 3.4` units is **dropped**: its geometry is disposed and its thin strands are shown again. The gap between the two distances stops chunks flickering at the edge.
+- **Building a chunk:**
+  - every plectoneme crossing it is regenerated with `plectonemePath`
+  - only the points inside the chunk's box and deeper than `SKIN_DNA` (the part near the cut already exists) are emitted with `emitDNA`
+  - an HU dimer is added every 150–350 bp
+  - the chunk's thin strands are hidden
+  - each chunk draws from its own random seed, so it comes out the same every time
+- **Results** in the test browser:
+  - overview: no chunks in full, about 1.0 M balls and 0.9 M rods, ~41 fps
+  - close to the long face: 16 chunks (~350,000 bp) in full, ~43 fps
+  - flying deep into the nucleoid: 24 chunks (~510,000 bp)
+  - repeated in/out cycles: the JS heap and GPU geometry count stay flat
+
+### 5.6 The rRNA gene
 
 A ~530 bp stretch laid flat on the long face near the nucleoid's edge, registered in the grid before the plectonemes. It carries six or seven RNA polymerases, 70–95 bp apart. Each polymerase's transcript is `30 + 480 × fraction along` nucleotides long, folded with hairpins into a ball that grows along the gene, with ribosomal proteins and a processing knob on its 5′ end.
 
@@ -292,8 +313,9 @@ As for the animal cell (local save server, `__cell` hook, screenshots), plus:
 
 - **Counts** after building (`__cell.sites`):
   - genome, skin base pairs, HU, genes, ribosomes, porins, membrane proteins
-  - total balls (~2.0 M) and rods (~2.3 M)
-- **Frame rate:** about 28–33 fps at 1440 × 900 in the test browser.
+  - total balls (~1.0 M) and rods (~0.9 M) at the overview, before any chunk is built in full
+- **Frame rate:** about 41 fps at 1440 × 900 at the overview, 43 fps close up with chunks in full.
+- **Zoom-based detail:** the number of chunks in full and their base pairs (`__cell.lod`) were checked near the cut, deep inside and back at the overview; four in/out cycles left memory and geometry counts flat.
 - **Every view** was checked with screenshots.
 - **Tag visibility:** in the explorer, every tag point is on screen for each realistic level. The check walks the levels and lists tags that are null or off screen.
 - **Recipe completion** over 30 simulated seconds.
@@ -311,7 +333,8 @@ As for the animal cell (local save server, `__cell` hook, screenshots), plus:
 | No genes found | candidate sites lie on DNA that is itself in the occupancy grid | do not grid-check the gene site itself |
 | An mRNA wandered through both membranes | `rnaFold` had a heading but no walls | new `o.ok(q)` option; RNA stays in the cytoplasm |
 | Large plain balls in close-ups | the simple deep layer started only 20 nm in | detailed proteins to 30 nm and ribosomes to 32 nm; simple layer from 45–60 nm, darker |
-| Thick striped ropes in the nucleoid | deep plectonemes were drawn as ropes | base pairs to 30 nm deep; beyond, two thin dark strands |
+| Thick striped ropes in the nucleoid | deep plectonemes were drawn as ropes | two thin dark strands, and the full model wherever the camera comes near |
+| A tag missing in the gene close-up | HU sits on the DNA, so the DNA tag had already taken its spot on screen | place the HU tag before the DNA tag |
 | Chemoreceptor array buried in proteins | the array was not in the occupancy grid | grid-register receptors, the baseplate, MreB and motors |
 | ATP synthase inside a motor's C ring | membrane proteins were placed before motors | build flagella first |
 | `Identifier 'nearest' has already been declared` | an embed helper reused a metabolism name | renamed it `frontmost` |
@@ -326,7 +349,7 @@ As for the animal cell (local save server, `__cell` hook, screenshots), plus:
   2. Add an entry `[weight, key, colour]` to `kinds` in `buildCrowd`.
 - **A new membrane machine:** add a block in `buildMembraneProteins` that uses `site(radius)`, so it gets `c`, `n`, `cyto` and `peri`; then add a recipe in `KINDS` and a processor in `buildFlows` (`memProc`).
 - **A new view:** push `[name, camera, target]` to `VIEWS` (in `setViews` if it depends on the build), add its points in `pointsOf`, and add a node with `real: name, page: …, tags: [...]` in the explorer.
-- **More DNA in full:** raise `SKIN_DNA`. Every 0.1 unit adds about 230,000 base pairs and 1.1 million primitives.
+- **More DNA in full:** raise `LOD_NEAR`/`LOD_FAR` (how far round the camera) or `LOD_MAX`; raise `SKIN_DNA` only for DNA that must be detailed from the start. Each extra 0.1 unit of `SKIN_DNA` adds roughly 200,000 base pairs and a million primitives.
 
 ---
 
@@ -335,7 +358,7 @@ As for the animal cell (local save server, `__cell` hook, screenshots), plus:
 | Thing | Count |
 |---|---|
 | Genome folded | 4,641,700 bp in 464 domains (~2,300 plectonemes) |
-| DNA drawn base by base | ~680,000 bp |
+| DNA drawn base by base | ~180,000 bp always, plus up to ~500,000 bp round the camera |
 | HU dimers | ~140 |
 | Genes being read | 10 (+ the rRNA gene with six or seven polymerases) |
 | Ribosomes | 950 detailed, ~22,000 simple, plus those on mRNAs |
@@ -343,5 +366,5 @@ As for the animal cell (local save server, `__cell` hook, screenshots), plus:
 | Porins at the cut | ~750 |
 | Membrane proteins at the cut | 80 ATP synthase, 60 respiratory, 110 transporters, 16 Sec |
 | Flagella / pili | 7 / 80 |
-| Balls / rods drawn | ~2.0 M / ~2.3 M |
+| Balls / rods drawn | ~1.0 M / ~0.9 M at the overview |
 | Working parts in the metabolism | 57 |

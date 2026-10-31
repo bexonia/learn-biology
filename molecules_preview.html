@@ -70,16 +70,22 @@ const line = (pts, r, col, parent) => parent.add(new THREE.Mesh(new THREE.TubeGe
 const labels = [];
 function label(at, html, cls = 'lab') { const d = document.createElement('div'); d.className = cls; d.innerHTML = html; document.body.append(d); labels.push({ at, d }); }
 
-// ---- the new DNA: two strands as lines, joined by a pair of dots for each base pair
+// ---- the new DNA: two strands as lines; each base pair is a rod across them, half in each base's colour,
+//      with a small silver dot where the rod joins each strand
 function newDNA(origin, len) {
   const g = new THREE.Group(); g.position.copy(origin); scene.add(g);
-  const R = .9, rise = .34, tw = 2 * Math.PI / 10.5, groove = 140 * Math.PI / 180, n = Math.round(len / rise), s1 = [], s2 = [], dots = [];
+  const R = .9, rise = .34, tw = 2 * Math.PI / 10.5, groove = 140 * Math.PI / 180, n = Math.round(len / rise), s1 = [], s2 = [], dots = [], rods = [], cols = [];
+  const rod = (a, b) => { const d = b.clone().sub(a); return new THREE.Matrix4().compose(a.clone().addScaledVector(d, .5), new THREE.Quaternion().setFromUnitVectors(V(0, 1, 0), d.clone().normalize()), V(.075, d.length(), .075)); };
   for (let i = 0; i <= n; i++) {
     const x = i * rise - len / 2, a = i * tw, b = a + groove, p = V(x, R * Math.cos(a), R * Math.sin(a)), q = V(x, R * Math.cos(b), R * Math.sin(b));
     s1.push(p); s2.push(q);
-    if (i % 1 === 0) { const base = 'ATGC'[Math.floor(rand() * 4)]; dots.push({ p: p.clone().lerp(q, .33), s: .42, c: BASE[base] }, { p: p.clone().lerp(q, .67), s: .42, c: BASE[PAIR[base]] }); }
+    const base = 'ATGC'[Math.floor(rand() * 4)], j1 = p.clone().lerp(q, .1), mid = p.clone().lerp(q, .5), j2 = p.clone().lerp(q, .9);
+    rods.push(rod(j1, mid), rod(mid, j2)); cols.push(new THREE.Color(BASE[base]), new THREE.Color(BASE[PAIR[base]]));
+    dots.push({ p: j1, s: .3, c: '#d4d9e2' }, { p: j2, s: .3, c: '#d4d9e2' });   // the joints between a base and its strand
   }
-  line(s1, .13, BACKBONE[0], g); line(s2, .13, BACKBONE[1], g); balls(dots, g);
+  line(s1, .13, BACKBONE[0], g); line(s2, .13, BACKBONE[1], g);
+  const rm = new THREE.InstancedMesh(new THREE.CylinderGeometry(1, 1, 1, 10), new THREE.MeshStandardMaterial({ roughness: .4 }), rods.length);
+  rods.forEach((m, i) => { rm.setMatrixAt(i, m); rm.setColorAt(i, cols[i]); }); g.add(rm); balls(dots, g);
   return g;
 }
 // ---- the new RNA: one orange line, with a small dot for each base

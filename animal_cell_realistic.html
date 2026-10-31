@@ -1472,9 +1472,9 @@ function pointsOf(view) {
     villi: onCell(-.55, .72, .42, .25), cytosol: V(-.05, -4.6, 5.4),
   };
   if (view === 'nucleus') {
-    const [pore, out] = ranked(SITES.pores, view, o => o.p).map(p => SITES.pores.find(o => o.p.equals(p)));
+    const [pore] = ranked(SITES.pores, view, o => o.p).map(p => SITES.pores.find(o => o.p.equals(p))), out = pore;   // its mRNA, just outside it
     P = {
-    env: onNuc(-.3, .7, .65), pore: pore?.p.clone(), export: out ? out.p.clone().addScaledVector(out.d, .25) : null,
+    env: onNuc(-.3, .7, .65), pore: pore?.p.clone(), export: out ? out.p.clone().addScaledVector(out.d, .3) : null,
     chromatin: easiest(SITES.nucs, view), gene: gene.at.clone(), nucleolus: NO.clone().add(V(-.05, .35, .2)),
     mrnp: easiest(SITES.mrnps, view), pcna: easiest(SITES.pcna, view),
     };

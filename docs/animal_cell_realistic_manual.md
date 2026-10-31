@@ -296,7 +296,7 @@ Supply rules:
 
 ### 10.1 Inside the Cell Explorer (`?embed`)
 
-`cell_explorer.html` shows this page as its **Realistic cell** root, in an iframe filling its stage (`animal_cell_realistic.html?embed`). The model and its animation are untouched; the explorer supplies the tree, tags, descriptions and "Made of" lists.
+`cell_explorer.html` shows this page as its **Realistic cell** root, in an iframe filling its stage (`animal_cell_realistic.html?embed`). The realistic bacterium (`prokaryote_cell_realistic.html`) is embedded the same way; the explorer keeps one iframe per page in `PAGES` and tells their messages apart by `event.source`. The model and its animation are untouched; the explorer supplies the tree, tags, descriptions and "Made of" lists.
 
 - **Embed mode:** a tiny head script adds the class `embed` to `<html>` when the URL has `embed`. CSS then hides this page's own HUD, legend, panels, hint and buttons.
 - **Messages, explorer → page** (`{ to: 'realistic-cell', cmd, … }`): `view` (a preset name, the named points to track and a sequence number), `hi` (highlight a part), `mol` (follow a molecule), `motion`, `look`, `cut`, `flow`, `speed`, `key` (W A S D pressed or released on the explorer) and `snap`.

@@ -1,60 +1,9 @@
-# Generated 3D and WebAssembly binaries (build with `python prokaryote/scripts/build_assets.py`)
-*.glb
-!client/public/prokaryote/models/*.glb
-!client/public/eukaryote/models/*.glb
-*.wasm
-wasm/*.wasm
-prokaryote/models/*.glb
-eukaryote/models/*.glb
-*.cif
-prokaryote/models/*.cif
-eukaryote/models/*.cif
+# rendered images and screenshots
+renders/
+*.png
 
-# Blender auto-save backups & generated .blend files
-*.blend1
-*.blend2
-*.blend@*
-*.blend.MNSession
-prokaryote/models/*.blend
-!prokaryote/models/prokaryote_cell.blend
-!prokaryote/models/atp_synthase_6rkw.blend
-!prokaryote/models/bam_5d0o.blend
-!prokaryote/models/complex_i_7z7v.blend
-!prokaryote/models/divisome_ftsz_1fsz.blend
-!prokaryote/models/gyrase_1ab4.blend
-!prokaryote/models/lpt_9p7p.blend
-!prokaryote/models/mreb_cytoskeleton_1jcg.blend
-!prokaryote/models/pol_iii_5fkv.blend
-!prokaryote/models/ribosome_70s_25nm.blend
-!prokaryote/models/rnap_6c9y.blend
-!prokaryote/models/secyeg_3j46.blend
+# local Claude Code settings
+.claude/
 
-# Python & Environment caches
-__pycache__/
-*.py[cod]
-*$py.class
-.venv/
-venv/
-
-# OS metadata, IDE & logs
-.idea/
-Thumbs.db
+# macOS
 .DS_Store
-*.log
-.playwright-mcp/
-node_modules/
-scratch/
-prokaryote/screenshots/
-eukaryote/screenshots/
-client/dist/
-
-# Temporary & debug screenshots (curated docs live in prokaryote/readme_images/)
-screenshot*.png
-screenshot_*.png
-*.tmp.png
-!prokaryote/readme_images/*.png
-!prokaryote/assets/**/*.png
-!eukaryote/assets/**/*.png
-
-# Package manager
-package-lock.json

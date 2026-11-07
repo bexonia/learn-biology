@@ -17,18 +17,33 @@ molecules = js_object(f'{BUILD}/molecules.js', 'const PROTEINS = ')
 bacterium = js_object(f'{BUILD}/bacterium.js', 'const PDB = ')
 bacterium_more = js_object(f'{BUILD}/bacterium_more.js', 'Object.assign(PDB, ')
 plant = js_object(f'{BUILD}/plant.js', 'Object.assign(PDB, ')
+fungal = js_object(f'{BUILD}/fungal.js', 'Object.assign(PDB, ')
+phage = js_object(f'{BUILD}/phage.js', 'const PDB = ')
+coronavirus = js_object(f'{BUILD}/coronavirus.js', 'const PDB = ')
+hiv = js_object(f'{BUILD}/hiv.js', 'const PDB = ')
+adenovirus = js_object(f'{BUILD}/adenovirus.js', 'const PDB = ')
+tmv = js_object(f'{BUILD}/tmv.js', 'const PDB = ')
 bacterium_more_x = json.load(open(f'{BUILD}/bacterium_more.explorer.json'))
 plant_x = json.load(open(f'{BUILD}/plant.explorer.json'))
-nucleus = {k: molecules[k] for k in ('polII', 'pcna', 'ubiquitin')}   # the nucleus proteins of the animal and plant cells (two beads per residue)
+fungal_x = json.load(open(f'{BUILD}/fungal.explorer.json'))
+phage_x = json.load(open(f'{BUILD}/phage.explorer.json'))
+viruses_x = json.load(open(f'{BUILD}/viruses.explorer.json'))
+nucleus = {k: molecules[k] for k in ('polII', 'pcna', 'ubiquitin')}   # the nucleus proteins of the animal, plant and fungal cells (two beads per residue)
 LINES = {   # page: [(prefix of the line, the line it should be)]
     'molecules_preview.html': [('const PROTEINS = ', 'const PROTEINS = ' + dump(molecules) + ';')],
     'animal_cell_realistic.html': [('const PDB = ', 'const PDB = ' + dump(nucleus) + ';')],
     'plant_cell_realistic.html': [('const PDB = ', 'const PDB = ' + dump(nucleus) + ';'), ('Object.assign(PDB, ', 'Object.assign(PDB, ' + dump(plant) + ');'),
         ('PDB.ribo70 = ', 'PDB.ribo70 = ' + dump({'pdb': bacterium['ribo']['pdb'], 'red': bacterium['ribo']['red']}) + ';')],
+    'fungal_cell_realistic.html': [('const PDB = ', 'const PDB = ' + dump(nucleus) + ';'), ('Object.assign(PDB, ', 'Object.assign(PDB, ' + dump(fungal) + ');')],
     'prokaryote_cell_realistic.html': [('const PDB = ', 'const PDB = ' + dump(bacterium) + ';'), ('Object.assign(PDB, ', 'Object.assign(PDB, ' + dump(bacterium_more) + ');')],
+    'bacteriophage_realistic.html': [('const PDB = ', 'const PDB = ' + dump(phage) + ';')],
+    'coronavirus_realistic.html': [('const PDB = ', 'const PDB = ' + dump(coronavirus) + ';')],
+    'hiv_realistic.html': [('const PDB = ', 'const PDB = ' + dump(hiv) + ';')],
+    'adenovirus_realistic.html': [('const PDB = ', 'const PDB = ' + dump(adenovirus) + ';')],
+    'tmv_realistic.html': [('const PDB = ', 'const PDB = ' + dump(tmv) + ';')],
     'cell_explorer.html': [('const PDB = ', 'const PDB = ' + dump(nucleus) + ';'),
         ('const BPDB = ', 'const BPDB = ' + dump({**{k: {**bacterium[k]['full'], 'pdb': bacterium[k]['pdb']} for k in ('ribo', 'rnap', 'groel', 'hu', 'mcp')}, **bacterium_more_x}) + ';'),
-        ('Object.assign(BPDB, ', 'Object.assign(BPDB, ' + dump(plant_x) + ');')],
+        ('Object.assign(BPDB, ', 'Object.assign(BPDB, ' + dump({**plant_x, **fungal_x, **phage_x, **viruses_x}) + ');')],
 }
 changed = 0
 for page, repl in LINES.items():

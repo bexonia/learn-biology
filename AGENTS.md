@@ -6,10 +6,15 @@ This project is a set of single-file three.js pages that show cells, from the wh
 
 | File | What it is | Its manual |
 |---|---|---|
-| `cell_explorer.html` | the main page: a recursive tree of 137 levels (cell → organelle → complex → molecule → atom), each with a 3D model and clickable tags; three roots embed the realistic cells | [docs/cell_explorer_manual.md](docs/cell_explorer_manual.md) |
+| `cell_explorer.html` | the main page: a recursive tree of 191 levels (cell / virus → organelle → complex → molecule → atom), each with a 3D model and clickable tags; nine roots embed the realistic cells, realistic viruses and comparative virus gallery | [docs/cell_explorer_manual.md](docs/cell_explorer_manual.md) |
 | `animal_cell_realistic.html` | realistic cutaway animal cell; nucleus molecule by molecule (×20 life size); animated metabolism | [docs/animal_cell_realistic_manual.md](docs/animal_cell_realistic_manual.md) |
 | `plant_cell_realistic.html` | realistic leaf cell: wall, vacuole, chloroplasts; a granum and a stretch of wall at true molecular size | [docs/plant_cell_realistic_manual.md](docs/plant_cell_realistic_manual.md) |
 | `prokaryote_cell_realistic.html` | realistic *E. coli*, everything at true size | [docs/prokaryote_cell_realistic_manual.md](docs/prokaryote_cell_realistic_manual.md) |
+| `bacteriophage_realistic.html` | realistic Bacteriophage T4 (complex head–tail dsDNA myovirus) infecting *E. coli*, everything at true size (1 unit = 10 nm) | [docs/bacteriophage_realistic_manual.md](docs/bacteriophage_realistic_manual.md) |
+| `coronavirus_realistic.html` | realistic SARS-CoV-2 Coronavirus (enveloped `(+)ssRNA` virus) docking onto host ACE2 & replicating via RdRp (1 unit = 10 nm) | [docs/bacteriophage_realistic_manual.md](docs/bacteriophage_realistic_manual.md) |
+| `hiv_realistic.html` | realistic HIV-1 Retrovirus (enveloped fullerene-cone diploid `(+)ssRNA` retrovirus) fusing with a CD4+ T-cell (1 unit = 10 nm) | [docs/bacteriophage_realistic_manual.md](docs/bacteriophage_realistic_manual.md) |
+| `adenovirus_realistic.html` | realistic Human Adenovirus (non-enveloped pseudo-$T=25$ icosahedral dsDNA virus) docking onto CAR & integrins (1 unit = 10 nm) | [docs/bacteriophage_realistic_manual.md](docs/bacteriophage_realistic_manual.md) |
+| `tmv_realistic.html` | realistic Tobacco Mosaic Virus (helical rod `(+)ssRNA` plant virus) self-assembling, uncoating & gating plasmodesmata (1 unit = 10 nm) | [docs/bacteriophage_realistic_manual.md](docs/bacteriophage_realistic_manual.md) |
 | `molecules_preview.html`, `dna_styles.html`, `eukaryotic_cell_3d.html`, `prokaryotic_cell_3d.html` | earlier previews and style studies | — |
 | `tools/` | download, coarse-grain and embed real protein structures; a local server for checks | [tools/README.md](tools/README.md) |
 | `tours/` | guided tour scripts (chapters, steps, subtitle cues), played by the explorer | [docs/cell_explorer_manual.md](docs/cell_explorer_manual.md) §12 |

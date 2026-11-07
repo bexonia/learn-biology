@@ -154,7 +154,7 @@ scene.background = (() => {
 })();
 scene.environment = new THREE.PMREMGenerator(renderer).fromScene(new RoomEnvironment(), .04).texture;
 const camera = new THREE.PerspectiveCamera(30, innerWidth / innerHeight, .1, 400); camera.position.set(25, 12, 27);
-const controls = new OrbitControls(camera, renderer.domElement); controls.target.set(-.6, -.4, 0); controls.enableDamping = true; controls.minDistance = .5; controls.maxDistance = 95;
+const controls = new OrbitControls(camera, renderer.domElement); controls.target.set(-.6, -.4, 0); controls.enableDamping = true; controls.minDistance = .5; controls.maxDistance = 95; controls.panSpeed = .5; controls.zoomSpeed = .5;
 scene.add(new THREE.HemisphereLight('#dfe8ff', '#2a1f33', .45));
 const key = new THREE.DirectionalLight('#fff1df', 3); key.position.set(14, 24, 18); key.castShadow = true;
 key.shadow.mapSize.set(2048, 2048); Object.assign(key.shadow.camera, { left: -15, right: 15, top: 15, bottom: -15, near: 1, far: 80 }); key.shadow.bias = -.0005; key.shadow.normalBias = .03;
@@ -201,19 +201,20 @@ function applyLook() {
 const impMats = [];
 function impostorMat(key, clip = true) {
   const m = new THREE.ShaderMaterial({
-    uniforms: { uScale: { value: 1 }, uLight: { value: V(.4, .6, .7).normalize() }, uHi: { value: 0 } },
+    uniforms: { uScale: { value: 1 }, uLight: { value: V(.4, .6, .7).normalize() }, uHi: { value: 0 }, uDim: { value: 0 } },
     vertexShader: `attribute float size; attribute vec3 icol; uniform float uScale; varying vec3 vCol;
       #include <clipping_planes_pars_vertex>
       void main() { vCol = icol; vec4 mvPosition = modelViewMatrix * vec4(position, 1.); gl_PointSize = size * uScale / max(.01, -mvPosition.z); gl_Position = projectionMatrix * mvPosition;
         #include <clipping_planes_vertex>
       }`,
-    fragmentShader: `uniform vec3 uLight; uniform float uHi; varying vec3 vCol;
+    fragmentShader: `uniform vec3 uLight; uniform float uHi; uniform float uDim; varying vec3 vCol;
       #include <clipping_planes_pars_fragment>
       void main() {
         #include <clipping_planes_fragment>
         vec2 q = gl_PointCoord * 2. - 1.; q.y = -q.y; float r2 = dot(q, q); if (r2 > 1.) discard;
         vec3 n = vec3(q, sqrt(1. - r2)); float d = max(dot(n, uLight), 0.); vec3 h = normalize(uLight + vec3(0., 0., 1.));
         vec3 c = vCol * (.26 + .95 * d) + pow(max(dot(n, h), 0.), 30.) * .22 + vCol * pow(1. - n.z, 3.) * .3;
+        c = mix(c, vec3(dot(c, vec3(.3, .59, .11))) * .35, uDim);
         gl_FragColor = vec4(mix(c, c * 1.7 + .12, uHi), 1.);
       }`,
     clipping: clip, clippingPlanes: clip ? CUT : null, clipIntersection: true,
@@ -224,7 +225,7 @@ function impostorMat(key, clip = true) {
 // would be far too heavy): DNA and RNA strands, and the bases, which take one colour for each half of the rod
 function stickMat(key, clip = true) {
   const m = new THREE.ShaderMaterial({
-    uniforms: { uScale: { value: 1 }, uLight: { value: V(.4, .6, .7).normalize() }, uHi: { value: 0 } },
+    uniforms: { uScale: { value: 1 }, uLight: { value: V(.4, .6, .7).normalize() }, uHi: { value: 0 }, uDim: { value: 0 } },
     vertexShader: `attribute vec2 corner; attribute vec3 aA, aB, aC1, aC2; attribute float aR; uniform float uScale; varying vec3 vC1, vC2, vSide; varying vec2 vUV;
       #include <clipping_planes_pars_vertex>
       void main() {
@@ -237,12 +238,13 @@ function stickMat(key, clip = true) {
         gl_Position = projectionMatrix * mvPosition;
         #include <clipping_planes_vertex>
       }`,
-    fragmentShader: `uniform vec3 uLight; uniform float uHi; varying vec3 vC1, vC2, vSide; varying vec2 vUV;
+    fragmentShader: `uniform vec3 uLight; uniform float uHi; uniform float uDim; varying vec3 vC1, vC2, vSide; varying vec2 vUV;
       #include <clipping_planes_pars_fragment>
       void main() {
         #include <clipping_planes_fragment>
         float u = vUV.y; vec3 n = normalize(vSide * u + vec3(0., 0., sqrt(max(0., 1. - u * u)))), h = normalize(uLight + vec3(0., 0., 1.));
         vec3 col = vUV.x < .5 ? vC1 : vC2, c = col * (.26 + .95 * max(dot(n, uLight), 0.)) + pow(max(dot(n, h), 0.), 30.) * .22;
+        c = mix(c, vec3(dot(c, vec3(.3, .59, .11))) * .35, uDim);
         gl_FragColor = vec4(mix(c, c * 1.7 + .12, uHi), 1.);
       }`,
     clipping: clip, clippingPlanes: clip ? CUT : null, clipIntersection: true, side: THREE.DoubleSide,
@@ -1545,7 +1547,7 @@ renderer.domElement.addEventListener('pointermove', e => {
   if (!lookFrom) return;
   const dx = e.clientX - lookFrom[0], dy = e.clientY - lookFrom[1]; lookFrom = [e.clientX, e.clientY];
   aim.setFromVector3(controls.target.clone().sub(camera.position));
-  aim.theta -= dx * .004; aim.phi = Math.min(Math.PI - .05, Math.max(.05, aim.phi + dy * .004));
+  aim.theta -= dx * .002; aim.phi = Math.min(Math.PI - .05, Math.max(.05, aim.phi + dy * .002));
   controls.target.copy(camera.position).add(V().setFromSpherical(aim));
 });
 for (const ev of ['pointerup', 'pointercancel']) renderer.domElement.addEventListener(ev, () => { lookFrom = null; });
@@ -1560,7 +1562,7 @@ function freeMove(dt) {
 const lightView = V();
 function frame(now) {
   const dt = Math.min(.05, (now - last) / 1000); last = now;
-  if (motion) {
+  if (motion && !tour.lock) {
     // the cell sways slowly; close up the sway eases to a stop so molecules stay in view
     sway += dt * Math.min(1, Math.max(0, (camera.position.distanceTo(controls.target) - 3) / 15)); cell.rotation.y = .15 * Math.sin(sway * .11);
     // the flagella turn (here about a turn every three seconds rather than a hundred a second), faster while their motor is fed protons
@@ -1570,9 +1572,10 @@ function frame(now) {
   flowBoost(camera.position.distanceTo(controls.target));
   cell.updateMatrixWorld(); updateCut(); fxFollow(); applyGlows();
   lightView.copy(key.position).normalize().transformDirection(camera.matrixWorldInverse); impMats.forEach(m => m.uniforms.uLight.value.copy(lightView));
-  if (hi) { const k = .55 + .45 * Math.sin(now / 180), c = hiCol(hi); REG[hi].mats.forEach(m => { m.emissive.copy(c); m.emissiveIntensity = .25 + .75 * k; }); REG[hi].imp.forEach(m => { m.uniforms.uHi.value = k; }); }
+  tourFrame(dt);
+  if (hi && !tour.blinkKey) hiLevel(hi, .55 + .45 * Math.sin(now / 180));
   lens.uniforms.uTime.value = now / 1000;
-  freeMove(dt); controls.update(); updateDNA(); composer.render();
+  if (!tour.fly) freeMove(dt); controls.update(); updateDNA(); composer.render();
   if (EMBED) embedFrame();
 }
 setTimeout(() => {   // a moment for the "Building" note to show; a timer rather than a frame, so a page opened in the background builds too
@@ -1674,15 +1677,138 @@ function embedFrame() {
   }) });
 }
 const say = () => toExplorer({ type: 'state', motion, look: organelleLook, cut: cutOn, flow: flowsOn });
+
+// ---------------------------------------------------------------------
+// Guided tour: smooth camera flight, ghosting of everything outside the spotlight, and a three-pulse highlight
+// ---------------------------------------------------------------------
+const tour = { fly: null, lock: false, ghostOn: false, ghostNow: 0, ghostKeep: new Set(), ghostHide: false, blinkKey: null, blinkT: 0, blinkDur: 0 };
+function hiLevel(key, k) {
+  if (!REG[key]) return;
+  const c = hiCol(key);
+  REG[key].mats.forEach(m => { m.userData.e0 ??= m.emissive.clone(); m.userData.i0 ??= m.emissiveIntensity; m.emissive.copy(c); m.emissiveIntensity = .25 + .75 * k; });
+  REG[key].imp.forEach(m => { m.uniforms.uHi.value = k; });
+}
+function flyTo(pos, tgt, dur = 1.6, orbit = 0, seq = 0) {
+  const p0 = cell.worldToLocal(camera.position.clone()), t0 = cell.worldToLocal(controls.target.clone());
+  tour.fly = { p0, t0, p1: pos.clone(), t1: tgt.clone(), t: 0, dur: Math.max(.01, dur), orbit, theta: 0, seq, arrived: false };
+  tour.lock = true; held.clear();
+  if (dur <= .02) {
+    tour.fly.t = 1; tour.fly.arrived = true;
+    camera.position.copy(cell.localToWorld(pos.clone())); controls.target.copy(cell.localToWorld(tgt.clone()));
+    if (seq) toExplorer({ type: 'arrived', seq });
+  }
+}
+function freeCamera() { tour.fly = null; tour.lock = false; }
+function focusOf(key, pad = 1.18, viewName = null) {
+  const vn = viewName || (VIEWS.some(v => v[0] === key) ? key : null);
+  if (vn && (!key || key === vn)) {
+    const v = VIEWS.find(x => x[0] === vn) ?? VIEWS[0];
+    return { pos: v[1].clone(), tgt: v[2].clone() };
+  }
+  const baseView = vn || VIEWS[view]?.[0] || 'cell';
+  const v = VIEWS.find(x => x[0] === baseView) ?? VIEWS[0];
+  const P = pointsOf(baseView);
+  const pt = P[key] ?? pointsOf('cell')[key] ?? pointsOf('envelope')[key] ?? pointsOf('nucleoid')[key] ?? pointsOf('fork')[key] ?? pointsOf('motor')[key] ?? pointsOf('pole')[key];
+  if (!pt) return { pos: v[1].clone(), tgt: v[2].clone() };
+  const dir = v[1].clone().sub(v[2]).normalize();
+  const baseDist = v[1].distanceTo(v[2]);
+  const dist = (baseView === 'cell' ? Math.min(baseDist * .46, 13.5) : baseDist * .72) * (pad / 1.18);
+  return { pos: pt.clone().addScaledVector(dir, dist), tgt: pt.clone() };
+}
+function ghost(keys, hide = false) {
+  const on = Array.isArray(keys) && keys.length > 0;
+  tour.ghostKeep = new Set(on ? keys : []);
+  tour.ghostHide = !!hide;
+  if (on && !tour.ghostOn) {
+    Object.values(REG).forEach(({ mats }) => mats.forEach(m => {
+      m.userData.g0 ??= { c: m.color.clone(), t: m.transparent, o: m.opacity, tr: m.transmission ?? 0, dw: m.depthWrite };
+    }));
+  }
+  tour.ghostOn = on;
+}
+function applyGhost(g) {
+  const grey = new THREE.Color('#23293a'), minOp = tour.ghostHide ? .02 : .16;
+  Object.entries(REG).forEach(([k, { mats, imp }]) => {
+    const d = tour.ghostKeep.has(k) ? 0 : g;
+    mats.forEach(m => {
+      const s = m.userData.g0; if (!s) return;
+      if (d <= 1e-3) { m.color.copy(s.c); m.transparent = s.t; m.opacity = s.o; if ('transmission' in m) m.transmission = s.tr; m.depthWrite = s.dw; }
+      else { m.color.copy(s.c).lerp(grey, d * .75); if ('transmission' in m) m.transmission = s.tr * (1 - d); m.transparent = s.t || d > .01; m.opacity = THREE.MathUtils.lerp(s.o, minOp, d); m.depthWrite = d < .4 ? s.dw : false; }
+    });
+    imp.forEach(m => { if (m.uniforms.uDim) m.uniforms.uDim.value = d; });
+  });
+}
+function blink(key, pulses = 3, dur = 1.8) {
+  setHi(null);
+  if (!key || !REG[key]) { tour.blinkKey = null; return; }
+  if (pulses <= 0) { tour.blinkKey = null; setHi(key); return; }
+  tour.blinkKey = key; tour.blinkT = 0; tour.blinkDur = dur; tour.blinkPulses = pulses;
+}
+function setState(s = {}) {
+  if (s.look && LOOKS.includes(s.look) && s.look !== organelleLook) { organelleLook = s.look; applyLook(); document.getElementById('look').textContent = `Envelope: ${organelleLook}`; }
+  if (typeof s.cut === 'boolean' && s.cut !== cutOn) { cutOn = s.cut; caps.visible = cutOn; document.getElementById('cut').textContent = cutOn ? 'Close cutaway' : 'Open cutaway'; }
+  if (typeof s.flow === 'boolean' && s.flow !== flowsOn) document.getElementById('flow').click();
+  if (typeof s.motion === 'boolean' && s.motion !== motion) { motion = s.motion; document.getElementById('motion').textContent = motion ? 'Pause' : 'Play'; }
+  if (typeof s.speed === 'number') { speed.value = Math.log2(s.speed); speed.oninput(); }
+}
+function tourFrame(dt) {
+  const f = tour.fly;
+  if (f) {
+    if (f.t < 1) {
+      f.t = Math.min(1, f.t + dt / f.dur);
+      const u = f.t, s = u * u * u * (u * (u * 6 - 15) + 10);
+      const p = V().lerpVectors(f.p0, f.p1, s), t = V().lerpVectors(f.t0, f.t1, s);
+      const d0 = f.p0.distanceTo(f.t0), d1 = f.p1.distanceTo(f.t1), lift = Math.sin(Math.PI * s) * Math.abs(d1 - d0) * .16;
+      const dir = p.clone().sub(t); if (dir.lengthSq() > 1e-6) p.copy(t).addScaledVector(dir.normalize(), THREE.MathUtils.lerp(d0, d1, s) + lift);
+      camera.position.copy(cell.localToWorld(p)); controls.target.copy(cell.localToWorld(t));
+      if (f.t >= 1 && !f.arrived) { f.arrived = true; toExplorer({ type: 'arrived', seq: f.seq }); }
+    } else if (f.orbit) {
+      f.theta += (f.orbit * Math.PI / 180) * dt;
+      const off = f.p1.clone().sub(f.t1).applyAxisAngle(V(0, 1, 0), f.theta);
+      camera.position.copy(cell.localToWorld(f.t1.clone().add(off))); controls.target.copy(cell.localToWorld(f.t1.clone()));
+    }
+  }
+  const want = tour.ghostOn ? 1 : 0;
+  if (Math.abs(tour.ghostNow - want) > 1e-3) {
+    tour.ghostNow += (want - tour.ghostNow) * Math.min(1, dt * 6);
+    if (Math.abs(tour.ghostNow - want) <= 1e-3) tour.ghostNow = want;
+    applyGhost(tour.ghostNow);
+    if (tour.ghostNow === 0) applyLook();
+  }
+  if (tour.blinkKey) {
+    tour.blinkT += dt;
+    if (tour.blinkT >= tour.blinkDur) { const k = tour.blinkKey; tour.blinkKey = null; setHi(k); }
+    else hiLevel(tour.blinkKey, .5 - .5 * Math.cos(tour.blinkT / tour.blinkDur * tour.blinkPulses * Math.PI * 2));
+  }
+}
 if (EMBED) {
   addEventListener('message', e => {
     const m = e.data; if (!m || m.to !== 'realistic-cell') return;
     if (m.cmd === 'view') {
       const v = VIEWS.findIndex(x => x[0] === m.view); if (v < 0) return;
-      view = v; const [, p, t] = VIEWS[v]; camera.position.copy(cell.localToWorld(p.clone())); controls.target.copy(cell.localToWorld(t.clone()));
-      const P = pointsOf(m.view); tagPts = m.points.map(k => P[k] ?? null); tagSeq = m.seq;
+      view = v; const [, p, t] = VIEWS[v];
+      if (m.fly) flyTo(p, t, m.dur ?? 1.5, m.orbit ?? 0, m.seq ?? 0);
+      else { freeCamera(); camera.position.copy(cell.localToWorld(p.clone())); controls.target.copy(cell.localToWorld(t.clone())); }
+      const P = pointsOf(m.view); tagPts = (m.points || []).map(k => P[k] ?? null); tagSeq = m.seq;
     }
-    if (m.cmd === 'hi') setHi(m.key);
+    if (m.cmd === 'track') {
+      const v = m.view ?? VIEWS[view][0];
+      tagPts = (m.points || []).map(x => Array.isArray(x) ? (pointsOf(x[0])[x[1]] ?? focusOf(x[1], 1.18, x[0]).tgt) : (pointsOf(v)[x] ?? focusOf(x, 1.18, v).tgt));
+      tagSeq = m.seq;
+    }
+    if (m.cmd === 'fly') {
+      if (m.view) {
+        const v = VIEWS.findIndex(x => x[0] === m.view);
+        if (v >= 0) { view = v; if (m.points) { const P = pointsOf(m.view); tagPts = m.points.map(k => P[k] ?? null); tagSeq = m.seq ?? tagSeq; } }
+      }
+      const f = m.pos && (m.target || m.tgt) ? { pos: V(...m.pos), tgt: V(...(m.target ?? m.tgt)) } : focusOf(m.part || m.focus || m.view || 'cell', (m.dist ?? 1) * 1.18, m.view);
+      flyTo(f.pos, f.tgt, m.dur ?? 1.6, m.orbit ?? 0, m.seq ?? 0);
+    }
+    if (m.cmd === 'free') freeCamera();
+    if (m.cmd === 'ghost') ghost(m.keep ?? m.keys, m.hide);
+    if (m.cmd === 'blink') blink(m.key, m.n ?? m.pulses ?? 3, m.dur ?? 1.8);
+    if (m.cmd === 'set' || m.cmd === 'state') setState(m);
+    if (m.cmd === 'hi') { tour.blinkKey = null; setHi(m.key); }
     if (m.cmd === 'mol') molHi = m.key;
     if (m.cmd === 'motion') motion = !motion;
     if (m.cmd === 'look') { organelleLook = LOOKS[(LOOKS.indexOf(organelleLook) + 1) % LOOKS.length]; applyLook(); }
@@ -1693,9 +1819,13 @@ if (EMBED) {
     if (m.cmd === 'snap') { composer.render(); toExplorer({ type: 'snap', url: renderer.domElement.toDataURL('image/png') }); }
     say();
   });
-  addEventListener('keydown', e => { if (e.key === 'Escape') toExplorer({ type: 'key', key: 'Escape' }); });
+  const TOUR_KEYS = new Set(['Escape', ' ', 'Enter', 'ArrowRight', 'ArrowLeft', 'PageDown', 'PageUp', 'c', 'n', 'e', 'm', ...'123456789']);
+  addEventListener('keydown', e => {
+    const k = e.key.length === 1 ? e.key.toLowerCase() : e.key;
+    if (!e.metaKey && !e.ctrlKey && !e.altKey && TOUR_KEYS.has(k)) { if (k === ' ') e.preventDefault(); toExplorer({ type: 'key', key: e.key, shift: e.shiftKey }); }
+  });
 }
-window.__cell = { renderer, composer, camera, controls, scene, cell, REG, shells, setHi, shot, V, setLook: k => { organelleLook = k; applyLook(); }, get sites() { return SITES; }, get flows() { return live; }, get procs() { return PROCS; }, get views() { return VIEWS; }, get lod() { return { chunks: CHUNKS.size, full: LOD.full, bp: LOD.bp }; }, pointsOf, setMol: k => { molHi = k; }, step: (dt = .05, n = 1) => { for (let i = 0; i < n; i++) updateFlows(dt); } };
+window.__cell = { renderer, composer, camera, controls, scene, cell, REG, shells, setHi, shot, V, setLook: k => { organelleLook = k; applyLook(); }, get sites() { return SITES; }, get flows() { return live; }, get procs() { return PROCS; }, get views() { return VIEWS; }, get lod() { return { chunks: CHUNKS.size, full: LOD.full, bp: LOD.bp }; }, pointsOf, setMol: k => { molHi = k; }, step: (dt = .05, n = 1) => { for (let i = 0; i < n; i++) updateFlows(dt); }, flyTo, freeCamera, focusOf, ghost, blink, setState, tour };
 </script>
 </body>
 </html>

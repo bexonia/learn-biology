@@ -154,7 +154,7 @@ scene.background = (() => {
 })();
 scene.environment = new THREE.PMREMGenerator(renderer).fromScene(new RoomEnvironment(), .04).texture;
 const camera = new THREE.PerspectiveCamera(30, innerWidth / innerHeight, .1, 400); camera.position.set(23, 12.5, 30);
-const controls = new OrbitControls(camera, renderer.domElement); controls.target.set(-3, -.4, 0); controls.enableDamping = true; controls.minDistance = .5; controls.maxDistance = 95;
+const controls = new OrbitControls(camera, renderer.domElement); controls.target.set(-3, -.4, 0); controls.enableDamping = true; controls.minDistance = .5; controls.maxDistance = 95; controls.panSpeed = .5; controls.zoomSpeed = .5;
 scene.add(new THREE.HemisphereLight('#dfe8ff', '#2a1f33', .45));
 const key = new THREE.DirectionalLight('#fff1df', 3); key.position.set(14, 24, 18); key.castShadow = true;
 key.shadow.mapSize.set(2048, 2048); Object.assign(key.shadow.camera, { left: -15, right: 15, top: 15, bottom: -15, near: 1, far: 80 }); key.shadow.bias = -.0005; key.shadow.normalBias = .03;
@@ -1384,9 +1384,9 @@ renderer.domElement.addEventListener('pointerdown', e => { if (e.button === 0) {
 renderer.domElement.addEventListener('pointermove', e => {
   if (!lookFrom) return;
   const dx = e.clientX - lookFrom[0], dy = e.clientY - lookFrom[1]; lookFrom = [e.clientX, e.clientY];
-  if (tour.on) { tour.yaw = Math.min(.44, Math.max(-.44, tour.yaw - dx * .004)); tour.pitch = Math.min(.44, Math.max(-.44, tour.pitch + dy * .004)); return; }   // the tour holds the camera: a drag only glances around, then springs back
+  if (tour.on) { tour.yaw = Math.min(.44, Math.max(-.44, tour.yaw - dx * .002)); tour.pitch = Math.min(.44, Math.max(-.44, tour.pitch + dy * .002)); return; }   // the tour holds the camera: a drag only glances around, then springs back
   aim.setFromVector3(controls.target.clone().sub(camera.position));
-  aim.theta -= dx * .004; aim.phi = Math.min(Math.PI - .05, Math.max(.05, aim.phi + dy * .004));
+  aim.theta -= dx * .002; aim.phi = Math.min(Math.PI - .05, Math.max(.05, aim.phi + dy * .002));
   controls.target.copy(camera.position).add(V().setFromSpherical(aim));
 });
 for (const ev of ['pointerup', 'pointercancel']) renderer.domElement.addEventListener(ev, () => { lookFrom = null; });

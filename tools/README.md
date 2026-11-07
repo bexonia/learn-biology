@@ -12,12 +12,14 @@ The pages draw real protein structures from the Protein Data Bank. They don't fe
 ## Rebuild all the embedded structures
 
 ```sh
-sh tools/fetch_structures.sh                                     # 37 files from RCSB, 19 from OPM, into structures/pdb and structures/opm
+sh tools/fetch_structures.sh                                     # 52 files from RCSB, 19 from OPM, into structures/pdb and structures/opm
 mkdir -p structures/build
 python3 tools/coarse_molecules.py      structures/pdb               structures/build/molecules.js
 python3 tools/coarse_bacterium.py      structures/pdb               structures/build/bacterium.js
 python3 tools/coarse_bacterium_more.py structures/pdb structures/opm structures/build/bacterium_more.js
 python3 tools/coarse_plant.py          structures/pdb structures/opm structures/build/plant.js
+python3 tools/coarse_phage.py          structures/pdb               structures/build/phage.js
+python3 tools/coarse_viruses.py        structures/pdb               structures/build
 python3 tools/embed_structures.py --check                        # which data lines would change (expect 0 if nothing was edited)
 python3 tools/embed_structures.py                                # write them into the pages
 ```
@@ -33,6 +35,8 @@ python3 tools/embed_structures.py                                # write them in
 | `coarse_bacterium.py` | RNA polymerase 4YG2, ribosome 4YBB (mmCIF), OmpF, GroEL, EF-Tu, GAPDH, HU, chemoreceptor | `const PDB = {…}`: **one bead per residue** (`full`) plus a **reduced** model of k-means balls (`red`). Biological assemblies come from BIOMT records. | `prokaryote_cell_realistic.html`; the full ribosome, RNA polymerase, GroEL, HU and receptor go into `cell_explorer.html` (`const BPDB`); the reduced ribosome becomes the plant's chloroplast ribosome (`PDB.ribo70`) |
 | `coarse_bacterium_more.py` | 24 more: membrane proteins from OPM (ATP synthase, complex I, the efflux pump …), the replisome, nucleoid proteins, tRNA | `Object.assign(PDB, {…})`, and `bacterium_more.explorer.json` (full models for the explorer) | `prokaryote_cell_realistic.html`; the JSON into `cell_explorer.html` (`const BPDB`) |
 | `coarse_plant.py` | 10 plant structures: PSII–LHCII 3JCU, LHCII 1RWT, b6f 6RQF, PSI 4XK8, ATP synthase 6FKF, CESA 6WLB, AHA2 5KSD, PIP2 1Z98 (all OPM), RuBisCO 1RCX (assembly), plastocyanin 1AG6 | `Object.assign(PDB, {…})` with a bead per chlorophyll too; `plant.explorer.json` | `plant_cell_realistic.html`; the JSON into `cell_explorer.html` (`Object.assign(BPDB, …)`) |
+| `coarse_phage.py` | 7 T4 phage structures (capsid hexamer & vertex pentamer 5VF3, portal 3JA7, sheath & neck 3J2M, tail tube 5W5F, hub & needle 1K28, long tail fiber tip 2XGF, short tail fiber 1OCY) + host OmpF 2OMF, RNAP 4YG2, ribosome 4YBB | `const PDB = {…}` and `phage.explorer.json` | `bacteriophage_realistic.html`; the JSON into `cell_explorer.html` (`Object.assign(BPDB, …)`) |
+| `coarse_viruses.py` | 15 structures across SARS-CoV-2 (`6VXX`, `5X29`, `6VYO`, `6M71`, `1R42`), HIV-1 (`4TVP`, `1HIW`, `3H4E`, `3P05`, `1RTD`, `1EX4`), Adenovirus (`1P30`, `1X9T`, `1QIU`) and TMV (`2TMV`) | `coronavirus.js`, `hiv.js`, `adenovirus.js`, `tmv.js` (`const PDB = {…}`) and `viruses.explorer.json` | `coronavirus_realistic.html`, `hiv_realistic.html`, `adenovirus_realistic.html`, `tmv_realistic.html`; the JSON into `cell_explorer.html` (`Object.assign(BPDB, …)`) |
 | `embed_structures.py [--check] [build dir]` | `structures/build/*` | replaces the data lines listed below | — |
 | `serve.py <repo> <port>` | — | a local web server that also saves PNGs posted to `/save?name=…` into `renders/` | — |
 
@@ -44,6 +48,11 @@ The data lines that `embed_structures.py` replaces must stay on **one line each*
 | `animal_cell_realistic.html` | `const PDB = ` |
 | `plant_cell_realistic.html` | `const PDB = `, `Object.assign(PDB, `, `PDB.ribo70 = ` |
 | `prokaryote_cell_realistic.html` | `const PDB = `, `Object.assign(PDB, ` |
+| `bacteriophage_realistic.html` | `const PDB = ` |
+| `coronavirus_realistic.html` | `const PDB = ` |
+| `hiv_realistic.html` | `const PDB = ` |
+| `adenovirus_realistic.html` | `const PDB = ` |
+| `tmv_realistic.html` | `const PDB = ` |
 | `cell_explorer.html` | `const PDB = `, `const BPDB = `, `Object.assign(BPDB, ` |
 
 ## The encoding (what a page decodes)

@@ -1,0 +1,78 @@
+name: Deploy BEXONIA 3D Cell & Virus Explorer (learn.bexonia.com)
+
+on:
+  push:
+    branches:
+      - main
+    paths-ignore:
+      - "**.md"
+      - "docs/**"
+      - "screenshots/**"
+  workflow_dispatch: {}
+
+permissions:
+  contents: read
+
+jobs:
+  deploy-learn:
+    name: "Package WebGL Assets & Deploy to bexonia-learn (learn.bexonia.com)"
+    runs-on: bexonia-infra-runner
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Package compressed WebGL bundles for Kubernetes ConfigMaps
+        run: |
+          set -euo pipefail
+          mkdir -p dist
+          GZIP=-9 tar -czf dist/bundle-1.tar.gz \
+            cell_explorer.html \
+            eukaryotic_cell_3d.html \
+            prokaryotic_cell_3d.html \
+            dna_styles.html
+          GZIP=-9 tar -czf dist/bundle-2.tar.gz \
+            animal_cell_realistic.html \
+            plant_cell_realistic.html \
+            fungal_cell_realistic.html
+          GZIP=-9 tar -czf dist/bundle-3.tar.gz \
+            prokaryote_cell_realistic.html \
+            molecules_preview.html
+          GZIP=-9 tar -czf dist/bundle-4.tar.gz \
+            bacteriophage_realistic.html \
+            hiv_realistic.html \
+            coronavirus_realistic.html \
+            adenovirus_realistic.html \
+            tmv_realistic.html \
+            tours/*.js
+          ls -lh dist/
+
+      - name: Setup OpenTofu
+        uses: opentofu/setup-opentofu@v1
+        with:
+          tofu_version: "1.8.8"
+          tofu_wrapper: false
+
+      - name: Authenticate to bexonia-vault via Kubernetes ServiceAccount
+        run: |
+          set -euo pipefail
+          SA_JWT=$(cat /var/run/secrets/kubernetes.io/serviceaccount/token)
+          BAO_ADDR="http://openbao.bexonia-vault.svc.cluster.local:8200"
+
+          BAO_TOKEN=$(curl -sf -X POST "${BAO_ADDR}/v1/auth/kubernetes/login" \
+            -H "Content-Type: application/json" \
+            -d "$(jq -n --arg jwt "$SA_JWT" '{role: "bexonia-infra-runner", jwt: $jwt}')" \
+            | jq -r '.auth.client_token')
+
+          if [ -z "$BAO_TOKEN" ] || [ "$BAO_TOKEN" = "null" ]; then
+            echo "ERROR: Failed to obtain OpenBao token for bexonia-infra-runner" >&2
+            exit 1
+          fi
+
+          echo "::add-mask::${BAO_TOKEN}"
+          echo "TF_VAR_openbao_token=${BAO_TOKEN}" >> "$GITHUB_ENV"
+
+      - name: OpenTofu Init & Apply (opentofu/)
+        working-directory: opentofu
+        run: |
+          tofu init -input=false
+          tofu apply -auto-approve -input=false

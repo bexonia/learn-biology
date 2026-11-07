@@ -1,219 +1,75 @@
-# 🧬 Learn Biology — Interactive 3D Cell & Nanomachines
+# BEXONIA Learn Biology — Interactive 3D Cell & Virus Explorer
 
-An open, interactive 3D platform designed to **teach the principles of biology to everyone** in an intuitive, visual, and exploratory way. Discover the micro-architecture of life—from the whole prokaryotic cell down to the atomic Cryo-EM rotor nanomachines that propel bacteria.
+**Live Platform:** [https://learn.bexonia.com](https://learn.bexonia.com)
 
-![Prokaryote Cell Overview](readme_images/prokaryote_cell_overview.png)
-
----
-
-## 🎯 Educational Mission
-
-Traditional biology textbooks show flat, two-dimensional diagrams that make cellular life seem static. In reality, a single bacterium is an active, ultra-dense biochemical factory governed by biophysical forces, molecular motors, and selective membranes.
-
-**Learn Biology** brings these structures to life with:
-* **Interactive 3D Cutaways:** Orbit, pan, and zoom through cellular envelopes, peptidoglycan walls, plasma membranes, ribosomes, plasmids, and the circular nucleoid DNA.
-* **Multi-Scale Educational Levels (13 Interactive 3D Scenarios Built):**
-  * **Level 1 — Whole Cell ($1.5\,\mu\text{m}$):** Observe the bacterium in 3/4 perspective with responsive leader line annotations anchored directly to the capsule, outer membrane, peptidoglycan wall, periplasm, plasma membrane, cytoplasm, ribosomes, plasmids, and the circular nucleoid DNA.
-  * **Level 2 — Flagellar Rotary Motor ($45\,\text{nm}$, PDB `7CGO`):** Inspect nature's rotary engine with dynamic CCW (run) and CW (tumble) rotation, MotAB stator proton streaming, and an **exploded view slider**.
-  * **Level 3 — Bacterial 70S Ribosome Translation Factory ($25\,\text{nm}$, PDB `7K00`):** Explore the macromolecular 2.5 MDa ribozyme machine, step-by-step mRNA elongation kinetics (A, P, and E tRNA sites), EF-Tu / EF-G GTPase ratcheting, polypeptide exit tunnel, and subunit disassembly.
-  * **Level 4 — Bacterial $F_1F_0$-ATP Synthase & Rotary Bioenergetic Dynamo ($10\,\text{nm}$, PDB `6OQR`):** Explore the 540 kDa rotary machine coupling periplasmic proton-motive force ($\Delta p \approx -140\,\text{mV}$) to mechanical drive shaft rotation and Paul Boyer's three-state binding-change cycle ($\text{Open} \to \text{Loose} \to \text{Tight}$).
-  * **Level 5 — Respiratory Complex I Proton Pump ($18\,\text{nm}$, PDB `4HEA`):** Inspect L-shaped NADH:ubiquinone oxidoreductase with FMN hydride transfer, the 7 Fe-S cubane electron wire, ubiquinone reduction, and the 4-channel antiporter piston drive.
-  * **Level 6 — SecYEG Protein Translocon & SecA ATPase ($12\,\text{nm}$, PDB `3J46`):** Observe the hourglass transmembrane channel, SecA two-helix finger power-stroke, helical plug displacement, and the lateral gate partitioning transmembrane helices into the lipid bilayer.
-  * **Level 7 — BAM $\beta$-Barrel Assembly Machine ($14\,\text{nm}$, PDB `5D0O`):** Explore the outer-membrane $\beta$-barrel folder (BamABCDE), the unstable BamA $\beta1\text{–}\beta16$ lateral seam, membrane thinning, and substrate budding.
-  * **Level 8 — LptA–G Trans-Envelope LPS Bridge ($22\,\text{nm}$, PDB `5IV9`/`4Q35`):** Trace lipopolysaccharide extraction from the inner membrane via the $\text{LptB}_2\text{FGC}$ ABC transporter across the periplasmic $\text{LptA}$ $\beta$-jellyroll slide to the outer-membrane $\text{LptDE}$ translocon.
-  * **Level 9 — Bacterial RNA Polymerase Holoenzyme ($15\,\text{nm}$, PDB `6ALH`):** Inspect $\sigma^{70}$ promoter recognition (`-35`/`-10` elements), transcription bubble melting, the $\text{Mg}^{2+}$ catalytic triad, and abortive-to-productive elongation with rifampicin inhibition.
-  * **Level 10 — DNA Polymerase III Replisome ($24\,\text{nm}$, PDB `5FKV`):** Explore DnaB helicase unwinding, DnaG primase RNA priming, asymmetric leading/lagging trombone synthesis, $\beta_2$ sliding clamps, and the $\tau_3\delta\delta'\chi\psi$ clamp loader.
-  * **Level 11 — DNA Gyrase Topoisomerase II ($16\,\text{nm}$, PDB `6RKW`):** Watch $\text{GyrA}_2\text{GyrB}_2$ wrap a positive DNA supercoil, cleave the double-stranded G-segment gate, pass the T-segment via ATP hydrolysis, and respond to fluoroquinolone (ciprofloxacin) trapping.
-  * **Level 12 — FtsZ Z-Ring Cytokinetic Divisome ($30\,\text{nm}$, PDB `6UNX`):** Observe GTP-driven FtsZ protofilament treadmilling, FtsA/ZipA membrane tethering, MinCDE polar oscillation, and FtsWI septal peptidoglycan constriction.
-  * **Level 13 — MreB Rod-Shape Elongasome ($20\,\text{nm}$, PDB `4CZJ`):** Explore antiparallel ATP-actin-like MreB double protofilaments sensing negative membrane curvature to guide the RodA–PBP2 circumferential cell-wall synthesis complex.
-* **Client-Side Neural Voice Narration & Live Subtitles:** Integrated text-to-speech powered by Kokoro-82M running directly in the browser via ONNX Runtime Web—reading scientific explanations aloud with real-time closed captions and animated soundwave HUD previewing speech 0.5s in advance.
-* **Cinematic Guided Tours & Explanatory Traces:** Guided pedagogical walkthroughs directing students through each organelle, macromolecular subunit, and catalytic step.
-
-![Flagellar Rotary Motor and Tail Architecture](readme_images/flagellar_motor_tail.png)
-
-![Bacterial 70S Ribosome Translation Factory](readme_images/ribosome_translation_factory.png)
-
-![Bacterial F1F0-ATP Synthase Rotary Bioenergetic Dynamo](readme_images/atp_synthase_rotary_dynamo.png)
+Interactive 3D WebGL models of eukaryotic cells, prokaryotic bacteria, and viruses—from whole cells and virions down to organelles, molecular machines, and atomic structures from the Protein Data Bank (RCSB PDB). Each model is a self-contained Three.js HTML application with chaptered **guided tours**, subtitles, narrator hooks, cutaway/open/closed structural views, and real-time animated metabolism.
 
 ---
 
-## 🏗️ Architecture & Technology Stack
+## Main Cells & Viruses Preview
 
-Learn Biology is engineered to be **100% client-side, zero-install, and zero-backend**:
+| Animal Cell (*Homo sapiens*) | Plant Cell (*Leaf Mesophyll*) |
+| :---: | :---: |
+| ![Animal Cell](screenshots/animal_cell.jpg) | ![Plant Cell](screenshots/plant_cell.jpg) |
+| **Fungal Cell (*Saccharomyces cerevisiae*)** | **Prokaryotic Cell (*Escherichia coli*)** |
+| ![Fungal Cell](screenshots/fungal_cell.jpg) | ![Bacterium Cell](screenshots/bacterium_cell.jpg) |
 
-```
-                       [ Student's Browser ]
-                                 │
-                 ┌───────────────┴───────────────┐
-                 ▼                               ▼
-         [ Visual Layer ]                [ Logic & Compute ]
-    • React 19 + TypeScript + Vite  • Rust WebAssembly (orbit_engine.wasm)
-    • Three.js WebGL (PBR materials)  - Camera orbit momentum & damping
-    • SVG Leader Lines Overlay        - 3D-to-2D screen coordinate projection
-    • 3D Geometry Sources:          • 13 Scene Controllers (client/src/core/):
-      - prokaryote_cell.blend         - cellViewer.ts (Whole Cell)
-      - scripts/generate_*.py (13x)   - flagellarMotor.ts, ribosomeTranslation.ts
-                                      - atpSynthase.ts, respiratoryComplexI.ts
-                                      - secYEGTranslocon.ts, bamComplex.ts
-                                      - lptBridge.ts, rnaPolymerase.ts
-                                      - dnaReplisome.ts, dnaGyrase.ts
-                                      - ftsZDivisome.ts, mreBElongasome.ts
-                                    • Kokoro-82M TTS & Live Subtitles
-                                 │
-                                 ▼
-              [ Browser Hardware Abstraction ]
-         Google ANGLE (Almost Native Graphics Layer Engine)
-         Translates WebGL into native OS GPU backends:
-         • Windows: DirectX 11 / Direct3D 12
-         • macOS:   Apple Metal
-         • Linux:   Vulkan 1.3
-                                 │
-                                 ▼
-                     [ Physical GPU Hardware ]
+<p align="center">
+  <strong>Bacteriophage T4 Infecting <em>E. coli</em> (True Atomic Scale)</strong><br/>
+  <img src="screenshots/bacteriophage_t4.jpg" alt="Bacteriophage T4" width="75%" />
+</p>
+
+---
+
+## Interactive Models & Pages
+
+| File | Description | Manual |
+| :--- | :--- | :--- |
+| [`cell_explorer.html`](cell_explorer.html) | **Main 3D Explorer (`learn.bexonia.com`):** Organized into two collapsible sidebar menus (**Cells** and **Viruses**) with interactive **Guided Tours** (`cell_explorer.html#tour`) across all 10 root models. Flies the camera to each structure, highlights parts with leader-line tags, plays synchronized subtitles & narrator hooks, and drills down into a recursive tree of 191 levels from cells and viruses down to individual molecules and atoms. | [docs/cell_explorer_manual.md](docs/cell_explorer_manual.md) |
+| [`animal_cell_realistic.html`](animal_cell_realistic.html) | **Realistic Animal Cell:** Cutaway mammalian cell (`1 unit = 1 µm`) with a nucleus built molecule-by-molecule (46 chromosomes wrapped on histones, mRNA transcription, rRNA in the nucleolus), rough/smooth ER, Golgi apparatus, hollow-cristae mitochondria, lysosomes, peroxisomes, centrosome, primary cilium, and animated metabolic recipes (`1/8×` to `4×` speed). | [docs/animal_cell_realistic_manual.md](docs/animal_cell_realistic_manual.md) |
+| [`plant_cell_realistic.html`](plant_cell_realistic.html) | **Realistic Plant Cell (Leaf Mesophyll):** Cutaway plant cell (`1 unit = 1 µm`) featuring a cellulose/pectin cell wall, central vacuole with tonoplast, chloroplasts with stacked thylakoid grana, transvacuolar cytoplasmic streaming, plasmodesmata, and true-scale molecular close-ups of the thylakoid granum and cell wall (Photosystems I & II, Cytochrome $b_6f$, ATP synthase, RuBisCO, Cellulose synthase). | [docs/plant_cell_realistic_manual.md](docs/plant_cell_realistic_manual.md) |
+| [`fungal_cell_realistic.html`](fungal_cell_realistic.html) | **Realistic Fungal Cell (Budding Yeast *S. cerevisiae*):** Mother cell with emerging daughter bud (`1 unit = 1 µm`), 3-layered chitin + $\beta$-1,3/$\beta$-1,6-glucan + mannoprotein cell wall, crater-like chitinous bud scars, ergosterol plasma membrane with `Pma1` $\text{H}^+$-ATPases (PDB `3B8C`), septin hourglass collar (`Cdc3–Cdc10–Cdc12`, PDB `2QAG`) and actomyosin ring at the mother–bud neck, closed-mitosis nucleus with embedded Spindle Pole Body (SPB), acidic polyphosphate vacuole, Woronin bodies, ER with `Erg11` (PDB `4LXJ`), and cytosolic alcoholic fermentation (`Pdc1` PDB `1PYD` + `Adh1` PDB `4W6Z`). | [docs/fungal_cell_realistic_manual.md](docs/fungal_cell_realistic_manual.md) |
+| [`prokaryote_cell_realistic.html`](prokaryote_cell_realistic.html) | **Realistic Bacterium (*E. coli*):** Cutaway Gram-negative rod at true scale (`1 unit = 100 nm`) with inner/outer membranes, peptidoglycan, LPS, the complete 4.6 Mb circular chromosome folded into plectonemes (drawn base-pair by base-pair on zoom), coupled transcription–translation polysomes, replisome, AcrAB–TolC efflux pumps, rotary flagellar motors, and 32 experimental PDB structures. | [docs/prokaryote_cell_realistic_manual.md](docs/prokaryote_cell_realistic_manual.md) |
+| [`bacteriophage_realistic.html`](bacteriophage_realistic.html) | **Realistic Bacteriophage T4:** Complex dsDNA myovirus infecting *E. coli* at true scale (`1 unit = 10 nm`) with prolate icosahedral capsid (`gp23*`, `Soc`, `Hoc`, `gp24*`, PDB `5VF3`), coaxially spooled 169 kbp dsDNA genome, `gp20` portal dodecamer (PDB `3JA7`), contractile `gp18` tail sheath (PDB `3J2M`), hexagonal baseplate with `gp27–gp5` needle (PDB `1K28`), hinged long tail fibers (`gp34–gp37`, PDB `2XGF`) bound to `OmpF` porins (PDB `2OMF`), and animated DNA injection. | [docs/bacteriophage_realistic_manual.md](docs/bacteriophage_realistic_manual.md) |
+| [`coronavirus_realistic.html`](coronavirus_realistic.html) | **Realistic SARS-CoV-2 Coronavirus:** Enveloped `(+)ssRNA` betacoronavirus (`1 unit = 10 nm`) with 48 Spike (`S`) trimers (PDB `6VXX`), Membrane (`M`) dimers, pentameric Envelope (`E`) viroporins (PDB `5X29`), 29.9 kb `(+)ssRNA` wound on 40 Nucleocapsid (`N`) oligomers (PDB `6VYO`), host `ACE2` receptors (PDB `1R42`), and `RdRp` replicase complexes (`nsp12–nsp7–nsp8`, PDB `6M71`), with **Open / Cutaway / Closed** envelope protein shell modes. | [docs/bacteriophage_realistic_manual.md](docs/bacteriophage_realistic_manual.md) |
+| [`hiv_realistic.html`](hiv_realistic.html) | **Realistic HIV-1 Retrovirus:** Enveloped diploid `(+)ssRNA` retrovirus (`1 unit = 10 nm`) fusing with a $\text{CD4}^+$ T-cell: `Env` `gp120/gp41` spikes (PDB `4TVP`), `p17` Matrix (`MA`) shell (PDB `1HIW`), fullerene-cone capsid of `p24` `CA` hexamers (PDB `3H4E`) & 12 vertex pentamers (PDB `3P05`), Reverse Transcriptase (PDB `1RTD`), and Integrase (PDB `1EX4`), with **Open / Cutaway / Closed** envelope & capsid modes. | [docs/bacteriophage_realistic_manual.md](docs/bacteriophage_realistic_manual.md) |
+| [`adenovirus_realistic.html`](adenovirus_realistic.html) | **Realistic Human Adenovirus:** Non-enveloped pseudo-$T=25$ icosahedral dsDNA virus (`1 unit = 10 nm`) with 240 Hexon II trimers (PDB `1P30`), cement proteins (`IIIa`, `VI`, `VIII`, `IX`), 12 vertex Penton bases (PDB `1X9T`) and projecting Fiber knobs (PDB `1QIU`) docked onto host `CAR` and $\alpha_v\beta_5$ integrins, with **Open / Cutaway / Closed** icosahedral shell modes. | [docs/bacteriophage_realistic_manual.md](docs/bacteriophage_realistic_manual.md) |
+| [`tmv_realistic.html`](tmv_realistic.html) | **Realistic Tobacco Mosaic Virus (TMV):** Helical rod `(+)ssRNA` plant virus (`1 unit = 10 nm`) with right-handed Coat Protein helix (`16⅓` subunits/turn, 2.3 nm pitch, PDB `2TMV`), 6.4 kb `(+)ssRNA`, 20S assembly discs, co-translational 80S ribosome uncoating, and 30 kDa Movement Protein gating plasmodesmata. | [docs/bacteriophage_realistic_manual.md](docs/bacteriophage_realistic_manual.md) |
+| [`molecules_preview.html`](molecules_preview.html), [`dna_styles.html`](dna_styles.html), [`eukaryotic_cell_3d.html`](eukaryotic_cell_3d.html), [`prokaryotic_cell_3d.html`](prokaryotic_cell_3d.html) | Standalone molecular style studies and textbook-figure previews. | — |
+
+---
+
+## Local Development
+
+Serve the repository locally with the included zero-dependency Python HTTP server:
+
+```bash
+python3 tools/serve.py "$(pwd)" 8765
 ```
 
+Then open `http://localhost:8765/cell_explorer.html` in your browser.
+
 ---
 
-## 🚀 Quick Start (Running Locally)
+## Architecture & Deployment (`learn.bexonia.com`)
 
-The client application is built with React 19, TypeScript, and Vite, managed with **`pnpm`**:
-
-### 1. Install Dependencies & Launch Dev Server
-
-```powershell
-cd client
-pnpm install
-pnpm run dev
+```text
+Internet -> Cloudflare Zero Trust Tunnel -> Traefik (bexonia-ingress)
+  -> IngressRoute (learn.bexonia.com)
+     -> Service/bexonia-learn (:8080, namespace: bexonia-learn)
+        -> Pod/bexonia-learn (nginx:1.27-alpine serving gzipped WebGL bundles)
 ```
 
-### 2. Open in Your Browser
-Navigate to **`http://localhost:5173/`** in Google Chrome, Microsoft Edge, Mozilla Firefox, or Apple Safari.
+- **Automated CI/CD ([`.github/workflows/deploy.yml`](.github/workflows/deploy.yml)):** Runs on the in-cluster `bexonia-infra-runner` on every push to `main`, packages the static HTML/JS and embedded PDB coordinates into 4 compressed ConfigMap bundles (`< 650 KB` each), authenticates to OpenBao (`bexonia-vault`) via Kubernetes ServiceAccount JWT, and executes `tofu apply` in [`opentofu/`](opentofu/).
+- **Infrastructure as Code ([`opentofu/main.tf`](opentofu/main.tf)):** Provisions the `bexonia-learn` namespace, `Deployment/bexonia-learn` (2 replicas with `checksum/web` rolling updates), `Service/bexonia-learn`, cross-namespace Traefik `IngressRoute` (`Host(\`learn.bexonia.com\`)` with Let's Encrypt `cloudflare` TLS), and the `learn.bexonia.com` Cloudflare DNS `CNAME` & Zero Trust Tunnel ingress route.
+- **Version History:** The legacy v1 Blender + Molecular Nodes + React/Three.js pipeline and all 140 Python generator scripts are preserved under lightweight tag **`v1`** (`git checkout v1`).
 
 ---
 
-## 🛠️ Building Assets from Source
+## Documentation for Contributors & Agents
 
-To keep the repository clean and avoid git binary bloat, compiled `.glb` 3D files and `.wasm` binaries are built on demand from source.
-
-Run the automated one-command build script:
-
-```powershell
-python build_assets.py
-```
-
-This script:
-1. **Compiles the Rust WebAssembly Engine:**
-   Runs `rustc --target wasm32-unknown-unknown -O --crate-type=cdylib src/lib.rs -o wasm/orbit_engine.wasm`.
-2. **Exports the 3D Cell & Nanomachine Geometry from Blender:**
-   Executes Blender headlessly across the procedural generators in [`scripts/`](file:///scripts/) to generate the `.glb` models in `client/public/models/`.
-
----
-
-## 📁 Repository Structure
-
-```
-learn-biology/
-├── client/                      # React 19 + TypeScript + Vite interactive web app
-│   ├── src/                     # Components, hooks, types, and 13 Three.js scene controllers
-│   ├── public/                  # 3D GLB models, WASM binaries, and audio models
-│   ├── package.json             # Project manifest (pnpm package manager)
-│   └── pnpm-lock.yaml           # Deterministic pnpm dependency lockfile
-├── readme_images/               # Curated pedagogical screenshots for documentation
-│   ├── prokaryote_cell_overview.png
-│   ├── flagellar_motor_tail.png
-│   ├── ribosome_translation_factory.png
-│   └── atp_synthase_rotary_dynamo.png
-├── assets/                      # Reference diagrams and scientific blueprints
-├── models/                      # Output directory for generated 3D models
-├── wasm/                        # Output directory for compiled WebAssembly binary
-├── build_assets.py              # One-command asset compiler (Blender + Rust WASM)
-├── scripts/                     # Procedural Blender 5.2 Python generators (13 scenes)
-│   ├── generate_primer_cell_hq.py          # Level 1: Whole Cell (1.5 µm) cutaway
-│   ├── generate_7cgo_flagellar_motor.py    # Level 2: Flagellar Motor & Stators (45 nm)
-│   ├── generate_7k00_assembled_pieces.py   # Level 3: 70S Translating Ribosome (25 nm)
-│   ├── generate_6oqr_atp_synthase.py       # Level 4: F1F0-ATP Synthase (10 nm)
-│   ├── generate_4hea_complex_i.py          # Level 5: Respiratory Complex I (18 nm)
-│   ├── generate_3j46_secyeg.py             # Level 6: SecYEG Protein Translocon (12 nm)
-│   ├── generate_5d0o_bam_complex.py        # Level 7: BAM β-Barrel Machine (14 nm)
-│   ├── generate_lpt_bridge.py              # Level 8: LptA–G LPS Bridge (22 nm)
-│   ├── generate_6alh_rnap.py               # Level 9: RNA Polymerase Holoenzyme (15 nm)
-│   ├── generate_5fkv_pol_iii_replisome.py  # Level 10: DNA Pol III Replisome (24 nm)
-│   ├── generate_6rkw_dna_gyrase.py         # Level 11: DNA Gyrase Topoisomerase II (16 nm)
-│   ├── generate_6unx_ftsz_divisome.py      # Level 12: FtsZ Cytokinetic Z-Ring (30 nm)
-│   └── generate_4czj_mreb_elongasome.py    # Level 13: MreB Rod-Shape Elongasome (20 nm)
-├── CELLULAR_ELEMENTS_CATALOG.md # Master registry of prokaryotic structures & flux networks
-├── CELLULAR_INSPECTOR_BLUEPRINT.md # 8-step engineering protocol for 3D cellular inspectors
-├── roadmap/                     # Isolated per-element execution folders & checkbox tracker
-│   ├── README.md                # Master [x] / [ ] progress tracker & agent execution guide
-│   ├── 00_OPEN_SOURCE_TOOLCHAIN_SPEC.md # RCSB PDB, PubChem, RDKit, Blender & Molecular Nodes spec
-│   └── 01_..16_*/README.md      # 16 self-contained element execution specifications
-├── prokaryote_cell.blend        # Blender master source scene
-├── src/
-│   └── lib.rs                   # Rust source code for WASM orbit & projection math
-├── .agents/                     # Antigravity agent skills, rules & MCP config
-└── AGENTS.md                    # Guidelines for Antigravity AI agents
-```
-
----
-
-## 🗺️ Prokaryotic Cell Modeling Status & Visual Verification Suite
-
-> **🔬 Full Visual Verification & Side-by-Side Comparison Suite (29 / 29 Scenarios Verified):**
-> - **Interactive Browser HTML Dashboard (Open Directly):** [**`verification/index.html`**](verification/index.html) or [**`verification.html`**](verification.html)
-> - **Markdown Verification Index:** [**`verification/README.md`**](verification/README.md)
-> - Includes all 29 **Expected Goodsell Reference + RCSB PDB vs. Live 3D Browser Result** comparison plates (`2400×1380`), official RCSB PDB structures, `1920×1080` `.mp4` comparison videos ([`master_13_elements_comparison.mp4`](verification/master_13_elements_comparison.mp4)), interactive wipe comparators, and per-element architectural recommendations.
-
-### ✅ Phase 0: Baseline Scenarios (Levels 1–13)
-| Level | Scenario ID | Biological Structure / Nanomachine | PDB Reference | Side-by-Side Plate | Comparison Video | Status |
-| :--- | :--- | :--- | :--- | :--- | :--- | :--- |
-| **L1** | `cell` | Whole Prokaryotic Cell Cutaway ($1.5\,\mu\text{m}$) | *Biology Primer* Fig. 3 & 4 | [`comparison_cell.png`](verification/01_cell/comparison_cell.png) | [`comparison_cell.mp4`](verification/01_cell/comparison_cell.mp4) | ✅ Verified |
-| **L2** | `motor` | Flagellar Rotary Motor & Stator Ring | `7CGO` / `6YKM` | [`comparison_motor.png`](verification/02_motor/comparison_motor.png) | [`comparison_motor.mp4`](verification/02_motor/comparison_motor.mp4) | ✅ Verified |
-| **L3** | `ribosome` | 70S Translating Ribosome & Polysome | `7K00` | [`comparison_ribosome.png`](verification/03_ribosome/comparison_ribosome.png) | [`comparison_ribosome.mp4`](verification/03_ribosome/comparison_ribosome.mp4) | ✅ Verified |
-| **L4** | `atp_synthase` | $F_1F_0$-ATP Synthase Bioenergetic Dynamo | `6OQR` / `6RKW` | [`comparison_atp_synthase.png`](verification/04_atp_synthase/comparison_atp_synthase.png) | [`comparison_atp_synthase.mp4`](verification/04_atp_synthase/comparison_atp_synthase.mp4) | ✅ Verified |
-| **L5** | `complex_i` | Respiratory Complex I Proton Pump | `7Z7V` / `4HEA` | [`comparison_complex_i.png`](verification/05_complex_i/comparison_complex_i.png) | [`comparison_complex_i.mp4`](verification/05_complex_i/comparison_complex_i.mp4) | ✅ Verified |
-| **L6** | `secyeg` | SecYEG Translocon & SecA ATPase | `3J46` / `6ITC` | [`comparison_secyeg.png`](verification/06_secyeg/comparison_secyeg.png) | [`comparison_secyeg.mp4`](verification/06_secyeg/comparison_secyeg.mp4) | ✅ Verified |
-| **L7** | `bam` | BAM $\beta$-Barrel Assembly Machine | `5D0O` | [`comparison_bam.png`](verification/07_bam/comparison_bam.png) | [`comparison_bam.mp4`](verification/07_bam/comparison_bam.mp4) | ✅ Verified |
-| **L8** | `lpt` | LptA–G Trans-Envelope LPS Bridge | `9P7P` / `6MIT` | [`comparison_lpt.png`](verification/08_lpt/comparison_lpt.png) | [`comparison_lpt.mp4`](verification/08_lpt/comparison_lpt.mp4) | ✅ Verified |
-| **L9** | `rnap` | Bacterial RNA Polymerase Holoenzyme | `6C9Y` / `6ALH` | [`comparison_rnap.png`](verification/09_rnap/comparison_rnap.png) | [`comparison_rnap.mp4`](verification/09_rnap/comparison_rnap.mp4) | ✅ Verified |
-| **L10** | `pol_iii` | DNA Polymerase III Replisome | `5FKV` | [`comparison_pol_iii.png`](verification/10_pol_iii/comparison_pol_iii.png) | [`comparison_pol_iii.mp4`](verification/10_pol_iii/comparison_pol_iii.mp4) | ✅ Verified |
-| **L11** | `gyrase` | DNA Gyrase Topoisomerase II | `1AB4` / `2XCT` | [`comparison_gyrase.png`](verification/11_gyrase/comparison_gyrase.png) | [`comparison_gyrase.mp4`](verification/11_gyrase/comparison_gyrase.mp4) | ✅ Verified |
-| **L12** | `ftsz` | FtsZ Cytokinetic Divisome Ring | `1FSZ` / `6UNX` | [`comparison_ftsz.png`](verification/12_ftsz/comparison_ftsz.png) | [`comparison_ftsz.mp4`](verification/12_ftsz/comparison_ftsz.mp4) | ✅ Verified |
-| **L13** | `mreb` | MreB Rod-Shape Elongasome | `1JCG` / `4CZJ` | [`comparison_mreb.png`](verification/13_mreb/comparison_mreb.png) | [`comparison_mreb.mp4`](verification/13_mreb/comparison_mreb.mp4) | ✅ Verified |
-
-### ✅ Phase 1–4: Prokaryote Expansion Roadmap Scenarios (Levels 14–29)
-| Level | Scenario ID | Biological Structure / Nanomachine | PDB Reference | Goodsell Diagram | RCSB PDB Render | Side-by-Side Plate | Comparison Video | Status |
-| :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
-| **L14** | `expressome` | Coupled RNAP–NusG–70S Expressome | `6X9Q` | [`expected_expressome.png`](verification/14_expressome/expected_expressome.png) | [`rcsb_6X9Q.jpg`](verification/14_expressome/rcsb_6X9Q.jpg) | [`comparison_expressome.png`](verification/14_expressome/comparison_expressome.png) | [`comparison_expressome.mp4`](verification/14_expressome/comparison_expressome.mp4) | ✅ Verified |
-| **L15** | `envelopes` | Gram(−), Gram(+) & Acid-Fast Cell Envelopes | `2OMF` / `3VMA` | [`expected_envelopes.png`](verification/15_envelopes/expected_envelopes.png) | [`rcsb_2OMF.jpg`](verification/15_envelopes/rcsb_2OMF.jpg) | [`comparison_envelopes.png`](verification/15_envelopes/comparison_envelopes.png) | [`comparison_envelopes.mp4`](verification/15_envelopes/comparison_envelopes.mp4) | ✅ Verified |
-| **L16** | `motility_modes` | Type IV Pilus Twitching, Spirochete & Gliding | `6W6M` / `3JC8` | [`expected_motility_modes.png`](verification/16_motility_modes/expected_motility_modes.png) | [`rcsb_6W6M.jpg`](verification/16_motility_modes/rcsb_6W6M.jpg) | [`comparison_motility_modes.png`](verification/16_motility_modes/comparison_motility_modes.png) | [`comparison_motility_modes.mp4`](verification/16_motility_modes/comparison_motility_modes.mp4) | ✅ Verified |
-| **L17** | `microcompartment` | Icosahedral Carboxysome / BMC Organelle | `7O04` / `3I82` | [`expected_microcompartment.png`](verification/17_microcompartment/expected_microcompartment.png) | [`rcsb_7O04.jpg`](verification/17_microcompartment/rcsb_7O04.jpg) | [`comparison_microcompartment.png`](verification/17_microcompartment/comparison_microcompartment.png) | [`comparison_microcompartment.mp4`](verification/17_microcompartment/comparison_microcompartment.mp4) | ✅ Verified |
-| **L18** | `chemosensory_mcp` | Chemosensory MCP–CheA–CheW Array | `6S1K` / `3JA6` | [`expected_chemosensory_mcp.png`](verification/18_chemosensory_mcp/expected_chemosensory_mcp.png) | [`rcsb_6S1K.jpg`](verification/18_chemosensory_mcp/rcsb_6S1K.jpg) | [`comparison_chemosensory_mcp.png`](verification/18_chemosensory_mcp/comparison_chemosensory_mcp.png) | [`comparison_chemosensory_mcp.mp4`](verification/18_chemosensory_mcp/comparison_chemosensory_mcp.mp4) | ✅ Verified |
-| **L19** | `pili_fimbriae` | Type 1 FimH Catch-Bond Pilus & Curli Biofilm | `6GTO` / `4B0M` | [`expected_pili_fimbriae.png`](verification/19_pili_fimbriae/expected_pili_fimbriae.png) | [`rcsb_6GTO.jpg`](verification/19_pili_fimbriae/rcsb_6GTO.jpg) | [`comparison_pili_fimbriae.png`](verification/19_pili_fimbriae/comparison_pili_fimbriae.png) | [`comparison_pili_fimbriae.mp4`](verification/19_pili_fimbriae/comparison_pili_fimbriae.mp4) | ✅ Verified |
-| **L20** | `nucleoid` | Bacterial Nucleoid & NAP Compaction (`HU`/`H-NS`) | `1P71` / `1BNA` | [`expected_nucleoid.png`](verification/20_nucleoid/expected_nucleoid.png) | [`rcsb_1P71.jpg`](verification/20_nucleoid/rcsb_1P71.jpg) | [`comparison_nucleoid.png`](verification/20_nucleoid/comparison_nucleoid.png) | [`comparison_nucleoid.mp4`](verification/20_nucleoid/comparison_nucleoid.mp4) | ✅ Verified |
-| **L21** | `chaperones` | GroEL–GroES Anfinsen Cage & DnaK/DnaJ | `1AON` / `2KHO` | [`expected_chaperones.png`](verification/21_chaperones/expected_chaperones.png) | [`rcsb_1AON.jpg`](verification/21_chaperones/rcsb_1AON.jpg) | [`comparison_chaperones.png`](verification/21_chaperones/comparison_chaperones.png) | [`comparison_chaperones.mp4`](verification/21_chaperones/comparison_chaperones.mp4) | ✅ Verified |
-| **L22** | `rna_degradosome` | Bacterial RNA Degradosome (`RNase E`/`PNPase`) | `2C0B` / `5M3P` | [`expected_rna_degradosome.png`](verification/22_rna_degradosome/expected_rna_degradosome.png) | [`rcsb_2C0B.jpg`](verification/22_rna_degradosome/rcsb_2C0B.jpg) | [`comparison_rna_degradosome.png`](verification/22_rna_degradosome/comparison_rna_degradosome.png) | [`comparison_rna_degradosome.mp4`](verification/22_rna_degradosome/comparison_rna_degradosome.mp4) | ✅ Verified |
-| **L23** | `metabolic_hubs` | Pyruvate Dehydrogenase Cube & Cyt $bd$ Oxidase | `1EAE` / `6WTI` | [`expected_metabolic_hubs.png`](verification/23_metabolic_hubs/expected_metabolic_hubs.png) | [`rcsb_1EAE.jpg`](verification/23_metabolic_hubs/rcsb_1EAE.jpg) | [`comparison_metabolic_hubs.png`](verification/23_metabolic_hubs/comparison_metabolic_hubs.png) | [`comparison_metabolic_hubs.mp4`](verification/23_metabolic_hubs/comparison_metabolic_hubs.mp4) | ✅ Verified |
-| **L24** | `periplasmic_transport` | SurA OMP Chaperone & MalEFGK$_2$ ABC Importer | `1M5Y` / `1OMP` | [`expected_periplasmic_transport.png`](verification/24_periplasmic_transport/expected_periplasmic_transport.png) | [`rcsb_1M5Y.jpg`](verification/24_periplasmic_transport/rcsb_1M5Y.jpg) | [`comparison_periplasmic_transport.png`](verification/24_periplasmic_transport/comparison_periplasmic_transport.png) | [`comparison_periplasmic_transport.mp4`](verification/24_periplasmic_transport/comparison_periplasmic_transport.mp4) | ✅ Verified |
-| **L25** | `efflux_pump` | AcrAB–TolC Multidrug Efflux Pump | `5V5S` | [`expected_efflux_pump.png`](verification/25_efflux_pump/expected_efflux_pump.png) | [`rcsb_5V5S.jpg`](verification/25_efflux_pump/rcsb_5V5S.jpg) | [`comparison_efflux_pump.png`](verification/25_efflux_pump/comparison_efflux_pump.png) | [`comparison_efflux_pump.mp4`](verification/25_efflux_pump/comparison_efflux_pump.mp4) | ✅ Verified |
-| **L26** | `secretion_systems` | T3SS Injectisome, T4SS Pilus & T6SS Spear | `7OKO` / `7AH9` | [`expected_secretion_systems.png`](verification/26_secretion_systems/expected_secretion_systems.png) | [`rcsb_7OKO.jpg`](verification/26_secretion_systems/rcsb_7OKO.jpg) | [`comparison_secretion_systems.png`](verification/26_secretion_systems/comparison_secretion_systems.png) | [`comparison_secretion_systems.mp4`](verification/26_secretion_systems/comparison_secretion_systems.mp4) | ✅ Verified |
-| **L27** | `crispr_defense` | CRISPR–Cas9 R-Loop, Cascade & EcoRI Defense | `5H9F` / `1VY8` | [`expected_crispr_defense.png`](verification/27_crispr_defense/expected_crispr_defense.png) | [`rcsb_5H9F.jpg`](verification/27_crispr_defense/rcsb_5H9F.jpg) | [`comparison_crispr_defense.png`](verification/27_crispr_defense/comparison_crispr_defense.png) | [`comparison_crispr_defense.mp4`](verification/27_crispr_defense/comparison_crispr_defense.mp4) | ✅ Verified |
-| **L28** | `storage_and_spores` | Bacterioferritin, Magnetosomes & Endospore | `7R04` / `1BFR` | [`expected_storage_and_spores.png`](verification/28_storage_and_spores/expected_storage_and_spores.png) | [`rcsb_7R04.jpg`](verification/28_storage_and_spores/rcsb_7R04.jpg) | [`comparison_storage_and_spores.png`](verification/28_storage_and_spores/comparison_storage_and_spores.png) | [`comparison_storage_and_spores.mp4`](verification/28_storage_and_spores/comparison_storage_and_spores.mp4) | ✅ Verified |
-| **L29** | `atomic_chemistry` | Level 5 & 6 Biomolecular Monomers & Bonds | `1BNA` / `MMFF94` | [`expected_atomic_chemistry.png`](verification/29_atomic_chemistry/expected_atomic_chemistry.png) | [`rcsb_1BNA.jpg`](verification/29_atomic_chemistry/rcsb_1BNA.jpg) | [`comparison_atomic_chemistry.png`](verification/29_atomic_chemistry/comparison_atomic_chemistry.png) | [`comparison_atomic_chemistry.mp4`](verification/29_atomic_chemistry/comparison_atomic_chemistry.mp4) | ✅ Verified |
-
----
-
-## 🎨 Biophysical Color Taxonomy
-
-The visual style follows strict biophysical coloring conventions:
-* **Outer Membrane LPS:** Deep Marine Blue (`#0077B6`)
-* **Peptidoglycan Cell Wall:** Warm Terracotta (`#E76F51`)
-* **Inner Plasma Membrane:** Vivid Jade / Seafoam Green (`#06D6A0`)
-* **C-Ring Switch Complex:** Vibrant Orange (`#FF7B00`)
-* **Central Drive Shaft & Stators:** Golden Amber (`#FFD166`)
-* **Universal Joint Hook:** Royal Violet (`#9D4EDD`)
-
----
-
-## 📜 License
-
-This project is licensed under the MIT License — free for educational, academic, and non-commercial use worldwide.
+- [AGENTS.md](AGENTS.md) — Entry point, architecture map, and engineering rules.
+- [docs/how_to_build_a_cell_or_organelle.md](docs/how_to_build_a_cell_or_organelle.md) — Step-by-step guide to building and composing new cells, viruses, and organelles.
+- [docs/cell_explorer_manual.md](docs/cell_explorer_manual.md) — Recursive tree, tags, camera framing, and guided tour engine (§12).
+- [docs/tutorial_mode_spec.md](docs/tutorial_mode_spec.md) — Guided tour specification, subtitle cues, and narrator audio hook.
+- [tools/README.md](tools/README.md) — Downloading, coarse-graining, and embedding experimental RCSB PDB structures byte-for-byte.

@@ -1,265 +1,70 @@
-# 🧬 AGENTS.md — Learn Biology Workspace Guidelines
-**Autonomous Standalone Standard for the "Learn Biology" Interactive 3D Educational Platform**
-**Repository:** `learn-biology`  
-**Aesthetic Style:** The Biology Primer (Editorial Warm Ivory & Modern Typography)  
-**Technology Stack:** React 19 · TypeScript · Vite · Three.js WebGL · Kokoro-82M Neural TTS · WebAssembly
+# Instructions for agents working on 3D Biology
 
----
+This project is a set of single-file three.js pages that show cells, from the whole cell down to molecules and atoms. Before changing anything, read what this file tells you to read for your task. Each manual is written for an agent: it names the functions, constants and algorithms, and lists the mistakes already made.
 
-## 📑 Table of Contents
-1. [Project Identity & Complete Repository Isolation](#1-project-identity--complete-repository-isolation)
-2. [Design System & Editorial Aesthetic ("The Biology Primer")](#2-design-system--editorial-aesthetic-the-biology-primer)
-3. [Component Topology & Application Architecture](#3-component-topology--application-architecture)
-4. [Local Development, Build, & Verification Commands](#4-local-development-build--verification-commands)
-5. [The Step-by-Step Recipe: Integrating a New Scenario / Organelle](#5-the-step-by-step-recipe-integrating-a-new-scenario--organelle)
-   - [Step 1: Domain Typing (`client/src/types/biology.ts`)](#step-1-domain-typing-clientsrctypesbiologyts)
-   - [Step 2: 3D Asset Synthesis (`scripts/` & `models/`)](#step-2-3d-asset-synthesis-scripts--models)
-   - [Step 3: Three.js Scene Controller (`client/src/core/`)](#step-3-threejs-scene-controller-clientsrccore)
-   - [Step 4: Frosted HUD Card (`client/src/components/HUD/`)](#step-4-frosted-hud-card-clientsrccomponentshud)
-   - [Step 5: Editorial Inspector Drawer (`client/src/components/Inspector/`)](#step-5-editorial-inspector-drawer-clientsrccomponentsinspector)
-   - [Step 6: Scale Navigator Switcher (`ScaleNavigator.tsx`)](#step-6-scale-navigator-switcher-scalenavigatortsx)
-   - [Step 7: Master App Integration (`App.tsx`)](#step-7-master-app-integration-apptsx)
-   - [Step 8: Guided Tour Integration (`TourBar.tsx`)](#step-8-guided-tour-integration-tourbartsx)
-6. [In-Repository Canonical Standards](#6-in-repository-canonical-standards)
-7. [Critical Architectural & Biophysical Invariants](#7-critical-architectural--biophysical-invariants)
+## The files
 
----
+| File | What it is | Its manual |
+|---|---|---|
+| `cell_explorer.html` | the main page: a recursive tree of 191 levels (cell / virus → organelle → complex → molecule → atom), each with a 3D model and clickable tags; nine roots embed the realistic cells, realistic viruses and comparative virus gallery | [docs/cell_explorer_manual.md](docs/cell_explorer_manual.md) |
+| `animal_cell_realistic.html` | realistic cutaway animal cell; nucleus molecule by molecule (×20 life size); animated metabolism | [docs/animal_cell_realistic_manual.md](docs/animal_cell_realistic_manual.md) |
+| `plant_cell_realistic.html` | realistic leaf cell: wall, vacuole, chloroplasts; a granum and a stretch of wall at true molecular size | [docs/plant_cell_realistic_manual.md](docs/plant_cell_realistic_manual.md) |
+| `prokaryote_cell_realistic.html` | realistic *E. coli*, everything at true size | [docs/prokaryote_cell_realistic_manual.md](docs/prokaryote_cell_realistic_manual.md) |
+| `bacteriophage_realistic.html` | realistic Bacteriophage T4 (complex head–tail dsDNA myovirus) infecting *E. coli*, everything at true size (1 unit = 10 nm) | [docs/bacteriophage_realistic_manual.md](docs/bacteriophage_realistic_manual.md) |
+| `coronavirus_realistic.html` | realistic SARS-CoV-2 Coronavirus (enveloped `(+)ssRNA` virus) docking onto host ACE2 & replicating via RdRp (1 unit = 10 nm) | [docs/bacteriophage_realistic_manual.md](docs/bacteriophage_realistic_manual.md) |
+| `hiv_realistic.html` | realistic HIV-1 Retrovirus (enveloped fullerene-cone diploid `(+)ssRNA` retrovirus) fusing with a CD4+ T-cell (1 unit = 10 nm) | [docs/bacteriophage_realistic_manual.md](docs/bacteriophage_realistic_manual.md) |
+| `adenovirus_realistic.html` | realistic Human Adenovirus (non-enveloped pseudo-$T=25$ icosahedral dsDNA virus) docking onto CAR & integrins (1 unit = 10 nm) | [docs/bacteriophage_realistic_manual.md](docs/bacteriophage_realistic_manual.md) |
+| `tmv_realistic.html` | realistic Tobacco Mosaic Virus (helical rod `(+)ssRNA` plant virus) self-assembling, uncoating & gating plasmodesmata (1 unit = 10 nm) | [docs/bacteriophage_realistic_manual.md](docs/bacteriophage_realistic_manual.md) |
+| `molecules_preview.html`, `dna_styles.html`, `eukaryotic_cell_3d.html`, `prokaryotic_cell_3d.html` | earlier previews and style studies | — |
+| `tools/` | download, coarse-grain and embed real protein structures; a local server for checks | [tools/README.md](tools/README.md) |
+| `tours/` | guided tour scripts (chapters, steps, subtitle cues), played by the explorer | [docs/cell_explorer_manual.md](docs/cell_explorer_manual.md) §12 |
 
-## 1. Project Identity & Complete Repository Isolation
+## What to read for your task
 
-**Learn Biology** is an open, intuitive, and exploratory 3D educational application designed to teach the living principles of cellular life, organelle micro-architecture, and macromolecular nanomachines.
+| Task | Read, in this order |
+|---|---|
+| **Any task** | this file → [docs/how_to_build_a_cell_or_organelle.md](docs/how_to_build_a_cell_or_organelle.md) §0, §5 → animal manual §1–4 (the core techniques every page uses) |
+| A new **organelle or part** in the explorer | the guide §1–3.1 → explorer manual §3, §4, §9.1 |
+| A new **organelle** in a realistic cell | the guide §1, §2.2, §3.2 → animal manual §1–5 → that cell's manual ("Building the cell" and "How to extend it") |
+| A new **realistic cell** (a new page) | the guide, whole → animal manual, whole → the manual of the closest existing cell → explorer manual §7, §9.3 |
+| A **molecular close-up** at true size | the guide §2.2 step 4 → bacterium manual §4, §7 → plant manual §7–8 → tools/README.md |
+| A **real protein** structure | tools/README.md → bacterium manual §7 → plant manual §7.3 → explorer manual §8 |
+| **Metabolism** (molecules moving, organelles glowing) | animal manual §8, §14 → that cell's "Metabolism" section |
+| **Tags**, views, or a realistic level in the explorer | explorer manual §6, §7, §9.2 → that cell's "Views" section |
+| **Looks and materials** (translucent, glass, gel, x-ray) | animal manual §4.4, §9 (realistic pages) → explorer manual §4.2, §5 (explorer) |
+| The **guided tour** (tutorial mode, subtitles, narrator hook) | explorer manual §12 → animal manual §10.2 → the header comment of `tours/eukaryotic_cell.js` → [docs/tutorial_mode_spec.md](docs/tutorial_mode_spec.md) (the design, and §15 for what differs) |
+| **Fixing** something that looks wrong | the "Pitfalls" table of every manual involved: it is probably there already |
 
-> [!IMPORTANT]
-> **Strict Single-Project Autonomy:**
-> This repository is **100% self-contained**. It is completely separate from `ecoli-vulkan-engine`, `prokaryote-explorer`, and external native engine binaries.
-> All UI components, React hooks, Three.js shaders, 3D GLB assets, and documentation live right here within `learn-biology/`. Never import or rely on paths from outside `learn-biology/`.
+## Rules
 
----
+1. **Isolate, then compose.** Build every organelle or part on its own first, as its own explorer level or in a sandbox copy of the realistic page with only that part. Check it there. Only then place it in the cell or the larger part. Reuse the same model when composing (explorer: `partModel(id)`, `nest`, `tagFrom`); never draw a second, simpler version. The guide explains how.
+2. **Write the spec sheet first** (guide §1). Get the biology right: shape, size, number, position, which side of a membrane each part is on, what it takes in and gives out. Say so wherever sizes are magnified.
+3. **Keep the layout stable.**
+   - **Random draws:** each page uses a seeded random stream, so new code that draws random numbers goes at the end or on its own stream (`const outer = seed; seed = N; …; seed = outer;`).
+   - **Explorer seeds:** each explorer level is seeded by its own id.
+4. **Edit the HTML directly.** There is no build step.
+   - **The one exception:** tour scripts live in `tours/*.js`, plain scripts loaded with `<script src>`, so writers can change the words without touching code. Cue ids there are permanent (recorded narration is filed under them).
+   - **Data lines:** the protein data sits on single lines that `tools/embed_structures.py` rewrites. Keep them on one line, and regenerate them with the tools rather than by hand.
+5. **Code style:**
+   - Match the surrounding code: dense, with comments that explain the biology or the reason.
+   - Comments go at the end of lines only, never in the middle.
+   - Names and units follow each manual: 1 unit = 1 µm in the plant and animal cells, 100 nm in the bacterium.
+6. **Check with your own eyes before you call it done** (guide §4):
+   - Serve the folder: `python3 tools/serve.py "$(pwd)" 8765`. In the Claude desktop app, `.claude/launch.json` runs the same script as `cell-renderer` (port 8765) and `plant-renderer` (8766).
+   - Render every changed view with `__cell.shot(...)` and look at the images.
+   - Run the metabolism for 30 simulated seconds and count recipes.
+   - Time the render.
+   - Open every changed explorer level and confirm every tag shows.
+   - Check the console has no errors.
+7. **Document what you did:**
+   - Update the manual of what you changed: numbers, pitfalls, what is simplified.
+   - For a new page, add it to `README.md` and write its manual in the same shape as the others.
+8. **Git:** commit to `main` with a message in the existing style (`Plant: …`, `Explorer: …`). Don't push unless asked.
 
-## 2. Design System & Editorial Aesthetic ("The Biology Primer")
+## Quick facts
 
-All interfaces in `learn-biology` adhere strictly to **The Biology Primer** editorial design language:
-
-```
-┌─────────────────────────────────────────────────────────────────────────────┐
-│ 🎨 THE BIOLOGY PRIMER DESIGN TOKENS                                         │
-│                                                                             │
-│ • Viewport Background:     #FAF8F5 (Warm Ivory Paper)                       │
-│ • Dark Editorial Ink:      #1E261C / #263323 (Deep Forest Ink)              │
-│ • Editorial Subtitles:     #4A5646 (Warm Muted Olive)                       │
-│ • Structural Accents:      #C87550 / #BA4E3B (Warm Terracotta Brick)        │
-│ • Luminous Membrane Jade:  #52B788 / #06D6A0 (Seafoam Jade)                 │
-│ • Catalytic & Active Sites:#FFB703 / #E9C46A (Warm Pyrite Gold)             │
-│ • Exit / Discharge Sites:  #E07A5F (Peach Coral)                            │
-│ • Card & Panel Background: rgba(255, 255, 255, 0.94) + 12px blur (Glass)   │
-│ • Card Border Standard:    1px solid #E2DACD / #D9CFBF                      │
-│ • Primary Typography:      'Libre Franklin' (Titles, Scale Tags, Badges)    │
-│ • Secondary Typography:    'Source Sans 3' (Body, Phonetics, Scientific)    │
-└─────────────────────────────────────────────────────────────────────────────┘
-```
-
-### Key UI Modules
-1. **Header & Scale Navigator (`#editorial-header`):**
-   - Left-aligned header with large bold titles and conversational subtitles.
-   - Pill-based multi-scale switcher (`#scale-navigator`) displaying emoji icon, organelle name, and physical metric dimensions (e.g. `🦠 Whole Cell (1.5 µm)`, `⚙️ Flagellar Motor (45 nm)`, `🧬 Ribosome Factory (25 nm)`).
-2. **Top Toolbar (`#toolbar`):**
-   - TTS Voice Selector dropdown (powered by client-side Kokoro-82M neural voices: `af_heart`, `af_bella`, `am_adam`, etc.).
-   - Reset Camera, Auto-Rotate, Labels Toggle, and Guided Tour launch buttons.
-3. **Right Inspector Drawer (`.motor-inspector-drawer` / 440px wide):**
-   - Clean sliding sheet docked to the right edge.
-   - Header with category badge (`.motor-insp-badge`), primary name (`.motor-insp-title`), and physical dimensions (`.motor-insp-dims`).
-   - Phonetic pronunciation row (`🗣 [phoh-NET-ik]`).
-   - Neural TTS Read Aloud button (`🔊 Read Aloud`) with audio pulsing indicator.
-   - Dedicated interactive sequential pathway cards (e.g. Three-Chamber tRNA card with 1-click sub-selection).
-   - Macromolecular composition and PDB badges.
-   - Bottom action button: `⛶ Focus Component in 3D`.
-4. **Bottom-Left Floating HUD Card:**
-   - Kinetic controls (Pause/Play, +1 Step advancement).
-   - Live cycle meter (e.g. Codon Elongation Progress Bar).
-   - Simulation rate slider with multiplier readout (`15.0 aa/sec (1.0x)`).
-   - **Exploded Subunit Assembly slider** ($0\% \to 100\%$).
-   - Anatomical Pieces & Subunits filter grid with quick sub-selector chips (`[🟡 A-Site] [🟢 P-Site] [🟠 E-Site]`).
-   - Biophysical key metrics footer (Mass in MDa, physiological turnover rate, energy consumption per bond, error fidelity).
-5. **3D Viewport & SVG Leader Lines:**
-   - Warm neutral ground with soft contact shadow plane (`contactShadowMesh`).
-   - 3D stationary child anchors (`new THREE.Object3D()`) projecting to screen coordinates each frame.
-   - SVG hairline leader lines (`stroke-width: 1.3`, colored by biophysical taxonomy) with lettered circular badges ("A", "P", "E", "C", "MS", "Rod") and pulsing indicator rings on the active selection.
-   - Floating HTML tag badges (`.motor-tag-badge`) containing embedded interactive subpill buttons (`.trna-subpill-btn`).
-
----
-
-## 3. Component Topology & Application Architecture
-
-```
-learn-biology/
-├── AGENTS.md                                 # This autonomous project guide
-├── CELLULAR_ELEMENTS_CATALOG.md              # Scenario & organelle catalog with HUD controls
-├── CELLULAR_INSPECTOR_BLUEPRINT.md           # 7-step elaboration guide & Meta-Prompt
-├── BIOLOGICAL_COLOR_TAXONOMY_SYSTEM.md       # Canonical color taxonomy standard
-├── README.md                                 # Educational overview & mission
-│
-├── client/                                   # Modern React 19 + TypeScript + Vite platform
-│   ├── package.json                          # Client dependencies (React 19, Three.js, Vite)
-│   ├── vite.config.ts                        # Bundler configuration
-│   ├── index.html                            # Entry HTML
-│   ├── public/models/                        # 3D GLB assets (7k00_assembled.glb, etc.)
-│   └── src/
-│       ├── App.tsx                           # Master scenario coordinator & layout
-│       ├── index.css                         # "The Biology Primer" design system & styles
-│       ├── types/biology.ts                  # Type definitions (ScenarioType, OrganelleData, etc.)
-│       ├── core/
-│       │   ├── cellViewer.js                 # Scenario 1: Whole Cell 3D scene (1.5 µm)
-│       │   ├── flagellarMotor.ts             # Scenario 2: Flagellar Motor 3D scene (45 nm)
-│       │   ├── ribosomeTranslation.ts        # Scenario 3: 70S Ribosome 3D scene (25 nm)
-│       │   └── voiceService.js               # Client-side Kokoro-82M neural TTS engine
-│       └── components/
-│           ├── Header/ScaleNavigator.tsx     # Scenario level switcher
-│           ├── Toolbar/CellToolbar.tsx       # Top utility toolbar (TTS voice, tour, labels)
-│           ├── Tour/TourBar.tsx              # Pedagogical guided tour step bar
-│           ├── HUD/                          # Floating HUD cards
-│           │   ├── CellScaleCard.tsx
-│           │   └── MicrocompartmentCard.tsx
-│           ├── Inspector/
-│           │   └── CellInspectorDrawer.tsx   # Level 1 inspector drawer
-│           ├── Motor/
-│           │   ├── MotorHUDCard.tsx          # Level 2 motor controls HUD
-│           │   └── MotorInspectorDrawer.tsx  # Level 2 motor inspector drawer
-│           └── Ribosome/
-│               ├── RibosomeHUDCard.tsx       # Level 3 ribosome controls HUD
-│               └── RibosomeInspectorDrawer.tsx # Level 3 ribosome inspector drawer
-│
-├── scripts/                                  # Blender 5.2 Python asset synthesis scripts
-│   ├── generate_7k00_assembled_pieces.py     # Ribosome Cryo-EM pieces exporter
-│   ├── generate_7cgo_flagellar_motor.py      # Motor basal body exporter
-│   └── generate_primer_cell_hq.py            # Whole cell cutaway mesh exporter
-│
-└── models/                                   # Pre-exported GLB macromolecular models
-    ├── 7k00_assembled.glb                    # 70S ribosome assembly (2.5 MDa)
-    ├── 7cgo_flagellar_motor.glb              # Flagellar motor basal body (11 MDa)
-    └── prokaryote_cell.glb                   # Whole bacterium cutaway (1.5 µm)
-```
-
----
-
-## 4. Local Development, Build, & Verification Commands
-
-All commands are run from `learn-biology/`:
-
-```powershell
-# 1. Install dependencies
-pnpm --prefix client install
-
-# 2. Run the Vite development server (Port 5173)
-pnpm --prefix client dev
-
-# 3. Build & validate production bundle with TypeScript checking
-pnpm --prefix client run build
-
-# 4. Optional: Run the standalone root cutaway viewer (Port 8080)
-python -m http.server 8080
-
-# 5. Optional: Headless Blender 5.2 mesh synthesis
-& "C:\Program Files\Blender Foundation\Blender 5.2\blender.exe" --background --python scripts/generate_7k00_assembled_pieces.py
-```
-
----
-
-## 5. The Step-by-Step Recipe: Integrating a New Scenario / Organelle
-
-To add any new cellular nanomachine or organelle (e.g. **ATP Synthase `6RKW`**, **SecYEG Translocon `3J46`**, or **Respiratory Complex I `7Z7V`**), follow this exact 8-step recipe:
-
-### Step 1: Domain Typing (`client/src/types/biology.ts`)
-1. Extend `ScenarioType`:
-   ```typescript
-   export type ScenarioType = 'cell' | 'motor' | 'ribosome' | 'atp_synthase';
-   ```
-2. Define the component metadata interface:
-   ```typescript
-   export interface ATPSynthaseComponentData {
-     name: string;
-     badge?: string;
-     dims?: string;
-     proteins?: string;
-     pdb?: string;
-     desc?: string;
-     role?: string;
-   }
-   ```
-
-### Step 2: 3D Asset Synthesis (`scripts/` & `models/`)
-1. Fetch the PDB structure in Blender via Molecular Nodes (`mn.entities.Molecule.fetch(pdb_id="6RKW")`).
-2. Separate into individually raycastable, selectable child objects named:
-   $$\text{Piece\_}\langle\text{ScenarioID}\rangle\text{\_}\langle\text{SubunitName}\rangle$$
-   *(e.g. `Piece_ATP_F1_Alpha`, `Piece_ATP_F1_Beta`, `Piece_ATP_Central_Rotor`, `Piece_ATP_Fo_C_Ring`, `Piece_ATP_Stator_Bracket`).*
-3. Export to [`client/public/models/<id>.glb`](file:///c:/Users/devcd/GenProjects/learn-biology/client/public/models).
-
-### Step 3: Three.js Scene Controller (`client/src/core/`)
-Create `client/src/core/<scenarioName>.ts` (modeled after `ribosomeTranslation.ts`):
-1. **Scene Graph & Materials:** Load GLB, assign fresh `MeshStandardMaterial` with `vertexColors: true`, `roughness: 0.35`, `metalness: 0.12`.
-2. **Exploded Assembly Slider:** Implement `setExplodedProgress(t)` ($t \in [0.0, 1.0]$) translating each subunit along its authentic biological dissociation vector $\vec{v}_{\text{dissoc}}$.
-3. **Dynamic Centroid Camera Framing:** Calculate the midpoint of all active pieces and dynamically scale the camera viewing radius so all exploded pieces remain centered in view.
-4. **Stationary 3D Anchors:** Attach child `new THREE.Object3D()` anchors to functional centers.
-5. **2D SVG Leader Overlay:** In `updateLandmarksAndLeaders()`, project anchors to screen space and render SVG polylines, lettered pins ("$\alpha$", "$\beta$", "$c$"), and pulsing indicator rings.
-6. **Subpill Badge Integration:** Render 3D HTML tags containing clickable subpills `[🟡 Subunit A] [🟢 Subunit B]` that focus the camera.
-
-### Step 4: Frosted HUD Card (`client/src/components/HUD/`)
-Create `client/src/components/<Scenario>/<Scenario>HUDCard.tsx` in "The Biology Primer" editorial style:
-- Kinetic rate slider with multiplier.
-- Exploded Assembly slider ($0\% \to 100\%$).
-- Subunit filter chips with nested sub-selectors.
-- Bottom key biophysical metrics footer (Mass, turnover rate, energy, error fidelity).
-
-### Step 5: Editorial Inspector Drawer (`client/src/components/Inspector/`)
-Create `client/src/components/<Scenario>/<Scenario>InspectorDrawer.tsx`:
-- Header: Category badge, primary title, dimensions.
-- Phonetic pronunciation guide row (`🗣 [phoh-NET-ik]`).
-- Neural TTS Read Aloud button (`🔊 Read Aloud`).
-- **Interactive Multi-Chamber Pathway Card:** Clickable state cards (e.g. Boyer Three-State Cycle $O \to L \to T$) that focus the 3D camera.
-- **Mandatory 5-Stage Explanatory Trace Stepper Card:** Interactive causal chain walkthrough (`EXPLANATION_STAGES`) with stage badges, titles, descriptions, Start/End trace buttons, and active indicator.
-- Macromolecular composition and PDB badges.
-- Biological mechanism narrative.
-- `⛶ Focus Component in 3D` button.
-
-### Step 6: Scale Navigator Switcher (`ScaleNavigator.tsx`)
-In [`client/src/components/Header/ScaleNavigator.tsx`](file:///c:/Users/devcd/GenProjects/learn-biology/client/src/components/Header/ScaleNavigator.tsx):
-- Add the new button pill:
-  ```tsx
-  <button
-    className={`scale-nav-btn ${scenario === 'atp_synthase' ? 'active' : ''}`}
-    onClick={() => onSelectScenario('atp_synthase')}
-  >
-    <span className="scale-icon">⚡</span> ATP Synthase <span className="scale-dim">(10 nm)</span>
-  </button>
-  ```
-- Add the main title and educational subtitle for the scenario.
-
-### Step 7: Master App Integration (`App.tsx`)
-In [`client/src/App.tsx`](file:///c:/Users/devcd/GenProjects/learn-biology/client/src/App.tsx):
-- Mount the 3D canvas container when the active scenario matches.
-- Wire up state handlers: `onSelectPart`, `onFocusComponent`, `onExplodedChange`, `onSpeedChange`.
-- Implement `play<Scenario>StoryStep(stepNumber)` orchestrating subtitles, Kokoro voice playback, camera dolly transitions, and the 750ms–1000ms pedagogical observation pause.
-
-### Step 8: Guided Tour Integration (`TourBar.tsx`)
-- Define the ordered tour stops in `<SCENARIO>_TOUR_STOPS`.
-- Hook into `TourBar.tsx` for step-by-step auto-narration walkthroughs.
-
----
-
-## 6. In-Repository Canonical Standards
-
-The following documents reside directly in the root of `learn-biology/` and serve as the immutable sources of truth:
-
-- **[`CELLULAR_ELEMENTS_CATALOG.md`](file:///c:/Users/devcd/GenProjects/learn-biology/CELLULAR_ELEMENTS_CATALOG.md):** Complete registry of all structures across the cell, inter-element biological iteration (donors $\to$ machine $\to$ consumers), and HUD simulation sliders.
-- **[`CELLULAR_INSPECTOR_BLUEPRINT.md`](file:///c:/Users/devcd/GenProjects/learn-biology/CELLULAR_INSPECTOR_BLUEPRINT.md):** 8-step engineering blueprint, mandatory 5-Stage Explanatory Trace engine, and the Universal Meta-Prompt Template.
-- **[`BIOLOGICAL_COLOR_TAXONOMY_SYSTEM.md`](file:///c:/Users/devcd/GenProjects/learn-biology/BIOLOGICAL_COLOR_TAXONOMY_SYSTEM.md):** Strict hex color palette standard for every biophysical class.
-
----
-
-## 7. Critical Architectural & Biophysical Invariants
-
-1. **No Monolithic Single-Mesh Models:** Every complex must be decomposed into raycastable pieces named `Piece_<Scenario>_<Subunit>`.
-2. **Strict Color Taxonomy:** Never use arbitrary colors or gray fallbacks. Catalytic pockets = `#FFB703`, Inner membrane = `#06D6A0`, Outer membrane = `#0077B6`, RNA = `#7209B7`.
-3. **No Empty Wireframe Fallbacks:** Active sites and functional pockets must render solid, volumetric geometry with cofactors and membrane slabs.
-4. **Native Selectable HTML in Drawers:** Both `#left-drawer` and `#right-drawer` must retain `user-select: text !important` so students can highlight text, copy notes, and search terms.
-5. **Mandatory 5-Stage Explanatory Trace ("How It Works"):** Every scenario and macromolecular inspector must implement the 5-stage causal chain walkthrough (`EXPLANATION_STAGES`) with camera dollies, subunit state highlights, Kokoro neural voice narration, subtitles, and Inspector Drawer stepper card controls.
-6. **Zero TypeScript Errors:** All client code must pass `tsc -b && vite build` cleanly.
+- **three.js:** 0.160, loaded from `cdn.jsdelivr.net` by an import map, so the pages need internet.
+- **Debug hooks:** every realistic page exposes `window.__cell` with `shot`, `step`, `sites`, `procs` and `flows`. The plant page also has `VIEWS`, `pointsOf` and `org`; the bacterium `views` and `pointsOf`; the animal page `org`, `pointsOf` and the tour's `focusOf`, `flyTo`, `ghost` and `blink`. The explorer exposes `window.__explorer` (`showNow`, `build`, `NODES`, `cur`) and `window.__tour` (the guided tour: `goto`, `state`, `cues`, `setNarrator`).
+- **The explorer embeds each realistic page** as `<page>?embed` in an iframe and talks to it with `postMessage` (`to: 'realistic-cell'`, `from: 'realistic-cell'`).
+- **Hidden browser panes:** a hidden or background browser pane stops animation frames, so realistic pages don't send their tags until the pane is visible.
+- **Ignored folders:** `renders/` (check images) and `structures/` (downloaded and coarse-grained data) are git-ignored.

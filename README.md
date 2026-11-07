@@ -1,32 +1,75 @@
-# 3D Biology
+# BEXONIA Learn Biology — Interactive 3D Cell & Virus Explorer
 
-Interactive 3D models of cells, from the whole cell down to molecules and atoms. Each page is a single HTML file built with three.js; open it in a browser (internet is needed to load three.js and fonts from the CDN).
+**Live Platform:** [https://learn.bexonia.com](https://learn.bexonia.com)
 
-| File | What it is |
-|---|---|
-| `cell_explorer.html` | The main explorer, organized into two collapsible sidebar menus (**Cells** and **Viruses**) with **guided tours** for all 10 root models (the *Guided tour* button, or `cell_explorer.html#tour`): the camera flies to each part, which lights up while subtitles explain it, with chapters, a transcript, and a hook for a narrator's voice. Its **Cells** menu contains *Animal cell*, *Plant cell*, *Fungal cell (yeast)*, and *Bacterium (E. coli)*; its **Viruses** menu contains *Bacteriophage T4*, *Coronavirus*, *HIV-1 retrovirus*, *Adenovirus*, *Tobacco mosaic (TMV)*, and *All virus types (3D)*. Each shows its realistic page inside it, with tags, descriptions and drill-down for every part; deeper levels open a recursive tree of parts, each with its own 3D model, tagged leader lines, an x-ray and a realistic look, and PNG export |
-| `animal_cell_realistic.html` | A realistic cutaway animal cell: a nucleus built molecule by molecule (DNA on histones, mRNA, rRNA in the nucleolus) and animated metabolism, where organelles gather their inputs, light up and send out what they make, with a speed control |
-| `plant_cell_realistic.html` | A realistic cutaway leaf (mesophyll) cell: a cellulose wall, a central vacuole pressing the cytoplasm into a thin layer, chloroplasts with grana, transvacuolar strands with streaming, plasmodesmata, cortical microtubules, a nucleus built molecule by molecule with chromocenters, and photosynthesis and photorespiration in the metabolism. A granum and a stretch of the wall are drawn molecule by molecule at true size, from real structures (photosystems I and II with every chlorophyll, cytochrome b6f, ATP synthase, RuBisCO, cellulose synthase) |
-| `fungal_cell_realistic.html` | A realistic cutaway **budding yeast** cell (*Saccharomyces cerevisiae*, Kingdom Fungi): mother cell with emerging daughter bud, 3-layered chitin + $\beta$-1,3/$\beta$-1,6-glucan + mannoprotein cell wall, permanent chitinous bud scars, ergosterol plasma membrane with `Pma1` proton pumps (PDB 3B8C), septin hourglass collar (`Cdc3–Cdc10–Cdc12`, PDB 2QAG) and actomyosin ring at the mother–bud neck, closed-mitosis nucleus with embedded Spindle Pole Body (SPB) and crescent nucleolus, acidic polyphosphate vacuole, dispersed unstacked Golgi cisternae, ER with `Erg11` (PDB 4LXJ, azole target), cytosolic alcoholic fermentation (`Pdc1` PDB 1PYD + `Adh1` PDB 4W6Z), and a true-scale wall & cortex patch (`Exg1` PDB 1EQC) |
-| `prokaryote_cell_realistic.html` | A realistic cutaway *E. coli* with everything at true scale: the gram-negative envelope molecule by molecule, the whole 4.6 Mb chromosome folded into plectonemes (drawn base pair by base pair wherever you zoom in), coupled transcription and translation on busy polysomes, a replication fork copying the chromosome, efflux pumps spanning the envelope, flagella that spin, 32 real structures from the Protein Data Bank, and proton-driven metabolism |
-| `bacteriophage_realistic.html` | A realistic cutaway **Bacteriophage T4** (complex head–tail dsDNA myovirus) infecting *E. coli* with everything at true scale (`1 unit = 10 nm`): prolate icosahedral capsid (`gp23*`, `Soc`, `Hoc`, `gp24*` vertices, PDB 5VF3), coaxially spooled 169 kbp dsDNA genome drawn base pair by base pair, `gp20` portal dodecamer (PDB 3JA7), collar & `gpWac` whiskers, 24-ring `gp18` contractile tail sheath (PDB 3J2M) around the `gp19` inner tail tube (PDB 5W5F), hexagonal baseplate with the `gp27–gp5` β-helix puncturing needle & lysozyme (PDB 1K28), `gp12` short tail fibers (PDB 1OCY), 145 nm hinged long tail fibers (`gp34–gp37`, PDB 2XGF) docked onto host `OmpF` porins (PDB 2OMF), and animated DNA injection & host takeover |
-| `coronavirus_realistic.html` | A realistic cutaway **SARS-CoV-2 Coronavirus** (enveloped crowned `(+)ssRNA` betacoronavirus) docking onto a human respiratory cell at true scale (`1 unit = 10 nm`): 48 club-shaped Spike (`S`) homotrimers (PDB 6VXX), host-derived lipid bilayer with Membrane (`M`) dimers and 14 pentameric Envelope (`E`) viroporin ion channels (PDB 5X29), helical 29.9 kb `(+)ssRNA` genome wound through 40 Nucleocapsid (`N`) oligomers (PDB 6VYO), host `ACE2` receptor dimers (PDB 1R42), and cytoplasmic `RdRp` replicase complexes (`nsp12–nsp7–nsp8`, PDB 6M71) |
-| `hiv_realistic.html` | A realistic cutaway **HIV-1 Retrovirus** (enveloped conical-capsid diploid `(+)ssRNA` retrovirus) fusing with a CD4+ T-lymphocyte at true scale (`1 unit = 10 nm`): sparse `Env` `gp120/gp41` trimer spikes (PDB 4TVP), lipid bilayer lined by `p17` Matrix (`MA`) trimers (PDB 1HIW), fullerene cone capsid built from ~216 `p24` `CA` hexamers (PDB 3H4E) and 12 `CA` vertex pentamers (PDB 3P05), diploid `(+)ssRNA` genome, Reverse Transcriptase (`p66/p51`, PDB 1RTD), Integrase (PDB 1EX4), and proviral dsDNA integration |
-| `adenovirus_realistic.html` | A realistic cutaway **Human Adenovirus** (non-enveloped pseudo-$T=25$ icosahedral dsDNA virus) attaching to a respiratory epithelial cell at true scale (`1 unit = 10 nm`): 20 sharp icosahedral facets tiled by 240 Hexon II trimers (PDB 1P30) and minor cement proteins (`IIIa`, `VI`, `VIII`, `IX`), 12 vertices crowned by Penton base pentamers (PDB 1X9T) and 12 projecting Fiber shafts & knobs (PDB 1QIU) docking onto host `CAR` and $\alpha_v\beta_5$ integrin receptors, enclosing the 36 kbp linear dsDNA–protein VII adenosome core |
-| `tmv_realistic.html` | A realistic cutaway **Tobacco Mosaic Virus (TMV)** (helical rod `(+)ssRNA` plant tobamovirus) at true scale (`1 unit = 10 nm`): 18 nm wide right-handed helical cylinder of four-helix-bundle Coat Protein subunits (`16⅓` subunits per turn, 2.3 nm pitch, PDB 2TMV), 6.4 kb `(+)ssRNA` coiled at $r = 4.0\text{ nm}$ around the $4.0\text{ nm}$ hollow central channel with Caspar carboxylate $\text{Ca}^{2+}$ switches, 20S proto-helix lock-washer assembly discs on the Origin-of-Assembly hairpin, co-translational "striposome" uncoating by host 80S ribosomes, and 30 kDa Movement Protein gating plant plasmodesmata |
-| `molecules_preview.html` | A preview of simpler DNA and RNA styles and of 14 real proteins from the Protein Data Bank, grouped by where they work in the cell and drawn to the same scale |
-| `prokaryotic_cell_3d.html` | A standalone bacterium in the style of a printed textbook figure, with labels and a microcompartment inset |
-| `eukaryotic_cell_3d.html` | A translucent eukaryotic cell with nine colour palettes |
-| `dna_styles.html` | Ten artistic renderings of the same DNA/RNA transcription scene, for comparing styles |
+Interactive 3D WebGL models of eukaryotic cells, prokaryotic bacteria, and viruses—from whole cells and virions down to organelles, molecular machines, and atomic structures from the Protein Data Bank (RCSB PDB). Each model is a self-contained Three.js HTML application with chaptered **guided tours**, subtitles, narrator hooks, cutaway/open/closed structural views, and real-time animated metabolism.
 
-How everything is built (techniques, algorithms, verification and pitfalls) is written up for agents and people:
+---
 
-- [AGENTS.md](AGENTS.md): where to start. What to read for each kind of task, and the rules to follow.
-- [docs/how_to_build_a_cell_or_organelle.md](docs/how_to_build_a_cell_or_organelle.md): step by step, building each part in isolation, then composing it into the cell.
-- [docs/cell_explorer_manual.md](docs/cell_explorer_manual.md): the explorer's recursive tree, models, looks, tags and menu.
-- [docs/tutorial_mode_spec.md](docs/tutorial_mode_spec.md): the design of the guided tour of the eukaryotic cell (subtitles, controls, a narrator hook); how it is built is in the explorer manual §12.
-- [docs/animal_cell_realistic_manual.md](docs/animal_cell_realistic_manual.md), [docs/plant_cell_realistic_manual.md](docs/plant_cell_realistic_manual.md), [docs/prokaryote_cell_realistic_manual.md](docs/prokaryote_cell_realistic_manual.md) and [docs/bacteriophage_realistic_manual.md](docs/bacteriophage_realistic_manual.md): the realistic cells and bacteriophage.
-- [docs/optional_where_to_research.md](docs/optional_where_to_research.md) (optional): where to research the biology of a new part, the sources to check, and the project's key numbers still to be checked against them.
-- [tools/README.md](tools/README.md): downloading, coarse-graining and embedding the real protein structures (reproducible byte for byte), and the local server used for checks.
+## Main Cells & Viruses Preview
 
-Models are schematic: shapes and arrangements follow real biology, but sizes are not to scale between levels.
+| Animal Cell (*Homo sapiens*) | Plant Cell (*Leaf Mesophyll*) |
+| :---: | :---: |
+| ![Animal Cell](screenshots/animal_cell.jpg) | ![Plant Cell](screenshots/plant_cell.jpg) |
+| **Fungal Cell (*Saccharomyces cerevisiae*)** | **Prokaryotic Cell (*Escherichia coli*)** |
+| ![Fungal Cell](screenshots/fungal_cell.jpg) | ![Bacterium Cell](screenshots/bacterium_cell.jpg) |
+
+<p align="center">
+  <strong>Bacteriophage T4 Infecting <em>E. coli</em> (True Atomic Scale)</strong><br/>
+  <img src="screenshots/bacteriophage_t4.jpg" alt="Bacteriophage T4" width="75%" />
+</p>
+
+---
+
+## Interactive Models & Pages
+
+| File | Description | Manual |
+| :--- | :--- | :--- |
+| [`cell_explorer.html`](cell_explorer.html) | **Main 3D Explorer (`learn.bexonia.com`):** Organized into two collapsible sidebar menus (**Cells** and **Viruses**) with interactive **Guided Tours** (`cell_explorer.html#tour`) across all 10 root models. Flies the camera to each structure, highlights parts with leader-line tags, plays synchronized subtitles & narrator hooks, and drills down into a recursive tree of 191 levels from cells and viruses down to individual molecules and atoms. | [docs/cell_explorer_manual.md](docs/cell_explorer_manual.md) |
+| [`animal_cell_realistic.html`](animal_cell_realistic.html) | **Realistic Animal Cell:** Cutaway mammalian cell (`1 unit = 1 µm`) with a nucleus built molecule-by-molecule (46 chromosomes wrapped on histones, mRNA transcription, rRNA in the nucleolus), rough/smooth ER, Golgi apparatus, hollow-cristae mitochondria, lysosomes, peroxisomes, centrosome, primary cilium, and animated metabolic recipes (`1/8×` to `4×` speed). | [docs/animal_cell_realistic_manual.md](docs/animal_cell_realistic_manual.md) |
+| [`plant_cell_realistic.html`](plant_cell_realistic.html) | **Realistic Plant Cell (Leaf Mesophyll):** Cutaway plant cell (`1 unit = 1 µm`) featuring a cellulose/pectin cell wall, central vacuole with tonoplast, chloroplasts with stacked thylakoid grana, transvacuolar cytoplasmic streaming, plasmodesmata, and true-scale molecular close-ups of the thylakoid granum and cell wall (Photosystems I & II, Cytochrome $b_6f$, ATP synthase, RuBisCO, Cellulose synthase). | [docs/plant_cell_realistic_manual.md](docs/plant_cell_realistic_manual.md) |
+| [`fungal_cell_realistic.html`](fungal_cell_realistic.html) | **Realistic Fungal Cell (Budding Yeast *S. cerevisiae*):** Mother cell with emerging daughter bud (`1 unit = 1 µm`), 3-layered chitin + $\beta$-1,3/$\beta$-1,6-glucan + mannoprotein cell wall, crater-like chitinous bud scars, ergosterol plasma membrane with `Pma1` $\text{H}^+$-ATPases (PDB `3B8C`), septin hourglass collar (`Cdc3–Cdc10–Cdc12`, PDB `2QAG`) and actomyosin ring at the mother–bud neck, closed-mitosis nucleus with embedded Spindle Pole Body (SPB), acidic polyphosphate vacuole, Woronin bodies, ER with `Erg11` (PDB `4LXJ`), and cytosolic alcoholic fermentation (`Pdc1` PDB `1PYD` + `Adh1` PDB `4W6Z`). | [docs/fungal_cell_realistic_manual.md](docs/fungal_cell_realistic_manual.md) |
+| [`prokaryote_cell_realistic.html`](prokaryote_cell_realistic.html) | **Realistic Bacterium (*E. coli*):** Cutaway Gram-negative rod at true scale (`1 unit = 100 nm`) with inner/outer membranes, peptidoglycan, LPS, the complete 4.6 Mb circular chromosome folded into plectonemes (drawn base-pair by base-pair on zoom), coupled transcription–translation polysomes, replisome, AcrAB–TolC efflux pumps, rotary flagellar motors, and 32 experimental PDB structures. | [docs/prokaryote_cell_realistic_manual.md](docs/prokaryote_cell_realistic_manual.md) |
+| [`bacteriophage_realistic.html`](bacteriophage_realistic.html) | **Realistic Bacteriophage T4:** Complex dsDNA myovirus infecting *E. coli* at true scale (`1 unit = 10 nm`) with prolate icosahedral capsid (`gp23*`, `Soc`, `Hoc`, `gp24*`, PDB `5VF3`), coaxially spooled 169 kbp dsDNA genome, `gp20` portal dodecamer (PDB `3JA7`), contractile `gp18` tail sheath (PDB `3J2M`), hexagonal baseplate with `gp27–gp5` needle (PDB `1K28`), hinged long tail fibers (`gp34–gp37`, PDB `2XGF`) bound to `OmpF` porins (PDB `2OMF`), and animated DNA injection. | [docs/bacteriophage_realistic_manual.md](docs/bacteriophage_realistic_manual.md) |
+| [`coronavirus_realistic.html`](coronavirus_realistic.html) | **Realistic SARS-CoV-2 Coronavirus:** Enveloped `(+)ssRNA` betacoronavirus (`1 unit = 10 nm`) with 48 Spike (`S`) trimers (PDB `6VXX`), Membrane (`M`) dimers, pentameric Envelope (`E`) viroporins (PDB `5X29`), 29.9 kb `(+)ssRNA` wound on 40 Nucleocapsid (`N`) oligomers (PDB `6VYO`), host `ACE2` receptors (PDB `1R42`), and `RdRp` replicase complexes (`nsp12–nsp7–nsp8`, PDB `6M71`), with **Open / Cutaway / Closed** envelope protein shell modes. | [docs/bacteriophage_realistic_manual.md](docs/bacteriophage_realistic_manual.md) |
+| [`hiv_realistic.html`](hiv_realistic.html) | **Realistic HIV-1 Retrovirus:** Enveloped diploid `(+)ssRNA` retrovirus (`1 unit = 10 nm`) fusing with a $\text{CD4}^+$ T-cell: `Env` `gp120/gp41` spikes (PDB `4TVP`), `p17` Matrix (`MA`) shell (PDB `1HIW`), fullerene-cone capsid of `p24` `CA` hexamers (PDB `3H4E`) & 12 vertex pentamers (PDB `3P05`), Reverse Transcriptase (PDB `1RTD`), and Integrase (PDB `1EX4`), with **Open / Cutaway / Closed** envelope & capsid modes. | [docs/bacteriophage_realistic_manual.md](docs/bacteriophage_realistic_manual.md) |
+| [`adenovirus_realistic.html`](adenovirus_realistic.html) | **Realistic Human Adenovirus:** Non-enveloped pseudo-$T=25$ icosahedral dsDNA virus (`1 unit = 10 nm`) with 240 Hexon II trimers (PDB `1P30`), cement proteins (`IIIa`, `VI`, `VIII`, `IX`), 12 vertex Penton bases (PDB `1X9T`) and projecting Fiber knobs (PDB `1QIU`) docked onto host `CAR` and $\alpha_v\beta_5$ integrins, with **Open / Cutaway / Closed** icosahedral shell modes. | [docs/bacteriophage_realistic_manual.md](docs/bacteriophage_realistic_manual.md) |
+| [`tmv_realistic.html`](tmv_realistic.html) | **Realistic Tobacco Mosaic Virus (TMV):** Helical rod `(+)ssRNA` plant virus (`1 unit = 10 nm`) with right-handed Coat Protein helix (`16⅓` subunits/turn, 2.3 nm pitch, PDB `2TMV`), 6.4 kb `(+)ssRNA`, 20S assembly discs, co-translational 80S ribosome uncoating, and 30 kDa Movement Protein gating plasmodesmata. | [docs/bacteriophage_realistic_manual.md](docs/bacteriophage_realistic_manual.md) |
+| [`molecules_preview.html`](molecules_preview.html), [`dna_styles.html`](dna_styles.html), [`eukaryotic_cell_3d.html`](eukaryotic_cell_3d.html), [`prokaryotic_cell_3d.html`](prokaryotic_cell_3d.html) | Standalone molecular style studies and textbook-figure previews. | — |
+
+---
+
+## Local Development
+
+Serve the repository locally with the included zero-dependency Python HTTP server:
+
+```bash
+python3 tools/serve.py "$(pwd)" 8765
+```
+
+Then open `http://localhost:8765/cell_explorer.html` in your browser.
+
+---
+
+## Architecture & Deployment (`learn.bexonia.com`)
+
+```text
+Internet -> Cloudflare Zero Trust Tunnel -> Traefik (bexonia-ingress)
+  -> IngressRoute (learn.bexonia.com)
+     -> Service/bexonia-learn (:8080, namespace: bexonia-learn)
+        -> Pod/bexonia-learn (nginx:1.27-alpine serving gzipped WebGL bundles)
+```
+
+- **Automated CI/CD ([`.github/workflows/deploy.yml`](.github/workflows/deploy.yml)):** Runs on the in-cluster `bexonia-infra-runner` on every push to `main`, packages the static HTML/JS and embedded PDB coordinates into 4 compressed ConfigMap bundles (`< 650 KB` each), authenticates to OpenBao (`bexonia-vault`) via Kubernetes ServiceAccount JWT, and executes `tofu apply` in [`opentofu/`](opentofu/).
+- **Infrastructure as Code ([`opentofu/main.tf`](opentofu/main.tf)):** Provisions the `bexonia-learn` namespace, `Deployment/bexonia-learn` (2 replicas with `checksum/web` rolling updates), `Service/bexonia-learn`, cross-namespace Traefik `IngressRoute` (`Host(\`learn.bexonia.com\`)` with Let's Encrypt `cloudflare` TLS), and the `learn.bexonia.com` Cloudflare DNS `CNAME` & Zero Trust Tunnel ingress route.
+- **Version History:** The legacy v1 Blender + Molecular Nodes + React/Three.js pipeline and all 140 Python generator scripts are preserved under lightweight tag **`v1`** (`git checkout v1`).
+
+---
+
+## Documentation for Contributors & Agents
+
+- [AGENTS.md](AGENTS.md) — Entry point, architecture map, and engineering rules.
+- [docs/how_to_build_a_cell_or_organelle.md](docs/how_to_build_a_cell_or_organelle.md) — Step-by-step guide to building and composing new cells, viruses, and organelles.
+- [docs/cell_explorer_manual.md](docs/cell_explorer_manual.md) — Recursive tree, tags, camera framing, and guided tour engine (§12).
+- [docs/tutorial_mode_spec.md](docs/tutorial_mode_spec.md) — Guided tour specification, subtitle cues, and narrator audio hook.
+- [tools/README.md](tools/README.md) — Downloading, coarse-graining, and embedding experimental RCSB PDB structures byte-for-byte.

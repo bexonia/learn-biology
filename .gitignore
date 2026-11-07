@@ -1,6 +1,12 @@
-# rendered images and screenshots
+# rendered images and temporary build bundles
 renders/
+dist/
 *.png
+
+# OpenTofu local state & provider cache
+.terraform/
+*.tfstate
+*.tfstate.*
 
 # local Claude Code settings
 .claude/

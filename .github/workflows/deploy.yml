@@ -29,14 +29,17 @@ jobs:
             cell_explorer.html \
             eukaryotic_cell_3d.html \
             prokaryotic_cell_3d.html \
-            dna_styles.html
+            dna_styles.html \
+            robots.txt \
+            sitemap.xml
           GZIP=-9 tar -czf dist/bundle-2.tar.gz \
             animal_cell_realistic.html \
             plant_cell_realistic.html \
             fungal_cell_realistic.html
           GZIP=-9 tar -czf dist/bundle-3.tar.gz \
             prokaryote_cell_realistic.html \
-            molecules_preview.html
+            molecules_preview.html \
+            screenshots/*.jpg
           GZIP=-9 tar -czf dist/bundle-4.tar.gz \
             bacteriophage_realistic.html \
             hiv_realistic.html \

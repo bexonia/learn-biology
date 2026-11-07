@@ -1,8 +1,16 @@
-# BEXONIA Learn Biology — Interactive 3D Cell & Virus Explorer
+# BEXONIA Learn Biology — Interactive 3D Eukaryotic & Prokaryotic Cell & Virus Explorer
 
-**Live Platform:** [https://learn.bexonia.com](https://learn.bexonia.com)
+**Live Platform:** [https://learn.bexonia.com](https://learn.bexonia.com) · **License:** [MIT](LICENSE)
 
-Interactive 3D WebGL models of eukaryotic cells, prokaryotic bacteria, and viruses—from whole cells and virions down to organelles, molecular machines, and atomic structures from the Protein Data Bank (RCSB PDB). Each model is a self-contained Three.js HTML application with chaptered **guided tours**, subtitles, narrator hooks, cutaway/open/closed structural views, and real-time animated metabolism.
+An open-source, interactive **3D cellular & molecular biology library** built with Three.js and WebGL. Explore **eukaryotic cells** (*Animal*, *Plant*, and *Fungal Yeast*), **prokaryotic cells** (*Escherichia coli* bacteria), and **viruses** (*Bacteriophage T4*, *SARS-CoV-2 Coronavirus*, *HIV-1 Retrovirus*, *Human Adenovirus*, and *Tobacco Mosaic Virus*)—from whole cells and virions down to organelles, macromolecular complexes, DNA/RNA, and experimental atomic structures from the Protein Data Bank (RCSB PDB). Every model includes chaptered **guided tours**, subtitles, narrator hooks, cutaway/open/closed structural views, and real-time animated metabolism.
+
+---
+
+## Biological Domains & Searchable Keywords
+
+- **Eukaryotes & Eukaryotic Cells (`1 unit = 1 µm`):** Animal Cell (*Homo sapiens*), Plant Cell (*Leaf Mesophyll*), Fungal Cell (*Budding Yeast Saccharomyces cerevisiae*), Nucleus, Nuclear Pore Complex, Chromatin, Nucleosomes, Histones, Nucleolus, Mitochondria, Cristae, Chloroplasts, Thylakoid Grana, Endoplasmic Reticulum (Rough & Smooth ER), Golgi Apparatus, Central Vacuole, Tonoplast, Lysosomes, Peroxisomes, Centrosome, Spindle Pole Body (SPB), Septin Ring, Chitin & Cellulose Cell Walls, Plasmodesmata, Primary Cilium.
+- **Prokaryotes & Bacterial Cells (`1 unit = 100 nm`):** Gram-Negative Bacterium (*Escherichia coli*), Outer Membrane (LPS), Peptidoglycan Cell Wall, Periplasm, Inner Plasma Membrane, Circular Chromosome Nucleoid & Plectonemes, 70S Ribosome Polysomes, Replisome, AcrAB–TolC Efflux Pumps, Bacterial Flagellar Motor, SecYEG, BAM & Lpt Bridges.
+- **Viruses & Virology (`1 unit = 10 nm`):** Complex Head–Tail Myovirus (*Bacteriophage T4*), Enveloped Betacoronavirus (*SARS-CoV-2*), Enveloped Lentivirus/Retrovirus (*HIV-1*), Non-Enveloped Icosahedral dsDNA Virus (*Human Adenovirus*), Helical Rod Plant Tobamovirus (*Tobacco Mosaic Virus / TMV*), Viral Capsids, Contractile Tail Sheath, Spike Trimers, Fullerene Cone, Reverse Transcriptase, RdRp, Integrase.
 
 ---
 

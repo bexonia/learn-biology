@@ -21,7 +21,7 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Package compressed WebGL bundles for Kubernetes ConfigMaps
+      - name: Package & sync WebGL bundles to Kubernetes ConfigMaps
         run: |
           set -euo pipefail
           mkdir -p dist
@@ -44,7 +44,54 @@ jobs:
             adenovirus_realistic.html \
             tmv_realistic.html \
             tours/*.js
-          ls -lh dist/
+
+          BUNDLE_CHECKSUM=$(sha256sum dist/bundle-*.tar.gz | sha256sum | awk '{print $1}')
+          echo "TF_VAR_bundle_checksum=${BUNDLE_CHECKSUM}" >> "$GITHUB_ENV"
+
+          SA_JWT=$(cat /var/run/secrets/kubernetes.io/serviceaccount/token)
+          CA_CRT="/var/run/secrets/kubernetes.io/serviceaccount/ca.crt"
+          K8S_API="https://kubernetes.default.svc"
+
+          # Ensure namespace bexonia-learn exists
+          curl -sf --cacert "$CA_CRT" -H "Authorization: Bearer $SA_JWT" \
+            "${K8S_API}/api/v1/namespaces/bexonia-learn" >/dev/null || \
+          curl -sf --cacert "$CA_CRT" -H "Authorization: Bearer $SA_JWT" \
+            -H "Content-Type: application/json" \
+            -X POST "${K8S_API}/api/v1/namespaces" \
+            -d '{"apiVersion":"v1","kind":"Namespace","metadata":{"name":"bexonia-learn","labels":{"app.kubernetes.io/part-of":"bexonia-platform","bexonia.io/zone":"learn"}}}' >/dev/null
+
+          # Sync the 4 binary ConfigMaps directly (keeps OpenTofu logs clean and tfstate < 15 KB)
+          for i in 1 2 3 4; do
+            CM_NAME="bexonia-learn-bundle-${i}"
+            FILE_KEY="bundle-${i}.tar.gz"
+            jq -n --arg name "$CM_NAME" --arg key "$FILE_KEY" --rawfile b64 <(base64 -w0 "dist/${FILE_KEY}") \
+              '{apiVersion:"v1",kind:"ConfigMap",metadata:{name:$name,namespace:"bexonia-learn"},binaryData:{($key):$b64}}' > "/tmp/${CM_NAME}.json"
+
+            if curl -sf --cacert "$CA_CRT" -H "Authorization: Bearer $SA_JWT" \
+              "${K8S_API}/api/v1/namespaces/bexonia-learn/configmaps/${CM_NAME}" >/dev/null; then
+              curl -sf --cacert "$CA_CRT" -H "Authorization: Bearer $SA_JWT" \
+                -H "Content-Type: application/json" \
+                -X PUT "${K8S_API}/api/v1/namespaces/bexonia-learn/configmaps/${CM_NAME}" \
+                -d @"/tmp/${CM_NAME}.json" >/dev/null
+            else
+              curl -sf --cacert "$CA_CRT" -H "Authorization: Bearer $SA_JWT" \
+                -H "Content-Type: application/json" \
+                -X POST "${K8S_API}/api/v1/namespaces/bexonia-learn/configmaps" \
+                -d @"/tmp/${CM_NAME}.json" >/dev/null
+            fi
+            rm -f "/tmp/${CM_NAME}.json"
+            echo "Synced ConfigMap/${CM_NAME}."
+          done
+
+          # If tfstate-default-bexonia-learn was not saved on an initial run, remove untracked K8s objects before apply
+          if ! curl -sf --cacert "$CA_CRT" -H "Authorization: Bearer $SA_JWT" \
+            "${K8S_API}/api/v1/namespaces/bexonia-runners/secrets/tfstate-default-bexonia-learn" >/dev/null; then
+            echo "No existing tfstate-default-bexonia-learn found; cleaning untracked resources in bexonia-learn before apply..."
+            curl -sf --cacert "$CA_CRT" -H "Authorization: Bearer $SA_JWT" -X DELETE "${K8S_API}/apis/apps/v1/namespaces/bexonia-learn/deployments/bexonia-learn" >/dev/null || true
+            curl -sf --cacert "$CA_CRT" -H "Authorization: Bearer $SA_JWT" -X DELETE "${K8S_API}/api/v1/namespaces/bexonia-learn/services/bexonia-learn" >/dev/null || true
+            curl -sf --cacert "$CA_CRT" -H "Authorization: Bearer $SA_JWT" -X DELETE "${K8S_API}/api/v1/namespaces/bexonia-learn/configmaps/bexonia-learn-nginx" >/dev/null || true
+            curl -sf --cacert "$CA_CRT" -H "Authorization: Bearer $SA_JWT" -X DELETE "${K8S_API}/apis/traefik.io/v1alpha1/namespaces/bexonia-learn/ingressroutes/bexonia-learn-route" >/dev/null || true
+          fi
 
       - name: Setup OpenTofu
         uses: opentofu/setup-opentofu@v1
@@ -74,5 +121,16 @@ jobs:
       - name: OpenTofu Init & Apply (opentofu/)
         working-directory: opentofu
         run: |
+          set -euo pipefail
           tofu init -input=false
+          if ! tofu state list 2>/dev/null | grep -q "kubernetes_deployment_v1.bexonia_learn"; then
+            SA_JWT=$(cat /var/run/secrets/kubernetes.io/serviceaccount/token)
+            CA_CRT="/var/run/secrets/kubernetes.io/serviceaccount/ca.crt"
+            K8S_API="https://kubernetes.default.svc"
+            curl -sf --cacert "$CA_CRT" -H "Authorization: Bearer $SA_JWT" -X DELETE "${K8S_API}/apis/apps/v1/namespaces/bexonia-learn/deployments/bexonia-learn" >/dev/null || true
+            curl -sf --cacert "$CA_CRT" -H "Authorization: Bearer $SA_JWT" -X DELETE "${K8S_API}/api/v1/namespaces/bexonia-learn/services/bexonia-learn" >/dev/null || true
+            curl -sf --cacert "$CA_CRT" -H "Authorization: Bearer $SA_JWT" -X DELETE "${K8S_API}/api/v1/namespaces/bexonia-learn/configmaps/bexonia-learn-nginx" >/dev/null || true
+            curl -sf --cacert "$CA_CRT" -H "Authorization: Bearer $SA_JWT" -X DELETE "${K8S_API}/apis/traefik.io/v1alpha1/namespaces/bexonia-learn/ingressroutes/bexonia-learn-route" >/dev/null || true
+            sleep 2
+          fi
           tofu apply -auto-approve -input=false

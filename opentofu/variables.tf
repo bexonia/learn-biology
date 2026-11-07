@@ -34,6 +34,12 @@ variable "nginx_image" {
   default     = "nginx:1.27-alpine"
 }
 
+variable "bundle_checksum" {
+  type        = string
+  description = "SHA-256 checksum of the static WebGL bundles synced to bexonia-learn ConfigMaps."
+  default     = "initial"
+}
+
 variable "openbao_addr" {
   type        = string
   description = "Internal OpenBao service endpoint in bexonia-vault."

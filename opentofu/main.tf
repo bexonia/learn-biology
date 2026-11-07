@@ -1,14 +1,12 @@
 # =============================================================================
 # BEXONIA 3D Cell & Virus Explorer (`bexonia-learn` -> `learn.bexonia.com`)
 # =============================================================================
-# 1. Provisions `bexonia-learn` namespace.
-# 2. Packages the static WebGL HTML/JS models (`*.html`, `tours/*.js`) into
-#    compressed ConfigMap bundles (< 650 KB each) and Nginx config (`nginx/default.conf`).
-# 3. Deploys Nginx (:8080) in `Deployment/bexonia-learn` with automatic
-#    sha256 checksum rollout.
-# 4. Creates the cross-namespace Traefik `IngressRoute` for `learn.bexonia.com`
+# 1. Uses `bexonia-learn` namespace & static bundle ConfigMaps synced by CI.
+# 2. Manages Nginx config (`nginx/default.conf`) and `Deployment/bexonia-learn`
+#    (:8080) with automatic sha256 checksum rollout.
+# 3. Creates the cross-namespace Traefik `IngressRoute` for `learn.bexonia.com`
 #    (picked up automatically by `bexonia-ingress` with Let's Encrypt DNS-01 TLS).
-# 5. Provisions the Cloudflare DNS `CNAME` record (`learn.bexonia.com`) and
+# 4. Provisions the Cloudflare DNS `CNAME` record (`learn.bexonia.com`) and
 #    updates the active Cloudflare Zero Trust Tunnel ingress rules.
 
 data "kubernetes_config_map_v1" "tunnel_metadata" {
@@ -31,82 +29,23 @@ locals {
   zone_id       = data.cloudflare_zones.domain.zones[0].id
   traefik_svc   = "https://traefik.${var.ingress_namespace}.svc.cluster.local:443"
 
-  bundle_1_b64 = filebase64("${path.module}/../dist/bundle-1.tar.gz")
-  bundle_2_b64 = filebase64("${path.module}/../dist/bundle-2.tar.gz")
-  bundle_3_b64 = filebase64("${path.module}/../dist/bundle-3.tar.gz")
-  bundle_4_b64 = filebase64("${path.module}/../dist/bundle-4.tar.gz")
-
-  bundle_checksum = sha256(
-    "${local.bundle_1_b64}${local.bundle_2_b64}${local.bundle_3_b64}${local.bundle_4_b64}${file("${path.module}/../nginx/default.conf")}"
+  rollout_checksum = sha256(
+    "${var.bundle_checksum}:${file("${path.module}/../nginx/default.conf")}"
   )
 }
 
 # -----------------------------------------------------------------------------
-# 1. Namespace & ConfigMaps (Nginx + Compressed WebGL Bundles)
+# 1. Nginx ConfigMap (`bexonia-learn`)
 # -----------------------------------------------------------------------------
-
-resource "kubernetes_namespace_v1" "bexonia_learn" {
-  metadata {
-    name = var.learn_namespace
-    labels = {
-      "app.kubernetes.io/part-of" = "bexonia-platform"
-      "bexonia.io/zone"           = "learn"
-    }
-  }
-}
 
 resource "kubernetes_config_map_v1" "learn_nginx" {
   metadata {
     name      = "bexonia-learn-nginx"
-    namespace = kubernetes_namespace_v1.bexonia_learn.metadata[0].name
+    namespace = var.learn_namespace
   }
 
   data = {
     "default.conf" = file("${path.module}/../nginx/default.conf")
-  }
-}
-
-resource "kubernetes_config_map_v1" "learn_bundle_1" {
-  metadata {
-    name      = "bexonia-learn-bundle-1"
-    namespace = kubernetes_namespace_v1.bexonia_learn.metadata[0].name
-  }
-
-  binary_data = {
-    "bundle-1.tar.gz" = local.bundle_1_b64
-  }
-}
-
-resource "kubernetes_config_map_v1" "learn_bundle_2" {
-  metadata {
-    name      = "bexonia-learn-bundle-2"
-    namespace = kubernetes_namespace_v1.bexonia_learn.metadata[0].name
-  }
-
-  binary_data = {
-    "bundle-2.tar.gz" = local.bundle_2_b64
-  }
-}
-
-resource "kubernetes_config_map_v1" "learn_bundle_3" {
-  metadata {
-    name      = "bexonia-learn-bundle-3"
-    namespace = kubernetes_namespace_v1.bexonia_learn.metadata[0].name
-  }
-
-  binary_data = {
-    "bundle-3.tar.gz" = local.bundle_3_b64
-  }
-}
-
-resource "kubernetes_config_map_v1" "learn_bundle_4" {
-  metadata {
-    name      = "bexonia-learn-bundle-4"
-    namespace = kubernetes_namespace_v1.bexonia_learn.metadata[0].name
-  }
-
-  binary_data = {
-    "bundle-4.tar.gz" = local.bundle_4_b64
   }
 }
 
@@ -117,7 +56,7 @@ resource "kubernetes_config_map_v1" "learn_bundle_4" {
 resource "kubernetes_deployment_v1" "bexonia_learn" {
   metadata {
     name      = "bexonia-learn"
-    namespace = kubernetes_namespace_v1.bexonia_learn.metadata[0].name
+    namespace = var.learn_namespace
     labels = {
       "app.kubernetes.io/name"      = "bexonia-learn"
       "app.kubernetes.io/component" = "web"
@@ -140,7 +79,7 @@ resource "kubernetes_deployment_v1" "bexonia_learn" {
           "app.kubernetes.io/component" = "web"
         }
         annotations = {
-          "checksum/web" = local.bundle_checksum
+          "checksum/web" = local.rollout_checksum
         }
       }
 
@@ -253,28 +192,28 @@ resource "kubernetes_deployment_v1" "bexonia_learn" {
         volume {
           name = "bundle-1"
           config_map {
-            name = kubernetes_config_map_v1.learn_bundle_1.metadata[0].name
+            name = "bexonia-learn-bundle-1"
           }
         }
 
         volume {
           name = "bundle-2"
           config_map {
-            name = kubernetes_config_map_v1.learn_bundle_2.metadata[0].name
+            name = "bexonia-learn-bundle-2"
           }
         }
 
         volume {
           name = "bundle-3"
           config_map {
-            name = kubernetes_config_map_v1.learn_bundle_3.metadata[0].name
+            name = "bexonia-learn-bundle-3"
           }
         }
 
         volume {
           name = "bundle-4"
           config_map {
-            name = kubernetes_config_map_v1.learn_bundle_4.metadata[0].name
+            name = "bexonia-learn-bundle-4"
           }
         }
       }
@@ -285,7 +224,7 @@ resource "kubernetes_deployment_v1" "bexonia_learn" {
 resource "kubernetes_service_v1" "bexonia_learn" {
   metadata {
     name      = "bexonia-learn"
-    namespace = kubernetes_namespace_v1.bexonia_learn.metadata[0].name
+    namespace = var.learn_namespace
   }
 
   spec {
@@ -311,7 +250,7 @@ resource "kubernetes_manifest" "learn_ingressroute" {
     kind       = "IngressRoute"
     metadata = {
       name      = "bexonia-learn-route"
-      namespace = kubernetes_namespace_v1.bexonia_learn.metadata[0].name
+      namespace = var.learn_namespace
     }
     spec = {
       entryPoints = ["websecure"]
@@ -322,7 +261,7 @@ resource "kubernetes_manifest" "learn_ingressroute" {
           services = [
             {
               name      = kubernetes_service_v1.bexonia_learn.metadata[0].name
-              namespace = kubernetes_namespace_v1.bexonia_learn.metadata[0].name
+              namespace = var.learn_namespace
               port      = 8080
             }
           ]

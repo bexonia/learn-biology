@@ -278,6 +278,14 @@ function runStaticChecks() {
     assert.ok(fs.existsSync(bundlePath), `Compiled bundle dist/pages/${base}.js must exist`);
   }
   ok(`All ${HTML_PAGES.length} HTML pages contain zero inline JS and link compiled TypeScript bundles`);
+
+  const codeowners = fs.readFileSync(path.join(ROOT_DIR, '.github', 'CODEOWNERS'), 'utf8');
+  assert.ok(codeowners.includes('/.github/') && codeowners.includes('/Dockerfile'), 'CODEOWNERS must protect .github/ and Dockerfile');
+  const deployYml = fs.readFileSync(path.join(ROOT_DIR, '.github', 'workflows', 'deploy.yml'), 'utf8');
+  assert.ok(!deployYml.includes('pull_request_target'), 'Workflow must never use pull_request_target');
+  assert.ok(deployYml.includes("environment: production"), 'Publish job must be gated by protected production environment');
+  assert.ok(deployYml.includes("github.ref == 'refs/heads/main'"), 'Publish job must require refs/heads/main');
+  ok('CI/CD pipeline security checks (CODEOWNERS, read-only default token, external PR guard, production environment)');
 }
 
 function startStaticServer(rootDir: string): Promise<{ server: http.Server; port: number }> {

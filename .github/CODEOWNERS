@@ -1,0 +1,8 @@
+# Protected CI/CD pipeline, container image, and web server configuration.
+# External contributors may propose changes to application code (src/, *.html, tests/),
+# but any change to pipeline or container files requires Bexonia Organization Admin review.
+/.github/ @devcdcc
+/Dockerfile @devcdcc
+/nginx/ @devcdcc
+/package.json @devcdcc
+/tsconfig.json @devcdcc

@@ -1,5 +1,8 @@
 import { Context, Effect, Layer } from 'effect';
 import { AtomRef } from 'effect/reactivity';
+import { ES_NODES as ES_FULL_NODES } from './locales/es_nodes.js';
+import { ES_TOURS_PHRASES } from './locales/es_tours.js';
+import { ES_EXTRA_PHRASES } from './locales/es_phrases.js';
 
 export type LocaleCode = 'en' | 'es' | (string & {});
 
@@ -826,8 +829,8 @@ export const ES_LOCALE: LocaleDefinition = {
   englishName: 'Spanish',
   speechLang: 'es-ES',
   ui: ES_UI,
-  nodes: ES_NODES,
-  phrases: ES_PHRASES,
+  nodes: { ...ES_NODES, ...ES_FULL_NODES },
+  phrases: { ...ES_PHRASES, ...ES_EXTRA_PHRASES, ...ES_TOURS_PHRASES },
   rules: ES_RULES
 };
 
@@ -964,6 +967,18 @@ export function createI18nShape(initialLocale?: LocaleCode): I18nShape {
     if (def.phrases[trimmed]) {
       return text.replace(trimmed, def.phrases[trimmed]);
     }
+    const prefixPairs: ReadonlyArray<readonly [string, string]> = [
+      ['Takes in: ', `${def.ui.takesIn ?? 'Recibe'}: `],
+      ['Gives out: ', `${def.ui.givesOut ?? 'Produce'}: `],
+      ['Structure: ', 'Estructura: '],
+      ['Role: ', 'Función: ']
+    ];
+    for (const [enPrefix, locPrefix] of prefixPairs) {
+      if (trimmed.startsWith(enPrefix)) {
+        const rest = trimmed.slice(enPrefix.length);
+        return locPrefix + trPlain(rest, def);
+      }
+    }
     let out = text;
     for (const [pattern, replacement] of def.rules) {
       out = out.replace(pattern, replacement);
@@ -1088,25 +1103,50 @@ export function createI18nShape(initialLocale?: LocaleCode): I18nShape {
       document.body.append(badge);
     }
 
-    const originalText = new WeakMap<Node, string>();
+    const originalText = new WeakMap<Node, { orig: string; rendered: string }>();
+    let mutating = false;
+    const translateNode = (node: Node) => {
+      const curText = node.textContent ?? '';
+      if (!curText.trim()) return;
+      const prev = originalText.get(node);
+      const orig =
+        !prev || (curText !== prev.orig && curText !== prev.rendered) ? curText : prev.orig;
+      const rendered = localeRef.value === 'en' ? orig : tr(orig);
+      originalText.set(node, { orig, rendered });
+      if (node.textContent !== rendered) {
+        node.textContent = rendered;
+      }
+    };
     const translateSubtree = () => {
-      const selectors = [
-        '#hud h1',
-        '#hud p',
-        '#legend .it span:last-child',
-        '#flows h2',
-        '#mols .mol span',
-        '#tools button',
-        '#hint',
-        '#busy',
-        '#tip b'
-      ];
-      for (const sel of selectors) {
-        document.querySelectorAll<HTMLElement>(sel).forEach((el) => {
-          const orig = originalText.get(el) ?? el.textContent ?? '';
-          if (!originalText.has(el)) originalText.set(el, orig);
-          el.textContent = localeRef.value === 'en' ? orig : tr(orig);
-        });
+      if (mutating) return;
+      mutating = true;
+      try {
+        const selectors = [
+          '#hud h1',
+          '#hud p',
+          '#legend .it span:last-child',
+          '#flows h2',
+          '#mols .mol span',
+          '#tools button',
+          '#hint',
+          '#busy',
+          '#tip b'
+        ];
+        for (const sel of selectors) {
+          document.querySelectorAll<HTMLElement>(sel).forEach((el) => {
+            translateNode(el);
+          });
+        }
+        const tipEl = document.getElementById('tip');
+        if (tipEl) {
+          tipEl.childNodes.forEach((child) => {
+            if (child.nodeType === 3) {
+              translateNode(child);
+            }
+          });
+        }
+      } finally {
+        mutating = false;
       }
     };
 
@@ -1114,6 +1154,18 @@ export function createI18nShape(initialLocale?: LocaleCode): I18nShape {
     onChange(() => {
       translateSubtree();
     });
+
+    if (typeof MutationObserver !== 'undefined') {
+      const obs = new MutationObserver(() => {
+        if (!mutating) translateSubtree();
+      });
+      for (const id of ['tip', 'tools']) {
+        const target = document.getElementById(id);
+        if (target) {
+          obs.observe(target, { childList: true, characterData: true, subtree: true });
+        }
+      }
+    }
 
     if (typeof window !== 'undefined') {
       window.addEventListener('message', (e) => {

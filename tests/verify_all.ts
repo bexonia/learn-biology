@@ -236,16 +236,57 @@ async function runUnitTests() {
     assert.equal(i18n.localeRef.value, 'es');
     assert.equal(Effect.runSync(i18n.tEffect('structureTree')), 'Árbol de estructuras');
     assert.equal(i18n.nodeName('mitochondrion', 'Mitochondrion'), 'Mitocondria');
+    assert.notEqual(
+      i18n.nodeDesc('mitochondrion', 'The power plant of the cell.'),
+      'The power plant of the cell.',
+      'Spanish nodeDesc must return full Spanish description'
+    );
     assert.equal(
       Effect.runSync(i18n.trEffect('The [[Plasma membrane|membrane]] encloses the cell.')),
       'The [[Membrana plasmática|membrane]] encloses the cell.'
     );
+    const esDef = i18n.getLocaleDefinition('es');
+    assert.ok(Object.keys(esDef.nodes).length >= 208, 'ES_LOCALE must include all 208 NODES');
+    for (const [id, n] of Object.entries(esDef.nodes)) {
+      assert.ok(n.name && n.name.length > 0, `Missing ES name for node ${id}`);
+      assert.ok(n.scale && n.scale.length > 0, `Missing ES scale for node ${id}`);
+      assert.ok(n.desc && n.desc.length > 10, `Missing ES desc for node ${id}`);
+    }
+    let totalTranslatedCues = 0;
+    for (const [tKey, tour] of Object.entries(all)) {
+      assert.ok(esDef.phrases[tour.title], `Missing ES translation for tour title: ${tour.title}`);
+      if (tour.summary) {
+        assert.ok(esDef.phrases[tour.summary], `Missing ES translation for tour summary in ${tKey}`);
+      }
+      for (const ch of tour.chapters) {
+        assert.ok(esDef.phrases[ch.title], `Missing ES translation for chapter title: ${ch.title}`);
+        for (const step of ch.steps) {
+          assert.ok(esDef.phrases[step.title], `Missing ES translation for step title: ${step.title}`);
+          for (const cue of step.cues) {
+            const esCue = esDef.phrases[cue.text];
+            assert.ok(esCue && esCue !== cue.text, `Missing ES translation for cue ${cue.id}: ${cue.text}`);
+            const enParts = [...cue.text.matchAll(/\[\[[^|\]]+\|([^\]]+)\]\]/g)].map((m) => m[1]);
+            const esParts = [...esCue.matchAll(/\[\[[^|\]]+\|([^\]]+)\]\]/g)].map((m) => m[1]);
+            assert.deepEqual(esParts, enParts, `Cue ${cue.id} in ${tKey} must preserve [[...|part]] keys in Spanish`);
+            totalTranslatedCues++;
+          }
+        }
+      }
+      for (const [dKey, det] of Object.entries(tour.details ?? {})) {
+        for (const cue of det.cues ?? []) {
+          const esCue = esDef.phrases[cue.text];
+          assert.ok(esCue && esCue !== cue.text, `Missing ES translation for detail cue ${tKey}/${dKey}/${cue.id}: ${cue.text}`);
+          totalTranslatedCues++;
+        }
+      }
+    }
+    assert.ok(totalTranslatedCues >= 655, `Expected >= 655 translated tour cues, got ${totalTranslatedCues}`);
     Effect.runSync(i18n.setLocaleEffect('en'));
     assert.equal(i18n.locale, 'en');
     assert.equal(i18n.t('structureTree'), 'Structure tree');
     unsubscribe();
     assert.deepEqual(observedLocales, ['es', 'en'], 'AtomRef subscription must emit locale transitions');
-    ok('I18nService (Effect service + AtomRef reactivity, EN/ES dictionaries, markup-preserving translation)');
+    ok(`I18nService (Effect service + AtomRef reactivity, 208/208 ES node descriptions, ${totalTranslatedCues}/655 ES tour cues verified)`);
   });
 }
 
@@ -553,14 +594,31 @@ async function runBrowserE2ETests() {
             }
             const langBtn = document.getElementById('lang');
             if (!langBtn) throw new Error('Missing #lang language switcher button in viewer');
+            const esDef = exp.i18n.getLocaleDefinition('es');
+            for (const id of nodeIds) {
+              const n = exp.NODES[id];
+              const trNode = esDef.nodes[id];
+              if (!trNode || !trNode.name || !trNode.desc || trNode.desc === n.desc) {
+                throw new Error('Missing or untranslated ES node description for: ' + id);
+              }
+            }
             exp.i18n.setLocale('en');
             const enTitle = document.getElementById('title')?.textContent ?? '';
+            const enDesc = document.getElementById('desc')?.textContent ?? '';
             langBtn.click();
             const esTitle = document.getElementById('title')?.textContent ?? '';
+            const esDesc = document.getElementById('desc')?.textContent ?? '';
             const treeHdEs = document.querySelector('#tree > .hd')?.textContent ?? '';
             langBtn.click();
             const backToEn = document.getElementById('title')?.textContent ?? '';
-            const langSwitchOk = exp.i18n.locale === 'en' && esTitle !== enTitle && treeHdEs === 'Árbol de estructuras' && backToEn === enTitle;
+            const backToEnDesc = document.getElementById('desc')?.textContent ?? '';
+            const langSwitchOk =
+              exp.i18n.locale === 'en' &&
+              esTitle !== enTitle &&
+              esDesc !== enDesc &&
+              treeHdEs === 'Árbol de estructuras' &&
+              backToEn === enTitle &&
+              backToEnDesc === enDesc;
             if (!langSwitchOk) {
               throw new Error('Language switch failed: en=' + enTitle + ', es=' + esTitle + ', treeHd=' + treeHdEs);
             }

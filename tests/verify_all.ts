@@ -20,6 +20,11 @@ import {
   HISTONE
 } from '../src/index.js';
 import type { RibosomePoint } from '../src/molecules/ribosome.js';
+import {
+  createLearnServer,
+  LearnAuthProgressStore,
+  SESSION_COOKIE_NAME
+} from '../src/server/auth_progress_server.js';
 
 const ROOT_DIR = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 
@@ -288,6 +293,64 @@ async function runUnitTests() {
     assert.deepEqual(observedLocales, ['es', 'en'], 'AtomRef subscription must emit locale transitions');
     ok(`I18nService (Effect service + AtomRef reactivity, 208/208 ES node descriptions, ${totalTranslatedCues}/655 ES tour cues verified)`);
   });
+
+  // Test 3: LearnAuthProgressStore (optional user registration, in-memory session & progress cache, cookie renewal, per-course reset)
+  const authStore = new LearnAuthProgressStore(':memory:', 3600);
+  const regWithOptionalName = authStore.registerUser({
+    email: 'Ada.Lovelace@Bexonia.com ',
+    password: 'computing1843',
+    fullName: 'Ada Lovelace',
+    lang: 'en',
+    initialProgress: {
+      'real-cell': {
+        tourKey: 'real-cell',
+        stepId: 'euk-nucleus',
+        chapterIdx: 1,
+        stepIdx: 3,
+        cueIdx: 2
+      }
+    }
+  });
+  assert.equal(regWithOptionalName.user.email, 'ada.lovelace@bexonia.com');
+  assert.equal(regWithOptionalName.user.fullName, 'Ada Lovelace');
+  assert.equal(authStore.memorySessions.size, 1, 'Session must be cached in memory upon registration');
+  assert.equal(regWithOptionalName.progress['real-cell']?.stepIdx, 3, 'Initial progress must merge on registration');
+
+  const regWithoutName = authStore.registerUser({
+    email: 'rosalind@bexonia.com',
+    password: 'xrayPhoto51'
+  });
+  assert.equal(regWithoutName.user.fullName, null, 'fullName must be optional (null when omitted)');
+  assert.equal(authStore.memorySessions.size, 2);
+
+  // Track multiple courses independently
+  authStore.upsertCourseProgress(regWithOptionalName.user.id, {
+    tourKey: 'real-hiv',
+    stepId: 'hiv-capsid',
+    chapterIdx: 2,
+    stepIdx: 4,
+    cueIdx: 1
+  });
+  const multiProgress = authStore.getUserProgress(regWithOptionalName.user.id);
+  assert.equal(multiProgress['real-cell']?.stepIdx, 3);
+  assert.equal(multiProgress['real-hiv']?.stepIdx, 4);
+
+  // Verify session resolution from memory + automatic TTL renewal
+  const beforeRenew = regWithOptionalName.expiresAtMs;
+  await new Promise((r) => setTimeout(r, 15));
+  const resolved = authStore.resolveSession(regWithOptionalName.token, true);
+  assert.ok(resolved, 'Session token must resolve from in-memory cache');
+  assert.ok(resolved!.expiresAtMs >= beforeRenew, 'Auto-renew must extend session expiration in memory & DB');
+
+  // Verify resetting a single course to the beginning without affecting other courses
+  const afterReset = authStore.resetCourseProgress(regWithOptionalName.user.id, 'real-cell');
+  assert.equal(afterReset['real-cell'], undefined, 'Reset course must remove saved checkpoint for real-cell');
+  assert.equal(afterReset['real-hiv']?.stepIdx, 4, 'Resetting real-cell must preserve real-hiv progress');
+
+  authStore.logoutSession(regWithOptionalName.token);
+  assert.equal(authStore.resolveSession(regWithOptionalName.token), null, 'Logged out session must be removed from memory & DB');
+  authStore.close();
+  ok('LearnAuthProgressStore (optional fullName, scrypt auth, in-memory session/progress cache, auto-renewal, per-model course reset)');
 }
 
 function runStaticChecks() {
@@ -329,32 +392,15 @@ function runStaticChecks() {
   ok('CI/CD pipeline security checks (CODEOWNERS, read-only default token, external PR guard, production environment)');
 }
 
-function startStaticServer(rootDir: string): Promise<{ server: http.Server; port: number }> {
-  const mimeTypes: Record<string, string> = {
-    '.html': 'text/html; charset=utf-8',
-    '.js': 'application/javascript; charset=utf-8',
-    '.css': 'text/css; charset=utf-8',
-    '.json': 'application/json; charset=utf-8',
-    '.png': 'image/png',
-    '.svg': 'image/svg+xml'
-  };
+function startStaticServer(rootDir: string): Promise<{ server: http.Server; port: number; store: LearnAuthProgressStore }> {
   return new Promise((resolve) => {
-    const server = http.createServer((req, res) => {
-      const urlPath = (req.url ?? '/').split('?')[0];
-      const safePath = path.normalize(urlPath === '/' ? '/cell_explorer.html' : urlPath).replace(/^(\.\.[/\\])+/, '');
-      const filePath = path.join(rootDir, safePath);
-      if (!fs.existsSync(filePath) || fs.statSync(filePath).isDirectory()) {
-        res.writeHead(404);
-        res.end('Not found');
-        return;
-      }
-      const ext = path.extname(filePath);
-      res.writeHead(200, { 'Content-Type': mimeTypes[ext] ?? 'application/octet-stream' });
-      fs.createReadStream(filePath).pipe(res);
+    const { server, store } = createLearnServer({
+      dbPath: ':memory:',
+      staticRoot: rootDir
     });
     server.listen(0, '127.0.0.1', () => {
       const addr = server.address() as { port: number };
-      resolve({ server, port: addr.port });
+      resolve({ server, port: addr.port, store });
     });
   });
 }
@@ -636,10 +682,85 @@ async function runBrowserE2ETests() {
         assert.ok(explorerCheck.builtModels > 30, 'cell_explorer must build all standalone 3D organelle/molecular models');
         assert.equal(explorerCheck.tourRoots.length, 10);
         assert.equal(explorerCheck.langSwitchOk, true);
+
+        // Verify in-browser CourseProgressManager, cookies, #tReset (Start from beginning), and optional account sync
+        const progressE2E = await cdp.eval<{
+          hasInitialCookie: boolean;
+          midTourStepIdx: number;
+          resetBtnEnabledMidTour: boolean;
+          afterResetStepIdx: number;
+          resetBtnDisabledAtStart: boolean;
+          registeredUserEmail: string;
+          renewedOk: boolean;
+          hivStepIdxAfterSync: number;
+        }>(`
+          (async () => {
+            const pm = window.__progress;
+            if (!pm) throw new Error('Missing window.__progress');
+            const hasInitialCookie = document.cookie.includes('bexonia_learn_progress=');
+
+            // Start tour on real-cell and jump to step index 2
+            const eukTour = window.TOURS.eukaryotic;
+            const eukSteps = eukTour.chapters.flatMap(c => c.steps);
+            window.__tour.start(eukSteps[2].id);
+            const midCp = pm.getCheckpoint('real-cell');
+            const midTourStepIdx = midCp ? midCp.stepIdx : -1;
+            const resetBtn = document.getElementById('tReset');
+            if (!resetBtn) throw new Error('Missing #tReset button in tourCtl');
+            const resetBtnEnabledMidTour = !resetBtn.disabled;
+
+            // Click #tReset ("↺ Reset" / Start from beginning) and verify it jumps back to step 0
+            resetBtn.click();
+            const afterResetCp = pm.getCheckpoint('real-cell');
+            const afterResetStepIdx = afterResetCp ? afterResetCp.stepIdx : -1;
+            const resetBtnDisabledAtStart = resetBtn.disabled && window.__tour.state.step === eukSteps[0].id;
+            window.__tour.exit();
+
+            // Register optional user account (with optional fullName) and track HIV course progress
+            const regRes = await pm.register({
+              email: 'cajal@bexonia.com',
+              password: 'neuronDoctrine1906',
+              fullName: 'Santiago Ramón y Cajal',
+              lang: 'es'
+            });
+            if (!regRes.ok) throw new Error('Account registration failed: ' + regRes.error);
+
+            pm.saveStep({
+              tourKey: 'real-hiv',
+              stepId: 'hiv-rt',
+              chapterIdx: 1,
+              stepIdx: 2,
+              cueIdx: 0
+            });
+            const renewRes = await pm.renewCookies();
+            await pm.hydrateFromServer();
+            const hivCp = pm.getCheckpoint('real-hiv');
+
+            return {
+              hasInitialCookie,
+              midTourStepIdx,
+              resetBtnEnabledMidTour,
+              afterResetStepIdx,
+              resetBtnDisabledAtStart,
+              registeredUserEmail: pm.user?.email ?? '',
+              renewedOk: renewRes.ok && !!renewRes.sessionExpiresAt,
+              hivStepIdxAfterSync: hivCp?.stepIdx ?? -1
+            };
+          })()
+        `);
+        assert.equal(progressE2E.hasInitialCookie, true, 'Browser must create bexonia_learn_progress cookie on load');
+        assert.equal(progressE2E.midTourStepIdx, 2, 'Step 2 must be recorded in memory & cookie');
+        assert.equal(progressE2E.resetBtnEnabledMidTour, true, '#tReset button must be enabled when step > 0');
+        assert.equal(progressE2E.afterResetStepIdx, 0, 'Clicking #tReset must reset tour back to step 0 (beginning)');
+        assert.equal(progressE2E.resetBtnDisabledAtStart, true, '#tReset must return to step 0 and disable itself at start');
+        assert.equal(progressE2E.registeredUserEmail, 'cajal@bexonia.com');
+        assert.equal(progressE2E.renewedOk, true, 'Cookie & session auto-renewal must succeed');
+        assert.equal(progressE2E.hivStepIdxAfterSync, 2, 'Per-virus course progress (real-hiv) must sync with server');
+
         assert.deepEqual(cdp.pageErrors, [], `Page errors on cell_explorer.html`);
         assert.deepEqual(cdp.consoleErrors, [], `Console errors on cell_explorer.html`);
         ok(
-          `cell_explorer.html: verified all ${explorerCheck.totalNodes} tree nodes, built ${explorerCheck.builtModels} 3D sub-models, ${explorerCheck.tourRoots.length} tours, & EN/ES language switcher (${explorerCheck.enTitle} <-> ${explorerCheck.esTitle}), 0 errors`
+          `cell_explorer.html: verified all ${explorerCheck.totalNodes} tree nodes, built ${explorerCheck.builtModels} 3D sub-models, ${explorerCheck.tourRoots.length} tours, EN/ES language switcher, #tReset start-from-beginning button, in-memory/cookie auto-renewal, & optional account sync, 0 errors`
         );
       } else {
         const dims = await cdp.eval<{ w: number; h: number }>(`
@@ -663,7 +784,11 @@ async function runBrowserE2ETests() {
   } finally {
     chrome.kill('SIGKILL');
     server.close();
-    fs.rmSync(userDataDir, { recursive: true, force: true });
+    try {
+      fs.rmSync(userDataDir, { recursive: true, force: true, maxRetries: 10, retryDelay: 100 });
+    } catch {
+      // ignore temp dir cleanup race on exit
+    }
   }
 }
 

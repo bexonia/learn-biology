@@ -8,6 +8,8 @@ RUN npm run typecheck && npm run build
 
 FROM nginx:1.27-alpine
 
+RUN apk add --no-cache nodejs
+
 LABEL org.opencontainers.image.source="https://github.com/bexonia/learn-biology" \
       org.opencontainers.image.description="BEXONIA 3D Cell & Virus Explorer (learn.bexonia.com)" \
       org.opencontainers.image.licenses="MIT"
@@ -34,8 +36,10 @@ COPY cell_explorer.html \
 
 COPY screenshots/ /usr/share/nginx/html/screenshots/
 COPY --from=builder /app/dist/ /usr/share/nginx/html/dist/
+COPY --from=builder /app/dist/server.js /app/server.js
 
 RUN cp /usr/share/nginx/html/cell_explorer.html /usr/share/nginx/html/index.html && \
     chmod -R a+rX /usr/share/nginx/html
 
 EXPOSE 8080
+CMD ["sh", "-c", "node /app/server.js & nginx -g 'daemon off;'"]

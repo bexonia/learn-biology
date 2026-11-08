@@ -4367,7 +4367,7 @@ function renderCue(c, hint = null) {
     for (const m of cueText.matchAll(/\[\[([^|\]]+)(?:\|([^\]]+))?\]\]/g)) { words(cueText.slice(last, m.index)); toks.push({ w: m[1], part: m[2] ?? dflt }); last = m.index + m[0].length; }
     words(cueText.slice(last));
     const len = plainOf(cueText).length; let brk = -1;
-    if (len > 42 && len <= 96) { let n = 0, best = 1e9; toks.forEach((t, k) => { if (!t.part && /^\s+$/.test(t.w) && Math.abs(n - len / 2) < best) { best = Math.abs(n - len / 2); brk = k; } n += t.w.length; }); }
+    if (len > 42) { let n = 0, best = 1e9; toks.forEach((t, k) => { if (!t.part && /^\s+$/.test(t.w) && Math.abs(n - len / 2) < best) { best = Math.abs(n - len / 2); brk = k; } n += t.w.length; }); }
     toks.forEach((t, k) => {
       if (k === brk) return box.append(document.createElement('br'));
       if (!t.part) return box.append(t.w);
@@ -4700,8 +4700,16 @@ i18n.onChange(loc => {
   setStageMode(!!cur?.real);
   syncToolbar();
   setPlay();
-  if (cur) { makeLabels(); layoutLabels(); }
+  if (cur) { makeLabels(); if (cur.tour && stepNow()) arrowsFor(stepNow()); layoutLabels(); }
   if (T.on) {
+    if (T.mode === 'detail') {
+      const id = curPath.at(-1);
+      const own = TOUR?.details?.[id]?.cues;
+      if (!own) {
+        T.list = splitShortCues(id, nDesc(id));
+        if (T.cue >= T.list.length) T.cue = Math.max(0, T.list.length - 1);
+      }
+    }
     renderBar();
     if (!$('tCard').hidden) showCard();
     if (!$('tMenu').hidden) renderMenu();

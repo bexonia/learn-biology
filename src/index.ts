@@ -40,6 +40,17 @@ import {
   TourLive,
   ALL_TOURS
 } from './tours/index.js';
+import {
+  I18nService,
+  type I18nShape,
+  type LocaleCode,
+  type LocaleDefinition,
+  I18nLive,
+  makeI18nLayer,
+  detectBrowserLocale,
+  EN_LOCALE,
+  ES_LOCALE
+} from './core/i18n.js';
 
 export type BiologyServices =
   | RandomService
@@ -49,7 +60,8 @@ export type BiologyServices =
   | RnaService
   | PdbService
   | RibosomeService
-  | TourService;
+  | TourService
+  | I18nService;
 
 export interface BiologyContext {
   readonly random: RandomShape;
@@ -60,12 +72,20 @@ export interface BiologyContext {
   readonly pdb: PdbShape;
   readonly ribosome: RibosomeShape;
   readonly tours: TourShape;
+  readonly i18n: I18nShape;
 }
 
 export function makeBiologyLayer(
-  seed = 20261031
+  seed = 20261031,
+  initialLocale?: LocaleCode
 ): Layer.Layer<BiologyServices> {
-  const baseLayer = Layer.mergeAll(makeRandomLayer(seed), PdbLive, TourLive);
+  const i18nLayer = initialLocale ? makeI18nLayer(initialLocale) : I18nLive;
+  const baseLayer = Layer.mergeAll(
+    makeRandomLayer(seed),
+    PdbLive,
+    TourLive,
+    i18nLayer
+  );
   const midLayer = Layer.provideMerge(
     Layer.mergeAll(GeometryLive, MolecularBatchLive, RibosomeLive),
     baseLayer
@@ -86,7 +106,8 @@ export function runBiologyApp<A>(
     const pdb = yield* PdbService;
     const ribosome = yield* RibosomeService;
     const tours = yield* TourService;
-    return fn({
+    const i18n = yield* I18nService;
+    const result = fn({
       random,
       geometry,
       batch,
@@ -94,8 +115,13 @@ export function runBiologyApp<A>(
       rna,
       pdb,
       ribosome,
-      tours
+      tours,
+      i18n
     });
+    if (typeof document !== 'undefined' && !document.getElementById('tree')) {
+      setTimeout(() => i18n.bindStandalonePage(), 40);
+    }
+    return result;
   });
   return Effect.runSync(Effect.provide(program, makeBiologyLayer(seed)));
 }
@@ -109,6 +135,12 @@ export {
   PdbService,
   RibosomeService,
   TourService,
+  I18nService,
+  I18nLive,
+  makeI18nLayer,
+  detectBrowserLocale,
+  EN_LOCALE,
+  ES_LOCALE,
   ALL_TOURS,
   BASE,
   PAIR,
@@ -121,5 +153,8 @@ export {
   SILVER,
   col,
   type MolecularEmitter,
-  type OccupancyGrid
+  type OccupancyGrid,
+  type I18nShape,
+  type LocaleCode,
+  type LocaleDefinition
 };

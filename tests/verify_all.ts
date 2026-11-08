@@ -63,7 +63,7 @@ function ok(name: string) {
 }
 
 async function runUnitTests() {
-  console.log('\n=== 1. Effect-TS Composable Services Unit Tests ===');
+  console.log('\n=== 1. Effect Composable Services Unit Tests ===');
 
   // Test 1: Deterministic RandomService via Effect
   const seqA = Effect.runSync(
@@ -96,8 +96,8 @@ async function runUnitTests() {
   assert.deepEqual(seqA, seqB, 'RandomService must be deterministic for a given seed');
   ok('RandomService (deterministic Mulberry32, fbm overloads, Effect combinators)');
 
-  // Test 2: Shared DNA, RNA, Ribosome, PDB, Geometry, and Batch services
-  runBiologyApp(20261031, ({ geometry, batch, dna, rna, pdb, ribosome, tours }) => {
+  // Test 2: Shared DNA, RNA, Ribosome, PDB, Geometry, Batch, Tour, and I18n services
+  runBiologyApp(20261031, ({ geometry, batch, dna, rna, pdb, ribosome, tours, i18n }) => {
     // GeometryService checks
     const pts = [geometry.V(0, 0, 0), geometry.V(1, 2, 1), geometry.V(2, 0, 2), geometry.V(3, -1, 0)];
     const curve = new THREE.CatmullRomCurve3(pts);
@@ -226,6 +226,26 @@ async function runUnitTests() {
     }
     assert.equal(Object.keys(ALL_TOURS).length, 10);
     ok('TourService (all 10 cell & virus tours validated, all cues <= 84 chars)');
+
+    // I18nService + AtomRef reactivity checks
+    assert.ok(i18n.supportedLocales.length >= 2, 'I18nService must register at least EN and ES locales');
+    const observedLocales: string[] = [];
+    const unsubscribe = i18n.onChange((loc) => observedLocales.push(loc));
+    Effect.runSync(i18n.setLocaleEffect('es'));
+    assert.equal(i18n.locale, 'es');
+    assert.equal(i18n.localeRef.value, 'es');
+    assert.equal(Effect.runSync(i18n.tEffect('structureTree')), 'Árbol de estructuras');
+    assert.equal(i18n.nodeName('mitochondrion', 'Mitochondrion'), 'Mitocondria');
+    assert.equal(
+      Effect.runSync(i18n.trEffect('The [[Plasma membrane|membrane]] encloses the cell.')),
+      'The [[Membrana plasmática|membrane]] encloses the cell.'
+    );
+    Effect.runSync(i18n.setLocaleEffect('en'));
+    assert.equal(i18n.locale, 'en');
+    assert.equal(i18n.t('structureTree'), 'Structure tree');
+    unsubscribe();
+    assert.deepEqual(observedLocales, ['es', 'en'], 'AtomRef subscription must emit locale transitions');
+    ok('I18nService (Effect service + AtomRef reactivity, EN/ES dictionaries, markup-preserving translation)');
   });
 }
 
@@ -493,11 +513,14 @@ async function runBrowserE2ETests() {
         ok(
           `${page}: rendered (${summary.canvasW}x${summary.canvasH}), ${summary.regKeys.length} parts verified (${summary.regKeys.slice(0, 5).join(', ')}...), ${summary.placedCount} PDB proteins, 0 errors`
         );
-      } else if (page === 'cell_explorer.html') {
+        } else if (page === 'cell_explorer.html') {
         const explorerCheck = await cdp.eval<{
           totalNodes: number;
           builtModels: number;
           tourRoots: string[];
+          langSwitchOk: boolean;
+          esTitle: string;
+          enTitle: string;
         }>(`
           (() => {
             const exp = window.__explorer;
@@ -520,20 +543,37 @@ async function runBrowserE2ETests() {
                 throw new Error('Missing tour for root: ' + r);
               }
             }
+            const langBtn = document.getElementById('lang');
+            if (!langBtn) throw new Error('Missing #lang language switcher button in viewer');
+            exp.i18n.setLocale('en');
+            const enTitle = document.getElementById('title')?.textContent ?? '';
+            langBtn.click();
+            const esTitle = document.getElementById('title')?.textContent ?? '';
+            const treeHdEs = document.querySelector('#tree > .hd')?.textContent ?? '';
+            langBtn.click();
+            const backToEn = document.getElementById('title')?.textContent ?? '';
+            const langSwitchOk = exp.i18n.locale === 'en' && esTitle !== enTitle && treeHdEs === 'Árbol de estructuras' && backToEn === enTitle;
+            if (!langSwitchOk) {
+              throw new Error('Language switch failed: en=' + enTitle + ', es=' + esTitle + ', treeHd=' + treeHdEs);
+            }
             return {
               totalNodes: nodeIds.length,
               builtModels,
-              tourRoots: roots
+              tourRoots: roots,
+              langSwitchOk,
+              esTitle,
+              enTitle
             };
           })()
         `);
         assert.ok(explorerCheck.totalNodes > 40, 'cell_explorer must have > 40 biological nodes');
         assert.ok(explorerCheck.builtModels > 30, 'cell_explorer must build all standalone 3D organelle/molecular models');
         assert.equal(explorerCheck.tourRoots.length, 10);
+        assert.equal(explorerCheck.langSwitchOk, true);
         assert.deepEqual(cdp.pageErrors, [], `Page errors on cell_explorer.html`);
         assert.deepEqual(cdp.consoleErrors, [], `Console errors on cell_explorer.html`);
         ok(
-          `cell_explorer.html: verified all ${explorerCheck.totalNodes} tree nodes, built ${explorerCheck.builtModels} 3D organelle/molecular sub-models & verified all ${explorerCheck.tourRoots.length} guided tours, 0 errors`
+          `cell_explorer.html: verified all ${explorerCheck.totalNodes} tree nodes, built ${explorerCheck.builtModels} 3D sub-models, ${explorerCheck.tourRoots.length} tours, & EN/ES language switcher (${explorerCheck.enTitle} <-> ${explorerCheck.esTitle}), 0 errors`
         );
       } else {
         const dims = await cdp.eval<{ w: number; h: number }>(`
@@ -545,6 +585,12 @@ async function runBrowserE2ETests() {
         assert.ok(dims.w > 0 && dims.h > 0);
         ok(`${page}: rendered WebGL canvas (${dims.w}x${dims.h}), 0 errors`);
       }
+      await cdp.eval(`
+        (() => {
+          try { window.__cell?.renderer?.dispose?.(); window.__cell?.renderer?.forceContextLoss?.(); } catch {}
+          try { window.__explorer?.renderer?.dispose?.(); window.__explorer?.renderer?.forceContextLoss?.(); } catch {}
+        })()
+      `);
     }
 
     cdp.close();

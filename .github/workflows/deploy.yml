@@ -16,7 +16,7 @@ on:
   workflow_dispatch: {}
 
 permissions:
-  contents: read
+  contents: write
   packages: write
 
 jobs:
@@ -81,7 +81,12 @@ jobs:
           curl -sf "http://127.0.0.1:8080/" | grep -q "3D Cell"
           curl -sf "http://127.0.0.1:8080/robots.txt" | grep -q "Sitemap:"
           curl -sf "http://127.0.0.1:8080/sitemap.xml" | grep -q "<urlset"
-          echo "Smoke test passed (/api/health, /, /robots.txt, /sitemap.xml)."
+
+          # Export verified container web root for in-cluster zero-secret pull
+          mkdir -p dist
+          docker exec learn-smoke tar -C /usr/share/nginx/html -czf - . > dist/learn-biology-web.tar.gz
+          sha256sum dist/learn-biology-web.tar.gz | awk '{print $1}' > dist/SHA256SUMS
+          echo "Smoke test passed (/api/health, /, /robots.txt, /sitemap.xml); bundle sha256=$(cat dist/SHA256SUMS)."
 
       - name: Log in to GitHub Container Registry (ghcr.io)
         if: github.event_name != 'pull_request'
@@ -91,8 +96,10 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Push OCI image tags to ghcr.io/bexonia/learn-biology
+      - name: Push OCI image tags to ghcr.io/bexonia/learn-biology & publish latest release bundle
         if: github.event_name != 'pull_request'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           set -euo pipefail
           IMAGE="ghcr.io/bexonia/learn-biology"
@@ -101,4 +108,17 @@ jobs:
           docker push "${IMAGE}:${SHA_TAG}"
           docker push "${IMAGE}:main"
           docker push "${IMAGE}:latest"
-          echo "Published ${IMAGE}:${SHA_TAG}, :main, and :latest."
+
+          if ! gh release view latest >/dev/null 2>&1; then
+            gh release create latest \
+              dist/learn-biology-web.tar.gz \
+              dist/SHA256SUMS \
+              --title "Latest Verified WebGL Build (main)" \
+              --notes "Automated OCI build from commit ${GITHUB_SHA}."
+          else
+            gh release upload latest \
+              dist/learn-biology-web.tar.gz \
+              dist/SHA256SUMS \
+              --clobber
+          fi
+          echo "Published ${IMAGE}:${SHA_TAG}, :main, :latest, and updated release 'latest'."

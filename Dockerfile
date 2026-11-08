@@ -1,3 +1,11 @@
+FROM node:22-alpine AS builder
+
+WORKDIR /app
+COPY package.json package-lock.json tsconfig.json ./
+RUN npm ci
+COPY src/ ./src/
+RUN npm run typecheck && npm run build
+
 FROM nginx:1.27-alpine
 
 LABEL org.opencontainers.image.source="https://github.com/bexonia/learn-biology" \
@@ -25,7 +33,7 @@ COPY cell_explorer.html \
      /usr/share/nginx/html/
 
 COPY screenshots/ /usr/share/nginx/html/screenshots/
-COPY tours/ /usr/share/nginx/html/tours/
+COPY --from=builder /app/dist/ /usr/share/nginx/html/dist/
 
 RUN cp /usr/share/nginx/html/cell_explorer.html /usr/share/nginx/html/index.html && \
     chmod -R a+rX /usr/share/nginx/html

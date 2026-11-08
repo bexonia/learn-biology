@@ -1,7 +1,8 @@
+import type { TourDefinition } from "./tourService.js";
+
 // The guided tour of the realistic SARS-CoV-2 coronavirus, played by cell_explorer.html (see docs/tutorial_mode_spec.md).
 // Every cue fits two lines of 42 characters (plain text <= 84 characters).
-window.TOURS = window.TOURS || {};
-window.TOURS.coronavirus = {
+export const coronavirusTour: TourDefinition = {
   title: 'SARS-CoV-2 Coronavirus: a guided tour',
   root: 'real-coronavirus',
   page: 'coronavirus_realistic.html',

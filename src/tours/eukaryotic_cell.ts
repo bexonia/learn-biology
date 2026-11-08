@@ -1,3 +1,5 @@
+import type { TourDefinition } from "./tourService.js";
+
 // The guided tour of the realistic animal cell, played by cell_explorer.html (see docs/tutorial_mode_spec.md and docs/cell_explorer_manual.md §12).
 // A plain script rather than JSON, so that it also loads when the page is opened from a file. Writers edit only this file.
 //
@@ -17,8 +19,7 @@
 //             part's name and links it; [[label]] uses the step's blinked part. say is a version written for speaking.
 //             A cue's own blink lights that part while the cue shows.
 // Each cue must fit two lines of 42 characters (the explorer checks and warns in the console).
-window.TOURS = window.TOURS || {};
-window.TOURS.eukaryotic = {
+export const eukaryotic_cellTour: TourDefinition = {
   title: 'The animal cell: a guided tour',
   root: 'real-cell',
   chapters: [

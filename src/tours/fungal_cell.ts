@@ -1,7 +1,8 @@
+import type { TourDefinition } from "./tourService.js";
+
 // The guided tour of the realistic fungal cell (budding yeast, Saccharomyces cerevisiae), played by cell_explorer.html.
 // Every cue fits two lines of 42 characters (plain text <= 84 characters).
-window.TOURS = window.TOURS || {};
-window.TOURS.fungal = {
+export const fungal_cellTour: TourDefinition = {
   title: 'The fungal cell (budding yeast): a guided tour',
   root: 'real-fungal',
   page: 'fungal_cell_realistic.html',

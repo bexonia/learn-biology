@@ -1,7 +1,8 @@
+import type { TourDefinition } from "./tourService.js";
+
 // The guided tour of the realistic Tobacco Mosaic Virus (TMV), played by cell_explorer.html (see docs/tutorial_mode_spec.md).
 // Every cue fits two lines of 42 characters (plain text <= 84 characters).
-window.TOURS = window.TOURS || {};
-window.TOURS.tmv = {
+export const tmvTour: TourDefinition = {
   title: 'Tobacco Mosaic Virus: a guided tour',
   root: 'real-tmv',
   page: 'tmv_realistic.html',

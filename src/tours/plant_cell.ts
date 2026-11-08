@@ -1,7 +1,8 @@
+import type { TourDefinition } from "./tourService.js";
+
 // The guided tour of the realistic plant cell (leaf mesophyll cell), played by cell_explorer.html.
 // Every cue fits two lines of 42 characters (plain text <= 84 characters).
-window.TOURS = window.TOURS || {};
-window.TOURS.plant = {
+export const plant_cellTour: TourDefinition = {
   title: 'The plant cell: a guided tour',
   root: 'real-plant',
   page: 'plant_cell_realistic.html',

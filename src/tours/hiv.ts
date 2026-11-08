@@ -1,7 +1,8 @@
+import type { TourDefinition } from "./tourService.js";
+
 // The guided tour of the realistic HIV-1 retrovirus, played by cell_explorer.html (see docs/tutorial_mode_spec.md).
 // Every cue fits two lines of 42 characters (plain text <= 84 characters).
-window.TOURS = window.TOURS || {};
-window.TOURS.hiv = {
+export const hivTour: TourDefinition = {
   title: 'HIV-1 Retrovirus: a guided tour',
   root: 'real-hiv',
   page: 'hiv_realistic.html',

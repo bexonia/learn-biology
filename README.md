@@ -47,7 +47,30 @@ An open-source, interactive **3D cellular & molecular biology library** built wi
 
 ---
 
-## Local Development
+## Composable TypeScript + Effect Architecture
+
+All cellular, viral, and molecular builders are written in **TypeScript (`src/`)** and composed via **[Effect-TS (`effect`)](https://effect.website)** services (`Context.Service` & `Layer`):
+
+- **[`src/index.ts`](src/index.ts):** Composes all biological services into a single deterministic `Effect` layer (`makeBiologyLayer(seed)`) and runtime helper (`runBiologyApp(seed, fn)`).
+- **[`src/molecules/dna.ts`](src/molecules/dna.ts) (`DnaService`):** Single shared source of truth for B-DNA double helices (`emitDNA`), nucleosomes & histone octamer cores (`chromosome`), and parametric curve helices (`dnaAlongCurve`) across eukaryotic nuclei, mitochondria, chloroplasts, bacterial nucleoids, and dsDNA viruses.
+- **[`src/molecules/rna.ts`](src/molecules/rna.ts) (`RnaService`):** Single shared source of truth for single-stranded RNA (`baseRod`, `rnaAlong`) and spontaneous A-form stem-loop hairpins (`rnaFold`) across mRNA, rRNA, tRNA, and ssRNA viral genomes.
+- **[`src/molecules/ribosome.ts`](src/molecules/ribosome.ts) (`RibosomeService`):** Shared 80S rough-ER, free 80S, polysome rosette, and bacterial 70S ribosome emitters.
+- **[`src/molecules/pdb.ts`](src/molecules/pdb.ts) (`PdbService`):** Shared RCSB PDB base64 binary coordinate decoder (`decodeModel`, `getModel`), 3D spatial occupancy grid checks (`molFits`, `molMark`), and protein placers (`placeProtein`, `placeCellMol`, `placeVirusMol`).
+- **[`src/core/`](src/core/):** Shared deterministic Mulberry32 PRNG & 3D Perlin/FBM noise (`RandomService`), parallel-transport frame & organic mesh builders (`GeometryService`), and instanced molecular batching (`MolecularBatchService`).
+- **[`src/tours/`](src/tours/) (`TourService`) & [`src/pages/`](src/pages/):** Strongly-typed guided tours for all 10 root models and all 14 WebGL application entry points compiled into `dist/pages/*.js`.
+
+---
+
+## Local Development, Build & Test Suite
+
+Install dependencies, typecheck, bundle with `esbuild`, and run the full automated verification suite (unit tests for `Effect` services + headless Chrome WebGL E2E checks across all 14 pages, all explorer 3D models, and all 10 guided tours):
+
+```bash
+npm install
+npm run typecheck
+npm run build
+npm test
+```
 
 Serve the repository locally with the included zero-dependency Python HTTP server:
 

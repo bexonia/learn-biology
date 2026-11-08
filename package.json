@@ -1,0 +1,28 @@
+{
+  "name": "learn-biology",
+  "version": "2.0.0",
+  "description": "Interactive 3D Cellular & Molecular Biology WebGL Explorer powered by Three.js, TypeScript, and Effect",
+  "type": "module",
+  "scripts": {
+    "build": "esbuild src/pages/*.ts --bundle --splitting --minify --format=esm --outdir=dist --outbase=src --target=es2022 --external:three --external:three/*",
+    "typecheck": "tsc --noEmit",
+    "test": "tsx tests/verify_all.ts"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bexonia/learn-biology.git"
+  },
+  "license": "MIT",
+  "homepage": "https://learn.bexonia.com",
+  "dependencies": {
+    "effect": "^4.1.2",
+    "three": "^0.187.0"
+  },
+  "devDependencies": {
+    "@types/node": "^26.6.6",
+    "@types/three": "^0.187.0",
+    "esbuild": "^0.28.2",
+    "tsx": "^4.23.15",
+    "typescript": "^7.0.2"
+  }
+}

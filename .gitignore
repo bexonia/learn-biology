@@ -1,6 +1,7 @@
 # rendered images and temporary build bundles
 renders/
 dist/
+node_modules/
 *.png
 
 # OpenTofu local state & provider cache

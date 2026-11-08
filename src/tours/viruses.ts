@@ -1,7 +1,13 @@
+import type { TourDefinition } from "./tourService.js";
+import { bacteriophageTour } from "./bacteriophage.js";
+import { coronavirusTour } from "./coronavirus.js";
+import { hivTour } from "./hiv.js";
+import { adenovirusTour } from "./adenovirus.js";
+import { tmvTour } from "./tmv.js";
+
 // The guided tour of the Main Types of Viruses comparative gallery, played by cell_explorer.html.
 // Every cue fits two lines of 42 characters (plain text <= 84 characters).
-window.TOURS = window.TOURS || {};
-window.TOURS.viruses = {
+export const virusesTour: TourDefinition = {
   title: 'Main types of viruses: a guided tour',
   root: 'viruses',
   page: null,
@@ -61,10 +67,10 @@ window.TOURS.viruses = {
   ],
   details: Object.assign(
     {},
-    window.TOURS.bacteriophage?.details ?? {},
-    window.TOURS.coronavirus?.details ?? {},
-    window.TOURS.hiv?.details ?? {},
-    window.TOURS.adenovirus?.details ?? {},
-    window.TOURS.tmv?.details ?? {}
+    bacteriophageTour.details ?? {},
+    coronavirusTour.details ?? {},
+    hivTour.details ?? {},
+    adenovirusTour.details ?? {},
+    tmvTour.details ?? {}
   ),
 };

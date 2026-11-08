@@ -1,139 +1,104 @@
-name: Deploy BEXONIA 3D Cell & Virus Explorer (learn.bexonia.com)
+name: Build & Publish BEXONIA 3D Cell & Virus Explorer (ghcr.io/bexonia/learn-biology)
 
 on:
+  pull_request:
+    branches:
+      - main
+    paths-ignore:
+      - "**.md"
+      - "docs/**"
   push:
     branches:
       - main
     paths-ignore:
       - "**.md"
       - "docs/**"
-      - "screenshots/**"
   workflow_dispatch: {}
 
 permissions:
   contents: read
+  packages: write
 
 jobs:
-  deploy-learn:
-    name: "Package WebGL Assets & Deploy to bexonia-learn (learn.bexonia.com)"
-    runs-on: bexonia-infra-runner
+  build-and-publish:
+    name: "Validate WebGL Assets & Build/Push OCI Image (ubuntu-latest)"
+    runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Package & sync WebGL bundles to Kubernetes ConfigMaps
+      - name: Validate static WebGL pages, tours & SEO files
         run: |
           set -euo pipefail
-          mkdir -p dist
-          GZIP=-9 tar -czf dist/bundle-1.tar.gz \
+          for f in \
             cell_explorer.html \
             eukaryotic_cell_3d.html \
             prokaryotic_cell_3d.html \
             dna_styles.html \
-            robots.txt \
-            sitemap.xml
-          GZIP=-9 tar -czf dist/bundle-2.tar.gz \
             animal_cell_realistic.html \
             plant_cell_realistic.html \
-            fungal_cell_realistic.html
-          GZIP=-9 tar -czf dist/bundle-3.tar.gz \
+            fungal_cell_realistic.html \
             prokaryote_cell_realistic.html \
             molecules_preview.html \
-            screenshots/*.jpg
-          GZIP=-9 tar -czf dist/bundle-4.tar.gz \
             bacteriophage_realistic.html \
             hiv_realistic.html \
             coronavirus_realistic.html \
             adenovirus_realistic.html \
             tmv_realistic.html \
-            tours/*.js
-
-          BUNDLE_CHECKSUM=$(sha256sum dist/bundle-*.tar.gz | sha256sum | awk '{print $1}')
-          echo "TF_VAR_bundle_checksum=${BUNDLE_CHECKSUM}" >> "$GITHUB_ENV"
-
-          SA_JWT=$(cat /var/run/secrets/kubernetes.io/serviceaccount/token)
-          CA_CRT="/var/run/secrets/kubernetes.io/serviceaccount/ca.crt"
-          K8S_API="https://kubernetes.default.svc"
-
-          # Ensure namespace bexonia-learn exists
-          curl -sf --cacert "$CA_CRT" -H "Authorization: Bearer $SA_JWT" \
-            "${K8S_API}/api/v1/namespaces/bexonia-learn" >/dev/null || \
-          curl -sf --cacert "$CA_CRT" -H "Authorization: Bearer $SA_JWT" \
-            -H "Content-Type: application/json" \
-            -X POST "${K8S_API}/api/v1/namespaces" \
-            -d '{"apiVersion":"v1","kind":"Namespace","metadata":{"name":"bexonia-learn","labels":{"app.kubernetes.io/part-of":"bexonia-platform","bexonia.io/zone":"learn"}}}' >/dev/null
-
-          # Sync the 4 binary ConfigMaps directly (keeps OpenTofu logs clean and tfstate < 15 KB)
-          for i in 1 2 3 4; do
-            CM_NAME="bexonia-learn-bundle-${i}"
-            FILE_KEY="bundle-${i}.tar.gz"
-            jq -n --arg name "$CM_NAME" --arg key "$FILE_KEY" --rawfile b64 <(base64 -w0 "dist/${FILE_KEY}") \
-              '{apiVersion:"v1",kind:"ConfigMap",metadata:{name:$name,namespace:"bexonia-learn"},binaryData:{($key):$b64}}' > "/tmp/${CM_NAME}.json"
-
-            if curl -sf --cacert "$CA_CRT" -H "Authorization: Bearer $SA_JWT" \
-              "${K8S_API}/api/v1/namespaces/bexonia-learn/configmaps/${CM_NAME}" >/dev/null; then
-              curl -sf --cacert "$CA_CRT" -H "Authorization: Bearer $SA_JWT" \
-                -H "Content-Type: application/json" \
-                -X PUT "${K8S_API}/api/v1/namespaces/bexonia-learn/configmaps/${CM_NAME}" \
-                -d @"/tmp/${CM_NAME}.json" >/dev/null
-            else
-              curl -sf --cacert "$CA_CRT" -H "Authorization: Bearer $SA_JWT" \
-                -H "Content-Type: application/json" \
-                -X POST "${K8S_API}/api/v1/namespaces/bexonia-learn/configmaps" \
-                -d @"/tmp/${CM_NAME}.json" >/dev/null
+            robots.txt \
+            sitemap.xml \
+            nginx/default.conf; do
+            if [ ! -s "$f" ]; then
+              echo "ERROR: Required file '$f' is missing or empty!" >&2
+              exit 1
             fi
-            rm -f "/tmp/${CM_NAME}.json"
-            echo "Synced ConfigMap/${CM_NAME}."
+          done
+          echo "All static WebGL HTML pages and nginx config verified."
+
+      - name: Build OCI container image & run local HTTP smoke test
+        run: |
+          set -euo pipefail
+          IMAGE="ghcr.io/bexonia/learn-biology"
+          SHA_TAG="sha-${GITHUB_SHA::12}"
+
+          docker build \
+            -t "${IMAGE}:main" \
+            -t "${IMAGE}:latest" \
+            -t "${IMAGE}:${SHA_TAG}" \
+            .
+
+          docker run -d --name learn-smoke -p 8080:8080 "${IMAGE}:${SHA_TAG}"
+          trap 'docker rm -f learn-smoke >/dev/null 2>&1 || true' EXIT
+
+          for i in $(seq 1 15); do
+            if curl -sf "http://127.0.0.1:8080/api/health" >/dev/null; then
+              break
+            fi
+            sleep 1
           done
 
-          # If tfstate-default-bexonia-learn was not saved on an initial run, remove untracked K8s objects before apply
-          if ! curl -sf --cacert "$CA_CRT" -H "Authorization: Bearer $SA_JWT" \
-            "${K8S_API}/api/v1/namespaces/bexonia-runners/secrets/tfstate-default-bexonia-learn" >/dev/null; then
-            echo "No existing tfstate-default-bexonia-learn found; cleaning untracked resources in bexonia-learn before apply..."
-            curl -sf --cacert "$CA_CRT" -H "Authorization: Bearer $SA_JWT" -X DELETE "${K8S_API}/apis/apps/v1/namespaces/bexonia-learn/deployments/bexonia-learn" >/dev/null || true
-            curl -sf --cacert "$CA_CRT" -H "Authorization: Bearer $SA_JWT" -X DELETE "${K8S_API}/api/v1/namespaces/bexonia-learn/services/bexonia-learn" >/dev/null || true
-            curl -sf --cacert "$CA_CRT" -H "Authorization: Bearer $SA_JWT" -X DELETE "${K8S_API}/api/v1/namespaces/bexonia-learn/configmaps/bexonia-learn-nginx" >/dev/null || true
-            curl -sf --cacert "$CA_CRT" -H "Authorization: Bearer $SA_JWT" -X DELETE "${K8S_API}/apis/traefik.io/v1alpha1/namespaces/bexonia-learn/ingressroutes/bexonia-learn-route" >/dev/null || true
-          fi
+          curl -sf "http://127.0.0.1:8080/api/health" | grep -q '"status":"ok"'
+          curl -sf "http://127.0.0.1:8080/" | grep -q "3D Cell"
+          curl -sf "http://127.0.0.1:8080/robots.txt" | grep -q "Sitemap:"
+          curl -sf "http://127.0.0.1:8080/sitemap.xml" | grep -q "<urlset"
+          echo "Smoke test passed (/api/health, /, /robots.txt, /sitemap.xml)."
 
-      - name: Setup OpenTofu
-        uses: opentofu/setup-opentofu@v1
+      - name: Log in to GitHub Container Registry (ghcr.io)
+        if: github.event_name != 'pull_request'
+        uses: docker/login-action@v3
         with:
-          tofu_version: "1.8.8"
-          tofu_wrapper: false
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Authenticate to bexonia-vault via Kubernetes ServiceAccount
+      - name: Push OCI image tags to ghcr.io/bexonia/learn-biology
+        if: github.event_name != 'pull_request'
         run: |
           set -euo pipefail
-          SA_JWT=$(cat /var/run/secrets/kubernetes.io/serviceaccount/token)
-          BAO_ADDR="http://openbao.bexonia-vault.svc.cluster.local:8200"
+          IMAGE="ghcr.io/bexonia/learn-biology"
+          SHA_TAG="sha-${GITHUB_SHA::12}"
 
-          BAO_TOKEN=$(curl -sf -X POST "${BAO_ADDR}/v1/auth/kubernetes/login" \
-            -H "Content-Type: application/json" \
-            -d "$(jq -n --arg jwt "$SA_JWT" '{role: "bexonia-infra-runner", jwt: $jwt}')" \
-            | jq -r '.auth.client_token')
-
-          if [ -z "$BAO_TOKEN" ] || [ "$BAO_TOKEN" = "null" ]; then
-            echo "ERROR: Failed to obtain OpenBao token for bexonia-infra-runner" >&2
-            exit 1
-          fi
-
-          echo "::add-mask::${BAO_TOKEN}"
-          echo "TF_VAR_openbao_token=${BAO_TOKEN}" >> "$GITHUB_ENV"
-
-      - name: OpenTofu Init & Apply (opentofu/)
-        working-directory: opentofu
-        run: |
-          set -euo pipefail
-          tofu init -input=false
-          if ! tofu state list 2>/dev/null | grep -q "kubernetes_deployment_v1.bexonia_learn"; then
-            SA_JWT=$(cat /var/run/secrets/kubernetes.io/serviceaccount/token)
-            CA_CRT="/var/run/secrets/kubernetes.io/serviceaccount/ca.crt"
-            K8S_API="https://kubernetes.default.svc"
-            curl -sf --cacert "$CA_CRT" -H "Authorization: Bearer $SA_JWT" -X DELETE "${K8S_API}/apis/apps/v1/namespaces/bexonia-learn/deployments/bexonia-learn" >/dev/null || true
-            curl -sf --cacert "$CA_CRT" -H "Authorization: Bearer $SA_JWT" -X DELETE "${K8S_API}/api/v1/namespaces/bexonia-learn/services/bexonia-learn" >/dev/null || true
-            curl -sf --cacert "$CA_CRT" -H "Authorization: Bearer $SA_JWT" -X DELETE "${K8S_API}/api/v1/namespaces/bexonia-learn/configmaps/bexonia-learn-nginx" >/dev/null || true
-            curl -sf --cacert "$CA_CRT" -H "Authorization: Bearer $SA_JWT" -X DELETE "${K8S_API}/apis/traefik.io/v1alpha1/namespaces/bexonia-learn/ingressroutes/bexonia-learn-route" >/dev/null || true
-            sleep 2
-          fi
-          tofu apply -auto-approve -input=false
+          docker push "${IMAGE}:${SHA_TAG}"
+          docker push "${IMAGE}:main"
+          docker push "${IMAGE}:latest"
+          echo "Published ${IMAGE}:${SHA_TAG}, :main, and :latest."

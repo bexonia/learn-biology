@@ -1,0 +1,8 @@
+.git
+.github
+docs
+renders
+structures
+tools
+*.md
+LICENSE

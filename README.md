@@ -59,17 +59,16 @@ Then open `http://localhost:8765/cell_explorer.html` in your browser.
 
 ---
 
-## Architecture & Deployment (`learn.bexonia.com`)
+## Architecture & Container Packaging (`learn.bexonia.com`)
 
 ```text
-Internet -> Cloudflare Zero Trust Tunnel -> Traefik (bexonia-ingress)
-  -> IngressRoute (learn.bexonia.com)
-     -> Service/bexonia-learn (:8080, namespace: bexonia-learn)
-        -> Pod/bexonia-learn (nginx:1.27-alpine serving gzipped WebGL bundles)
+GitHub Actions (ubuntu-latest)
+  -> Builds & smoke-tests OCI image (nginx:1.27-alpine + static WebGL assets)
+  -> Publishes ghcr.io/bexonia/learn-biology:main (:latest, :sha-<commit>)
 ```
 
-- **Automated CI/CD ([`.github/workflows/deploy.yml`](.github/workflows/deploy.yml)):** Runs on the in-cluster `bexonia-infra-runner` on every push to `main`, packages the static HTML/JS and embedded PDB coordinates into 4 compressed ConfigMap bundles (`< 650 KB` each), authenticates to OpenBao (`bexonia-vault`) via Kubernetes ServiceAccount JWT, and executes `tofu apply` in [`opentofu/`](opentofu/).
-- **Infrastructure as Code ([`opentofu/main.tf`](opentofu/main.tf)):** Provisions the `bexonia-learn` namespace, `Deployment/bexonia-learn` (2 replicas with `checksum/web` rolling updates), `Service/bexonia-learn`, cross-namespace Traefik `IngressRoute` (`Host(\`learn.bexonia.com\`)` with Let's Encrypt `cloudflare` TLS), and the `learn.bexonia.com` Cloudflare DNS `CNAME` & Zero Trust Tunnel ingress route.
+- **Automated CI/CD ([`.github/workflows/deploy.yml`](.github/workflows/deploy.yml)):** Runs on GitHub-hosted `ubuntu-latest` runners on every pull request and push to `main`, validates all static HTML/JS pages and guided tours, builds and smoke-tests the [`Dockerfile`](Dockerfile) (`nginx:1.27-alpine`), and publishes `ghcr.io/bexonia/learn-biology:main` on merge to `main`.
+- **Platform Infrastructure (`bexonia/infra`):** Kubernetes deployment (`bexonia-learn`), Traefik `IngressRoute` (`learn.bexonia.com`), and Cloudflare DNS/Tunnel routing are managed declaratively in the private platform infrastructure repository, which pulls `ghcr.io/bexonia/learn-biology:main` in-cluster with zero static secrets in this public repository.
 - **Version History:** The legacy v1 Blender + Molecular Nodes + React/Three.js pipeline and all 140 Python generator scripts are preserved under lightweight tag **`v1`** (`git checkout v1`).
 
 ---

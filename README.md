@@ -49,9 +49,10 @@ An open-source, interactive **3D cellular & molecular biology library** built wi
 
 ## Composable TypeScript + Effect Architecture
 
-All cellular, viral, and molecular builders are written in **TypeScript (`src/`)** and composed via **[Effect-TS (`effect`)](https://effect.website)** services (`Context.Service` & `Layer`):
+All cellular, viral, and molecular builders are written in **TypeScript (`src/`)** and composed via **[Effect (`effect`)](https://effect.website)** services (`Context.Service`, `Layer`, and `effect/reactivity` `AtomRef`):
 
 - **[`src/index.ts`](src/index.ts):** Composes all biological services into a single deterministic `Effect` layer (`makeBiologyLayer(seed)`) and runtime helper (`runBiologyApp(seed, fn)`).
+- **[`src/core/i18n.ts`](src/core/i18n.ts) (`I18nService`):** Reactive multi-language service powered by `Effect` (`Context.Service`, `Layer.effect`, `Effect.fnUntraced`) and `effect/reactivity` (`AtomRef`) with automatic browser language (`navigator.languages` / `navigator.language`) and timezone/location (`Intl.DateTimeFormat().resolvedOptions().timeZone`) detection, top-right viewer language switcher badge (`EN · ES`), and extensible locale registry.
 - **[`src/molecules/dna.ts`](src/molecules/dna.ts) (`DnaService`):** Single shared source of truth for B-DNA double helices (`emitDNA`), nucleosomes & histone octamer cores (`chromosome`), and parametric curve helices (`dnaAlongCurve`) across eukaryotic nuclei, mitochondria, chloroplasts, bacterial nucleoids, and dsDNA viruses.
 - **[`src/molecules/rna.ts`](src/molecules/rna.ts) (`RnaService`):** Single shared source of truth for single-stranded RNA (`baseRod`, `rnaAlong`) and spontaneous A-form stem-loop hairpins (`rnaFold`) across mRNA, rRNA, tRNA, and ssRNA viral genomes.
 - **[`src/molecules/ribosome.ts`](src/molecules/ribosome.ts) (`RibosomeService`):** Shared 80S rough-ER, free 80S, polysome rosette, and bacterial 70S ribosome emitters.

@@ -13,7 +13,7 @@ import { mergeVertices } from 'three/addons/utils/BufferGeometryUtils.js';
 import { Effect } from 'effect';
 import { runBiologyApp } from '../index.js';
 
-runBiologyApp(1, ({ random, geometry, batch, dna, rna, pdb, ribosome, tours }) => {
+runBiologyApp(1, ({ random, geometry, batch, dna, rna, pdb, ribosome, tours, i18n }) => {
   if (/[?&]embed\b/.test(location.search)) document.documentElement.classList.add('embed');
   Effect.runSync(tours.registerGlobalTours());
 // =====================================================================
@@ -3935,12 +3935,13 @@ const RECIPE = {
   'adenovirus_realistic.html': { 'adv-hexon-real': 'hexon', 'adv-penton-real': 'penton', 'adv-fiber-real': 'fiber', dna: 'dna', phospholipid: 'host' },
   'tmv_realistic.html': { 'tmv-turn-real': 'coat', 'tmv-sub-real': 'coat', rna: 'rna', ribosome: 'ribo', plasmodesma: 'mp' },
 };
-const HINT = 'Drag to rotate · scroll to zoom · click a blue tag to go deeper · Esc to go up';
-const HINT_REAL = 'Drag to look around · W A S D to move · scroll to zoom · click a blue tag to go deeper · Esc to go up';
+const nName = id => i18n.nodeName(id, NODES[id]?.name ?? id);
+const nScale = id => i18n.nodeScale(id, NODES[id]?.scale ?? '');
+const nDesc = id => i18n.nodeDesc(id, NODES[id]?.desc ?? '');
 function setStageMode(real) {
   renderer.domElement.style.visibility = real ? 'hidden' : '';
   Object.values(PAGES).forEach(P => { if (P.el) P.el.style.display = real && P === page ? '' : 'none'; });
-  $('cut').hidden = !real; $('hint').textContent = real ? HINT_REAL : HINT;
+  $('cut').hidden = !real; $('hint').textContent = real ? i18n.t('hintReal') : i18n.t('hintDefault');
 }
 function showReal(id) {
   const n = NODES[id], src = pageOf(id), P = PAGES[src];
@@ -3948,7 +3949,7 @@ function showReal(id) {
   if (page && page !== P) toReal({ cmd: 'hi', key: null });   // leave the other page unlit
   page = P;
   cur = { real: n.real, anchors: n.tags.map(([pt, text, to, hi]) => ({ pt, text, id: to, hi })) };
-  if (!P.el) { P.el = document.createElement('iframe'); P.el.className = 'real'; P.el.title = P.title; P.el.src = `${src}?embed`; stage.prepend(P.el); }
+  if (!P.el) { P.el = document.createElement('iframe'); P.el.className = 'real'; P.el.title = i18n.tr(P.title); P.el.src = `${src}?embed`; stage.prepend(P.el); }
   setStageMode(true); realPts = [];
   P.pending = { cmd: 'view', view: n.real, points: cur.anchors.map(a => a.pt), seq: ++viewSeq };
   if (P.ready) toReal(P.pending);
@@ -3957,16 +3958,19 @@ function showReal(id) {
 // the key to the symbols of the page in the stage: hover one to follow it
 function renderMols() {
   $('mols').replaceChildren(...(page?.data?.mols ?? []).map(([k, name, url]) => {
-    const it = document.createElement('div'); it.className = 'mol'; const im = new Image(); im.src = url; im.alt = ''; const t = document.createElement('span'); t.textContent = name; it.append(im, t);
+    const it = document.createElement('div'); it.className = 'mol'; const im = new Image(); im.src = url; im.alt = ''; const t = document.createElement('span'); t.textContent = i18n.tr(name); it.append(im, t);
     it.onmouseenter = () => toReal({ cmd: 'mol', key: k }); it.onmouseleave = () => toReal({ cmd: 'mol', key: null }); return it;
   }));
 }
 let fpsOn = true, fpsN = 0, fpsT = performance.now();
 const fpsEl = document.createElement('span'), fpsVal = document.createElement('b');
-fpsEl.id = 'fps'; fpsEl.title = 'Click to show or hide FPS';
+fpsEl.id = 'fps'; fpsEl.title = i18n.t('fpsTitle');
 fpsEl.innerHTML = '<svg viewBox="0 0 16 16" aria-hidden="true"><path d="M2.5 11.5a6 6 0 1 1 11 0"/><path d="M8 8.5 11 5.5"/><circle cx="8" cy="8.5" r="1"/></svg>';
 fpsVal.textContent = '-- FPS'; fpsEl.append(fpsVal);
 fpsEl.onclick = () => { fpsOn = !fpsOn; fpsEl.classList.toggle('off', !fpsOn); };
+const langEl = i18n.createLanguageBadge({ id: 'lang', alignRight: true });
+const tourLangEl = i18n.createLanguageBadge({ id: 'tourLang', alignRight: false });
+if ($('tExit')) $('tourBar').insertBefore(tourLangEl, $('tExit'));
 function fpsFrame() {
   fpsN++; const now = performance.now();
   if (now - fpsT >= 400) { fpsVal.textContent = `${Math.round(fpsN * 1000 / (now - fpsT))} FPS`; fpsN = 0; fpsT = now; }
@@ -3987,12 +3991,11 @@ addEventListener('message', e => {
   }
 });
 // what a part of the realistic cell takes in and gives out (from the realistic page), or the default note on how the flows work
-const TIP0 = 'Molecules dock on the organelle that asked for them. Once it has them all, they are drawn in, it lights up, and what it makes sets off. Hover a tag for its recipe, or a molecule below to follow it.';
 function showTip(key) {
   const tip = $('tip'), inf = key && page?.data?.info?.[key]; tip.replaceChildren();
-  if (!inf) { tip.textContent = TIP0; return; }
-  const b = document.createElement('b'); b.textContent = page.data.parts.find(p => p[0] === key)[1];
-  tip.append(b, document.createElement('br'), `Takes in: ${inf[0]}`, document.createElement('br'), `Gives out: ${inf[1]}`);
+  if (!inf) { tip.textContent = i18n.t('tipDefault'); return; }
+  const b = document.createElement('b'); b.textContent = i18n.tr(page.data.parts.find(p => p[0] === key)[1]);
+  tip.append(b, document.createElement('br'), `${i18n.t('takesIn')}: ${i18n.tr(inf[0])}`, document.createElement('br'), `${i18n.t('givesOut')}: ${i18n.tr(inf[1])}`);
 }
 // light up a tagged part in the realistic page, with its tag, line, tree row and recipe
 function realHover(a) {
@@ -4003,10 +4006,15 @@ function realHover(a) {
 }
 function syncToolbar() {
   const real = !!cur?.real, st = page?.state ?? {};
-  $('look').textContent = real ? `${page.look}: ${st.look ?? 'gel'}` : realLook ? 'X-ray look' : 'Realistic look';
-  $('spin').textContent = real ? (st.motion === false ? 'Play' : 'Pause') : controls.autoRotate ? 'Pause' : 'Rotate';
-  $('cut').textContent = st.cut === false ? 'Open cutaway' : 'Close cutaway';
-  $('flow').textContent = `Metabolism: ${st.flow === false ? 'off' : 'on'}`;
+  $('tourBtn').textContent = i18n.t('guidedTour');
+  $('up').textContent = i18n.t('upOneLevel');
+  $('tags').textContent = showTags ? i18n.t('hideTags') : i18n.t('showTags');
+  $('look').textContent = real ? `${i18n.tr(page.look)}: ${st.look ?? 'gel'}` : realLook ? i18n.t('xrayLook') : i18n.t('realisticLook');
+  $('spin').textContent = real ? (st.motion === false ? i18n.t('play') : i18n.t('pause')) : controls.autoRotate ? i18n.t('pause') : i18n.t('rotate');
+  $('cut').textContent = st.cut === false ? i18n.t('openCutaway') : i18n.t('closeCutaway');
+  $('flow').textContent = st.flow === false ? i18n.t('metabolismOff') : i18n.t('metabolismOn');
+  $('snap').textContent = i18n.t('savePng');
+  $('busy').textContent = i18n.t('buildingModel');
 }
 
 // ---- hover highlight: outline the tagged parts, or pulse rings at the tag points when the part is not a separate object
@@ -4052,6 +4060,8 @@ function go(path) {
 }
 
 function renderTree() {
+  const treeHd = document.querySelector('#tree > .hd');
+  if (treeHd) treeHd.textContent = i18n.t('structureTree');
   const rs = $('roots'); rs.innerHTML = '';
   MENU_GROUPS.forEach(grp => {
     const active = grp.items.some(([id]) => id === curPath[0]);
@@ -4063,7 +4073,7 @@ function renderTree() {
     hd.setAttribute('aria-expanded', String(!collapsed));
     const titleSpan = document.createElement('span');
     titleSpan.className = 'm-title';
-    titleSpan.textContent = grp.label;
+    titleSpan.textContent = i18n.tr(grp.label);
     const badge = document.createElement('span');
     badge.className = 'm-badge';
     badge.textContent = String(grp.items.length);
@@ -4080,7 +4090,7 @@ function renderTree() {
     grid.className = 'menu-grid';
     grp.items.forEach(([id, label]) => {
       const b = document.createElement('button');
-      b.textContent = label;
+      b.textContent = i18n.tr(label);
       b.className = curPath[0] === id ? 'on' : '';
       b.onclick = () => go([id]);
       grid.append(b);
@@ -4096,44 +4106,53 @@ function treeNode(path) {
   const row = document.createElement('div'); row.className = 'row' + (key === curPath.join('/') ? ' cur' : ''); row.style.paddingLeft = (path.length - 1) * 14 + 6 + 'px';
   const car = document.createElement('button'), open = expanded.has(key);
   car.className = 'car' + (n.children.length ? '' : ' leaf'); car.textContent = n.children.length ? (open ? '▾' : '▸') : '•';
-  car.setAttribute('aria-label', open ? 'Collapse' : 'Expand');
+  car.setAttribute('aria-label', open ? i18n.t('collapse') : i18n.t('expand'));
   car.onclick = () => { if (!n.children.length) return; open ? expanded.delete(key) : expanded.add(key); renderTree(); };
-  const nm = document.createElement('button'); nm.className = 'nm'; nm.textContent = n.name; nm.onclick = () => go(path); row.dataset.id = id; nm.dataset.id = id; hoverable(nm);
+  const nm = document.createElement('button'); nm.className = 'nm'; nm.textContent = nName(id); nm.onclick = () => go(path); row.dataset.id = id; nm.dataset.id = id; hoverable(nm);
   row.append(car, nm); wrap.append(row);
   if (open) n.children.forEach(c => wrap.append(treeNode(path.concat(c))));
   return wrap;
 }
 function renderInfo() {
   const id = curPath.at(-1), n = NODES[id];
-  $('lvl').textContent = `Level ${curPath.length}`; $('title').textContent = n.name; $('scale').textContent = n.scale; $('desc').textContent = n.desc;
+  $('lvl').textContent = i18n.t('level', { n: curPath.length }); $('title').textContent = nName(id); $('scale').textContent = nScale(id); $('desc').textContent = nDesc(id);
+  const madeOfHd = document.querySelector('#info > h3');
+  if (madeOfHd) madeOfHd.textContent = i18n.t('madeOf');
+  const whatMovesHd = document.querySelector('#realBox > h3');
+  if (whatMovesHd) whatMovesHd.textContent = i18n.t('whatMoves');
+  const speedSpan = document.querySelector('#realBox .speed > span:nth-of-type(1)');
+  if (speedSpan) speedSpan.textContent = i18n.t('speed');
+  const noteEl = document.querySelector('#info .note');
+  if (noteEl) noteEl.textContent = i18n.t('schematicNote');
   // inside the realistic cell, a part's recipe: what it takes in and gives out
   const root = curPath[0], rp = NODES[root].real ? pageOf(root) : null, rk = n.real ? n.hi : rp ? RECIPE[rp][id] : null, inf = rk && PAGES[rp]?.data?.info?.[rk], io = $('io'); io.replaceChildren();
-  if (inf) [['Takes in', inf[0]], ['Gives out', inf[1]]].forEach(([k, v]) => { const d = document.createElement('div'), b = document.createElement('b'); b.textContent = `${k}: `; d.append(b, v); io.append(d); });
+  if (inf) [[i18n.t('takesIn'), i18n.tr(inf[0])], [i18n.t('givesOut'), i18n.tr(inf[1])]].forEach(([k, v]) => { const d = document.createElement('div'), b = document.createElement('b'); b.textContent = `${k}: `; d.append(b, v); io.append(d); });
   $('realBox').hidden = !n.real; showTip(null);
   const lg = $('legend'); lg.innerHTML = ''; lg.style.display = n.legend ? 'block' : 'none';
   (n.legend ?? []).forEach(([key, label]) => {
     const it = document.createElement('div'); it.className = 'it'; const sw = document.createElement('span');
     if (key.startsWith('bb') || key[0] === '#') { sw.className = 'bar'; sw.style.background = key[0] === '#' ? key : BACKBONE[+key[2]]; } else { sw.className = 'sw'; sw.textContent = key; sw.style.boxShadow = `inset 0 0 0 3px ${BASE[key]}`; }
-    const t = document.createElement('span'); t.textContent = label; it.append(sw, t); lg.append(it);
+    const t = document.createElement('span'); t.textContent = i18n.tr(label); it.append(sw, t); lg.append(it);
   });
   const kids = $('kids'); kids.innerHTML = '';
-  if (!n.children.length) { const p = document.createElement('p'); p.className = 'muted'; p.textContent = 'This is the smallest level in this model. An atom is a nucleus of protons and neutrons (each made of three quarks) surrounded by electrons.'; kids.append(p); }
-  n.children.forEach(c => { const b = document.createElement('button'); b.className = 'kid'; const s = document.createElement('span'); s.textContent = NODES[c].name; const sm = document.createElement('small'); sm.textContent = NODES[c].scale; b.append(s, sm); b.onclick = () => go(curPath.concat(c)); b.dataset.id = c; hoverable(b); kids.append(b); });
+  if (!n.children.length) { const p = document.createElement('p'); p.className = 'muted'; p.textContent = i18n.t('smallestLevel'); kids.append(p); }
+  n.children.forEach(c => { const b = document.createElement('button'); b.className = 'kid'; const s = document.createElement('span'); s.textContent = nName(c); const sm = document.createElement('small'); sm.textContent = nScale(c); b.append(s, sm); b.onclick = () => go(curPath.concat(c)); b.dataset.id = c; hoverable(b); kids.append(b); });
   const cr = $('crumbs'); cr.innerHTML = '';
-  curPath.forEach((p, i) => { if (i) { const s = document.createElement('span'); s.textContent = '›'; cr.append(s); } const b = document.createElement('button'); b.textContent = NODES[p].name; b.onclick = () => go(curPath.slice(0, i + 1)); cr.append(b); });
-  cr.append(fpsEl);
+  curPath.forEach((p, i) => { if (i) { const s = document.createElement('span'); s.textContent = '›'; cr.append(s); } const b = document.createElement('button'); b.textContent = nName(p); b.onclick = () => go(curPath.slice(0, i + 1)); cr.append(b); });
+  fpsEl.title = i18n.t('fpsTitle');
+  cr.append(fpsEl, langEl);
   $('up').disabled = curPath.length === 1;
   $('tourBtn').hidden = !TOUR || curPath[0] !== TOUR.root || T.on;
-  if (TOUR) $('tourBtn').title = curPath.length > 1 ? `Guided tour of ${n.name}` : `Guided tour: ${TOUR.title}`;
+  if (TOUR) $('tourBtn').title = curPath.length > 1 ? i18n.t('guidedTourOf', { name: nName(id) }) : i18n.t('guidedTourTitle', { title: i18n.tr(TOUR.title) });
 }
 
 function makeLabels() {
   labelsEl.innerHTML = ''; svg.innerHTML = '';
   labelEls = cur.anchors.map(a => {
-    const el = document.createElement(a.id ? 'button' : 'div'); el.className = 'lbl' + (a.id ? ' link' : ''); el.textContent = a.text;
+    const el = document.createElement(a.id ? 'button' : 'div'); el.className = 'lbl' + (a.id ? ' link' : ''); el.textContent = i18n.tr(a.text);
     const ln = document.createElementNS(NS, 'polyline'); ln.setAttribute('class', 'ln' + (a.id ? ' link' : ''));
     const dot = document.createElementNS(NS, 'circle'); dot.setAttribute('r', '2.6'); dot.setAttribute('class', 'dt' + (a.id ? ' link' : ''));
-    if (a.id) { el.onclick = () => (a.path ? openDetail(a.path) : go(curPath.concat(a.id))); el.title = `Open ${NODES[a.id].name}`; }
+    if (a.id) { el.onclick = () => (a.path ? openDetail(a.path) : go(curPath.concat(a.id))); el.title = i18n.t('openPartTitle', { name: nName(a.id) }); }
     el.onmouseenter = () => { ln.classList.add('hot'); if (cur.real) realHover(a); else if (a.id) setHover(a.id); };
     el.onmouseleave = () => { ln.classList.remove('hot'); if (cur.real) realHover(null); else if (a.id) setHover(null); };
     labelsEl.append(el); svg.append(ln, dot);
@@ -4176,7 +4195,7 @@ function resize() {
 new ResizeObserver(resize).observe(stage); resize();
 
 $('up').onclick = () => curPath.length > 1 && go(curPath.slice(0, -1));
-$('tags').onclick = e => { showTags = !showTags; e.target.textContent = showTags ? 'Hide tags' : 'Show tags'; };
+$('tags').onclick = e => { showTags = !showTags; e.target.textContent = showTags ? i18n.t('hideTags') : i18n.t('showTags'); };
 $('spin').onclick = () => { if (cur?.real) toReal({ cmd: 'motion' }); else { controls.autoRotate = !controls.autoRotate; syncToolbar(); } };
 $('look').onclick = () => (cur?.real ? toReal({ cmd: 'look' }) : setLook(!realLook));
 $('cut').onclick = () => toReal({ cmd: 'cut' });
@@ -4312,7 +4331,7 @@ const tp = m => (TOUR_PAGE ? toReal(m, PAGES[TOUR_PAGE]) : localTourCmd(m));
 const stepNow = () => STEPS[T.i];
 const tourHolds = () => T.on && T.mode !== 'explore' && T.mode !== 'detail';
 const plainOf = t => t.replace(/\[\[([^|\]]+)(?:\|[^\]]+)?\]\]/g, '$1');
-const cueInfo = (c, s = stepNow()) => ({ id: c.id, text: c.text, plain: plainOf(c.text), say: c.say ?? plainOf(c.text), chapter: s?.ch.id ?? null, step: s?.id ?? null });
+const cueInfo = (c, s = stepNow()) => { const text = i18n.tr(c.text); return { id: c.id, text, plain: plainOf(text), say: i18n.locale === 'en' ? (c.say ?? plainOf(text)) : plainOf(text), lang: i18n.getLocaleDefinition().speechLang, chapter: s?.ch.id ?? null, step: s?.id ?? null }; };
 function emit(type, detail = {}) { dispatchEvent(new CustomEvent('tour:' + type, { detail })); if (parent !== window) parent.postMessage({ from: 'cell-tour', type, ...detail }, '*'); }
 // the shortest way down the tree from the root to a node, so a part opened from the tour has its real path
 function pathTo(id, from = TOUR?.root ?? 'real-cell') {
@@ -4342,16 +4361,17 @@ function renderCue(c, hint = null) {
   const box = $('subs'); box.replaceChildren(); box.classList.remove('fade');
   box.classList.toggle('empty', !c && !hint);
   if (c) {
+    const cueText = i18n.tr(c.text);
     const toks = [], dflt = T.mode === 'tour' ? stepNow()?.blink : null; let last = 0;
     const words = t => t.split(/(\s+)/).forEach(w => w && toks.push({ w }));
-    for (const m of c.text.matchAll(/\[\[([^|\]]+)(?:\|([^\]]+))?\]\]/g)) { words(c.text.slice(last, m.index)); toks.push({ w: m[1], part: m[2] ?? dflt }); last = m.index + m[0].length; }
-    words(c.text.slice(last));
-    const len = plainOf(c.text).length; let brk = -1;
-    if (len > 42 && len <= 84) { let n = 0, best = 1e9; toks.forEach((t, k) => { if (!t.part && /^\s+$/.test(t.w) && Math.abs(n - len / 2) < best) { best = Math.abs(n - len / 2); brk = k; } n += t.w.length; }); }
+    for (const m of cueText.matchAll(/\[\[([^|\]]+)(?:\|([^\]]+))?\]\]/g)) { words(cueText.slice(last, m.index)); toks.push({ w: m[1], part: m[2] ?? dflt }); last = m.index + m[0].length; }
+    words(cueText.slice(last));
+    const len = plainOf(cueText).length; let brk = -1;
+    if (len > 42 && len <= 96) { let n = 0, best = 1e9; toks.forEach((t, k) => { if (!t.part && /^\s+$/.test(t.w) && Math.abs(n - len / 2) < best) { best = Math.abs(n - len / 2); brk = k; } n += t.w.length; }); }
     toks.forEach((t, k) => {
       if (k === brk) return box.append(document.createElement('br'));
       if (!t.part) return box.append(t.w);
-      const b = document.createElement('button'); b.className = 'kw'; b.textContent = t.w; b.style.color = partColour(t.part); b.title = 'Open this part';
+      const b = document.createElement('button'); b.className = 'kw'; b.textContent = t.w; b.style.color = partColour(t.part); b.title = i18n.t('openThisPart');
       b.onmouseenter = () => tp({ cmd: 'hi', key: t.part }); b.onmouseleave = restoreHi; b.onclick = e => { e.stopPropagation(); openDetail(detailFor(t.part)); };
       box.append(b);
     });
@@ -4395,7 +4415,7 @@ let arrows = [];
 function arrowsFor(s) {
   arrows = (s.links ?? []).map(([, , label, part]) => {
     const p = document.createElementNS(NS, 'path'), t = document.createElementNS(NS, 'text'), col = partColour(part);
-    p.setAttribute('class', 'tarrow'); p.setAttribute('stroke', col); p.setAttribute('marker-end', 'url(#tHead)'); t.setAttribute('class', 'tlab'); t.setAttribute('fill', col); t.textContent = label ?? '';
+    p.setAttribute('class', 'tarrow'); p.setAttribute('stroke', col); p.setAttribute('marker-end', 'url(#tHead)'); t.setAttribute('class', 'tlab'); t.setAttribute('fill', col); t.textContent = i18n.tr(label ?? '');
     svg.append(p, t); return { p, t };
   });
   if (arrows.length) { const d = document.createElementNS(NS, 'defs'); d.innerHTML = '<marker id="tHead" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#fff3c8"/></marker>'; svg.prepend(d); }
@@ -4451,7 +4471,7 @@ function endCue() {
   T.phase = 'wait';
   if (T.mode === 'tour' && T.auto) { T.until = performance.now() + 800 / T.pace; return; }
   T.until = Infinity;
-  renderCue(T.subs ? T.list[T.cue] : null, T.mode === 'detail' ? 'Back to tour: E' : 'Next: → or ▶');
+  renderCue(T.subs ? T.list[T.cue] : null, T.mode === 'detail' ? i18n.t('backHint') : i18n.t('nextHint'));
 }
 function tourTick(now) {
   if (!T.on || T.paused) return;
@@ -4566,8 +4586,8 @@ function splitShortCues(id, desc) {
   return out.map((text, k) => ({ id: `detail.${id}.${k + 1}`, text }));
 }
 function detailLevel(id) {
-  const n = NODES[id], own = TOUR?.details?.[id]?.cues;
-  T.list = own ?? splitShortCues(id, n.desc);
+  const own = TOUR?.details?.[id]?.cues;
+  T.list = own ?? splitShortCues(id, nDesc(id));
   T.cue = -1; T.pending = 0; T.phase = 'lead'; T.until = performance.now() + 700; T.links = -1; renderCue(null); renderBar();
 }
 function showMore() {   // the info panel, about the step's part rather than the root
@@ -4575,7 +4595,7 @@ function showMore() {   // the info panel, about the step's part rather than the
   if (!dp) { renderInfo(); return; }
   const keep = curPath; curPath = dp; renderInfo(); curPath = keep;
   document.querySelectorAll('#kids .kid').forEach(b => { b.onclick = () => openDetail(dp.concat(b.dataset.id)); });
-  const open = document.createElement('button'); open.className = 'kid'; open.innerHTML = '<span>Open this part</span><small>more detail ›</small>'; open.onclick = () => openDetail(dp); $('kids').prepend(open);
+  const open = document.createElement('button'); open.className = 'kid'; open.innerHTML = `<span>${i18n.t('openThisPart')}</span><small>${i18n.t('moreDetailArrow')}</small>`; open.onclick = () => openDetail(dp); $('kids').prepend(open);
 }
 
 // ---- what is on screen
@@ -4589,49 +4609,59 @@ function setLayout() {
   renderBar(); syncToolbar(); emit('state', { state: T.mode, paused: T.paused });
 }
 function renderBar() {
+  $('tMenuBtn').textContent = i18n.t('chaptersBtn');
+  $('tExit').textContent = i18n.t('exitBtn');
+  $('tNarrBtn').textContent = i18n.t('narrationBtn');
+  $('tPace').textContent = i18n.t('paceBtn', { v: T.pace });
+  $('tAlone').textContent = i18n.t('showAlone');
+  $('tMore').textContent = i18n.t('moreBtn');
+  const pillSpan = document.querySelector('#tPill > span');
+  if (pillSpan) pillSpan.textContent = i18n.t('exploringOwn');
+  $('tBack').textContent = i18n.t('backToTourE');
+  $('tLeave').textContent = i18n.t('exitTour');
   const s = stepNow(); if (!s) return;
-  $('tChap').textContent = T.mode === 'detail' ? `More detail · ${NODES[curPath.at(-1)].name}` : `${s.ci ? `Chapter ${s.ci} · ` : ''}${s.ch.title} — ${s.title}`;
-  $('tDots').replaceChildren(...s.ch.steps.map((x, k) => { const b = document.createElement('button'), i = T.i - s.si + k; b.className = i === T.i ? 'on' : i < T.i || T.seen.has(s.ch.id) ? 'done' : ''; b.title = x.title; b.setAttribute('aria-label', x.title); b.onclick = () => toStep(i); return b; }));
+  $('tChap').textContent = T.mode === 'detail' ? i18n.t('moreDetailPrefix', { name: nName(curPath.at(-1)) }) : `${s.ci ? i18n.t('chapterPrefix', { n: s.ci }) : ''}${i18n.tr(s.ch.title)} — ${i18n.tr(s.title)}`;
+  $('tDots').replaceChildren(...s.ch.steps.map((x, k) => { const b = document.createElement('button'), i = T.i - s.si + k; b.className = i === T.i ? 'on' : i < T.i || T.seen.has(s.ch.id) ? 'done' : ''; const t = i18n.tr(x.title); b.title = t; b.setAttribute('aria-label', t); b.onclick = () => toStep(i); return b; }));
   $('tCount').textContent = `${s.si + 1}/${s.ch.steps.length}`;
-  $('tExplore').textContent = T.mode === 'detail' ? 'Back to tour' : 'Explore';
+  $('tExplore').textContent = T.mode === 'detail' ? i18n.t('backToTour') : i18n.t('exploreBtn');
   $('tAlone').classList.toggle('on', T.alone); $('tAlone').disabled = T.mode !== 'tour'; $('tMore').classList.toggle('on', T.more); $('tMore').disabled = T.mode !== 'tour' || !s.detail;
   $('tPrevStep').disabled = T.mode === 'tour' && T.i === 0;
 }
-function setPlay() { const b = $('tPlay'); b.textContent = T.paused ? '▶ Play' : '⏸'; b.setAttribute('aria-label', T.paused ? 'Play' : 'Pause'); b.classList.toggle('on', T.paused); }
+function setPlay() { const b = $('tPlay'); b.textContent = T.paused ? `▶ ${i18n.t('play')}` : '⏸'; b.setAttribute('aria-label', T.paused ? i18n.t('play') : i18n.t('pause')); b.classList.toggle('on', T.paused); }
 function showCard() {
   const c = $('tCard'), fin = T.mode === 'finished', savedKey = store.get('tourPos:' + TOUR.root, null) ?? (TOUR.root === 'real-cell' ? store.get('tourPos', null) : null), saved = STEPS.findIndex(s => s.id === savedKey);
   const h = document.createElement('h2'), p = document.createElement('p'), k = document.createElement('p'), acts = document.createElement('div'); acts.className = 'acts'; k.className = 'keys';
   const btn = (text, fn, main) => { const b = document.createElement('button'); b.textContent = text; b.onclick = fn; if (main) b.className = 'main'; acts.append(b); };
   if (fin) {
-    h.textContent = 'Tour complete'; p.textContent = 'Now explore on your own: click any tag to go deeper, down to molecules and atoms.';
-    btn('Explore', explore, true); btn('Replay a chapter', toggleMenu); btn('Leave the tour', exitTour);
+    h.textContent = i18n.t('tourComplete'); p.textContent = i18n.t('tourCompleteDesc');
+    btn(i18n.t('exploreBtn'), explore, true); btn(i18n.t('replayChapter'), toggleMenu); btn(i18n.t('leaveTour'), exitTour);
   } else {
-    h.textContent = TOUR.title; p.textContent = TOUR.summary ?? 'From the whole cell down to a gene being read: each part lights up, the camera flies to it, and subtitles explain it. About eight minutes.';
-    k.textContent = 'Space pauses · → next line · Shift + → next part · E explore · M chapters';
-    btn('Start', () => toStep(0), true); if (saved > 0) btn(`Continue: ${STEPS[saved].title}`, () => toStep(saved)); btn('Choose a chapter', toggleMenu);
+    h.textContent = i18n.tr(TOUR.title); p.textContent = i18n.tr(TOUR.summary ?? 'From the whole cell down to a gene being read: each part lights up, the camera flies to it, and subtitles explain it. About eight minutes.');
+    k.textContent = i18n.t('tourKeysHint');
+    btn(i18n.t('startTour'), () => toStep(0), true); if (saved > 0) btn(i18n.t('continueTour', { title: i18n.tr(STEPS[saved].title) }), () => toStep(saved)); btn(i18n.t('chooseChapter'), toggleMenu);
   }
   c.replaceChildren(h, p, ...(fin ? [] : [k]), acts);
 }
 function toggleMenu() { const m = $('tMenu'); m.hidden = !m.hidden; if (!m.hidden) renderMenu(); }
 function renderMenu() {
   const m = $('tMenu'), s = stepNow(), h3 = t => { const e = document.createElement('h3'); e.textContent = t; return e; };
-  const chs = TOUR.chapters.map((c, ci) => { const b = document.createElement('button'); b.className = 'ch' + (T.mode === 'tour' && s.ci === ci ? ' on' : ''); b.textContent = `${ci ? ci + '. ' : ''}${c.title}`;
+  const chs = TOUR.chapters.map((c, ci) => { const b = document.createElement('button'); b.className = 'ch' + (T.mode === 'tour' && s.ci === ci ? ' on' : ''); b.textContent = `${ci ? ci + '. ' : ''}${i18n.tr(c.title)}`;
     if (T.seen.has(c.id)) { const ok = document.createElement('span'); ok.className = 'ok'; ok.textContent = '✓'; b.append(ok); } b.onclick = () => gotoChapter(ci); return b; });
   const lines = [];
-  STEPS.forEach((x, i) => { if (x.ci !== s.ci) return; const st = document.createElement('div'); st.className = 'st'; st.textContent = x.title; lines.push(st);
-    x.cues.forEach((c, j) => { const b = document.createElement('button'); b.className = 'cueRow' + (T.mode === 'tour' && i === T.i && j === T.cue ? ' on' : ''); b.dataset.cue = c.id; b.textContent = plainOf(c.text); b.onclick = () => { m.hidden = true; toStep(i, j); }; lines.push(b); }); });
+  STEPS.forEach((x, i) => { if (x.ci !== s.ci) return; const st = document.createElement('div'); st.className = 'st'; st.textContent = i18n.tr(x.title); lines.push(st);
+    x.cues.forEach((c, j) => { const b = document.createElement('button'); b.className = 'cueRow' + (T.mode === 'tour' && i === T.i && j === T.cue ? ' on' : ''); b.dataset.cue = c.id; b.textContent = plainOf(i18n.tr(c.text)); b.onclick = () => { m.hidden = true; toStep(i, j); }; lines.push(b); }); });
   const opt = (label, el) => { const l = document.createElement('label'); l.append(el, label); return l; };
   const check = (on, fn) => { const i = document.createElement('input'); i.type = 'checkbox'; i.checked = on; i.onchange = () => fn(i.checked); return i; };
   const pick = (vals, v, fn) => { const sel = document.createElement('select'); vals.forEach(([val, t]) => { const o = document.createElement('option'); o.value = val; o.textContent = t; o.selected = val == v; sel.append(o); }); sel.onchange = () => fn(+sel.value); return sel; };
-  m.replaceChildren(h3('Chapters'), ...chs, h3(`Transcript · ${s.ch.title}`), ...lines, h3('Settings'),
-    opt('Go on to the next part by itself', check(T.auto, v => { T.auto = v; store.set('tourAuto', v); })),
-    opt('Reduce motion (fade instead of flying)', check(T.reduce, v => { T.reduce = v; })),
-    opt(' Subtitle size', pick([[0, 'Small'], [1, 'Medium'], [2, 'Large']], T.size, setSize)),
-    opt(' Pace', pick([[.75, '0.75×'], [1, '1×'], [1.25, '1.25×']], T.pace, setPace)));
+  m.replaceChildren(h3(i18n.t('chaptersTitle')), ...chs, h3(i18n.t('transcriptTitle', { title: i18n.tr(s.ch.title) })), ...lines, h3(i18n.t('settingsTitle')),
+    opt(i18n.t('autoAdvance'), check(T.auto, v => { T.auto = v; store.set('tourAuto', v); })),
+    opt(i18n.t('reduceMotion'), check(T.reduce, v => { T.reduce = v; })),
+    opt(i18n.t('subtitleSize'), pick([[0, i18n.t('sizeSmall')], [1, i18n.t('sizeMedium')], [2, i18n.t('sizeLarge')]], T.size, setSize)),
+    opt(i18n.t('paceLabel'), pick([[.75, '0.75×'], [1, '1×'], [1.25, '1.25×']], T.pace, setPace)));
 }
 function markTranscript() { document.querySelectorAll('#tMenu .cueRow').forEach(b => b.classList.toggle('on', T.mode === 'tour' && b.dataset.cue === T.list[T.cue]?.id)); }
 function setSize(v) { T.size = v; $('subs').style.setProperty('--subs', [15, 18, 24][v] + 'px'); $('tSize').textContent = ['Aa·S', 'Aa', 'Aa·L'][v]; }
-function setPace(v) { T.pace = v; $('tPace').textContent = `Pace ${v}×`; }
+function setPace(v) { T.pace = v; $('tPace').textContent = i18n.t('paceBtn', { v }); }
 function toggleSubs() { T.subs = !T.subs; $('tCC').classList.toggle('on', T.subs); renderCue(T.subs && T.phase === 'cue' ? T.list[T.cue] : null); }
 function toggleNarr() { if (!T.narrator) return; T.narr = !T.narr; $('tNarrBtn').classList.toggle('on', T.narr); if (!T.narr) stopVoice(); }
 function toggleAlone() { T.alone = !T.alone; const s = stepNow(), keep = ghostOf(s); if (T.mode === 'tour' && T.phase !== 'flying') tp({ cmd: 'ghost', keep, hide: T.alone && !!keep }); renderBar(); }
@@ -4650,7 +4680,7 @@ function tourKey(key, shift = false, target = null) {
     ' ': togglePause, ArrowRight: () => (shift ? nextStep() : nextCue()), ArrowLeft: () => (shift ? prevStep() : prevCue()),
     PageDown: () => gotoChapter(stepNow().ci + 1), PageUp: () => gotoChapter(stepNow().ci - 1), c: toggleSubs, n: toggleNarr, m: toggleMenu,
     e: () => (T.mode === 'detail' ? backToTour() : explore()),
-    Escape: () => { if (T.mode === 'detail') return backToTour(); if (performance.now() - T.esc < 2500) return exitTour(); T.esc = performance.now(); flashNote('Press Esc again to leave the tour'); },
+    Escape: () => { if (T.mode === 'detail') return backToTour(); if (performance.now() - T.esc < 2500) return exitTour(); T.esc = performance.now(); flashNote(i18n.t('escAgain')); },
   }[k] ?? (/^[1-9]$/.test(k) ? () => gotoChapter(+k) : null);
   if (!act) return false;
   act(); return true;
@@ -4663,6 +4693,24 @@ $('subs').onclick = togglePause; $('tCC').onclick = toggleSubs; $('tNarrBtn').on
 $('tSize').onclick = () => setSize((T.size + 1) % 3); $('tPace').onclick = () => setPace({ .75: 1, 1: 1.25, 1.25: .75 }[T.pace]);
 $('tAlone').onclick = toggleAlone; $('tMore').onclick = () => { T.more = !T.more; setLayout(); if (T.more) showMore(); };
 $('tExplore').onclick = () => (T.mode === 'detail' ? backToTour() : explore()); $('tBack').onclick = backToTour; $('tLeave').onclick = exitTour;
+i18n.onChange(loc => {
+  renderTree();
+  if (T.more) showMore(); else renderInfo();
+  renderMols();
+  setStageMode(!!cur?.real);
+  syncToolbar();
+  setPlay();
+  if (cur) { makeLabels(); layoutLabels(); }
+  if (T.on) {
+    renderBar();
+    if (!$('tCard').hidden) showCard();
+    if (!$('tMenu').hidden) renderMenu();
+    if (T.phase === 'cue' || T.phase === 'wait') {
+      renderCue(T.subs ? T.list[T.cue] : null, T.phase === 'wait' ? (T.mode === 'detail' ? i18n.t('backHint') : i18n.t('nextHint')) : null);
+    }
+  }
+  Object.values(PAGES).forEach(P => toReal({ cmd: 'lang', lang: loc }, P));
+});
 // check all loaded tour scripts once: every line fits two lines of 42 characters
 Object.values(TOUR_BY_ROOT).forEach(tr => {
   if (!tr) return;
@@ -4715,5 +4763,5 @@ const showNow = path => {
   if (NODES[path.at(-1)].real) { showReal(path.at(-1)); layoutLabels(); return; }
   setModel(build(path.at(-1))); enterT = -1e9; cur.group.scale.setScalar(1); cur.onFrame?.(); controls.update(); composer.render(); layoutLabels(); $('busy').style.display = 'none';
 };
-window.__explorer = { NODES, build, go, showNow, tour: window.__tour, setLook, setHover, THREE, scene, renderer, camera, composer, controls, bloom, get cur() { return cur; }, get frame() { return page?.el; }, get realPts() { return realPts; }, layoutLabels };
+window.__explorer = { NODES, build, go, showNow, tour: window.__tour, i18n, setLook, setHover, THREE, scene, renderer, camera, composer, controls, bloom, get cur() { return cur; }, get frame() { return page?.el; }, get realPts() { return realPts; }, layoutLabels };
 });

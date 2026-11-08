@@ -1,7 +1,8 @@
+import type { TourDefinition } from "./tourService.js";
+
 // The guided tour of the realistic bacteriophage T4, played by cell_explorer.html (see docs/tutorial_mode_spec.md).
 // Every cue fits two lines of 42 characters (plain text <= 84 characters).
-window.TOURS = window.TOURS || {};
-window.TOURS.bacteriophage = {
+export const bacteriophageTour: TourDefinition = {
   title: 'Bacteriophage T4: a guided tour',
   root: 'real-phage',
   page: 'bacteriophage_realistic.html',

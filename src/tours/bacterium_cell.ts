@@ -1,7 +1,8 @@
+import type { TourDefinition } from "./tourService.js";
+
 // The guided tour of the realistic bacterium (Escherichia coli), played by cell_explorer.html.
 // Every cue fits two lines of 42 characters (plain text <= 84 characters).
-window.TOURS = window.TOURS || {};
-window.TOURS.bacterium = {
+export const bacterium_cellTour: TourDefinition = {
   title: 'The bacterium (E. coli): a guided tour',
   root: 'real-bacterium',
   page: 'prokaryote_cell_realistic.html',

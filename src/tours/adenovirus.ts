@@ -1,7 +1,8 @@
+import type { TourDefinition } from "./tourService.js";
+
 // The guided tour of the realistic Human Adenovirus, played by cell_explorer.html (see docs/tutorial_mode_spec.md).
 // Every cue fits two lines of 42 characters (plain text <= 84 characters).
-window.TOURS = window.TOURS || {};
-window.TOURS.adenovirus = {
+export const adenovirusTour: TourDefinition = {
   title: 'Human Adenovirus: a guided tour',
   root: 'real-adenovirus',
   page: 'adenovirus_realistic.html',

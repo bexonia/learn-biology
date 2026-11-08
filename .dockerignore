@@ -4,5 +4,8 @@ docs
 renders
 structures
 tools
+tests
+node_modules
+dist
 *.md
 LICENSE

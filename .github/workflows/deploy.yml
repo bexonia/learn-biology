@@ -79,6 +79,7 @@ jobs:
 
           curl -sf "http://127.0.0.1:8080/api/health" | grep -q '"status":"ok"'
           curl -sf "http://127.0.0.1:8080/" | grep -q "3D Cell"
+          curl -sf "http://127.0.0.1:8080/dist/pages/cell_explorer.js" >/dev/null
           curl -sf "http://127.0.0.1:8080/robots.txt" | grep -q "Sitemap:"
           curl -sf "http://127.0.0.1:8080/sitemap.xml" | grep -q "<urlset"
 

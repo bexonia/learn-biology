@@ -164,7 +164,30 @@ const EN_UI: Record<string, string> = {
   langTitle: 'Language: {current} — Click to switch to {next}',
   openPartTitle: 'Open {name}',
   collapse: 'Collapse',
-  expand: 'Expand'
+  expand: 'Expand',
+  resetBtn: '↺ Reset',
+  resetTitle: 'Reset and start from the beginning (R)',
+  startFromBeginning: '↺ Start from beginning',
+  resetToast: '↺ Reset to the beginning',
+  trackProgressBtn: '☁ Track Progress',
+  accountStatusBtn: '✓ {name} ({n}/10)',
+  accountModalTitle: 'Course Progress & Optional Account',
+  accountModalSub: 'Login is 100% optional. Your step progress is kept in memory & cookies automatically, or sign in to save your courses across devices.',
+  tabSignIn: 'Sign In',
+  tabRegister: 'Register (Optional)',
+  emailLabel: 'Email',
+  passwordLabel: 'Password',
+  nameOptionalLabel: 'Name (optional, for reference)',
+  signInSubmit: 'Sign In & Sync',
+  registerSubmit: 'Create Optional Account',
+  renewCookieBtn: '↻ Renew Cookie & Session',
+  cookieRenewedToast: '✓ Cookie & session renewed for 30 days',
+  signOutBtn: 'Sign Out',
+  yourCoursesTitle: '10 Cell & Virus Courses',
+  resumeStepBtn: '▶ Resume ({step})',
+  startCourseBtn: '▶ Start',
+  notStartedLabel: 'Not started',
+  closeBtn: '✕ Close'
 };
 
 const ES_UI: Record<string, string> = {
@@ -247,7 +270,30 @@ const ES_UI: Record<string, string> = {
   langTitle: 'Idioma: {current} — Clic para cambiar a {next}',
   openPartTitle: 'Abrir {name}',
   collapse: 'Contraer',
-  expand: 'Expandir'
+  expand: 'Expandir',
+  resetBtn: '↺ Reiniciar',
+  resetTitle: 'Reiniciar y empezar desde el principio (R)',
+  startFromBeginning: '↺ Empezar desde el principio',
+  resetToast: '↺ Reiniciado desde el principio',
+  trackProgressBtn: '☁ Guardar Progreso',
+  accountStatusBtn: '✓ {name} ({n}/10)',
+  accountModalTitle: 'Progreso de Cursos y Cuenta Opcional',
+  accountModalSub: 'Iniciar sesión es 100% opcional. Tu progreso se guarda en memoria y cookies automáticamente, o inicia sesión para guardar tus cursos entre dispositivos.',
+  tabSignIn: 'Iniciar Sesión',
+  tabRegister: 'Registrarse (Opcional)',
+  emailLabel: 'Correo electrónico',
+  passwordLabel: 'Contraseña',
+  nameOptionalLabel: 'Nombre (opcional, de referencia)',
+  signInSubmit: 'Iniciar Sesión y Sincronizar',
+  registerSubmit: 'Crear Cuenta Opcional',
+  renewCookieBtn: '↻ Renovar Cookie y Sesión',
+  cookieRenewedToast: '✓ Cookie y sesión renovadas por 30 días',
+  signOutBtn: 'Cerrar Sesión',
+  yourCoursesTitle: '10 Cursos de Células y Virus',
+  resumeStepBtn: '▶ Continuar ({step})',
+  startCourseBtn: '▶ Comenzar',
+  notStartedLabel: 'Sin iniciar',
+  closeBtn: '✕ Cerrar'
 };
 
 const ES_NODES: Record<string, NodeTranslation> = {

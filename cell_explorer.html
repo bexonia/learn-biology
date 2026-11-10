@@ -152,6 +152,29 @@
   #tCard .acts { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; margin-top: 14px; }
   #tCard button { padding: 8px 14px; font-size: 13.5px; }
   #tCard button.main { background: var(--accent); color: #04121a; border-color: var(--accent); font-weight: 600; }
+  #accountBtn { pointer-events: auto; display: inline-flex; align-items: center; gap: 5px; background: rgba(6,10,18,.78); border: 1px solid rgba(127,216,255,.45); border-radius: 6px; padding: 3px 9px; cursor: pointer; color: var(--accent); font-size: 11.5px; font-weight: 500; user-select: none; }
+  #accountBtn:hover { border-color: var(--accent); background: rgba(127,216,255,.16); }
+  #accountModal { position: absolute; z-index: 8; left: 50%; top: 50%; transform: translate(-50%, -50%); width: min(520px, calc(100% - 28px)); max-height: calc(100vh - 40px); overflow-y: auto; background: rgba(8,12,20,.96); border: 1px solid var(--line-2); border-radius: 14px; padding: 18px 20px; box-shadow: 0 18px 50px rgba(0,0,0,.75); }
+  #accountModal .am-hd { display: flex; justify-content: space-between; align-items: center; gap: 10px; margin-bottom: 6px; }
+  #accountModal h2 { margin: 0; font-size: 18px; font-weight: 600; }
+  #accountModal .am-sub { margin: 0 0 12px; font-size: 12.5px; color: var(--muted); line-height: 1.45; }
+  #accountModal .am-tabs { display: flex; gap: 6px; margin-bottom: 10px; }
+  #accountModal .am-tabs button { flex: 1; background: var(--panel-2); border: 1px solid var(--line); border-radius: 7px; padding: 6px 10px; cursor: pointer; font-size: 12.5px; color: var(--muted); }
+  #accountModal .am-tabs button.on { border-color: var(--accent); color: var(--accent); background: var(--accent-bg); font-weight: 600; }
+  #accountModal .am-form { display: flex; flex-direction: column; gap: 8px; margin-bottom: 12px; }
+  #accountModal .am-form input { width: 100%; background: var(--panel-2); border: 1px solid var(--line-2); border-radius: 7px; padding: 7px 10px; color: var(--fg); font-size: 13px; }
+  #accountModal .am-actions { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; margin-bottom: 12px; }
+  #accountModal .am-btn { background: var(--panel-2); border: 1px solid var(--line-2); border-radius: 7px; padding: 6px 11px; cursor: pointer; font-size: 12.5px; }
+  #accountModal .am-btn.primary { background: var(--accent); color: #04121a; border-color: var(--accent); font-weight: 600; }
+  #accountModal .am-err { color: #ff7a85; font-size: 12px; min-height: 16px; }
+  #accountModal .course-list { display: flex; flex-direction: column; gap: 5px; margin-top: 8px; }
+  #accountModal .course-row { display: flex; align-items: center; justify-content: space-between; gap: 8px; background: var(--panel-2); border: 1px solid var(--line); border-radius: 8px; padding: 6px 10px; font-size: 12.5px; }
+  #accountModal .course-row .c-info { flex: 1; min-width: 0; }
+  #accountModal .course-row .c-name { font-weight: 500; color: var(--fg); }
+  #accountModal .course-row .c-step { font-size: 11.5px; color: var(--muted); display: block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  #accountModal .course-row .c-btns { display: flex; gap: 5px; flex: none; }
+  #accountModal .course-row button { background: rgba(6,10,18,.8); border: 1px solid var(--line-2); border-radius: 6px; padding: 4px 8px; cursor: pointer; font-size: 11.5px; }
+  #accountModal .course-row button.resume { border-color: rgba(127,216,255,.6); color: var(--accent); }
   #tPill { top: 10px; left: 50%; transform: translateX(-50%); display: flex; gap: 8px; align-items: center; background: rgba(6,10,18,.88); border: 1px solid rgba(127,216,255,.55); border-radius: 999px; padding: 4px 5px 4px 14px; font-size: 13px; white-space: nowrap; }
   #tPill button { border-radius: 999px; }
   #tFade { position: absolute; inset: 0; background: #000; opacity: 0; pointer-events: none; transition: opacity .3s; z-index: 4; }
@@ -211,6 +234,7 @@
     <div id="subs" class="tour empty" hidden aria-live="polite" title="Click to pause or play"></div>
     <div id="tNote" class="tour" hidden></div>
     <div id="tourCtl" class="tour" hidden>
+      <button id="tReset" title="Reset and start from the beginning (R)" aria-label="Reset and start from the beginning">↺ Reset</button>
       <button id="tPrevStep" title="Previous part (Shift + ←)" aria-label="Previous part">⏮</button>
       <button id="tPrev" title="Previous line (←)" aria-label="Previous line">◀</button>
       <button id="tPlay" title="Pause or play (Space)" aria-label="Pause">⏸</button>
@@ -227,6 +251,7 @@
     <div id="tMenu" class="tour" hidden></div>
     <div id="tPill" class="tour" hidden><span>Exploring on your own</span><button id="tBack">Back to tour (E)</button><button id="tLeave">Exit tour</button></div>
     <div id="tCard" hidden></div>
+    <div id="accountModal" hidden role="dialog" aria-modal="true"></div>
   </main>
   <aside id="info">
     <div id="lvl"></div>

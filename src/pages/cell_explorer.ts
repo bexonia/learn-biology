@@ -12,10 +12,13 @@ import { OutlinePass } from 'three/addons/postprocessing/OutlinePass.js';
 import { mergeVertices } from 'three/addons/utils/BufferGeometryUtils.js';
 import { Effect } from 'effect';
 import { runBiologyApp } from '../index.js';
+import { CourseProgressManager } from '../core/progress_service.js';
 
 runBiologyApp(1, ({ random, geometry, batch, dna, rna, pdb, ribosome, tours, i18n }) => {
   if (/[?&]embed\b/.test(location.search)) document.documentElement.classList.add('embed');
   Effect.runSync(tours.registerGlobalTours());
+  const progressMgr = new CourseProgressManager();
+  window.__progress = progressMgr;
 // =====================================================================
 // Random, noise and small math helpers
 // =====================================================================
@@ -3971,6 +3974,29 @@ fpsEl.onclick = () => { fpsOn = !fpsOn; fpsEl.classList.toggle('off', !fpsOn); }
 const langEl = i18n.createLanguageBadge({ id: 'lang', alignRight: true });
 const tourLangEl = i18n.createLanguageBadge({ id: 'tourLang', alignRight: false });
 if ($('tExit')) $('tourBar').insertBefore(tourLangEl, $('tExit'));
+const accountBtn = document.createElement('button');
+accountBtn.id = 'accountBtn';
+accountBtn.type = 'button';
+let authTabMode = 'login';
+function updateAccountBtnLabel() {
+  const trackedCount = ROOTS.filter(([rid]) => {
+    const cp = progressMgr.getCheckpoint(rid);
+    return cp && (cp.stepIdx > 0 || cp.isCompleted || cp.stepId);
+  }).length;
+  if (progressMgr.authenticated && progressMgr.user) {
+    const displayName = progressMgr.user.fullName || progressMgr.user.email.split('@')[0];
+    accountBtn.textContent = i18n.t('accountStatusBtn', { name: displayName, n: trackedCount });
+  } else {
+    accountBtn.textContent = trackedCount > 0 ? `${i18n.t('trackProgressBtn')} (${trackedCount}/10)` : i18n.t('trackProgressBtn');
+  }
+}
+updateAccountBtnLabel();
+accountBtn.onclick = () => {
+  const m = $('accountModal');
+  if (!m) return;
+  m.hidden = !m.hidden;
+  if (!m.hidden) renderAccountModal();
+};
 function fpsFrame() {
   fpsN++; const now = performance.now();
   if (now - fpsT >= 400) { fpsVal.textContent = `${Math.round(fpsN * 1000 / (now - fpsT))} FPS`; fpsN = 0; fpsT = now; }
@@ -4140,7 +4166,8 @@ function renderInfo() {
   const cr = $('crumbs'); cr.innerHTML = '';
   curPath.forEach((p, i) => { if (i) { const s = document.createElement('span'); s.textContent = '›'; cr.append(s); } const b = document.createElement('button'); b.textContent = nName(p); b.onclick = () => go(curPath.slice(0, i + 1)); cr.append(b); });
   fpsEl.title = i18n.t('fpsTitle');
-  cr.append(fpsEl, langEl);
+  updateAccountBtnLabel();
+  cr.append(fpsEl, accountBtn, langEl);
   $('up').disabled = curPath.length === 1;
   $('tourBtn').hidden = !TOUR || curPath[0] !== TOUR.root || T.on;
   if (TOUR) $('tourBtn').title = curPath.length > 1 ? i18n.t('guidedTourOf', { name: nName(id) }) : i18n.t('guidedTourTitle', { title: i18n.tr(TOUR.title) });
@@ -4445,7 +4472,18 @@ function playStep(i, cue = 0) {
   tp({ cmd: 'fly', ...s.camera, dur, orbit: T.reduce ? 0 : s.camera.orbit ?? 0, seq });
   T.until = performance.now() + (dur + 2.5) * 1000;   // if the page's frames are paused (a hidden tab), go on anyway
   renderBar(); if (T.more) showMore(); if (!$('tMenu').hidden) renderMenu();
-  store.set('tourPos:' + TOUR.root, s.id); store.set('tourPos', s.id); emit('step', { id: s.id, chapter: s.ch.id, title: s.title });
+  store.set('tourPos:' + TOUR.root, s.id); store.set('tourPos', s.id);
+  progressMgr.saveStep({
+    tourKey: TOUR.root,
+    stepId: s.id,
+    chapterIdx: s.ci ?? 0,
+    stepIdx: i,
+    cueIdx: Math.max(0, cue),
+    lastNodeId: curPath.at(-1) ?? TOUR.root,
+  });
+  updateAccountBtnLabel();
+  if ($('accountModal') && !$('accountModal').hidden) renderAccountModal();
+  emit('step', { id: s.id, chapter: s.ch.id, title: s.title });
 }
 function tourArrived(seq) { if (T.on && T.phase === 'flying' && seq === T.seq) arrive(); }
 function ghostOf(s) { const keep = s.ghost === false ? null : Array.isArray(s.ghost) ? s.ghost : s.blink ? [s.blink] : null; return keep ?? (T.alone && s.blink ? [s.blink] : null); }
@@ -4550,9 +4588,33 @@ function startTour(at = true) {
 }
 function finish() {
   markSeen(stepNow().ch.id); stopVoice(); calm();
+  if (TOUR) {
+    const s = stepNow();
+    progressMgr.saveStep({
+      tourKey: TOUR.root,
+      stepId: s?.id ?? null,
+      chapterIdx: s?.ci ?? 0,
+      stepIdx: Math.max(0, STEPS.length - 1),
+      cueIdx: 0,
+      isCompleted: true,
+      lastNodeId: TOUR.root,
+    });
+    updateAccountBtnLabel();
+  }
   T.mode = 'finished'; T.phase = 'idle'; showCard(); setLayout(); renderCue(null);
   tp({ cmd: 'set', flow: true }); tp({ cmd: 'fly', view: rootView(), dur: T.reduce ? 0 : 2, orbit: T.reduce ? 0 : 3, seq: ++T.seq });
   emit('end');
+}
+function resetTourToBeginning() {
+  if (!TOUR) return;
+  progressMgr.resetCourse(TOUR.root);
+  updateAccountBtnLabel();
+  if ($('accountModal') && !$('accountModal').hidden) renderAccountModal();
+  $('tMenu').hidden = true;
+  $('tCard').hidden = true;
+  toStep(0, 0);
+  flashNote(i18n.t('resetToast'));
+  emit('reset', { root: TOUR.root });
 }
 function explore() {
   stopVoice(); T.mode = 'explore'; T.paused = false; T.phase = 'idle'; T.more = false;
@@ -4626,19 +4688,34 @@ function renderBar() {
   $('tExplore').textContent = T.mode === 'detail' ? i18n.t('backToTour') : i18n.t('exploreBtn');
   $('tAlone').classList.toggle('on', T.alone); $('tAlone').disabled = T.mode !== 'tour'; $('tMore').classList.toggle('on', T.more); $('tMore').disabled = T.mode !== 'tour' || !s.detail;
   $('tPrevStep').disabled = T.mode === 'tour' && T.i === 0;
+  if ($('tReset')) {
+    $('tReset').textContent = i18n.t('resetBtn');
+    $('tReset').title = i18n.t('resetTitle');
+    $('tReset').setAttribute('aria-label', i18n.t('resetTitle'));
+    $('tReset').disabled = T.mode === 'tour' && T.i === 0 && T.cue <= 0;
+  }
 }
 function setPlay() { const b = $('tPlay'); b.textContent = T.paused ? `▶ ${i18n.t('play')}` : '⏸'; b.setAttribute('aria-label', T.paused ? i18n.t('play') : i18n.t('pause')); b.classList.toggle('on', T.paused); }
 function showCard() {
-  const c = $('tCard'), fin = T.mode === 'finished', savedKey = store.get('tourPos:' + TOUR.root, null) ?? (TOUR.root === 'real-cell' ? store.get('tourPos', null) : null), saved = STEPS.findIndex(s => s.id === savedKey);
+  const c = $('tCard'), fin = T.mode === 'finished';
+  const cp = TOUR ? progressMgr.getCheckpoint(TOUR.root) : null;
+  const savedKey = cp?.stepId ?? store.get('tourPos:' + TOUR.root, null) ?? (TOUR.root === 'real-cell' ? store.get('tourPos', null) : null);
+  const saved = STEPS.findIndex(s => s.id === savedKey);
   const h = document.createElement('h2'), p = document.createElement('p'), k = document.createElement('p'), acts = document.createElement('div'); acts.className = 'acts'; k.className = 'keys';
   const btn = (text, fn, main) => { const b = document.createElement('button'); b.textContent = text; b.onclick = fn; if (main) b.className = 'main'; acts.append(b); };
   if (fin) {
     h.textContent = i18n.t('tourComplete'); p.textContent = i18n.t('tourCompleteDesc');
-    btn(i18n.t('exploreBtn'), explore, true); btn(i18n.t('replayChapter'), toggleMenu); btn(i18n.t('leaveTour'), exitTour);
+    btn(i18n.t('exploreBtn'), explore, true); btn(i18n.t('startFromBeginning'), resetTourToBeginning); btn(i18n.t('replayChapter'), toggleMenu); btn(i18n.t('leaveTour'), exitTour);
   } else {
     h.textContent = i18n.tr(TOUR.title); p.textContent = i18n.tr(TOUR.summary ?? 'From the whole cell down to a gene being read: each part lights up, the camera flies to it, and subtitles explain it. About eight minutes.');
     k.textContent = i18n.t('tourKeysHint');
-    btn(i18n.t('startTour'), () => toStep(0), true); if (saved > 0) btn(i18n.t('continueTour', { title: i18n.tr(STEPS[saved].title) }), () => toStep(saved)); btn(i18n.t('chooseChapter'), toggleMenu);
+    if (saved > 0) {
+      btn(i18n.t('continueTour', { title: i18n.tr(STEPS[saved].title) }), () => toStep(saved), true);
+      btn(i18n.t('startFromBeginning'), resetTourToBeginning);
+    } else {
+      btn(i18n.t('startTour'), () => toStep(0), true);
+    }
+    btn(i18n.t('chooseChapter'), toggleMenu);
   }
   c.replaceChildren(h, p, ...(fin ? [] : [k]), acts);
 }
@@ -4679,6 +4756,7 @@ function tourKey(key, shift = false, target = null) {
   const act = {
     ' ': togglePause, ArrowRight: () => (shift ? nextStep() : nextCue()), ArrowLeft: () => (shift ? prevStep() : prevCue()),
     PageDown: () => gotoChapter(stepNow().ci + 1), PageUp: () => gotoChapter(stepNow().ci - 1), c: toggleSubs, n: toggleNarr, m: toggleMenu,
+    r: resetTourToBeginning,
     e: () => (T.mode === 'detail' ? backToTour() : explore()),
     Escape: () => { if (T.mode === 'detail') return backToTour(); if (performance.now() - T.esc < 2500) return exitTour(); T.esc = performance.now(); flashNote(i18n.t('escAgain')); },
   }[k] ?? (/^[1-9]$/.test(k) ? () => gotoChapter(+k) : null);
@@ -4688,6 +4766,7 @@ function tourKey(key, shift = false, target = null) {
 addEventListener('keydown', e => { if (!e.metaKey && !e.ctrlKey && !e.altKey && tourKey(e.key, e.shiftKey, e.target)) e.preventDefault(); });
 $('tourBtn').onclick = () => startTour();
 $('tMenuBtn').onclick = toggleMenu; $('tExit').onclick = exitTour;
+if ($('tReset')) $('tReset').onclick = resetTourToBeginning;
 $('tPrevStep').onclick = prevStep; $('tPrev').onclick = prevCue; $('tPlay').onclick = togglePause; $('tNext').onclick = nextCue; $('tNextStep').onclick = nextStep;
 $('subs').onclick = togglePause; $('tCC').onclick = toggleSubs; $('tNarrBtn').onclick = toggleNarr; $('tVol').oninput = () => T.narrator?.setVolume?.(+$('tVol').value);
 $('tSize').onclick = () => setSize((T.size + 1) % 3); $('tPace').onclick = () => setPace({ .75: 1, 1: 1.25, 1.25: .75 }[T.pace]);
@@ -4700,6 +4779,8 @@ i18n.onChange(loc => {
   setStageMode(!!cur?.real);
   syncToolbar();
   setPlay();
+  updateAccountBtnLabel();
+  if ($('accountModal') && !$('accountModal').hidden) renderAccountModal();
   if (cur) { makeLabels(); if (cur.tour && stepNow()) arrowsFor(stepNow()); layoutLabels(); }
   if (T.on) {
     if (T.mode === 'detail') {
@@ -4729,8 +4810,214 @@ Object.values(TOUR_BY_ROOT).forEach(tr => {
     if (plainOf(c.text).length > 84) console.warn(`tour detail (${tr.root}/${did}): ${c.id} is longer than two subtitle lines`);
   }));
 });
+function renderAccountModal() {
+  const m = $('accountModal');
+  if (!m) return;
+  const hd = document.createElement('div');
+  hd.className = 'am-hd';
+  const h2 = document.createElement('h2');
+  h2.textContent = i18n.t('accountModalTitle');
+  const closeBtn = document.createElement('button');
+  closeBtn.className = 'am-btn';
+  closeBtn.id = 'accountModalClose';
+  closeBtn.textContent = i18n.t('closeBtn');
+  closeBtn.onclick = () => { m.hidden = true; };
+  hd.append(h2, closeBtn);
+
+  const sub = document.createElement('p');
+  sub.className = 'am-sub';
+  sub.textContent = i18n.t('accountModalSub');
+
+  const authBox = document.createElement('div');
+  if (progressMgr.authenticated && progressMgr.user) {
+    const userLine = document.createElement('div');
+    userLine.style.cssText = 'font-size:13px;margin-bottom:8px;color:var(--fg)';
+    const namePart = progressMgr.user.fullName ? `${progressMgr.user.fullName} (${progressMgr.user.email})` : progressMgr.user.email;
+    userLine.textContent = `✓ ${namePart}`;
+
+    const actions = document.createElement('div');
+    actions.className = 'am-actions';
+    const renewBtn = document.createElement('button');
+    renewBtn.className = 'am-btn';
+    renewBtn.id = 'renewCookieBtn';
+    renewBtn.textContent = i18n.t('renewCookieBtn');
+    renewBtn.onclick = async () => {
+      await progressMgr.renewCookies();
+      flashNote(i18n.t('cookieRenewedToast'));
+      renderAccountModal();
+    };
+    const logoutBtn = document.createElement('button');
+    logoutBtn.className = 'am-btn';
+    logoutBtn.id = 'signOutBtn';
+    logoutBtn.textContent = i18n.t('signOutBtn');
+    logoutBtn.onclick = async () => {
+      await progressMgr.logout();
+      updateAccountBtnLabel();
+      renderAccountModal();
+    };
+    actions.append(renewBtn, logoutBtn);
+    authBox.append(userLine, actions);
+  } else {
+    const tabs = document.createElement('div');
+    tabs.className = 'am-tabs';
+    const tabLogin = document.createElement('button');
+    tabLogin.id = 'authTabLogin';
+    tabLogin.className = authTabMode === 'login' ? 'on' : '';
+    tabLogin.textContent = i18n.t('tabSignIn');
+    tabLogin.onclick = () => { authTabMode = 'login'; renderAccountModal(); };
+    const tabReg = document.createElement('button');
+    tabReg.id = 'authTabRegister';
+    tabReg.className = authTabMode === 'register' ? 'on' : '';
+    tabReg.textContent = i18n.t('tabRegister');
+    tabReg.onclick = () => { authTabMode = 'register'; renderAccountModal(); };
+    tabs.append(tabLogin, tabReg);
+
+    const form = document.createElement('form');
+    form.className = 'am-form';
+    form.onsubmit = e => e.preventDefault();
+
+    const emailIn = document.createElement('input');
+    emailIn.id = 'authEmail';
+    emailIn.type = 'email';
+    emailIn.placeholder = i18n.t('emailLabel');
+    emailIn.required = true;
+
+    const passIn = document.createElement('input');
+    passIn.id = 'authPassword';
+    passIn.type = 'password';
+    passIn.placeholder = i18n.t('passwordLabel');
+    passIn.required = true;
+
+    const nameIn = document.createElement('input');
+    nameIn.id = 'authFullName';
+    nameIn.type = 'text';
+    nameIn.placeholder = i18n.t('nameOptionalLabel');
+
+    form.append(emailIn, passIn);
+    if (authTabMode === 'register') form.append(nameIn);
+
+    const errEl = document.createElement('div');
+    errEl.className = 'am-err';
+    errEl.id = 'authError';
+
+    const actions = document.createElement('div');
+    actions.className = 'am-actions';
+    const submitBtn = document.createElement('button');
+    submitBtn.type = 'button';
+    submitBtn.id = 'authSubmitBtn';
+    submitBtn.className = 'am-btn primary';
+    submitBtn.textContent = authTabMode === 'register' ? i18n.t('registerSubmit') : i18n.t('signInSubmit');
+    submitBtn.onclick = async () => {
+      errEl.textContent = '';
+      const res = authTabMode === 'register'
+        ? await progressMgr.register({
+            email: emailIn.value,
+            password: passIn.value,
+            fullName: nameIn.value,
+            lang: i18n.locale === 'es' ? 'es' : 'en',
+          })
+        : await progressMgr.login({
+            email: emailIn.value,
+            password: passIn.value,
+          });
+      if (!res.ok) {
+        errEl.textContent = res.error || 'Error';
+        return;
+      }
+      updateAccountBtnLabel();
+      renderAccountModal();
+    };
+
+    const renewCookieOnlyBtn = document.createElement('button');
+    renewCookieOnlyBtn.type = 'button';
+    renewCookieOnlyBtn.id = 'renewCookieBtn';
+    renewCookieOnlyBtn.className = 'am-btn';
+    renewCookieOnlyBtn.textContent = i18n.t('renewCookieBtn');
+    renewCookieOnlyBtn.onclick = async () => {
+      await progressMgr.renewCookies();
+      flashNote(i18n.t('cookieRenewedToast'));
+    };
+
+    actions.append(submitBtn, renewCookieOnlyBtn);
+    authBox.append(tabs, form, errEl, actions);
+  }
+
+  const coursesHd = document.createElement('h3');
+  coursesHd.style.cssText = 'font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin:10px 0 6px';
+  coursesHd.textContent = i18n.t('yourCoursesTitle');
+
+  const courseList = document.createElement('div');
+  courseList.className = 'course-list';
+  ROOTS.forEach(([rootId, rawLabel]) => {
+    const tourObj = TOUR_BY_ROOT[rootId];
+    const flatSteps = tourObj ? tourObj.chapters.flatMap(ch => ch.steps) : [];
+    const cp = progressMgr.getCheckpoint(rootId);
+    const savedStepId = cp?.stepId ?? store.get('tourPos:' + rootId, null);
+    const stepIndex = savedStepId ? flatSteps.findIndex(s => s.id === savedStepId) : (cp?.stepIdx ?? -1);
+    const hasProgress = stepIndex > 0 || Boolean(cp?.isCompleted);
+
+    const row = document.createElement('div');
+    row.className = 'course-row';
+    row.dataset.course = rootId;
+
+    const info = document.createElement('div');
+    info.className = 'c-info';
+    const nm = document.createElement('div');
+    nm.className = 'c-name';
+    nm.textContent = i18n.tr(rawLabel);
+    const st = document.createElement('span');
+    st.className = 'c-step';
+    if (stepIndex >= 0 && flatSteps[stepIndex]) {
+      st.textContent = `${stepIndex + 1}/${flatSteps.length} · ${i18n.tr(flatSteps[stepIndex].title)}`;
+    } else {
+      st.textContent = i18n.t('notStartedLabel');
+    }
+    info.append(nm, st);
+
+    const btns = document.createElement('div');
+    btns.className = 'c-btns';
+    const resumeBtn = document.createElement('button');
+    resumeBtn.className = 'resume';
+    resumeBtn.textContent = hasProgress && flatSteps[stepIndex]
+      ? i18n.t('resumeStepBtn', { step: `${stepIndex + 1}/${flatSteps.length}` })
+      : i18n.t('startCourseBtn');
+    resumeBtn.onclick = () => {
+      m.hidden = true;
+      go([rootId]);
+      const targetStepId = hasProgress && flatSteps[stepIndex] ? flatSteps[stepIndex].id : (flatSteps[0]?.id ?? true);
+      startTour(targetStepId);
+    };
+    btns.append(resumeBtn);
+
+    if (hasProgress || stepIndex >= 0) {
+      const resetCourseBtn = document.createElement('button');
+      resetCourseBtn.className = 'reset-course';
+      resetCourseBtn.textContent = i18n.t('resetBtn');
+      resetCourseBtn.title = i18n.t('resetTitle');
+      resetCourseBtn.onclick = async () => {
+        await progressMgr.resetCourse(rootId);
+        if (TOUR && TOUR.root === rootId && T.on) {
+          toStep(0, 0);
+        }
+        updateAccountBtnLabel();
+        renderAccountModal();
+      };
+      btns.append(resetCourseBtn);
+    }
+
+    row.append(info, btns);
+    courseList.append(row);
+  });
+
+  m.replaceChildren(hd, sub, authBox, coursesHd, courseList);
+}
+progressMgr.onChange(() => {
+  updateAccountBtnLabel();
+});
+progressMgr.hydrateFromServer();
+
 window.__tour = {
-  start: at => startTour(at), exit: exitTour, play: () => T.paused && togglePause(), pause: () => !T.paused && togglePause(),
+  start: at => startTour(at), exit: exitTour, reset: resetTourToBeginning, play: () => T.paused && togglePause(), pause: () => !T.paused && togglePause(),
   next: nextCue, prev: prevCue, nextStep, prevStep, explore, back: backToTour,
   goto(id) { syncTourRoot(curPath[0]); const i = STEPS.findIndex(s => s.id === id || s.cues.some(c => c.id === id)); if (i < 0) return false; if (!T.on) startTour(STEPS[i].id); else toStep(i, Math.max(0, STEPS[i].cues.findIndex(c => c.id === id))); return true; },
   get state() { return { on: T.on, root: TOUR?.root ?? null, mode: T.mode, phase: T.phase, step: stepNow()?.id ?? null, cue: T.list[T.cue]?.id ?? null, paused: T.paused }; },

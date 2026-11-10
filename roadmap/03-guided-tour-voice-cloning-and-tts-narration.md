@@ -41,6 +41,18 @@ Enable the built-in **`🔊 Narration`** (`#tNarr`) controls in [`src/pages/cell
 | **Supporting Tool: `WhisperX` / `faster-whisper`** | **Dataset Prep (Speech-to-Text)** | Any MP3 / Video | Seconds | ✅ 99 languages | **9.8 / 10** *(Transcription)* | Automatically transcribes the reference MP3/video and aligns timestamps so training tools know what words were spoken. |
 | **Supporting Tool: `UVR5` / `Demucs`** | **Audio Cleaning (Vocal Isolation)** | Any noisy MP3 / Video | Seconds | Language-agnostic | **9.7 / 10** *(Denoising)* | Strips background music, echo, and noise from a video before feeding the voice into training. |
 
+### 3.1 YouTube Video Background Music & Sound FX Separation Pipeline (Local RTX 4080)
+
+When the reference voice comes from a **YouTube video that contains background music, ambient sound effects, or room reverb**, the voice extraction pipeline executes 5 automated stages locally on the **NVIDIA RTX 4080 (`16 GB VRAM`)**:
+
+| Stage | Tool | Action | Typical Time (RTX 4080) |
+| :--- | :--- | :--- | :---: |
+| **1. Audio Extraction** | **`yt-dlp` + `ffmpeg`** | Downloads the highest-bitrate original audio stream from the YouTube URL and converts it to lossless `44.1 kHz` WAV. | `~5–10 sec` |
+| **2. Pass 1: Music & Sound FX Removal** | **`audio-separator` (`Mel-Band-RoFormer` / `UVR-MDX-Net`)** | Strips background music, synth pads, and cinematic sound effects from the human voice (`SDR > 12 dB`). | `~15–30 sec` |
+| **3. Pass 2: Echo & Reverb Removal** | **`UVR-DeEcho-DeReverb`** | Removes room echo and residual background hiss so the isolated vocal is 100% dry (preventing the TTS model from learning background noise). | `~15 sec` |
+| **4. VAD Slicing & Transcription** | **`Silero VAD` + `faster-whisper large-v3`** | Slices the isolated vocal into clean `3s–10s` speech clips (dropping silent gaps) and generates aligned text transcripts. | `~20–40 sec` |
+| **5. Voice Cloning & `.opus` Synthesis** | **`GPT-SoVITS v3`** | Fine-tunes on the clean vocal clips and synthesizes all `655 × 2` (`EN` + `ES`) tour cues into lightweight `.opus` streams (`~15–20 KB` per cue). | `~3–5 min` |
+
 ---
 
 ## 4. Browser Delivery & Execution Mode Comparison (Why Pre-Generated GPT-SoVITS v3 Wins)

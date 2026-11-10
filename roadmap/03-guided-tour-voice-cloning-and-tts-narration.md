@@ -1,7 +1,7 @@
 # 03 — Guided Tour Voice Cloning & Bilingual (`EN`/`ES`) TTS Narration
 
 **Iteration:** `03` (Custom Voice Training & Lightweight Pre-Generated Tour Audio Streaming)  
-**Status:** ⏸️ **Pending / Planned**  
+**Status:** ✅ **Completed (Pre-Generated GPT-SoVITS `.opus` Bilingual Narration Active)**  
 **Parent Index:** [`roadmap/README.md`](./README.md)  
 **Previous Step:** [`02-bilingual-i18n-and-reactive-locale-switching.md`](./02-bilingual-i18n-and-reactive-locale-switching.md)  
 **Next Step:** [`04-optional-user-accounts-and-course-progress-sync.md`](./04-optional-user-accounts-and-course-progress-sync.md)
@@ -71,11 +71,11 @@ Because all **655 guided tour subtitle cues** in `learn-biology` are fixed tutor
 
 ---
 
-## 5. Implementation Plan (Next Steps)
+## 5. Implementation Summary (Completed)
 
-- [ ] **Step 1 — Export Bilingual Tour Cue Manifest (`scripts/export_tour_cues.ts`):**
-  - Generate `dist/tour_cues_manifest.json` listing all `655 × 2` (`en` and `es`) guided tour and detail cues (`{ tourRoot, cueId, lang, plainText }`) stripped of `[[...|part]]` markup.
-- [ ] **Step 2 — Train Custom Voice & Batch-Generate `.opus` Audio via GPT-SoVITS v3:**
-  - Extract clean 24–48 kHz mono speech from the reference video/MP3 (`ffmpeg` + `UVR5`), auto-transcribe with `faster-whisper`, fine-tune **GPT-SoVITS v3** (~10 minutes on GPU), and synthesize `audio/en/<tourRoot>/<cueId>.opus` and `audio/es/<tourRoot>/<cueId>.opus` (`~15–20 KB` per file).
-- [ ] **Step 3 — Wire `NarratorService` into [`src/pages/cell_explorer.ts`](../src/pages/cell_explorer.ts):**
-  - Connect [`window.__tour.setNarrator({ speak, stop, setVolume })`](../src/pages/cell_explorer.ts#L4738) to stream `audio/${lang}/${root}/${cue.id}.opus` with automatic next-cue prefetching and graceful fallback to `window.speechSynthesis` if an audio asset is absent.
+- [x] **Step 1 — Export Bilingual Tour Cue Manifest ([`scripts/export_tour_cues.ts`](../scripts/export_tour_cues.ts)):**
+  - `make export-cues` (`npm run export:cues`) generates `dist/tour_cues_manifest.json` listing all `1,534` (`767 en + 767 es`) guided tour and detail cues (`{ tourRoot, cueId, lang, plainText, speechText, audioPath }`) stripped of `[[...|part]]` markup and normalized for scientific speech synthesis.
+- [x] **Step 2 — Batch-Synthesize Bilingual `.opus` Narration via GPT-SoVITS ([`tools/generate_narration_gptsovits.py`](../tools/generate_narration_gptsovits.py)) & Bundle `audio.tar.gz`:**
+  - Offline pipeline (`make generate-narration`) conditions **GPT-SoVITS (`s1v3.ckpt` + `s2Gv2ProPlus.pth` + `ERes2NetV2`)** on public-domain deep human narrator reference voices ([`tools/voices/`](../tools/voices/ATTRIBUTION.md)), applies custom Spanish phonemic G2P ([`tools/spanish_g2p.py`](../tools/spanish_g2p.py)), loudness-normalizes, encodes all `1,534` cues into the gitignored `audio/{en,es}/<tourRoot>/<cueId>.opus` folder via `ffmpeg libopus`, and bundles them into a single `audio.tar.gz` archive unpacked automatically during `Dockerfile` builds (`ADD audio.tar.gz /usr/share/nginx/html/`) and local `make unpack-audio`.
+- [x] **Step 3 — Wire Lightweight Static `.opus` Narrator ([`src/core/narrator_service.ts`](../src/core/narrator_service.ts)) into [`src/pages/cell_explorer.ts`](../src/pages/cell_explorer.ts):**
+  - Connected `createStaticTourNarrator` purely additively via `window.__tour.setNarrator(...)` (`window.__narrator`) with zero modifications to data models or scene logic, streaming `audio/${lang}/${root}/${cue.id}.opus` with next-cue prefetching, `#tNarrBtn` (`N`) mute/unmute, `#tVol` volume persistence, `#tPace` playback rate sync, and instant `EN`/`ES` locale switching.

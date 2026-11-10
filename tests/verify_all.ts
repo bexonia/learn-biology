@@ -25,6 +25,10 @@ import {
   LearnAuthProgressStore,
   SESSION_COOKIE_NAME
 } from '../src/server/auth_progress_server.js';
+import {
+  createStaticTourNarrator,
+  normalizeSpeechText
+} from '../src/core/narrator_service.js';
 
 const ROOT_DIR = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 
@@ -351,6 +355,99 @@ async function runUnitTests() {
   assert.equal(authStore.resolveSession(regWithOptionalName.token), null, 'Logged out session must be removed from memory & DB');
   authStore.close();
   ok('LearnAuthProgressStore (optional fullName, scrypt auth, in-memory session/progress cache, auto-renewal, per-model course reset)');
+
+  // Test 4: Static GPT-SoVITS .opus Narrator & Scientific Speech Text Normalizer (EN/ES)
+  const normEn = normalizeSpeechText(
+    'The [[plasma membrane|membrane]] is 5 nm thick around a 20 µm cell with (+)ssRNA, dsDNA, CO₂, and protein VII.',
+    'en-US'
+  );
+  assert.ok(
+    normEn.includes('plasma membrane') &&
+      !normEn.includes('[[') &&
+      normEn.includes('5 nanometers') &&
+      normEn.includes('20 micrometers') &&
+      normEn.includes('positive-sense single-stranded RNA') &&
+      normEn.includes('double-stranded DNA') &&
+      normEn.includes('carbon dioxide') &&
+      normEn.includes('protein seven'),
+    `Unexpected EN speech normalization: ${normEn}`
+  );
+  const normEs = normalizeSpeechText(
+    'La [[membrana plasmática|membrane]] mide 5 nm y envuelve (+)ARNmc, ADNbc, ARNm y CO₂ en 20 µm.',
+    'es-ES'
+  );
+  assert.ok(
+    normEs.includes('membrana plasmática') &&
+      !normEs.includes('[[') &&
+      normEs.includes('5 nanómetros') &&
+      normEs.includes('20 micrómetros') &&
+      normEs.includes('ARN monocatenario positivo') &&
+      normEs.includes('ADN bicatenario') &&
+      normEs.includes('ARN mensajero') &&
+      normEs.includes('dióxido de carbono'),
+    `Unexpected ES speech normalization: ${normEs}`
+  );
+
+  const playedAudioUrls: Array<{ src: string; volume: number; rate: number }> = [];
+  const prefetchedAudioUrls: string[] = [];
+  let mockRuntimePace = 1.25;
+  const mockNarrator = createStaticTourNarrator({
+    audioBaseUrl: 'audio',
+    storage: null,
+    initialVolume: 0.8,
+    initialRate: 1.0,
+    getTourRuntime: () => ({
+      state: { root: 'real-cell' },
+      T: {
+        pace: mockRuntimePace,
+        cue: 0,
+        list: [{ id: 'ch1.membrane.01' }, { id: 'ch1.membrane.02' }]
+      }
+    }),
+    createAudio: (src: string) => {
+      const obj: any = {
+        src,
+        volume: 1,
+        playbackRate: 1,
+        preload: 'none',
+        onended: null,
+        onerror: null,
+        load() {
+          prefetchedAudioUrls.push(src);
+        },
+        play() {
+          playedAudioUrls.push({ src, volume: obj.volume, rate: obj.playbackRate });
+          setTimeout(() => obj.onended?.(), 6);
+          return Promise.resolve();
+        },
+        pause() {}
+      };
+      return obj;
+    }
+  });
+
+  await mockNarrator.speak({
+    id: 'ch1.membrane.01',
+    lang: 'en-US'
+  });
+  assert.equal(playedAudioUrls.length, 1);
+  assert.equal(playedAudioUrls[0]?.src, 'audio/en/real-cell/ch1.membrane.01.opus');
+  assert.equal(playedAudioUrls[0]?.volume, 0.8);
+  assert.equal(playedAudioUrls[0]?.rate, 1.25);
+  assert.deepEqual(prefetchedAudioUrls, ['audio/en/real-cell/ch1.membrane.02.opus']);
+
+  mockRuntimePace = 1.0;
+  await mockNarrator.speak({
+    id: 'ch1.membrane.01',
+    lang: 'es-ES'
+  });
+  assert.equal(playedAudioUrls[1]?.src, 'audio/es/real-cell/ch1.membrane.01.opus');
+
+  // Unscripted node detail fallback cues (detail.*) must skip network fetch cleanly
+  assert.equal(mockNarrator.resolveAudioUrl({ id: 'detail.mitochondrion.1', lang: 'en-US', root: 'real-cell' }), null);
+  await mockNarrator.speak({ id: 'detail.mitochondrion.1', lang: 'en-US' });
+  assert.equal(playedAudioUrls.length, 2);
+  ok('StaticTourNarrator (pre-generated EN/ES .opus resolution, next-cue prefetching, pace/volume sync, & scientific text normalization)');
 }
 
 function runStaticChecks() {
@@ -390,6 +487,45 @@ function runStaticChecks() {
   assert.ok(deployYml.includes("environment: production"), 'Publish job must be gated by protected production environment');
   assert.ok(deployYml.includes("github.ref == 'refs/heads/main'"), 'Publish job must require refs/heads/main');
   ok('CI/CD pipeline security checks (CODEOWNERS, read-only default token, external PR guard, production environment)');
+
+  // Verify audio.tar.gz archive is present, loose audio/ files are NOT tracked in Git, and all 1,534 .opus cues exist
+  const audioArchivePath = path.join(ROOT_DIR, 'audio.tar.gz');
+  assert.ok(fs.existsSync(audioArchivePath), 'Missing audio.tar.gz narration archive at repository root');
+  const trackedAudioFiles = execSync('git ls-files "audio/*"', { cwd: ROOT_DIR, encoding: 'utf8' }).trim();
+  assert.equal(trackedAudioFiles, '', `Expected 0 tracked files under gitignored audio/, found:\n${trackedAudioFiles.slice(0, 300)}`);
+  if (!fs.existsSync(path.join(ROOT_DIR, 'audio', 'en'))) {
+    execSync('tar -xzf audio.tar.gz', { cwd: ROOT_DIR });
+  }
+
+  let verifiedOpusCount = 0;
+  runBiologyApp(20261031, ({ tours }) => {
+    for (const lang of ['en', 'es'] as const) {
+      for (const tour of Object.values(tours.tours)) {
+        const seen = new Set<string>();
+        const checkCue = (cueId: string) => {
+          if (seen.has(cueId)) return;
+          seen.add(cueId);
+          const rel = path.join('audio', lang, tour.root, `${encodeURIComponent(cueId)}.opus`);
+          const full = path.join(ROOT_DIR, rel);
+          assert.ok(fs.existsSync(full), `Missing pre-generated GPT-SoVITS narration file: ${rel}`);
+          const buf = fs.readFileSync(full);
+          assert.ok(buf.length > 500, `Pre-generated narration file is unexpectedly small (${buf.length} B): ${rel}`);
+          assert.equal(buf.subarray(0, 4).toString('ascii'), 'OggS', `Invalid Ogg Opus header in ${rel}`);
+          verifiedOpusCount++;
+        };
+        for (const ch of tour.chapters) {
+          for (const step of ch.steps) {
+            for (const cue of step.cues) checkCue(cue.id);
+          }
+        }
+        for (const det of Object.values(tour.details ?? {})) {
+          for (const cue of det.cues ?? []) checkCue(cue.id);
+        }
+      }
+    }
+  });
+  assert.equal(verifiedOpusCount, 1534, `Expected 1534 verified EN/ES .opus files, got ${verifiedOpusCount}`);
+  ok(`All ${verifiedOpusCount} pre-generated GPT-SoVITS bilingual (.opus) narration files verified (valid OggS headers)`);
 }
 
 function startStaticServer(rootDir: string): Promise<{ server: http.Server; port: number; store: LearnAuthProgressStore }> {
@@ -756,6 +892,72 @@ async function runBrowserE2ETests() {
         assert.equal(progressE2E.registeredUserEmail, 'cajal@bexonia.com');
         assert.equal(progressE2E.renewedOk, true, 'Cookie & session auto-renewal must succeed');
         assert.equal(progressE2E.hivStepIdxAfterSync, 2, 'Per-virus course progress (real-hiv) must sync with server');
+
+        // Verify pre-generated GPT-SoVITS .opus Narrator UI & HTTP audio streaming (#tNarr, #tNarrBtn, #tVol, #tPace)
+        const narratorE2E = await cdp.eval<{
+          hasGlobalNarrator: boolean;
+          narrHiddenDuringTour: boolean;
+          initialNarrOn: boolean;
+          updatedVolume: number;
+          enStatus: number;
+          esStatus: number;
+          enMagic: string;
+          esMagic: string;
+        }>(`
+          (async () => {
+            const nar = window.__narrator;
+            if (!nar) throw new Error('Missing window.__narrator');
+            const eukSteps = window.TOURS.eukaryotic.chapters.flatMap(c => c.steps);
+            const firstCueId = eukSteps[0].cues[0].id;
+            window.__tour.start(eukSteps[0].id);
+            const narrWrap = document.getElementById('tNarr');
+            const narrBtn = document.getElementById('tNarrBtn');
+            const volInput = document.getElementById('tVol');
+            if (!narrWrap || !narrBtn || !volInput) throw new Error('Missing #tNarr controls');
+            const narrHiddenDuringTour = narrWrap.hidden;
+            const initialNarrOn = window.__tour.T.narr && narrBtn.classList.contains('on');
+
+            // Toggle narration off, then back on
+            narrBtn.click();
+            const offOk = !window.__tour.T.narr && !narrBtn.classList.contains('on');
+            narrBtn.click();
+            const onOk = window.__tour.T.narr && narrBtn.classList.contains('on');
+            if (!offOk || !onOk) throw new Error('Narration toggle state mismatch');
+
+            // Adjust volume slider
+            volInput.value = '0.65';
+            volInput.dispatchEvent(new Event('input'));
+            const updatedVolume = nar.getVolume();
+
+            // Verify EN and ES .opus streams are served with valid OggS headers
+            const enUrl = nar.resolveAudioUrl({ id: firstCueId, lang: 'en-US', root: 'real-cell' });
+            const esUrl = nar.resolveAudioUrl({ id: firstCueId, lang: 'es-ES', root: 'real-cell' });
+            const [enRes, esRes] = await Promise.all([fetch(enUrl), fetch(esUrl)]);
+            const [enBuf, esBuf] = await Promise.all([enRes.arrayBuffer(), esRes.arrayBuffer()]);
+            const enMagic = String.fromCharCode(...new Uint8Array(enBuf.slice(0, 4)));
+            const esMagic = String.fromCharCode(...new Uint8Array(esBuf.slice(0, 4)));
+
+            window.__tour.exit();
+            return {
+              hasGlobalNarrator: window.__tour.T.narrator === nar,
+              narrHiddenDuringTour,
+              initialNarrOn,
+              updatedVolume,
+              enStatus: enRes.status,
+              esStatus: esRes.status,
+              enMagic,
+              esMagic
+            };
+          })()
+        `);
+        assert.equal(narratorE2E.hasGlobalNarrator, true, 'Static .opus narrator must be wired into window.__tour');
+        assert.equal(narratorE2E.narrHiddenDuringTour, false, '#tNarr control must be visible in guided tours');
+        assert.equal(narratorE2E.initialNarrOn, true, 'Narration must start enabled by default');
+        assert.equal(narratorE2E.updatedVolume, 0.65, '#tVol slider must update narrator volume');
+        assert.equal(narratorE2E.enStatus, 200, 'EN .opus stream must return HTTP 200');
+        assert.equal(narratorE2E.esStatus, 200, 'ES .opus stream must return HTTP 200');
+        assert.equal(narratorE2E.enMagic, 'OggS', 'EN .opus stream must begin with OggS magic header');
+        assert.equal(narratorE2E.esMagic, 'OggS', 'ES .opus stream must begin with OggS magic header');
 
         assert.deepEqual(cdp.pageErrors, [], `Page errors on cell_explorer.html`);
         assert.deepEqual(cdp.consoleErrors, [], `Console errors on cell_explorer.html`);

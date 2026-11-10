@@ -13,6 +13,7 @@ import { mergeVertices } from 'three/addons/utils/BufferGeometryUtils.js';
 import { Effect } from 'effect';
 import { runBiologyApp } from '../index.js';
 import { CourseProgressManager } from '../core/progress_service.js';
+import { createStaticTourNarrator } from '../core/narrator_service.js';
 
 runBiologyApp(1, ({ random, geometry, batch, dna, rna, pdb, ribosome, tours, i18n }) => {
   if (/[?&]embed\b/.test(location.search)) document.documentElement.classList.add('embed');
@@ -4738,9 +4739,9 @@ function renderMenu() {
 }
 function markTranscript() { document.querySelectorAll('#tMenu .cueRow').forEach(b => b.classList.toggle('on', T.mode === 'tour' && b.dataset.cue === T.list[T.cue]?.id)); }
 function setSize(v) { T.size = v; $('subs').style.setProperty('--subs', [15, 18, 24][v] + 'px'); $('tSize').textContent = ['Aa·S', 'Aa', 'Aa·L'][v]; }
-function setPace(v) { T.pace = v; $('tPace').textContent = i18n.t('paceBtn', { v }); }
+function setPace(v) { T.pace = v; T.narrator?.setRate?.(v); $('tPace').textContent = i18n.t('paceBtn', { v }); }
 function toggleSubs() { T.subs = !T.subs; $('tCC').classList.toggle('on', T.subs); renderCue(T.subs && T.phase === 'cue' ? T.list[T.cue] : null); }
-function toggleNarr() { if (!T.narrator) return; T.narr = !T.narr; $('tNarrBtn').classList.toggle('on', T.narr); if (!T.narr) stopVoice(); }
+function toggleNarr() { if (!T.narrator) return; T.narr = !T.narr; $('tNarrBtn').classList.toggle('on', T.narr); if (!T.narr) stopVoice(); else if (!T.paused && T.phase === 'cue' && T.list[T.cue]) speak(T.list[T.cue]); }
 function toggleAlone() { T.alone = !T.alone; const s = stepNow(), keep = ghostOf(s); if (T.mode === 'tour' && T.phase !== 'flying') tp({ cmd: 'ghost', keep, hide: T.alone && !!keep }); renderBar(); }
 // the tour's keys (also passed on by the realistic page once it has the keyboard); W A S D stay with the camera
 function tourKey(key, shift = false, target = null) {
@@ -4796,6 +4797,7 @@ i18n.onChange(loc => {
     if (!$('tMenu').hidden) renderMenu();
     if (T.phase === 'cue' || T.phase === 'wait') {
       renderCue(T.subs ? T.list[T.cue] : null, T.phase === 'wait' ? (T.mode === 'detail' ? i18n.t('backHint') : i18n.t('nextHint')) : null);
+      if (T.phase === 'cue' && !T.paused && T.list[T.cue] && T.narr && T.narrator) speak(T.list[T.cue]);
     }
   }
   Object.values(PAGES).forEach(P => toReal({ cmd: 'lang', lang: loc }, P));
@@ -5026,6 +5028,10 @@ window.__tour = {
   on: (type, fn) => addEventListener('tour:' + type, e => fn(e.detail)),
   setReduceMotion(v) { T.reduce = !!v; }, setAuto(v) { T.auto = !!v; }, T,
 };
+const staticNarrator = createStaticTourNarrator({ getTourRuntime: () => window.__tour, initialRate: T.pace });
+$('tVol').value = String(staticNarrator.getVolume());
+window.__narrator = staticNarrator;
+window.__tour.setNarrator(staticNarrator);
 
 let last = performance.now();
 renderer.setAnimationLoop(now => {

@@ -4,6 +4,7 @@ WORKDIR /app
 COPY package.json package-lock.json tsconfig.json ./
 RUN npm ci
 COPY src/ ./src/
+COPY scripts/ ./scripts/
 RUN npm run typecheck && npm run build
 
 FROM nginx:1.27-alpine
@@ -35,6 +36,8 @@ COPY cell_explorer.html \
      /usr/share/nginx/html/
 
 COPY screenshots/ /usr/share/nginx/html/screenshots/
+# Extract pre-generated GPT-SoVITS narration archive into /usr/share/nginx/html/audio/
+ADD audio.tar.gz /usr/share/nginx/html/
 COPY --from=builder /app/dist/ /usr/share/nginx/html/dist/
 COPY --from=builder /app/dist/server.js /app/server.js
 

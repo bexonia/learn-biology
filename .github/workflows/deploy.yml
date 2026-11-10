@@ -99,7 +99,9 @@ jobs:
           curl -sf "http://127.0.0.1:8080/dist/pages/cell_explorer.js" >/dev/null
           curl -sf "http://127.0.0.1:8080/robots.txt" | grep -q "Sitemap:"
           curl -sf "http://127.0.0.1:8080/sitemap.xml" | grep -q "<urlset"
-          echo "Smoke test passed (/api/health, /, /dist/pages/cell_explorer.js, /robots.txt, /sitemap.xml)."
+          curl -sf -r 0-3 "http://127.0.0.1:8080/audio/en/real-cell/ch0.intro.01.opus" | grep -q "OggS"
+          curl -sf -r 0-3 "http://127.0.0.1:8080/audio/es/real-cell/ch0.intro.01.opus" | grep -q "OggS"
+          echo "Smoke test passed (/api/health, /, /dist/pages/cell_explorer.js, /audio/*.opus, /robots.txt, /sitemap.xml)."
 
   publish:
     name: "Publish OCI Image & Release Bundle (main branch only)"

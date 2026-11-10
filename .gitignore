@@ -17,3 +17,10 @@ node_modules/
 
 # downloaded and coarse-grained structures (made by tools/fetch_structures.sh and tools/coarse_*.py)
 structures/
+
+# Python bytecode cache
+__pycache__/
+*.pyc
+
+# Extracted pre-generated tour narration folder (unpacked from audio.tar.gz)
+audio/

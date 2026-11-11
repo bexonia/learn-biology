@@ -1,0 +1,45 @@
+{
+  "voiceId": "latam",
+  "speaker": "Víctor Villarraza",
+  "region": "Latinoamérica (Rioplatense / Neutro cálido)",
+  "license": "CC0 1.0 Public Domain (LibriVox)",
+  "sourceUrl": "https://archive.org/details/muerteenvenecia_2601_librivox",
+  "samples": [
+    {
+      "file": "sample_01_simple_warm.wav",
+      "role": "simple",
+      "durationSec": 7.76,
+      "promptText": "Pensó en aquel pasaje que hoy como ayer había tenido que abandonar sin que le valiesen su paciente labor."
+    },
+    {
+      "file": "sample_02_story_opening.wav",
+      "role": "story",
+      "durationSec": 8.24,
+      "promptText": "La sangre alemana de sus antepasados se había mezclado con la sangre más viva y sensual de la madre del escritor."
+    },
+    {
+      "file": "sample_03_story_expressive.wav",
+      "role": "tour",
+      "durationSec": 8.06,
+      "promptText": "Esto era muy bello, muy ingenioso y muy exacto, a pesar de la excesiva pasividad atribuida al héroe."
+    },
+    {
+      "file": "sample_04_blueprint_clear.wav",
+      "role": "blueprint",
+      "durationSec": 8.18,
+      "promptText": "Veíase el elegante dominio de sí mismo, que esconde hasta el último momento a los ojos del mundo."
+    },
+    {
+      "file": "sample_05_scientific_measured.wav",
+      "role": "scientific",
+      "durationSec": 7.34,
+      "promptText": "Sopretexto de profundidad de pensamiento. El ímpetu de palabra con que se reprobaba lo reprobable."
+    },
+    {
+      "file": "sample_06_general_studio.wav",
+      "role": "fallback",
+      "durationSec": 7.46,
+      "promptText": "Por esa época se incluyeron trozos suyos en las antologías de lectura para uso de las escuelas."
+    }
+  ]
+}

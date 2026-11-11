@@ -40,6 +40,45 @@ export function resolveEnglishVoice(mode: ExplanationMode, pref: VoicePreference
   return pref === 'auto' ? PRESET_VOICE_BY_MODE[mode] : pref;
 }
 
+/**
+ * Two Public-Domain (CC0) Spanish narrator voices:
+ * - `latam`: Latinoamérica — Warm studio narrator (Víctor Villarraza, LibriVox CC0; preset for `simple` & `story`)
+ * - `spain`: España — Castilian deep baritone (Common Voice CC0; preset for `blueprint` & `scientific`)
+ */
+export type SpanishVoiceId = 'latam' | 'spain';
+
+export type SpanishVoicePreference = 'auto' | SpanishVoiceId;
+
+export const SPANISH_VOICE_IDS: readonly SpanishVoiceId[] = ['latam', 'spain'] as const;
+
+export const SPANISH_VOICE_PREFERENCES: readonly SpanishVoicePreference[] = [
+  'auto',
+  'latam',
+  'spain'
+] as const;
+
+export const PRESET_SPANISH_VOICE_BY_MODE: Readonly<Record<ExplanationMode, SpanishVoiceId>> = {
+  simple: 'latam',
+  story: 'latam',
+  blueprint: 'spain',
+  scientific: 'spain'
+};
+
+export function isValidSpanishVoiceId(val: unknown): val is SpanishVoiceId {
+  return val === 'latam' || val === 'spain';
+}
+
+export function isValidSpanishVoicePreference(val: unknown): val is SpanishVoicePreference {
+  return val === 'auto' || isValidSpanishVoiceId(val);
+}
+
+export function resolveSpanishVoice(
+  mode: ExplanationMode,
+  pref: SpanishVoicePreference
+): SpanishVoiceId {
+  return pref === 'auto' ? PRESET_SPANISH_VOICE_BY_MODE[mode] : pref;
+}
+
 export interface NodeLensEntry {
   /** 1-2 crisp everyday sentences (10-second intuition, zero heavy jargon; supports [[Label|nodeId]]) */
   readonly simple: string;

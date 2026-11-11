@@ -7,6 +7,7 @@ import '../src/content/index.js';
 import {
   ENGLISH_VOICE_IDS,
   EXPLANATION_MODES,
+  SPANISH_VOICE_IDS,
   type ExplanationMode
 } from '../src/content/types.js';
 import { NODE_LENS_REGISTRY } from '../src/content/registry.js';
@@ -65,7 +66,9 @@ function main() {
               ? Object.fromEntries(
                   ENGLISH_VOICE_IDS.map(v => [v, `audio/en/${v}/${tour.root}/${encCueId}.opus`])
                 )
-              : { es: `audio/es/${tour.root}/${encCueId}.opus` };
+              : Object.fromEntries(
+                  SPANISH_VOICE_IDS.map(v => [v, `audio/es/${v}/${tour.root}/${encCueId}.opus`])
+                );
 
           entries.push({
             kind: 'tour',
@@ -81,7 +84,7 @@ function main() {
             speechLang,
             plainText,
             speechText,
-            audioPath: lang === 'en' ? targets.v3 : targets.es,
+            audioPath: lang === 'en' ? targets.v3 : targets.latam,
             targets
           });
         };
@@ -121,7 +124,12 @@ function main() {
                     `audio/lenses/en/${v}/${mode}/${encNodeId}.opus`
                   ])
                 )
-              : { es: `audio/lenses/es/${mode}/${encNodeId}.opus` };
+              : Object.fromEntries(
+                  SPANISH_VOICE_IDS.map(v => [
+                    v,
+                    `audio/lenses/es/${v}/${mode}/${encNodeId}.opus`
+                  ])
+                );
 
           entries.push({
             kind: 'lens',
@@ -137,7 +145,7 @@ function main() {
             speechLang,
             plainText,
             speechText,
-            audioPath: lang === 'en' ? targets.v3 : targets.es,
+            audioPath: lang === 'en' ? targets.v3 : targets.latam,
             targets
           });
         }
@@ -158,6 +166,7 @@ function main() {
         totalAudioFiles,
         languages: ['en', 'es'],
         englishVoices: ENGLISH_VOICE_IDS,
+        spanishVoices: SPANISH_VOICE_IDS,
         modes: EXPLANATION_MODES,
         entries
       },

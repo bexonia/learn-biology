@@ -36,16 +36,21 @@ COPY cell_explorer.html \
      /usr/share/nginx/html/
 
 COPY screenshots/ /usr/share/nginx/html/screenshots/
-# Extract pre-generated GPT-SoVITS multi-voice tour & lens narration archives into /usr/share/nginx/html/audio/
+# Extract pre-generated multi-voice tour & lens narration archives into /usr/share/nginx/html/audio/
 ADD audio.tar.gz \
+    audio_tours_es.tar.gz \
     audio_lenses_v1_a.tar.gz \
     audio_lenses_v1_b.tar.gz \
     audio_lenses_v2_a.tar.gz \
     audio_lenses_v2_b.tar.gz \
     audio_lenses_v3_a.tar.gz \
     audio_lenses_v3_b.tar.gz \
-    audio_lenses_es_a.tar.gz \
-    audio_lenses_es_b.tar.gz \
+    audio_lenses_es_latam_a.tar.gz \
+    audio_lenses_es_latam_bp.tar.gz \
+    audio_lenses_es_latam_sci.tar.gz \
+    audio_lenses_es_spain_a.tar.gz \
+    audio_lenses_es_spain_bp.tar.gz \
+    audio_lenses_es_spain_sci.tar.gz \
     /usr/share/nginx/html/
 COPY --from=builder /app/dist/ /usr/share/nginx/html/dist/
 COPY --from=builder /app/dist/server.js /app/server.js

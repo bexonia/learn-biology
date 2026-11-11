@@ -13,7 +13,11 @@ import { mergeVertices } from 'three/addons/utils/BufferGeometryUtils.js';
 import { Effect } from 'effect';
 import { runBiologyApp, buildPdbSurfaceGeo, makeProteinBumpTexture } from '../index.js';
 import { CourseProgressManager } from '../core/progress_service.js';
-import { PRESET_VOICE_BY_MODE, createStaticTourNarrator } from '../core/narrator_service.js';
+import {
+  PRESET_SPANISH_VOICE_BY_MODE,
+  PRESET_VOICE_BY_MODE,
+  createStaticTourNarrator
+} from '../core/narrator_service.js';
 import { parseRichInline, parseRichParagraphs, stripRichLinks } from '../content/parser.js';
 import { NODE_LENS_REGISTRY, getPartLensEntry } from '../content/registry.js';
 
@@ -23,6 +27,7 @@ runBiologyApp(1, ({ random, geometry, batch, dna, rna, pdb, ribosome, tours, i18
   const progressMgr = new CourseProgressManager();
   i18n.setMode(progressMgr.explanationMode);
   i18n.setVoicePreference(progressMgr.voicePreference);
+  i18n.setSpanishVoicePreference(progressMgr.spanishVoicePreference);
   window.__progress = progressMgr;
 // =====================================================================
 // Random, noise and small math helpers
@@ -4213,6 +4218,9 @@ if ($('lensBar')) $('lensBar').replaceWith(lensBarEl);
 function voiceShortLabel(vid) {
   return vid === 'v1' ? i18n.t('voiceV1Short') : vid === 'v2' ? i18n.t('voiceV2Short') : i18n.t('voiceV3Short');
 }
+function esVoiceShortLabel(vid) {
+  return vid === 'spain' ? i18n.t('voiceEsSpainShort') : i18n.t('voiceEsLatamShort');
+}
 function syncLensSpeakBtn() {
   const btn = $('lensSpeakBtn');
   if (!btn) return;
@@ -4224,26 +4232,34 @@ function syncLensSpeakBtn() {
 }
 function syncVoiceUI() {
   const isEs = i18n.locale === 'es';
-  const pref = i18n.voicePreference;
-  const activeV = i18n.activeEnglishVoice;
-  const presetV = PRESET_VOICE_BY_MODE[i18n.mode];
+  const pref = isEs ? i18n.spanishVoicePreference : i18n.voicePreference;
+  const activeV = isEs ? i18n.activeSpanishVoice : i18n.activeEnglishVoice;
+  const presetShort = isEs
+    ? esVoiceShortLabel(PRESET_SPANISH_VOICE_BY_MODE[i18n.mode])
+    : voiceShortLabel(PRESET_VOICE_BY_MODE[i18n.mode]);
   const bar = $('lensVoiceBar');
-  if (bar) bar.dataset.activeVoice = isEs ? 'es' : activeV;
+  if (bar) bar.dataset.activeVoice = activeV;
   const esTag = $('voiceEsTag');
   if (esTag) {
-    esTag.hidden = !isEs;
+    esTag.hidden = true;
     esTag.textContent = i18n.t('voiceEsBadge');
   }
-  const opts = [
-    ['auto', i18n.t('voiceAutoOption', { voice: voiceShortLabel(presetV) })],
-    ['v1', i18n.t('voiceV1Option')],
-    ['v2', i18n.t('voiceV2Option')],
-    ['v3', i18n.t('voiceV3Option')],
-  ];
+  const opts = isEs
+    ? [
+        ['auto', i18n.t('voiceAutoOption', { voice: presetShort })],
+        ['latam', i18n.t('voiceEsLatamOption')],
+        ['spain', i18n.t('voiceEsSpainOption')],
+      ]
+    : [
+        ['auto', i18n.t('voiceAutoOption', { voice: presetShort })],
+        ['v1', i18n.t('voiceV1Option')],
+        ['v2', i18n.t('voiceV2Option')],
+        ['v3', i18n.t('voiceV3Option')],
+      ];
   for (const selId of ['voiceSelect', 'tVoiceSelect']) {
     const sel = $(selId);
     if (!sel) continue;
-    sel.hidden = isEs;
+    sel.hidden = false;
     sel.setAttribute('aria-label', i18n.t('voiceLabel'));
     sel.dataset.activeVoice = activeV;
     sel.replaceChildren(...opts.map(([val, txt]) => {
@@ -4258,7 +4274,7 @@ function syncVoiceUI() {
   for (const btnId of ['voicePresetBtn', 'tVoicePreset']) {
     const pb = $(btnId);
     if (!pb) continue;
-    pb.hidden = isEs;
+    pb.hidden = false;
     pb.textContent = i18n.t('voicePresetBtn');
     pb.title = i18n.t('voicePresetTitle');
     pb.classList.toggle('on', pref === 'auto');
@@ -4270,7 +4286,9 @@ function playCurrentNodeLens() {
   const id = curPath.at(-1);
   if (!id || !NODE_LENS_REGISTRY[id] || !T.narrator) return;
   const speechLang = i18n.getLocaleDefinition().speechLang;
+  const isEs = i18n.locale === 'es';
   const activeV = i18n.activeEnglishVoice;
+  const activeEsV = i18n.activeSpanishVoice;
   const curLens = T.narrator.getActiveLens?.();
   if (
     T.narrator.isSpeakingLens?.() &&
@@ -4278,7 +4296,7 @@ function playCurrentNodeLens() {
     curLens.nodeId === id &&
     curLens.mode === i18n.mode &&
     curLens.lang === speechLang &&
-    (i18n.locale === 'es' || curLens.voice === activeV)
+    (isEs ? curLens.esVoice === activeEsV : curLens.voice === activeV)
   ) {
     return;
   }
@@ -4287,6 +4305,7 @@ function playCurrentNodeLens() {
     mode: i18n.mode,
     lang: speechLang,
     voice: activeV,
+    esVoice: activeEsV,
     onStateChange: () => syncLensSpeakBtn(),
   });
 }
@@ -4303,11 +4322,21 @@ if ($('lensSpeakBtn')) {
 }
 for (const selId of ['voiceSelect', 'tVoiceSelect']) {
   const sel = $(selId);
-  if (sel) sel.onchange = () => i18n.setVoicePreference(sel.value);
+  if (sel) {
+    sel.onchange = () => {
+      if (i18n.locale === 'es') i18n.setSpanishVoicePreference(sel.value);
+      else i18n.setVoicePreference(sel.value);
+    };
+  }
 }
 for (const btnId of ['voicePresetBtn', 'tVoicePreset']) {
   const pb = $(btnId);
-  if (pb) pb.onclick = () => i18n.resetVoiceToPreset();
+  if (pb) {
+    pb.onclick = () => {
+      if (i18n.locale === 'es') i18n.resetSpanishVoiceToPreset();
+      else i18n.resetVoiceToPreset();
+    };
+  }
 }
 const accountBtn = document.createElement('button');
 accountBtn.id = 'accountBtn';
@@ -5329,10 +5358,24 @@ i18n.onVoiceChange((pref) => {
   const wasSpeakingLens = !!T.narrator?.isSpeakingLens?.();
   progressMgr.setVoicePreference(pref);
   syncVoiceUI();
-  if (wasSpeakingLens && !T.on) {
-    playCurrentNodeLens();
-  } else if (T.on && T.phase === 'cue' && !T.paused && T.list[T.cue] && T.narr && T.narrator) {
-    speak(T.list[T.cue]);
+  if (i18n.locale !== 'es') {
+    if (wasSpeakingLens && !T.on) {
+      playCurrentNodeLens();
+    } else if (T.on && T.phase === 'cue' && !T.paused && T.list[T.cue] && T.narr && T.narrator) {
+      speak(T.list[T.cue]);
+    }
+  }
+});
+i18n.onSpanishVoiceChange((pref) => {
+  const wasSpeakingLens = !!T.narrator?.isSpeakingLens?.();
+  progressMgr.setSpanishVoicePreference(pref);
+  syncVoiceUI();
+  if (i18n.locale === 'es') {
+    if (wasSpeakingLens && !T.on) {
+      playCurrentNodeLens();
+    } else if (T.on && T.phase === 'cue' && !T.paused && T.list[T.cue] && T.narr && T.narrator) {
+      speak(T.list[T.cue]);
+    }
   }
 });
 // check all loaded tour scripts once: every line fits two lines of 42 characters
@@ -5564,6 +5607,7 @@ window.__tour = {
 const staticNarrator = createStaticTourNarrator({
   getTourRuntime: () => window.__tour,
   getVoice: () => i18n.activeEnglishVoice,
+  getSpanishVoice: () => i18n.activeSpanishVoice,
   initialRate: T.pace,
 });
 $('tVol').value = String(staticNarrator.getVolume());

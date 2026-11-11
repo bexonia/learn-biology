@@ -2,13 +2,13 @@
 """Native Spanish dual-voice (`latam` + `spain`) multi-sample training & narration generator.
 
 Powered by `F5-Spanish` (`jpgallegoar/F5-Spanish`, MIT License) + `Vocos` 24 kHz vocoder:
-  1. Accepts **multi-sample studio voice folders** (`tools/voices/es_latam_villarraza/*.wav` and
+  1. Accepts **multi-sample studio voice folders** (`tools/voices/es_latam_baritone/*.wav` and
      `tools/voices/es_spain_baritone/*.wav`), selecting mode-matched studio reference clips
      (`simple`, `story`, `tour`, `blueprint`, `scientific`) rather than relying on a single short clip.
-  2. Supports **multi-minute speaker fine-tuning** (`--finetune-csv`) on hundreds of studio clips
-     (e.g. 34.6 minutes / 371 studio clips of Public Domain LibriVox narrator Víctor Villarraza).
-  3. Uses length-sorted **multi-sentence GPU batching** (`bfloat16` on CUDA) + parallel `ffmpeg`
-     `libopus` encoding (`32 kbps`, `24 kHz`) to synthesize all `3,198` Spanish `.opus` files
+  2. Supports optional speaker fine-tuning (`--finetune-csv`) or clean studio zero-shot conditioning
+     with matched conversational cadence (`~16 chars/s`) and natural high-frequency roll-off.
+  3. Uses `bfloat16` CUDA inference (`nfe_step=28`) + parallel `ffmpeg` `libopus` encoding (`38 kbps`
+     VBR, `24 kHz`) to synthesize all `3,198` Spanish `.opus` files
      (`audio/es/{latam,spain}/...` and `audio/lenses/es/{latam,spain}/...`).
 """
 
@@ -48,7 +48,7 @@ from f5_tts.model.utils import convert_char_to_pinyin, get_tokenizer
 
 REPO_ROOT = Path(__file__).resolve().parent.parent
 DEFAULT_MANIFEST = REPO_ROOT / "dist" / "tour_cues_manifest.json"
-DEFAULT_LATAM_DIR = REPO_ROOT / "tools" / "voices" / "es_latam_villarraza"
+DEFAULT_LATAM_DIR = REPO_ROOT / "tools" / "voices" / "es_latam_baritone"
 DEFAULT_SPAIN_DIR = REPO_ROOT / "tools" / "voices" / "es_spain_baritone"
 
 TARGET_SR = 24000
@@ -400,7 +400,7 @@ def encode_wav_to_opus(wav: np.ndarray, out_opus: Path, ffmpeg_bin: str) -> None
             "-c:a",
             "libopus",
             "-b:a",
-            "32k",
+            "38k",
             "-vbr",
             "on",
             "-application",
@@ -469,12 +469,14 @@ def synthesize_voice_pass(
             continue
         sample_idx = select_sample_for_entry(samples, entry, idx)
         s_ref = samples[sample_idx]
+        ref_cps = s_ref["ref_text_bytes"] / max(s_ref["ref_sec"], 0.1)
+        eff_cps = min(max(ref_cps, 15.2), 17.0)
         norm_txt = normalize_es_for_f5(entry["speechText"])
         max_chars = max(
             115,
             min(
                 185,
-                int(s_ref["ref_text_bytes"] / s_ref["ref_sec"] * (21.0 - s_ref["ref_sec"]) * speed),
+                int(eff_cps * (21.0 - s_ref["ref_sec"]) * speed),
             ),
         )
         chunks = [c.strip() for c in chunk_text(norm_txt, max_chars=max_chars) if c.strip()]
@@ -494,12 +496,15 @@ def synthesize_voice_pass(
     for p_idx, (_, _, _, sample_idx, chunks) in enumerate(pending_entries):
         entry_chunk_waves[p_idx] = [None] * len(chunks)
         s_ref = samples[sample_idx]
+        ref_cps = s_ref["ref_text_bytes"] / max(s_ref["ref_sec"], 0.1)
+        eff_cps = min(max(ref_cps, 15.2), 17.0)
+        frames_per_byte = (TARGET_SR / HOP_LENGTH) / eff_cps
         for c_idx, c_txt in enumerate(chunks):
             gen_bytes = len(c_txt.encode("utf-8"))
             local_spd = 0.45 if gen_bytes < 12 else speed
             est_gen_frames = max(
                 28,
-                int(s_ref["ref_frames"] / s_ref["ref_text_bytes"] * gen_bytes / local_spd) + 10,
+                int(frames_per_byte * gen_bytes / local_spd) + 10,
             )
             dur_frames = s_ref["ref_frames"] + est_gen_frames
             chunk_jobs_by_sample[sample_idx].append((p_idx, c_idx, c_txt, dur_frames))
@@ -561,7 +566,7 @@ def synthesize_voice_pass(
                     flush=True,
                 )
 
-    print(f"==> [{voice_id.upper()}] Encoding {len(pending_entries)} stitched clips to 32kbps .opus...")
+    print(f"==> [{voice_id.upper()}] Encoding {len(pending_entries)} stitched clips to 38kbps .opus...")
     with ThreadPoolExecutor(max_workers=min(12, (os.cpu_count() or 8))) as pool:
         futs = []
         for p_idx, (_, _, out_path, _, _) in enumerate(pending_entries):
@@ -591,11 +596,13 @@ def main() -> None:
     parser.add_argument("--latam-voice-dir", type=Path, default=DEFAULT_LATAM_DIR)
     parser.add_argument("--spain-voice-dir", type=Path, default=DEFAULT_SPAIN_DIR)
     parser.add_argument("--finetune-csv", type=Path, default=None, help="Optional audio_file|text CSV to fine-tune LatAm speaker")
-    parser.add_argument("--finetune-work-dir", type=Path, default=Path("/tmp/villarraza_f5_ft"))
+    parser.add_argument("--finetune-work-dir", type=Path, default=Path("/tmp/latam_f5_ft"))
     parser.add_argument("--finetune-epochs", type=int, default=12)
     parser.add_argument("--voices", nargs="+", choices=["latam", "spain"], default=["latam", "spain"])
     parser.add_argument("--batch-size", type=int, default=1)
-    parser.add_argument("--nfe-step", type=int, default=20)
+    parser.add_argument("--nfe-step", type=int, default=28)
+    parser.add_argument("--shard-idx", type=int, default=0, help="Zero-based shard index for multi-process GPU parallelism")
+    parser.add_argument("--num-shards", type=int, default=1, help="Total shards for multi-process GPU parallelism")
     parser.add_argument("--force", action="store_true")
     parser.add_argument("--smoke-test", action="store_true", help="Synthesize & Whisper-verify 2 sample entries per voice")
     args = parser.parse_args()
@@ -623,6 +630,8 @@ def main() -> None:
         )
         es_entries = [tour_sample, lens_sample]
         args.force = True
+    elif args.num_shards > 1:
+        es_entries = es_entries[args.shard_idx :: args.num_shards]
 
     device = "cuda" if torch.cuda.is_available() else "cpu"
     vocoder = load_vocoder(vocoder_name="vocos", is_local=False, local_path=None, device=device)

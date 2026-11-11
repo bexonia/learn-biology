@@ -6,7 +6,7 @@ synthesizes natural human narration across:
   - English Voice 1 (`v1`, David Clarke — LibriVox CC0, Scientific preset)
   - English Voice 2 (`v2`, Peter Yearsley — LibriVox CC0, Blueprint / Engineers preset)
   - English Voice 3 (`v3`, Martin Geeson — LibriVox CC0, Simple & Story / Learners preset)
-  - Spanish Voice #7 (`es`, Víctor Villarraza — LibriVox CC0, all Spanish narration)
+  - Spanish fallback (`es`, Common Voice CC0; primary Spanish synthesis uses `generate_narration_f5_es.py`)
 for both Guided Tours (`audio/en/{v1,v2,v3}/`, `audio/es/`) and all 4 Explanation Modes
 across all 208 Explorer nodes (`audio/lenses/en/{v1,v2,v3}/`, `audio/lenses/es/`).
 
@@ -82,9 +82,9 @@ EN_VOICE_CONFIGS: Dict[str, Dict[str, Any]] = {
 }
 
 ES_VOICE_CONFIG: Dict[str, Any] = {
-    "label": "Voice #7 — Víctor Villarraza (Spanish)",
-    "ref_wav": VOICES_DIR / "es_v7_victor_villarraza.wav",
-    "prompt_text": "para dar solo un largo paseo, una tarde de primavera del año mil novecientos y tanto, que había",
+    "label": "Spanish Studio Baritone (Common Voice CC0)",
+    "ref_wav": VOICES_DIR / "es_latam_baritone" / "sample_01_simple.wav",
+    "prompt_text": "Aunque las parejas permanecen juntas durante años, realizan los rituales de cortejo cada primavera.",
     "prompt_lang": "es",
     "text_lang": "es",
     "default_t2s": "GPT_SoVITS/pretrained_models/s1v3_es-e22.ckpt",

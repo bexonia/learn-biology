@@ -23,7 +23,7 @@ Implemented a **reactive 4-Mode Explanation Lens** (`Simple` · `Story` · `Blue
      - **English Voice 1 (`v1`, David Clarke — LibriVox `CC0`):** Preset narrator for **`Scientific`** mode (scientists & biologists inspecting specifics).
      - **English Voice 2 (`v2`, Peter Yearsley — LibriVox `CC0`):** Preset narrator for **`Blueprint`** mode (engineers & systems thinkers).
      - **English Voice 3 (`v3`, Martin Geeson — LibriVox `CC0`):** Preset narrator for **`Simple`** & **`Story`** modes (kids, newcomers & curious learners).
-     - **Spanish Voice 1 (`latam`, Víctor Villarraza — LibriVox `CC0`):** Multi-sample Latinoamérica studio narrator (`tools/voices/es_latam_villarraza/`, fine-tuned on `34.6 min` / `371` studio clips via native `F5-Spanish`); preset for **`Sencillo`** & **`Historia`** modes.
+     - **Spanish Voice 1 (`latam`, Latin American Baritone — Common Voice `CC0`):** Multi-sample Latinoamérica studio narrator (`tools/voices/es_latam_baritone/`, `6` mode-matched studio reference clips via native `F5-Spanish`); preset for **`Sencillo`** & **`Historia`** modes.
      - **Spanish Voice 2 (`spain`, Castilian Baritone — Common Voice `CC0`):** Multi-sample España narrator (`tools/voices/es_spain_baritone/`); preset for **`Esquema`** & **`Científico`** modes.
    - **Automatic Preset vs Custom Voice Lock (`#voiceSelect` + `#voicePresetBtn` in `EN` & `ES`):**
      - By default (`voicePreference = 'auto'` / `spanishVoicePreference = 'auto'`, `Preset` / `Preajuste` active), switching explanation styles automatically redirects narration to that style's preset voice (`EN`: `Simple`/`Story` → `v3`, `Blueprint` → `v2`, `Scientific` → `v1`; `ES`: `Sencillo`/`Historia` → `latam`, `Esquema`/`Científico` → `spain`).

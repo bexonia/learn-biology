@@ -42,13 +42,15 @@ bootstrap:
 
 AUDIO_ARCHIVES := \
 	audio.tar.gz \
+	audio_tours_es.tar.gz \
 	audio_lenses_v1_a.tar.gz audio_lenses_v1_b.tar.gz \
 	audio_lenses_v2_a.tar.gz audio_lenses_v2_b.tar.gz \
 	audio_lenses_v3_a.tar.gz audio_lenses_v3_b.tar.gz \
-	audio_lenses_es_a.tar.gz audio_lenses_es_b.tar.gz
+	audio_lenses_es_latam_a.tar.gz audio_lenses_es_latam_bp.tar.gz audio_lenses_es_latam_sci.tar.gz \
+	audio_lenses_es_spain_a.tar.gz audio_lenses_es_spain_bp.tar.gz audio_lenses_es_spain_sci.tar.gz
 
 unpack-audio:
-	@if [ ! -d audio/en/v1 ] || [ ! -d audio/lenses/en/v1/scientific ] || [ ! -d audio/lenses/es/scientific ]; then \
+	@if [ ! -d audio/en/v1 ] || [ ! -d audio/es/latam ] || [ ! -d audio/es/spain ] || [ ! -d audio/lenses/en/v1/scientific ] || [ ! -d audio/lenses/es/latam/scientific ] || [ ! -d audio/lenses/es/spain/scientific ]; then \
 		for f in $(AUDIO_ARCHIVES); do \
 			if [ -f "$$f" ]; then \
 				echo "==> Extracting $$f into audio/ ..."; \
@@ -59,15 +61,20 @@ unpack-audio:
 
 pack-audio:
 	@echo "==> Archiving multi-voice tour & lens narration into sharded <45MB tarballs ..."
-	tar -czf audio.tar.gz audio/en audio/es
+	tar -czf audio.tar.gz audio/en
+	tar -czf audio_tours_es.tar.gz audio/es/latam audio/es/spain
 	tar -czf audio_lenses_v1_a.tar.gz audio/lenses/en/v1/simple audio/lenses/en/v1/story
 	tar -czf audio_lenses_v1_b.tar.gz audio/lenses/en/v1/blueprint audio/lenses/en/v1/scientific
 	tar -czf audio_lenses_v2_a.tar.gz audio/lenses/en/v2/simple audio/lenses/en/v2/story
 	tar -czf audio_lenses_v2_b.tar.gz audio/lenses/en/v2/blueprint audio/lenses/en/v2/scientific
 	tar -czf audio_lenses_v3_a.tar.gz audio/lenses/en/v3/simple audio/lenses/en/v3/story
 	tar -czf audio_lenses_v3_b.tar.gz audio/lenses/en/v3/blueprint audio/lenses/en/v3/scientific
-	tar -czf audio_lenses_es_a.tar.gz audio/lenses/es/simple audio/lenses/es/story
-	tar -czf audio_lenses_es_b.tar.gz audio/lenses/es/blueprint audio/lenses/es/scientific
+	tar -czf audio_lenses_es_latam_a.tar.gz audio/lenses/es/latam/simple audio/lenses/es/latam/story
+	tar -czf audio_lenses_es_latam_bp.tar.gz audio/lenses/es/latam/blueprint
+	tar -czf audio_lenses_es_latam_sci.tar.gz audio/lenses/es/latam/scientific
+	tar -czf audio_lenses_es_spain_a.tar.gz audio/lenses/es/spain/simple audio/lenses/es/spain/story
+	tar -czf audio_lenses_es_spain_bp.tar.gz audio/lenses/es/spain/blueprint
+	tar -czf audio_lenses_es_spain_sci.tar.gz audio/lenses/es/spain/scientific
 
 typecheck:
 	npm run typecheck
@@ -102,12 +109,17 @@ export-cues:
 GSV_PYTHON ?= /tmp/gsv-venv/bin/python
 GSV_ROOT ?= /tmp/GPT-SoVITS
 GSV_ARGS ?=
+F5_PYTHON ?= /tmp/f5-venv/bin/python
+F5_ARGS ?=
 
 generate-narration: export-cues
 	SSL_CERT_FILE="$${SSL_CERT_FILE:-/etc/ssl/certs/ca-bundle.crt}" \
 	LD_LIBRARY_PATH="/run/opengl-driver/lib:$${NIX_LD_LIBRARY_PATH}:$${LD_LIBRARY_PATH}" \
 	PYTHONPATH="$(GSV_ROOT):$(GSV_ROOT)/GPT_SoVITS" \
-	$(GSV_PYTHON) tools/generate_narration_gptsovits.py --gsv-root "$(GSV_ROOT)" $(GSV_ARGS)
+	$(GSV_PYTHON) tools/generate_narration_gptsovits.py --gsv-root "$(GSV_ROOT)" --langs en $(GSV_ARGS)
+	SSL_CERT_FILE="$${SSL_CERT_FILE:-/etc/ssl/certs/ca-bundle.crt}" \
+	LD_LIBRARY_PATH="/run/opengl-driver/lib:$${NIX_LD_LIBRARY_PATH}:$${LD_LIBRARY_PATH}" \
+	$(F5_PYTHON) tools/generate_narration_f5_es.py $(F5_ARGS)
 	$(MAKE) pack-audio
 
 test: unpack-audio build

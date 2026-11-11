@@ -6,11 +6,16 @@ import { ES_EXTRA_PHRASES } from './locales/es_phrases.js';
 import '../content/index.js';
 import {
   EXPLANATION_MODES,
+  PRESET_SPANISH_VOICE_BY_MODE,
   PRESET_VOICE_BY_MODE,
+  isValidSpanishVoicePreference,
   isValidVoicePreference,
   resolveEnglishVoice,
+  resolveSpanishVoice,
   type EnglishVoiceId,
   type ExplanationMode,
+  type SpanishVoiceId,
+  type SpanishVoicePreference,
   type VoicePreference
 } from '../content/types.js';
 import { isValidExplanationMode, stripRichLinks } from '../content/parser.js';
@@ -49,6 +54,9 @@ export interface I18nShape {
   readonly voiceRef: AtomRef.AtomRef<VoicePreference>;
   readonly voicePreference: VoicePreference;
   readonly activeEnglishVoice: EnglishVoiceId;
+  readonly spanishVoiceRef: AtomRef.AtomRef<SpanishVoicePreference>;
+  readonly spanishVoicePreference: SpanishVoicePreference;
+  readonly activeSpanishVoice: SpanishVoiceId;
   readonly supportedModes: ReadonlyArray<ExplanationMode>;
   readonly supportedLocales: ReadonlyArray<LocaleDefinition>;
   readonly getLocaleDefinition: (code?: LocaleCode) => LocaleDefinition;
@@ -58,6 +66,8 @@ export interface I18nShape {
   readonly cycleMode: () => ExplanationMode;
   readonly setVoicePreference: (pref: VoicePreference) => VoicePreference;
   readonly resetVoiceToPreset: () => VoicePreference;
+  readonly setSpanishVoicePreference: (pref: SpanishVoicePreference) => SpanishVoicePreference;
+  readonly resetSpanishVoiceToPreset: () => SpanishVoicePreference;
   readonly registerLocale: (def: LocaleDefinition) => void;
   readonly t: (key: string, params?: Record<string, string | number>) => string;
   readonly tr: (text: string) => string;
@@ -67,6 +77,9 @@ export interface I18nShape {
   readonly onChange: (listener: (locale: LocaleCode) => void) => () => void;
   readonly onModeChange: (listener: (mode: ExplanationMode) => void) => () => void;
   readonly onVoiceChange: (listener: (pref: VoicePreference, resolved: EnglishVoiceId) => void) => () => void;
+  readonly onSpanishVoiceChange: (
+    listener: (pref: SpanishVoicePreference, resolved: SpanishVoiceId) => void
+  ) => () => void;
   readonly createLanguageBadge: (options?: { id?: string; alignRight?: boolean }) => HTMLElement;
   readonly createModeSelector: (options?: { id?: string; compact?: boolean }) => HTMLElement;
   readonly bindStandalonePage: () => void;
@@ -82,6 +95,7 @@ export interface I18nShape {
 const STORAGE_KEY = 'learnBioLang';
 const MODE_STORAGE_KEY = 'learnBioMode';
 const VOICE_STORAGE_KEY = 'learnBioVoice';
+const SPANISH_VOICE_STORAGE_KEY = 'learnBioVoiceEs';
 
 const SPANISH_TIMEZONES = new Set([
   'Europe/Madrid',
@@ -250,6 +264,10 @@ const EN_UI: Record<string, string> = {
   voiceV1Option: 'Voice 1 · Scientific',
   voiceV2Option: 'Voice 2 · Engineers',
   voiceV3Option: 'Voice 3 · Kids & Learners',
+  voiceEsLatamShort: 'Latin America',
+  voiceEsSpainShort: 'Spain',
+  voiceEsLatamOption: 'Voice 1 · Latin America',
+  voiceEsSpainOption: 'Voice 2 · Spain',
   voiceEsBadge: 'Voz · Español'
 };
 
@@ -386,6 +404,10 @@ const ES_UI: Record<string, string> = {
   voiceV1Option: 'Voz 1 · Científica',
   voiceV2Option: 'Voz 2 · Ingeniería',
   voiceV3Option: 'Voz 3 · Niños y aprendices',
+  voiceEsLatamShort: 'Latinoamérica',
+  voiceEsSpainShort: 'España',
+  voiceEsLatamOption: 'Voz 1 · Latinoamérica',
+  voiceEsSpainOption: 'Voz 2 · España',
   voiceEsBadge: 'Voz · Español'
 };
 
@@ -1086,16 +1108,50 @@ function detectInitialVoicePreference(): VoicePreference {
   return 'auto';
 }
 
+function detectInitialSpanishVoicePreference(): SpanishVoicePreference {
+  if (typeof window !== 'undefined') {
+    try {
+      const saved = window.localStorage.getItem(SPANISH_VOICE_STORAGE_KEY);
+      if (isValidSpanishVoicePreference(saved)) return saved;
+    } catch {
+      // ignore storage errors
+    }
+  }
+  if (typeof document !== 'undefined') {
+    const parts = (document.cookie || '').split(';');
+    for (const part of parts) {
+      const eq = part.indexOf('=');
+      if (eq <= 0) continue;
+      if (part.slice(0, eq).trim() === 'bexonia_learn_progress') {
+        try {
+          const parsed = JSON.parse(decodeURIComponent(part.slice(eq + 1).trim()));
+          if (isValidSpanishVoicePreference(parsed?.vpEs)) return parsed.vpEs;
+        } catch {
+          // ignore cookie parse error
+        }
+      }
+    }
+  }
+  return 'auto';
+}
+
 export function createI18nShape(
   initialLocale?: LocaleCode,
   initialMode?: ExplanationMode,
-  initialVoice?: VoicePreference
+  initialVoice?: VoicePreference,
+  initialSpanishVoice?: SpanishVoicePreference
 ): I18nShape {
   const locales: LocaleDefinition[] = [EN_LOCALE, ES_LOCALE];
   const localeRef = AtomRef.make<LocaleCode>(initialLocale ?? detectBrowserLocale(locales));
   const modeRef = AtomRef.make<ExplanationMode>(initialMode ?? detectInitialMode());
   const voiceRef = AtomRef.make<VoicePreference>(initialVoice ?? detectInitialVoicePreference());
+  const spanishVoiceRef = AtomRef.make<SpanishVoicePreference>(
+    initialSpanishVoice ?? detectInitialSpanishVoicePreference()
+  );
   const voiceListeners = new Set<(pref: VoicePreference, resolved: EnglishVoiceId) => void>();
+  const spanishVoiceListeners = new Set<
+    (pref: SpanishVoicePreference, resolved: SpanishVoiceId) => void
+  >();
   const badgeEls = new Set<HTMLElement>();
   const modeBarEls = new Set<HTMLElement>();
 
@@ -1103,6 +1159,18 @@ export function createI18nShape(
     const pref = voiceRef.value;
     const resolved = resolveEnglishVoice(modeRef.value, pref);
     for (const fn of voiceListeners) {
+      try {
+        fn(pref, resolved);
+      } catch {
+        // ignore listener errors
+      }
+    }
+  };
+
+  const notifySpanishVoiceListeners = () => {
+    const pref = spanishVoiceRef.value;
+    const resolved = resolveSpanishVoice(modeRef.value, pref);
+    for (const fn of spanishVoiceListeners) {
       try {
         fn(pref, resolved);
       } catch {
@@ -1198,6 +1266,7 @@ export function createI18nShape(
   const setMode = (mode: ExplanationMode): ExplanationMode => {
     if (!isValidExplanationMode(mode)) return modeRef.value;
     const prevResolvedVoice = resolveEnglishVoice(modeRef.value, voiceRef.value);
+    const prevResolvedEsVoice = resolveSpanishVoice(modeRef.value, spanishVoiceRef.value);
     if (typeof window !== 'undefined') {
       try {
         window.localStorage.setItem(MODE_STORAGE_KEY, mode);
@@ -1211,6 +1280,12 @@ export function createI18nShape(
       const nextResolvedVoice = resolveEnglishVoice(mode, voiceRef.value);
       if (nextResolvedVoice !== prevResolvedVoice) {
         notifyVoiceListeners();
+      }
+    }
+    if (spanishVoiceRef.value === 'auto') {
+      const nextResolvedEsVoice = resolveSpanishVoice(mode, spanishVoiceRef.value);
+      if (nextResolvedEsVoice !== prevResolvedEsVoice) {
+        notifySpanishVoiceListeners();
       }
     }
     return modeRef.value;
@@ -1234,6 +1309,26 @@ export function createI18nShape(
   };
 
   const resetVoiceToPreset = (): VoicePreference => setVoicePreference('auto');
+
+  const setSpanishVoicePreference = (pref: SpanishVoicePreference): SpanishVoicePreference => {
+    if (!isValidSpanishVoicePreference(pref)) return spanishVoiceRef.value;
+    const changed = spanishVoiceRef.value !== pref;
+    if (typeof window !== 'undefined') {
+      try {
+        window.localStorage.setItem(SPANISH_VOICE_STORAGE_KEY, pref);
+      } catch {
+        // ignore storage errors
+      }
+    }
+    spanishVoiceRef.set(pref);
+    if (changed) {
+      notifySpanishVoiceListeners();
+    }
+    return spanishVoiceRef.value;
+  };
+
+  const resetSpanishVoiceToPreset = (): SpanishVoicePreference =>
+    setSpanishVoicePreference('auto');
 
   const cycleMode = (): ExplanationMode => {
     const idx = EXPLANATION_MODES.indexOf(modeRef.value);
@@ -1340,6 +1435,15 @@ export function createI18nShape(
     voiceListeners.add(listener);
     return () => {
       voiceListeners.delete(listener);
+    };
+  };
+
+  const onSpanishVoiceChange = (
+    listener: (pref: SpanishVoicePreference, resolved: SpanishVoiceId) => void
+  ): (() => void) => {
+    spanishVoiceListeners.add(listener);
+    return () => {
+      spanishVoiceListeners.delete(listener);
     };
   };
 
@@ -1636,6 +1740,9 @@ export function createI18nShape(
         if (e.key === VOICE_STORAGE_KEY && isValidVoicePreference(e.newValue)) {
           setVoicePreference(e.newValue);
         }
+        if (e.key === SPANISH_VOICE_STORAGE_KEY && isValidSpanishVoicePreference(e.newValue)) {
+          setSpanishVoicePreference(e.newValue);
+        }
       });
     }
   };
@@ -1679,6 +1786,13 @@ export function createI18nShape(
     get activeEnglishVoice() {
       return resolveEnglishVoice(modeRef.value, voiceRef.value);
     },
+    spanishVoiceRef,
+    get spanishVoicePreference() {
+      return spanishVoiceRef.value;
+    },
+    get activeSpanishVoice() {
+      return resolveSpanishVoice(modeRef.value, spanishVoiceRef.value);
+    },
     get supportedModes() {
       return EXPLANATION_MODES;
     },
@@ -1692,6 +1806,8 @@ export function createI18nShape(
     cycleMode,
     setVoicePreference,
     resetVoiceToPreset,
+    setSpanishVoicePreference,
+    resetSpanishVoiceToPreset,
     registerLocale,
     t,
     tr,
@@ -1701,6 +1817,7 @@ export function createI18nShape(
     onChange,
     onModeChange,
     onVoiceChange,
+    onSpanishVoiceChange,
     createLanguageBadge,
     createModeSelector,
     bindStandalonePage,
@@ -1726,11 +1843,14 @@ export class I18nService extends Context.Service<I18nService, I18nShape>()(
 export const makeI18nLayer = (
   initialLocale?: LocaleCode,
   initialMode?: ExplanationMode,
-  initialVoice?: VoicePreference
+  initialVoice?: VoicePreference,
+  initialSpanishVoice?: SpanishVoicePreference
 ): Layer.Layer<I18nService> =>
   Layer.effect(
     I18nService,
-    Effect.sync(() => I18nService.of(createI18nShape(initialLocale, initialMode, initialVoice)))
+    Effect.sync(() =>
+      I18nService.of(createI18nShape(initialLocale, initialMode, initialVoice, initialSpanishVoice))
+    )
   );
 
 export const I18nLive: Layer.Layer<I18nService> = I18nService.layer;

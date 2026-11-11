@@ -1,0 +1,21 @@
+{
+  "voiceId": "spain",
+  "speaker": "Common Voice ES Castilian Baritone (74f848fc)",
+  "region": "España (Castellano peninsular)",
+  "license": "CC0 1.0 Public Domain (Mozilla Common Voice 19.0)",
+  "sourceUrl": "https://commonvoice.mozilla.org/es/datasets",
+  "samples": [
+    {
+      "file": "sample_01_spain_narrative.wav",
+      "role": "story",
+      "durationSec": 5.68,
+      "promptText": "Es una estrella moderadamente activa que posiblemente presenta manchas estelares y erupciones."
+    },
+    {
+      "file": "sample_02_spain_analytical.wav",
+      "role": "scientific",
+      "durationSec": 6.34,
+      "promptText": "Creían que todas las preocupaciones económicas, al ser puramente materiales, no merecían su consideración."
+    }
+  ]
+}

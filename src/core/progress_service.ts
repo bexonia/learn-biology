@@ -1,6 +1,8 @@
 import {
+  isValidSpanishVoicePreference,
   isValidVoicePreference,
   type ExplanationMode,
+  type SpanishVoicePreference,
   type VoicePreference
 } from '../content/types.js';
 
@@ -23,6 +25,7 @@ export interface ClientUserProfile {
   lang: 'en' | 'es';
   explanationMode?: ExplanationMode;
   voicePreference?: VoicePreference;
+  spanishVoicePreference?: SpanishVoicePreference;
   createdAt?: string;
 }
 
@@ -30,6 +33,7 @@ export const CLIENT_PROGRESS_COOKIE = 'bexonia_learn_progress';
 export const CLIENT_PROGRESS_STORAGE_KEY = 'bexonia_learn_progress_v1';
 export const CLIENT_EXPLANATION_MODE_KEY = 'learnBioMode';
 export const CLIENT_VOICE_PREF_KEY = 'learnBioVoice';
+export const CLIENT_SPANISH_VOICE_PREF_KEY = 'learnBioVoiceEs';
 export const COOKIE_MAX_AGE_SECONDS = 30 * 24 * 60 * 60; // 30 days
 
 const VALID_MODES = new Set<ExplanationMode>(['simple', 'story', 'blueprint', 'scientific']);
@@ -39,6 +43,7 @@ export class CourseProgressManager {
   readonly memoryStore = new Map<string, ClientCourseCheckpoint>();
   explanationMode: ExplanationMode = 'story';
   voicePreference: VoicePreference = 'auto';
+  spanishVoicePreference: SpanishVoicePreference = 'auto';
   user: ClientUserProfile | null = null;
   authenticated = false;
   sessionExpiresAt: string | null = null;
@@ -108,6 +113,7 @@ export class CourseProgressManager {
         t: this.cookieRenewedAt,
         m: this.explanationMode,
         vp: this.voicePreference,
+        vpEs: this.spanishVoicePreference,
         c: compact
       })
     );
@@ -130,6 +136,7 @@ export class CourseProgressManager {
       localStorage.setItem(CLIENT_PROGRESS_STORAGE_KEY, JSON.stringify(obj));
       localStorage.setItem(CLIENT_EXPLANATION_MODE_KEY, this.explanationMode);
       localStorage.setItem(CLIENT_VOICE_PREF_KEY, this.voicePreference);
+      localStorage.setItem(CLIENT_SPANISH_VOICE_PREF_KEY, this.spanishVoicePreference);
     } catch {
       // ignore storage quota errors
     }
@@ -146,6 +153,9 @@ export class CourseProgressManager {
         }
         if (parsed && isValidVoicePreference(parsed.vp)) {
           this.voicePreference = parsed.vp;
+        }
+        if (parsed && isValidSpanishVoicePreference(parsed.vpEs)) {
+          this.spanishVoicePreference = parsed.vpEs;
         }
         if (parsed && typeof parsed.c === 'object') {
           for (const [tourKey, arr] of Object.entries(parsed.c)) {
@@ -179,6 +189,10 @@ export class CourseProgressManager {
         const storedVoice = localStorage.getItem(CLIENT_VOICE_PREF_KEY);
         if (storedVoice && isValidVoicePreference(storedVoice)) {
           this.voicePreference = storedVoice;
+        }
+        const storedEsVoice = localStorage.getItem(CLIENT_SPANISH_VOICE_PREF_KEY);
+        if (storedEsVoice && isValidSpanishVoicePreference(storedEsVoice)) {
+          this.spanishVoicePreference = storedEsVoice;
         }
         const rawLs = localStorage.getItem(CLIENT_PROGRESS_STORAGE_KEY);
         if (rawLs) {
@@ -225,6 +239,15 @@ export class CourseProgressManager {
     this.writeLocalStorage();
     this.notify();
     return this.voicePreference;
+  }
+
+  setSpanishVoicePreference(pref: SpanishVoicePreference): SpanishVoicePreference {
+    if (!isValidSpanishVoicePreference(pref)) return this.spanishVoicePreference;
+    this.spanishVoicePreference = pref;
+    this.writeProgressCookie();
+    this.writeLocalStorage();
+    this.notify();
+    return this.spanishVoicePreference;
   }
 
   getCheckpoint(tourKey: string): ClientCourseCheckpoint | null {

@@ -1,17 +1,27 @@
 import {
+  PRESET_SPANISH_VOICE_BY_MODE,
   PRESET_VOICE_BY_MODE,
   isValidEnglishVoiceId,
+  isValidSpanishVoiceId,
   resolveEnglishVoice,
+  resolveSpanishVoice,
   type EnglishVoiceId,
   type ExplanationMode,
+  type SpanishVoiceId,
+  type SpanishVoicePreference,
   type VoicePreference
 } from '../content/types.js';
 
 export {
+  PRESET_SPANISH_VOICE_BY_MODE,
   PRESET_VOICE_BY_MODE,
   isValidEnglishVoiceId,
+  isValidSpanishVoiceId,
   resolveEnglishVoice,
+  resolveSpanishVoice,
   type EnglishVoiceId,
+  type SpanishVoiceId,
+  type SpanishVoicePreference,
   type VoicePreference
 };
 
@@ -33,6 +43,7 @@ export interface NarratorCueRef {
   readonly lang?: string;
   readonly root?: string | null;
   readonly voice?: EnglishVoiceId;
+  readonly esVoice?: SpanishVoiceId;
 }
 
 export interface NarratorCueInput extends NarratorCueRef {
@@ -49,6 +60,7 @@ export interface LensAudioRef {
   readonly mode: ExplanationMode;
   readonly lang?: string;
   readonly voice?: EnglishVoiceId;
+  readonly esVoice?: SpanishVoiceId;
 }
 
 export interface SpeakLensInput extends LensAudioRef {
@@ -72,6 +84,7 @@ export interface StaticNarratorOptions {
   readonly storage?: Pick<Storage, 'getItem' | 'setItem'> | null;
   readonly getTourRuntime?: () => TourRuntimeStateLike | null | undefined;
   readonly getVoice?: () => EnglishVoiceId;
+  readonly getSpanishVoice?: () => SpanishVoiceId;
   readonly initialVolume?: number;
   readonly initialRate?: number;
   readonly maxCueDurationMs?: number;
@@ -622,6 +635,13 @@ export function createStaticTourNarrator(options: StaticNarratorOptions = {}): S
     return 'v3';
   };
 
+  const resolveActiveSpanishVoice = (explicit?: SpanishVoiceId): SpanishVoiceId => {
+    if (explicit && isValidSpanishVoiceId(explicit)) return explicit;
+    const fromGetter = options.getSpanishVoice?.();
+    if (fromGetter && isValidSpanishVoiceId(fromGetter)) return fromGetter;
+    return 'latam';
+  };
+
   const resolveRoot = (cue: NarratorCueRef): string | null => {
     if (cue.root) return cue.root;
     const runtimeRoot = options.getTourRuntime?.()?.state?.root;
@@ -634,7 +654,8 @@ export function createStaticTourNarrator(options: StaticNarratorOptions = {}): S
     if (!root) return null;
     const langCode = primaryNarrationLang(cue.lang);
     if (langCode === 'es') {
-      return `${audioBaseUrl}/es/${root}/${encodeURIComponent(cue.id)}.opus`;
+      const esVoice = resolveActiveSpanishVoice(cue.esVoice);
+      return `${audioBaseUrl}/es/${esVoice}/${root}/${encodeURIComponent(cue.id)}.opus`;
     }
     const voice = resolveActiveEnglishVoice(cue.voice);
     return `${audioBaseUrl}/en/${voice}/${root}/${encodeURIComponent(cue.id)}.opus`;
@@ -644,7 +665,8 @@ export function createStaticTourNarrator(options: StaticNarratorOptions = {}): S
     if (!ref.nodeId || !ref.mode) return null;
     const langCode = primaryNarrationLang(ref.lang);
     if (langCode === 'es') {
-      return `${audioBaseUrl}/lenses/es/${ref.mode}/${encodeURIComponent(ref.nodeId)}.opus`;
+      const esVoice = resolveActiveSpanishVoice(ref.esVoice);
+      return `${audioBaseUrl}/lenses/es/${esVoice}/${ref.mode}/${encodeURIComponent(ref.nodeId)}.opus`;
     }
     const voice = resolveActiveEnglishVoice(ref.voice);
     return `${audioBaseUrl}/lenses/en/${voice}/${ref.mode}/${encodeURIComponent(ref.nodeId)}.opus`;
@@ -662,7 +684,8 @@ export function createStaticTourNarrator(options: StaticNarratorOptions = {}): S
       id: nextItem.id,
       lang: cue.lang,
       root: resolveRoot(cue),
-      voice: cue.voice
+      voice: cue.voice,
+      esVoice: cue.esVoice
     };
   };
 
@@ -838,7 +861,8 @@ export function createStaticTourNarrator(options: StaticNarratorOptions = {}): S
       nodeId: input.nodeId,
       mode: input.mode,
       lang: input.lang,
-      voice: input.voice
+      voice: input.voice,
+      esVoice: input.esVoice
     };
     activeLens = lensSnapshot;
     activeLensStateCb = input.onStateChange ?? null;

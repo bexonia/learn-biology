@@ -34,12 +34,16 @@ import {
   EXPLANATION_MODES,
   NODE_LENS_REGISTRY,
   PART_LENS_REGISTRY,
+  PRESET_SPANISH_VOICE_BY_MODE,
   PRESET_VOICE_BY_MODE,
+  SPANISH_VOICE_IDS,
   STANDALONE_PAGE_PART_KEYS,
   parseRichInline,
   resolveEnglishVoice,
+  resolveSpanishVoice,
   stripRichLinks,
-  type EnglishVoiceId
+  type EnglishVoiceId,
+  type SpanishVoiceId
 } from '../src/content/index.js';
 
 const ROOT_DIR = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
@@ -424,7 +428,39 @@ async function runUnitTests() {
     assert.equal(i18n.activeEnglishVoice, 'v3', 'Auto preset in Story mode must restore Voice 3');
     unsubVoice();
     assert.ok(observedVoiceTransitions.length >= 5, 'onVoiceChange must emit on both preset auto-redirects and manual selections');
-    ok('Multi-Voice Preset & Custom Selector reactivity (Voice 1 Scientific, Voice 2 Engineers, Voice 3 Kids/Learners, & Preset lock/unlock)');
+
+    assert.deepEqual(PRESET_SPANISH_VOICE_BY_MODE, {
+      simple: 'latam',
+      story: 'latam',
+      blueprint: 'spain',
+      scientific: 'spain'
+    });
+    assert.equal(resolveSpanishVoice('story', 'auto'), 'latam');
+    assert.equal(resolveSpanishVoice('simple', 'auto'), 'latam');
+    assert.equal(resolveSpanishVoice('blueprint', 'auto'), 'spain');
+    assert.equal(resolveSpanishVoice('scientific', 'auto'), 'spain');
+    assert.equal(resolveSpanishVoice('scientific', 'latam'), 'latam');
+    assert.equal(resolveSpanishVoice('story', 'spain'), 'spain');
+
+    assert.equal(i18n.spanishVoicePreference, 'auto');
+    assert.equal(i18n.activeSpanishVoice, 'latam'); // mode is 'story'
+    const observedEsTransitions: Array<{ pref: string; active: string }> = [];
+    const unsubEsVoice = i18n.onSpanishVoiceChange((pref) => {
+      observedEsTransitions.push({ pref, active: i18n.activeSpanishVoice });
+    });
+    i18n.setMode('blueprint');
+    assert.equal(i18n.activeSpanishVoice, 'spain', 'Spanish auto preset must redirect Blueprint mode to Spain voice');
+    i18n.setSpanishVoicePreference('latam');
+    assert.equal(i18n.activeSpanishVoice, 'latam');
+    i18n.setMode('scientific');
+    assert.equal(i18n.activeSpanishVoice, 'latam', 'Custom LatAm Spanish voice must stay locked in Scientific mode');
+    i18n.resetSpanishVoiceToPreset();
+    assert.equal(i18n.activeSpanishVoice, 'spain', 'Resetting Spanish preset in Scientific mode must restore Spain voice');
+    i18n.setMode('story');
+    assert.equal(i18n.activeSpanishVoice, 'latam', 'Auto preset in Story mode must restore LatAm voice');
+    unsubEsVoice();
+    assert.ok(observedEsTransitions.length >= 4, 'onSpanishVoiceChange must emit on preset redirects and manual locks');
+    ok('Multi-Voice Preset & Custom Selector reactivity (EN v1/v2/v3 + ES LatAm/Spain & Preset lock/unlock)');
   });
 
   // Test 3: LearnAuthProgressStore (optional user registration, in-memory session & progress cache, cookie renewal, per-course reset)
@@ -538,12 +574,14 @@ async function runUnitTests() {
   const prefetchedAudioUrls: string[] = [];
   let mockRuntimePace = 1.25;
   let mockActiveVoice: EnglishVoiceId = 'v3';
+  let mockActiveEsVoice: SpanishVoiceId = 'latam';
   const mockNarrator = createStaticTourNarrator({
     audioBaseUrl: 'audio',
     storage: null,
     initialVolume: 0.8,
     initialRate: 1.0,
     getVoice: () => mockActiveVoice,
+    getSpanishVoice: () => mockActiveEsVoice,
     getTourRuntime: () => ({
       state: { root: 'real-cell' },
       T: {
@@ -597,7 +635,14 @@ async function runUnitTests() {
     id: 'ch1.membrane.01',
     lang: 'es-ES'
   });
-  assert.equal(playedAudioUrls[2]?.src, 'audio/es/real-cell/ch1.membrane.01.opus');
+  assert.equal(playedAudioUrls[2]?.src, 'audio/es/latam/real-cell/ch1.membrane.01.opus');
+
+  mockActiveEsVoice = 'spain';
+  await mockNarrator.speak({
+    id: 'ch1.membrane.01',
+    lang: 'es-ES'
+  });
+  assert.equal(playedAudioUrls[3]?.src, 'audio/es/spain/real-cell/ch1.membrane.01.opus');
 
   await mockNarrator.speakLens({
     nodeId: 'mitochondrion',
@@ -605,20 +650,29 @@ async function runUnitTests() {
     lang: 'en-US',
     voice: 'v2'
   });
-  assert.equal(playedAudioUrls[3]?.src, 'audio/lenses/en/v2/blueprint/mitochondrion.opus');
+  assert.equal(playedAudioUrls[4]?.src, 'audio/lenses/en/v2/blueprint/mitochondrion.opus');
 
   await mockNarrator.speakLens({
     nodeId: 'mitochondrion',
     mode: 'story',
-    lang: 'es-ES'
+    lang: 'es-ES',
+    esVoice: 'latam'
   });
-  assert.equal(playedAudioUrls[4]?.src, 'audio/lenses/es/story/mitochondrion.opus');
+  assert.equal(playedAudioUrls[5]?.src, 'audio/lenses/es/latam/story/mitochondrion.opus');
+
+  await mockNarrator.speakLens({
+    nodeId: 'mitochondrion',
+    mode: 'scientific',
+    lang: 'es-ES',
+    esVoice: 'spain'
+  });
+  assert.equal(playedAudioUrls[6]?.src, 'audio/lenses/es/spain/scientific/mitochondrion.opus');
 
   // Unscripted node detail fallback cues (detail.*) must skip network fetch cleanly
   assert.equal(mockNarrator.resolveAudioUrl({ id: 'detail.mitochondrion.1', lang: 'en-US', root: 'real-cell' }), null);
   await mockNarrator.speak({ id: 'detail.mitochondrion.1', lang: 'en-US' });
-  assert.equal(playedAudioUrls.length, 5);
-  ok('StaticTourNarrator (multi-voice EN v1/v2/v3 + ES v7 .opus resolution, node lens read-aloud, prefetching, & scientific symbol normalization)');
+  assert.equal(playedAudioUrls.length, 7);
+  ok('StaticTourNarrator (multi-voice EN v1/v2/v3 + ES latam/spain .opus resolution, node lens read-aloud, prefetching, & scientific symbol normalization)');
 }
 
 function runStaticChecks() {
@@ -659,30 +713,50 @@ function runStaticChecks() {
   assert.ok(deployYml.includes("github.ref == 'refs/heads/main'"), 'Publish job must require refs/heads/main');
   ok('CI/CD pipeline security checks (CODEOWNERS, read-only default token, external PR guard, production environment)');
 
-  // Verify Public Domain voice references, sharded <50MB audio*.tar.gz archives, gitignored audio/, and all 6,396 .opus files
+  // Verify Public Domain voice references, multi-sample studio Spanish folders, sharded <48MB audio*.tar.gz archives, gitignored audio/, and all 7,995 .opus files
   const requiredRefVoices = [
     'en_v1_david_clarke.wav',
     'en_v2_peter_yearsley.wav',
     'en_v3_martin_geeson.wav',
-    'es_v7_victor_villarraza.wav',
+    'es_latam_villarraza/voice_manifest.json',
+    'es_spain_baritone/voice_manifest.json',
     'ATTRIBUTION.md'
   ];
   for (const vf of requiredRefVoices) {
     assert.ok(fs.existsSync(path.join(ROOT_DIR, 'tools', 'voices', vf)), `Missing Public Domain voice asset tools/voices/${vf}`);
+  }
+  const latamManifest = JSON.parse(
+    fs.readFileSync(path.join(ROOT_DIR, 'tools', 'voices', 'es_latam_villarraza', 'voice_manifest.json'), 'utf8')
+  );
+  assert.ok(Array.isArray(latamManifest.samples) && latamManifest.samples.length >= 6, 'LatAm voice folder must include >= 6 studio reference samples');
+  for (const s of latamManifest.samples) {
+    assert.ok(fs.existsSync(path.join(ROOT_DIR, 'tools', 'voices', 'es_latam_villarraza', s.file)), `Missing LatAm studio sample ${s.file}`);
+  }
+  const spainManifest = JSON.parse(
+    fs.readFileSync(path.join(ROOT_DIR, 'tools', 'voices', 'es_spain_baritone', 'voice_manifest.json'), 'utf8')
+  );
+  assert.ok(Array.isArray(spainManifest.samples) && spainManifest.samples.length >= 2, 'Spain voice folder must include >= 2 reference samples');
+  for (const s of spainManifest.samples) {
+    assert.ok(fs.existsSync(path.join(ROOT_DIR, 'tools', 'voices', 'es_spain_baritone', s.file)), `Missing Spain studio sample ${s.file}`);
   }
   const attributionMd = fs.readFileSync(path.join(ROOT_DIR, 'tools', 'voices', 'ATTRIBUTION.md'), 'utf8');
   assert.ok(attributionMd.includes('CC0') && attributionMd.includes('LibriVox'), 'ATTRIBUTION.md must document Public Domain CC0 LibriVox provenance');
 
   const AUDIO_ARCHIVES = [
     'audio.tar.gz',
+    'audio_tours_es.tar.gz',
     'audio_lenses_v1_a.tar.gz',
     'audio_lenses_v1_b.tar.gz',
     'audio_lenses_v2_a.tar.gz',
     'audio_lenses_v2_b.tar.gz',
     'audio_lenses_v3_a.tar.gz',
     'audio_lenses_v3_b.tar.gz',
-    'audio_lenses_es_a.tar.gz',
-    'audio_lenses_es_b.tar.gz'
+    'audio_lenses_es_latam_a.tar.gz',
+    'audio_lenses_es_latam_bp.tar.gz',
+    'audio_lenses_es_latam_sci.tar.gz',
+    'audio_lenses_es_spain_a.tar.gz',
+    'audio_lenses_es_spain_bp.tar.gz',
+    'audio_lenses_es_spain_sci.tar.gz'
   ];
   for (const archiveName of AUDIO_ARCHIVES) {
     const archivePath = path.join(ROOT_DIR, archiveName);
@@ -697,8 +771,11 @@ function runStaticChecks() {
   assert.equal(trackedAudioFiles, '', `Expected 0 tracked files under gitignored audio/, found:\n${trackedAudioFiles.slice(0, 300)}`);
   if (
     !fs.existsSync(path.join(ROOT_DIR, 'audio', 'en', 'v1')) ||
+    !fs.existsSync(path.join(ROOT_DIR, 'audio', 'es', 'latam')) ||
+    !fs.existsSync(path.join(ROOT_DIR, 'audio', 'es', 'spain')) ||
     !fs.existsSync(path.join(ROOT_DIR, 'audio', 'lenses', 'en', 'v1', 'scientific')) ||
-    !fs.existsSync(path.join(ROOT_DIR, 'audio', 'lenses', 'es', 'scientific'))
+    !fs.existsSync(path.join(ROOT_DIR, 'audio', 'lenses', 'es', 'latam', 'scientific')) ||
+    !fs.existsSync(path.join(ROOT_DIR, 'audio', 'lenses', 'es', 'spain', 'scientific'))
   ) {
     for (const archiveName of AUDIO_ARCHIVES) {
       execSync(`tar -xzf ${archiveName}`, { cwd: ROOT_DIR });
@@ -707,7 +784,7 @@ function runStaticChecks() {
 
   const verifyOpusFile = (rel: string) => {
     const full = path.join(ROOT_DIR, rel);
-    assert.ok(fs.existsSync(full), `Missing pre-generated GPT-SoVITS narration file: ${rel}`);
+    assert.ok(fs.existsSync(full), `Missing pre-generated narration file: ${rel}`);
     const buf = fs.readFileSync(full);
     assert.ok(buf.length > 500, `Pre-generated narration file is unexpectedly small (${buf.length} B): ${rel}`);
     assert.equal(buf.subarray(0, 4).toString('ascii'), 'OggS', `Invalid Ogg Opus header in ${rel}`);
@@ -724,8 +801,10 @@ function runStaticChecks() {
           verifyOpusFile(path.join('audio', 'en', vid, tour.root, `${encodeURIComponent(cueId)}.opus`));
           verifiedTourOpusCount++;
         }
-        verifyOpusFile(path.join('audio', 'es', tour.root, `${encodeURIComponent(cueId)}.opus`));
-        verifiedTourOpusCount++;
+        for (const esVid of SPANISH_VOICE_IDS) {
+          verifyOpusFile(path.join('audio', 'es', esVid, tour.root, `${encodeURIComponent(cueId)}.opus`));
+          verifiedTourOpusCount++;
+        }
       };
       for (const ch of tour.chapters) {
         for (const step of ch.steps) {
@@ -737,7 +816,7 @@ function runStaticChecks() {
       }
     }
   });
-  assert.equal(verifiedTourOpusCount, 3068, `Expected 3068 verified multi-voice tour .opus files, got ${verifiedTourOpusCount}`);
+  assert.equal(verifiedTourOpusCount, 3835, `Expected 3835 verified multi-voice tour .opus files, got ${verifiedTourOpusCount}`);
 
   let verifiedLensOpusCount = 0;
   for (const nodeId of Object.keys(NODE_LENS_REGISTRY)) {
@@ -747,15 +826,17 @@ function runStaticChecks() {
         verifyOpusFile(path.join('audio', 'lenses', 'en', vid, mode, `${safeNode}.opus`));
         verifiedLensOpusCount++;
       }
-      verifyOpusFile(path.join('audio', 'lenses', 'es', mode, `${safeNode}.opus`));
-      verifiedLensOpusCount++;
+      for (const esVid of SPANISH_VOICE_IDS) {
+        verifyOpusFile(path.join('audio', 'lenses', 'es', esVid, mode, `${safeNode}.opus`));
+        verifiedLensOpusCount++;
+      }
     }
   }
-  assert.equal(verifiedLensOpusCount, 3328, `Expected 3328 verified multi-voice node lens .opus files, got ${verifiedLensOpusCount}`);
+  assert.equal(verifiedLensOpusCount, 4160, `Expected 4160 verified multi-voice node lens .opus files, got ${verifiedLensOpusCount}`);
   const totalOpusCount = verifiedTourOpusCount + verifiedLensOpusCount;
-  assert.equal(totalOpusCount, 6396, `Expected 6396 total verified .opus files, got ${totalOpusCount}`);
+  assert.equal(totalOpusCount, 7995, `Expected 7995 total verified .opus files, got ${totalOpusCount}`);
   ok(
-    `All ${totalOpusCount} pre-generated Public Domain GPT-SoVITS (.opus) files verified (${verifiedTourOpusCount} tour cues + ${verifiedLensOpusCount} 4-mode lenses across EN v1/v2/v3 & ES v7, all 9 archives < 48 MB)`
+    `All ${totalOpusCount} pre-generated Public Domain narration (.opus) files verified (${verifiedTourOpusCount} tour cues + ${verifiedLensOpusCount} 4-mode lenses across EN v1/v2/v3 & ES latam/spain, all 14 archives < 48 MB)`
   );
 }
 
@@ -1133,8 +1214,31 @@ async function runBrowserE2ETests() {
               restoredStoryVoice === 'v3';
 
             exp.i18n.setLocale('es');
+            exp.i18n.resetSpanishVoiceToPreset();
+            exp.i18n.setMode('story');
             const esStoryDesc = document.getElementById('desc')?.textContent ?? '';
-            const esVoiceBadgeOk = voiceSelect.hidden && presetBtn.hidden && !esTag.hidden && voiceBar.dataset.activeVoice === 'es';
+            const esInitialVoice = voiceBar.dataset.activeVoice;
+            const esOptionsOk = !voiceSelect.hidden && !presetBtn.hidden && esTag.hidden && voiceSelect.options.length === 3;
+            document.querySelector('#lensBar button[data-mode="scientific"]')?.click();
+            const esSciVoice = voiceBar.dataset.activeVoice;
+            voiceSelect.value = 'latam';
+            voiceSelect.dispatchEvent(new Event('change'));
+            const esLockedLatamInSci =
+              !presetBtn.classList.contains('on') &&
+              window.__progress.spanishVoicePreference === 'latam' &&
+              voiceBar.dataset.activeVoice === 'latam';
+            presetBtn.click();
+            const esRestoredPreset =
+              presetBtn.classList.contains('on') &&
+              window.__progress.spanishVoicePreference === 'auto' &&
+              voiceBar.dataset.activeVoice === 'spain';
+            exp.i18n.setMode('story');
+            const esVoiceBadgeOk =
+              esOptionsOk &&
+              esInitialVoice === 'latam' &&
+              esSciVoice === 'spain' &&
+              esLockedLatamInSci &&
+              esRestoredPreset;
             exp.i18n.setLocale('en');
 
             // Click a supply-chain chip in #io and verify navigation
@@ -1172,7 +1276,7 @@ async function runBrowserE2ETests() {
         assert.equal(lensE2E.presetVoiceByModeOk, true, 'Preset mode must auto-redirect voices (Simple/Story -> v3, Blueprint -> v2, Scientific -> v1)');
         assert.equal(lensE2E.customVoiceLockOk, true, 'Selecting custom voice from #voiceSelect must lock across mode switches & persist in cookie');
         assert.equal(lensE2E.presetResetButtonOk, true, 'Clicking #voicePresetBtn must restore automatic per-mode preset voice redirection');
-        assert.equal(lensE2E.esVoiceBadgeOk, true, 'Spanish locale must display Voice 7 badge and hide English selector');
+        assert.equal(lensE2E.esVoiceBadgeOk, true, 'Spanish locale must expose dual LatAm/Spain voice selector + Preajuste lock/unlock');
         assert.ok(lensE2E.chipNavigatedPath.startsWith('#'), 'Clicking a supply-chain .io-chip must navigate in Explorer');
 
         // Verify in-browser CourseProgressManager, cookies, #tReset (Start from beginning), and optional account sync
@@ -1286,16 +1390,18 @@ async function runBrowserE2ETests() {
             volInput.dispatchEvent(new Event('input'));
             const updatedVolume = nar.getVolume();
 
-            // Verify all 4 voices (EN v1/v2/v3 + ES v7) across both Guided Tour cues and Explorer 4-mode Lenses return HTTP 200 + OggS
+            // Verify all 5 voices (EN v1/v2/v3 + ES latam/spain) across both Guided Tour cues and Explorer 4-mode Lenses return HTTP 200 + OggS
             const urls = [
               nar.resolveAudioUrl({ id: firstCueId, lang: 'en-US', root: 'real-cell', voice: 'v1' }),
               nar.resolveAudioUrl({ id: firstCueId, lang: 'en-US', root: 'real-cell', voice: 'v2' }),
               nar.resolveAudioUrl({ id: firstCueId, lang: 'en-US', root: 'real-cell', voice: 'v3' }),
-              nar.resolveAudioUrl({ id: firstCueId, lang: 'es-ES', root: 'real-cell' }),
+              nar.resolveAudioUrl({ id: firstCueId, lang: 'es-ES', root: 'real-cell', esVoice: 'latam' }),
+              nar.resolveAudioUrl({ id: firstCueId, lang: 'es-ES', root: 'real-cell', esVoice: 'spain' }),
               nar.resolveLensAudioUrl({ nodeId: 'mitochondrion', mode: 'scientific', lang: 'en-US', voice: 'v1' }),
               nar.resolveLensAudioUrl({ nodeId: 'mitochondrion', mode: 'blueprint', lang: 'en-US', voice: 'v2' }),
               nar.resolveLensAudioUrl({ nodeId: 'mitochondrion', mode: 'story', lang: 'en-US', voice: 'v3' }),
-              nar.resolveLensAudioUrl({ nodeId: 'mitochondrion', mode: 'story', lang: 'es-ES' })
+              nar.resolveLensAudioUrl({ nodeId: 'mitochondrion', mode: 'story', lang: 'es-ES', esVoice: 'latam' }),
+              nar.resolveLensAudioUrl({ nodeId: 'mitochondrion', mode: 'scientific', lang: 'es-ES', esVoice: 'spain' })
             ];
             const responses = await Promise.all(urls.map(u => fetch(u)));
             const buffers = await Promise.all(responses.map(r => r.arrayBuffer()));
@@ -1320,7 +1426,7 @@ async function runBrowserE2ETests() {
         assert.equal(narratorE2E.hasTourVoiceControls, true, '#tVoiceSelect and #tVoicePreset must be wired inside #tNarr');
         assert.equal(narratorE2E.initialNarrOn, true, 'Narration must start enabled by default');
         assert.equal(narratorE2E.updatedVolume, 0.65, '#tVol slider must update narrator volume');
-        assert.equal(narratorE2E.allStreamsOk, true, 'All EN (v1/v2/v3) & ES (v7) tour + lens .opus streams must return HTTP 200 with OggS headers');
+        assert.equal(narratorE2E.allStreamsOk, true, 'All EN (v1/v2/v3) & ES (latam/spain) tour + lens .opus streams must return HTTP 200 with OggS headers');
 
         assert.deepEqual(cdp.pageErrors, [], `Page errors on cell_explorer.html`);
         assert.deepEqual(cdp.consoleErrors, [], `Console errors on cell_explorer.html`);

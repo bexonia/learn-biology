@@ -11,7 +11,7 @@ import { RoomEnvironment } from 'three/addons/environments/RoomEnvironment.js';
 import { OutlinePass } from 'three/addons/postprocessing/OutlinePass.js';
 import { mergeVertices } from 'three/addons/utils/BufferGeometryUtils.js';
 import { Effect } from 'effect';
-import { runBiologyApp } from '../index.js';
+import { runBiologyApp, buildPdbSurfaceGeo, makeProteinBumpTexture } from '../index.js';
 import { CourseProgressManager } from '../core/progress_service.js';
 import { PRESET_VOICE_BY_MODE, createStaticTourNarrator } from '../core/narrator_service.js';
 import { parseRichInline, parseRichParagraphs, stripRichLinks } from '../content/parser.js';
@@ -119,17 +119,20 @@ function xray(color, int = 1, pow = 2.2, base = .02) {
   }));
   return matCache.get(k);
 }
+const protBump = makeProteinBumpTexture(256);
 // lit, slightly self-glowing solid for molecules and proteins
 function std(color, o = {}) {
   const k = `s${color}${JSON.stringify(o)}`;
   if (!matCache.has(k)) matCache.set(k, new THREE.MeshStandardMaterial({
     color, roughness: o.rough ?? .38, metalness: .05, emissive: color, emissiveIntensity: o.glow ?? .16,
     transparent: o.opacity != null, opacity: o.opacity ?? 1, depthWrite: o.opacity == null,
+    normalMap: o.bump ? protBump : null, normalScale: o.bump ? new THREE.Vector2(.32, .32) : new THREE.Vector2(1, 1),
   }));
   return matCache.get(k);
 }
 // white base for per-instance colors (emissive would wash them out)
 const plain = () => { if (!matCache.has('plain')) matCache.set('plain', new THREE.MeshStandardMaterial({ color: '#fff', roughness: .45, metalness: .05 })); return matCache.get('plain'); };
+const protPlain = () => { if (!matCache.has('protPlain')) matCache.set('protPlain', new THREE.MeshPhysicalMaterial({ color: '#fff', roughness: .38, metalness: .02, clearcoat: .26, clearcoatRoughness: .34, sheen: .32, normalMap: protBump, normalScale: new THREE.Vector2(.34, .34) })); return matCache.get('protPlain'); };
 const spriteTex = (() => {
   const c = document.createElement('canvas'); c.width = c.height = 64;
   const g = c.getContext('2d'), gr = g.createRadialGradient(32, 32, 0, 32, 32, 32);
@@ -2302,10 +2305,10 @@ function makePhageCapsid() {
   const iGeo = new THREE.BufferGeometry(); iGeo.setAttribute('position', new THREE.Float32BufferAttribute(innerPos, 3)); iGeo.computeVertexNormals();
   g.add(new THREE.Mesh(sGeo, std('#3a7ab8', { opacity: .42, glow: .12 })), new THREE.Mesh(iGeo, std('#1f4369', { glow: .06 })));
   addSphericalCutRim(g, R * .93, R * .85, '#ff9a5c', H / (R * .93), 42);
-  g.add(instanced(unitHexPrism, plain(), hexM, hexC),
-    instanced(unitHexRing, std('#ff9a5c', { glow: .22 }), socM),
-    instanced(unitCyl, std('#ffd866', { glow: .26 }), hocM),
-    instanced(unitPentPrism, std('#c77dff', { glow: .26 }), pentM));
+  g.add(instanced(unitHexPrism, protPlain(), hexM, hexC),
+    instanced(unitHexRing, std('#ff9a5c', { glow: .22, bump: true }), socM),
+    instanced(unitCyl, std('#ffd866', { glow: .26, bump: true }), hocM),
+    instanced(unitPentPrism, std('#c77dff', { glow: .26, bump: true }), pentM));
 
   // Multi-layer coaxially spooled 169 kbp dsDNA inside the cutaway + structured prolate gp22/IPI* core
   let dnaAnchor = V(0, 1.2, 1.8);
@@ -2382,7 +2385,7 @@ function makePhageTail() {
       if (r === 8 && (!shPt || sp.z > shPt.z)) shPt = sp.clone();
     }
   }
-  g.add(instanced(sphGeo, plain(), shM, shC), instanced(sphGeo, std('#ffe66d', { glow: .22 }), tbM));
+  g.add(instanced(sphGeo, protPlain(), shM, shC), instanced(sphGeo, std('#ffe66d', { glow: .22, bump: true }), tbM));
   // Central injecting B-DNA double helix inside the 4 nm lumen
   g.add(dnaAlong(new THREE.LineCurve3(V(0, top, 0), V(0, bot, 0)), 9, .22, .055));
   return { group: g, an: { collar: V(0, top - .32, 1.25), whisker: whiskPt ?? V(2.5, top - 1.0, 1.5),
@@ -2521,31 +2524,41 @@ function buildBacteriophage() {
 // =====================================================================
 function makeCoronavirus() {
   const g = new THREE.Group(), R = 4.15;
-  // Pleomorphic host-ER/Golgi-derived lipid bilayer envelope + cutaway cross-section rim + dense M dimer lattice
-  const envGeo = displace(new THREE.SphereGeometry(R, 48, 34, ...CUT), .035, .6, 7.1, 3);
+  // Pleomorphic host-ER/Golgi-derived lipid bilayer envelope + cutaway cross-section rim + sub-membrane M dimer lattice
+  const envGeo = displace(new THREE.SphereGeometry(R, 56, 40, ...CUT), .035, .6, 7.1, 3);
   const inGeo = displace(new THREE.SphereGeometry(R - .34, 48, 34, ...CUT), .035, .6, 7.1, 3);
-  g.add(new THREE.Mesh(envGeo, std('#e07a5f', { opacity: .44, glow: .14 })),
-    new THREE.Mesh(inGeo, std('#5c2820', { glow: .06 })));
+  const covEnvMat = new THREE.MeshPhysicalMaterial({
+    color: '#e07a5f', roughness: .22, metalness: .02, clearcoat: .52, clearcoatRoughness: .24,
+    sheen: .48, sheenColor: '#ffd6c9', transparent: true, opacity: .66,
+    normalMap: protBump, normalScale: new THREE.Vector2(.30, .30),
+  });
+  g.add(new THREE.Mesh(envGeo, covEnvMat),
+    new THREE.Mesh(inGeo, std('#5c2820', { glow: .06, bump: true })));
   addSphericalCutRim(g, R, R - .17, '#f6a586', 1, 44);
   addSphericalCutRim(g, R - .17, R - .34, '#ffe19c', 1, 44);
   addSphericalCutRim(g, R - .34, R - .45, '#f7d794', 1, 44);
 
+  // Phospholipid headgroups packed cleanly along the cutaway bilayer rim + sub-membrane M glycoprotein dimers
   const lipM = [], lipC = [], mM = [], cOut = new THREE.Color('#f59f7e'), cIn = new THREE.Color('#e28468');
-  let envPt = null, mPt = null;
-  for (let i = 0; i < 620; i++) {
-    const d = fibDir(i, 620); if (inCut(d)) continue;
-    const wob = 1 + .03 * Math.sin(d.x * 4 + d.y * 3) * Math.cos(d.z * 4);
-    const q = qFromTo(UP, d);
-    lipM.push(M4(d.clone().multiplyScalar(R * wob), q, .115), M4(d.clone().multiplyScalar((R - .34) * wob), q, .105));
-    lipC.push(cOut, cIn);
-    if (!envPt && d.z > .55 && d.x < -.4) envPt = d.clone().multiplyScalar(R * wob);
-    if (i % 2 === 0) {
-      const mp = d.clone().multiplyScalar((R - .40) * wob);
-      mM.push(M4(mp, q, V(.15, .20, .15)));
-      if (!mPt && d.z > .48 && d.y > .25 && d.x < -.3) mPt = mp;
+  let envPt = V(-2.35, 1.15, 3.22), mPt = null;
+  for (const ph of [Math.PI * .25, Math.PI * .75]) {
+    const cx = -Math.cos(ph), cz = Math.sin(ph);
+    for (let i = 1; i < 44; i++) {
+      const th = (i / 44) * Math.PI, st = Math.sin(th), ct = Math.cos(th);
+      const d = V(cx * st, ct, cz * st), wob = 1 + .03 * Math.sin(d.x * 4 + d.y * 3) * Math.cos(d.z * 4);
+      const q = qFromTo(UP, d);
+      lipM.push(M4(d.clone().multiplyScalar(R * wob), q, .095), M4(d.clone().multiplyScalar((R - .34) * wob), q, .088));
+      lipC.push(cOut, cIn);
     }
   }
-  g.add(instanced(sphGeo, plain(), lipM, lipC), instanced(sphGeo, std('#f7d794', { glow: .2 }), mM));
+  for (let i = 0; i < 260; i++) {
+    const d = fibDir(i, 260); if (inCut(d)) continue;
+    const wob = 1 + .03 * Math.sin(d.x * 4 + d.y * 3) * Math.cos(d.z * 4);
+    const mp = d.clone().multiplyScalar((R - .41) * wob);
+    mM.push(M4(mp, qFromTo(UP, d), V(.17, .22, .17)));
+    if (!mPt && d.z > .48 && d.y > .25 && d.x < -.3) mPt = mp;
+  }
+  g.add(instanced(sphGeo, protPlain(), lipM, lipC), instanced(sphGeo, std('#f7d794', { glow: .2, bump: true }), mM));
 
   // 32 hinged club-shaped Spike (S) trimers (PDB 6VXX) with N-glycan tufts + 4 pentameric Envelope (E) viroporins (PDB 5X29)
   const glyM = [];
@@ -2556,40 +2569,40 @@ function makeCoronavirus() {
     const q = qFromTo(UP, d);
     if (i === 5 || i === 14 || i === 23 || i === 31) {
       const ep = d.clone().multiplyScalar((R - .14) * wob);
-      const em = new THREE.Mesh(new THREE.CylinderGeometry(.28, .26, .48, 5), std('#78e08f', { glow: .26 }));
+      const em = new THREE.Mesh(new THREE.CylinderGeometry(.28, .26, .48, 5), std('#78e08f', { glow: .26, bump: true }));
       em.position.copy(ep); em.quaternion.copy(q); g.add(em);
       if (!ePt || ep.z > ePt.z) ePt = ep.clone();
       continue;
     }
     const tilt = d.clone().addScaledVector(randDir(), .14).normalize(), qt = qFromTo(UP, tilt);
     const base = d.clone().multiplyScalar(R * wob), neck = base.clone().addScaledVector(tilt, .92), headC = base.clone().addScaledVector(tilt, 1.42);
-    g.add(stick(base, neck, .12, std('#d64566', { glow: .18 })), stick(neck, headC, .20, std('#e85374', { glow: .2 })));
+    g.add(stick(base, neck, .13, std('#d64566', { glow: .18, bump: true })), stick(neck, headC, .22, std('#e85374', { glow: .2, bump: true })));
     for (let k = 0; k < 3; k++) {
       const a = k / 3 * Math.PI * 2 + i * .7, off = V(Math.cos(a) * .31, 0, Math.sin(a) * .31).applyQuaternion(qt);
       const isUp = k === 0 && i % 3 === 0;
-      const lobe = blob(.34, std(isUp ? '#ffbe6b' : '#ff6b8b', { glow: .24 }), .12, 1.5, 16);
+      const lobe = blob(.36, std(isUp ? '#ffbe6b' : '#ff6b8b', { glow: .24, bump: true }), .12, 1.5, 20);
       lobe.position.copy(headC).add(off).addScaledVector(tilt, isUp ? .14 : 0); g.add(lobe);
       glyM.push(M4(lobe.position.clone().addScaledVector(off.clone().normalize(), .24), qt, .095));
       if (k < 2) glyM.push(M4(neck.clone().addScaledVector(off.clone().normalize(), .16), qt, .085));
     }
     if (!spkPt || headC.z > spkPt.z) spkPt = headC.clone();
   }
-  g.add(instanced(sphGeo, std('#9ef0d0', { glow: .22 }), glyM));
+  g.add(instanced(sphGeo, std('#9ef0d0', { glow: .22, bump: true }), glyM));
 
   // Crowded "eggs-in-a-nest" vRNP oligomers (PDB 6VYO) threaded by the 29.9 kb (+)ssRNA genome inside the lumen
   const rnaPts = [], nM = [], nC = [], cN0 = new THREE.Color('#63cdda'), cN1 = new THREE.Color('#3dc1d3');
   let rnpPt = null;
   for (let i = 0; i < 34; i++) {
-    const f = (i + .5) / 34, rad = 2.65 * Math.cbrt(.18 + .82 * ((i * 7) % 11) / 10);
+    const rad = 2.65 * Math.cbrt(.18 + .82 * ((i * 7) % 11) / 10);
     const dir = fibDir(i, 34), p = dir.multiplyScalar(rad);
     if (inCut(p) && p.z > 1.35) p.z *= .35;
     rnaPts.push(p);
     const qn = qFromTo(UP, randDir());
-    nM.push(M4(p, qn, V(.32, .24, .32))); nC.push(i % 2 ? cN0 : cN1);
+    nM.push(M4(p, qn, V(.35, .26, .35))); nC.push(i % 2 ? cN0 : cN1);
     if (!rnpPt || p.z > rnpPt.z) rnpPt = p.clone();
   }
-  g.add(tube(rnaPts, .078, std('#ffb35c', { glow: .28 }), 6, 300), instanced(sphGeo, plain(), nM, nC));
-  return { group: g, an: { spike: spkPt ?? V(0, R + 1.4, 1.5), env: envPt ?? V(-2.8, 1.2, 2.8),
+  g.add(tube(rnaPts, .078, std('#ffb35c', { glow: .28 }), 6, 300), instanced(sphGeo, protPlain(), nM, nC));
+  return { group: g, an: { spike: spkPt ?? V(0, R + 1.4, 1.5), env: envPt,
     mprot: mPt ?? V(-2.2, 2.4, 2.5), echan: ePt ?? V(2.4, -1.8, 2.8),
     rnp: rnpPt ?? V(.5, .4, 1.8), rna: rnaPts[17].clone() } };
 }
@@ -2606,24 +2619,32 @@ function buildCoronavirus() {
 function makeHiv() {
   const g = new THREE.Group(), R = 4.3;
   // Cholesterol/sphingolipid raft envelope + myristoylated p17 Matrix (MA, PDB 1HIW) inner shell + cutaway cross-section rims
-  const envGeo = displace(new THREE.SphereGeometry(R, 48, 34, ...CUT), .03, .55, 3.7, 3);
-  const maGeo = displace(new THREE.SphereGeometry(R - .44, 44, 30, ...CUT), .03, .55, 3.7, 3);
-  g.add(new THREE.Mesh(envGeo, std('#e68a5c', { opacity: .42, glow: .14 })),
-    new THREE.Mesh(maGeo, std('#2e6f4e', { opacity: .38, glow: .12 })));
+  const envGeo = displace(new THREE.SphereGeometry(R, 56, 40, ...CUT), .03, .55, 3.7, 3);
+  const maGeo = displace(new THREE.SphereGeometry(R - .44, 48, 34, ...CUT), .03, .55, 3.7, 3);
+  const hivEnvMat = new THREE.MeshPhysicalMaterial({
+    color: '#e68a5c', roughness: .22, metalness: .02, clearcoat: .52, clearcoatRoughness: .24,
+    sheen: .48, sheenColor: '#ffe0cf', transparent: true, opacity: .64,
+    normalMap: protBump, normalScale: new THREE.Vector2(.30, .30),
+  });
+  g.add(new THREE.Mesh(envGeo, hivEnvMat),
+    new THREE.Mesh(maGeo, std('#2e6f4e', { opacity: .48, glow: .12, bump: true })));
   addSphericalCutRim(g, R, R - .28, '#ff9f6e', 1, 44);
   addSphericalCutRim(g, R - .28, R - .48, '#5fd08a', 1, 44);
 
   const lipM = [], maM = []; let maPt = null;
-  for (let i = 0; i < 480; i++) {
-    const d = fibDir(i, 480); if (inCut(d)) continue;
-    const q = qFromTo(UP, d);
-    lipM.push(M4(d.clone().multiplyScalar(R), q, .11));
-    if (i % 2 === 0) {
-      const mp = d.clone().multiplyScalar(R - .42); maM.push(M4(mp, q, V(.18, .11, .18)));
-      if (!maPt && d.z > .55 && d.x < -.35) maPt = mp.clone();
+  for (const ph of [Math.PI * .25, Math.PI * .75]) {
+    const cx = -Math.cos(ph), cz = Math.sin(ph);
+    for (let i = 1; i < 44; i++) {
+      const th = (i / 44) * Math.PI, st = Math.sin(th), ct = Math.cos(th), d = V(cx * st, ct, cz * st);
+      lipM.push(M4(d.clone().multiplyScalar(R), qFromTo(UP, d), .095));
     }
   }
-  g.add(instanced(sphGeo, std('#ff9a62', { glow: .16 }), lipM), instanced(unitHexPrism, std('#5fd08a', { glow: .22 }), maM));
+  for (let i = 0; i < 260; i++) {
+    const d = fibDir(i, 260); if (inCut(d)) continue;
+    const mp = d.clone().multiplyScalar(R - .42); maM.push(M4(mp, qFromTo(UP, d), V(.22, .12, .22)));
+    if (!maPt && d.z > .55 && d.x < -.35) maPt = mp.clone();
+  }
+  g.add(instanced(sphGeo, std('#ff9a62', { glow: .16, bump: true }), lipM), instanced(unitHexPrism, std('#5fd08a', { glow: .22, bump: true }), maM));
 
   // ~15 sparse glycan-cloaked Env gp120/gp41 trimer spikes (PDB 4TVP) — authentic low spike density of HIV-1
   const glyM = [];
@@ -2631,10 +2652,10 @@ function makeHiv() {
   for (let i = 0; i < 16; i++) {
     const d = fibDir(i, 16); if (inCut(d)) continue;
     const q = qFromTo(UP, d), base = d.clone().multiplyScalar(R), stalkTop = d.clone().multiplyScalar(R + .82), headTop = d.clone().multiplyScalar(R + 1.08);
-    g.add(stick(base, stalkTop, .14, std('#b084ff', { glow: .22 })));
+    g.add(stick(base, stalkTop, .15, std('#b084ff', { glow: .22, bump: true })));
     for (let k = 0; k < 3; k++) {
       const a = k / 3 * Math.PI * 2 + i, off = V(Math.cos(a) * .28, 0, Math.sin(a) * .28).applyQuaternion(q);
-      const head = blob(.33, std('#ff6b81', { glow: .24 }), .12, 1.5, 16); head.position.copy(headTop).add(off); g.add(head);
+      const head = blob(.35, std('#ff6b81', { glow: .24, bump: true }), .12, 1.5, 20); head.position.copy(headTop).add(off); g.add(head);
       for (let s = 0; s < 3; s++) {
         const ga = a + (s - 1) * .45, goff = V(Math.cos(ga) * .48, (s - 1) * .12, Math.sin(ga) * .48).applyQuaternion(q);
         glyM.push(M4(headTop.clone().add(goff), q, .095));
@@ -2642,7 +2663,7 @@ function makeHiv() {
     }
     if (!envPt || headTop.z > envPt.z) envPt = headTop.clone();
   }
-  g.add(instanced(sphGeo, std('#d6b8ff', { glow: .24 }), glyM));
+  g.add(instanced(sphGeo, std('#d6b8ff', { glow: .24, bump: true }), glyM));
 
   // Mature honeycomb fullerene cone capsid: p24 CA hexamers (PDB 3H4E) + 12 pentamers (PDB 3P05), sliced open on +z
   const hexM = [], hexC = [], pentM = [], cC0 = new THREE.Color('#ffd166'), cC1 = new THREE.Color('#f4b942');
@@ -2661,15 +2682,15 @@ function makeHiv() {
       const p = V(rad * d.x, y, rad * d.z), q = qFromTo(UP, V(d.x, .20, d.z).normalize());
       const isPent = ((r === 2 && k % Math.max(1, Math.floor(n / 7)) === 0) || (r === 18 && k % Math.max(1, Math.floor(n / 5)) === 0));
       if (isPent) {
-        pentM.push(M4(p, q, V(.20, .11, .20)));
+        pentM.push(M4(p, q, V(.235, .12, .235)));
         if (!pentPt || p.z > pentPt.z) pentPt = p.clone();
       } else {
-        hexM.push(M4(p, q, V(.19, .095, .19))); hexC.push((r + k) % 2 ? cC0 : cC1);
+        hexM.push(M4(p, q, V(.225, .11, .225))); hexC.push((r + k) % 2 ? cC0 : cC1);
         if (!hexPt && r === 8 && d.z > .05 && d.x < -.3) hexPt = p.clone();
       }
     }
   }
-  g.add(instanced(unitHexPrism, plain(), hexM, hexC), instanced(unitPentPrism, std('#ff5a6a', { glow: .28 }), pentM));
+  g.add(instanced(unitHexPrism, protPlain(), hexM, hexC), instanced(unitPentPrism, std('#ff5a6a', { glow: .28, bump: true }), pentM));
 
   // Diploid (+)ssRNA genome (two 9.7 kb kissing-loop strands coated in NCp7) + Reverse Transcriptase (1RTD) + Integrase (1EX4)
   const ncM = [];
@@ -2683,9 +2704,9 @@ function makeHiv() {
     }
     g.add(tube(pts, .068, std('#ff7ad9', { glow: .26 }), 6, 136));
   }
-  g.add(instanced(sphGeo, std('#a8e6cf', { glow: .2 }), ncM));
-  const rt = blob(.34, std('#4fd8ff', { glow: .3 }), .14, 1.5, 18); rt.position.set(.22, -.55, .42); g.add(rt);
-  const intg = blob(.30, std('#c77dff', { glow: .28 }), .14, 1.5, 18); intg.position.set(-.26, -1.42, .38); g.add(intg);
+  g.add(instanced(sphGeo, std('#a8e6cf', { glow: .2, bump: true }), ncM));
+  const rt = blob(.36, std('#4fd8ff', { glow: .3, bump: true }), .14, 1.5, 20); rt.position.set(.22, -.55, .42); g.add(rt);
+  const intg = blob(.32, std('#c77dff', { glow: .28, bump: true }), .14, 1.5, 20); intg.position.set(-.26, -1.42, .38); g.add(intg);
   return { group: g, an: { env: envPt ?? V(0, R + 1, 1.5), ma: maPt ?? V(-2.5, 1.5, 2.6),
     cahex: hexPt ?? V(-1.1, -.4, .5), capent: pentPt ?? V(.4, -2.25, .8),
     rt: rt.position.clone(), int: intg.position.clone(), rna: V(0, .35, .42) } };
@@ -2730,12 +2751,12 @@ function makeAdenovirus() {
     bary.forEach(([u, v, w], idx) => {
       const s = u + v + w, p = a.clone().multiplyScalar(u / s).addScaledVector(b, v / s).addScaledVector(c, w / s);
       const isPeri = idx < 3;
-      hexBaseM.push(M4(p, q, V(.31, .28, .31))); hexBaseC.push(isPeri ? cPeri : cGon);
+      hexBaseM.push(M4(p, q, V(.34, .30, .34))); hexBaseC.push(isPeri ? cPeri : cGon);
       // 3 protruding Hexon turret towers per trimer
       for (let t = 0; t < 3; t++) {
         const ang = t * 2.094 + idx * .4;
         const off = tang.clone().applyAxisAngle(n, ang).multiplyScalar(.13);
-        towerM.push(M4(p.clone().add(off).addScaledVector(n, .18), q, V(.11, .16, .11)));
+        towerM.push(M4(p.clone().add(off).addScaledVector(n, .18), q, V(.125, .17, .125)));
         towerC.push(isPeri ? cPeri : cTow);
       }
       if (!hexPt && n.z > .38 && n.x < -.1 && idx === 9) hexPt = p.clone().addScaledVector(n, .2);
@@ -2744,31 +2765,31 @@ function makeAdenovirus() {
     const mid = a.clone().add(b).add(c).divideScalar(3).addScaledVector(n, .06);
     for (let arm = 0; arm < 3; arm++) {
       const vtx = [a, b, c][arm], end = mid.clone().lerp(vtx, .45).addScaledVector(n, .04);
-      g.add(stick(mid, end, .055, std('#7dffb2', { glow: .26 })));
+      g.add(stick(mid, end, .058, std('#7dffb2', { glow: .26, bump: true })));
     }
-    const hub = sphere(.11, std('#9effc6', { glow: .26 })); hub.position.copy(mid); g.add(hub);
+    const hub = sphere(.11, std('#9effc6', { glow: .26, bump: true })); hub.position.copy(mid); g.add(hub);
     if (!cemPt && n.z > .32 && n.x > .15) cemPt = mid.clone();
   }
   const sGeo = new THREE.BufferGeometry(); sGeo.setAttribute('position', new THREE.Float32BufferAttribute(shellPos, 3)); sGeo.computeVertexNormals();
   const iGeo = new THREE.BufferGeometry(); iGeo.setAttribute('position', new THREE.Float32BufferAttribute(innerPos, 3)); iGeo.computeVertexNormals();
   g.add(new THREE.Mesh(sGeo, std('#386fa4', { opacity: .55, glow: .12 })), new THREE.Mesh(iGeo, std('#1d3858', { glow: .06 })));
-  g.add(instanced(unitHexPrism, plain(), hexBaseM, hexBaseC), instanced(sphGeo, plain(), towerM, towerC));
+  g.add(instanced(unitHexPrism, protPlain(), hexBaseM, hexBaseC), instanced(sphGeo, protPlain(), towerM, towerC));
 
   // 12 Penton base pentamers (PDB 1X9T) with 5 RGD loops + 12 beaded triple-beta-spiral Fiber shafts & CAR knobs (PDB 1QIU)
   let pentPt = null, fibPt = null;
   for (const v of verts) {
     const d = v.clone().normalize();
     if (inCut(d)) continue;
-    const q = qFromTo(UP, d), pent = new THREE.Mesh(unitPentPrism, std('#ffd26a', { glow: .26 }));
+    const q = qFromTo(UP, d), pent = new THREE.Mesh(unitPentPrism, std('#ffd26a', { glow: .26, bump: true }));
     pent.scale.set(.50, .38, .50); pent.position.copy(v); pent.quaternion.copy(q); g.add(pent);
     const tip = v.clone().addScaledVector(d, 2.25);
-    g.add(stick(v, tip, .075, std('#ff9f5a', { glow: .22 })));
+    g.add(stick(v, tip, .078, std('#ff9f5a', { glow: .22, bump: true })));
     for (let s = 1; s <= 6; s++) {
-      const b = sphere(.095, std('#ffc078', { glow: .2 })); b.position.copy(v.clone().lerp(tip, s / 7)); g.add(b);
+      const b = sphere(.095, std('#ffc078', { glow: .2, bump: true })); b.position.copy(v.clone().lerp(tip, s / 7)); g.add(b);
     }
     for (let k = 0; k < 3; k++) {
       const a = k * 2.094, off = V(Math.cos(a) * .16, 0, Math.sin(a) * .16).applyQuaternion(q);
-      const kl = blob(.24, std('#ff5a7a', { glow: .28 }), .1, 1.5, 14); kl.position.copy(tip).add(off); g.add(kl);
+      const kl = blob(.25, std('#ff5a7a', { glow: .28, bump: true }), .1, 1.5, 16); kl.position.copy(tip).add(off); g.add(kl);
     }
     if (!pentPt || v.z > pentPt.z) { pentPt = v.clone(); fibPt = tip.clone(); }
   }
@@ -2808,8 +2829,8 @@ function makeTmv() {
     if (i % 3 === 0) ntM.push(M4(rp.clone().addScaledVector(d, .08), q, V(.06, .12, .06)));
     if (i % 16 === 0) caM.push(M4(V(.44 * d.x, y, .44 * d.z), q, .075));
     if (y > -1.0 && d.z > .30) continue;
-    cpOutM.push(M4(V(1.48 * d.x, y, 1.48 * d.z), q, V(.26, .42, .19)));
-    cpInM.push(M4(V(.96 * d.x, y, .96 * d.z), q, V(.19, .34, .17)));
+    cpOutM.push(M4(V(1.48 * d.x, y, 1.48 * d.z), q, V(.31, .45, .23)));
+    cpInM.push(M4(V(.98 * d.x, y, .98 * d.z), q, V(.23, .36, .20)));
     cpC.push(Math.floor(turn) % 3 === 0 ? c0 : (Math.floor(turn) % 3 === 1 ? c1 : c2));
     if (!cpPt && y > .9 && d.x < -.55 && d.z > .2) cpPt = V(1.48 * d.x, y, 1.48 * d.z);
     if (!turnPt && y < -1.8 && d.z > .9) turnPt = V(1.48 * d.x, y, 1.48 * d.z);
@@ -2817,11 +2838,11 @@ function makeTmv() {
   // Self-assembling 20S two-layer coat-protein proto-helix disc hovering at the growing top end
   for (let layer = 0; layer < 2; layer++) for (let k = 0; k < 17; k++) {
     const a = (k / 17) * Math.PI * 1.85 + .4, d = V(Math.cos(a), 0, Math.sin(a)), y = H / 2 + .65 + layer * .34 + (k / 17) * .12;
-    cpOutM.push(M4(V(1.46 * d.x, y, 1.46 * d.z), qFromTo(UP, d), V(.24, .38, .17)));
-    cpInM.push(M4(V(.96 * d.x, y, .96 * d.z), qFromTo(UP, d), V(.18, .30, .15)));
+    cpOutM.push(M4(V(1.46 * d.x, y, 1.46 * d.z), qFromTo(UP, d), V(.29, .41, .21)));
+    cpInM.push(M4(V(.98 * d.x, y, .98 * d.z), qFromTo(UP, d), V(.22, .33, .18)));
     cpC.push(layer ? c1 : c0);
   }
-  g.add(instanced(sphGeo, plain(), cpOutM, cpC), instanced(sphGeo, plain(), cpInM, cpC),
+  g.add(instanced(sphGeo, protPlain(), cpOutM, cpC), instanced(sphGeo, protPlain(), cpInM, cpC),
     instanced(sphGeo, std('#ffd24f', { glow: .28 }), ntM), instanced(sphGeo, std('#ff7675', { glow: .26 }), caM));
   // Coiled 6.4 kb (+)ssRNA at r = 4 nm + travelling OAS packaging hairpin threading up the 4 nm hollow central channel!
   const loopPts = [rnaPts[rnaPts.length - 1], V(.4, H / 2 + .95, .1), V(0, H / 2 + .4, 0), V(0, 0, 0), V(0, -H / 2 - .5, 0)];
@@ -2870,6 +2891,29 @@ function bactModel(key, colour, upright = false) {   // upright: turn its long a
     ms.push(M4(p, q, rna ? 3.1 : 2.5)); cs.push(new THREE.Color(colour(k >> 2, rna))); beads.push({ p, g: k >> 2, rna });
   }
   g.add(instanced(new THREE.IcosahedronGeometry(1, d.n > 3000 ? 1 : 2), plain(), ms, cs));
+  return { g, beads, of: f => beads.filter(f).map(b => b.p) };
+}
+function viralPdbModel(key, colour, upright = false) {
+  const d = BPDB[key], xyz = new Int16Array(Uint8Array.from(atob(d.xyz), c => c.charCodeAt(0)).buffer), kind = Uint8Array.from(atob(d.kind), c => c.charCodeAt(0));
+  const g = new THREE.Group(), ms = [], cs = [], beads = [], q = new THREE.Quaternion();
+  for (let i = 0; i < d.n; i++) {
+    const p = V(xyz[i * 3], xyz[i * 3 + 1], xyz[i * 3 + 2]).multiplyScalar(.1), k = kind[i], rna = (k & 3) === 2; if (upright) p.set(p.x, p.z, -p.y);
+    ms.push(M4(p, q, rna ? 2.1 : 1.55)); cs.push(new THREE.Color(colour(k >> 2, rna))); beads.push({ p, g: k >> 2, rna });
+  }
+  g.add(instanced(new THREE.IcosahedronGeometry(1, 1), plain(), ms, cs));
+  const surfGeo = buildPdbSurfaceGeo({ n: d.n, xyz, kind, rad: null }, {
+    nm: 10, maxDim: 44, sigmaAng: 3.35, aoStrength: .56, uvScale: .11,
+    colorFn: (gr, part) => new THREE.Color(colour(gr, part === 2)),
+  });
+  const surfMat = new THREE.MeshPhysicalMaterial({
+    vertexColors: true, roughness: .36, metalness: .02,
+    clearcoat: .32, clearcoatRoughness: .32, sheen: .35,
+    normalMap: protBump, normalScale: new THREE.Vector2(.36, .36),
+    transparent: true, opacity: .82, side: THREE.FrontSide,
+  });
+  const surfMesh = new THREE.Mesh(surfGeo, surfMat);
+  if (upright) surfMesh.rotation.x = -Math.PI / 2;
+  g.add(surfMesh);
   return { g, beads, of: f => beads.filter(f).map(b => b.p) };
 }
 function buildRiboEcoli() {
@@ -2994,55 +3038,55 @@ function buildPipReal() {
   return finalize(g, [A(outmost(of(b => b.g === 0)), 'One of four channels: water passes in single file', 'channel-protein'), A(mid, 'The four meet at the middle'), A(outmost(of(() => true)), 'Amino acid (one bead each)', 'amino-acid')]);
 }
 
-// ---- the real Bacteriophage T4 structures (coarse_phage.py, from the PDB): one bead per amino acid (Cα)
+// ---- the real Bacteriophage T4 structures (coarse_phage.py, from the PDB): sculpted cryo-EM surface + Cα trace
 function buildGp23Real() {
-  const C = ['#6bc8ff', '#a8f0c6', '#ffd27a'], { g, of } = bactModel('gp23', gr => C[gr]);
+  const C = ['#6bc8ff', '#a8f0c6', '#ffd27a'], { g, of } = viralPdbModel('gp23', gr => C[gr]);
   return finalize(g, [A(outmost(of(b => b.g === 0)), 'gp23* hexamer: six HK97-fold capsid proteins', 'polypeptide'),
     A(outmost(of(b => b.g === 1)), 'Soc (small outer capsid): clamps between hexamers to reinforce the shell'),
     A(outmost(of(b => b.g === 2)), 'Hoc (highly antigenic outer capsid): central spike'),
     A(outmost(of(() => true)), 'Amino acid (one bead each)', 'amino-acid')]);
 }
 function buildGp24Real() {
-  const C = ['#ff9a6c', '#ffb48a', '#e87d52', '#ffc6a2', '#f08a5d'], { g, of } = bactModel('gp24', gr => C[gr]);
+  const C = ['#ff9a6c', '#ffb48a', '#e87d52', '#ffc6a2', '#f08a5d'], { g, of } = viralPdbModel('gp24', gr => C[gr]);
   const all = of(() => true), mid = all.reduce((a, p) => a.add(p), V()).divideScalar(all.length);
   return finalize(g, [A(outmost(of(b => b.g === 0)), 'One of five gp24* subunits at an icosahedral vertex', 'polypeptide'),
     A(mid, 'Five-fold vertex crown: turns the hexamer sheet into a closed capsid'),
     A(outmost(all), 'Amino acid (one bead each)', 'amino-acid')]);
 }
 function buildGp20Real() {
-  const { g, of } = bactModel('gp20', gr => (gr ? '#c77dff' : '#e0aaff'), true), all = of(() => true), mid = all.reduce((a, p) => a.add(p), V()).divideScalar(all.length);
+  const { g, of } = viralPdbModel('gp20', gr => (gr ? '#c77dff' : '#e0aaff'), true), all = of(() => true), mid = all.reduce((a, p) => a.add(p), V()).divideScalar(all.length);
   return finalize(g, [A(outmost(of(b => b.g === 0)), 'One of 12 gp20 subunits in the dodecameric portal ring', 'polypeptide'),
     A(mid, '3.5 nm central channel: DNA is pumped in and fired out through here'),
     A(topOf(all), 'Crown and clip inside the capsid'), A(lowOf(all), 'Stem where the packaging motor and neck attach'),
     A(outmost(all), 'Amino acid (one bead each)', 'amino-acid')]);
 }
 function buildGp18Real() {
-  const { g, of } = bactModel('gp18', gr => (gr ? '#7fe6d2' : '#4fe0b5'), true);
+  const { g, of } = viralPdbModel('gp18', gr => (gr ? '#7fe6d2' : '#4fe0b5'), true);
   return finalize(g, [A(outmost(of(b => b.g === 0)), 'gp18 contractile sheath ring (six subunits)', 'polypeptide'),
     A(topOf(of(b => b.g === 1)), 'gp15 hexameric neck connector: caps the top of the tail'),
     A(outmost(of(() => true)), 'Amino acid (one bead each)', 'amino-acid')]);
 }
 function buildGp19Real() {
-  const { g, of } = bactModel('gp19', gr => (gr ? '#ffd26a' : '#ffea9f'), true), all = of(() => true), mid = all.reduce((a, p) => a.add(p), V()).divideScalar(all.length);
+  const { g, of } = viralPdbModel('gp19', gr => (gr ? '#ffd26a' : '#ffea9f'), true), all = of(() => true), mid = all.reduce((a, p) => a.add(p), V()).divideScalar(all.length);
   return finalize(g, [A(outmost(of(b => b.g === 0)), 'gp19 subunit: six make each ring of the inner tail tube', 'polypeptide'),
     A(mid, '4 nm smooth lumen: the barrel through which dsDNA shoots into the bacterium', 'polypeptide'),
     A(outmost(all), 'Amino acid (one bead each)', 'amino-acid')]);
 }
 function buildGp5Real() {
-  const { g, of } = bactModel('gp5', gr => (gr ? '#ff5a6a' : '#ff9a62'), true), g1 = of(b => b.g === 1);
+  const { g, of } = viralPdbModel('gp5', gr => (gr ? '#ff5a6a' : '#ff9a62'), true), g1 = of(b => b.g === 1);
   return finalize(g, [A(topOf(of(b => b.g === 0)), 'gp27 trimer: cup-shaped hub that joins the needle to the gp19 tail tube', 'polypeptide'),
     A(lowOf(g1), 'gp5 triple β-helix needle: punctures the outer membrane like a molecular syringe', 'polypeptide'),
     A(outmost(g1), 'T4 lysozyme domain (three copies): digests a hole in the peptidoglycan wall', 'alpha-helix'),
     A(outmost(of(() => true)), 'Amino acid (one bead each)', 'amino-acid')]);
 }
 function buildGp37Real() {
-  const C = ['#7fc4ff', '#a8dcff', '#58a6ff'], { g, of } = bactModel('gp37', gr => C[gr], true), all = of(() => true);
+  const C = ['#7fc4ff', '#a8dcff', '#58a6ff'], { g, of } = viralPdbModel('gp37', gr => C[gr], true), all = of(() => true);
   return finalize(g, [A(lowOf(all), 'Receptor-binding tip: recognises OmpC / OmpF porins and LPS on E. coli', 'polypeptide'),
     A(outmost(of(b => b.g === 0)), 'Three interwoven gp37 chains cross-braced by iron ions'),
     A(outmost(all), 'Amino acid (one bead each)', 'amino-acid')]);
 }
 function buildGp12Real() {
-  const C = ['#ffb84f', '#ffd27a', '#e89a38'], { g, of } = bactModel('gp12', gr => C[gr], true), all = of(() => true);
+  const C = ['#ffb84f', '#ffd27a', '#e89a38'], { g, of } = viralPdbModel('gp12', gr => C[gr], true), all = of(() => true);
   return finalize(g, [A(lowOf(all), 'Receptor-binding head: clamps irreversibly onto the host LPS core', 'polypeptide'),
     A(topOf(all), 'Triple β-spiral shaft folded under the baseplate before triggering', 'polypeptide'),
     A(outmost(all), 'Amino acid (one bead each)', 'amino-acid')]);
@@ -3050,98 +3094,98 @@ function buildGp12Real() {
 
 // ---- Real PDB crystal & cryo-EM structures for Coronavirus, HIV-1, Adenovirus & TMV ----
 function buildCovSpikeReal() {
-  const C = ['#ff5a7a', '#ff8aa3', '#ffd26a'], { g, of } = bactModel('cov-spike', gr => C[gr % 3], true), all = of(() => true);
+  const C = ['#ff5a7a', '#ff8aa3', '#ffd26a'], { g, of } = viralPdbModel('cov-spike', gr => C[gr % 3], true), all = of(() => true);
   return finalize(g, [A(topOf(all), 'Receptor-binding domain (RBD, S1 subunit): docks onto host ACE2', 'polypeptide'),
     A(outmost(of(b => b.g === 0)), 'N-terminal domain (NTD) of one S protomer (homotrimer, PDB 6VXX)', 'alpha-helix'),
     A(lowOf(all), 'S2 fusion machinery stalk (heptad repeats & fusion peptide)', 'alpha-helix'),
     A(outmost(all), 'Amino acid (one bead each)', 'amino-acid')]);
 }
 function buildCovEReal() {
-  const C = ['#ffd24f', '#ffe07a', '#ffb838', '#ff9a42', '#ffd866'], { g, of } = bactModel('cov-e', gr => C[gr % 5], true), all = of(() => true);
+  const C = ['#ffd24f', '#ffe07a', '#ffb838', '#ff9a42', '#ffd866'], { g, of } = viralPdbModel('cov-e', gr => C[gr % 5], true), all = of(() => true);
   const mid = all.reduce((a, p) => a.add(p), V()).divideScalar(all.length);
   return finalize(g, [A(outmost(of(b => b.g === 0)), 'One of five E transmembrane α-helices (viroporin pentamer, PDB 5X29)', 'alpha-helix'),
     A(mid, 'Hydrophobic cation-selective pore: conducts H⁺ / Ca²⁺ across ERGIC membrane'),
     A(outmost(all), 'Amino acid (one bead each)', 'amino-acid')]);
 }
 function buildCovNReal() {
-  const C = ['#ffb347', '#ffd27a', '#ff9442', '#ffc466'], { g, of } = bactModel('cov-n', gr => C[gr % 4], false), all = of(() => true);
+  const C = ['#ffb347', '#ffd27a', '#ff9442', '#ffc466'], { g, of } = viralPdbModel('cov-n', gr => C[gr % 4], false), all = of(() => true);
   return finalize(g, [A(outmost(of(b => b.g === 0)), 'Positively charged RNA-binding groove (β-hairpin finger, PDB 6VYO)', 'polypeptide'),
     A(topOf(all), 'Nucleocapsid NTD oligomer: wraps viral (+)ssRNA into helical RNP beads', 'polypeptide'),
     A(outmost(all), 'Amino acid (one bead each)', 'amino-acid')]);
 }
 function buildCovRdrpReal() {
-  const C = ['#58d8ff', '#ffd26a', '#7dffb2'], { g, of } = bactModel('cov-rdrp', gr => C[gr % 3], false), all = of(() => true);
+  const C = ['#58d8ff', '#ffd26a', '#7dffb2'], { g, of } = viralPdbModel('cov-rdrp', gr => C[gr % 3], false), all = of(() => true);
   return finalize(g, [A(outmost(of(b => b.g === 0)), 'Catalytic subunit nsp12 (RNA-dependent RNA polymerase, PDB 6M71)', 'polypeptide'),
     A(outmost(of(b => b.g === 1)), 'Cofactor nsp7: stabilizes the polymerase thumb domain', 'alpha-helix'),
     A(topOf(of(b => b.g === 2)), 'Two nsp8 "sliding poles": guide the long viral RNA template', 'alpha-helix'),
     A(outmost(all), 'Amino acid (one bead each)', 'amino-acid')]);
 }
 function buildAce2Real() {
-  const { g, of } = bactModel('ace2', gr => (gr ? '#68d89b' : '#3fc88a'), true), all = of(() => true);
+  const { g, of } = viralPdbModel('ace2', gr => (gr ? '#68d89b' : '#3fc88a'), true), all = of(() => true);
   return finalize(g, [A(topOf(of(b => b.g === 0)), 'N-terminal α1 helix: the exact ridge gripped by the SARS-CoV-2 Spike RBD', 'alpha-helix'),
     A(outmost(of(b => b.g === 0)), 'Zinc metallopeptidase catalytic cleft (PDB 1R42)', 'polypeptide'),
     A(lowOf(of(b => b.g === 1)), 'Collectrin-like neck domain anchoring ACE2 into the host plasma membrane', 'polypeptide'),
     A(outmost(all), 'Amino acid (one bead each)', 'amino-acid')]);
 }
 function buildHivEnvReal() {
-  const C = ['#ff7a52', '#ff9d7a', '#ffb866', '#a87fff'], { g, of } = bactModel('hiv-env', gr => C[gr % 4], true), all = of(() => true);
+  const C = ['#ff7a52', '#ff9d7a', '#ffb866', '#a87fff'], { g, of } = viralPdbModel('hiv-env', gr => C[gr % 4], true), all = of(() => true);
   return finalize(g, [A(topOf(of(b => b.g < 3)), 'Surface gp120 trimer head: binds host CD4 and CCR5 / CXCR4 coreceptor', 'polypeptide'),
     A(lowOf(of(b => b.g === 3)), 'Transmembrane gp41 fusion subunit: harpoons the host T-cell membrane', 'alpha-helix'),
     A(outmost(all), 'Amino acid (one bead each, PDB 4TVP)', 'amino-acid')]);
 }
 function buildHivMaReal() {
-  const C = ['#5fd08a', '#8ae8a8', '#3fb86e'], { g, of } = bactModel('hiv-ma', gr => C[gr % 3], true), all = of(() => true);
+  const C = ['#5fd08a', '#8ae8a8', '#3fb86e'], { g, of } = viralPdbModel('hiv-ma', gr => C[gr % 3], true), all = of(() => true);
   return finalize(g, [A(topOf(all), 'Basic PI(4,5)P₂-binding patch & myristoyl anchor facing the inner leaflet', 'alpha-helix'),
     A(outmost(of(b => b.g === 0)), 'One p17 Matrix subunit in the trimeric sub-membrane lattice (PDB 1HIW)', 'polypeptide'),
     A(outmost(all), 'Amino acid (one bead each)', 'amino-acid')]);
 }
 function buildHivCaHexReal() {
-  const C = ['#ffd26a', '#ffea9f', '#e8a838'], { g, of } = bactModel('hiv-ca-hex', gr => C[gr % 3], true), all = of(() => true);
+  const C = ['#ffd26a', '#ffea9f', '#e8a838'], { g, of } = viralPdbModel('hiv-ca-hex', gr => C[gr % 3], true), all = of(() => true);
   const mid = all.reduce((a, p) => a.add(p), V()).divideScalar(all.length);
   return finalize(g, [A(outmost(of(b => b.g === 0)), 'p24 Capsid subunit (NTD + CTD): six form the hexamer ring (PDB 3H4E)', 'alpha-helix'),
     A(mid, 'Central β-hairpin electropositive pore: imports dNTPs for reverse transcription'),
     A(outmost(all), 'Amino acid (one bead each)', 'amino-acid')]);
 }
 function buildHivCaPentReal() {
-  const C = ['#ff5a6a', '#ff858f', '#ffb07a', '#e84858', '#ff9a62'], { g, of } = bactModel('hiv-ca-pent', gr => C[gr % 5], true), all = of(() => true);
+  const C = ['#ff5a6a', '#ff858f', '#ffb07a', '#e84858', '#ff9a62'], { g, of } = viralPdbModel('hiv-ca-pent', gr => C[gr % 5], true), all = of(() => true);
   return finalize(g, [A(outmost(of(b => b.g === 0)), 'One of five p24 CA subunits in the pentameric vertex (PDB 3P05)', 'alpha-helix'),
     A(topOf(all), '12 pentamers (7 at wide end, 5 at narrow tip) close the fullerene cone'),
     A(outmost(all), 'Amino acid (one bead each)', 'amino-acid')]);
 }
 function buildHivRtReal() {
-  const C = ['#4fd8ff', '#8fe8ff', '#ff7ad9'], { g, of } = bactModel('hiv-rt', gr => C[gr % 3], false), all = of(() => true);
+  const C = ['#4fd8ff', '#8fe8ff', '#ff7ad9'], { g, of } = viralPdbModel('hiv-rt', gr => C[gr % 3], false), all = of(() => true);
   return finalize(g, [A(outmost(of(b => b.g === 0)), 'p66 catalytic subunit: fingers, palm, thumb polymerase & RNase H (PDB 1RTD)', 'polypeptide'),
     A(outmost(of(b => b.g === 1)), 'p51 structural subunit: supports the polymerase cleft', 'alpha-helix'),
     A(topOf(of(b => b.g === 2)), 'Template–primer nucleic acid duplex inside the active site', 'dna'),
     A(outmost(all), 'Amino acid (one bead each)', 'amino-acid')]);
 }
 function buildHivInReal() {
-  const { g, of } = bactModel('hiv-in', gr => (gr ? '#ff9df0' : '#c688ff'), false), all = of(() => true);
+  const { g, of } = viralPdbModel('hiv-in', gr => (gr ? '#ff9df0' : '#c688ff'), false), all = of(() => true);
   return finalize(g, [A(outmost(of(b => b.g === 0)), 'Catalytic core domain (DDE active site): cleaves & joins DNA ends (PDB 1EX4)', 'polypeptide'),
     A(lowOf(of(b => b.g === 1)), 'C-terminal SH3-like domain: binds viral and host chromosomal DNA', 'polypeptide'),
     A(outmost(all), 'Amino acid (one bead each)', 'amino-acid')]);
 }
 function buildAdvHexonReal() {
-  const C = ['#58a6ff', '#88c8ff', '#3d84e8'], { g, of } = bactModel('adv-hexon', gr => C[gr % 3], true), all = of(() => true);
+  const C = ['#58a6ff', '#88c8ff', '#3d84e8'], { g, of } = viralPdbModel('adv-hexon', gr => C[gr % 3], true), all = of(() => true);
   return finalize(g, [A(topOf(all), 'Three hypervariable loop towers exposed on the virion exterior (PDB 1P30)', 'polypeptide'),
     A(lowOf(all), 'Double-jelly-roll pseudo-hexagonal base: packs into the 20 icosahedral facets', 'polypeptide'),
     A(outmost(all), 'Amino acid (one bead each)', 'amino-acid')]);
 }
 function buildAdvPentonReal() {
-  const C = ['#ffd26a', '#ffe494', '#ffb84a', '#ff9a52', '#ffc85c', '#ff5a7a'], { g, of } = bactModel('adv-penton', gr => C[gr % 6], true), all = of(() => true);
+  const C = ['#ffd26a', '#ffe494', '#ffb84a', '#ff9a52', '#ffc85c', '#ff5a7a'], { g, of } = viralPdbModel('adv-penton', gr => C[gr % 6], true), all = of(() => true);
   return finalize(g, [A(topOf(of(b => b.g < 5)), 'Penton base turret with RGD loops: binds host αvβ3 / αvβ5 integrins (PDB 1X9T)', 'polypeptide'),
     A(topOf(of(b => b.g === 5)), 'Bound N-terminal peptide tail of the protruding Fiber shaft', 'polypeptide'),
     A(lowOf(all), 'Five-fold jelly-roll base sealing each of the 12 icosahedral vertices', 'polypeptide'),
     A(outmost(all), 'Amino acid (one bead each)', 'amino-acid')]);
 }
 function buildAdvFiberReal() {
-  const C = ['#ff5a7a', '#ff8aa3', '#ffb86a'], { g, of } = bactModel('adv-fiber', gr => C[gr % 3], true), all = of(() => true);
+  const C = ['#ff5a7a', '#ff8aa3', '#ffb86a'], { g, of } = viralPdbModel('adv-fiber', gr => C[gr % 3], true), all = of(() => true);
   return finalize(g, [A(topOf(all), 'Distal C-terminal Knob trimer: binds the host CAR receptor (PDB 1QIU)', 'polypeptide'),
     A(lowOf(all), 'Triple β-spiral shaft repeats projecting from the penton vertex', 'polypeptide'),
     A(outmost(all), 'Amino acid (one bead each)', 'amino-acid')]);
 }
 function buildTmvTurnReal() {
-  const C = ['#68d86b', '#9be870', '#48b858', '#ff5a7a'], { g, of } = bactModel('tmv-turn', gr => C[gr % 4], true), all = of(() => true);
+  const C = ['#68d86b', '#9be870', '#48b858', '#ff5a7a'], { g, of } = viralPdbModel('tmv-turn', gr => C[gr % 4], true), all = of(() => true);
   const rna = of(b => b.g === 3);
   return finalize(g, [A(outmost(of(b => b.g === 0)), '16⅓ Coat Protein subunits per helical turn (18 nm outer diameter, PDB 2TMV)', 'tmv-sub-real'),
     A(outmost(rna), 'Single-stranded (+)RNA coiled at r = 4 nm (3 nucleotides per coat subunit)', 'rna'),
@@ -3149,7 +3193,7 @@ function buildTmvTurnReal() {
     A(outmost(all), 'Amino acid (one bead each)', 'amino-acid')]);
 }
 function buildTmvSubReal() {
-  const { g, of } = bactModel('tmv-sub', gr => (gr ? '#ff5a7a' : '#68d86b'), false), all = of(() => true), rna = of(b => b.g === 1);
+  const { g, of } = viralPdbModel('tmv-sub', gr => (gr ? '#ff5a7a' : '#68d86b'), false), all = of(() => true), rna = of(b => b.g === 1);
   return finalize(g, [A(outmost(of(b => b.g === 0)), 'Four-helix bundle core (LS, RS, LR, RR α-helices) of one 158 aa Coat Protein (PDB 2TMV)', 'alpha-helix'),
     A(outmost(rna), 'Three viral RNA nucleotides (G–A–A) clasped in the inner RNA-binding groove', 'nucleotide'),
     A(outmost(all), 'Amino acid (one bead each)', 'amino-acid')]);

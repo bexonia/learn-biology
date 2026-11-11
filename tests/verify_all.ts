@@ -718,7 +718,7 @@ function runStaticChecks() {
     'en_v1_david_clarke.wav',
     'en_v2_peter_yearsley.wav',
     'en_v3_martin_geeson.wav',
-    'es_latam_villarraza/voice_manifest.json',
+    'es_latam_baritone/voice_manifest.json',
     'es_spain_baritone/voice_manifest.json',
     'ATTRIBUTION.md'
   ];
@@ -726,11 +726,11 @@ function runStaticChecks() {
     assert.ok(fs.existsSync(path.join(ROOT_DIR, 'tools', 'voices', vf)), `Missing Public Domain voice asset tools/voices/${vf}`);
   }
   const latamManifest = JSON.parse(
-    fs.readFileSync(path.join(ROOT_DIR, 'tools', 'voices', 'es_latam_villarraza', 'voice_manifest.json'), 'utf8')
+    fs.readFileSync(path.join(ROOT_DIR, 'tools', 'voices', 'es_latam_baritone', 'voice_manifest.json'), 'utf8')
   );
   assert.ok(Array.isArray(latamManifest.samples) && latamManifest.samples.length >= 6, 'LatAm voice folder must include >= 6 studio reference samples');
   for (const s of latamManifest.samples) {
-    assert.ok(fs.existsSync(path.join(ROOT_DIR, 'tools', 'voices', 'es_latam_villarraza', s.file)), `Missing LatAm studio sample ${s.file}`);
+    assert.ok(fs.existsSync(path.join(ROOT_DIR, 'tools', 'voices', 'es_latam_baritone', s.file)), `Missing LatAm studio sample ${s.file}`);
   }
   const spainManifest = JSON.parse(
     fs.readFileSync(path.join(ROOT_DIR, 'tools', 'voices', 'es_spain_baritone', 'voice_manifest.json'), 'utf8')

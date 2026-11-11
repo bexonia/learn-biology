@@ -1,0 +1,57 @@
+{
+  "voiceId": "latam",
+  "speakerId": "56865d1450",
+  "dialect": "Spanish (Latinoamérica — México)",
+  "source": "Mozilla Common Voice 19.0 (es)",
+  "license": "CC0-1.0 (Public Domain)",
+  "samples": [
+    {
+      "file": "sample_01_simple.wav",
+      "role": "simple",
+      "sourceClip": "common_voice_es_20043886.mp3",
+      "durationSec": 6.08,
+      "charsPerSec": 16.4,
+      "promptText": "Aunque las parejas permanecen juntas durante años, realizan los rituales de cortejo cada primavera."
+    },
+    {
+      "file": "sample_02_story.wav",
+      "role": "story",
+      "sourceClip": "common_voice_es_20043921.mp3",
+      "durationSec": 5.51,
+      "charsPerSec": 15.4,
+      "promptText": "Durante sus años universitarios, tempranamente, nace su vocación por el periodismo."
+    },
+    {
+      "file": "sample_03_tour.wav",
+      "role": "tour",
+      "sourceClip": "common_voice_es_20044055.mp3",
+      "durationSec": 5.27,
+      "charsPerSec": 14.8,
+      "promptText": "Es la máxima competición que se disputa en esta modalidad de la pelota mano."
+    },
+    {
+      "file": "sample_04_blueprint.wav",
+      "role": "blueprint",
+      "sourceClip": "common_voice_es_20044089.mp3",
+      "durationSec": 4.44,
+      "charsPerSec": 19.8,
+      "promptText": "En este segundo nivel se encuentran pocas categorías que son siempre lexemas primarios."
+    },
+    {
+      "file": "sample_05_scientific.wav",
+      "role": "scientific",
+      "sourceClip": "common_voice_es_20043995.mp3",
+      "durationSec": 3.98,
+      "charsPerSec": 19.3,
+      "promptText": "Esta adaptación fue protagonizada por Iván Sánchez y Gabriela de la Garza."
+    },
+    {
+      "file": "sample_06_fallback.wav",
+      "role": "fallback",
+      "sourceClip": "common_voice_es_20043998.mp3",
+      "durationSec": 4.36,
+      "charsPerSec": 13.3,
+      "promptText": "Llevó una vida muy austera, resaltada por sus coetáneos."
+    }
+  ]
+}

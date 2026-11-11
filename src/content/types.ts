@@ -42,7 +42,7 @@ export function resolveEnglishVoice(mode: ExplanationMode, pref: VoicePreference
 
 /**
  * Two Public-Domain (CC0) Spanish narrator voices:
- * - `latam`: Latinoamérica — Warm studio narrator (Víctor Villarraza, LibriVox CC0; preset for `simple` & `story`)
+ * - `latam`: Latinoamérica — Warm Mexican/Latin American studio narrator (Common Voice CC0; preset for `simple` & `story`)
  * - `spain`: España — Castilian deep baritone (Common Voice CC0; preset for `blueprint` & `scientific`)
  */
 export type SpanishVoiceId = 'latam' | 'spain';

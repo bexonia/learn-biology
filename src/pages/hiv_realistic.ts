@@ -8,7 +8,13 @@ import { OutputPass } from 'three/addons/postprocessing/OutputPass.js';
 import { ShaderPass } from 'three/addons/postprocessing/ShaderPass.js';
 import { RoomEnvironment } from 'three/addons/environments/RoomEnvironment.js';
 import { Effect } from 'effect';
-import { runBiologyApp } from '../index.js';
+import {
+  runBiologyApp,
+  buildPdbSurfaceGeo,
+  makeProteinBumpTexture,
+  makeMolBatch,
+  makeSculptedMesh,
+} from '../index.js';
 
 runBiologyApp(20261106, ({ random, geometry, batch, dna, rna, pdb, ribosome, tours }) => {
   if (/[?&]embed\b/.test(location.search)) document.documentElement.classList.add('embed');
@@ -59,6 +65,18 @@ function updateCut() { CUT.forEach((p, i) => { p.copy(CUT_LOCAL[i]); if (!cutOn)
 const CLIP = { clippingPlanes: CUT, clipIntersection: true, clipShadows: true };
 const phys = o => new THREE.MeshPhysicalMaterial({ envMapIntensity: .8, ...CLIP, ...o });
 const nmap = waveNormalMap(), bump = (rx, ry) => { const t = nmap.clone(); t.repeat.set(rx, ry); t.needsUpdate = true; return t; };
+const protBump = makeProteinBumpTexture(256);
+function protMat(key, clip = true, extra = {}) {
+  return reg(key, phys({
+    vertexColors: true, roughness: .42, metalness: .02,
+    clearcoat: .24, clearcoatRoughness: .36, sheen: .36, sheenColor: '#fff5fa',
+    normalMap: protBump, normalScale: new THREE.Vector2(.34, .34),
+    side: THREE.DoubleSide, clippingPlanes: clip ? CUT : null, clipIntersection: true,
+    ...extra,
+  }));
+}
+const sculpt = (key, parent = cell, clip = true, extra = {}) => makeSculptedMesh(protMat(key, clip, extra), parent);
+const molBatch = (key, geo, parent = cell, clip = true, extra = {}) => makeMolBatch(geo, protMat(key, clip, extra), parent);
 
 const PARTS = [
   ['env', 'Env (gp120/gp41) trimer spikes (4TVP)', '#ff6b8b'],
@@ -356,40 +374,47 @@ function buildEnvelopeAndMatrix() {
   }
   B_CUT_MEM.done();
 
-  const B_MEM = balls('membrane', cell, true), B_MA = balls('ma', cell, true), B_ENV = balls('env', cell, true);
+  const S_MA = sculpt('ma', cell, true), S_ENV = sculpt('env', cell, true);
   const maCols = [col('#7fe0ff'), col('#48dbfb'), col('#a8eeff')], cMyr = col('#ffe39f');
 
-  // Subtle surface GM3 ganglioside / raft glycolipid microdomains (360° GPU-clipped)
-  const N_RAFT = 420;
+  // Record envelope tour sites cleanly without noisy surface dots
+  const N_RAFT = 240;
   for (let i = 0; i < N_RAFT; i++) {
     const y = 1 - 2 * (i + .5) / N_RAFT, r = Math.sqrt(Math.max(0, 1 - y * y)), phi = i * 2.3999632;
     const n = V(Math.cos(phi) * r, y, Math.sin(phi) * r);
     const pOut = envPt(n, .02);
-    B_MEM.add(pOut, .56 * NM, cHeadOut);
     if (SITES.membrane.length < 65 && !(pOut.x > 0 && pOut.z > 0)) SITES.membrane.push(pOut);
   }
 
-  // 136 trimeric myristoylated p17 Matrix (MA) units (PDB 1HIW) lining the inner envelope leaflet + N-myristoyl anchors
+  // 136 trimeric myristoylated p17 Matrix (MA) units (PDB 1HIW cryo-EM surface) + 3D N-myristoyl lipid anchors
+  const geoMa = buildPdbSurfaceGeo(model('ma', true), {
+    nm: NM, scale: .96, maxDim: 28, sigmaAng: 3.2, colorFn: g => maCols[g % 3],
+  });
+  const I_MA = molBatch('ma', geoMa, cell, true);
   const N_MA = 136;
   for (let k = 0; k < N_MA; k++) {
     const y = 1 - 2 * (k + .5) / N_MA, r = Math.sqrt(Math.max(0, 1 - y * y)), phi = k * 2.3999632 + .2;
     const n = V(Math.cos(phi) * r, y, Math.sin(phi) * r).normalize();
     const p = envPt(n, .58);
-    placeMol(B_MA, 'ma', p, qOut(n, k * .9), g => maCols[g % 3], true, .96);
+    I_MA.add(p, qOut(n, k * .9), 1);
     const e1 = across(V(0, 1, .2), n), e2 = n.clone().cross(e1).normalize();
     for (let s = 0; s < 3; s++) {
       const a = k * .9 + s * 2.0944, off = e1.clone().multiplyScalar(Math.cos(a) * .08).addScaledVector(e2, Math.sin(a) * .08);
-      B_MA.stick(envPt(n, .26).add(off), envPt(n, .50).add(off), .09 * NM, cMyr, maCols[s]);
+      S_MA.stick(envPt(n, .26).add(off), envPt(n, .50).add(off), .012, cMyr, maCols[s]);
     }
     if (!(p.x > 0 && p.z > 0)) SITES.ma.push(p);
   }
 
-  // Authentic sparse cryo-ET distribution: 16 Env gp120/gp41 trimer spikes (PDB 4TVP),
-  // each anchored via a coiled-coil gp41 MPER/TM stalk and cloaked in a dense N-linked oligomannose glycan shield
+  // Authentic sparse cryo-ET distribution: 16 Env gp120/gp41 trimer spikes (PDB 4TVP cryo-EM surface),
+  // anchored via 3D coiled-coil gp41 MPER/TM stalks and cloaked in sculpted N-linked oligomannose glycan shields
   const envCols = [col('#ff6b8b'), col('#ff8fa3'), col('#ffa8b8'), col('#ffd24f')];
   const gp41Cols = [col('#e84a72'), col('#ff7597'), col('#d63b62')];
   const glyCols = [col('#ffd9e8'), col('#ffc2dc'), col('#fff0f6')];
   const m4tvp = model('env', true);
+  const geoEnv = buildPdbSurfaceGeo(m4tvp, {
+    nm: NM, maxDim: 46, sigmaAng: 3.1, aoStrength: .55, colorFn: g => envCols[g % 4],
+  });
+  const I_ENV = molBatch('env', geoEnv, cell, true);
 
   function addEnvTrimer(nSurf, tiltDir, twist, scale = 1.06) {
     const pTM = envPt(nSurf, .28);
@@ -397,39 +422,34 @@ function buildEnvelopeAndMatrix() {
     const stalkLen = .38 * scale;
     const pHeadCenter = pMPER.clone().addScaledVector(tiltDir, stalkLen + .42 * scale);
 
-    // Trimeric gp41 MPER + transmembrane coiled-coil stalk + cytoplasmic tail stub contacting MA
+    // Trimeric gp41 MPER + transmembrane coiled-coil 3D stalk + cytoplasmic tail stub contacting MA
     const e1 = across(V(0, 1, .3), tiltDir), e2 = tiltDir.clone().cross(e1).normalize();
     const pCyto = envPt(nSurf, .54);
     for (let s = 0; s < 3; s++) {
       const a0 = twist + s * 2.0944;
-      const off0 = e1.clone().multiplyScalar(Math.cos(a0) * .05).addScaledVector(e2, Math.sin(a0) * .05);
-      B_ENV.stick(pCyto.clone().add(off0), pTM.clone().add(off0), .10 * NM, gp41Cols[s], gp41Cols[(s + 1) % 3]);
-      let prev = pTM.clone().add(off0);
-      for (let j = 1; j <= 5; j++) {
-        const f = j / 5, a = a0 + f * .8;
+      const off0 = e1.clone().multiplyScalar(Math.cos(a0) * .048).addScaledVector(e2, Math.sin(a0) * .048);
+      const pts = [pCyto.clone().add(off0), pTM.clone().add(off0)];
+      for (let j = 1; j <= 6; j++) {
+        const f = j / 6, a = a0 + f * .85;
         const base = f < .4 ? pTM.clone().lerp(pMPER, f / .4) : pMPER.clone().addScaledVector(tiltDir, (f - .4) / .6 * stalkLen);
-        const cur = base.addScaledVector(e1, Math.cos(a) * .058).addScaledVector(e2, Math.sin(a) * .058);
-        B_ENV.stick(prev, cur, .125 * NM, gp41Cols[s], gp41Cols[(s + 1) % 3]);
-        B_ENV.add(cur, .70 * NM, gp41Cols[s]);
-        prev = cur;
+        pts.push(base.addScaledVector(e1, Math.cos(a) * .054).addScaledVector(e2, Math.sin(a) * .054));
       }
+      S_ENV.tube(pts, .026 * scale, .034 * scale, gp41Cols[s], gp41Cols[(s + 1) % 3], 8, true);
     }
 
-    // PDB 4TVP gp120/gp41 ectodomain trimer + dense oligomannose glycan shield (~85 glycans/trimer in vivo)
+    // PDB 4TVP gp120/gp41 ectodomain trimer cryo-EM surface + dense oligomannose glycan shield lobes
     const q = qOut(tiltDir, twist);
-    placeMol(B_ENV, 'env', pHeadCenter, q, g => envCols[g % 4], true, scale);
+    I_ENV.add(pHeadCenter, q, scale);
     const v = V(), kScale = .01 * NM * scale;
-    for (let i = 14; i < m4tvp.n; i += 22) {
+    for (let i = 16; i < m4tvp.n; i += 34) {
       v.set(m4tvp.xyz[i * 3], m4tvp.xyz[i * 3 + 1], m4tvp.xyz[i * 3 + 2]).multiplyScalar(kScale);
-      if (Math.hypot(v.x, v.y) < .24) continue;
+      if (Math.hypot(v.x, v.y) < .25) continue;
       const outDir = V(v.x, v.y, v.z * .35).normalize().applyQuaternion(q);
       const gRoot = v.clone().applyQuaternion(q).add(pHeadCenter);
-      const g1 = gRoot.clone().addScaledVector(outDir, .068);
-      const g2 = g1.clone().addScaledVector(outDir, .058).add(randDir().multiplyScalar(.032));
-      const g3 = g1.clone().addScaledVector(outDir, .042).add(randDir().multiplyScalar(.042));
-      B_ENV.add(g1, .68 * NM, glyCols[i % 3]);
-      B_ENV.add(g2, .56 * NM, glyCols[(i + 1) % 3]);
-      B_ENV.add(g3, .50 * NM, glyCols[(i + 2) % 3]);
+      const g1 = gRoot.clone().addScaledVector(outDir, .048);
+      const g2 = g1.clone().addScaledVector(outDir, .042).add(randDir().multiplyScalar(.024));
+      S_ENV.lobe(g1, .042, .034, .042, glyCols[i % 3]);
+      S_ENV.lobe(g2, .032, .026, .032, glyCols[(i + 1) % 3]);
     }
     if (!(pHeadCenter.x > 0 && pHeadCenter.z > 0)) SITES.env.push(pHeadCenter);
     return pHeadCenter;
@@ -447,7 +467,6 @@ function buildEnvelopeAndMatrix() {
 
   // 14 additional sparsely spaced Env trimers across the virion (total = 16 Env trimers)
   const envDirs = [];
-  // Seed two prominent trimers near the left/upper cutaway silhouette so tour tags frame them cleanly
   [V(-.74, .64, .18).normalize(), V(-.24, .88, -.38).normalize(), V(.22, .72, -.65).normalize()].forEach(d => envDirs.push(d));
   for (let tries = 0; tries < 2000 && envDirs.length < 14; tries++) {
     const u = rr(-.82, .98), t = rr(0, Math.PI * 2), s = Math.sqrt(Math.max(0, 1 - u * u));
@@ -462,14 +481,14 @@ function buildEnvelopeAndMatrix() {
     addEnvTrimer(n, tilt, k * 1.37 + .4, 1.06);
   });
 
-  B_MEM.done(); B_MA.done(); B_ENV.done();
+  S_MA.done(); I_MA.done(); I_ENV.done(); S_ENV.done();
 }
 
 function buildFullereneConeAndCore() {
   // Translucent fullerene cone CA backing shell + inner dark wall + crisp cutaway cross-section strip
   const coneMat = shellMat('capsid', '#3a7bd5', '#7fc4ff', '#1e4b8a', {
     atten: 1.3, thickness: .46, sheen: '#a8dcff',
-    extra: { clearcoat: .45, envMapIntensity: .62, iridescence: .32, iridescenceIOR: 1.32 },
+    extra: { clearcoat: .45, envMapIntensity: .62, normalMap: bump(12, 16), normalScale: new THREE.Vector2(.24, .24), iridescence: .32, iridescenceIOR: 1.32 },
   });
   cell.add(shade(new THREE.Mesh(coneGeometry(.14), coneMat), true, true));
   cell.add(new THREE.Mesh(coneGeometry(.24), reg('capsid', phys({ color: '#17345c', roughness: .72, side: THREE.BackSide }))));
@@ -484,10 +503,17 @@ function buildFullereneConeAndCore() {
   ];
   for (const ax of ['x', 'z']) caps.add(capStripFromOutline('capsid', ax, coneOutline, CONE_LAYERS, 140));
 
-  // Tile 100% of the fullerene cone surface around all 360 deg with PDB 3H4E CA hexamers and 12 PDB 3P05 CA pentamers
-  const B_CA = balls('capsid', cell, true), B_PENT = balls('pentamer', cell, true);
+  // Tile 100% of the fullerene cone surface with cryo-EM PDB 3H4E CA hexamers and 12 PDB 3P05 CA pentamers
   const caCols = [col('#5aa9e6'), col('#4895ef'), col('#72ddf7')];
   const pentCols = ['#c77dff', '#b565f5', '#d699ff', '#a34ee8', '#e0b3ff'].map(col);
+  const geoPent = buildPdbSurfaceGeo(model('capent', true), {
+    nm: NM, scale: .94, maxDim: 38, sigmaAng: 3.1, aoStrength: .55, colorFn: g => pentCols[g % 5],
+  });
+  const geoHex = buildPdbSurfaceGeo(model('cahex', true), {
+    nm: NM, scale: .90, maxDim: 30, sigmaAng: 3.1, aoStrength: .55, colorFn: g => caCols[g % 3],
+  });
+  const I_PENT = molBatch('pentamer', geoPent, cell, true);
+  const I_CA = molBatch('capsid', geoHex, cell, true);
 
   // Exactly 12 CA pentamers: 5 around the narrow bottom tip (t = 0.09) + 7 around the wide top dome shoulder (t = 0.80)
   const pentSites = [];
@@ -501,11 +527,11 @@ function buildFullereneConeAndCore() {
   }
   pentSites.forEach((p, idx) => {
     const n = V(p.x, (p.y - Y_VIR) * .35, p.z).normalize();
-    placeMol(B_PENT, 'capent', p, qOut(n, idx * .6), g => pentCols[g % 5], true, .94);
+    I_PENT.add(p, qOut(n, idx * .6), 1);
     if (!(p.x > 0 && p.z > 0)) SITES.pentamer.push(p);
   });
 
-  // Tight honeycomb tiling of PDB 3H4E CA hexamers across the entire fullerene cone
+  // Tight honeycomb tiling of cryo-EM PDB 3H4E CA hexamers across the entire fullerene cone
   const RINGS = 17;
   for (let ring = 0; ring <= RINGS; ring++) {
     const t = .035 + (ring / RINGS) * .93;
@@ -516,63 +542,69 @@ function buildFullereneConeAndCore() {
       const p = V(r * Math.cos(a), y, r * Math.sin(a));
       if (pentSites.some(q => q.distanceToSquared(p) < .39 * .39)) continue;
       const n = V(p.x, (p.y - Y_VIR) * .32, p.z).normalize();
-      placeMol(B_CA, 'cahex', p, qOut(n, a), g => caCols[g % 3], true, .90);
+      I_CA.add(p, qOut(n, a), 1);
       if (!(p.x > 0 && p.z > 0)) SITES.capsid.push(p);
     }
   }
-  B_CA.done(); B_PENT.done();
+  I_CA.done(); I_PENT.done();
 
   // Diploid 2 x 9.7 kb (+)ssRNA genome linked at the 5' Dimer Initiation Site (DIS) kissing loop,
-  // coated densely with NCp7 zinc-knuckle chaperones + structured TAR/RRE RNA hairpins
-  const B_RNA = balls('rna', cell, true), B_RT = balls('rt', cell, false), B_IN = balls('int', cell, false);
+  // coated densely with sculpted NCp7 zinc-knuckle chaperones + structured TAR/RRE RNA hairpins
+  const B_RNA = balls('rna', cell, true), S_NC = sculpt('rna', cell, true);
   const cNc = col('#ffe394'), cZn = col('#9be7ff');
   for (let strand = 0; strand < 2; strand++) {
     const pts = [];
     for (let i = 0; i <= 210; i++) {
       const t = i / 210, y = (Y_C0 + .42) + t * (Y_C1 - Y_C0 - 1.05);
-      // Strands converge at top DIS kissing-loop dimer junction (t > 0.86)
       const kiss = t > .84 ? Math.max(.08, 1 - (t - .84) / .16 * .85) : 1;
       const r = coneRadius(t) * (.50 + .06 * Math.sin(t * 25 + strand)) * kiss;
       const a = t * Math.PI * 15 + strand * Math.PI;
       const p = V(r * Math.cos(a) - .10, y, r * Math.sin(a) - .10);
       pts.push(p);
-      if (i % 4 === 0) {
-        B_RNA.add(p, .86 * NM, cNc);
-        if (i % 12 === 0) B_RNA.add(p.clone().add(V(.035, .02, -.02)), .46 * NM, cZn);
+      if (i % 5 === 0) {
+        S_NC.lobe(p, .052, .042, .052, cNc);
+        if (i % 15 === 0) S_NC.lobe(p.clone().add(V(.032, .018, -.02)), .026, .026, .026, cZn);
       }
     }
     rnaAlong(B_RNA, pts, MRNA);
     SITES.rna.push(pts[105]);
   }
-  // Structured 5' TAR / RRE stem-loop hairpins inside the wide dome of the cone
   [
     [V(-.42, 4.55, -.38), V(-1, .3, -.4)],
     [V(-.58, 3.35, -.25), V(-.4, -.2, -1)],
     [V(-.28, 2.05, -.52), V(-.8, .4, -.5)],
   ].forEach(([p, dir]) => rna.rnaFold(B_RNA, p, dir.normalize(), 1.0, { nm: NM }));
-  B_RNA.done();
+  B_RNA.done(); S_NC.done();
 
-  // Reverse Transcriptase (p66/p51 heterodimer, PDB 1RTD) & tetrameric Integrase (PDB 1EX4)
+  // Reverse Transcriptase (p66/p51 heterodimer, PDB 1RTD cryo-EM surface) & tetrameric Integrase (PDB 1EX4 cryo-EM surface)
   const rtCols = [col('#4ecdc4'), col('#38b2a8'), col('#ffd24f')];
+  const geoRt = buildPdbSurfaceGeo(model('rt', true), {
+    nm: NM, scale: 1.06, maxDim: 42, sigmaAng: 3.1, colorFn: g => rtCols[g % 3],
+  });
+  const I_RT = molBatch('rt', geoRt, cell, false);
   const rtSpots = [V(-.46, 2.85, -.38), V(-.54, 1.15, -.34), V(-.36, 4.15, -.44), V(-.65, -4.85, -.42)];
   rtSpots.forEach((p, idx) => {
-    placeMol(B_RT, 'rt', p, qOut(V(.3, 1, .2), idx * 1.4), g => rtCols[g % 3], true, 1.06);
+    I_RT.add(p, qOut(V(.3, 1, .2), idx * 1.4), 1);
     SITES.rt.push(p);
   });
 
   const inCols = [col('#ffd24f'), col('#ffae52')];
+  const geoIn = buildPdbSurfaceGeo(model('int', true), {
+    nm: NM, scale: 1.16, maxDim: 40, sigmaAng: 3.1, colorFn: g => inCols[g % 2],
+  });
+  const I_IN = molBatch('int', geoIn, cell, false);
   const inSpots = [V(-.32, 1.95, -.48), V(-.40, 3.55, -.30), V(-1.65, -5.75, -.58)];
   inSpots.forEach((p, idx) => {
-    placeMol(B_IN, 'int', p, qOut(V(.5, 1, -.3), idx * 1.7), g => inCols[g % 2], true, 1.16);
+    I_IN.add(p, qOut(V(.5, 1, -.3), idx * 1.7), 1);
     SITES.int.push(p);
   });
-  B_RT.done(); B_IN.done();
+  I_RT.done(); I_IN.done();
 }
 
 function buildHostTCellAndProvirus() {
   // Curved apical dome of a human CD4+ helper T-cell + immunological-synapse microvilli + host chromatin
   const makeHostDomeGeo = (dep = 0, segR = 64, segA = 96) => {
-    const pos = [], nor = [], idx = [];
+    const pos = [], nor = [], uv = [], idx = [];
     for (let ir = 0; ir <= segR; ir++) {
       const r = (ir / segR) * R_PATCH;
       for (let ia = 0; ia <= segA; ia++) {
@@ -580,6 +612,7 @@ function buildHostTCellAndProvirus() {
         const n = hostNormal(x, z), y = hostSurfY(x, z);
         pos.push(x - n.x * dep, y - n.y * dep, z - n.z * dep);
         nor.push(n.x, n.y, n.z);
+        uv.push(x * .22 + .5, z * .22 + .5);
       }
     }
     for (let ir = 0; ir < segR; ir++) {
@@ -591,17 +624,18 @@ function buildHostTCellAndProvirus() {
     const g = new THREE.BufferGeometry();
     g.setAttribute('position', new THREE.Float32BufferAttribute(pos, 3));
     g.setAttribute('normal', new THREE.Float32BufferAttribute(nor, 3));
+    g.setAttribute('uv', new THREE.Float32BufferAttribute(uv, 2));
     g.setIndex(idx);
     return g;
   };
 
   const hostMat = shellMat('cd4', '#5c4bc4', '#a29bfe', '#2d206b', {
     atten: 1.7, thickness: .55, sheen: '#dcd6ff',
-    extra: { roughness: .38, clearcoat: .18, clearcoatRoughness: .35, envMapIntensity: .34, normalMap: bump(18, 18), normalScale: new THREE.Vector2(.26, .26) },
+    extra: { roughness: .32, clearcoat: .26, clearcoatRoughness: .30, envMapIntensity: .42, normalMap: bump(18, 18), normalScale: new THREE.Vector2(.36, .36) },
   });
   cell.add(shade(new THREE.Mesh(makeHostDomeGeo(0), hostMat), false, true));
   cell.add(new THREE.Mesh(makeHostDomeGeo(.42, 48, 72), reg('cd4', phys({
-    color: '#251b54', roughness: .82, envMapIntensity: .24, side: THREE.BackSide,
+    color: '#251b54', roughness: .78, normalMap: bump(16, 16), normalScale: new THREE.Vector2(.22, .22), envMapIntensity: .26, side: THREE.BackSide,
   }))));
 
   // Multi-layer cutaway rim for the sliced CD4+ T-cell plasma membrane
@@ -640,8 +674,8 @@ function buildHostTCellAndProvirus() {
   }
   B_CUT_HOST.done();
 
-  // T-cell surface CD4 (4-Ig-domain rod) + CCR5 (7-TM GPCR barrel) co-receptors, microvilli, cortical actin & proviral integration
-  const B_CD4 = balls('cd4', cell, true), B_DNA = balls('cd4', cell, false);
+  // T-cell surface CD4 (sculpted 4-Ig-domain rod) + CCR5 (7-TM GPCR barrel), 3D microvilli, cortical actin & proviral integration
+  const S_CD4 = sculpt('cd4', cell, true), S_HIST = sculpt('cd4', cell, false), B_DNA = balls('cd4', cell, false);
   const cd4Cols = [col('#ff9ff3'), col('#f368e0'), col('#ffc8f9')];
   const ccr5Cols = [col('#7bed9f'), col('#2ed573')];
   const cAct1 = col('#7c6ee6'), cAct2 = col('#5d4ec7'), cHist = col('#ff9f7f'), cHist2 = col('#ffbe98');
@@ -650,36 +684,29 @@ function buildHostTCellAndProvirus() {
     const y0 = hostSurfY(x, z), n = hostNormal(x, z);
     const e1 = across(V(1, 0, 0), n), e2 = n.clone().cross(e1).normalize();
     const pMem = V(x, y0, z);
+    const qDom = qOut(n, twist);
     // 4-domain immunoglobulin CD4 ectodomain rod (D4 -> D3 -> D2 -> D1) + TM helix
-    const pCyto = pMem.clone().addScaledVector(n, -.46);
-    B_CD4.stick(pCyto, pMem, .11 * NM, cd4Cols[1], cd4Cols[0]);
-    let prev = pMem;
+    const rodPts = [pMem.clone().addScaledVector(n, -.46), pMem.clone()];
     for (let d = 1; d <= 4; d++) {
       const bend = .04 * Math.sin(d * .9 + twist);
       const dom = pMem.clone().addScaledVector(n, d * .215).addScaledVector(e1, bend);
-      B_CD4.stick(prev, dom, .13 * NM, cd4Cols[0], cd4Cols[2]);
-      // Globular Ig-like beta-sandwich domain cluster
-      B_CD4.add(dom, 1.15 * NM, cd4Cols[d % 3]);
-      for (let b = 0; b < 5; b++) {
-        const a = twist + d + b * 1.2566;
-        B_CD4.add(dom.clone().addScaledVector(e1, Math.cos(a) * .065).addScaledVector(e2, Math.sin(a) * .065), .68 * NM, cd4Cols[(d + b) % 3]);
-      }
-      prev = dom;
+      rodPts.push(dom);
+      S_CD4.lobe(dom, .082, .082, .105, cd4Cols[d % 3], qDom);
     }
+    S_CD4.tube(rodPts, .026, .030, cd4Cols[1], cd4Cols[2], 8, true);
+
     // Adjacent 7-transmembrane CCR5 chemokine co-receptor barrel embedded in the T-cell bilayer
     const ccrCenter = pMem.clone().addScaledVector(e1, Math.cos(twist) * .34).addScaledVector(e2, Math.sin(twist) * .34);
     for (let tm = 0; tm < 7; tm++) {
       const a = twist + tm * (2 * Math.PI / 7);
-      const off = e1.clone().multiplyScalar(Math.cos(a) * .115).addScaledVector(e2, Math.sin(a) * .115);
-      const top = ccrCenter.clone().add(off).addScaledVector(n, .10);
+      const off = e1.clone().multiplyScalar(Math.cos(a) * .105).addScaledVector(e2, Math.sin(a) * .105);
+      const top = ccrCenter.clone().add(off).addScaledVector(n, .11);
       const bot = ccrCenter.clone().add(off).addScaledVector(n, -.38);
-      B_CD4.stick(bot, top, .105 * NM, ccr5Cols[tm % 2], ccr5Cols[(tm + 1) % 2]);
-      B_CD4.add(top, .66 * NM, ccr5Cols[tm % 2]);
+      S_CD4.tube([bot, top], .038, .038, ccr5Cols[tm % 2], ccr5Cols[(tm + 1) % 2], 8, true);
     }
-    if (!(x > 0 && z > 0)) SITES.cd4.push(prev.clone());
+    if (!(x > 0 && z > 0)) SITES.cd4.push(rodPts[rodPts.length - 1].clone());
   }
 
-  // Two primary CD4 + CCR5 complexes engaged by thevirion's bottom Env trimers + 16 surrounding T-cell receptors
   addCd4Ccr5(-1.18, -.38, .4);
   addCd4Ccr5(.20, -1.35, 1.9);
   for (let k = 0; k < 16; k++) {
@@ -687,57 +714,48 @@ function buildHostTCellAndProvirus() {
     addCd4Ccr5(r * Math.cos(a), r * Math.sin(a), a);
   }
 
-  // 360-deg T-cell raft phospholipid headgroups & CD43/CD45 glycocalyx brush
+  // Delicate CD43/CD45 glycocalyx brush filaments rising from the textured T-cell plasma membrane
   const cGly1 = col('#c8c0ff'), cGly2 = col('#ffb8f0');
-  for (let i = 0; i < 1650; i++) {
-    const f = (i + .5) / 1650, r = Math.sqrt(f) * (R_PATCH - .35), a = i * 2.3999632;
+  for (let i = 0; i < 220; i++) {
+    const f = (i + .5) / 220, r = 1.9 + Math.sqrt(f) * (R_PATCH - 2.35), a = i * 2.3999632;
     const x = r * Math.cos(a), z = r * Math.sin(a), n = hostNormal(x, z), p0 = V(x, hostSurfY(x, z), z);
-    B_CD4.add(p0, .74 * NM, cHH);
-    if (i % 5 === 0 && r > 1.8) {
-      const pTop = p0.clone().addScaledVector(n, .20).add(V(rr(-.04, .04), 0, rr(-.04, .04)));
-      B_CD4.stick(p0, pTop, .065 * NM, cGly1, cGly2);
-      B_CD4.add(pTop, .54 * NM, cGly2);
-    }
+    const sway = across(randDir(), n);
+    S_CD4.tube([
+      p0.clone().addScaledVector(n, -.03),
+      p0.clone().addScaledVector(n, .11).addScaledVector(sway, .025),
+      p0.clone().addScaledVector(n, .23).addScaledVector(sway, .05),
+    ], .015, .009, cGly1, cGly2, 6, true);
   }
 
-  // Organic scanning T-cell microvilli (molecular phospholipid/glycocalyx-coated actin filopodia) around the synapse rim
-  for (let m = 0; m < 22; m++) {
-    const r = rr(4.6, 9.5), a = m * 2.3999632 + .35;
+  // Sculpted 3D scanning T-cell microvilli (continuous normal-mapped filopodia) around the synapse rim
+  for (let m = 0; m < 24; m++) {
+    const r = rr(4.5, 9.6), a = m * 2.3999632 + .35;
     const x = r * Math.cos(a), z = r * Math.sin(a);
     const n = hostNormal(x, z), p0 = V(x, hostSurfY(x, z) - .18, z);
-    const sway = across(randDir(), n), len = rr(.95, 1.65), mvR = .125;
-    const p1 = p0.clone().addScaledVector(n, len * .55).addScaledVector(sway, .14);
-    const p2 = p0.clone().addScaledVector(n, len).addScaledVector(sway, .28);
-    const curve = new THREE.CatmullRomCurve3([p0, p1, p2]);
-    const mvFrames = curve.computeFrenetFrames(16, false);
-    for (let s = 2; s <= 16; s++) {
-      const t = s / 16, pt = curve.getPoint(t), rad = mvR * (t > .85 ? Math.sqrt(Math.max(.08, 1 - ((t - .85) / .15) ** 2)) : 1);
-      B_CD4.add(pt, .55 * NM, s & 1 ? cAct1 : cAct2);
-      if (s > 2) B_CD4.stick(curve.getPoint((s - 1) / 16), pt, .09 * NM, cAct1, cAct2);
-      for (let k = 0; k < 6; k++) {
-        const th = k * (Math.PI / 3) + s * .5;
-        const sp = pt.clone().addScaledVector(mvFrames.normals[s], Math.cos(th) * rad).addScaledVector(mvFrames.binormals[s], Math.sin(th) * rad);
-        B_CD4.add(sp, .66 * NM, k % 3 === 0 ? cGly1 : cHH);
-      }
-    }
+    const sway = across(randDir(), n), len = rr(.95, 1.65);
+    const mvPts = new THREE.CatmullRomCurve3([
+      p0,
+      p0.clone().addScaledVector(n, len * .55).addScaledVector(sway, .14),
+      p0.clone().addScaledVector(n, len).addScaledVector(sway, .28),
+    ]).getPoints(14);
+    S_CD4.tube(mvPts, .135, .105, cHH, cGly1, 14, true);
   }
 
-  // Sub-membrane T-cell cortical F-actin filaments
-  for (let f = 0; f < 28; f++) {
+  // Sub-membrane T-cell cortical F-actin 3D cytoskeletal filaments
+  for (let f = 0; f < 26; f++) {
     const r0 = rr(.8, 8.8), a0 = rr(0, 6.283), dir = a0 + rr(1.0, 2.2), len = rr(2.2, 4.4);
-    let prev = null;
+    const actPts = [];
     for (let s = 0; s <= 12; s++) {
       const u = (s - 6) / 6 * (len * .5);
       const x = r0 * Math.cos(a0) + Math.cos(dir) * u, z = r0 * Math.sin(a0) + Math.sin(dir) * u;
       if (x * x + z * z > (R_PATCH - .35) ** 2) continue;
-      const cur = V(x, hostSurfY(x, z) - .54 - .05 * Math.sin(s * .9 + f), z);
-      if (prev) B_CD4.stick(prev, cur, .085 * NM, cAct1, cAct2);
-      prev = cur;
+      actPts.push(V(x, hostSurfY(x, z) - .54 - .05 * Math.sin(s * .9 + f), z));
     }
+    if (actPts.length >= 2) S_CD4.tube(actPts, .030, .028, cAct1, cAct2, 8, true);
   }
-  B_CD4.done();
+  S_CD4.done();
 
-  // Reverse-transcribed viral cDNA strand descending from cytoplasmic RT (SITES.rt[3]) to the Integrase intasome (SITES.int[2]),
+  // Reverse-transcribed viral cDNA strand descending from cytoplasmic RT to the Integrase intasome,
   // splicing directly into nucleosome-studded host T-cell chromosomal B-DNA
   const viralDnaPath = [
     V(-.52, -3.95, -.34),
@@ -757,14 +775,14 @@ function buildHostTCellAndProvirus() {
   ];
   emitDNA(B_DNA, resample(new THREE.CatmullRomCurve3(hostChromatinPath).getPoints(200), BP));
 
-  // Octameric histone nucleosome cores flanking the proviral integration site
+  // Sculpted 3D octameric histone nucleosome cores flanking the proviral integration site
   [V(-.55, -5.96, -1.18), V(-2.95, -6.02, -.82), V(-4.35, -6.28, -.45)].forEach((np, idx) => {
-    for (let h = 0; h < 8; h++) {
-      const a = (h % 4) * 1.5708 + idx * .5, layer = h < 4 ? -.09 : .09;
-      B_DNA.add(np.clone().add(V(Math.cos(a) * .18, layer, Math.sin(a) * .18)), 1.05 * NM, h < 4 ? cHist : cHist2);
-    }
+    const qNuc = qOut(V(.2, 1, .3).normalize(), idx * .7);
+    S_HIST.lobe(np.clone().add(V(0, -.05, 0)), .23, .23, .08, cHist, qNuc);
+    S_HIST.lobe(np.clone().add(V(0, .05, 0)), .23, .23, .08, cHist2, qNuc);
+    S_HIST.ring(np, V(.2, 1, .3), .24, .032, col('#6a8cff'), 24, 8);
   });
-  B_DNA.done();
+  S_HIST.done(); B_DNA.done();
 }
 
 const MOL = {

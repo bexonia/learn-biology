@@ -30,6 +30,15 @@ import { DnaService, type DnaShape, DnaLive } from './molecules/dna.js';
 import { RnaService, type RnaShape, RnaLive } from './molecules/rna.js';
 import { PdbService, type PdbShape, PdbLive } from './molecules/pdb.js';
 import {
+  buildPdbSurfaceGeo,
+  makeProteinBumpTexture,
+  makeMolBatch,
+  makeSculptedMesh,
+  type MolSurfaceOptions,
+  type MolInstanceBatch,
+  type SculptEmitter
+} from './molecules/surface.js';
+import {
   RibosomeService,
   type RibosomeShape,
   RibosomeLive
@@ -152,6 +161,13 @@ export {
   HISTONE,
   SILVER,
   col,
+  buildPdbSurfaceGeo,
+  makeProteinBumpTexture,
+  makeMolBatch,
+  makeSculptedMesh,
+  type MolSurfaceOptions,
+  type MolInstanceBatch,
+  type SculptEmitter,
   type MolecularEmitter,
   type OccupancyGrid,
   type I18nShape,

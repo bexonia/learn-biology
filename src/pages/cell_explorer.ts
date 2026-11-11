@@ -14,11 +14,14 @@ import { Effect } from 'effect';
 import { runBiologyApp } from '../index.js';
 import { CourseProgressManager } from '../core/progress_service.js';
 import { createStaticTourNarrator } from '../core/narrator_service.js';
+import { parseRichInline, parseRichParagraphs, stripRichLinks } from '../content/parser.js';
+import { getPartLensEntry } from '../content/registry.js';
 
 runBiologyApp(1, ({ random, geometry, batch, dna, rna, pdb, ribosome, tours, i18n }) => {
   if (/[?&]embed\b/.test(location.search)) document.documentElement.classList.add('embed');
   Effect.runSync(tours.registerGlobalTours());
   const progressMgr = new CourseProgressManager();
+  i18n.setMode(progressMgr.explanationMode);
   window.__progress = progressMgr;
 // =====================================================================
 // Random, noise and small math helpers
@@ -4056,7 +4059,7 @@ const MENU_GROUPS = [
     ['viruses', 'All virus types (3D)'],
   ] },
 ];
-const ROOTS = MENU_GROUPS.flatMap(g => g.items), isRoot = id => ROOTS.some(r => r[0] === id);
+const ROOTS = MENU_GROUPS.flatMap(g => g.items), EXTRA_ROOTS = new Set(['cell', 'plant-cell', 'prokaryote']), isRoot = id => ROOTS.some(r => r[0] === id) || EXTRA_ROOTS.has(id);
 const collapsedMenus = new Set();
 const cache = new Map(), expanded = new Set(ROOTS.map(r => r[0]));
 let curPath = ['real-cell'], cur = null, labelEls = [], showTags = true, enterT = 0, goToken = 0;
@@ -4103,26 +4106,26 @@ const pageOf = id => NODES[id].page ?? 'animal_cell_realistic.html';
 const toReal = (m, P = page) => P?.el?.contentWindow?.postMessage({ to: 'realistic-cell', ...m }, '*');
 // tree parts whose recipe a realistic page knows (in that page's own keys)
 const RECIPE = {
-  'animal_cell_realistic.html': { 'plasma-membrane': 'membrane', 'rough-er': 'rer', ribosome: 'ribosome', 'smooth-er': 'ser', golgi: 'golgi', mitochondrion: 'mito', lysosome: 'lyso', peroxisome: 'perox', vesicle: 'vesicle',
-    'lipid-droplet': 'lipid', centrosome: 'centro', microtubule: 'mt', 'actin-filament': 'actin', cytosol: 'cytosol', chromosome: 'chromatin' },
-  'prokaryote_cell_realistic.html': { lps: 'om', porin: 'porin', peptidoglycan: 'pg', 'plasma-membrane': 'im', 'electron-transport-chain': 'etc', 'atp-synthase': 'atps', flagellum: 'flag',
-    'rna-polymerase': 'rnap', 'rnap-ecoli': 'rnap', 'ribosome-70s': 'ribosome', 'ribosome-ecoli': 'ribosome', dna: 'dna', 'storage-granule': 'glycogen', chemoreceptor: 'chemo',
+  'animal_cell_realistic.html': { 'plasma-membrane': 'membrane', nucleus: 'nucleus', 'real-nucleus': 'nucleus', nucleolus: 'nucleolus', 'real-nucleolus': 'nucleolus', rna: 'mrna', 'real-dna': 'chromatin', 'rough-er': 'rer', ribosome: 'ribosome', 'smooth-er': 'ser', golgi: 'golgi', mitochondrion: 'mito', lysosome: 'lyso', peroxisome: 'perox', vesicle: 'vesicle',
+    'lipid-droplet': 'lipid', centrosome: 'centro', microtubule: 'mt', 'actin-filament': 'actin', 'intermediate-filament': 'if', cilium: 'cilium', microvillus: 'villi', cytosol: 'cytosol', chromosome: 'chromatin' },
+  'prokaryote_cell_realistic.html': { 'real-envelope': 'om', lps: 'om', porin: 'porin', peptidoglycan: 'pg', 'plasma-membrane': 'im', 'electron-transport-chain': 'etc', 'atp-synthase': 'atps', 'real-motor': 'flag', flagellum: 'flag', pilus: 'pili',
+    'real-gene': 'rnap', 'rna-polymerase': 'rnap', 'rnap-ecoli': 'rnap', 'ribosome-70s': 'ribosome', 'ribosome-ecoli': 'ribosome', 'real-nucleoid': 'dna', nucleoid: 'dna', dna: 'dna', 'storage-granule': 'glycogen', 'real-pole': 'chemo', chemoreceptor: 'chemo',
     'atp-synthase-ecoli': 'atps', 'complex-i-ecoli': 'etc', 'acrab-tolc': 'pump', 'hu-protein': 'hu', gyrase: 'hu', 'dnab-helicase': 'fork', 'pol3-ecoli': 'fork', trna: 'trna', 'real-fork': 'fork' },
-  'plant_cell_realistic.html': { 'cell-wall': 'wall', 'cellulose-microfibril': 'wall', 'plasma-membrane': 'membrane', plasmodesma: 'pd', 'central-vacuole': 'vacuole', chloroplast: 'chloro', granum: 'thyl', starch: 'starch',
+  'plant_cell_realistic.html': { 'real-wall': 'wall', 'cell-wall': 'wall', 'cellulose-microfibril': 'wall', 'plasma-membrane': 'membrane', plasmodesma: 'pd', 'central-vacuole': 'vacuole', nucleus: 'nucleus', 'real-plant-nucleus': 'nucleus', nucleolus: 'nucleolus', 'real-plant-nucleolus': 'nucleolus', 'real-plant-dna': 'chromatin', 'real-chloroplast': 'chloro', chloroplast: 'chloro', 'real-thylakoid': 'thyl', granum: 'thyl', starch: 'starch',
     'photosystem-ii': 'psii', 'psii-real': 'psii', 'lhcii-real': 'psii', 'psi-real': 'psi', 'b6f-real': 'b6f', 'catp-real': 'catp', rubisco: 'rubisco', 'rubisco-real': 'rubisco', mitochondrion: 'mito', peroxisome: 'perox',
     golgi: 'golgi', vesicle: 'vesicle', 'rough-er': 'er', 'smooth-er': 'er', ribosome: 'ribosome', 'ribosome-70s': 'ribosome', microtubule: 'mt', 'actin-filament': 'actin', 'cellulose-synthase': 'csc', 'cesa-real': 'csc',
     'aha-real': 'membrane', 'pip-real': 'membrane', cytosol: 'cytosol', chromosome: 'chromatin' },
-  'fungal_cell_realistic.html': { 'fungal-wall': 'wall', 'chitin-fibril': 'wall', 'exg1-real': 'wall', 'bud-scar': 'scar', 'plasma-membrane': 'membrane', ergosterol: 'membrane',
-    'pma1-real': 'pma1', 'septin-real': 'septin', 'central-vacuole': 'vacuole', 'spindle-pole-body': 'spb', 'rough-er': 'er', 'erg11-real': 'erg11', golgi: 'golgi',
+  'fungal_cell_realistic.html': { 'real-fungal-wall': 'wall', 'fungal-wall': 'wall', 'chitin-fibril': 'wall', 'exg1-real': 'wall', 'real-fungal-bud': 'bud', 'bud-scar': 'scar', 'plasma-membrane': 'membrane', ergosterol: 'membrane',
+    'pma1-real': 'pma1', 'septin-real': 'septin', 'central-vacuole': 'vacuole', nucleus: 'nucleus', 'real-fungal-nucleus': 'nucleus', nucleolus: 'nucleolus', 'real-fungal-nucleolus': 'nucleolus', 'real-fungal-dna': 'chromatin', 'spindle-pole-body': 'spb', 'rough-er': 'er', 'erg11-real': 'erg11', golgi: 'golgi',
     mitochondrion: 'mito', peroxisome: 'perox', 'lipid-droplet': 'lipid', vesicle: 'vesicle', 'actin-filament': 'actin', ribosome: 'ribosome',
     'pdc1-real': 'ferm', 'adh1-real': 'ferm', cytosol: 'cytosol', chromosome: 'chromatin' },
-  'bacteriophage_realistic.html': { 'phage-capsid': 'capsid', 'gp23-real': 'capsid', 'gp24-real': 'vertex', 'gp20-real': 'portal', 'phage-tail': 'sheath', 'gp18-real': 'sheath', 'gp19-real': 'tube',
-    'phage-baseplate': 'baseplate', 'gp5-real': 'needle', 'gp12-real': 'stf', 'phage-fiber': 'ltf', 'gp37-real': 'ltf', dna: 'dna', porin: 'porin', lps: 'om', peptidoglycan: 'pg',
+  'bacteriophage_realistic.html': { 'real-phage-capsid': 'capsid', 'phage-capsid': 'capsid', 'gp23-real': 'capsid', 'gp24-real': 'vertex', 'gp20-real': 'portal', 'real-phage-tail': 'sheath', 'phage-tail': 'sheath', 'gp18-real': 'sheath', 'gp19-real': 'tube',
+    'real-phage-baseplate': 'baseplate', 'phage-baseplate': 'baseplate', 'gp5-real': 'needle', 'gp12-real': 'stf', 'phage-fiber': 'ltf', 'gp37-real': 'ltf', dna: 'dna', porin: 'porin', lps: 'om', peptidoglycan: 'pg',
     'plasma-membrane': 'im', 'rnap-ecoli': 'rnap', 'ribosome-ecoli': 'ribosome' },
-  'coronavirus_realistic.html': { 'cov-spike-real': 'spike', 'cov-e-real': 'echan', 'cov-n-real': 'ncap', 'cov-rdrp-real': 'rdrp', 'ace2-real': 'ace2', rna: 'rna', phospholipid: 'membrane' },
-  'hiv_realistic.html': { 'hiv-env-real': 'env', 'hiv-ma-real': 'ma', 'hiv-ca-hex-real': 'capsid', 'hiv-ca-pent-real': 'pentamer', 'hiv-rt-real': 'rt', 'hiv-in-real': 'int', rna: 'rna', dna: 'cd4', phospholipid: 'membrane' },
-  'adenovirus_realistic.html': { 'adv-hexon-real': 'hexon', 'adv-penton-real': 'penton', 'adv-fiber-real': 'fiber', dna: 'dna', phospholipid: 'host' },
-  'tmv_realistic.html': { 'tmv-turn-real': 'coat', 'tmv-sub-real': 'coat', rna: 'rna', ribosome: 'ribo', plasmodesma: 'mp' },
+  'coronavirus_realistic.html': { 'real-cov-spike': 'spike', 'cov-spike-real': 'spike', 'cov-e-real': 'echan', 'real-cov-rnp': 'ncap', 'cov-n-real': 'ncap', 'real-cov-replication': 'rdrp', 'cov-rdrp-real': 'rdrp', 'ace2-real': 'ace2', rna: 'rna', phospholipid: 'membrane' },
+  'hiv_realistic.html': { 'real-hiv-entry': 'env', 'hiv-env-real': 'env', 'hiv-ma-real': 'ma', 'real-hiv-cone': 'capsid', 'hiv-ca-hex-real': 'capsid', 'hiv-ca-pent-real': 'pentamer', 'real-hiv-rt': 'rt', 'hiv-rt-real': 'rt', 'hiv-in-real': 'int', rna: 'rna', dna: 'cd4', phospholipid: 'membrane' },
+  'adenovirus_realistic.html': { 'adv-hexon-real': 'hexon', 'real-adv-vertex': 'penton', 'adv-penton-real': 'penton', 'adv-fiber-real': 'fiber', 'real-adv-core': 'core', 'real-adv-entry': 'car', dna: 'dna', phospholipid: 'host' },
+  'tmv_realistic.html': { 'real-tmv-helix': 'coat', 'tmv-turn-real': 'coat', 'tmv-sub-real': 'coat', 'real-tmv-channel': 'channel', 'real-tmv-assembly': 'disc', rna: 'rna', ribosome: 'ribo', plasmodesma: 'mp' },
 };
 const nName = id => i18n.nodeName(id, NODES[id]?.name ?? id);
 const nScale = id => i18n.nodeScale(id, NODES[id]?.scale ?? '');
@@ -4160,6 +4163,8 @@ fpsEl.onclick = () => { fpsOn = !fpsOn; fpsEl.classList.toggle('off', !fpsOn); }
 const langEl = i18n.createLanguageBadge({ id: 'lang', alignRight: true });
 const tourLangEl = i18n.createLanguageBadge({ id: 'tourLang', alignRight: false });
 if ($('tExit')) $('tourBar').insertBefore(tourLangEl, $('tExit'));
+const lensBarEl = i18n.createModeSelector({ id: 'lensBar' });
+if ($('lensBar')) $('lensBar').replaceWith(lensBarEl);
 const accountBtn = document.createElement('button');
 accountBtn.id = 'accountBtn';
 accountBtn.type = 'button';
@@ -4196,7 +4201,10 @@ addEventListener('message', e => {
   if (m.type === 'arrived') tourArrived(m.seq);
   if (m.type === 'snap' && here) { const img = new Image(); img.onload = () => savePNG(img); img.src = m.url; }
   if (m.type === 'ready') {
-    P.ready = true; P.data = m; if (P.pending) toReal(P.pending, P);
+    P.ready = true; P.data = m;
+    toReal({ cmd: 'lang', lang: i18n.locale }, P);
+    toReal({ cmd: 'mode', mode: i18n.mode }, P);
+    if (P.pending) toReal(P.pending, P);
     if (here) { $('busy').style.display = 'none'; renderMols(); }
     renderInfo();
     if (T.waitReady !== null && P === PAGES[TOUR_PAGE]) startTour(T.waitReady);
@@ -4205,9 +4213,25 @@ addEventListener('message', e => {
 // what a part of the realistic cell takes in and gives out (from the realistic page), or the default note on how the flows work
 function showTip(key) {
   const tip = $('tip'), inf = key && page?.data?.info?.[key]; tip.replaceChildren();
-  if (!inf) { tip.textContent = i18n.t('tipDefault'); return; }
-  const b = document.createElement('b'); b.textContent = i18n.tr(page.data.parts.find(p => p[0] === key)[1]);
-  tip.append(b, document.createElement('br'), `${i18n.t('takesIn')}: ${i18n.tr(inf[0])}`, document.createElement('br'), `${i18n.t('givesOut')}: ${i18n.tr(inf[1])}`);
+  const curPage = cur?.real ? pageOf(curPath.at(-1)) : null;
+  const lens = key && curPage ? getPartLensEntry(curPage, key, i18n.locale) : null;
+  if (!inf && !lens) { tip.textContent = i18n.t('tipDefault'); return; }
+  const rawTitle = page?.data?.parts?.find(p => p[0] === key)?.[1] ?? key;
+  const b = document.createElement('b'); b.textContent = i18n.tr(rawTitle);
+  tip.append(b);
+  if (lens) {
+    const sub = document.createElement('span'); sub.className = 'tip-sub'; sub.textContent = `✦ ${lens.subtitle}`;
+    const body = document.createElement('span'); body.className = 'tip-body';
+    const m = i18n.mode;
+    if (m === 'blueprint') {
+      body.textContent = `${i18n.t('bpArrivesFrom')}: ${stripRichLinks(lens.blueprint.arrivesFrom)} → ${i18n.t('bpDeliversTo')}: ${stripRichLinks(lens.blueprint.deliversTo)}`;
+    } else {
+      body.textContent = stripRichLinks(lens[m] || lens.story);
+    }
+    tip.append(sub, body);
+    return;
+  }
+  tip.append(document.createElement('br'), `${i18n.t('takesIn')}: ${i18n.tr(inf[0])}`, document.createElement('br'), `${i18n.t('givesOut')}: ${i18n.tr(inf[1])}`);
 }
 // light up a tagged part in the realistic page, with its tag, line, tree row and recipe
 function realHover(a) {
@@ -4325,9 +4349,93 @@ function treeNode(path) {
   if (open) n.children.forEach(c => wrap.append(treeNode(path.concat(c))));
   return wrap;
 }
+const REAL_NODE_ALIASES = {
+  nucleus: { 'real-plant': 'real-plant-nucleus', 'real-fungal': 'real-fungal-nucleus', default: 'real-nucleus' },
+  nucleolus: { 'real-plant': 'real-plant-nucleolus', 'real-fungal': 'real-fungal-nucleolus', default: 'real-nucleolus' },
+  chloroplast: { default: 'real-chloroplast' },
+  'cell-wall': { default: 'real-wall' },
+  'cellulose-synthase': { default: 'cesa-real' },
+  rubisco: { default: 'rubisco-real' },
+  nucleoid: { default: 'real-nucleoid' },
+  'bacterial-wall': { default: 'real-envelope' },
+};
+function resolveNodePath(targetId) {
+  if (!targetId) return null;
+  const root = curPath[0];
+  const aliasMap = REAL_NODE_ALIASES[targetId];
+  if (aliasMap && NODES[root]?.real) {
+    const mapped = aliasMap[root] ?? aliasMap.default;
+    if (mapped && NODES[mapped]) {
+      const p = pathTo(mapped, root);
+      if (p) return p;
+    }
+  }
+  if (!NODES[targetId]) return null;
+  if (isRoot(targetId)) return [targetId];
+  const inCur = pathTo(targetId, root);
+  if (inCur) return inCur;
+  for (const [r] of ROOTS) {
+    const p = pathTo(targetId, r);
+    if (p) return p;
+  }
+  for (const r of EXTRA_ROOTS) {
+    const p = pathTo(targetId, r);
+    if (p) return p;
+  }
+  return null;
+}
+function navigateToNode(targetId) {
+  const p = resolveNodePath(targetId);
+  if (!p) return;
+  if (T.on && T.mode !== 'explore' && T.mode !== 'off') openDetail(p);
+  else go(p);
+}
+function appendRichInline(parent, raw) {
+  for (const tok of parseRichInline(raw)) {
+    if (tok.type === 'text') {
+      parent.append(tok.value);
+    } else if (NODES[tok.nodeId] || REAL_NODE_ALIASES[tok.nodeId]) {
+      const btn = document.createElement('button');
+      btn.type = 'button';
+      btn.className = 'lens-link';
+      btn.textContent = tok.label;
+      btn.dataset.id = tok.nodeId;
+      btn.title = i18n.t('openPartTitle', { name: nName(tok.nodeId) });
+      btn.onclick = () => navigateToNode(tok.nodeId);
+      hoverable(btn);
+      parent.append(btn);
+    } else {
+      parent.append(tok.label);
+    }
+  }
+}
+function renderRichParagraphs(parent, raw) {
+  parent.replaceChildren();
+  const paras = parseRichParagraphs(raw);
+  if (!paras.length) { parent.textContent = stripRichLinks(raw); return; }
+  for (const tokens of paras) {
+    const p = document.createElement('p');
+    for (const tok of tokens) {
+      if (tok.type === 'text') p.append(tok.value);
+      else if (NODES[tok.nodeId] || REAL_NODE_ALIASES[tok.nodeId]) {
+        const btn = document.createElement('button');
+        btn.type = 'button';
+        btn.className = 'lens-link';
+        btn.textContent = tok.label;
+        btn.dataset.id = tok.nodeId;
+        btn.title = i18n.t('openPartTitle', { name: nName(tok.nodeId) });
+        btn.onclick = () => navigateToNode(tok.nodeId);
+        hoverable(btn);
+        p.append(btn);
+      } else p.append(tok.label);
+    }
+    parent.append(p);
+  }
+}
 function renderInfo() {
   const id = curPath.at(-1), n = NODES[id];
-  $('lvl').textContent = i18n.t('level', { n: curPath.length }); $('title').textContent = nName(id); $('scale').textContent = nScale(id); $('desc').textContent = nDesc(id);
+  $('lvl').textContent = i18n.t('level', { n: curPath.length }); $('title').textContent = nName(id); $('scale').textContent = nScale(id);
+  renderRichParagraphs($('desc'), nDesc(id));
   const madeOfHd = document.querySelector('#info > h3');
   if (madeOfHd) madeOfHd.textContent = i18n.t('madeOf');
   const whatMovesHd = document.querySelector('#realBox > h3');
@@ -4336,9 +4444,65 @@ function renderInfo() {
   if (speedSpan) speedSpan.textContent = i18n.t('speed');
   const noteEl = document.querySelector('#info .note');
   if (noteEl) noteEl.textContent = i18n.t('schematicNote');
-  // inside the realistic cell, a part's recipe: what it takes in and gives out
-  const root = curPath[0], rp = NODES[root].real ? pageOf(root) : null, rk = n.real ? n.hi : rp ? RECIPE[rp][id] : null, inf = rk && PAGES[rp]?.data?.info?.[rk], io = $('io'); io.replaceChildren();
-  if (inf) [[i18n.t('takesIn'), i18n.tr(inf[0])], [i18n.t('givesOut'), i18n.tr(inf[1])]].forEach(([k, v]) => { const d = document.createElement('div'), b = document.createElement('b'); b.textContent = `${k}: `; d.append(b, v); io.append(d); });
+  // inside the realistic cell, a part's recipe: upstream suppliers, internal process, and downstream consumers
+  const root = curPath[0], rp = NODES[root].real ? pageOf(root) : null, rk = n.real ? n.hi : rp ? RECIPE[rp][id] : null;
+  const inf = rk && PAGES[rp]?.data?.info?.[rk], pLens = rk && rp ? getPartLensEntry(rp, rk, i18n.locale) : null, io = $('io'); io.replaceChildren();
+  if (pLens) {
+    const card = document.createElement('div'); card.className = 'io-card';
+    const sub = document.createElement('div'); sub.className = 'io-sub'; sub.textContent = `✦ ${pLens.subtitle}`;
+    card.append(sub);
+    const m = i18n.mode;
+    if (m === 'blueprint') {
+      const bpBox = document.createElement('div'); bpBox.className = 'io-bp';
+      const rows = [
+        [i18n.t('bpRole'), pLens.blueprint.role],
+        [i18n.t('bpArrivesFrom'), pLens.blueprint.arrivesFrom],
+        [i18n.t('bpInside'), pLens.blueprint.inside],
+        [i18n.t('bpDeliversTo'), pLens.blueprint.deliversTo],
+      ];
+      if (pLens.blueprint.loop) rows.push([i18n.t('bpLoop'), pLens.blueprint.loop]);
+      for (const [label, val] of rows) {
+        const rowEl = document.createElement('div'); rowEl.className = 'io-bp-row';
+        const kEl = document.createElement('span'); kEl.className = 'io-bp-k'; kEl.textContent = `${label}:`;
+        rowEl.append(kEl); appendRichInline(rowEl, val); bpBox.append(rowEl);
+      }
+      card.append(bpBox);
+    } else {
+      const body = document.createElement('div'); body.className = 'io-body';
+      renderRichParagraphs(body, pLens[m] || pLens.story);
+      card.append(body);
+    }
+    if (inf && (m === 'simple' || m === 'scientific')) {
+      const meta = document.createElement('div'); meta.className = 'io-meta';
+      [[i18n.t('takesIn'), i18n.tr(inf[0])], [i18n.t('givesOut'), i18n.tr(inf[1])]].forEach(([k, v]) => {
+        const d = document.createElement('div'), b = document.createElement('b'); b.textContent = `${k}: `; d.append(b, v); meta.append(d);
+      });
+      card.append(meta);
+    }
+    if ((pLens.from?.length || pLens.to?.length) && (m === 'story' || m === 'blueprint' || m === 'simple')) {
+      const addFlowGroup = (lblText, links) => {
+        if (!links?.length) return;
+        const row = document.createElement('div'); row.className = 'io-flow';
+        const lbl = document.createElement('span'); lbl.className = 'io-flow-lbl'; lbl.textContent = lblText;
+        row.append(lbl);
+        for (const link of links) {
+          const chip = document.createElement('button'); chip.type = 'button'; chip.className = 'io-chip';
+          chip.dataset.id = link.nodeId;
+          const sp = document.createElement('span'); sp.textContent = link.label; chip.append(sp);
+          if (link.cargo) { const sm = document.createElement('small'); sm.textContent = `· ${link.cargo}`; chip.append(sm); }
+          chip.onclick = () => navigateToNode(link.nodeId);
+          hoverable(chip);
+          row.append(chip);
+        }
+        card.append(row);
+      };
+      addFlowGroup(i18n.t('flowFrom'), pLens.from);
+      addFlowGroup(i18n.t('flowNext'), pLens.to);
+    }
+    io.append(card);
+  } else if (inf) {
+    [[i18n.t('takesIn'), i18n.tr(inf[0])], [i18n.t('givesOut'), i18n.tr(inf[1])]].forEach(([k, v]) => { const d = document.createElement('div'), b = document.createElement('b'); b.textContent = `${k}: `; d.append(b, v); io.append(d); });
+  }
   $('realBox').hidden = !n.real; showTip(null);
   const lg = $('legend'); lg.innerHTML = ''; lg.style.display = n.legend ? 'block' : 'none';
   (n.legend ?? []).forEach(([key, label]) => {
@@ -4835,7 +4999,7 @@ function splitShortCues(id, desc) {
 }
 function detailLevel(id) {
   const own = TOUR?.details?.[id]?.cues;
-  T.list = own ?? splitShortCues(id, nDesc(id));
+  T.list = own ?? splitShortCues(id, stripRichLinks(nDesc(id)));
   T.cue = -1; T.pending = 0; T.phase = 'lead'; T.until = performance.now() + 700; T.links = -1; renderCue(null); renderBar();
 }
 function showMore() {   // the info panel, about the step's part rather than the root
@@ -4973,7 +5137,7 @@ i18n.onChange(loc => {
       const id = curPath.at(-1);
       const own = TOUR?.details?.[id]?.cues;
       if (!own) {
-        T.list = splitShortCues(id, nDesc(id));
+        T.list = splitShortCues(id, stripRichLinks(nDesc(id)));
         if (T.cue >= T.list.length) T.cue = Math.max(0, T.list.length - 1);
       }
     }
@@ -4986,6 +5150,22 @@ i18n.onChange(loc => {
     }
   }
   Object.values(PAGES).forEach(P => toReal({ cmd: 'lang', lang: loc }, P));
+});
+i18n.onModeChange(mode => {
+  progressMgr.setExplanationMode(mode);
+  if (T.more) showMore(); else renderInfo();
+  if (T.on && T.mode === 'detail') {
+    const id = curPath.at(-1);
+    const own = TOUR?.details?.[id]?.cues;
+    if (!own) {
+      T.list = splitShortCues(id, stripRichLinks(nDesc(id)));
+      if (T.cue >= T.list.length) T.cue = Math.max(0, T.list.length - 1);
+      if (T.phase === 'cue' || T.phase === 'wait') {
+        renderCue(T.subs ? T.list[T.cue] : null, T.phase === 'wait' ? i18n.t('backHint') : null);
+      }
+    }
+  }
+  Object.values(PAGES).forEach(P => toReal({ cmd: 'mode', mode }, P));
 });
 // check all loaded tour scripts once: every line fits two lines of 42 characters
 Object.values(TOUR_BY_ROOT).forEach(tr => {

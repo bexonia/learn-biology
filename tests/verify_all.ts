@@ -29,6 +29,14 @@ import {
   createStaticTourNarrator,
   normalizeSpeechText
 } from '../src/core/narrator_service.js';
+import {
+  EXPLANATION_MODES,
+  NODE_LENS_REGISTRY,
+  PART_LENS_REGISTRY,
+  STANDALONE_PAGE_PART_KEYS,
+  parseRichInline,
+  stripRichLinks
+} from '../src/content/index.js';
 
 const ROOT_DIR = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 
@@ -296,6 +304,84 @@ async function runUnitTests() {
     unsubscribe();
     assert.deepEqual(observedLocales, ['es', 'en'], 'AtomRef subscription must emit locale transitions');
     ok(`I18nService (Effect service + AtomRef reactivity, 208/208 ES node descriptions, ${totalTranslatedCues}/655 ES tour cues verified)`);
+
+    // Explanation Modes (Simple, Story, Blueprint, Scientific) + 208 Node Lenses + 149 Realistic Part Lenses checks
+    const validNodeIds = new Set(Object.keys(esDef.nodes));
+    assert.equal(validNodeIds.size, 208, 'Expected 208 total explorer node IDs');
+    assert.equal(
+      Object.keys(NODE_LENS_REGISTRY).length,
+      208,
+      `Expected 208 registered node lenses, got ${Object.keys(NODE_LENS_REGISTRY).length}`
+    );
+    const verifyInlineTokens = (ctx: string, raw: string) => {
+      for (const tok of parseRichInline(raw)) {
+        if (tok.type === 'link') {
+          assert.ok(validNodeIds.has(tok.nodeId), `${ctx}: invalid [[${tok.label}|${tok.nodeId}]] target`);
+        }
+      }
+    };
+    for (const nodeId of validNodeIds) {
+      const rec = NODE_LENS_REGISTRY[nodeId];
+      assert.ok(rec, `Missing NODE_LENS_REGISTRY entry for ${nodeId}`);
+      for (const loc of ['en', 'es'] as const) {
+        const entry = rec[loc];
+        assert.ok(entry, `Missing ${loc} lens entry for ${nodeId}`);
+        for (const m of EXPLANATION_MODES) {
+          assert.ok(entry[m] && entry[m].trim().length >= 20, `Node ${nodeId} [${loc}.${m}] too short`);
+          verifyInlineTokens(`node:${nodeId}.${loc}.${m}`, entry[m]);
+        }
+        assert.notEqual(stripRichLinks(entry.simple), stripRichLinks(entry.story), `Node ${nodeId} [${loc}] simple === story`);
+        assert.notEqual(stripRichLinks(entry.story), stripRichLinks(entry.scientific), `Node ${nodeId} [${loc}] story === scientific`);
+      }
+      assert.notEqual(stripRichLinks(rec.en.story), stripRichLinks(rec.es.story), `Node ${nodeId} en.story === es.story`);
+    }
+
+    let verifiedPartCount = 0;
+    for (const [pageName, partKeys] of Object.entries(STANDALONE_PAGE_PART_KEYS)) {
+      const pMap = PART_LENS_REGISTRY[pageName];
+      assert.ok(pMap, `Missing PART_LENS_REGISTRY page ${pageName}`);
+      for (const pk of partKeys) {
+        const rec = pMap[pk];
+        assert.ok(rec, `Missing PART_LENS_REGISTRY[${pageName}][${pk}]`);
+        for (const loc of ['en', 'es'] as const) {
+          const e = rec[loc];
+          assert.ok(e.subtitle && e.subtitle.trim().length >= 3, `Missing subtitle for ${pageName}:${pk}.${loc}`);
+          for (const m of ['simple', 'story', 'scientific'] as const) {
+            assert.ok(e[m] && e[m].trim().length >= 20, `Part ${pageName}:${pk} [${loc}.${m}] too short`);
+            verifyInlineTokens(`part:${pageName}:${pk}.${loc}.${m}`, e[m]);
+          }
+          for (const bf of ['role', 'arrivesFrom', 'inside', 'deliversTo'] as const) {
+            assert.ok(e.blueprint[bf] && e.blueprint[bf].trim().length >= 5, `Part ${pageName}:${pk} [${loc}.blueprint.${bf}] missing`);
+            verifyInlineTokens(`part:${pageName}:${pk}.${loc}.blueprint.${bf}`, e.blueprint[bf]);
+          }
+          for (const dir of ['from', 'to'] as const) {
+            for (const link of e[dir] ?? []) {
+              assert.ok(validNodeIds.has(link.nodeId), `Part ${pageName}:${pk} [${loc}.${dir}] invalid flow nodeId ${link.nodeId}`);
+            }
+          }
+        }
+        verifiedPartCount++;
+      }
+    }
+    assert.equal(verifiedPartCount, 149, `Expected 149 verified realistic part lenses across 9 pages, got ${verifiedPartCount}`);
+
+    const observedModes: string[] = [];
+    const unsubMode = i18n.onModeChange((m) => observedModes.push(m));
+    Effect.runSync(i18n.setModeEffect('scientific'));
+    assert.equal(i18n.mode, 'scientific');
+    const sciMito = i18n.nodeDesc('mitochondrion', 'fallback');
+    Effect.runSync(i18n.setModeEffect('blueprint'));
+    const bpMito = i18n.nodeDesc('mitochondrion', 'fallback');
+    Effect.runSync(i18n.setModeEffect('simple'));
+    const simMito = i18n.nodeDesc('mitochondrion', 'fallback');
+    Effect.runSync(i18n.setModeEffect('story'));
+    const storyMito = i18n.nodeDesc('mitochondrion', 'fallback');
+    assert.notEqual(sciMito, storyMito);
+    assert.notEqual(bpMito, storyMito);
+    assert.notEqual(simMito, storyMito);
+    unsubMode();
+    assert.deepEqual(observedModes, ['scientific', 'blueprint', 'simple', 'story']);
+    ok('Multi-mode Explanation Lenses (208/208 bilingual node lenses, 149/149 bilingual realistic part supply chains, & AtomRef mode reactivity)');
   });
 
   // Test 3: LearnAuthProgressStore (optional user registration, in-memory session & progress cache, cookie renewal, per-course reset)
@@ -818,6 +904,76 @@ async function runBrowserE2ETests() {
         assert.ok(explorerCheck.builtModels > 30, 'cell_explorer must build all standalone 3D organelle/molecular models');
         assert.equal(explorerCheck.tourRoots.length, 10);
         assert.equal(explorerCheck.langSwitchOk, true);
+
+        // Verify 4-Mode Explanation Selector (#lensBar), Connected Supply-Chain Cards (#io), and Inline Links in Browser
+        const lensE2E = await cdp.eval<{
+          modeButtonsCount: number;
+          storyHasIoCard: boolean;
+          blueprintHasRows: boolean;
+          scientificDistinct: boolean;
+          simpleDistinct: boolean;
+          esStoryDistinct: boolean;
+          cookieSavedMode: boolean;
+          chipNavigatedPath: string;
+        }>(`
+          (() => {
+            const exp = window.__explorer;
+            exp.i18n.setLocale('en');
+            exp.i18n.setMode('story');
+            exp.showNow(['real-cell', 'mitochondrion']);
+
+            const lensBtns = document.querySelectorAll('#lensBar button[data-mode]');
+            const modeButtonsCount = lensBtns.length;
+            const storyDesc = document.getElementById('desc')?.textContent ?? '';
+            const storyIoSub = document.querySelector('#io .io-sub')?.textContent ?? '';
+            const storyChips = document.querySelectorAll('#io .io-chip');
+            const storyHasIoCard = storyIoSub.length > 3 && storyChips.length > 0;
+
+            document.querySelector('#lensBar button[data-mode="blueprint"]')?.click();
+            const bpRows = document.querySelectorAll('#io .io-bp-row').length;
+            const bpDesc = document.getElementById('desc')?.textContent ?? '';
+
+            document.querySelector('#lensBar button[data-mode="scientific"]')?.click();
+            const sciDesc = document.getElementById('desc')?.textContent ?? '';
+            const cookieSavedMode = document.cookie.includes('bexonia_learn_progress=') && window.__progress.explanationMode === 'scientific';
+
+            document.querySelector('#lensBar button[data-mode="simple"]')?.click();
+            const simDesc = document.getElementById('desc')?.textContent ?? '';
+
+            document.querySelector('#lensBar button[data-mode="story"]')?.click();
+            exp.i18n.setLocale('es');
+            const esStoryDesc = document.getElementById('desc')?.textContent ?? '';
+            exp.i18n.setLocale('en');
+
+            // Click a supply-chain chip in #io and verify navigation
+            const firstChip = document.querySelector('#io .io-chip');
+            let chipNavigatedPath = '';
+            if (firstChip) {
+              firstChip.click();
+              chipNavigatedPath = location.hash;
+            }
+            exp.showNow(['real-cell']);
+
+            return {
+              modeButtonsCount,
+              storyHasIoCard,
+              blueprintHasRows: bpRows >= 4 && bpDesc !== storyDesc,
+              scientificDistinct: sciDesc !== storyDesc && sciDesc !== bpDesc,
+              simpleDistinct: simDesc !== storyDesc && simDesc !== sciDesc,
+              esStoryDistinct: esStoryDesc !== storyDesc && esStoryDesc.length > 40,
+              cookieSavedMode,
+              chipNavigatedPath
+            };
+          })()
+        `);
+        assert.equal(lensE2E.modeButtonsCount, 4, '#lensBar must render 4 explanation mode buttons');
+        assert.equal(lensE2E.storyHasIoCard, true, 'Story mode must render .io-card with subtitle and supply-chain chips');
+        assert.equal(lensE2E.blueprintHasRows, true, 'Blueprint mode must render structured .io-bp-row entries');
+        assert.equal(lensE2E.scientificDistinct, true, 'Scientific mode must switch #desc cleanly without reloading WebGL');
+        assert.equal(lensE2E.simpleDistinct, true, 'Simple mode must switch #desc cleanly');
+        assert.equal(lensE2E.esStoryDistinct, true, 'Spanish Story mode must render translated narrative');
+        assert.equal(lensE2E.cookieSavedMode, true, 'Selected explanation mode must persist in CourseProgressManager & cookie');
+        assert.ok(lensE2E.chipNavigatedPath.startsWith('#'), 'Clicking a supply-chain .io-chip must navigate in Explorer');
 
         // Verify in-browser CourseProgressManager, cookies, #tReset (Start from beginning), and optional account sync
         const progressE2E = await cdp.eval<{

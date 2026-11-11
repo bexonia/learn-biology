@@ -13,15 +13,16 @@ import { mergeVertices } from 'three/addons/utils/BufferGeometryUtils.js';
 import { Effect } from 'effect';
 import { runBiologyApp } from '../index.js';
 import { CourseProgressManager } from '../core/progress_service.js';
-import { createStaticTourNarrator } from '../core/narrator_service.js';
+import { PRESET_VOICE_BY_MODE, createStaticTourNarrator } from '../core/narrator_service.js';
 import { parseRichInline, parseRichParagraphs, stripRichLinks } from '../content/parser.js';
-import { getPartLensEntry } from '../content/registry.js';
+import { NODE_LENS_REGISTRY, getPartLensEntry } from '../content/registry.js';
 
 runBiologyApp(1, ({ random, geometry, batch, dna, rna, pdb, ribosome, tours, i18n }) => {
   if (/[?&]embed\b/.test(location.search)) document.documentElement.classList.add('embed');
   Effect.runSync(tours.registerGlobalTours());
   const progressMgr = new CourseProgressManager();
   i18n.setMode(progressMgr.explanationMode);
+  i18n.setVoicePreference(progressMgr.voicePreference);
   window.__progress = progressMgr;
 // =====================================================================
 // Random, noise and small math helpers
@@ -4165,6 +4166,105 @@ const tourLangEl = i18n.createLanguageBadge({ id: 'tourLang', alignRight: false 
 if ($('tExit')) $('tourBar').insertBefore(tourLangEl, $('tExit'));
 const lensBarEl = i18n.createModeSelector({ id: 'lensBar' });
 if ($('lensBar')) $('lensBar').replaceWith(lensBarEl);
+function voiceShortLabel(vid) {
+  return vid === 'v1' ? i18n.t('voiceV1Short') : vid === 'v2' ? i18n.t('voiceV2Short') : i18n.t('voiceV3Short');
+}
+function syncLensSpeakBtn() {
+  const btn = $('lensSpeakBtn');
+  if (!btn) return;
+  const playing = !!T.narrator?.isSpeakingLens?.();
+  btn.textContent = playing ? i18n.t('stopListenBtn') : i18n.t('listenBtn');
+  btn.title = i18n.t('listenTitle');
+  btn.classList.toggle('on', playing);
+  btn.setAttribute('aria-pressed', String(playing));
+}
+function syncVoiceUI() {
+  const isEs = i18n.locale === 'es';
+  const pref = i18n.voicePreference;
+  const activeV = i18n.activeEnglishVoice;
+  const presetV = PRESET_VOICE_BY_MODE[i18n.mode];
+  const bar = $('lensVoiceBar');
+  if (bar) bar.dataset.activeVoice = isEs ? 'es' : activeV;
+  const esTag = $('voiceEsTag');
+  if (esTag) {
+    esTag.hidden = !isEs;
+    esTag.textContent = i18n.t('voiceEsBadge');
+  }
+  const opts = [
+    ['auto', i18n.t('voiceAutoOption', { voice: voiceShortLabel(presetV) })],
+    ['v1', i18n.t('voiceV1Option')],
+    ['v2', i18n.t('voiceV2Option')],
+    ['v3', i18n.t('voiceV3Option')],
+  ];
+  for (const selId of ['voiceSelect', 'tVoiceSelect']) {
+    const sel = $(selId);
+    if (!sel) continue;
+    sel.hidden = isEs;
+    sel.setAttribute('aria-label', i18n.t('voiceLabel'));
+    sel.dataset.activeVoice = activeV;
+    sel.replaceChildren(...opts.map(([val, txt]) => {
+      const o = document.createElement('option');
+      o.value = val;
+      o.textContent = txt;
+      o.selected = val === pref;
+      return o;
+    }));
+    sel.value = pref;
+  }
+  for (const btnId of ['voicePresetBtn', 'tVoicePreset']) {
+    const pb = $(btnId);
+    if (!pb) continue;
+    pb.hidden = isEs;
+    pb.textContent = i18n.t('voicePresetBtn');
+    pb.title = i18n.t('voicePresetTitle');
+    pb.classList.toggle('on', pref === 'auto');
+    pb.setAttribute('aria-pressed', String(pref === 'auto'));
+  }
+  syncLensSpeakBtn();
+}
+function playCurrentNodeLens() {
+  const id = curPath.at(-1);
+  if (!id || !NODE_LENS_REGISTRY[id] || !T.narrator) return;
+  const speechLang = i18n.getLocaleDefinition().speechLang;
+  const activeV = i18n.activeEnglishVoice;
+  const curLens = T.narrator.getActiveLens?.();
+  if (
+    T.narrator.isSpeakingLens?.() &&
+    curLens &&
+    curLens.nodeId === id &&
+    curLens.mode === i18n.mode &&
+    curLens.lang === speechLang &&
+    (i18n.locale === 'es' || curLens.voice === activeV)
+  ) {
+    return;
+  }
+  void T.narrator.speakLens({
+    nodeId: id,
+    mode: i18n.mode,
+    lang: speechLang,
+    voice: activeV,
+    onStateChange: () => syncLensSpeakBtn(),
+  });
+}
+if ($('lensSpeakBtn')) {
+  $('lensSpeakBtn').onclick = () => {
+    if (!T.narrator) return;
+    if (T.narrator.isSpeakingLens()) {
+      T.narrator.stop();
+      syncLensSpeakBtn();
+    } else {
+      playCurrentNodeLens();
+    }
+  };
+}
+for (const selId of ['voiceSelect', 'tVoiceSelect']) {
+  const sel = $(selId);
+  if (sel) sel.onchange = () => i18n.setVoicePreference(sel.value);
+}
+for (const btnId of ['voicePresetBtn', 'tVoicePreset']) {
+  const pb = $(btnId);
+  if (pb) pb.onclick = () => i18n.resetVoiceToPreset();
+}
 const accountBtn = document.createElement('button');
 accountBtn.id = 'accountBtn';
 accountBtn.type = 'button';
@@ -4280,7 +4380,11 @@ function updateRings(now) {
 const hoverable = el => { el.onmouseenter = () => { const id = el.dataset.id; if (cur && (cur.anchors.some(a => a.id === id) || partsOf(id).length)) setHover(id); }; el.onmouseleave = () => setHover(null); };
 function go(path) {
   if (!path.length || !isRoot(path[0])) path = ['real-cell'];
+  const prevLeaf = curPath.at(-1);
   curPath = path; syncTourRoot(curPath[0]);
+  if (prevLeaf && prevLeaf !== curPath.at(-1) && T.narrator?.isSpeakingLens?.()) {
+    T.narrator.stop();
+  }
   for (let i = 1; i <= path.length; i++) expanded.add(path.slice(0, i).join('/'));
   history.replaceState(null, '', '#' + path.join('/'));
   renderTree(); renderInfo();
@@ -4435,6 +4539,8 @@ function renderRichParagraphs(parent, raw) {
 function renderInfo() {
   const id = curPath.at(-1), n = NODES[id];
   $('lvl').textContent = i18n.t('level', { n: curPath.length }); $('title').textContent = nName(id); $('scale').textContent = nScale(id);
+  if ($('lensVoiceBar')) $('lensVoiceBar').hidden = !NODE_LENS_REGISTRY[id];
+  syncVoiceUI();
   renderRichParagraphs($('desc'), nDesc(id));
   const madeOfHd = document.querySelector('#info > h3');
   if (madeOfHd) madeOfHd.textContent = i18n.t('madeOf');
@@ -5123,6 +5229,7 @@ $('tSize').onclick = () => setSize((T.size + 1) % 3); $('tPace').onclick = () =>
 $('tAlone').onclick = toggleAlone; $('tMore').onclick = () => { T.more = !T.more; setLayout(); if (T.more) showMore(); };
 $('tExplore').onclick = () => (T.mode === 'detail' ? backToTour() : explore()); $('tBack').onclick = backToTour; $('tLeave').onclick = exitTour;
 i18n.onChange(loc => {
+  const wasSpeakingLens = !!T.narrator?.isSpeakingLens?.();
   renderTree();
   if (T.more) showMore(); else renderInfo();
   renderMols();
@@ -5132,6 +5239,9 @@ i18n.onChange(loc => {
   updateAccountBtnLabel();
   if ($('accountModal') && !$('accountModal').hidden) renderAccountModal();
   if (cur) { makeLabels(); if (cur.tour && stepNow()) arrowsFor(stepNow()); layoutLabels(); }
+  if (wasSpeakingLens && !T.on) {
+    playCurrentNodeLens();
+  }
   if (T.on) {
     if (T.mode === 'detail') {
       const id = curPath.at(-1);
@@ -5152,8 +5262,12 @@ i18n.onChange(loc => {
   Object.values(PAGES).forEach(P => toReal({ cmd: 'lang', lang: loc }, P));
 });
 i18n.onModeChange(mode => {
+  const wasSpeakingLens = !!T.narrator?.isSpeakingLens?.();
   progressMgr.setExplanationMode(mode);
   if (T.more) showMore(); else renderInfo();
+  if (wasSpeakingLens && !T.on) {
+    playCurrentNodeLens();
+  }
   if (T.on && T.mode === 'detail') {
     const id = curPath.at(-1);
     const own = TOUR?.details?.[id]?.cues;
@@ -5166,6 +5280,16 @@ i18n.onModeChange(mode => {
     }
   }
   Object.values(PAGES).forEach(P => toReal({ cmd: 'mode', mode }, P));
+});
+i18n.onVoiceChange((pref) => {
+  const wasSpeakingLens = !!T.narrator?.isSpeakingLens?.();
+  progressMgr.setVoicePreference(pref);
+  syncVoiceUI();
+  if (wasSpeakingLens && !T.on) {
+    playCurrentNodeLens();
+  } else if (T.on && T.phase === 'cue' && !T.paused && T.list[T.cue] && T.narr && T.narrator) {
+    speak(T.list[T.cue]);
+  }
 });
 // check all loaded tour scripts once: every line fits two lines of 42 characters
 Object.values(TOUR_BY_ROOT).forEach(tr => {
@@ -5393,10 +5517,15 @@ window.__tour = {
   on: (type, fn) => addEventListener('tour:' + type, e => fn(e.detail)),
   setReduceMotion(v) { T.reduce = !!v; }, setAuto(v) { T.auto = !!v; }, T,
 };
-const staticNarrator = createStaticTourNarrator({ getTourRuntime: () => window.__tour, initialRate: T.pace });
+const staticNarrator = createStaticTourNarrator({
+  getTourRuntime: () => window.__tour,
+  getVoice: () => i18n.activeEnglishVoice,
+  initialRate: T.pace,
+});
 $('tVol').value = String(staticNarrator.getVolume());
 window.__narrator = staticNarrator;
 window.__tour.setNarrator(staticNarrator);
+syncVoiceUI();
 
 let last = performance.now();
 renderer.setAnimationLoop(now => {

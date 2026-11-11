@@ -1,4 +1,8 @@
-import type { ExplanationMode } from '../content/types.js';
+import {
+  isValidVoicePreference,
+  type ExplanationMode,
+  type VoicePreference
+} from '../content/types.js';
 
 export interface ClientCourseCheckpoint {
   tourKey: string;
@@ -18,12 +22,14 @@ export interface ClientUserProfile {
   fullName: string | null;
   lang: 'en' | 'es';
   explanationMode?: ExplanationMode;
+  voicePreference?: VoicePreference;
   createdAt?: string;
 }
 
 export const CLIENT_PROGRESS_COOKIE = 'bexonia_learn_progress';
 export const CLIENT_PROGRESS_STORAGE_KEY = 'bexonia_learn_progress_v1';
 export const CLIENT_EXPLANATION_MODE_KEY = 'learnBioMode';
+export const CLIENT_VOICE_PREF_KEY = 'learnBioVoice';
 export const COOKIE_MAX_AGE_SECONDS = 30 * 24 * 60 * 60; // 30 days
 
 const VALID_MODES = new Set<ExplanationMode>(['simple', 'story', 'blueprint', 'scientific']);
@@ -32,6 +38,7 @@ export class CourseProgressManager {
   /** Primary in-memory store for all 10 cell/virus courses */
   readonly memoryStore = new Map<string, ClientCourseCheckpoint>();
   explanationMode: ExplanationMode = 'story';
+  voicePreference: VoicePreference = 'auto';
   user: ClientUserProfile | null = null;
   authenticated = false;
   sessionExpiresAt: string | null = null;
@@ -96,7 +103,13 @@ export class CourseProgressManager {
     }
     this.cookieRenewedAt = new Date().toISOString();
     const payload = encodeURIComponent(
-      JSON.stringify({ v: 1, t: this.cookieRenewedAt, m: this.explanationMode, c: compact })
+      JSON.stringify({
+        v: 1,
+        t: this.cookieRenewedAt,
+        m: this.explanationMode,
+        vp: this.voicePreference,
+        c: compact
+      })
     );
     document.cookie = `${CLIENT_PROGRESS_COOKIE}=${payload}; path=/; max-age=${COOKIE_MAX_AGE_SECONDS}; SameSite=Lax`;
   }
@@ -116,6 +129,7 @@ export class CourseProgressManager {
       }
       localStorage.setItem(CLIENT_PROGRESS_STORAGE_KEY, JSON.stringify(obj));
       localStorage.setItem(CLIENT_EXPLANATION_MODE_KEY, this.explanationMode);
+      localStorage.setItem(CLIENT_VOICE_PREF_KEY, this.voicePreference);
     } catch {
       // ignore storage quota errors
     }
@@ -129,6 +143,9 @@ export class CourseProgressManager {
         const parsed = JSON.parse(rawCookie);
         if (parsed && typeof parsed.m === 'string' && VALID_MODES.has(parsed.m as ExplanationMode)) {
           this.explanationMode = parsed.m as ExplanationMode;
+        }
+        if (parsed && isValidVoicePreference(parsed.vp)) {
+          this.voicePreference = parsed.vp;
         }
         if (parsed && typeof parsed.c === 'object') {
           for (const [tourKey, arr] of Object.entries(parsed.c)) {
@@ -158,6 +175,10 @@ export class CourseProgressManager {
         const storedMode = localStorage.getItem(CLIENT_EXPLANATION_MODE_KEY);
         if (storedMode && VALID_MODES.has(storedMode as ExplanationMode)) {
           this.explanationMode = storedMode as ExplanationMode;
+        }
+        const storedVoice = localStorage.getItem(CLIENT_VOICE_PREF_KEY);
+        if (storedVoice && isValidVoicePreference(storedVoice)) {
+          this.voicePreference = storedVoice;
         }
         const rawLs = localStorage.getItem(CLIENT_PROGRESS_STORAGE_KEY);
         if (rawLs) {
@@ -195,6 +216,15 @@ export class CourseProgressManager {
     this.writeLocalStorage();
     this.notify();
     return this.explanationMode;
+  }
+
+  setVoicePreference(pref: VoicePreference): VoicePreference {
+    if (!isValidVoicePreference(pref)) return this.voicePreference;
+    this.voicePreference = pref;
+    this.writeProgressCookie();
+    this.writeLocalStorage();
+    this.notify();
+    return this.voicePreference;
   }
 
   getCheckpoint(tourKey: string): ClientCourseCheckpoint | null {

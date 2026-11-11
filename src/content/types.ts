@@ -7,6 +7,39 @@ export const EXPLANATION_MODES: readonly ExplanationMode[] = [
   'scientific'
 ] as const;
 
+/**
+ * Three Public-Domain (CC0 / LibriVox) English narrator voices:
+ * - `v1`: Voice 1 — Preset for `scientific` mode (scientists & biologists inspecting specifics)
+ * - `v2`: Voice 2 — Preset for `blueprint` mode (engineers & systems thinkers)
+ * - `v3`: Voice 3 — Preset for `simple` & `story` modes (kids, newcomers & curious learners)
+ */
+export type EnglishVoiceId = 'v1' | 'v2' | 'v3';
+
+export type VoicePreference = 'auto' | EnglishVoiceId;
+
+export const ENGLISH_VOICE_IDS: readonly EnglishVoiceId[] = ['v1', 'v2', 'v3'] as const;
+
+export const VOICE_PREFERENCES: readonly VoicePreference[] = ['auto', 'v1', 'v2', 'v3'] as const;
+
+export const PRESET_VOICE_BY_MODE: Readonly<Record<ExplanationMode, EnglishVoiceId>> = {
+  simple: 'v3',
+  story: 'v3',
+  blueprint: 'v2',
+  scientific: 'v1'
+};
+
+export function isValidEnglishVoiceId(val: unknown): val is EnglishVoiceId {
+  return val === 'v1' || val === 'v2' || val === 'v3';
+}
+
+export function isValidVoicePreference(val: unknown): val is VoicePreference {
+  return val === 'auto' || isValidEnglishVoiceId(val);
+}
+
+export function resolveEnglishVoice(mode: ExplanationMode, pref: VoicePreference): EnglishVoiceId {
+  return pref === 'auto' ? PRESET_VOICE_BY_MODE[mode] : pref;
+}
+
 export interface NodeLensEntry {
   /** 1-2 crisp everyday sentences (10-second intuition, zero heavy jargon; supports [[Label|nodeId]]) */
   readonly simple: string;

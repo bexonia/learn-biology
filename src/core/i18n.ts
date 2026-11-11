@@ -3,6 +3,23 @@ import { AtomRef } from 'effect/reactivity';
 import { ES_NODES as ES_FULL_NODES } from './locales/es_nodes.js';
 import { ES_TOURS_PHRASES } from './locales/es_tours.js';
 import { ES_EXTRA_PHRASES } from './locales/es_phrases.js';
+import '../content/index.js';
+import {
+  EXPLANATION_MODES,
+  PRESET_VOICE_BY_MODE,
+  isValidVoicePreference,
+  resolveEnglishVoice,
+  type EnglishVoiceId,
+  type ExplanationMode,
+  type VoicePreference
+} from '../content/types.js';
+import { isValidExplanationMode, stripRichLinks } from '../content/parser.js';
+import {
+  NODE_LENS_REGISTRY,
+  STANDALONE_PAGE_PART_KEYS,
+  getNodeLensText,
+  getPartLensEntry
+} from '../content/registry.js';
 
 export type LocaleCode = 'en' | 'es' | (string & {});
 
@@ -27,28 +44,44 @@ export interface LocaleDefinition {
 export interface I18nShape {
   readonly localeRef: AtomRef.AtomRef<LocaleCode>;
   readonly locale: LocaleCode;
+  readonly modeRef: AtomRef.AtomRef<ExplanationMode>;
+  readonly mode: ExplanationMode;
+  readonly voiceRef: AtomRef.AtomRef<VoicePreference>;
+  readonly voicePreference: VoicePreference;
+  readonly activeEnglishVoice: EnglishVoiceId;
+  readonly supportedModes: ReadonlyArray<ExplanationMode>;
   readonly supportedLocales: ReadonlyArray<LocaleDefinition>;
   readonly getLocaleDefinition: (code?: LocaleCode) => LocaleDefinition;
   readonly setLocale: (code: LocaleCode) => LocaleCode;
   readonly cycleLocale: () => LocaleCode;
+  readonly setMode: (mode: ExplanationMode) => ExplanationMode;
+  readonly cycleMode: () => ExplanationMode;
+  readonly setVoicePreference: (pref: VoicePreference) => VoicePreference;
+  readonly resetVoiceToPreset: () => VoicePreference;
   readonly registerLocale: (def: LocaleDefinition) => void;
   readonly t: (key: string, params?: Record<string, string | number>) => string;
   readonly tr: (text: string) => string;
   readonly nodeName: (id: string, fallback: string) => string;
   readonly nodeScale: (id: string, fallback: string) => string;
-  readonly nodeDesc: (id: string, fallback: string) => string;
+  readonly nodeDesc: (id: string, fallback: string, modeOverride?: ExplanationMode) => string;
   readonly onChange: (listener: (locale: LocaleCode) => void) => () => void;
+  readonly onModeChange: (listener: (mode: ExplanationMode) => void) => () => void;
+  readonly onVoiceChange: (listener: (pref: VoicePreference, resolved: EnglishVoiceId) => void) => () => void;
   readonly createLanguageBadge: (options?: { id?: string; alignRight?: boolean }) => HTMLElement;
+  readonly createModeSelector: (options?: { id?: string; compact?: boolean }) => HTMLElement;
   readonly bindStandalonePage: () => void;
   readonly detectLocaleEffect: Effect.Effect<LocaleCode>;
   readonly localeEffect: Effect.Effect<LocaleCode>;
   readonly setLocaleEffect: (code: LocaleCode) => Effect.Effect<LocaleCode>;
   readonly cycleLocaleEffect: Effect.Effect<LocaleCode>;
+  readonly setModeEffect: (mode: ExplanationMode) => Effect.Effect<ExplanationMode>;
   readonly tEffect: (key: string, params?: Record<string, string | number>) => Effect.Effect<string>;
   readonly trEffect: (text: string) => Effect.Effect<string>;
 }
 
 const STORAGE_KEY = 'learnBioLang';
+const MODE_STORAGE_KEY = 'learnBioMode';
+const VOICE_STORAGE_KEY = 'learnBioVoice';
 
 const SPANISH_TIMEZONES = new Set([
   'Europe/Madrid',
@@ -187,7 +220,37 @@ const EN_UI: Record<string, string> = {
   resumeStepBtn: '▶ Resume ({step})',
   startCourseBtn: '▶ Start',
   notStartedLabel: 'Not started',
-  closeBtn: '✕ Close'
+  closeBtn: '✕ Close',
+  modeSimple: 'Simple',
+  modeStory: 'Story',
+  modeBlueprint: 'Blueprint',
+  modeScientific: 'Scientific',
+  modeSimpleHint: 'Simple — 10-second everyday intuition',
+  modeStoryHint: 'Story — Connected living drama & supply chain',
+  modeBlueprintHint: 'Blueprint — Upstream inputs, process & downstream outputs',
+  modeScientificHint: 'Scientific — Direct biochemical & structural reference',
+  bpRole: 'Role',
+  bpArrivesFrom: 'Arrives from',
+  bpInside: 'Inside',
+  bpDeliversTo: 'Delivers to',
+  bpLoop: 'Loop',
+  flowFrom: '← From',
+  flowNext: 'Next →',
+  explanationModeLabel: 'Explanation style',
+  listenBtn: '🔊 Listen',
+  stopListenBtn: '⏹ Stop',
+  listenTitle: 'Listen to this explanation in the active narrator voice',
+  voiceLabel: 'Narrator voice',
+  voicePresetBtn: 'Preset',
+  voicePresetTitle: 'Automatic preset voice: redirects narrator voice to match each explanation style unless you choose a custom voice',
+  voiceAutoOption: 'Preset · {voice}',
+  voiceV1Short: 'Voice 1 (Scientific)',
+  voiceV2Short: 'Voice 2 (Engineers)',
+  voiceV3Short: 'Voice 3 (Learners)',
+  voiceV1Option: 'Voice 1 · Scientific',
+  voiceV2Option: 'Voice 2 · Engineers',
+  voiceV3Option: 'Voice 3 · Kids & Learners',
+  voiceEsBadge: 'Voz · Español'
 };
 
 const ES_UI: Record<string, string> = {
@@ -293,7 +356,37 @@ const ES_UI: Record<string, string> = {
   resumeStepBtn: '▶ Continuar ({step})',
   startCourseBtn: '▶ Comenzar',
   notStartedLabel: 'Sin iniciar',
-  closeBtn: '✕ Cerrar'
+  closeBtn: '✕ Cerrar',
+  modeSimple: 'Sencillo',
+  modeStory: 'Historia',
+  modeBlueprint: 'Esquema',
+  modeScientific: 'Científico',
+  modeSimpleHint: 'Sencillo — Intuición cotidiana en 10 segundos',
+  modeStoryHint: 'Historia — Relato vivo conectado paso a paso',
+  modeBlueprintHint: 'Esquema — Entradas, proceso interno y salidas',
+  modeScientificHint: 'Científico — Referencia bioquímica y estructural directa',
+  bpRole: 'Función',
+  bpArrivesFrom: 'Llega desde',
+  bpInside: 'Interior',
+  bpDeliversTo: 'Entrega a',
+  bpLoop: 'Ciclo',
+  flowFrom: '← Viene de',
+  flowNext: 'Sigue en →',
+  explanationModeLabel: 'Estilo de explicación',
+  listenBtn: '🔊 Escuchar',
+  stopListenBtn: '⏹ Detener',
+  listenTitle: 'Escuchar esta explicación con la voz del narrador',
+  voiceLabel: 'Voz del narrador',
+  voicePresetBtn: 'Preajuste',
+  voicePresetTitle: 'Voz preajustada automática según el estilo de explicación',
+  voiceAutoOption: 'Preajuste · {voice}',
+  voiceV1Short: 'Voz 1 (Científica)',
+  voiceV2Short: 'Voz 2 (Ingeniería)',
+  voiceV3Short: 'Voz 3 (Aprendizaje)',
+  voiceV1Option: 'Voz 1 · Científica',
+  voiceV2Option: 'Voz 2 · Ingeniería',
+  voiceV3Option: 'Voz 3 · Niños y aprendices',
+  voiceEsBadge: 'Voz · Español'
 };
 
 const ES_NODES: Record<string, NodeTranslation> = {
@@ -939,13 +1032,122 @@ function interpolate(template: string, params?: Record<string, string | number>)
   return template.replace(/\{(\w+)\}/g, (_, k) => String(params[k] ?? `{${k}}`));
 }
 
-export function createI18nShape(initialLocale?: LocaleCode): I18nShape {
+function detectInitialMode(): ExplanationMode {
+  if (typeof window !== 'undefined') {
+    try {
+      const ls = window.localStorage.getItem(MODE_STORAGE_KEY);
+      if (isValidExplanationMode(ls)) return ls;
+    } catch {
+      // ignore storage errors
+    }
+  }
+  if (typeof document !== 'undefined') {
+    const parts = (document.cookie || '').split(';');
+    for (const part of parts) {
+      const eq = part.indexOf('=');
+      if (eq <= 0) continue;
+      if (part.slice(0, eq).trim() === 'bexonia_learn_progress') {
+        try {
+          const parsed = JSON.parse(decodeURIComponent(part.slice(eq + 1).trim()));
+          if (isValidExplanationMode(parsed?.m)) return parsed.m;
+        } catch {
+          // ignore cookie parse error
+        }
+      }
+    }
+  }
+  return 'story';
+}
+
+function detectInitialVoicePreference(): VoicePreference {
+  if (typeof window !== 'undefined') {
+    try {
+      const ls = window.localStorage.getItem(VOICE_STORAGE_KEY);
+      if (isValidVoicePreference(ls)) return ls;
+    } catch {
+      // ignore storage errors
+    }
+  }
+  if (typeof document !== 'undefined') {
+    const parts = (document.cookie || '').split(';');
+    for (const part of parts) {
+      const eq = part.indexOf('=');
+      if (eq <= 0) continue;
+      if (part.slice(0, eq).trim() === 'bexonia_learn_progress') {
+        try {
+          const parsed = JSON.parse(decodeURIComponent(part.slice(eq + 1).trim()));
+          if (isValidVoicePreference(parsed?.vp)) return parsed.vp;
+        } catch {
+          // ignore cookie parse error
+        }
+      }
+    }
+  }
+  return 'auto';
+}
+
+export function createI18nShape(
+  initialLocale?: LocaleCode,
+  initialMode?: ExplanationMode,
+  initialVoice?: VoicePreference
+): I18nShape {
   const locales: LocaleDefinition[] = [EN_LOCALE, ES_LOCALE];
   const localeRef = AtomRef.make<LocaleCode>(initialLocale ?? detectBrowserLocale(locales));
+  const modeRef = AtomRef.make<ExplanationMode>(initialMode ?? detectInitialMode());
+  const voiceRef = AtomRef.make<VoicePreference>(initialVoice ?? detectInitialVoicePreference());
+  const voiceListeners = new Set<(pref: VoicePreference, resolved: EnglishVoiceId) => void>();
   const badgeEls = new Set<HTMLElement>();
+  const modeBarEls = new Set<HTMLElement>();
+
+  const notifyVoiceListeners = () => {
+    const pref = voiceRef.value;
+    const resolved = resolveEnglishVoice(modeRef.value, pref);
+    for (const fn of voiceListeners) {
+      try {
+        fn(pref, resolved);
+      } catch {
+        // ignore listener errors
+      }
+    }
+  };
 
   const getLocaleDefinition = (code: LocaleCode = localeRef.value): LocaleDefinition =>
     locales.find((l) => l.code === code) ?? EN_LOCALE;
+
+  const modeLabelKey = (m: ExplanationMode): string =>
+    m === 'simple'
+      ? 'modeSimple'
+      : m === 'story'
+        ? 'modeStory'
+        : m === 'blueprint'
+          ? 'modeBlueprint'
+          : 'modeScientific';
+
+  const modeHintKey = (m: ExplanationMode): string =>
+    m === 'simple'
+      ? 'modeSimpleHint'
+      : m === 'story'
+        ? 'modeStoryHint'
+        : m === 'blueprint'
+          ? 'modeBlueprintHint'
+          : 'modeScientificHint';
+
+  const syncModeBars = () => {
+    const curMode = modeRef.value;
+    const curDef = getLocaleDefinition(localeRef.value);
+    const aria = curDef.ui.explanationModeLabel ?? EN_UI.explanationModeLabel;
+    for (const bar of modeBarEls) {
+      bar.setAttribute('aria-label', aria);
+      bar.querySelectorAll<HTMLButtonElement>('[data-mode]').forEach((btn) => {
+        const m = btn.dataset.mode as ExplanationMode;
+        const active = m === curMode;
+        btn.classList.toggle('on', active);
+        btn.setAttribute('aria-selected', String(active));
+        btn.textContent = curDef.ui[modeLabelKey(m)] ?? EN_UI[modeLabelKey(m)] ?? m;
+        btn.title = curDef.ui[modeHintKey(m)] ?? EN_UI[modeHintKey(m)] ?? m;
+      });
+    }
+  };
 
   const syncBadges = () => {
     const current = localeRef.value;
@@ -966,6 +1168,7 @@ export function createI18nShape(initialLocale?: LocaleCode): I18nShape {
         item.style.fontWeight = active ? '700' : '500';
       });
     }
+    syncModeBars();
     if (typeof document !== 'undefined') {
       document.documentElement.lang = current;
     }
@@ -990,6 +1193,52 @@ export function createI18nShape(initialLocale?: LocaleCode): I18nShape {
     const idx = locales.findIndex((l) => l.code === localeRef.value);
     const next = locales[(idx + 1) % locales.length] ?? EN_LOCALE;
     return setLocale(next.code);
+  };
+
+  const setMode = (mode: ExplanationMode): ExplanationMode => {
+    if (!isValidExplanationMode(mode)) return modeRef.value;
+    const prevResolvedVoice = resolveEnglishVoice(modeRef.value, voiceRef.value);
+    if (typeof window !== 'undefined') {
+      try {
+        window.localStorage.setItem(MODE_STORAGE_KEY, mode);
+      } catch {
+        // ignore storage errors
+      }
+    }
+    modeRef.set(mode);
+    syncModeBars();
+    if (voiceRef.value === 'auto') {
+      const nextResolvedVoice = resolveEnglishVoice(mode, voiceRef.value);
+      if (nextResolvedVoice !== prevResolvedVoice) {
+        notifyVoiceListeners();
+      }
+    }
+    return modeRef.value;
+  };
+
+  const setVoicePreference = (pref: VoicePreference): VoicePreference => {
+    if (!isValidVoicePreference(pref)) return voiceRef.value;
+    const changed = voiceRef.value !== pref;
+    if (typeof window !== 'undefined') {
+      try {
+        window.localStorage.setItem(VOICE_STORAGE_KEY, pref);
+      } catch {
+        // ignore storage errors
+      }
+    }
+    voiceRef.set(pref);
+    if (changed) {
+      notifyVoiceListeners();
+    }
+    return voiceRef.value;
+  };
+
+  const resetVoiceToPreset = (): VoicePreference => setVoicePreference('auto');
+
+  const cycleMode = (): ExplanationMode => {
+    const idx = EXPLANATION_MODES.indexOf(modeRef.value);
+    const next = EXPLANATION_MODES[(idx + 1) % EXPLANATION_MODES.length] ?? 'story';
+    return setMode(next);
   };
 
   const registerLocale = (def: LocaleDefinition): void => {
@@ -1065,7 +1314,15 @@ export function createI18nShape(initialLocale?: LocaleCode): I18nShape {
     return def.nodes[id]?.scale ?? tr(fallback);
   };
 
-  const nodeDesc = (id: string, fallback: string): string => {
+  const nodeDesc = (
+    id: string,
+    fallback: string,
+    modeOverride?: ExplanationMode
+  ): string => {
+    const activeMode = modeOverride ?? modeRef.value;
+    if (NODE_LENS_REGISTRY[id]) {
+      return getNodeLensText(id, localeRef.value, activeMode, fallback);
+    }
     if (localeRef.value === 'en') return fallback;
     const def = getLocaleDefinition(localeRef.value);
     return def.nodes[id]?.desc ?? tr(fallback);
@@ -1073,6 +1330,65 @@ export function createI18nShape(initialLocale?: LocaleCode): I18nShape {
 
   const onChange = (listener: (locale: LocaleCode) => void): (() => void) =>
     localeRef.subscribe(listener);
+
+  const onModeChange = (listener: (mode: ExplanationMode) => void): (() => void) =>
+    modeRef.subscribe(listener);
+
+  const onVoiceChange = (
+    listener: (pref: VoicePreference, resolved: EnglishVoiceId) => void
+  ): (() => void) => {
+    voiceListeners.add(listener);
+    return () => {
+      voiceListeners.delete(listener);
+    };
+  };
+
+  const createModeSelector = (options?: { id?: string; compact?: boolean }): HTMLElement => {
+    const wrap = document.createElement('div');
+    wrap.id = options?.id ?? 'lensBar';
+    wrap.className = options?.compact ? 'lens-bar compact' : 'lens-bar';
+    wrap.setAttribute('role', 'tablist');
+    if (options?.compact) {
+      wrap.style.cssText = [
+        'display: grid',
+        'grid-template-columns: repeat(4, 1fr)',
+        'gap: 2px',
+        'background: rgba(255,255,255,.04)',
+        'border: 1px solid rgba(255,255,255,.14)',
+        'border-radius: 7px',
+        'padding: 2px',
+        'margin: 4px 6px 8px'
+      ].join(';');
+    }
+    for (const m of EXPLANATION_MODES) {
+      const btn = document.createElement('button');
+      btn.type = 'button';
+      btn.dataset.mode = m;
+      btn.setAttribute('role', 'tab');
+      if (options?.compact) {
+        btn.style.cssText = [
+          'background: transparent',
+          'border: 1px solid transparent',
+          'border-radius: 5px',
+          'padding: 3px 2px',
+          'font: inherit',
+          'font-size: 10.5px',
+          'color: var(--muted, #8e98ab)',
+          'cursor: pointer',
+          'text-align: center',
+          'line-height: 1.15',
+          'white-space: nowrap'
+        ].join(';');
+      }
+      btn.onclick = () => {
+        setMode(m);
+      };
+      wrap.append(btn);
+    }
+    modeBarEls.add(wrap);
+    syncModeBars();
+    return wrap;
+  };
 
   const createLanguageBadge = (options?: { id?: string; alignRight?: boolean }): HTMLElement => {
     const btn = document.createElement('button');
@@ -1137,16 +1453,96 @@ export function createI18nShape(initialLocale?: LocaleCode): I18nShape {
     if (typeof document === 'undefined') return;
     syncBadges();
     const isEmbed = document.documentElement.classList.contains('embed');
+    const flowsEl = document.getElementById('flows');
+    if (!isEmbed && flowsEl) {
+      flowsEl.style.width = '268px';
+      if (!document.getElementById('standaloneLensStyle')) {
+        const st = document.createElement('style');
+        st.id = 'standaloneLensStyle';
+        st.textContent =
+          '.lens-bar.compact button.on { background: rgba(159,216,255,.16) !important; color: var(--accent, #9fd8ff) !important; border-color: rgba(159,216,255,.48) !important; font-weight: 600; } .lens-bar.compact button:hover { color: var(--fg, #e8edf6) !important; }';
+        document.head.append(st);
+      }
+      const tipBox = document.getElementById('tip');
+      if (tipBox && !document.getElementById('standaloneLensBar')) {
+        const modeBar = createModeSelector({ id: 'standaloneLensBar', compact: true });
+        flowsEl.insertBefore(modeBar, tipBox);
+      }
+    }
     if (!isEmbed && !document.getElementById('lang')) {
       const badge = createLanguageBadge({ id: 'lang', alignRight: false });
       badge.style.position = 'fixed';
       badge.style.top = '14px';
-      badge.style.right = '240px';
+      badge.style.right = flowsEl ? '296px' : '16px';
       badge.style.zIndex = '20';
-      if (!document.getElementById('flows')) {
-        badge.style.right = '16px';
-      }
       document.body.append(badge);
+    }
+
+    const pageName =
+      (typeof location !== 'undefined' && location.pathname.split('/').pop()) || '';
+    const partKeys = STANDALONE_PAGE_PART_KEYS[pageName] ?? [];
+    let hoveredPartIdx = -1;
+
+    const renderStandaloneLensTip = (): boolean => {
+      if (hoveredPartIdx < 0 || hoveredPartIdx >= partKeys.length) return false;
+      const tipEl = document.getElementById('tip');
+      if (!tipEl) return false;
+      const partKey = partKeys[hoveredPartIdx];
+      const entry = getPartLensEntry(pageName, partKey, localeRef.value);
+      if (!entry) return false;
+      const legendItems = document.querySelectorAll<HTMLElement>('#legend .it span:last-child');
+      const partTitle = legendItems[hoveredPartIdx]?.textContent ?? partKey;
+      mutating = true;
+      try {
+        tipEl.replaceChildren();
+        const b = document.createElement('b');
+        b.textContent = partTitle;
+        const sub = document.createElement('span');
+        sub.style.cssText =
+          'display:block;color:var(--accent,#9fd8ff);font-size:11px;font-weight:600;margin:1px 0 4px;';
+        sub.textContent = entry.subtitle;
+        const body = document.createElement('div');
+        body.style.cssText = 'color:#d4dce8;font-size:12px;line-height:1.48;';
+        const m = modeRef.value;
+        if (m === 'blueprint') {
+          const rows: Array<[string, string]> = [
+            [t('bpRole'), stripRichLinks(entry.blueprint.role)],
+            [t('bpArrivesFrom'), stripRichLinks(entry.blueprint.arrivesFrom)],
+            [t('bpInside'), stripRichLinks(entry.blueprint.inside)],
+            [t('bpDeliversTo'), stripRichLinks(entry.blueprint.deliversTo)]
+          ];
+          if (entry.blueprint.loop) rows.push([t('bpLoop'), stripRichLinks(entry.blueprint.loop)]);
+          for (const [kLabel, val] of rows) {
+            const r = document.createElement('div');
+            r.style.marginBottom = '3px';
+            const kb = document.createElement('b');
+            kb.style.color = 'var(--accent,#9fd8ff)';
+            kb.textContent = `${kLabel}: `;
+            r.append(kb, val);
+            body.append(r);
+          }
+        } else {
+          const raw =
+            m === 'simple' ? entry.simple : m === 'scientific' ? entry.scientific : entry.story;
+          body.textContent = stripRichLinks(raw);
+        }
+        tipEl.append(b, sub, body);
+      } finally {
+        mutating = false;
+      }
+      return true;
+    };
+
+    if (!isEmbed && partKeys.length > 0) {
+      document.querySelectorAll<HTMLElement>('#legend .it').forEach((item, idx) => {
+        item.addEventListener('mouseenter', () => {
+          hoveredPartIdx = idx;
+          renderStandaloneLensTip();
+        });
+        item.addEventListener('mouseleave', () => {
+          hoveredPartIdx = -1;
+        });
+      });
     }
 
     const originalText = new WeakMap<Node, { orig: string; rendered: string }>();
@@ -1165,6 +1561,9 @@ export function createI18nShape(initialLocale?: LocaleCode): I18nShape {
     };
     const translateSubtree = () => {
       if (mutating) return;
+      if (hoveredPartIdx >= 0 && renderStandaloneLensTip()) {
+        // Also ensure static chrome is translated
+      }
       mutating = true;
       try {
         const selectors = [
@@ -1175,21 +1574,23 @@ export function createI18nShape(initialLocale?: LocaleCode): I18nShape {
           '#mols .mol span',
           '#tools button',
           '#hint',
-          '#busy',
-          '#tip b'
+          '#busy'
         ];
+        if (hoveredPartIdx < 0) selectors.push('#tip b');
         for (const sel of selectors) {
           document.querySelectorAll<HTMLElement>(sel).forEach((el) => {
             translateNode(el);
           });
         }
-        const tipEl = document.getElementById('tip');
-        if (tipEl) {
-          tipEl.childNodes.forEach((child) => {
-            if (child.nodeType === 3) {
-              translateNode(child);
-            }
-          });
+        if (hoveredPartIdx < 0) {
+          const tipEl = document.getElementById('tip');
+          if (tipEl) {
+            tipEl.childNodes.forEach((child) => {
+              if (child.nodeType === 3) {
+                translateNode(child);
+              }
+            });
+          }
         }
       } finally {
         mutating = false;
@@ -1199,6 +1600,9 @@ export function createI18nShape(initialLocale?: LocaleCode): I18nShape {
     translateSubtree();
     onChange(() => {
       translateSubtree();
+    });
+    onModeChange(() => {
+      if (hoveredPartIdx >= 0) renderStandaloneLensTip();
     });
 
     if (typeof MutationObserver !== 'undefined') {
@@ -1218,10 +1622,19 @@ export function createI18nShape(initialLocale?: LocaleCode): I18nShape {
         if (e.data?.to === 'realistic-cell' && e.data?.cmd === 'lang' && e.data?.lang) {
           setLocale(e.data.lang);
         }
+        if (e.data?.to === 'realistic-cell' && e.data?.cmd === 'mode' && e.data?.mode) {
+          setMode(e.data.mode);
+        }
       });
       window.addEventListener('storage', (e) => {
         if (e.key === STORAGE_KEY && e.newValue) {
           setLocale(e.newValue);
+        }
+        if (e.key === MODE_STORAGE_KEY && isValidExplanationMode(e.newValue)) {
+          setMode(e.newValue);
+        }
+        if (e.key === VOICE_STORAGE_KEY && isValidVoicePreference(e.newValue)) {
+          setVoicePreference(e.newValue);
         }
       });
     }
@@ -1233,6 +1646,10 @@ export function createI18nShape(initialLocale?: LocaleCode): I18nShape {
 
   const setLocaleEffect = Effect.fnUntraced(function* (code: LocaleCode) {
     return yield* Effect.sync(() => setLocale(code));
+  });
+
+  const setModeEffect = Effect.fnUntraced(function* (mode: ExplanationMode) {
+    return yield* Effect.sync(() => setMode(mode));
   });
 
   const tEffect = Effect.fnUntraced(function* (
@@ -1251,12 +1668,30 @@ export function createI18nShape(initialLocale?: LocaleCode): I18nShape {
     get locale() {
       return localeRef.value;
     },
+    modeRef,
+    get mode() {
+      return modeRef.value;
+    },
+    voiceRef,
+    get voicePreference() {
+      return voiceRef.value;
+    },
+    get activeEnglishVoice() {
+      return resolveEnglishVoice(modeRef.value, voiceRef.value);
+    },
+    get supportedModes() {
+      return EXPLANATION_MODES;
+    },
     get supportedLocales() {
       return locales;
     },
     getLocaleDefinition,
     setLocale,
     cycleLocale,
+    setMode,
+    cycleMode,
+    setVoicePreference,
+    resetVoiceToPreset,
     registerLocale,
     t,
     tr,
@@ -1264,12 +1699,16 @@ export function createI18nShape(initialLocale?: LocaleCode): I18nShape {
     nodeScale,
     nodeDesc,
     onChange,
+    onModeChange,
+    onVoiceChange,
     createLanguageBadge,
+    createModeSelector,
     bindStandalonePage,
     detectLocaleEffect: Effect.sync(() => detectBrowserLocale(locales)),
     localeEffect: Effect.sync(() => localeRef.value),
     setLocaleEffect,
     cycleLocaleEffect: Effect.sync(() => cycleLocale()),
+    setModeEffect,
     tEffect,
     trEffect
   };
@@ -1284,10 +1723,14 @@ export class I18nService extends Context.Service<I18nService, I18nShape>()(
   );
 }
 
-export const makeI18nLayer = (initialLocale?: LocaleCode): Layer.Layer<I18nService> =>
+export const makeI18nLayer = (
+  initialLocale?: LocaleCode,
+  initialMode?: ExplanationMode,
+  initialVoice?: VoicePreference
+): Layer.Layer<I18nService> =>
   Layer.effect(
     I18nService,
-    Effect.sync(() => I18nService.of(createI18nShape(initialLocale)))
+    Effect.sync(() => I18nService.of(createI18nShape(initialLocale, initialMode, initialVoice)))
   );
 
 export const I18nLive: Layer.Layer<I18nService> = I18nService.layer;

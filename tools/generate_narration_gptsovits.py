@@ -1,10 +1,17 @@
 #!/usr/bin/env python3
-"""Offline bilingual (EN/ES) tour narration generator powered by GPT-SoVITS v2ProPlus.
+"""Offline multi-voice bilingual (EN v1/v2/v3 + ES #7) narration generator powered by GPT-SoVITS v2ProPlus.
 
 Reads `dist/tour_cues_manifest.json` (exported by `scripts/export_tour_cues.ts`),
-synthesizes natural deep-timbre human narration in English and Spanish using
-Public-Domain (CC0) studio reference voices in `tools/voices/`, masters each cue
-to consistent podcast loudness, and encodes static `.opus` assets under `audio/{en,es}/`.
+synthesizes natural human narration across:
+  - English Voice 1 (`v1`, David Clarke — LibriVox CC0, Scientific preset)
+  - English Voice 2 (`v2`, Peter Yearsley — LibriVox CC0, Blueprint / Engineers preset)
+  - English Voice 3 (`v3`, Martin Geeson — LibriVox CC0, Simple & Story / Learners preset)
+  - Spanish Voice #7 (`es`, Víctor Villarraza — LibriVox CC0, all Spanish narration)
+for both Guided Tours (`audio/en/{v1,v2,v3}/`, `audio/es/`) and all 4 Explanation Modes
+across all 208 Explorer nodes (`audio/lenses/en/{v1,v2,v3}/`, `audio/lenses/es/`).
+
+Pre-extracts English phoneme & BERT features ONCE and swaps only the reference voice cache
+across `v1`, `v2`, and `v3` for maximum GPU throughput on RTX GPUs.
 """
 
 from __future__ import annotations
@@ -38,32 +45,52 @@ DEFAULT_MANIFEST = REPO_ROOT / "dist" / "tour_cues_manifest.json"
 VOICES_DIR = REPO_ROOT / "tools" / "voices"
 SPANISH_G2P_SRC = REPO_ROOT / "tools" / "spanish_g2p.py"
 
-VOICE_CONFIGS: Dict[str, Dict[str, Any]] = {
-    "en": {
-        "ref_wav": VOICES_DIR / "narrator_6097_ref.wav",
-        "prompt_text": (
-            "What has been written above will serve to enforce the statement already made "
-            "as to the importance of maintaining a strict control over our thoughts."
-        ),
+EN_VOICE_CONFIGS: Dict[str, Dict[str, Any]] = {
+    "v1": {
+        "label": "Voice 1 — David Clarke (Scientific Preset)",
+        "ref_wav": VOICES_DIR / "en_v1_david_clarke.wav",
+        "prompt_text": "Man or a woman, I asked. Oh, man, of course! No woman would ever send a reply-paid telegram.",
         "prompt_lang": "en",
         "text_lang": "en",
         "default_t2s": "GPT_SoVITS/pretrained_models/s1v3.ckpt",
         "top_k": 15,
         "top_p": 0.95,
-        "temperature": 0.85,
+        "temperature": 0.82,
     },
-    "es": {
-        "ref_wav": VOICES_DIR / "narrator_es_cv19_ref.wav",
-        "prompt_text": (
-            "Es una estrella moderadamente activa que posiblemente presenta manchas estelares y erupciones,"
-        ),
-        "prompt_lang": "es",
-        "text_lang": "es",
-        "default_t2s": "GPT_SoVITS/pretrained_models/s1v3_es-e22.ckpt",
-        "top_k": 12,
+    "v2": {
+        "label": "Voice 2 — Peter Yearsley (Blueprint / Engineers Preset)",
+        "ref_wav": VOICES_DIR / "en_v2_peter_yearsley.wav",
+        "prompt_text": "Reginald, it's nothing of the kind. Only, I'm sure Mrs. McKillop would be pleased if I brought you.",
+        "prompt_lang": "en",
+        "text_lang": "en",
+        "default_t2s": "GPT_SoVITS/pretrained_models/s1v3.ckpt",
+        "top_k": 15,
         "top_p": 0.95,
-        "temperature": 0.80,
+        "temperature": 0.82,
     },
+    "v3": {
+        "label": "Voice 3 — Martin Geeson (Simple & Story / Learners Preset)",
+        "ref_wav": VOICES_DIR / "en_v3_martin_geeson.wav",
+        "prompt_text": "Consequently philosophy and science have not deigned to make it the subject of special inquiry.",
+        "prompt_lang": "en",
+        "text_lang": "en",
+        "default_t2s": "GPT_SoVITS/pretrained_models/s1v3.ckpt",
+        "top_k": 15,
+        "top_p": 0.95,
+        "temperature": 0.82,
+    },
+}
+
+ES_VOICE_CONFIG: Dict[str, Any] = {
+    "label": "Voice #7 — Víctor Villarraza (Spanish)",
+    "ref_wav": VOICES_DIR / "es_v7_victor_villarraza.wav",
+    "prompt_text": "para dar solo un largo paseo, una tarde de primavera del año mil novecientos y tanto, que había",
+    "prompt_lang": "es",
+    "text_lang": "es",
+    "default_t2s": "GPT_SoVITS/pretrained_models/s1v3_es-e22.ckpt",
+    "top_k": 12,
+    "top_p": 0.95,
+    "temperature": 0.80,
 }
 
 
@@ -103,6 +130,11 @@ def ensure_gsv_spanish_support(gsv_root: Path) -> None:
 def preprocess_en_biology_text(text: str) -> str:
     """Normalizes English biology acronyms & PDB IDs so `english.py` pronounces them cleanly."""
     s = text.strip()
+    s = re.sub(r"\bE\.\s*coli\b", "Escherichia coli", s)
+    s = re.sub(r"\bS\.\s*cerevisiae\b", "Saccharomyces cerevisiae", s)
+    s = re.sub(r"\be\.g\.,?", "for example,", s, flags=re.IGNORECASE)
+    s = re.sub(r"\bi\.e\.,?", "that is,", s, flags=re.IGNORECASE)
+    s = re.sub(r"\bvs\.", "versus", s, flags=re.IGNORECASE)
     s = re.sub(r"\bATPase(s?)\b", r"A T P ase\1", s)
     s = re.sub(r"\bGTPase(s?)\b", r"G T P ase\1", s)
     s = re.sub(r"\bRNase(s?)\b", r"R N ase\1", s)
@@ -111,6 +143,8 @@ def preprocess_en_biology_text(text: str) -> str:
     s = re.sub(r"\bNADH\b", "N A D H", s)
     s = re.sub(r"\bFADH2\b", "F A D H 2", s)
     s = re.sub(r"\bRNAP\b", "R N A P", s)
+    s = re.sub(r"\bRdRp\b", "R d R p", s)
+    s = re.sub(r"\bRuBisCO\b", "RuBisCO", s)
     s = re.sub(r"\bmRNA\b", "messenger R N A", s)
     s = re.sub(r"\brRNA\b", "ribosomal R N A", s)
     s = re.sub(r"\btRNA\b", "transfer R N A", s)
@@ -135,12 +169,10 @@ def preprocess_en_biology_text(text: str) -> str:
 def split_cue_sentences(text: str, lang: str) -> List[str]:
     """Splits a cue ONLY at full sentence boundaries (never commas) and guarantees terminal `.!?`."""
     s = preprocess_en_biology_text(text) if lang == "en" else text.strip()
-    # Replace semicolons with sentence periods so long compound sentences split cleanly with `.`
     s = re.sub(r";\s+", ". ", s)
     raw_parts = [p.strip() for p in re.split(r"(?<=[.!?])\s+", s) if p.strip()]
     sentences: List[str] = []
     for part in raw_parts:
-        # Strip any trailing comma/colon/dash and ensure clean terminal sentence punctuation
         part = re.sub(r"[,:—–\-]+$", "", part).strip()
         if not part:
             continue
@@ -199,8 +231,8 @@ def master_cue_waveform(fragments: List[np.ndarray], sr: int) -> np.ndarray:
     return wav.astype(np.float32)
 
 
-def encode_opus_worker(task: Tuple[np.ndarray, int, Path, str]) -> Tuple[str, float]:
-    wav, sr, out_path, ffmpeg_bin = task
+def encode_opus_worker(task: Tuple[np.ndarray, int, Path, str, str]) -> Tuple[str, float]:
+    wav, sr, out_path, ffmpeg_bin, bitrate = task
     out_path.parent.mkdir(parents=True, exist_ok=True)
     tmp_path = out_path.with_suffix(".tmp.opus")
     cmd = [
@@ -220,7 +252,7 @@ def encode_opus_worker(task: Tuple[np.ndarray, int, Path, str]) -> Tuple[str, fl
         "-c:a",
         "libopus",
         "-b:a",
-        "24k",
+        bitrate,
         "-vbr",
         "on",
         "-compression_level",
@@ -240,28 +272,58 @@ def encode_opus_worker(task: Tuple[np.ndarray, int, Path, str]) -> Tuple[str, fl
     return str(out_path), len(wav) / float(sr)
 
 
-def synthesize_language(
+def cleanup_legacy_flat_en_dirs() -> None:
+    """Removes legacy single-voice `audio/en/<tourRoot>` directories superseded by `audio/en/{v1,v2,v3}/`."""
+    en_root = REPO_ROOT / "audio" / "en"
+    if not en_root.exists():
+        return
+    valid_subdirs = set(EN_VOICE_CONFIGS.keys())
+    for child in list(en_root.iterdir()):
+        if child.is_dir() and child.name not in valid_subdirs:
+            print(f"  [cleanup] Removing superseded flat directory: {child.relative_to(REPO_ROOT)}")
+            shutil.rmtree(child)
+
+
+def synthesize_voice_group(
     entries: List[Dict[str, Any]],
     lang: str,
+    voice_specs: List[Tuple[str, Dict[str, Any]]],
     gsv_root: Path,
     t2s_weights: str,
     vits_weights: str,
     batch_size: int,
     ffmpeg_bin: str,
+    bitrate: str,
     force: bool,
 ) -> Tuple[int, float]:
     from TTS_infer_pack.TTS import TTS, TTS_Config, create_acceleration
 
-    vcfg = VOICE_CONFIGS[lang]
-    pending = [e for e in entries if force or not (REPO_ROOT / e["audioPath"]).exists()]
-    if not pending:
-        print(f"[{lang}] All {len(entries)} .opus files already exist (use --force to regenerate).")
+    # Determine which (entry_idx, voice_key) pairs actually need synthesis
+    voice_pending_entry_indices: Dict[str, List[int]] = {}
+    needed_entry_set = set()
+    for v_key, _ in voice_specs:
+        p_idxs = [
+            idx
+            for idx, e in enumerate(entries)
+            if v_key in e.get("targets", {})
+            and (force or not (REPO_ROOT / e["targets"][v_key]).exists())
+        ]
+        if p_idxs:
+            voice_pending_entry_indices[v_key] = p_idxs
+            needed_entry_set.update(p_idxs)
+
+    if not voice_pending_entry_indices:
+        total_targets = sum(1 for e in entries for v_key, _ in voice_specs if v_key in e.get("targets", {}))
+        print(f"[{lang.upper()}] All {total_targets} .opus files already exist (use --force to regenerate).")
         return 0, 0.0
 
-    print(f"\n==================== [{lang.upper()}] Synthesizing {len(pending)}/{len(entries)} cues ====================")
+    needed_entry_list = sorted(needed_entry_set)
+    print(
+        f"\n==================== [{lang.upper()}] Loading GPT-SoVITS ONCE for {len(voice_pending_entry_indices)} voice(s), "
+        f"{len(needed_entry_list)} unique text items ===================="
+    )
     print(f"  T2S weights : {t2s_weights}")
     print(f"  VITS weights: {vits_weights}")
-    print(f"  Ref voice   : {vcfg['ref_wav']}")
 
     cfg = TTS_Config(str(gsv_root / "GPT_SoVITS" / "configs" / "tts_infer.yaml"))
     cfg.device = "cuda" if torch.cuda.is_available() else "cpu"
@@ -273,40 +335,23 @@ def synthesize_language(
     cfg.vits_weights_path = vits_weights
 
     tts = TTS(cfg)
-    tts.set_ref_audio(str(vcfg["ref_wav"]))
-    p_phones, p_bert, p_norm = tts.text_preprocessor.segment_and_extract_feature_for_text(
-        vcfg["prompt_text"], vcfg["prompt_lang"], cfg.version
-    )
-    tts.prompt_cache["prompt_text"] = vcfg["prompt_text"]
-    tts.prompt_cache["prompt_lang"] = vcfg["prompt_lang"]
-    tts.prompt_cache["phones"] = p_phones
-    tts.prompt_cache["bert_features"] = p_bert
-    tts.prompt_cache["norm_text"] = p_norm
+    sr = tts.configs.sampling_rate
 
-    refer_audio_spec = []
-    sv_emb = [] if tts.is_v2pro else None
-    with torch.no_grad():
-        for spec, audio_tensor in tts.prompt_cache["refer_spec"]:
-            spec = spec.to(dtype=tts.precision, device=tts.configs.device)
-            refer_audio_spec.append(spec)
-            if tts.is_v2pro:
-                sv_emb.append(tts.sv_model.compute_embedding3(audio_tensor))
-
-    # 1. Pre-extract phoneme + BERT features for all sentences across all cues
-    flat_items: List[Dict[str, Any]] = []
-    flat_owners: List[Tuple[int, int]] = []
-    cue_sentence_counts: List[int] = []
-
-    for c_idx, entry in enumerate(pending):
+    # 1. Pre-extract phoneme + BERT features ONCE across all unique sentences in `needed_entry_list`
+    t_feat = time.perf_counter()
+    entry_sentences_meta: Dict[int, List[Dict[str, Any]]] = {}
+    total_sents = 0
+    for e_idx in needed_entry_list:
+        entry = entries[e_idx]
         sents = split_cue_sentences(entry["speechText"], lang)
-        valid_sub = 0
+        s_list: List[Dict[str, Any]] = []
         for sent in sents:
             phones, bert_features, norm_text = tts.text_preprocessor.segment_and_extract_feature_for_text(
-                sent, vcfg["text_lang"], cfg.version
+                sent, lang, cfg.version
             )
             if phones is None or len(phones) == 0:
                 continue
-            flat_items.append(
+            s_list.append(
                 {
                     "phones": phones,
                     "bert_features": bert_features,
@@ -314,17 +359,13 @@ def synthesize_language(
                     "raw_sent": sent,
                 }
             )
-            flat_owners.append((c_idx, valid_sub))
-            valid_sub += 1
-        cue_sentence_counts.append(valid_sub)
+            total_sents += 1
+        entry_sentences_meta[e_idx] = s_list
 
-    sr = tts.configs.sampling_rate
-    cue_fragments: List[List[np.ndarray]] = [
-        [np.zeros(0, dtype=np.float32) for _ in range(cnt)] for cnt in cue_sentence_counts
-    ]
-
-    # Sort sentence indices by phoneme length so batches have minimal padding overhead!
-    order = sorted(range(len(flat_items)), key=lambda i: len(flat_items[i]["phones"]))
+    print(
+        f"  [{lang.upper()}] Pre-extracted features for {total_sents} sentences across "
+        f"{len(needed_entry_list)} entries in {time.perf_counter() - t_feat:.1f}s"
+    )
 
     use_cuda_graph = cfg.device == "cuda"
     tts.t2s_accel = create_acceleration(
@@ -337,152 +378,225 @@ def synthesize_language(
     )
     use_accel = tts.t2s_accel is not None and tts.t2s_accel.prepare(use_cuda_graph, False)
 
-    torch.manual_seed(20261110)
-    if torch.cuda.is_available():
-        torch.cuda.manual_seed_all(20261110)
+    grand_files = 0
+    grand_audio_sec = 0.0
 
-    t0 = time.perf_counter()
-    retries = 0
+    # Shared background ffmpeg encoder pool so Opus encoding overlaps with the next voice's GPU pass!
+    with ThreadPoolExecutor(max_workers=12) as encode_pool:
+        encode_futures = []
 
-    def _single_fallback_synth(item_dict: Dict[str, Any], temp: float) -> np.ndarray:
-        single_batches, _ = tts.to_batch(
-            [
-                {
-                    "phones": item_dict["phones"],
-                    "bert_features": item_dict["bert_features"],
-                    "norm_text": item_dict["norm_text"],
-                }
-            ],
-            prompt_data=tts.prompt_cache,
-            batch_size=1,
-            split_bucket=False,
-            device=tts.configs.device,
-            precision=tts.precision,
-        )
-        b0 = single_batches[0]
-        prompt_t = tts.prompt_cache["prompt_semantic"].expand(1, -1).to(tts.configs.device)
-        ap_t = torch.stack(b0["all_phones"]) if isinstance(b0["all_phones"], list) else b0["all_phones"]
-        ab_t = (
-            torch.stack(b0["all_bert_features"])
-            if isinstance(b0["all_bert_features"], list)
-            else b0["all_bert_features"]
-        )
-        pred_list, idx_val = tts.t2s_model.model.infer_panel(
-            ap_t,
-            b0["all_phones_len"],
-            prompt_t,
-            ab_t,
-            top_k=max(8, vcfg["top_k"] - 3),
-            top_p=0.90,
-            temperature=temp,
-            early_stop_num=tts.configs.hz * tts.configs.max_sec,
-            max_len=b0["max_len"],
-            repetition_penalty=1.35,
-        )
-        idx0 = int(idx_val[0]) if isinstance(idx_val, (list, tuple, torch.Tensor)) and getattr(idx_val, "ndim", 1) > 0 else int(idx_val)
-        phones0 = b0["phones"][0].unsqueeze(0).to(tts.configs.device)
-        sem0 = pred_list[0][-idx0:].unsqueeze(0).unsqueeze(0)
-        wav0 = tts.vits_model.decode(
-            sem0, phones0, refer_audio_spec, speed=1.0, sv_emb=sv_emb
-        ).detach()[0, 0, :]
-        return wav0.float().cpu().numpy()
-
-    with torch.no_grad():
-        for start in range(0, len(order), batch_size):
-            chunk_indices = order[start : start + batch_size]
-            chunk_dicts = [
-                {
-                    "phones": flat_items[idx]["phones"],
-                    "bert_features": flat_items[idx]["bert_features"],
-                    "norm_text": flat_items[idx]["norm_text"],
-                }
-                for idx in chunk_indices
-            ]
-            batches, _ = tts.to_batch(
-                chunk_dicts,
-                prompt_data=tts.prompt_cache,
-                batch_size=len(chunk_dicts),
-                split_bucket=False,
-                device=tts.configs.device,
-                precision=tts.precision,
+        for v_key, vcfg in voice_specs:
+            if v_key not in voice_pending_entry_indices:
+                continue
+            p_entry_indices = voice_pending_entry_indices[v_key]
+            print(
+                f"\n  >>> [{lang.upper()}:{v_key}] {vcfg['label']} — Synthesizing {len(p_entry_indices)} clips "
+                f"(ref: {vcfg['ref_wav'].name})"
             )
-            b = batches[0]
-            all_phoneme_ids = b["all_phones"]
-            all_phoneme_lens = b["all_phones_len"]
-            all_bert_features = b["all_bert_features"]
-            batch_phones = b["phones"]
-            prompt = tts.prompt_cache["prompt_semantic"].expand(len(all_phoneme_ids), -1).to(tts.configs.device)
 
-            if use_accel:
-                pred_semantic_list, idx_list = tts.t2s_accel.infer_batch(
-                    all_phoneme_ids,
-                    all_phoneme_lens,
-                    prompt,
-                    all_bert_features,
-                    parallel_infer=True,
-                    use_cuda_graph=use_cuda_graph,
-                    use_flash_attention=False,
-                    top_k=vcfg["top_k"],
-                    top_p=vcfg["top_p"],
-                    temperature=vcfg["temperature"],
+            tts.set_ref_audio(str(vcfg["ref_wav"]))
+            p_phones, p_bert, p_norm = tts.text_preprocessor.segment_and_extract_feature_for_text(
+                vcfg["prompt_text"], vcfg["prompt_lang"], cfg.version
+            )
+            tts.prompt_cache["prompt_text"] = vcfg["prompt_text"]
+            tts.prompt_cache["prompt_lang"] = vcfg["prompt_lang"]
+            tts.prompt_cache["phones"] = p_phones
+            tts.prompt_cache["bert_features"] = p_bert
+            tts.prompt_cache["norm_text"] = p_norm
+
+            refer_audio_spec = []
+            sv_emb = [] if tts.is_v2pro else None
+            with torch.no_grad():
+                for spec, audio_tensor in tts.prompt_cache["refer_spec"]:
+                    spec = spec.to(dtype=tts.precision, device=tts.configs.device)
+                    refer_audio_spec.append(spec)
+                    if tts.is_v2pro:
+                        sv_emb.append(tts.sv_model.compute_embedding3(audio_tensor))
+
+            flat_items: List[Dict[str, Any]] = []
+            flat_owners: List[Tuple[int, int]] = []
+            cue_fragments: List[List[np.ndarray]] = []
+
+            for local_c_idx, e_idx in enumerate(p_entry_indices):
+                s_list = entry_sentences_meta[e_idx]
+                cue_fragments.append([np.zeros(0, dtype=np.float32) for _ in range(len(s_list))])
+                for sub_idx, item in enumerate(s_list):
+                    flat_items.append(item)
+                    flat_owners.append((local_c_idx, sub_idx))
+
+            order = sorted(range(len(flat_items)), key=lambda i: len(flat_items[i]["phones"]))
+
+            seed_val = 20261111 + sum(ord(c) for c in v_key)
+            torch.manual_seed(seed_val)
+            if torch.cuda.is_available():
+                torch.cuda.manual_seed_all(seed_val)
+
+            t0 = time.perf_counter()
+            retries = 0
+
+            def _single_fallback_synth(item_dict: Dict[str, Any], temp: float) -> np.ndarray:
+                single_batches, _ = tts.to_batch(
+                    [
+                        {
+                            "phones": item_dict["phones"],
+                            "bert_features": item_dict["bert_features"],
+                            "norm_text": item_dict["norm_text"],
+                        }
+                    ],
+                    prompt_data=tts.prompt_cache,
+                    batch_size=1,
+                    split_bucket=False,
+                    device=tts.configs.device,
+                    precision=tts.precision,
+                )
+                b0 = single_batches[0]
+                prompt_t = tts.prompt_cache["prompt_semantic"].expand(1, -1).to(tts.configs.device)
+                ap_t = torch.stack(b0["all_phones"]) if isinstance(b0["all_phones"], list) else b0["all_phones"]
+                ab_t = (
+                    torch.stack(b0["all_bert_features"])
+                    if isinstance(b0["all_bert_features"], list)
+                    else b0["all_bert_features"]
+                )
+                pred_list, idx_val = tts.t2s_model.model.infer_panel(
+                    ap_t,
+                    b0["all_phones_len"],
+                    prompt_t,
+                    ab_t,
+                    top_k=max(8, vcfg["top_k"] - 3),
+                    top_p=0.90,
+                    temperature=temp,
                     early_stop_num=tts.configs.hz * tts.configs.max_sec,
+                    max_len=b0["max_len"],
                     repetition_penalty=1.35,
                 )
-            else:
-                pred_semantic_list, idx_list = tts.t2s_model.model.infer_panel(
-                    all_phoneme_ids,
-                    all_phoneme_lens,
-                    prompt,
-                    all_bert_features,
-                    top_k=vcfg["top_k"],
-                    top_p=vcfg["top_p"],
-                    temperature=vcfg["temperature"],
-                    early_stop_num=tts.configs.hz * tts.configs.max_sec,
-                    max_len=b["max_len"],
-                    repetition_penalty=1.35,
+                idx0 = (
+                    int(idx_val[0])
+                    if isinstance(idx_val, (list, tuple, torch.Tensor)) and getattr(idx_val, "ndim", 1) > 0
+                    else int(idx_val)
                 )
+                phones0 = b0["phones"][0].unsqueeze(0).to(tts.configs.device)
+                sem0 = pred_list[0][-idx0:].unsqueeze(0).unsqueeze(0)
+                wav0 = tts.vits_model.decode(
+                    sem0, phones0, refer_audio_spec, speed=1.0, sv_emb=sv_emb
+                ).detach()[0, 0, :]
+                return wav0.float().cpu().numpy()
 
-            for local_i, orig_flat_idx in enumerate(chunk_indices):
-                tok_len = int(idx_list[local_i])
-                ph_count = len(flat_items[orig_flat_idx]["phones"])
-                phones_t = batch_phones[local_i].unsqueeze(0).to(tts.configs.device)
-                if tok_len > 0:
-                    sem_t = pred_semantic_list[local_i][-tok_len:].unsqueeze(0).unsqueeze(0)
-                    wav_np = (
-                        tts.vits_model.decode(sem_t, phones_t, refer_audio_spec, speed=1.0, sv_emb=sv_emb)
-                        .detach()[0, 0, :]
-                        .float()
-                        .cpu()
-                        .numpy()
+            with torch.no_grad():
+                for start in range(0, len(order), batch_size):
+                    chunk_indices = order[start : start + batch_size]
+                    chunk_dicts = [
+                        {
+                            "phones": flat_items[idx]["phones"],
+                            "bert_features": flat_items[idx]["bert_features"],
+                            "norm_text": flat_items[idx]["norm_text"],
+                        }
+                        for idx in chunk_indices
+                    ]
+                    batches, _ = tts.to_batch(
+                        chunk_dicts,
+                        prompt_data=tts.prompt_cache,
+                        batch_size=len(chunk_dicts),
+                        split_bucket=False,
+                        device=tts.configs.device,
+                        precision=tts.precision,
                     )
-                else:
-                    wav_np = np.zeros(0, dtype=np.float32)
+                    b = batches[0]
+                    all_phoneme_ids = b["all_phones"]
+                    all_phoneme_lens = b["all_phones_len"]
+                    all_bert_features = b["all_bert_features"]
+                    batch_phones = b["phones"]
+                    prompt = (
+                        tts.prompt_cache["prompt_semantic"].expand(len(all_phoneme_ids), -1).to(tts.configs.device)
+                    )
 
-                dur_s = len(wav_np) / float(sr)
-                min_ok = max(0.55, ph_count / 28.0)
-                max_ok = max(18.0, ph_count / 2.8)
-                if dur_s < min_ok or dur_s > max_ok:
-                    for attempt_temp in (0.72, 0.65, 0.85):
-                        retries += 1
-                        cand = _single_fallback_synth(flat_items[orig_flat_idx], attempt_temp)
-                        cdur = len(cand) / float(sr)
-                        if min_ok <= cdur <= max_ok:
-                            wav_np = cand
-                            break
-                        if abs(cdur - ph_count / 12.0) < abs(dur_s - ph_count / 12.0):
-                            wav_np = cand
-                            dur_s = cdur
+                    if use_accel:
+                        pred_semantic_list, idx_list = tts.t2s_accel.infer_batch(
+                            all_phoneme_ids,
+                            all_phoneme_lens,
+                            prompt,
+                            all_bert_features,
+                            parallel_infer=True,
+                            use_cuda_graph=use_cuda_graph,
+                            use_flash_attention=False,
+                            top_k=vcfg["top_k"],
+                            top_p=vcfg["top_p"],
+                            temperature=vcfg["temperature"],
+                            early_stop_num=tts.configs.hz * tts.configs.max_sec,
+                            repetition_penalty=1.35,
+                        )
+                    else:
+                        pred_semantic_list, idx_list = tts.t2s_model.model.infer_panel(
+                            all_phoneme_ids,
+                            all_phoneme_lens,
+                            prompt,
+                            all_bert_features,
+                            top_k=vcfg["top_k"],
+                            top_p=vcfg["top_p"],
+                            temperature=vcfg["temperature"],
+                            early_stop_num=tts.configs.hz * tts.configs.max_sec,
+                            max_len=b["max_len"],
+                            repetition_penalty=1.35,
+                        )
 
-                c_idx, sub_idx = flat_owners[orig_flat_idx]
-                cue_fragments[c_idx][sub_idx] = wav_np
+                    for local_i, orig_flat_idx in enumerate(chunk_indices):
+                        tok_len = int(idx_list[local_i])
+                        ph_count = len(flat_items[orig_flat_idx]["phones"])
+                        phones_t = batch_phones[local_i].unsqueeze(0).to(tts.configs.device)
+                        if tok_len > 0:
+                            sem_t = pred_semantic_list[local_i][-tok_len:].unsqueeze(0).unsqueeze(0)
+                            wav_np = (
+                                tts.vits_model.decode(sem_t, phones_t, refer_audio_spec, speed=1.0, sv_emb=sv_emb)
+                                .detach()[0, 0, :]
+                                .float()
+                                .cpu()
+                                .numpy()
+                            )
+                        else:
+                            wav_np = np.zeros(0, dtype=np.float32)
 
-            done = min(start + batch_size, len(order))
-            if done % (batch_size * 8) == 0 or done == len(order):
-                elapsed = time.perf_counter() - t0
-                print(
-                    f"  [{lang}] Synthesized {done}/{len(order)} sentences in {elapsed:.1f}s "
-                    f"({done / max(elapsed, 1e-3):.1f} sent/s, guardrail retries={retries})"
+                        dur_s = len(wav_np) / float(sr)
+                        min_ok = max(0.55, ph_count / 28.0)
+                        max_ok = max(18.0, ph_count / 2.8)
+                        if dur_s < min_ok or dur_s > max_ok:
+                            for attempt_temp in (0.72, 0.65, 0.85):
+                                retries += 1
+                                cand = _single_fallback_synth(flat_items[orig_flat_idx], attempt_temp)
+                                cdur = len(cand) / float(sr)
+                                if min_ok <= cdur <= max_ok:
+                                    wav_np = cand
+                                    break
+                                if abs(cdur - ph_count / 12.0) < abs(dur_s - ph_count / 12.0):
+                                    wav_np = cand
+                                    dur_s = cdur
+
+                        local_c_idx, sub_idx = flat_owners[orig_flat_idx]
+                        cue_fragments[local_c_idx][sub_idx] = wav_np
+
+                    done = min(start + batch_size, len(order))
+                    if done % (batch_size * 10) == 0 or done == len(order):
+                        elapsed = time.perf_counter() - t0
+                        print(
+                            f"    [{lang.upper()}:{v_key}] {done}/{len(order)} sentences in {elapsed:.1f}s "
+                            f"({done / max(elapsed, 1e-3):.1f} sent/s, retries={retries})",
+                            flush=True,
+                        )
+
+            print(
+                f"    [{lang.upper()}:{v_key}] Submitting {len(p_entry_indices)} clips to background Opus encoder...",
+                flush=True,
+            )
+            for local_c_idx, e_idx in enumerate(p_entry_indices):
+                master_wav = master_cue_waveform(cue_fragments[local_c_idx], sr)
+                out_file = REPO_ROOT / entries[e_idx]["targets"][v_key]
+                encode_futures.append(
+                    encode_pool.submit(encode_opus_worker, (master_wav, sr, out_file, ffmpeg_bin, bitrate))
                 )
+            grand_files += len(p_entry_indices)
+
+        print(f"  [{lang.upper()}] Waiting for {len(encode_futures)} Opus encodes to finish...", flush=True)
+        for fut in as_completed(encode_futures):
+            _, dur = fut.result()
+            grand_audio_sec += dur
 
     if tts.t2s_accel is not None:
         tts.t2s_accel.close()
@@ -491,31 +605,15 @@ def synthesize_language(
     if torch.cuda.is_available():
         torch.cuda.empty_cache()
 
-    # 2. Master & encode all cues to .opus in parallel
-    print(f"  [{lang}] Mastering & encoding {len(pending)} .opus files via ffmpeg...")
-    encode_tasks: List[Tuple[np.ndarray, int, Path, str]] = []
-    for c_idx, entry in enumerate(pending):
-        master_wav = master_cue_waveform(cue_fragments[c_idx], sr)
-        out_file = REPO_ROOT / entry["audioPath"]
-        encode_tasks.append((master_wav, sr, out_file, ffmpeg_bin))
-
-    total_audio_sec = 0.0
-    with ThreadPoolExecutor(max_workers=12) as pool:
-        futs = [pool.submit(encode_opus_worker, t) for t in encode_tasks]
-        for fut in as_completed(futs):
-            _, dur = fut.result()
-            total_audio_sec += dur
-
-    total_wall = time.perf_counter() - t0
     print(
-        f"  ✓ [{lang}] Wrote {len(pending)} .opus cues ({total_audio_sec / 60.0:.1f} min of audio) "
-        f"in {total_wall:.1f}s ({total_audio_sec / max(total_wall, 1e-3):.1f}x realtime)"
+        f"  ✓ [{lang.upper()}] Wrote {grand_files} .opus files ({grand_audio_sec / 60.0:.1f} min of audio)",
+        flush=True,
     )
-    return len(pending), total_audio_sec
+    return grand_files, grand_audio_sec
 
 
 def main() -> None:
-    parser = argparse.ArgumentParser(description="Generate static .opus tour narration with GPT-SoVITS v2ProPlus")
+    parser = argparse.ArgumentParser(description="Generate multi-voice .opus narration with GPT-SoVITS v2ProPlus")
     parser.add_argument("--manifest", type=Path, default=DEFAULT_MANIFEST, help="Path to dist/tour_cues_manifest.json")
     parser.add_argument("--gsv-root", type=Path, default=Path("/tmp/GPT-SoVITS"), help="Path to GPT-SoVITS checkout")
     parser.add_argument("--en-t2s", type=str, default=None, help="Override English s1 checkpoint path")
@@ -527,7 +625,10 @@ def main() -> None:
         help="VITS generator checkpoint path relative to --gsv-root",
     )
     parser.add_argument("--langs", nargs="+", choices=["en", "es"], default=["en", "es"])
-    parser.add_argument("--batch-size", type=int, default=16)
+    parser.add_argument("--en-voices", nargs="+", choices=["v1", "v2", "v3"], default=["v1", "v2", "v3"])
+    parser.add_argument("--kinds", nargs="+", choices=["tour", "lens"], default=["tour", "lens"])
+    parser.add_argument("--batch-size", type=int, default=32)
+    parser.add_argument("--bitrate", type=str, default="16k", help="Opus target VBR bitrate (default: 16k)")
     parser.add_argument("--limit", type=int, default=0, help="Optional limit per language for smoke testing")
     parser.add_argument("--force", action="store_true", help="Overwrite existing .opus files")
     args = parser.parse_args()
@@ -544,6 +645,10 @@ def main() -> None:
 
     ensure_gsv_spanish_support(gsv_root)
 
+    # Unpack existing audio archives if needed, and clean out legacy flat `audio/en/<tourRoot>` dirs
+    if "en" in args.langs and args.limit == 0:
+        cleanup_legacy_flat_en_dirs()
+
     # GPT-SoVITS speaker verification (`sv.py`) resolves relative paths from CWD on import
     os.chdir(gsv_root)
     if str(gsv_root) not in sys.path:
@@ -552,29 +657,50 @@ def main() -> None:
         sys.path.insert(0, str(gsv_root / "GPT_SoVITS"))
 
     manifest_data = json.loads(args.manifest.read_text(encoding="utf-8"))
-    all_entries: List[Dict[str, Any]] = manifest_data["entries"]
+    all_entries: List[Dict[str, Any]] = [
+        e for e in manifest_data["entries"] if e.get("kind", "tour") in set(args.kinds)
+    ]
 
     grand_count = 0
     grand_sec = 0.0
     t_start = time.perf_counter()
 
-    for lang in args.langs:
-        lang_entries = [e for e in all_entries if e["lang"] == lang]
+    if "en" in args.langs:
+        en_entries = [e for e in all_entries if e["lang"] == "en"]
         if args.limit > 0:
-            lang_entries = lang_entries[: args.limit]
-        t2s_ckpt = (
-            args.en_t2s
-            if (lang == "en" and args.en_t2s)
-            else (args.es_t2s if (lang == "es" and args.es_t2s) else VOICE_CONFIGS[lang]["default_t2s"])
-        )
-        cnt, sec = synthesize_language(
-            entries=lang_entries,
-            lang=lang,
+            en_entries = en_entries[: args.limit]
+        en_specs = [(vk, EN_VOICE_CONFIGS[vk]) for vk in args.en_voices]
+        en_t2s = args.en_t2s or EN_VOICE_CONFIGS["v1"]["default_t2s"]
+        cnt, sec = synthesize_voice_group(
+            entries=en_entries,
+            lang="en",
+            voice_specs=en_specs,
             gsv_root=gsv_root,
-            t2s_weights=t2s_ckpt,
+            t2s_weights=en_t2s,
             vits_weights=args.vits,
             batch_size=args.batch_size,
             ffmpeg_bin=ffmpeg_bin,
+            bitrate=args.bitrate,
+            force=args.force,
+        )
+        grand_count += cnt
+        grand_sec += sec
+
+    if "es" in args.langs:
+        es_entries = [e for e in all_entries if e["lang"] == "es"]
+        if args.limit > 0:
+            es_entries = es_entries[: args.limit]
+        es_t2s = args.es_t2s or ES_VOICE_CONFIG["default_t2s"]
+        cnt, sec = synthesize_voice_group(
+            entries=es_entries,
+            lang="es",
+            voice_specs=[("es", ES_VOICE_CONFIG)],
+            gsv_root=gsv_root,
+            t2s_weights=es_t2s,
+            vits_weights=args.vits,
+            batch_size=args.batch_size,
+            ffmpeg_bin=ffmpeg_bin,
+            bitrate=args.bitrate,
             force=args.force,
         )
         grand_count += cnt
@@ -582,7 +708,8 @@ def main() -> None:
 
     print(
         f"\nAll done! Generated {grand_count} .opus narration files "
-        f"({grand_sec / 60.0:.1f} min total audio) in {(time.perf_counter() - t_start) / 60.0:.2f} min."
+        f"({grand_sec / 60.0:.1f} min total audio) in {(time.perf_counter() - t_start) / 60.0:.2f} min.",
+        flush=True,
     )
 
 

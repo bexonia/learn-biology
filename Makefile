@@ -40,15 +40,34 @@ bootstrap:
 	@command -v npm >/dev/null || (echo "npm not found"; exit 1)
 	npm ci
 
+AUDIO_ARCHIVES := \
+	audio.tar.gz \
+	audio_lenses_v1_a.tar.gz audio_lenses_v1_b.tar.gz \
+	audio_lenses_v2_a.tar.gz audio_lenses_v2_b.tar.gz \
+	audio_lenses_v3_a.tar.gz audio_lenses_v3_b.tar.gz \
+	audio_lenses_es_a.tar.gz audio_lenses_es_b.tar.gz
+
 unpack-audio:
-	@if [ ! -d audio/en ] && [ -f audio.tar.gz ]; then \
-		echo "==> Extracting audio.tar.gz into audio/ ..."; \
-		tar -xzf audio.tar.gz; \
+	@if [ ! -d audio/en/v1 ] || [ ! -d audio/lenses/en/v1/scientific ] || [ ! -d audio/lenses/es/scientific ]; then \
+		for f in $(AUDIO_ARCHIVES); do \
+			if [ -f "$$f" ]; then \
+				echo "==> Extracting $$f into audio/ ..."; \
+				tar -xzf "$$f"; \
+			fi; \
+		done; \
 	fi
 
 pack-audio:
-	@echo "==> Archiving audio/ into audio.tar.gz ..."
-	tar -czf audio.tar.gz audio
+	@echo "==> Archiving multi-voice tour & lens narration into sharded <45MB tarballs ..."
+	tar -czf audio.tar.gz audio/en audio/es
+	tar -czf audio_lenses_v1_a.tar.gz audio/lenses/en/v1/simple audio/lenses/en/v1/story
+	tar -czf audio_lenses_v1_b.tar.gz audio/lenses/en/v1/blueprint audio/lenses/en/v1/scientific
+	tar -czf audio_lenses_v2_a.tar.gz audio/lenses/en/v2/simple audio/lenses/en/v2/story
+	tar -czf audio_lenses_v2_b.tar.gz audio/lenses/en/v2/blueprint audio/lenses/en/v2/scientific
+	tar -czf audio_lenses_v3_a.tar.gz audio/lenses/en/v3/simple audio/lenses/en/v3/story
+	tar -czf audio_lenses_v3_b.tar.gz audio/lenses/en/v3/blueprint audio/lenses/en/v3/scientific
+	tar -czf audio_lenses_es_a.tar.gz audio/lenses/es/simple audio/lenses/es/story
+	tar -czf audio_lenses_es_b.tar.gz audio/lenses/es/blueprint audio/lenses/es/scientific
 
 typecheck:
 	npm run typecheck

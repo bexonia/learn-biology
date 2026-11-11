@@ -29,6 +29,18 @@ import {
   createStaticTourNarrator,
   normalizeSpeechText
 } from '../src/core/narrator_service.js';
+import {
+  ENGLISH_VOICE_IDS,
+  EXPLANATION_MODES,
+  NODE_LENS_REGISTRY,
+  PART_LENS_REGISTRY,
+  PRESET_VOICE_BY_MODE,
+  STANDALONE_PAGE_PART_KEYS,
+  parseRichInline,
+  resolveEnglishVoice,
+  stripRichLinks,
+  type EnglishVoiceId
+} from '../src/content/index.js';
 
 const ROOT_DIR = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 
@@ -296,6 +308,123 @@ async function runUnitTests() {
     unsubscribe();
     assert.deepEqual(observedLocales, ['es', 'en'], 'AtomRef subscription must emit locale transitions');
     ok(`I18nService (Effect service + AtomRef reactivity, 208/208 ES node descriptions, ${totalTranslatedCues}/655 ES tour cues verified)`);
+
+    // Explanation Modes (Simple, Story, Blueprint, Scientific) + 208 Node Lenses + 149 Realistic Part Lenses checks
+    const validNodeIds = new Set(Object.keys(esDef.nodes));
+    assert.equal(validNodeIds.size, 208, 'Expected 208 total explorer node IDs');
+    assert.equal(
+      Object.keys(NODE_LENS_REGISTRY).length,
+      208,
+      `Expected 208 registered node lenses, got ${Object.keys(NODE_LENS_REGISTRY).length}`
+    );
+    const verifyInlineTokens = (ctx: string, raw: string) => {
+      for (const tok of parseRichInline(raw)) {
+        if (tok.type === 'link') {
+          assert.ok(validNodeIds.has(tok.nodeId), `${ctx}: invalid [[${tok.label}|${tok.nodeId}]] target`);
+        }
+      }
+    };
+    for (const nodeId of validNodeIds) {
+      const rec = NODE_LENS_REGISTRY[nodeId];
+      assert.ok(rec, `Missing NODE_LENS_REGISTRY entry for ${nodeId}`);
+      for (const loc of ['en', 'es'] as const) {
+        const entry = rec[loc];
+        assert.ok(entry, `Missing ${loc} lens entry for ${nodeId}`);
+        for (const m of EXPLANATION_MODES) {
+          assert.ok(entry[m] && entry[m].trim().length >= 20, `Node ${nodeId} [${loc}.${m}] too short`);
+          verifyInlineTokens(`node:${nodeId}.${loc}.${m}`, entry[m]);
+        }
+        assert.notEqual(stripRichLinks(entry.simple), stripRichLinks(entry.story), `Node ${nodeId} [${loc}] simple === story`);
+        assert.notEqual(stripRichLinks(entry.story), stripRichLinks(entry.scientific), `Node ${nodeId} [${loc}] story === scientific`);
+      }
+      assert.notEqual(stripRichLinks(rec.en.story), stripRichLinks(rec.es.story), `Node ${nodeId} en.story === es.story`);
+    }
+
+    let verifiedPartCount = 0;
+    for (const [pageName, partKeys] of Object.entries(STANDALONE_PAGE_PART_KEYS)) {
+      const pMap = PART_LENS_REGISTRY[pageName];
+      assert.ok(pMap, `Missing PART_LENS_REGISTRY page ${pageName}`);
+      for (const pk of partKeys) {
+        const rec = pMap[pk];
+        assert.ok(rec, `Missing PART_LENS_REGISTRY[${pageName}][${pk}]`);
+        for (const loc of ['en', 'es'] as const) {
+          const e = rec[loc];
+          assert.ok(e.subtitle && e.subtitle.trim().length >= 3, `Missing subtitle for ${pageName}:${pk}.${loc}`);
+          for (const m of ['simple', 'story', 'scientific'] as const) {
+            assert.ok(e[m] && e[m].trim().length >= 20, `Part ${pageName}:${pk} [${loc}.${m}] too short`);
+            verifyInlineTokens(`part:${pageName}:${pk}.${loc}.${m}`, e[m]);
+          }
+          for (const bf of ['role', 'arrivesFrom', 'inside', 'deliversTo'] as const) {
+            assert.ok(e.blueprint[bf] && e.blueprint[bf].trim().length >= 5, `Part ${pageName}:${pk} [${loc}.blueprint.${bf}] missing`);
+            verifyInlineTokens(`part:${pageName}:${pk}.${loc}.blueprint.${bf}`, e.blueprint[bf]);
+          }
+          for (const dir of ['from', 'to'] as const) {
+            for (const link of e[dir] ?? []) {
+              assert.ok(validNodeIds.has(link.nodeId), `Part ${pageName}:${pk} [${loc}.${dir}] invalid flow nodeId ${link.nodeId}`);
+            }
+          }
+        }
+        verifiedPartCount++;
+      }
+    }
+    assert.equal(verifiedPartCount, 149, `Expected 149 verified realistic part lenses across 9 pages, got ${verifiedPartCount}`);
+
+    const observedModes: string[] = [];
+    const unsubMode = i18n.onModeChange((m) => observedModes.push(m));
+    Effect.runSync(i18n.setModeEffect('scientific'));
+    assert.equal(i18n.mode, 'scientific');
+    const sciMito = i18n.nodeDesc('mitochondrion', 'fallback');
+    Effect.runSync(i18n.setModeEffect('blueprint'));
+    const bpMito = i18n.nodeDesc('mitochondrion', 'fallback');
+    Effect.runSync(i18n.setModeEffect('simple'));
+    const simMito = i18n.nodeDesc('mitochondrion', 'fallback');
+    Effect.runSync(i18n.setModeEffect('story'));
+    const storyMito = i18n.nodeDesc('mitochondrion', 'fallback');
+    assert.notEqual(sciMito, storyMito);
+    assert.notEqual(bpMito, storyMito);
+    assert.notEqual(simMito, storyMito);
+    unsubMode();
+    assert.deepEqual(observedModes, ['scientific', 'blueprint', 'simple', 'story']);
+    ok('Multi-mode Explanation Lenses (208/208 bilingual node lenses, 149/149 bilingual realistic part supply chains, & AtomRef mode reactivity)');
+
+    // Multi-Voice Preset (Auto) vs Custom Override reactivity checks
+    assert.deepEqual(PRESET_VOICE_BY_MODE, {
+      simple: 'v3',
+      story: 'v3',
+      blueprint: 'v2',
+      scientific: 'v1'
+    });
+    assert.equal(resolveEnglishVoice('story', 'auto'), 'v3');
+    assert.equal(resolveEnglishVoice('simple', 'auto'), 'v3');
+    assert.equal(resolveEnglishVoice('blueprint', 'auto'), 'v2');
+    assert.equal(resolveEnglishVoice('scientific', 'auto'), 'v1');
+    assert.equal(resolveEnglishVoice('scientific', 'v3'), 'v3');
+
+    assert.equal(i18n.voicePreference, 'auto');
+    assert.equal(i18n.activeEnglishVoice, 'v3'); // mode is currently 'story'
+    const observedVoiceTransitions: Array<{ pref: string; active: string }> = [];
+    const unsubVoice = i18n.onVoiceChange((pref) => {
+      observedVoiceTransitions.push({ pref, active: i18n.activeEnglishVoice });
+    });
+    i18n.setMode('blueprint');
+    assert.equal(i18n.activeEnglishVoice, 'v2', 'Auto preset must redirect Blueprint mode to Voice 2 (Engineers)');
+    i18n.setMode('scientific');
+    assert.equal(i18n.activeEnglishVoice, 'v1', 'Auto preset must redirect Scientific mode to Voice 1 (Scientific)');
+    i18n.setVoicePreference('v2');
+    assert.equal(i18n.voicePreference, 'v2');
+    assert.equal(i18n.activeEnglishVoice, 'v2');
+    i18n.setMode('story');
+    assert.equal(i18n.activeEnglishVoice, 'v2', 'Custom voice selection must remain locked when switching modes');
+    i18n.setMode('scientific');
+    assert.equal(i18n.activeEnglishVoice, 'v2', 'Custom voice selection must remain locked in Scientific mode');
+    i18n.resetVoiceToPreset();
+    assert.equal(i18n.voicePreference, 'auto');
+    assert.equal(i18n.activeEnglishVoice, 'v1', 'Resetting to preset in Scientific mode must restore Voice 1');
+    i18n.setMode('story');
+    assert.equal(i18n.activeEnglishVoice, 'v3', 'Auto preset in Story mode must restore Voice 3');
+    unsubVoice();
+    assert.ok(observedVoiceTransitions.length >= 5, 'onVoiceChange must emit on both preset auto-redirects and manual selections');
+    ok('Multi-Voice Preset & Custom Selector reactivity (Voice 1 Scientific, Voice 2 Engineers, Voice 3 Kids/Learners, & Preset lock/unlock)');
   });
 
   // Test 3: LearnAuthProgressStore (optional user registration, in-memory session & progress cache, cookie renewal, per-course reset)
@@ -388,14 +517,33 @@ async function runUnitTests() {
     `Unexpected ES speech normalization: ${normEs}`
   );
 
+  const normSci = normalizeSpeechText(
+    'In E. coli, ATP hydrolysis yields ΔG°′ = -30.5 kJ/mol at 285 subunit⁻¹·s⁻¹ across 1 µF/cm² (4.2 Å², 10⁻⁹ error).',
+    'en-US'
+  );
+  assert.ok(
+    normSci.includes('Escherichia coli') &&
+      normSci.includes('delta G naught prime') &&
+      normSci.includes('kilojoules per mole') &&
+      normSci.includes('per subunit') &&
+      normSci.includes('per second') &&
+      normSci.includes('microfarads per square centimeter') &&
+      normSci.includes('square angstroms') &&
+      normSci.includes('10 to the minus 9') &&
+      !/[^\x00-\x7F]/.test(normSci),
+    `Unexpected scientific EN speech normalization: ${normSci}`
+  );
+
   const playedAudioUrls: Array<{ src: string; volume: number; rate: number }> = [];
   const prefetchedAudioUrls: string[] = [];
   let mockRuntimePace = 1.25;
+  let mockActiveVoice: EnglishVoiceId = 'v3';
   const mockNarrator = createStaticTourNarrator({
     audioBaseUrl: 'audio',
     storage: null,
     initialVolume: 0.8,
     initialRate: 1.0,
+    getVoice: () => mockActiveVoice,
     getTourRuntime: () => ({
       state: { root: 'real-cell' },
       T: {
@@ -431,23 +579,46 @@ async function runUnitTests() {
     lang: 'en-US'
   });
   assert.equal(playedAudioUrls.length, 1);
-  assert.equal(playedAudioUrls[0]?.src, 'audio/en/real-cell/ch1.membrane.01.opus');
+  assert.equal(playedAudioUrls[0]?.src, 'audio/en/v3/real-cell/ch1.membrane.01.opus');
   assert.equal(playedAudioUrls[0]?.volume, 0.8);
   assert.equal(playedAudioUrls[0]?.rate, 1.25);
-  assert.deepEqual(prefetchedAudioUrls, ['audio/en/real-cell/ch1.membrane.02.opus']);
+  assert.deepEqual(prefetchedAudioUrls, ['audio/en/v3/real-cell/ch1.membrane.02.opus']);
+
+  mockActiveVoice = 'v1';
+  await mockNarrator.speak({
+    id: 'ch1.membrane.01',
+    lang: 'en-US'
+  });
+  assert.equal(playedAudioUrls[1]?.src, 'audio/en/v1/real-cell/ch1.membrane.01.opus');
+  assert.equal(prefetchedAudioUrls[1], 'audio/en/v1/real-cell/ch1.membrane.02.opus');
 
   mockRuntimePace = 1.0;
   await mockNarrator.speak({
     id: 'ch1.membrane.01',
     lang: 'es-ES'
   });
-  assert.equal(playedAudioUrls[1]?.src, 'audio/es/real-cell/ch1.membrane.01.opus');
+  assert.equal(playedAudioUrls[2]?.src, 'audio/es/real-cell/ch1.membrane.01.opus');
+
+  await mockNarrator.speakLens({
+    nodeId: 'mitochondrion',
+    mode: 'blueprint',
+    lang: 'en-US',
+    voice: 'v2'
+  });
+  assert.equal(playedAudioUrls[3]?.src, 'audio/lenses/en/v2/blueprint/mitochondrion.opus');
+
+  await mockNarrator.speakLens({
+    nodeId: 'mitochondrion',
+    mode: 'story',
+    lang: 'es-ES'
+  });
+  assert.equal(playedAudioUrls[4]?.src, 'audio/lenses/es/story/mitochondrion.opus');
 
   // Unscripted node detail fallback cues (detail.*) must skip network fetch cleanly
   assert.equal(mockNarrator.resolveAudioUrl({ id: 'detail.mitochondrion.1', lang: 'en-US', root: 'real-cell' }), null);
   await mockNarrator.speak({ id: 'detail.mitochondrion.1', lang: 'en-US' });
-  assert.equal(playedAudioUrls.length, 2);
-  ok('StaticTourNarrator (pre-generated EN/ES .opus resolution, next-cue prefetching, pace/volume sync, & scientific text normalization)');
+  assert.equal(playedAudioUrls.length, 5);
+  ok('StaticTourNarrator (multi-voice EN v1/v2/v3 + ES v7 .opus resolution, node lens read-aloud, prefetching, & scientific symbol normalization)');
 }
 
 function runStaticChecks() {
@@ -488,44 +659,104 @@ function runStaticChecks() {
   assert.ok(deployYml.includes("github.ref == 'refs/heads/main'"), 'Publish job must require refs/heads/main');
   ok('CI/CD pipeline security checks (CODEOWNERS, read-only default token, external PR guard, production environment)');
 
-  // Verify audio.tar.gz archive is present, loose audio/ files are NOT tracked in Git, and all 1,534 .opus cues exist
-  const audioArchivePath = path.join(ROOT_DIR, 'audio.tar.gz');
-  assert.ok(fs.existsSync(audioArchivePath), 'Missing audio.tar.gz narration archive at repository root');
+  // Verify Public Domain voice references, sharded <50MB audio*.tar.gz archives, gitignored audio/, and all 6,396 .opus files
+  const requiredRefVoices = [
+    'en_v1_david_clarke.wav',
+    'en_v2_peter_yearsley.wav',
+    'en_v3_martin_geeson.wav',
+    'es_v7_victor_villarraza.wav',
+    'ATTRIBUTION.md'
+  ];
+  for (const vf of requiredRefVoices) {
+    assert.ok(fs.existsSync(path.join(ROOT_DIR, 'tools', 'voices', vf)), `Missing Public Domain voice asset tools/voices/${vf}`);
+  }
+  const attributionMd = fs.readFileSync(path.join(ROOT_DIR, 'tools', 'voices', 'ATTRIBUTION.md'), 'utf8');
+  assert.ok(attributionMd.includes('CC0') && attributionMd.includes('LibriVox'), 'ATTRIBUTION.md must document Public Domain CC0 LibriVox provenance');
+
+  const AUDIO_ARCHIVES = [
+    'audio.tar.gz',
+    'audio_lenses_v1_a.tar.gz',
+    'audio_lenses_v1_b.tar.gz',
+    'audio_lenses_v2_a.tar.gz',
+    'audio_lenses_v2_b.tar.gz',
+    'audio_lenses_v3_a.tar.gz',
+    'audio_lenses_v3_b.tar.gz',
+    'audio_lenses_es_a.tar.gz',
+    'audio_lenses_es_b.tar.gz'
+  ];
+  for (const archiveName of AUDIO_ARCHIVES) {
+    const archivePath = path.join(ROOT_DIR, archiveName);
+    assert.ok(fs.existsSync(archivePath), `Missing sharded narration archive ${archiveName} at repository root`);
+    const sizeBytes = fs.statSync(archivePath).size;
+    assert.ok(
+      sizeBytes > 100_000 && sizeBytes < 48 * 1024 * 1024,
+      `Archive ${archiveName} (${(sizeBytes / (1024 * 1024)).toFixed(2)} MB) must stay under 48 MB for GitHub compatibility`
+    );
+  }
   const trackedAudioFiles = execSync('git ls-files "audio/*"', { cwd: ROOT_DIR, encoding: 'utf8' }).trim();
   assert.equal(trackedAudioFiles, '', `Expected 0 tracked files under gitignored audio/, found:\n${trackedAudioFiles.slice(0, 300)}`);
-  if (!fs.existsSync(path.join(ROOT_DIR, 'audio', 'en'))) {
-    execSync('tar -xzf audio.tar.gz', { cwd: ROOT_DIR });
+  if (
+    !fs.existsSync(path.join(ROOT_DIR, 'audio', 'en', 'v1')) ||
+    !fs.existsSync(path.join(ROOT_DIR, 'audio', 'lenses', 'en', 'v1', 'scientific')) ||
+    !fs.existsSync(path.join(ROOT_DIR, 'audio', 'lenses', 'es', 'scientific'))
+  ) {
+    for (const archiveName of AUDIO_ARCHIVES) {
+      execSync(`tar -xzf ${archiveName}`, { cwd: ROOT_DIR });
+    }
   }
 
-  let verifiedOpusCount = 0;
+  const verifyOpusFile = (rel: string) => {
+    const full = path.join(ROOT_DIR, rel);
+    assert.ok(fs.existsSync(full), `Missing pre-generated GPT-SoVITS narration file: ${rel}`);
+    const buf = fs.readFileSync(full);
+    assert.ok(buf.length > 500, `Pre-generated narration file is unexpectedly small (${buf.length} B): ${rel}`);
+    assert.equal(buf.subarray(0, 4).toString('ascii'), 'OggS', `Invalid Ogg Opus header in ${rel}`);
+  };
+
+  let verifiedTourOpusCount = 0;
   runBiologyApp(20261031, ({ tours }) => {
-    for (const lang of ['en', 'es'] as const) {
-      for (const tour of Object.values(tours.tours)) {
-        const seen = new Set<string>();
-        const checkCue = (cueId: string) => {
-          if (seen.has(cueId)) return;
-          seen.add(cueId);
-          const rel = path.join('audio', lang, tour.root, `${encodeURIComponent(cueId)}.opus`);
-          const full = path.join(ROOT_DIR, rel);
-          assert.ok(fs.existsSync(full), `Missing pre-generated GPT-SoVITS narration file: ${rel}`);
-          const buf = fs.readFileSync(full);
-          assert.ok(buf.length > 500, `Pre-generated narration file is unexpectedly small (${buf.length} B): ${rel}`);
-          assert.equal(buf.subarray(0, 4).toString('ascii'), 'OggS', `Invalid Ogg Opus header in ${rel}`);
-          verifiedOpusCount++;
-        };
-        for (const ch of tour.chapters) {
-          for (const step of ch.steps) {
-            for (const cue of step.cues) checkCue(cue.id);
-          }
+    for (const tour of Object.values(tours.tours)) {
+      const seen = new Set<string>();
+      const collectCue = (cueId: string) => {
+        if (seen.has(cueId)) return;
+        seen.add(cueId);
+        for (const vid of ENGLISH_VOICE_IDS) {
+          verifyOpusFile(path.join('audio', 'en', vid, tour.root, `${encodeURIComponent(cueId)}.opus`));
+          verifiedTourOpusCount++;
         }
-        for (const det of Object.values(tour.details ?? {})) {
-          for (const cue of det.cues ?? []) checkCue(cue.id);
+        verifyOpusFile(path.join('audio', 'es', tour.root, `${encodeURIComponent(cueId)}.opus`));
+        verifiedTourOpusCount++;
+      };
+      for (const ch of tour.chapters) {
+        for (const step of ch.steps) {
+          for (const cue of step.cues) collectCue(cue.id);
         }
+      }
+      for (const det of Object.values(tour.details ?? {})) {
+        for (const cue of det.cues ?? []) collectCue(cue.id);
       }
     }
   });
-  assert.equal(verifiedOpusCount, 1534, `Expected 1534 verified EN/ES .opus files, got ${verifiedOpusCount}`);
-  ok(`All ${verifiedOpusCount} pre-generated GPT-SoVITS bilingual (.opus) narration files verified (valid OggS headers)`);
+  assert.equal(verifiedTourOpusCount, 3068, `Expected 3068 verified multi-voice tour .opus files, got ${verifiedTourOpusCount}`);
+
+  let verifiedLensOpusCount = 0;
+  for (const nodeId of Object.keys(NODE_LENS_REGISTRY)) {
+    const safeNode = encodeURIComponent(nodeId);
+    for (const mode of EXPLANATION_MODES) {
+      for (const vid of ENGLISH_VOICE_IDS) {
+        verifyOpusFile(path.join('audio', 'lenses', 'en', vid, mode, `${safeNode}.opus`));
+        verifiedLensOpusCount++;
+      }
+      verifyOpusFile(path.join('audio', 'lenses', 'es', mode, `${safeNode}.opus`));
+      verifiedLensOpusCount++;
+    }
+  }
+  assert.equal(verifiedLensOpusCount, 3328, `Expected 3328 verified multi-voice node lens .opus files, got ${verifiedLensOpusCount}`);
+  const totalOpusCount = verifiedTourOpusCount + verifiedLensOpusCount;
+  assert.equal(totalOpusCount, 6396, `Expected 6396 total verified .opus files, got ${totalOpusCount}`);
+  ok(
+    `All ${totalOpusCount} pre-generated Public Domain GPT-SoVITS (.opus) files verified (${verifiedTourOpusCount} tour cues + ${verifiedLensOpusCount} 4-mode lenses across EN v1/v2/v3 & ES v7, all 9 archives < 48 MB)`
+  );
 }
 
 function startStaticServer(rootDir: string): Promise<{ server: http.Server; port: number; store: LearnAuthProgressStore }> {
@@ -819,6 +1050,131 @@ async function runBrowserE2ETests() {
         assert.equal(explorerCheck.tourRoots.length, 10);
         assert.equal(explorerCheck.langSwitchOk, true);
 
+        // Verify 4-Mode Explanation Selector (#lensBar), Preset/Custom Voice Selector (#lensVoiceBar), Connected Supply-Chain Cards (#io), and Inline Links in Browser
+        const lensE2E = await cdp.eval<{
+          modeButtonsCount: number;
+          storyHasIoCard: boolean;
+          blueprintHasRows: boolean;
+          scientificDistinct: boolean;
+          simpleDistinct: boolean;
+          esStoryDistinct: boolean;
+          cookieSavedMode: boolean;
+          presetVoiceByModeOk: boolean;
+          customVoiceLockOk: boolean;
+          presetResetButtonOk: boolean;
+          esVoiceBadgeOk: boolean;
+          chipNavigatedPath: string;
+        }>(`
+          (() => {
+            const exp = window.__explorer;
+            exp.i18n.setLocale('en');
+            exp.i18n.resetVoiceToPreset();
+            exp.i18n.setMode('story');
+            exp.showNow(['real-cell', 'mitochondrion']);
+
+            const voiceBar = document.getElementById('lensVoiceBar');
+            const voiceSelect = document.getElementById('voiceSelect');
+            const presetBtn = document.getElementById('voicePresetBtn');
+            const esTag = document.getElementById('voiceEsTag');
+            const speakBtn = document.getElementById('lensSpeakBtn');
+            if (!voiceBar || !voiceSelect || !presetBtn || !esTag || !speakBtn) {
+              throw new Error('Missing #lensVoiceBar voice controls');
+            }
+
+            const storyVoice = voiceBar.dataset.activeVoice;
+            const initialPresetOn = presetBtn.classList.contains('on');
+
+            const lensBtns = document.querySelectorAll('#lensBar button[data-mode]');
+            const modeButtonsCount = lensBtns.length;
+            const storyDesc = document.getElementById('desc')?.textContent ?? '';
+            const storyIoSub = document.querySelector('#io .io-sub')?.textContent ?? '';
+            const storyChips = document.querySelectorAll('#io .io-chip');
+            const storyHasIoCard = storyIoSub.length > 3 && storyChips.length > 0;
+
+            document.querySelector('#lensBar button[data-mode="blueprint"]')?.click();
+            const bpRows = document.querySelectorAll('#io .io-bp-row').length;
+            const bpDesc = document.getElementById('desc')?.textContent ?? '';
+            const bpVoice = voiceBar.dataset.activeVoice;
+
+            document.querySelector('#lensBar button[data-mode="scientific"]')?.click();
+            const sciDesc = document.getElementById('desc')?.textContent ?? '';
+            const sciVoice = voiceBar.dataset.activeVoice;
+            const cookieSavedMode = document.cookie.includes('bexonia_learn_progress=') && window.__progress.explanationMode === 'scientific';
+
+            document.querySelector('#lensBar button[data-mode="simple"]')?.click();
+            const simDesc = document.getElementById('desc')?.textContent ?? '';
+            const simVoice = voiceBar.dataset.activeVoice;
+
+            const presetVoiceByModeOk =
+              initialPresetOn &&
+              storyVoice === 'v3' &&
+              bpVoice === 'v2' &&
+              sciVoice === 'v1' &&
+              simVoice === 'v3';
+
+            // Lock custom Voice 2 (Engineers) via selector and confirm Scientific mode does NOT override it
+            voiceSelect.value = 'v2';
+            voiceSelect.dispatchEvent(new Event('change'));
+            document.querySelector('#lensBar button[data-mode="scientific"]')?.click();
+            const customVoiceLockOk =
+              !presetBtn.classList.contains('on') &&
+              window.__progress.voicePreference === 'v2' &&
+              voiceBar.dataset.activeVoice === 'v2';
+
+            // Click Preset button to restore automatic mode-based voice redirection
+            presetBtn.click();
+            const restoredSciVoice = voiceBar.dataset.activeVoice;
+            document.querySelector('#lensBar button[data-mode="story"]')?.click();
+            const restoredStoryVoice = voiceBar.dataset.activeVoice;
+            const presetResetButtonOk =
+              presetBtn.classList.contains('on') &&
+              window.__progress.voicePreference === 'auto' &&
+              restoredSciVoice === 'v1' &&
+              restoredStoryVoice === 'v3';
+
+            exp.i18n.setLocale('es');
+            const esStoryDesc = document.getElementById('desc')?.textContent ?? '';
+            const esVoiceBadgeOk = voiceSelect.hidden && presetBtn.hidden && !esTag.hidden && voiceBar.dataset.activeVoice === 'es';
+            exp.i18n.setLocale('en');
+
+            // Click a supply-chain chip in #io and verify navigation
+            const firstChip = document.querySelector('#io .io-chip');
+            let chipNavigatedPath = '';
+            if (firstChip) {
+              firstChip.click();
+              chipNavigatedPath = location.hash;
+            }
+            exp.showNow(['real-cell']);
+
+            return {
+              modeButtonsCount,
+              storyHasIoCard,
+              blueprintHasRows: bpRows >= 4 && bpDesc !== storyDesc,
+              scientificDistinct: sciDesc !== storyDesc && sciDesc !== bpDesc,
+              simpleDistinct: simDesc !== storyDesc && simDesc !== sciDesc,
+              esStoryDistinct: esStoryDesc !== storyDesc && esStoryDesc.length > 40,
+              cookieSavedMode,
+              presetVoiceByModeOk,
+              customVoiceLockOk,
+              presetResetButtonOk,
+              esVoiceBadgeOk,
+              chipNavigatedPath
+            };
+          })()
+        `);
+        assert.equal(lensE2E.modeButtonsCount, 4, '#lensBar must render 4 explanation mode buttons');
+        assert.equal(lensE2E.storyHasIoCard, true, 'Story mode must render .io-card with subtitle and supply-chain chips');
+        assert.equal(lensE2E.blueprintHasRows, true, 'Blueprint mode must render structured .io-bp-row entries');
+        assert.equal(lensE2E.scientificDistinct, true, 'Scientific mode must switch #desc cleanly without reloading WebGL');
+        assert.equal(lensE2E.simpleDistinct, true, 'Simple mode must switch #desc cleanly');
+        assert.equal(lensE2E.esStoryDistinct, true, 'Spanish Story mode must render translated narrative');
+        assert.equal(lensE2E.cookieSavedMode, true, 'Selected explanation mode must persist in CourseProgressManager & cookie');
+        assert.equal(lensE2E.presetVoiceByModeOk, true, 'Preset mode must auto-redirect voices (Simple/Story -> v3, Blueprint -> v2, Scientific -> v1)');
+        assert.equal(lensE2E.customVoiceLockOk, true, 'Selecting custom voice from #voiceSelect must lock across mode switches & persist in cookie');
+        assert.equal(lensE2E.presetResetButtonOk, true, 'Clicking #voicePresetBtn must restore automatic per-mode preset voice redirection');
+        assert.equal(lensE2E.esVoiceBadgeOk, true, 'Spanish locale must display Voice 7 badge and hide English selector');
+        assert.ok(lensE2E.chipNavigatedPath.startsWith('#'), 'Clicking a supply-chain .io-chip must navigate in Explorer');
+
         // Verify in-browser CourseProgressManager, cookies, #tReset (Start from beginning), and optional account sync
         const progressE2E = await cdp.eval<{
           hasInitialCookie: boolean;
@@ -893,16 +1249,14 @@ async function runBrowserE2ETests() {
         assert.equal(progressE2E.renewedOk, true, 'Cookie & session auto-renewal must succeed');
         assert.equal(progressE2E.hivStepIdxAfterSync, 2, 'Per-virus course progress (real-hiv) must sync with server');
 
-        // Verify pre-generated GPT-SoVITS .opus Narrator UI & HTTP audio streaming (#tNarr, #tNarrBtn, #tVol, #tPace)
+        // Verify pre-generated GPT-SoVITS multi-voice .opus Narrator UI & HTTP audio streaming (#tNarr, #tVoiceSelect, #tVoicePreset, tour + lens streams)
         const narratorE2E = await cdp.eval<{
           hasGlobalNarrator: boolean;
           narrHiddenDuringTour: boolean;
+          hasTourVoiceControls: boolean;
           initialNarrOn: boolean;
           updatedVolume: number;
-          enStatus: number;
-          esStatus: number;
-          enMagic: string;
-          esMagic: string;
+          allStreamsOk: boolean;
         }>(`
           (async () => {
             const nar = window.__narrator;
@@ -913,8 +1267,11 @@ async function runBrowserE2ETests() {
             const narrWrap = document.getElementById('tNarr');
             const narrBtn = document.getElementById('tNarrBtn');
             const volInput = document.getElementById('tVol');
-            if (!narrWrap || !narrBtn || !volInput) throw new Error('Missing #tNarr controls');
+            const tVoiceSel = document.getElementById('tVoiceSelect');
+            const tVoicePre = document.getElementById('tVoicePreset');
+            if (!narrWrap || !narrBtn || !volInput || !tVoiceSel || !tVoicePre) throw new Error('Missing #tNarr controls');
             const narrHiddenDuringTour = narrWrap.hidden;
+            const hasTourVoiceControls = tVoiceSel.options.length === 4 && !tVoicePre.hidden;
             const initialNarrOn = window.__tour.T.narr && narrBtn.classList.contains('on');
 
             // Toggle narration off, then back on
@@ -929,35 +1286,41 @@ async function runBrowserE2ETests() {
             volInput.dispatchEvent(new Event('input'));
             const updatedVolume = nar.getVolume();
 
-            // Verify EN and ES .opus streams are served with valid OggS headers
-            const enUrl = nar.resolveAudioUrl({ id: firstCueId, lang: 'en-US', root: 'real-cell' });
-            const esUrl = nar.resolveAudioUrl({ id: firstCueId, lang: 'es-ES', root: 'real-cell' });
-            const [enRes, esRes] = await Promise.all([fetch(enUrl), fetch(esUrl)]);
-            const [enBuf, esBuf] = await Promise.all([enRes.arrayBuffer(), esRes.arrayBuffer()]);
-            const enMagic = String.fromCharCode(...new Uint8Array(enBuf.slice(0, 4)));
-            const esMagic = String.fromCharCode(...new Uint8Array(esBuf.slice(0, 4)));
+            // Verify all 4 voices (EN v1/v2/v3 + ES v7) across both Guided Tour cues and Explorer 4-mode Lenses return HTTP 200 + OggS
+            const urls = [
+              nar.resolveAudioUrl({ id: firstCueId, lang: 'en-US', root: 'real-cell', voice: 'v1' }),
+              nar.resolveAudioUrl({ id: firstCueId, lang: 'en-US', root: 'real-cell', voice: 'v2' }),
+              nar.resolveAudioUrl({ id: firstCueId, lang: 'en-US', root: 'real-cell', voice: 'v3' }),
+              nar.resolveAudioUrl({ id: firstCueId, lang: 'es-ES', root: 'real-cell' }),
+              nar.resolveLensAudioUrl({ nodeId: 'mitochondrion', mode: 'scientific', lang: 'en-US', voice: 'v1' }),
+              nar.resolveLensAudioUrl({ nodeId: 'mitochondrion', mode: 'blueprint', lang: 'en-US', voice: 'v2' }),
+              nar.resolveLensAudioUrl({ nodeId: 'mitochondrion', mode: 'story', lang: 'en-US', voice: 'v3' }),
+              nar.resolveLensAudioUrl({ nodeId: 'mitochondrion', mode: 'story', lang: 'es-ES' })
+            ];
+            const responses = await Promise.all(urls.map(u => fetch(u)));
+            const buffers = await Promise.all(responses.map(r => r.arrayBuffer()));
+            const allStreamsOk = responses.every((r, idx) => {
+              const magic = String.fromCharCode(...new Uint8Array(buffers[idx].slice(0, 4)));
+              return r.status === 200 && magic === 'OggS' && buffers[idx].byteLength > 500;
+            });
 
             window.__tour.exit();
             return {
               hasGlobalNarrator: window.__tour.T.narrator === nar,
               narrHiddenDuringTour,
+              hasTourVoiceControls,
               initialNarrOn,
               updatedVolume,
-              enStatus: enRes.status,
-              esStatus: esRes.status,
-              enMagic,
-              esMagic
+              allStreamsOk
             };
           })()
         `);
         assert.equal(narratorE2E.hasGlobalNarrator, true, 'Static .opus narrator must be wired into window.__tour');
         assert.equal(narratorE2E.narrHiddenDuringTour, false, '#tNarr control must be visible in guided tours');
+        assert.equal(narratorE2E.hasTourVoiceControls, true, '#tVoiceSelect and #tVoicePreset must be wired inside #tNarr');
         assert.equal(narratorE2E.initialNarrOn, true, 'Narration must start enabled by default');
         assert.equal(narratorE2E.updatedVolume, 0.65, '#tVol slider must update narrator volume');
-        assert.equal(narratorE2E.enStatus, 200, 'EN .opus stream must return HTTP 200');
-        assert.equal(narratorE2E.esStatus, 200, 'ES .opus stream must return HTTP 200');
-        assert.equal(narratorE2E.enMagic, 'OggS', 'EN .opus stream must begin with OggS magic header');
-        assert.equal(narratorE2E.esMagic, 'OggS', 'ES .opus stream must begin with OggS magic header');
+        assert.equal(narratorE2E.allStreamsOk, true, 'All EN (v1/v2/v3) & ES (v7) tour + lens .opus streams must return HTTP 200 with OggS headers');
 
         assert.deepEqual(cdp.pageErrors, [], `Page errors on cell_explorer.html`);
         assert.deepEqual(cdp.consoleErrors, [], `Console errors on cell_explorer.html`);

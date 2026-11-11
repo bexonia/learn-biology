@@ -30,7 +30,7 @@
   * { box-sizing: border-box; }
   html, body { margin: 0; height: 100%; background: var(--bg); color: var(--fg); font-family: system-ui, -apple-system, "Segoe UI", sans-serif; overflow: hidden; }
   button { font: inherit; color: inherit; }
-  #app { display: grid; grid-template-columns: 290px 1fr 330px; height: 100vh; }
+  #app { display: grid; grid-template-columns: 290px 1fr 356px; height: 100vh; }
   aside { background: var(--panel); overflow-y: auto; }
   #tree { border-right: 1px solid var(--line); padding: 14px 0 24px; }
   #info { border-left: 1px solid var(--line); padding: 18px 20px 28px; }
@@ -92,18 +92,52 @@
   #lvl { font-size: 11px; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
   #title { font-size: 21px; font-weight: 600; margin: 6px 0 8px; line-height: 1.2; }
   #scale { display: inline-block; font-size: 12px; color: var(--accent); background: var(--accent-bg); border-radius: 999px; padding: 3px 10px; }
-  #desc { font-size: 14px; line-height: 1.6; color: #c8d1de; margin: 14px 0 18px; }
+  #lensBar { display: grid; grid-template-columns: repeat(4, 1fr); gap: 3px; background: var(--panel-2); border: 1px solid var(--line); border-radius: 9px; padding: 3px; margin: 12px 0 7px; }
+  #lensBar button { background: transparent; border: 1px solid transparent; border-radius: 6px; padding: 5px 4px; font-size: 11.5px; color: var(--muted); cursor: pointer; text-align: center; line-height: 1.15; white-space: nowrap; transition: background .15s, color .15s, border-color .15s; }
+  #lensBar button:hover { color: var(--fg); background: rgba(255,255,255,.04); }
+  #lensBar button.on { background: var(--accent-bg); color: var(--accent); border-color: rgba(127,216,255,.5); font-weight: 600; }
+  #lensVoiceBar { display: flex; align-items: center; gap: 5px; margin: 0 0 12px; }
+  #lensSpeakBtn { flex: none; background: var(--panel-2); border: 1px solid rgba(127,216,255,.4); color: var(--accent); border-radius: 7px; padding: 4px 9px; font-size: 11.5px; font-weight: 600; cursor: pointer; white-space: nowrap; transition: background .14s, border-color .14s, color .14s; }
+  #lensSpeakBtn:hover { background: var(--accent-bg); border-color: var(--accent); color: #fff; }
+  #lensSpeakBtn.on { background: rgba(127,216,255,.22); border-color: var(--accent); color: #fff; }
+  #voiceSelect, #tVoiceSelect { background: var(--panel-2); color: var(--fg); border: 1px solid var(--line-2); border-radius: 7px; padding: 4px 6px; font: inherit; font-size: 11.5px; cursor: pointer; min-width: 0; }
+  #voiceSelect { flex: 1; }
+  #voiceSelect:hover, #tVoiceSelect:hover { border-color: rgba(127,216,255,.55); }
+  #voicePresetBtn, #tVoicePreset { flex: none; background: var(--panel-2); border: 1px solid var(--line-2); color: var(--muted); border-radius: 7px; padding: 4px 8px; font-size: 11px; font-weight: 500; cursor: pointer; white-space: nowrap; transition: background .14s, border-color .14s, color .14s; }
+  #voicePresetBtn:hover, #tVoicePreset:hover { color: var(--fg); border-color: rgba(127,216,255,.5); }
+  #voicePresetBtn.on, #tVoicePreset.on { background: var(--accent-bg); color: var(--accent); border-color: rgba(127,216,255,.55); font-weight: 600; }
+  #voiceEsTag { font-size: 11px; color: var(--muted); background: rgba(255,255,255,.03); border: 1px solid var(--line); border-radius: 999px; padding: 3px 9px; white-space: nowrap; }
+  #desc { font-size: 13.8px; line-height: 1.62; color: #c8d1de; margin: 10px 0 16px; }
+  #desc p { margin: 0 0 10px; }
+  #desc p:last-child { margin-bottom: 0; }
+  .lens-link { display: inline; background: rgba(127,216,255,.1); color: #c6f0ff; border: 0; border-bottom: 1px dashed rgba(127,216,255,.55); border-radius: 4px; padding: 0 4px; cursor: pointer; font: inherit; font-weight: 500; transition: background .14s, color .14s; }
+  .lens-link:hover { background: rgba(127,216,255,.26); color: #fff; border-bottom-color: var(--accent); }
   #info h3 { font-size: 11px; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); font-weight: 500; margin: 18px 0 8px; }
   .kid { display: flex; justify-content: space-between; gap: 10px; width: 100%; text-align: left; background: var(--panel-2); border: 1px solid var(--line); border-radius: 8px; padding: 8px 10px; margin-bottom: 6px; cursor: pointer; font-size: 13px; }
   .kid:hover { border-color: rgba(127,216,255,.5); }
   .kid small { color: var(--muted); white-space: nowrap; }
   .muted { color: var(--muted); font-size: 13px; line-height: 1.55; }
-  #io { font-size: 13px; line-height: 1.55; color: #c8d1de; margin: -6px 0 4px; }
+  #io { font-size: 13px; line-height: 1.56; color: #c8d1de; margin: -4px 0 6px; }
   #io b { color: var(--muted); font-weight: 500; }
+  .io-card { background: rgba(255,255,255,.025); border: 1px solid var(--line); border-radius: 10px; padding: 11px 12px; margin: 2px 0 12px; }
+  .io-sub { font-size: 11.5px; font-weight: 600; letter-spacing: .03em; color: var(--accent); margin-bottom: 6px; display: flex; align-items: center; gap: 5px; }
+  .io-body p { margin: 0 0 8px; font-size: 13px; line-height: 1.58; color: #d3dce8; }
+  .io-body p:last-child { margin-bottom: 0; }
+  .io-bp { display: flex; flex-direction: column; gap: 5px; }
+  .io-bp-row { font-size: 12.5px; line-height: 1.5; color: #d3dce8; }
+  .io-bp-k { color: var(--accent); font-weight: 600; font-size: 11px; text-transform: uppercase; letter-spacing: .05em; margin-right: 5px; }
+  .io-meta { margin-top: 8px; padding-top: 7px; border-top: 1px solid var(--line); font-size: 12px; color: var(--muted); line-height: 1.48; display: flex; flex-direction: column; gap: 3px; }
+  .io-flow { display: flex; flex-wrap: wrap; gap: 5px; align-items: center; margin-top: 8px; padding-top: 8px; border-top: 1px solid var(--line); }
+  .io-flow-lbl { font-size: 10.5px; text-transform: uppercase; letter-spacing: .06em; color: var(--muted); margin-right: 2px; }
+  .io-chip { background: var(--panel-2); border: 1px solid rgba(127,216,255,.32); color: #c9f1ff; border-radius: 999px; padding: 2px 8px; font-size: 11.5px; cursor: pointer; display: inline-flex; align-items: center; gap: 4px; transition: background .14s, border-color .14s; }
+  .io-chip:hover { background: var(--accent-bg); border-color: var(--accent); color: #fff; }
+  .io-chip small { color: var(--muted); font-size: 10.5px; }
   .speed { display: flex; align-items: center; gap: 8px; font-size: 12px; color: var(--muted); margin-bottom: 8px; }
   .speed input { flex: 1; min-width: 0; accent-color: var(--accent); }
   #spd { width: 38px; text-align: right; color: var(--fg); font-variant-numeric: tabular-nums; }
   #tip b { color: var(--fg); font-weight: 600; }
+  #tip .tip-sub { color: var(--accent); font-size: 11.5px; font-weight: 600; display: block; margin: 2px 0 4px; }
+  #tip .tip-body { color: #cfd8e5; font-size: 12.5px; line-height: 1.5; display: block; margin-top: 3px; }
   .mol { display: flex; align-items: center; gap: 8px; padding: 3px 6px; border-radius: 7px; font-size: 12.5px; }
   .mol:hover { background: var(--accent-bg); }
   .mol img { width: 22px; height: 22px; flex: none; }
@@ -111,7 +145,7 @@
   /* the guided tour (docs/tutorial_mode_spec.md): the stage takes the whole window; subtitles at the bottom, controls under them */
   [hidden] { display: none !important; }
   #app.touring { grid-template-columns: 1fr; }
-  #app.touring.tmore { grid-template-columns: 1fr 330px; }
+  #app.touring.tmore { grid-template-columns: 1fr 356px; }
   #app.touring #tree, #app.touring #info, #app.touring #toolbar, #app.touring #hint, #app.touring #crumbs { display: none; }
   #app.touring.tmore #info { display: block; }
   #app.touring.tdetail #crumbs { display: flex; top: 48px; }
@@ -242,7 +276,7 @@
       <button id="tNextStep" title="Next part (Shift + →)" aria-label="Next part">⏭</button>
       <button id="tCC" class="on" title="Subtitles on or off (C)">CC</button>
       <button id="tSize" title="Subtitle size">Aa</button>
-      <span id="tNarr" hidden><button id="tNarrBtn" class="on" title="Narration on or off (N)">🔊 Narration</button><input id="tVol" type="range" min="0" max="1" step=".05" value="1" aria-label="Narration volume"></span>
+      <span id="tNarr" hidden><button id="tNarrBtn" class="on" title="Narration on or off (N)">🔊 Narration</button><select id="tVoiceSelect" aria-label="Narrator voice"></select><button id="tVoicePreset" type="button">Preset</button><input id="tVol" type="range" min="0" max="1" step=".05" value="1" aria-label="Narration volume"></span>
       <button id="tPace" title="Tour pace">Pace 1×</button>
       <button id="tAlone" title="Show this part alone, hiding the rest">Show alone</button>
       <button id="tMore" title="More about this part">More ▸</button>
@@ -257,14 +291,21 @@
     <div id="lvl"></div>
     <div id="title"></div>
     <div id="scale"></div>
-    <p id="desc"></p>
+    <div id="lensBar" role="tablist" aria-label="Explanation mode"></div>
+    <div id="lensVoiceBar">
+      <button id="lensSpeakBtn" type="button">🔊 Listen</button>
+      <select id="voiceSelect" aria-label="Narrator voice"></select>
+      <button id="voicePresetBtn" type="button">Preset</button>
+      <span id="voiceEsTag" hidden></span>
+    </div>
+    <div id="desc"></div>
     <div id="io"></div>
     <h3>Made of</h3>
     <div id="kids"></div>
     <div id="realBox" hidden>
       <h3>What moves</h3>
       <div class="speed"><button id="flow" class="btn">Metabolism: on</button><span>Speed</span><input id="speed" type="range" min="-3" max="2" step=".1" value="0" aria-label="Speed"><span id="spd">1×</span></div>
-      <p id="tip" class="muted"></p>
+      <div id="tip" class="muted"></div>
       <div id="mols"></div>
     </div>
     <p class="note">Models are schematic: shapes and arrangements follow real biology, but sizes are not to scale between levels and molecular geometry is approximate.</p>

@@ -43,13 +43,13 @@ scene.background = (() => {
   const t = new THREE.CanvasTexture(c); t.colorSpace = THREE.SRGBColorSpace; return t;
 })();
 scene.environment = new THREE.PMREMGenerator(renderer).fromScene(new RoomEnvironment(), .04).texture;
-const camera = new THREE.PerspectiveCamera(30, innerWidth / innerHeight, .1, 400); camera.position.set(17, 5.2, 19);
-const controls = new OrbitControls(camera, renderer.domElement); controls.target.set(0, .5, 0); controls.enableDamping = true; controls.minDistance = .5; controls.maxDistance = 85; controls.panSpeed = .5; controls.zoomSpeed = .5;
-scene.add(new THREE.HemisphereLight('#dff3ff', '#1b2838', .5));
-const key = new THREE.DirectionalLight('#fff5e4', 3.0); key.position.set(14, 24, 18); key.castShadow = true;
-key.shadow.mapSize.set(2048, 2048); Object.assign(key.shadow.camera, { left: -14, right: 14, top: 14, bottom: -14, near: 1, far: 75 }); key.shadow.bias = -.0005; key.shadow.normalBias = .03;
-const rim = new THREE.DirectionalLight('#7cc6ff', 1.5); rim.position.set(-16, 8, -14);
-const lamp = new THREE.PointLight('#64d2ff', 16, 28, 2); lamp.position.set(3.5, 2.8, 3.5);
+const camera = new THREE.PerspectiveCamera(30, innerWidth / innerHeight, .1, 400); camera.position.set(24.5, 2.5, 27.5);
+const controls = new OrbitControls(camera, renderer.domElement); controls.target.set(0, .2, 0); controls.enableDamping = true; controls.minDistance = .5; controls.maxDistance = 95; controls.panSpeed = .5; controls.zoomSpeed = .5;
+scene.add(new THREE.HemisphereLight('#dff3ff', '#1b2838', .54));
+const key = new THREE.DirectionalLight('#fff5e4', 2.95); key.position.set(15, 25, 19); key.castShadow = true;
+key.shadow.mapSize.set(2048, 2048); Object.assign(key.shadow.camera, { left: -16, right: 16, top: 16, bottom: -16, near: 1, far: 85 }); key.shadow.bias = -.0005; key.shadow.normalBias = .03;
+const rim = new THREE.DirectionalLight('#7cc6ff', 1.48); rim.position.set(-16, 9, -14);
+const lamp = new THREE.PointLight('#7dd3fc', 9.5, 26, 2); lamp.position.set(4.6, 2.3, 5.0);
 scene.add(key, rim, lamp);
 const cell = new THREE.Group(); scene.add(cell);
 
@@ -193,12 +193,12 @@ function model(name, full = true) {
   if (_models[k]) return _models[k];
   const s = PDB[name]; return _models[k] = decodeModel((full && s.full) ? s.full : s.red);
 }
-function placeMol(S, name, pos, quat, colFn, full = true, scale = 1) {
+function placeMol(S, name, pos, quat, colFn, full = true, scale = 1, step = 1, radBoost = 1) {
   const m = model(name, full), v = V(), kScale = .01 * NM * scale;
-  for (let i = 0; i < m.n; i++) {
+  for (let i = 0; i < m.n; i += step) {
     const kd = m.kind[i], grp = kd >> 2, part = kd & 3;
     v.set(m.xyz[i * 3], m.xyz[i * 3 + 1], m.xyz[i * 3 + 2]).multiplyScalar(kScale).applyQuaternion(quat).add(pos);
-    const r = m.rad ? (m.rad[i] * .25 * .18 * NM * scale) : (.82 * NM * scale);
+    const r = (m.rad ? (m.rad[i] * .25 * .18 * NM * scale) : (.84 * NM * scale)) * radBoost;
     S.add(v, r, colFn(grp, part, i));
   }
 }
@@ -210,17 +210,19 @@ const qOut = (n, twist = 0) => {
 
 const caps = new THREE.Group(); cell.add(caps);
 const SITES = { hexon: [], penton: [], fiber: [], cement: [], dna: [], core: [], car: [], host: [] };
-const Y_VIR = 2.0, R_CAP = 4.45;
+const Y_VIR = 2.30, R_CAP = 4.35, FIBER_LEN = 2.05;
 
 const BASE_ICO = (() => {
   const g = new THREE.IcosahedronGeometry(1, 0), p = g.attributes.position;
   let top = V(0, -2, 0);
   for (let i = 0; i < p.count; i++) if (p.getY(i) > top.y) top.set(p.getX(i), p.getY(i), p.getZ(i));
+  // Align top 5-fold vertex with +Y, and rotate around Y slightly so cutaway slices cleanly across facets without splitting an edge awkwardly
   g.applyQuaternion(new THREE.Quaternion().setFromUnitVectors(top.normalize(), V(0, 1, 0)));
+  g.rotateY(.28);
   return g;
 })();
 
-const V12 = [], FACES20 = [];
+const V12 = [], FACES20 = [], FACE_NORMALS = [];
 {
   const p = BASE_ICO.attributes.position, seen = new Map();
   for (let i = 0; i < p.count; i += 3) {
@@ -231,84 +233,207 @@ const V12 = [], FACES20 = [];
       return V12[seen.get(key)];
     });
     FACES20.push(tri);
+    FACE_NORMALS.push(V().addVectors(tri[0], tri[1]).add(tri[2]).normalize());
   }
 }
 
-function buildCapsidAndFibers() {
-  // Inset icosahedral gel shell (scale = R_CAP * 0.85, strictly inside the Hexon/Penton protein coat)
-  const capMat = shellMat('hexon', '#2476b8', '#7cd0ff', '#124678', {
-    atten: 1.3, thickness: .6, sheen: '#bce8ff',
-    extra: { clearcoat: .5, envMapIntensity: .7, normalMap: bump(12, 12), normalScale: new THREE.Vector2(.22, .22) },
-  });
-  const outerGeo = BASE_ICO.clone().scale(R_CAP * .85, R_CAP * .85, R_CAP * .85); outerGeo.translate(0, Y_VIR, 0);
-  cell.add(shade(new THREE.Mesh(outerGeo, capMat), true, true));
-
-  const sHex = balls('hexon'), sPen = balls('penton'), sFib = balls('fiber'), sCem = balls('cement');
-  const hexPal = [col('#38bdf8'), col('#0ea5e9'), col('#7dd3fc')];
-  const penPal = [col('#fb923c'), col('#f97316'), col('#fdba74'), col('#ea580c'), col('#ffedd5'), col('#f43f5e')];
-  const fibPal = [col('#facc15'), col('#eab308'), col('#fef08a')];
-  const cIX = col('#c084fc'), cIIIa = col('#a855f7'), cVI = col('#e879f9');
-
-  // 12 Penton Base Pentamers (1X9T) + 12 Projecting Fiber Shafts & Knobs (1QIU)
-  V12.forEach((vDir, idx) => {
-    const n = vDir.clone().normalize();
-    const penPos = n.clone().multiplyScalar(R_CAP * .98).add(V(0, Y_VIR, 0));
-    placeMol(sPen, 'penton', penPos, qOut(n, idx * .6), g => penPal[g % penPal.length], idx < 4, 1.04);
-    if (penPos.x < 0 || penPos.z < 0) SITES.penton.push(penPos.clone());
-
-    const t1 = V(1, 0, 0), t2 = V(); across(t1, n); t2.crossVectors(n, t1);
-    for (let k = 0; k < 5; k++) {
-      const a = k * Math.PI * 2 / 5;
-      const p3a = n.clone().multiplyScalar(R_CAP * .83).add(V(0, Y_VIR, 0)).addScaledVector(t1, Math.cos(a) * .56).addScaledVector(t2, Math.sin(a) * .56);
-      sCem.add(p3a, 1.4 * NM, cIIIa);
-    }
-
-    const shaftStart = n.clone().multiplyScalar(R_CAP + .3).add(V(0, Y_VIR, 0));
-    const shaftEnd = n.clone().multiplyScalar(R_CAP + 2.65).add(V(0, Y_VIR, 0));
-    const steps = 18;
-    for (let s = 0; s <= steps; s++) {
-      const f = s / steps, p = shaftStart.clone().lerp(shaftEnd, f);
-      if (vDir.y < -.85) p.x -= Math.sin(f * Math.PI) * .32;
-      for (let c = 0; c < 3; c++) {
-        const ang = f * Math.PI * 6 + c * Math.PI * 2 / 3;
-        sFib.add(p.clone().addScaledVector(t1, Math.cos(ang) * .11).addScaledVector(t2, Math.sin(ang) * .11), .95 * NM, fibPal[c]);
+// Exact ray-distance from origin to thesharply faceted icosahedral shell along unit direction `d`
+const ICO_INRADIUS = FACE_NORMALS[0].dot(FACES20[0][0]); // ~0.794654
+function icoRadiusAt(dir, round = .06) {
+  const d = dir.clone().normalize();
+  let maxDot = 0;
+  for (let i = 0; i < 20; i++) {
+    const dn = d.dot(FACE_NORMALS[i]);
+    if (dn > maxDot) maxDot = dn;
+  }
+  const rFlat = ICO_INRADIUS / Math.max(.2, maxDot);
+  return (rFlat * (1 - round) + round) * R_CAP;
+}
+function icoPt(dir, dep = 0) {
+  const d = dir.clone().normalize();
+  return d.multiplyScalar(Math.max(.3, icoRadiusAt(d) - dep)).add(V(0, Y_VIR, 0));
+}
+function makeFacetedShellGeo(dep = 0, detail = 4) {
+  const g = new THREE.IcosahedronGeometry(1, detail);
+  // Orient identically to BASE_ICO
+  const p0 = g.attributes.position, v = V();
+  for (let i = 0; i < p0.count; i++) {
+    v.fromBufferAttribute(p0, i).normalize();
+    const q = icoPt(v, dep);
+    p0.setXYZ(i, q.x, q.y, q.z);
+  }
+  g.computeVertexNormals();
+  return g;
+}
+function capStripFromOutline(key, axis, outlineFn, layers, n = 180) {
+  const pos = [], colArr = [], nor = [], idx = [], c = new THREE.Color();
+  const off = axis === 'x' ? V(-.003, 0, 0) : V(0, 0, -.003), nrm = axis === 'x' ? V(1, 0, 0) : V(0, 0, 1);
+  let base = 0;
+  layers.forEach(([d0, d1, hex]) => {
+    c.set(hex);
+    for (let i = 0; i <= n; i++) {
+      const t = i / n;
+      for (const d of [d0, d1]) {
+        const p = outlineFn(axis, d, t).add(off);
+        pos.push(p.x, p.y, p.z); colArr.push(c.r, c.g, c.b); nor.push(nrm.x, nrm.y, nrm.z);
       }
     }
-    const knobPos = shaftEnd.clone().addScaledVector(n, .22);
-    placeMol(sFib, 'fiber', knobPos, qOut(n, idx * 1.1), g => fibPal[g % 3], idx < 4 || vDir.y < -.85, 1.12);
-    if (knobPos.x < 0 || knobPos.z < 0) SITES.fiber.push(knobPos.clone());
+    for (let i = 0; i < n; i++) { const a = base + i * 2; idx.push(a, a + 1, a + 2, a + 1, a + 3, a + 2); }
+    base += (n + 1) * 2;
+  });
+  const g = new THREE.BufferGeometry();
+  g.setAttribute('position', new THREE.Float32BufferAttribute(pos, 3));
+  g.setAttribute('color', new THREE.Float32BufferAttribute(colArr, 3));
+  g.setAttribute('normal', new THREE.Float32BufferAttribute(nor, 3));
+  g.setIndex(idx);
+  return new THREE.Mesh(g, reg(key, new THREE.MeshStandardMaterial({ vertexColors: true, roughness: .38, metalness: .05, side: THREE.DoubleSide })));
+}
+
+// Curved apical respiratory epithelial membrane dome with a central invaginating clathrin-coated endocytic pit
+const R_HOST = 25.0, Y_HOST_BASE = -4.15, R_PATCH = 10.4;
+function hostSurfY(x, z) {
+  const r2 = x * x + z * z;
+  const dome = Y_HOST_BASE - (R_HOST - Math.sqrt(Math.max(1, R_HOST * R_HOST - r2)));
+  // Smooth central clathrin-coated pit invagination directly under the docking virion
+  const pit = -1.18 * Math.exp(-r2 / (2.55 * 2.55));
+  const rim = .14 * Math.exp(-((Math.sqrt(r2) - 3.35) ** 2) / (.95 * .95));
+  const undul = .045 * Math.sin(x * .75 + .3) * Math.cos(z * .72 - .4);
+  return dome + pit + rim + undul;
+}
+function hostNormal(x, z) {
+  const e = .08;
+  return V(hostSurfY(x - e, z) - hostSurfY(x + e, z), 2 * e, hostSurfY(x, z - e) - hostSurfY(x, z + e)).normalize();
+}
+
+function buildCapsidAndFibers() {
+  // Sharply faceted icosahedral inner capsid floor + dark inner wall backing + polygonal cutaway cross-section strips
+  const capMat = shellMat('hexon', '#1f6aa8', '#68c5ff', '#0f3b66', {
+    atten: 1.35, thickness: .52, sheen: '#bce8ff',
+    extra: { clearcoat: .48, envMapIntensity: .62, flatShading: false },
+  });
+  cell.add(shade(new THREE.Mesh(makeFacetedShellGeo(.30, 4), capMat), true, true));
+  cell.add(new THREE.Mesh(makeFacetedShellGeo(.54, 4), reg('hexon', phys({
+    color: '#0e2847', roughness: .74, side: THREE.BackSide,
+  }))));
+
+  const icoOutline = (axis, dep, t) => {
+    const a = (t - .5) * Math.PI, ca = Math.cos(a), sa = Math.sin(a);
+    const dir = axis === 'x' ? V(0, sa, ca) : V(ca, sa, 0);
+    return icoPt(dir, dep);
+  };
+  const HEX_RING = [
+    [.06, .32, '#38bdf8'],  // outer Hexon beta-barrel tower rim
+    [.32, .44, '#0284c7'],  // Hexon pedestal base
+  ];
+  const CEM_RING = [[.44, .55, '#c084fc']]; // inner IIIa / VIII / VI cement floor
+  for (const ax of ['x', 'z']) {
+    caps.add(capStripFromOutline('hexon', ax, icoOutline, HEX_RING, 200));
+    caps.add(capStripFromOutline('cement', ax, icoOutline, CEM_RING, 200));
+  }
+
+  const sHex = balls('hexon'), sPen = balls('penton'), sFib = balls('fiber'), sCem = balls('cement');
+  const hexGON = [col('#38bdf8'), col('#0ea5e9'), col('#60cdfc')];   // Group-of-Nine facet hexons
+  const hexPeri = [col('#7dd3fc'), col('#38bdf8'), col('#a5f3fc')];  // Peripentonal vertex-adjacent hexons
+  const penPal = [col('#fb923c'), col('#f97316'), col('#fdba74'), col('#ea580c'), col('#fed7aa'), col('#f43f5e')];
+  const fibPal = [col('#facc15'), col('#eab308'), col('#fef08a')];
+  const cIX = col('#c084fc'), cIX2 = col('#d8b4fe'), cIIIa = col('#a855f7'), cVIII = col('#9333ea'), cVI = col('#e879f9');
+
+  // 12 Penton Base homopentamers (PDB 1X9T, 100% full C-alpha) + 5 RGD integrin-binding loops + 12 continuous triple-beta-spiral Fiber shafts & PDB 1QIU knobs
+  V12.forEach((vDir, idx) => {
+    const n = vDir.clone().normalize();
+    const penPos = n.clone().multiplyScalar(R_CAP * .965).add(V(0, Y_VIR, 0));
+    placeMol(sPen, 'penton', penPos, qOut(n, idx * .6), g => penPal[g % penPal.length], true, 1.0, 1, 1.05);
+    if (!(penPos.x > 0 && penPos.z > 0)) SITES.penton.push(penPos.clone());
+
+    const t1 = across(V(1, .2, -.3), n), t2 = n.clone().cross(t1).normalize();
+    // 5 protruding flexible RGD loops on the Penton crown + 5 inner Protein IIIa vertex staples underneath
+    for (let k = 0; k < 5; k++) {
+      const a = k * Math.PI * 2 / 5 + idx * .6;
+      const rgdTip = penPos.clone().addScaledVector(n, .26).addScaledVector(t1, Math.cos(a) * .30).addScaledVector(t2, Math.sin(a) * .30);
+      const rgdBase = penPos.clone().addScaledVector(n, .08).addScaledVector(t1, Math.cos(a) * .24).addScaledVector(t2, Math.sin(a) * .24);
+      sPen.stick(rgdBase, rgdTip, .09 * NM, penPal[0], penPal[5]);
+      sPen.add(rgdTip, .88 * NM, penPal[5]);
+
+      const p3a = n.clone().multiplyScalar(R_CAP * .83).add(V(0, Y_VIR, 0)).addScaledVector(t1, Math.cos(a) * .52).addScaledVector(t2, Math.sin(a) * .52);
+      const p3aIn = n.clone().multiplyScalar(R_CAP * .80).add(V(0, Y_VIR, 0)).addScaledVector(t1, Math.cos(a + .35) * .30).addScaledVector(t2, Math.sin(a + .35) * .30);
+      sCem.stick(p3a, p3aIn, .12 * NM, cIIIa, cVIII);
+      sCem.add(p3a, 1.15 * NM, cIIIa);
+    }
+
+    // Continuous homotrimeric triple-beta-spiral Fiber shaft (zero gaps: connected backbone rods + 38 tight spiral repeats)
+    const shaftStart = n.clone().multiplyScalar(R_CAP + .16).add(V(0, Y_VIR, 0));
+    const shaftEnd = n.clone().multiplyScalar(R_CAP + FIBER_LEN).add(V(0, Y_VIR, 0));
+    const steps = 38;
+    const prevPts = [null, null, null];
+    for (let s = 0; s <= steps; s++) {
+      const f = s / steps, p = shaftStart.clone().lerp(shaftEnd, f);
+      // Slight natural hinge flexion on the bottom CAR-docked fiber shaft
+      if (vDir.y < -.85) p.x -= Math.sin(f * Math.PI) * .18;
+      for (let c = 0; c < 3; c++) {
+        const ang = f * Math.PI * 9 + c * Math.PI * 2 / 3;
+        const rad = (.085 + .018 * Math.sin(f * Math.PI * 7)) * (1 - .12 * f);
+        const cur = p.clone().addScaledVector(t1, Math.cos(ang) * rad).addScaledVector(t2, Math.sin(ang) * rad);
+        sFib.add(cur, .78 * NM, fibPal[c]);
+        if (prevPts[c]) sFib.stick(prevPts[c], cur, .105 * NM, fibPal[c], fibPal[(c + 1) % 3]);
+        prevPts[c] = cur;
+      }
+    }
+    const knobPos = shaftEnd.clone().addScaledVector(n, .20);
+    placeMol(sFib, 'fiber', knobPos, qOut(n, idx * 1.1), g => fibPal[g % 3], true, 1.10, 1, 1.05);
+    if (!(knobPos.x > 0 && knobPos.z > 0)) SITES.fiber.push(knobPos.clone());
   });
 
-  // 240 Hexon trimers (1P30) across all 20 facets and 30 shared edges (SUB = 5)
+  // All 240 Hexon homotrimers (PDB 1P30) rendered uniformly in sharp C-alpha detail across the 20 flat triangular facets & 30 edges
   const SUB = 5, seenH = new Set();
-  let hexIdx = 0;
   FACES20.forEach(([A, B, C], fIdx) => {
-    const fNorm = V().addVectors(A, B).add(C).normalize();
+    const fNorm = FACE_NORMALS[fIdx];
+    const e1 = B.clone().sub(A).normalize(), e2 = fNorm.clone().cross(e1).normalize();
     for (let u = 0; u <= SUB; u++) {
       for (let v = 0; v <= SUB - u; v++) {
         const w = SUB - u - v;
         if ((u === 0 && v === 0) || (u === SUB && v === 0) || (u === 0 && v === SUB)) continue;
         const pUnit = V().addScaledVector(A, u / SUB).addScaledVector(B, v / SUB).addScaledVector(C, w / SUB);
-        const pSph = pUnit.clone().normalize();
-        const pMix = pUnit.clone().lerp(pSph, .42);
-        const key = `${Math.round(pMix.x * 40)}_${Math.round(pMix.y * 40)}_${Math.round(pMix.z * 40)}`;
+        const key = `${Math.round(pUnit.x * 100)}_${Math.round(pUnit.y * 100)}_${Math.round(pUnit.z * 100)}`;
         if (seenH.has(key)) continue;
         seenH.add(key);
 
-        const hPos = pMix.clone().multiplyScalar(R_CAP).add(V(0, Y_VIR, 0));
-        const hNorm = fNorm.clone().lerp(pSph, .55).normalize();
-        placeMol(sHex, 'hexon', hPos, qOut(hNorm, u * 1.7 + v * 2.3 + fIdx), g => hexPal[g % 3], hexIdx % 12 === 0, .96);
+        const pSph = pUnit.clone().normalize();
+        // Keep facets authentically flat (only 6% spherical blend) so the 20 triangular faces read crisply!
+        const pFacet = pUnit.clone().lerp(pSph, .06);
+        const hPos = pFacet.clone().multiplyScalar(R_CAP).add(V(0, Y_VIR, 0));
+        const isEdge = u === 0 || v === 0 || w === 0;
+        const isPeripentonal = (u === SUB - 1 && (v === 1 || w === 1)) || (v === SUB - 1 && (u === 1 || w === 1)) || (w === SUB - 1 && (u === 1 || v === 1));
+        const hNorm = isEdge ? fNorm.clone().lerp(pSph, .45).normalize() : fNorm.clone().lerp(pSph, .10).normalize();
+        const pal = isPeripentonal ? hexPeri : hexGON;
+        placeMol(sHex, 'hexon', hPos, qOut(hNorm, u * 1.0472 + v * 2.0944 + fIdx * .5236), g => pal[g % 3], true, .93, 2, 1.15);
         if (hPos.x < 0 && hPos.z < 0) SITES.hexon.push(hPos.clone());
 
-        if (u > 0 && v > 0 && w > 0) {
-          const ixPos = pMix.clone().multiplyScalar(R_CAP * .97).add(V(0, Y_VIR, 0));
-          sCem.add(ixPos, 1.3 * NM, cIX);
-          if (ixPos.x < 0 && ixPos.z < 0) SITES.cement.push(ixPos.clone());
-        }
-        sCem.add(pMix.clone().multiplyScalar(R_CAP * .88).add(V(0, Y_VIR, 0)), 1.25 * NM, cVI);
-        hexIdx++;
+        // Inner capsid cement: Protein VIII triangular edge clasps + lytic Protein VI copies tucked inside each hexon cavity
+        const pIn = pFacet.clone().multiplyScalar(R_CAP * .86).add(V(0, Y_VIR, 0));
+        sCem.add(pIn, 1.08 * NM, isEdge ? cVIII : cVI);
+        sCem.stick(pIn, pFacet.clone().multiplyScalar(R_CAP * .91).add(V(0, Y_VIR, 0)), .095 * NM, cVI, cVIII);
       }
     }
+
+    // 4 trimeric Protein IX triskelion coiled-coil cement staples lacing the Group-of-Nine valleys on each facet!
+    const triskelions = [
+      [1 / 3, 1 / 3, 1 / 3, 0],
+      [.52, .24, .24, 1.05],
+      [.24, .52, .24, 1.05],
+      [.24, .24, .52, 1.05],
+    ];
+    triskelions.forEach(([bu, bv, bw, rot]) => {
+      const pU = V().addScaledVector(A, bu).addScaledVector(B, bv).addScaledVector(C, bw);
+      const pCenter = pU.clone().lerp(pU.clone().normalize(), .06).multiplyScalar(R_CAP * .985).add(V(0, Y_VIR, 0));
+      sCem.add(pCenter, 1.05 * NM, cIX);
+      for (let arm = 0; arm < 3; arm++) {
+        const a = rot + arm * 2.0944;
+        const armTip = pCenter.clone().addScaledVector(e1, Math.cos(a) * .34).addScaledVector(e2, Math.sin(a) * .34);
+        sCem.stick(pCenter, armTip, .11 * NM, cIX, cIX2);
+        sCem.add(armTip, .82 * NM, cIX2);
+      }
+      if (pCenter.x < 0 && pCenter.z < 0) SITES.cement.push(pCenter.clone());
+    });
   });
 
   sHex.done(); sPen.done(); sFib.done(); sCem.done();
@@ -316,73 +441,249 @@ function buildCapsidAndFibers() {
 
 function buildCoreAndGenome() {
   const sDna = balls('dna'), sCore = balls('core');
-  const cVII = col('#34d399'), cV = col('#10b981'), cTP = col('#fbbf24'), cAVP = col('#6ee7b7');
+  const cVII = col('#34d399'), cVII2 = col('#10b981'), cV = col('#059669'), cTP = col('#fbbf24'), cAVP = col('#6ee7b7');
 
-  const pts = [], totalPts = 580;
-  for (let i = 0; i < totalPts; i++) {
-    const f = i / (totalPts - 1), layer = Math.floor(f * 5), lf = f * 5 - layer;
-    const rMax = 3.1 - layer * .48, y = (lf * 2 - 1) * rMax * .85;
-    const ringR = Math.sqrt(Math.max(.08, rMax * rMax - y * y)), theta = lf * Math.PI * (18 - layer * 2.5) + layer * 1.2;
-    pts.push(V(ringR * Math.cos(theta), Y_VIR + y, ringR * Math.sin(theta)));
+  // Smooth continuous 3D chromatin-like "adenosome" dsDNA core coiled through outer & inner core domains
+  const ctrl = [];
+  const N_CTRL = 115;
+  for (let i = 0; i <= N_CTRL; i++) {
+    const f = i / N_CTRL;
+    const shell = f < .68 ? 2.55 - .55 * (f / .68) : 1.85 - .95 * ((f - .68) / .32);
+    const phi = f * Math.PI * 22.5;
+    const u = Math.cos(f * Math.PI * 5.0) * .84;
+    const r = shell * Math.sqrt(Math.max(.08, 1 - u * u));
+    const wob = .14 * Math.sin(i * 1.9);
+    ctrl.push(V((r + wob) * Math.cos(phi), Y_VIR + shell * u, (r + wob) * Math.sin(phi)));
   }
-  emitDNA(sDna, pts, .88 * NM, .54);
-  SITES.dna.push(V(-1.4, Y_VIR + .6, -1.2));
+  const dnaCurve = new THREE.CatmullRomCurve3(ctrl);
+  const pts = geometry.resample(dnaCurve.getPoints(900), .34 * NM);
+  emitDNA(sDna, pts, .90 * NM, .58);
+  SITES.dna.push(V(-1.45, Y_VIR + .55, -1.15));
 
+  // Covalent 5'-end Terminal Protein (TP, 55 kDa) replication primers capping both ends of the linear 36 kbp duplex
   [pts[0], pts[pts.length - 1]].forEach(ep => {
-    for (let k = 0; k < 14; k++) sCore.add(ep.clone().add(randDir().multiplyScalar(.18)), 1.35 * NM, cTP);
+    for (let k = 0; k < 12; k++) {
+      const off = V(Math.cos(k * 1.7) * .14, ((k % 3) - 1) * .09, Math.sin(k * 1.7) * .14);
+      sCore.add(ep.clone().add(off), 1.15 * NM, cTP);
+    }
   });
-  for (let i = 4; i < pts.length - 4; i += 4) {
-    const c = pts[i];
-    for (let b = 0; b < 5; b++) sCore.add(c.clone().add(randDir().multiplyScalar(.14)), 1.3 * NM, i % 12 === 0 ? cAVP : cVII);
-    if (i % 40 === 0 && c.x < 0 && c.z < 0) SITES.core.push(c.clone());
+
+  // ~135 discrete nucleosome-like Protein VII "adenosome" oligomers condensing the viral dsDNA + AVP proteases
+  for (let i = 10; i < pts.length - 10; i += 14) {
+    const c = pts[i], t = pts[i + 1].clone().sub(pts[i - 1]).normalize();
+    const e1 = across(V(0, 1, .2), t), e2 = t.clone().cross(e1).normalize();
+    const isAVP = i % 84 === 0;
+    for (let h = 0; h < 6; h++) {
+      const a = h * 1.0472 + i * .2;
+      const off = e1.clone().multiplyScalar(Math.cos(a) * .13).addScaledVector(e2, Math.sin(a) * .13).addScaledVector(t, (h % 2 - .5) * .09);
+      sCore.add(c.clone().add(off), 1.08 * NM, isAVP ? cAVP : (h % 2 ? cVII : cVII2));
+    }
+    if (i % 70 === 0 && c.x < 0 && c.z < 0) SITES.core.push(c.clone());
   }
-  for (let i = 0; i < 110; i++) {
-    sCore.add(randDir().multiplyScalar(3.32 + (rand() - .5) * .16).add(V(0, Y_VIR, 0)), 1.45 * NM, cV);
+
+  // Protein V bridging tethers linking outer adenosomes to the inner icosahedral capsid wall
+  for (let i = 0; i < 64; i++) {
+    const y = 1 - 2 * (i + .5) / 64, r = Math.sqrt(Math.max(0, 1 - y * y)), phi = i * 2.3999632;
+    const d = V(Math.cos(phi) * r, y, Math.sin(phi) * r);
+    const pWall = icoPt(d, .58), pCore = d.clone().multiplyScalar(2.68).add(V(0, Y_VIR, 0));
+    sCore.stick(pCore, pWall, .09 * NM, cVII2, cV);
+    sCore.add(pCore.clone().lerp(pWall, .55), 1.05 * NM, cV);
   }
   sDna.done(); sCore.done();
 }
 
 function buildHostEntry() {
-  const sCar = balls('car'), sHost = balls('host');
-  const Y_MEM = -5.85;
-  const hostMat = shellMat('host', '#475569', '#94a3b8', '#1e293b', { atten: 1.4, thickness: .45, sheen: '#cbd5e1' });
-  const hDisk = new THREE.CylinderGeometry(7.2, 7.2, .32, 64); hDisk.translate(0, Y_MEM, 0);
-  cell.add(shade(new THREE.Mesh(hDisk, hostMat), true, true));
+  // Curved respiratory epithelial plasma membrane invaginating into a polygonal clathrin-coated endocytic pit
+  const makeHostPitGeo = (dep = 0, segR = 72, segA = 96) => {
+    const pos = [], nor = [], idx = [];
+    for (let ir = 0; ir <= segR; ir++) {
+      const r = (ir / segR) * R_PATCH;
+      for (let ia = 0; ia <= segA; ia++) {
+        const a = (ia / segA) * Math.PI * 2, x = r * Math.cos(a), z = r * Math.sin(a);
+        const n = hostNormal(x, z), y = hostSurfY(x, z);
+        pos.push(x - n.x * dep, y - n.y * dep, z - n.z * dep);
+        nor.push(n.x, n.y, n.z);
+      }
+    }
+    for (let ir = 0; ir < segR; ir++) {
+      for (let ia = 0; ia < segA; ia++) {
+        const a = ir * (segA + 1) + ia, b = a + segA + 1;
+        idx.push(a, a + 1, b, a + 1, b + 1, b);
+      }
+    }
+    const g = new THREE.BufferGeometry();
+    g.setAttribute('position', new THREE.Float32BufferAttribute(pos, 3));
+    g.setAttribute('normal', new THREE.Float32BufferAttribute(nor, 3));
+    g.setIndex(idx);
+    return g;
+  };
 
-  const cHead = col('#94a3b8'), cTail = col('#475569'), cChol = col('#e2e8f0');
-  for (let r = .35; r <= 7.0; r += .34) {
-    const n = Math.max(6, Math.round(2 * Math.PI * r / .34));
-    for (let k = 0; k < n; k++) {
-      const a = (k / n) * Math.PI * 2 + r * .5, x = Math.cos(a) * r, z = Math.sin(a) * r, w = Math.sin(r * 1.4) * .04;
-      const top = V(x, Y_MEM + .23 + w, z), bot = V(x, Y_MEM - .23 + w, z), mid = V(x, Y_MEM + w, z);
-      sHost.add(top, 1.15 * NM, cHead); sHost.add(bot, 1.15 * NM, cHead);
-      sHost.stick(top, mid, .32 * NM, cTail, k % 7 === 0 ? cChol : cTail); sHost.stick(bot, mid, .32 * NM, cTail, cTail);
+  const hostMat = shellMat('host', '#6c5bb8', '#a99bf5', '#36296e', {
+    atten: 1.5, thickness: .50, sheen: '#e9d5ff',
+    extra: { clearcoat: .18, roughness: .38, envMapIntensity: .34, normalMap: bump(18, 18), normalScale: new THREE.Vector2(.24, .24) },
+  });
+  cell.add(shade(new THREE.Mesh(makeHostPitGeo(0), hostMat), false, true));
+  cell.add(new THREE.Mesh(makeHostPitGeo(.40, 56, 72), reg('host', phys({
+    color: '#2d225c', roughness: .78, side: THREE.BackSide,
+  }))));
+
+  // Multi-layered cross-section rim along x = 0 and z = 0 showing the invaginating pit profile!
+  const hostOutline = (axis, dep, t) => {
+    const r = t * R_PATCH, x = axis === 'x' ? 0 : r, z = axis === 'x' ? r : 0;
+    const n = hostNormal(x, z);
+    return V(x - n.x * dep, hostSurfY(x, z) - n.y * dep, z - n.z * dep);
+  };
+  const HOST_LAYERS = [
+    [0, .08, '#a99bf5'],
+    [.08, .20, '#ede7ff'],
+    [.20, .32, '#d2c6f7'],
+    [.32, .40, '#7c6cc4'],
+  ];
+  for (const ax of ['x', 'z']) caps.add(capStripFromOutline('host', ax, hostOutline, HOST_LAYERS, 150));
+
+  // Dense cut-edge molecular phospholipids along the sliced invaginating epithelial membrane
+  const B_CUT_HOST = balls('host', caps, false);
+  const cHH = col('#b8abfa'), cHT1 = col('#ede7ff'), cHT2 = col('#d5cbff'), cHChol = col('#fde68a');
+  for (const ax of ['x', 'z']) {
+    for (let row = 0; row < 4; row++) {
+      const behind = .02 + row * .048;
+      for (let i = 0; i <= 145; i++) {
+        const r = (i / 145) * (R_PATCH - .12);
+        const x = ax === 'x' ? -behind : r, z = ax === 'x' ? r : -behind;
+        const n = hostNormal(x, z), p0 = V(x, hostSurfY(x, z), z);
+        const pO = p0.clone().addScaledVector(n, -.03), pMO = p0.clone().addScaledVector(n, -.18);
+        const pMI = p0.clone().addScaledVector(n, -.22), pI = p0.clone().addScaledVector(n, -.37);
+        B_CUT_HOST.add(pO, .78 * NM, cHH);
+        B_CUT_HOST.stick(pO, pMO, .085 * NM, cHT1, cHT2);
+        B_CUT_HOST.add(pI, .74 * NM, cHH);
+        B_CUT_HOST.stick(pI, pMI, .085 * NM, cHT2, cHT1);
+        if (i % 6 === 0 && row < 2) B_CUT_HOST.add(p0.clone().addScaledVector(n, -.15), .60 * NM, cHChol);
+      }
     }
   }
-  SITES.host.push(V(-3.6, Y_MEM, -1.2));
+  B_CUT_HOST.done();
 
-  const cCarD1 = col('#22d3ee'), cCarD2 = col('#06b6d4'), cIntA = col('#38bdf8'), cIntB = col('#a7f3d0');
-  const knobBot = V(0, Y_VIR - R_CAP - 2.85, 0);
-  [[-.32, -.12], [.34, -.14], [-.15, -.35]].forEach(([dx, dz]) => {
-    const foot = V(dx * 2.4, Y_MEM + .22, dz * 2.4), tip = knobBot.clone().add(V(dx, .08, dz));
-    for (let s = 0; s <= 14; s++) {
-      const f = s / 14, p = foot.clone().lerp(tip, f); p.x += Math.sin(f * Math.PI) * dx * .4;
-      sCar.add(p, (f > .55 ? 1.55 : 1.3) * NM, f > .55 ? cCarD1 : cCarD2);
+  const sCar = balls('car'), sHost = balls('host'), sLytic = balls('cement');
+  const cClath1 = col('#ff9f43'), cClath2 = col('#ffd166'), cAP2 = col('#38bdf8'), cAct = col('#94a3b8');
+  const cSurfH1 = col('#9f90eb'), cSurfH2 = col('#b9adfa'), cHSPG = col('#d8b4fe');
+
+  // 360° surface epithelial phospholipid headgroups + heparan-sulfate proteoglycan (HSPG) co-receptor chains
+  for (let i = 0; i < 1500; i++) {
+    const r = Math.sqrt((i + .5) / 1500) * (R_PATCH - .25), a = i * 2.39996;
+    if (r < .55) continue;
+    const x = r * Math.cos(a), z = r * Math.sin(a), n = hostNormal(x, z);
+    const p0 = V(x, hostSurfY(x, z), z);
+    sHost.add(p0.clone().addScaledVector(n, .015), .72 * NM, i % 3 ? cSurfH1 : cSurfH2);
+    if (i % 7 === 0 && r > 1.8) {
+      let prev = p0.clone().addScaledVector(n, .03);
+      const len = 2 + (i % 3);
+      for (let s = 1; s <= len; s++) {
+        const wob = .045 * Math.sin(i * .7 + s * 1.5);
+        const cur = p0.clone().addScaledVector(n, .03 + s * .10).add(V(wob, 0, -wob));
+        sHost.stick(prev, cur, .07 * NM, cSurfH2, cHSPG);
+        sHost.add(cur, (.66 - s * .06) * NM, cHSPG);
+        prev = cur;
+      }
     }
-    SITES.car.push(foot.clone().lerp(tip, .5));
+  }
+
+  // Cytoplasmic polygonal Clathrin triskelion lattice + AP2 adaptor complexes coating the underside of the endocytic pit
+  const pitRings = [0, .85, 1.70, 2.55, 3.40];
+  const ringNodes = pitRings.map((r, ri) => {
+    const cnt = ri === 0 ? 1 : ri * 6;
+    const arr = [];
+    for (let k = 0; k < cnt; k++) {
+      const a = (k / cnt) * Math.PI * 2 + (ri & 1) * (Math.PI / cnt);
+      const x = r * Math.cos(a), z = r * Math.sin(a), n = hostNormal(x, z);
+      const p = V(x, hostSurfY(x, z), z).addScaledVector(n, -.62);
+      const pAdapt = V(x, hostSurfY(x, z), z).addScaledVector(n, -.40);
+      sHost.stick(pAdapt, p, .13 * NM, cAP2, cClath1);
+      sHost.add(pAdapt, .95 * NM, cAP2);
+      sHost.add(p, 1.32 * NM, cClath1);
+      arr.push(p);
+    }
+    return arr;
+  });
+  for (let ri = 1; ri < ringNodes.length; ri++) {
+    const cur = ringNodes[ri], prev = ringNodes[ri - 1];
+    for (let k = 0; k < cur.length; k++) {
+      sHost.stick(cur[k], cur[(k + 1) % cur.length], .18 * NM, cClath1, cClath2);
+      const pj = Math.floor((k / cur.length) * prev.length);
+      sHost.stick(cur[k], prev[pj], .18 * NM, cClath1, cClath2);
+    }
+  }
+  // Surrounding sub-membrane cortical actin filaments outside the pit
+  for (let f = 0; f < 22; f++) {
+    const r0 = rr(3.6, 9.2), a0 = rr(0, 6.283), dir = a0 + 1.57, len = rr(2.2, 4.0);
+    let prev = null;
+    for (let s = 0; s <= 10; s++) {
+      const u = (s - 5) / 5 * (len * .5);
+      const x = r0 * Math.cos(a0) + Math.cos(dir) * u, z = r0 * Math.sin(a0) + Math.sin(dir) * u;
+      if (x * x + z * z > (R_PATCH - .3) ** 2) continue;
+      const cur = V(x, hostSurfY(x, z) - .56, z);
+      if (prev) sHost.stick(prev, cur, .10 * NM, cAct, cClath2);
+      prev = cur;
+    }
+  }
+  SITES.host.push(V(-2.6, hostSurfY(-2.6, -.9), -.9));
+
+  // 3 CAR (Coxsackievirus & Adenovirus Receptor) D1-D2 Ig-domain stalks tethering the 3 subunits of the bottom Fiber knob
+  const cCarD1 = col('#22d3ee'), cCarD2 = col('#06b6d4'), cIntA = col('#38bdf8'), cIntB = col('#6ee7b7');
+  const knobBot = V(-.05, Y_VIR - R_CAP - FIBER_LEN - .18, 0);
+  [[-.34, -.14], [.32, -.22], [-.14, -.38]].forEach(([dx, dz]) => {
+    const fx = dx * 2.5, fz = dz * 2.5, fy = hostSurfY(fx, fz), fn = hostNormal(fx, fz);
+    const foot = V(fx, fy, fz);
+    sCar.stick(foot.clone().addScaledVector(fn, -.40), foot, .11 * NM, cCarD2, cCarD1);
+    const mid = foot.clone().lerp(knobBot, .48).add(V(dx * .35, 0, dz * .35));
+    const tip = knobBot.clone().add(V(dx * .55, -.05, dz * .55));
+    const curve = new THREE.CatmullRomCurve3([foot, mid, tip]);
+    let prev = foot;
+    for (let s = 1; s <= 10; s++) {
+      const f = s / 10, p = curve.getPoint(f);
+      sCar.stick(prev, p, .125 * NM, cCarD2, cCarD1);
+      if (s === 4 || s === 8) {
+        // Globular Ig-like D2 & D1 domains
+        sCar.add(p, 1.32 * NM, s === 8 ? cCarD1 : cCarD2);
+      }
+      prev = p;
+    }
+    if (!(fx > 0 && fz > 0)) SITES.car.push(mid.clone());
   });
 
+  // 5 heterodimeric alpha-v-beta-5 integrins rising from the clathrin-pit shoulder to engage viral RGD loops
   for (let k = 0; k < 5; k++) {
-    const a = k * Math.PI * 2 / 5 + .3;
-    const baseA = V(Math.cos(a) * 2.2, Y_MEM + .2, Math.sin(a) * 2.2), baseB = V(Math.cos(a + .18) * 2.2, Y_MEM + .2, Math.sin(a + .18) * 2.2);
-    const head = V(Math.cos(a + .09) * 1.35, Y_MEM + 2.35, Math.sin(a + .09) * 1.35);
-    for (let s = 0; s <= 12; s++) {
-      const f = s / 12;
-      sCar.add(baseA.clone().lerp(head, f), 1.35 * NM, cIntA);
-      sCar.add(baseB.clone().lerp(head, f), 1.35 * NM, cIntB);
-    }
+    const a = k * Math.PI * 2 / 5 + .38;
+    const rFoot = 2.05;
+    const ax = Math.cos(a - .09) * rFoot, az = Math.sin(a - .09) * rFoot;
+    const bx = Math.cos(a + .09) * rFoot, bz = Math.sin(a + .09) * rFoot;
+    const footA = V(ax, hostSurfY(ax, az), az), footB = V(bx, hostSurfY(bx, bz), bz);
+    const kneeA = V(Math.cos(a - .07) * 1.55, footA.y + 1.15, Math.sin(a - .07) * 1.55);
+    const kneeB = V(Math.cos(a + .07) * 1.55, footB.y + 1.15, Math.sin(a + .07) * 1.55);
+    const head = V(Math.cos(a) * .92, Y_VIR - R_CAP + .12, Math.sin(a) * .92);
+
+    sCar.stick(footA.clone().add(V(0, -.38, 0)), footA, .10 * NM, cIntA, cIntA);
+    sCar.stick(footB.clone().add(V(0, -.38, 0)), footB, .10 * NM, cIntB, cIntB);
+    sCar.stick(footA, kneeA, .12 * NM, cIntA, cIntA);
+    sCar.stick(footB, kneeB, .12 * NM, cIntB, cIntB);
+    sCar.stick(kneeA, head, .125 * NM, cIntA, cCarD1);
+    sCar.stick(kneeB, head, .125 * NM, cIntB, cCarD1);
+    sCar.add(kneeA, 1.05 * NM, cIntA); sCar.add(kneeB, 1.05 * NM, cIntB);
+    // Beta-propeller + beta-I RGD-binding headpiece clasp
+    sCar.add(head, 1.38 * NM, cIntA);
+    sCar.add(head.clone().add(V(.09, -.05, -.06)), 1.22 * NM, cIntB);
   }
-  sCar.done(); sHost.done();
+
+  // Amphipathic lytic Protein VI helices released from the vertex & inserting into the endocytic pit bilayer
+  const cVI = col('#e879f9'), cVI2 = col('#f0abfc');
+  for (let m = 0; m < 8; m++) {
+    const a = 1.9 + m * .42, r = 1.2 + (m % 3) * .65;
+    const x = Math.cos(a) * r, z = Math.sin(a) * r, y = hostSurfY(x, z), n = hostNormal(x, z);
+    const pTop = V(x, y, z).addScaledVector(n, .22), pBot = V(x, y, z).addScaledVector(n, -.24);
+    sLytic.stick(pBot, pTop, .12 * NM, cVI, cVI2);
+    sLytic.add(pTop, .95 * NM, cVI2);
+  }
+
+  sCar.done(); sHost.done(); sLytic.done();
 }
 
 const MOL = {
@@ -446,18 +747,18 @@ function emitFlow(type, pts, tags, dur = 3.0) {
 
 const STREAM_TIMERS = [
   { rate: 1.5, acc: .3, go: () => {
-    emitFlow('carsig', [V(0, Y_VIR - R_CAP - 2.8, 0), V(-.2, Y_VIR - R_CAP - 1.2, -.2), V(0, Y_VIR - R_CAP, 0)], ['fiber', 'car', 'penton'], 2.4);
+    emitFlow('carsig', [V(0, Y_VIR - R_CAP - FIBER_LEN - .2, 0), V(-.15, Y_VIR - R_CAP - 1.0, -.15), V(0, Y_VIR - R_CAP, 0)], ['fiber', 'car', 'penton'], 2.4);
   }},
   { rate: 1.6, acc: .6, go: () => {
     const a = rr(0, Math.PI * 2);
-    emitFlow('rgdsig', [V(Math.cos(a) * .6, Y_VIR - R_CAP, Math.sin(a) * .6), V(Math.cos(a) * 1.4, -3.5, Math.sin(a) * 1.4), V(Math.cos(a) * 2.1, -5.6, Math.sin(a) * 2.1)], ['penton', 'car', 'host'], 2.8);
+    emitFlow('rgdsig', [V(Math.cos(a) * .6, Y_VIR - R_CAP, Math.sin(a) * .6), V(Math.cos(a) * 1.35, -3.2, Math.sin(a) * 1.35), V(Math.cos(a) * 1.95, -4.8, Math.sin(a) * 1.95)], ['penton', 'car', 'host'], 2.8);
   }},
   { rate: 1.5, acc: .4, go: () => {
-    const a = rr(Math.PI * .5, Math.PI * 1.9);
-    emitFlow('pvi', [V(Math.cos(a) * 1.2, Y_VIR - 3.6, Math.sin(a) * 1.2), V(Math.cos(a) * 2.2, -4.8, Math.sin(a) * 2.2), V(Math.cos(a) * 3.4, -5.7, Math.sin(a) * 3.4)], ['cement', 'penton', 'host'], 2.7);
+    const a = rr(Math.PI * .55, Math.PI * 1.85);
+    emitFlow('pvi', [V(Math.cos(a) * 1.1, Y_VIR - 3.4, Math.sin(a) * 1.1), V(Math.cos(a) * 1.7, -4.1, Math.sin(a) * 1.7), V(Math.cos(a) * 2.3, -4.9, Math.sin(a) * 2.3)], ['cement', 'penton', 'host'], 2.7);
   }},
   { rate: 1.4, acc: .2, go: () => {
-    emitFlow('vdna', [V(-.5, Y_VIR + .8, -.5), V(-.2, Y_VIR - 1.5, -.2), V(-.1, Y_VIR - R_CAP - .5, -.1), V(-.3, -5.4, -.3)], ['dna', 'core', 'penton'], 3.4);
+    emitFlow('vdna', [V(-.5, Y_VIR + .8, -.5), V(-.2, Y_VIR - 1.4, -.2), V(-.1, Y_VIR - R_CAP - .4, -.1), V(-.3, -4.9, -.3)], ['dna', 'core', 'penton'], 3.4);
   }},
 ];
 
@@ -544,10 +845,10 @@ function setHi(k) {
 const hiCol = k => new THREE.Color(PARTS.find(p => p[0] === k)[2]);
 
 const VIEWS = [
-  ['virion', V(17, 5.2, 19), V(0, .5, 0)],
-  ['vertex', V(6.5, 9.2, 7.5), V(0, 6.8, 0)],
-  ['core',   V(6.8, 2.8, 7.8), V(-.4, 2.0, -.4)],
-  ['entry',  V(7.8, -2.8, 8.8), V(0, -4.2, 0)],
+  ['virion', V(24.5, 2.5, 27.5), V(0, .2, 0)],
+  ['vertex', V(7.4, 9.4, 8.4), V(0, 6.9, 0)],
+  ['core',   V(7.6, 3.0, 8.6), V(-.4, 2.3, -.4)],
+  ['entry',  V(8.8, -2.2, 9.8), V(0, -3.9, 0)],
 ];
 let view = 0, motion = true, sway = 0, last = performance.now();
 
@@ -712,21 +1013,21 @@ function pointsOf(vName) {
   if (POINTS[vName]) return POINTS[vName];
   let P = {};
   if (vName === 'virion') P = {
-    hexon: V(-3.8, 3.6, -1.2), penton: V(0, Y_VIR + R_CAP, 0), fiber: V(0, Y_VIR + R_CAP + 2.6, 0),
-    cement: V(-3.4, 2.2, -1.6), dna: V(-1.4, Y_VIR + .6, -1.2), core: V(-.8, Y_VIR - .4, -.8),
-    car: V(-.4, -4.2, -.4), host: V(-3.6, -5.85, -1.2),
+    hexon: SITES.hexon[0] ?? V(-3.5, 3.6, -1.2), penton: V(0, Y_VIR + R_CAP * .965, 0), fiber: V(0, Y_VIR + R_CAP + FIBER_LEN + .2, 0),
+    cement: SITES.cement[0] ?? V(-3.1, 2.4, -1.5), dna: V(-1.45, Y_VIR + .55, -1.15), core: SITES.core[0] ?? V(-.8, Y_VIR - .3, -.8),
+    car: SITES.car[0] ?? V(-.4, -3.6, -.4), host: SITES.host[0] ?? V(-2.6, -4.6, -.9),
   };
   if (vName === 'vertex') P = {
-    penton: V(0, Y_VIR + R_CAP, 0), fiber: V(0, Y_VIR + R_CAP + 2.6, 0), hexon: V(-1.8, Y_VIR + 3.8, -1.2),
-    cement: V(-1.2, Y_VIR + 3.5, -.8),
+    penton: V(0, Y_VIR + R_CAP * .965, 0), fiber: V(0, Y_VIR + R_CAP + FIBER_LEN + .2, 0), hexon: V(-1.6, Y_VIR + 3.6, -1.1),
+    cement: V(-1.1, Y_VIR + 3.3, -.7),
   };
   if (vName === 'core') P = {
-    dna: V(-1.4, Y_VIR + .6, -1.2), core: V(-.8, Y_VIR - .4, -.8), hexon: V(-3.8, 3.2, -1.2),
-    cement: V(-3.4, 2.2, -1.4),
+    dna: V(-1.45, Y_VIR + .55, -1.15), core: SITES.core[0] ?? V(-.8, Y_VIR - .3, -.8), hexon: SITES.hexon[0] ?? V(-3.5, 3.2, -1.2),
+    cement: SITES.cement[0] ?? V(-3.1, 2.4, -1.4),
   };
   if (vName === 'entry') P = {
-    fiber: V(0, Y_VIR - R_CAP - 2.6, 0), penton: V(0, Y_VIR - R_CAP, 0), car: V(-.4, -4.2, -.4),
-    host: V(-3.2, -5.85, -.8),
+    fiber: V(0, Y_VIR - R_CAP - FIBER_LEN - .2, 0), penton: V(0, Y_VIR - R_CAP * .965, 0), car: SITES.car[0] ?? V(-.4, -3.6, -.4),
+    host: SITES.host[0] ?? V(-2.6, -4.6, -.9),
   };
   return POINTS[vName] = P;
 }

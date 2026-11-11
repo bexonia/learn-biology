@@ -43,13 +43,13 @@ scene.background = (() => {
   const t = new THREE.CanvasTexture(c); t.colorSpace = THREE.SRGBColorSpace; return t;
 })();
 scene.environment = new THREE.PMREMGenerator(renderer).fromScene(new RoomEnvironment(), .04).texture;
-const camera = new THREE.PerspectiveCamera(30, innerWidth / innerHeight, .1, 400); camera.position.set(11.5, 2.8, 13.5);
-const controls = new OrbitControls(camera, renderer.domElement); controls.target.set(0, -.2, 0); controls.enableDamping = true; controls.minDistance = .5; controls.maxDistance = 85; controls.panSpeed = .5; controls.zoomSpeed = .5;
-scene.add(new THREE.HemisphereLight('#dfffee', '#192b22', .5));
-const key = new THREE.DirectionalLight('#fff8e6', 3.0); key.position.set(14, 24, 18); key.castShadow = true;
-key.shadow.mapSize.set(2048, 2048); Object.assign(key.shadow.camera, { left: -14, right: 14, top: 14, bottom: -14, near: 1, far: 75 }); key.shadow.bias = -.0005; key.shadow.normalBias = .03;
-const rim = new THREE.DirectionalLight('#6ee7b7', 1.5); rim.position.set(-16, 8, -14);
-const lamp = new THREE.PointLight('#fde047', 14, 28, 2); lamp.position.set(3.2, 2.5, 3.2);
+const camera = new THREE.PerspectiveCamera(30, innerWidth / innerHeight, .1, 400); camera.position.set(20.8, 1.3, 23.8);
+const controls = new OrbitControls(camera, renderer.domElement); controls.target.set(0, -.55, 0); controls.enableDamping = true; controls.minDistance = .5; controls.maxDistance = 95; controls.panSpeed = .5; controls.zoomSpeed = .5;
+scene.add(new THREE.HemisphereLight('#dfffee', '#192b22', .54));
+const key = new THREE.DirectionalLight('#fff8e6', 2.95); key.position.set(14, 24, 18); key.castShadow = true;
+key.shadow.mapSize.set(2048, 2048); Object.assign(key.shadow.camera, { left: -15, right: 15, top: 15, bottom: -15, near: 1, far: 85 }); key.shadow.bias = -.0005; key.shadow.normalBias = .03;
+const rim = new THREE.DirectionalLight('#6ee7b7', 1.48); rim.position.set(-16, 8, -14);
+const lamp = new THREE.PointLight('#fde047', 9.0, 26, 2); lamp.position.set(3.8, 2.2, 4.2);
 scene.add(key, rim, lamp);
 const cell = new THREE.Group(); scene.add(cell);
 
@@ -110,7 +110,7 @@ function impostorMat(key, clip = true) {
         vec2 q = gl_PointCoord * 2. - 1.; q.y = -q.y; float r2 = dot(q, q); if (r2 > 1.) discard;
         vec3 n = vec3(q, sqrt(1. - r2)); float d = max(dot(n, uLight), 0.); vec3 h = normalize(uLight + vec3(0., 0., 1.));
         vec3 c = vCol * (.26 + .95 * d) + pow(max(dot(n, h), 0.), 30.) * .22 + vCol * pow(1. - n.z, 3.) * .3;
-        gl_FragColor = vec4(mix(c, c * 1.7 + .12, uHi) * uDim, 1.);
+        gl_FragColor = vec4(mix(c, c * 1.7 + .12, uHi), uDim);
       }`,
     clipping: clip, clippingPlanes: clip ? CUT : null, clipIntersection: true,
   });
@@ -137,7 +137,7 @@ function stickMat(key, clip = true) {
         #include <clipping_planes_fragment>
         float u = vUV.y; vec3 n = normalize(vSide * u + vec3(0., 0., sqrt(max(0., 1. - u * u)))), h = normalize(uLight + vec3(0., 0., 1.));
         vec3 col = vUV.x < .5 ? vC1 : vC2, c = col * (.26 + .95 * max(dot(n, uLight), 0.)) + pow(max(dot(n, h), 0.), 30.) * .22;
-        gl_FragColor = vec4(mix(c, c * 1.7 + .12, uHi) * uDim, 1.);
+        gl_FragColor = vec4(mix(c, c * 1.7 + .12, uHi), uDim);
       }`,
     clipping: clip, clippingPlanes: clip ? CUT : null, clipIntersection: true, side: THREE.DoubleSide,
   });
@@ -189,11 +189,13 @@ function model(name, full = true) {
   const s = PDB[name]; return _models[k] = decodeModel((full && s.full) ? s.full : s.red);
 }
 function placeMol(S, name, pos, quat, colFn, full = true, scale = 1, skipRna = false) {
-  const m = model(name, full), v = V(), kScale = .01 * NM * scale;
+  const m = model(name, full), v = V(), kScale = .01 * NM * scale, isTurn = name === 'turn';
   for (let i = 0; i < m.n; i++) {
     const kd = m.kind[i], grp = kd >> 2, part = kd & 3;
     if (skipRna && (part === 2 || grp === 3)) continue;
-    v.set(m.xyz[i * 3], m.xyz[i * 3 + 1], m.xyz[i * 3 + 2]).multiplyScalar(kScale).applyQuaternion(quat).add(pos);
+    v.set(m.xyz[i * 3], m.xyz[i * 3 + 1], m.xyz[i * 3 + 2]);
+    if (isTurn) { v.x -= 20.862; v.y -= 8.131; v.z += .639; }
+    v.multiplyScalar(kScale).applyQuaternion(quat).add(pos);
     const r = m.rad ? (m.rad[i] * .25 * .18 * NM * scale) : (.82 * NM * scale);
     S.add(v, r, colFn(grp, part, i));
   }
@@ -201,55 +203,112 @@ function placeMol(S, name, pos, quat, colFn, full = true, scale = 1, skipRna = f
 
 const caps = new THREE.Group(); cell.add(caps);
 const SITES = { coat: [], disc: [], rna: [], channel: [], ribo: [], mp: [] };
-const Y_BOT = -5.2, Y_TOP = 4.2, PITCH = .23;
-const qZtoY = new THREE.Quaternion().setFromAxisAngle(V(1, 0, 0), -Math.PI * .5);
+const Y_BOT = -4.55, Y_TOP = 3.96, PITCH = .23;
+const qZtoY = new THREE.Quaternion().setFromUnitVectors(V(.048188, -.045179, .997816).normalize(), V(0, 1, 0));
+
+function capStripFromOutline(key, axis, outlineFn, layers, n = 160) {
+  const pos = [], colArr = [], nor = [], idx = [], c = new THREE.Color();
+  const off = axis === 'x' ? V(-.003, 0, 0) : V(0, 0, -.003), nrm = axis === 'x' ? V(1, 0, 0) : V(0, 0, 1);
+  let base = 0;
+  layers.forEach(([d0, d1, hex]) => {
+    c.set(hex);
+    for (let i = 0; i <= n; i++) {
+      const t = i / n;
+      for (const d of [d0, d1]) {
+        const p = outlineFn(axis, d, t).add(off);
+        pos.push(p.x, p.y, p.z); colArr.push(c.r, c.g, c.b); nor.push(nrm.x, nrm.y, nrm.z);
+      }
+    }
+    for (let i = 0; i < n; i++) { const a = base + i * 2; idx.push(a, a + 1, a + 2, a + 1, a + 3, a + 2); }
+    base += (n + 1) * 2;
+  });
+  const g = new THREE.BufferGeometry();
+  g.setAttribute('position', new THREE.Float32BufferAttribute(pos, 3));
+  g.setAttribute('color', new THREE.Float32BufferAttribute(colArr, 3));
+  g.setAttribute('normal', new THREE.Float32BufferAttribute(nor, 3));
+  g.setIndex(idx);
+  return new THREE.Mesh(g, reg(key, new THREE.MeshStandardMaterial({ vertexColors: true, roughness: .40, metalness: .04, side: THREE.DoubleSide })));
+}
 
 function buildHelicalRodAndDiscs() {
   const rodH = Y_TOP - Y_BOT, rodMid = (Y_TOP + Y_BOT) * .5;
-  // Inset translucent gel cylinder (radius 0.53, strictly inside the 2TMV coat protein wall r=0.58..0.91)
-  const coatMat = shellMat('coat', '#188a56', '#6ee7b7', '#0a482b', {
-    atten: 1.2, thickness: .45, sheen: '#a7f3d0',
-    extra: { clearcoat: .5, envMapIntensity: .65, normalMap: bump(10, 24), normalScale: new THREE.Vector2(.2, .2) },
+  // Subtle helical backing sleeve strictly inside the PDB 2TMV outer coat tips (r = 0.74 inside r = 0.90)
+  // so Look: gel / see-through / solid modulates the rod cleanly without obscuring the C-alpha 4-helix bundles
+  const coatMat = shellMat('coat', '#15803d', '#6ee7b7', '#064e3b', {
+    atten: 1.35, thickness: .32, sheen: '#a7f3d0',
+    extra: { clearcoat: .42, envMapIntensity: .55, normalMap: bump(12, 28), normalScale: new THREE.Vector2(.18, .18) },
   });
-  const outerCyl = new THREE.CylinderGeometry(.53, .53, rodH, 48, 1, true); outerCyl.translate(0, rodMid, 0);
+  const outerCyl = new THREE.CylinderGeometry(.73, .73, rodH - .06, 56, 1, true); outerCyl.translate(0, rodMid, 0);
   cell.add(shade(new THREE.Mesh(outerCyl, coatMat), true, true));
 
-  // Inner 4 nm aqueous lumen cylinder (radius 0.20 = 2.0 nm -> 4.0 nm diameter)
-  const chanMat = shellMat('channel', '#0e7490', '#67e8f9', '#083344', { atten: 1.3, thickness: .3, sheen: '#cffafe' });
-  const innerCyl = new THREE.CylinderGeometry(.20, .20, rodH, 36, 1, true); innerCyl.translate(0, rodMid, 0);
+  // Inner 4.0 nm diameter aqueous hollow channel wall (radius 0.20 = 2.0 nm -> 4.0 nm bore)
+  const chanMat = shellMat('channel', '#0e7490', '#67e8f9', '#083344', {
+    atten: 1.4, thickness: .22, sheen: '#cffafe',
+    extra: { clearcoat: .38, envMapIntensity: .5 },
+  });
+  const innerCyl = new THREE.CylinderGeometry(.20, .20, rodH - .04, 40, 1, true); innerCyl.translate(0, rodMid, 0);
   cell.add(new THREE.Mesh(innerCyl, chanMat));
+  const innerBack = new THREE.CylinderGeometry(.22, .22, rodH - .04, 40, 1, true); innerBack.translate(0, rodMid, 0);
+  cell.add(new THREE.Mesh(innerBack, reg('channel', phys({ color: '#083344', roughness: .72, side: THREE.BackSide }))));
 
-  const sCoat = balls('coat'), sDisc = balls('disc', cell, false), sChan = balls('channel');
-  const coatPal = [col('#34d399'), col('#10b981'), col('#6ee7b7')];
-  const discPal = [col('#a3e635'), col('#84cc16'), col('#bef264')];
-  const cCa = col('#22d3ee'), cGlu = col('#38bdf8');
-
-  const nTurns = Math.round(rodH / PITCH);
-  for (let t = 0; t <= nTurns; t++) {
-    const y = Y_BOT + t * PITCH, twist = t * (Math.PI * 2 / 3);
-    const q = new THREE.Quaternion().setFromAxisAngle(V(0, 1, 0), twist).multiply(qZtoY);
-    const isFull = (t % 5 === 0) || t === nTurns || t === 0;
-    placeMol(sCoat, 'turn', V(0, y, 0), q, g => coatPal[g % 3], isFull, 1.0, true);
-    if (t % 8 === 0) SITES.coat.push(V(-.72, y, -.35));
-
-    for (let k = 0; k < 8; k++) {
-      const a = k * Math.PI * .25 + twist;
-      sChan.add(V(Math.cos(a) * .21, y, Math.sin(a) * .21), .85 * NM, (k + t) % 2 ? cCa : cGlu);
-    }
-    if (t === Math.floor(nTurns * .5)) SITES.channel.push(V(-.18, y, -.1));
+  // Crisp notched cutaway cross-section walls in `caps` along x = 0 (z >= 0) and z = 0 (x >= 0),
+  // revealing the 2.0 nm central channel rim, the r = 4.0 nm RNA-binding groove, and the r = 9.0 nm serrated helical coat exterior!
+  const rodOutline = (axis, rBase, t) => {
+    const y = Y_BOT + t * rodH;
+    const groove = rBase > .75 ? .045 * Math.sin(((y - Y_BOT) / PITCH) * Math.PI * 2 + (axis === 'x' ? 1.57 : 0)) : 0;
+    const r = rBase + groove;
+    return axis === 'x' ? V(0, y, r) : V(r, y, 0);
+  };
+  const CHAN_RIM = [[.195, .255, '#22d3ee']];
+  const COAT_WALL = [
+    [.255, .415, '#10b981'],  // inner LR/RR α-helical RNA-clamp domain
+    [.415, .855, '#34d399'],  // outer LS/RS 4-α-helix bundle body
+  ];
+  for (const ax of ['x', 'z']) {
+    caps.add(capStripFromOutline('channel', ax, rodOutline, CHAN_RIM, 220));
+    caps.add(capStripFromOutline('coat', ax, rodOutline, COAT_WALL, 220));
   }
 
-  // Top self-assembly zone: 20S two-layer proto-helix lock-washer discs + incoming 2TMV 'sub' wedges
-  [Y_TOP + .68, Y_TOP + .92, Y_TOP + 1.75, Y_TOP + 1.99].forEach((yd, idx) => {
-    const tilt = idx < 2 ? .08 : .15;
-    const q = new THREE.Quaternion().setFromEuler(new THREE.Euler(tilt, idx * .8, 0)).multiply(qZtoY);
-    placeMol(sDisc, 'turn', V(0, yd, 0), q, g => discPal[g % 3], idx === 0, 1.02, true);
-    SITES.disc.push(V(-.75, yd, -.35));
+  const sCoat = balls('coat'), sDisc = balls('disc', cell, false), sChan = balls('channel');
+  const coatPal = [col('#34d399'), col('#10b981'), col('#6ee7b7'), col('#059669')];
+  const discPal = [col('#a3e635'), col('#84cc16'), col('#bef264'), col('#65a30d')];
+  const cCa = col('#22d3ee'), cGlu = col('#f472b6'), cAsp = col('#38bdf8');
+
+  // Render 100% OF ALL 17-subunit crystallographic 2TMV helical blocks seamlessly (dy = 2.4114 nm, dTwist = 17 * 22.034 deg)
+  const TURN_DY = .24114, TURN_DTWIST = 17 * .384564;
+  const nTurns = Math.floor((rodH - .22) / TURN_DY);
+  for (let t = 0; t <= nTurns; t++) {
+    const y = Y_BOT + .11 + t * TURN_DY, twist = t * TURN_DTWIST;
+    const q = new THREE.Quaternion().setFromAxisAngle(V(0, 1, 0), twist).multiply(qZtoY);
+    placeMol(sCoat, 'turn', V(0, y, 0), q, (g, p, i) => coatPal[(Math.floor(i / 157) + t * 17) % 4], true, 1.0, true);
+    if (t % 6 === 0) SITES.coat.push(V(-.74, y, -.35));
+
+    // Acidic Caspar carboxylate cage (Glu95/Glu97/Glu106/Asp109) + coordinated Ca2+ switch ions lining the 4 nm lumen
+    for (let k = 0; k < 12; k++) {
+      const a = k * (Math.PI * 2 / 12) + twist, ca = Math.cos(a), sa = Math.sin(a);
+      const pWall = V(ca * .245, y, sa * .245), pTip = V(ca * .192, y + .018 * (k % 2 ? 1 : -1), sa * .192);
+      sChan.stick(pWall, pTip, .075 * NM, cGlu, cAsp);
+      sChan.add(pTip, .68 * NM, k % 3 === 0 ? cCa : cGlu);
+    }
+    if (t === Math.floor(nTurns * .5)) SITES.channel.push(V(-.18, y, -.10));
+  }
+
+  // Top self-assembly zone: two 20S two-layer proto-helix lock-washer discs in 100% full PDB 2TMV C-alpha detail
+  // + 8 incoming 17.5 kDa four-alpha-helix coat subunits ('sub') docking onto the growing tip
+  [
+    [Y_TOP + .62, .08, .2],
+    [Y_TOP + .86, .08, .9],
+    [Y_TOP + 1.68, .14, 1.8],
+    [Y_TOP + 1.92, .14, 2.5],
+  ].forEach(([yd, tilt, rot], idx) => {
+    const q = new THREE.Quaternion().setFromEuler(new THREE.Euler(tilt, rot, -.05 * (idx & 1))).multiply(qZtoY);
+    placeMol(sDisc, 'turn', V(0, yd, 0), q, (g, p, i) => discPal[(Math.floor(i / 160) + idx) % 4], true, 1.02, true);
+    SITES.disc.push(V(-.76, yd, -.34));
   });
-  for (let k = 0; k < 6; k++) {
-    const a = k * 1.05 + .4, r = 1.25 + (k % 2) * .35, y = Y_TOP + 1.25 + k * .22;
-    const q = new THREE.Quaternion().setFromAxisAngle(V(0, 1, 0), a).multiply(qZtoY);
-    placeMol(sDisc, 'sub', V(Math.cos(a) * r, y, Math.sin(a) * r), q, () => discPal[0], true, 1.15, true);
+  for (let k = 0; k < 8; k++) {
+    const a = k * .82 + .35, r = 1.22 + (k % 2) * .32, y = Y_TOP + .35 + k * .24;
+    const q = new THREE.Quaternion().setFromEuler(new THREE.Euler(.25 * Math.sin(k), a, .18)).multiply(qZtoY);
+    placeMol(sDisc, 'sub', V(Math.cos(a) * r, y, Math.sin(a) * r), q, () => discPal[k % 3], true, 1.12, true);
   }
 
   sCoat.done(); sDisc.done(); sChan.done();
@@ -257,62 +316,232 @@ function buildHelicalRodAndDiscs() {
 
 function buildHelicalRNA() {
   const sRna = balls('rna');
-  const pts = [], nTurns = Math.round((Y_TOP - Y_BOT) / PITCH), steps = nTurns * 14;
+  const sRnaUncut = balls('rna', cell, false);
+  const pts = [], nTurns = Math.round((Y_TOP - Y_BOT) / PITCH), steps = nTurns * 16;
+  // Coaxial 6,395 nt (+)ssRNA wound at r = 4.0 nm (0.40 scene units, 3 nt per coat subunit)
   for (let i = 0; i <= steps; i++) {
     const f = i / steps, y = Y_BOT + f * (Y_TOP - Y_BOT), ang = f * nTurns * Math.PI * 2;
     pts.push(V(Math.cos(ang) * .40, y, Math.sin(ang) * .40));
   }
-  for (let i = 1; i <= 40; i++) {
-    const f = i / 40, y = Y_TOP + f * 2.4, r = .40 * (1 - f * .65) + .08 * Math.sin(f * Math.PI * 2);
-    const ang = nTurns * Math.PI * 2 + f * Math.PI * 3.5;
-    pts.push(V(Math.cos(ang) * r, y, Math.sin(ang) * r));
-  }
-  for (let i = 1; i <= 50; i++) {
-    const f = i / 50, y = (Y_TOP + 2.4) - f * 5.0, ang = f * Math.PI * 6;
-    pts.push(V(Math.cos(ang) * .11, y, Math.sin(ang) * .11));
-  }
   rnaAlong(sRna, pts, MRNA);
-  SITES.rna.push(V(-.38, .4, -.12));
-  sRna.done();
+
+  // Top Origin-of-Assembly (OAS) hairpin loop emerging from the central 4 nm lumen and threading through the 20S lock-washer discs!
+  const loopPts = [];
+  for (let i = 0; i <= 54; i++) {
+    const f = i / 54, y = (Y_BOT + .3) + f * (Y_TOP - Y_BOT + 2.05), ang = f * Math.PI * 7.5;
+    loopPts.push(V(Math.cos(ang) * .105 - .02, y, Math.sin(ang) * .105 - .02));
+  }
+  for (let i = 1; i <= 34; i++) {
+    const f = i / 34, a = f * Math.PI;
+    const y = (Y_TOP + 2.35) + Math.sin(a) * .52 - f * .35;
+    const r = .105 + Math.sin(a * .85) * .36;
+    const phi = 2.4 + f * 2.2;
+    loopPts.push(V(Math.cos(phi) * r, y, Math.sin(phi) * r));
+  }
+  rnaAlong(sRnaUncut, loopPts, '#fde047');
+  rna.rnaFold(sRnaUncut, V(-.22, Y_TOP + 2.55, -.16), V(-.4, 1, -.2).normalize(), .95, { nm: NM });
+  SITES.rna.push(V(-.38, .45, -.12));
+  sRna.done(); sRnaUncut.done();
 }
 
 function buildStriposomeAndMovement() {
-  const sRibo = balls('ribo', cell, false), sMp = balls('mp', cell, false), sRna = balls('rna', cell, false);
-  const tailPts = [];
-  for (let i = 0; i <= 26; i++) {
-    const f = i / 26;
-    tailPts.push(V(-f * 1.35 + Math.sin(f * Math.PI * 2) * .16, Y_BOT - f * 1.85, -f * .75));
-  }
-  rnaAlong(sRna, tailPts, '#fde047'); sRna.done();
+  // Co-translational disassembly ("striposome"): two structured plant 80S ribosomes translating the exposed 5' cap leader
+  // into the 126/183 kDa viral replicase, above a sliced plant cell-wall Plasmodesma gated by 30 kDa Movement Protein!
+  const sRibo = balls('ribo', cell, false), sMp = balls('mp', cell, false), sMpClip = balls('mp', cell, true), sRna = balls('rna', cell, false);
 
-  const riboPos = V(-1.15, Y_BOT - 1.4, -.65);
-  SITES.ribo.push(riboPos.clone());
-  const c60S = col('#fb7185'), c40S = col('#fda4af'), cRep = col('#38bdf8');
-  for (let i = 0; i < 160; i++) {
-    const d = randDir().multiplyScalar(.55 * Math.cbrt(rand())); d.y += .22;
-    sRibo.add(riboPos.clone().add(d), 1.45 * NM, c60S);
-  }
-  for (let i = 0; i < 110; i++) {
-    const d = randDir().multiplyScalar(.45 * Math.cbrt(rand())); d.y -= .28; d.x += .18;
-    sRibo.add(riboPos.clone().add(d), 1.35 * NM, c40S);
-  }
-  for (let i = 0; i < 45; i++) {
-    const f = i / 45, p = riboPos.clone().add(V(-.55 - f * .7, .35 + Math.sin(f * 8) * .22, -.2 + Math.cos(f * 8) * .22));
-    sRibo.add(p, 1.3 * NM, cRep);
+  // Exposed 5' m7G-capped viral RNA leader peeling out of the bottom of the TMV rod through the polysomal striposome into the plasmodesma
+  const tailCtrl = [
+    V(-.16, Y_BOT + .05, -.10),
+    V(-.58, Y_BOT - .52, -.32),
+    V(-1.18, Y_BOT - 1.15, -.58),
+    V(-1.72, Y_BOT - 1.72, -.42),
+    V(-1.05, Y_BOT - 2.18, -.24),
+    V(-.34, Y_BOT - 2.68, -.16),
+    V(-.28, Y_BOT - 3.55, -.14),
+  ];
+  const tailPts = geometry.resample(new THREE.CatmullRomCurve3(tailCtrl).getPoints(140), .28 * NM);
+  rnaAlong(sRna, tailPts, '#fde047');
+  sRna.done();
+
+  // Helper to build a structured eukaryotic plant 80S ribosome (distinct 60S dome + L1/P-stalks + rRNA core + 40S head/beak/body + nascent replicase)
+  const c60A = col('#fb7185'), c60B = col('#f43f5e'), c40A = col('#fda4af'), c40B = col('#fecdd3');
+  const cRrna = col('#ffe4e6'), cRep1 = col('#38bdf8'), cRep2 = col('#0ea5e9'), cRep3 = col('#7dd3fc');
+  function buildPlant80S(center, scale = 1.0, twist = 0, withReplicase = true) {
+    const q = new THREE.Quaternion().setFromEuler(new THREE.Euler(.22, twist, -.18));
+    const tf = v => v.clone().multiplyScalar(scale).applyQuaternion(q).add(center);
+    // 60S large subunit (crown/central protuberance + body + L1 & P-stalks)
+    const lobes60 = [
+      [V(0, .24, 0), .34, 64],
+      [V(-.24, .34, .06), .20, 28],  // L1 stalk
+      [V(.26, .30, -.05), .18, 24],  // P-stalk base
+      [V(0, .44, -.04), .19, 26],    // Central protuberance
+    ];
+    lobes60.forEach(([off, rad, cnt], li) => {
+      for (let k = 0; k < cnt; k++) {
+        const y = 1 - 2 * (k + .5) / cnt, r = Math.sqrt(Math.max(0, 1 - y * y)), phi = k * 2.3999632 + li;
+        const shellR = rad * (.72 + .28 * ((k * 7) % 5) / 4);
+        const p = tf(off.clone().add(V(Math.cos(phi) * r * shellR * 1.15, y * shellR * .88, Math.sin(phi) * r * shellR)));
+        sRibo.add(p, 1.05 * NM * scale, (k + li) % 3 === 0 ? cRrna : (k % 2 ? c60A : c60B));
+      }
+    });
+    // 25S rRNA helical core inside 60S
+    rna.rnaFold(sRibo, tf(V(-.06, .26, .04)), V(-1, .5, .2).normalize(), .85 * scale, { nm: NM });
+
+    // 40S small subunit (body + head + characteristic eukaryotic beak) clamped across the mRNA channel
+    const lobes40 = [
+      [V(.08, -.20, .06), .26, 46],  // 40S body
+      [V(-.12, -.16, .14), .20, 32], // 40S head
+      [V(-.28, -.12, .20), .12, 16], // 40S beak
+    ];
+    lobes40.forEach(([off, rad, cnt], li) => {
+      for (let k = 0; k < cnt; k++) {
+        const y = 1 - 2 * (k + .5) / cnt, r = Math.sqrt(Math.max(0, 1 - y * y)), phi = k * 2.3999632 + li;
+        const shellR = rad * (.75 + .25 * ((k * 5) % 4) / 3);
+        const p = tf(off.clone().add(V(Math.cos(phi) * r * shellR * 1.1, y * shellR * .85, Math.sin(phi) * r * shellR)));
+        sRibo.add(p, .98 * NM * scale, k % 2 ? c40A : c40B);
+      }
+    });
+
+    if (withReplicase) {
+      // Nascent 126/183 kDa TMV replicase polypeptide emerging from 60S exit tunnel into 3 folded enzymatic domains (MTase, Helicase, RdRp)
+      const doms = [
+        tf(V(-.18, .42, -.12)),
+        tf(V(-.48, .58, -.24)),
+        tf(V(-.82, .52, -.32)),
+        tf(V(-1.12, .34, -.26)),
+      ];
+      for (let d = 0; d < doms.length - 1; d++) sRibo.stick(doms[d], doms[d + 1], .12 * NM, cRep1, cRep2);
+      [doms[1], doms[2], doms[3]].forEach((dc, di) => {
+        const cDom = [cRep1, cRep2, cRep3][di];
+        for (let b = 0; b < 22; b++) {
+          const u = 1 - 2 * (b + .5) / 22, r = Math.sqrt(Math.max(0, 1 - u * u)), phi = b * 2.3999632 + di;
+          sRibo.add(dc.clone().add(V(Math.cos(phi) * r * .17, u * .15, Math.sin(phi) * r * .17)), .96 * NM * scale, b % 3 ? cDom : cRep3);
+        }
+      });
+    }
   }
 
-  const Y_PD = Y_BOT - 2.3;
-  const pdGeo = new THREE.TorusGeometry(2.35, .28, 18, 48); pdGeo.rotateX(Math.PI * .5); pdGeo.translate(0, Y_PD, 0);
-  const pdMat = shellMat('mp', '#7e22ce', '#c084fc', '#4c1d95', { atten: 1.3, thickness: .4, sheen: '#e9d5ff' });
-  cell.add(shade(new THREE.Mesh(pdGeo, pdMat), true, true));
+  const riboLead = V(-1.18, Y_BOT - 1.15, -.58);
+  const riboTrail = V(-1.68, Y_BOT - 1.75, -.42);
+  buildPlant80S(riboLead, 1.02, .4, true);
+  buildPlant80S(riboTrail, .90, 1.9, false);
+  SITES.ribo.push(riboLead.clone());
 
-  const cMp = col('#c084fc'), cMp2 = col('#e879f9'), cWall = col('#4ade80');
-  for (let k = 0; k < 36; k++) {
-    const a = (k / 36) * Math.PI * 2, r = 1.95 + (k % 2) * .22;
-    sMp.add(V(Math.cos(a) * r, Y_PD + Math.sin(a * 4) * .12, Math.sin(a) * r), 1.55 * NM, k % 2 ? cMp : cMp2);
-    sMp.add(V(Math.cos(a) * 2.55, Y_PD + (rand() - .5) * .35, Math.sin(a) * 2.55), 1.4 * NM, cWall);
+  // Authentic curved Plant Cell-Wall & Plasma-Membrane Plasmodesma Channel at the base (y = -6.7 to -8.9)
+  const Y_CW_MID = Y_BOT - 2.60, CW_HALF = .58, R_CW = 6.8, R_PORE = 1.12;
+  const cwSag = r => -.026 * Math.max(0, r * r - R_PORE * R_PORE);
+  // Continuous plant plasma membrane lining upper cell face, curving smoothly through the plasmodesma pore, and lining lower cell face!
+  const pdProfile = [];
+  for (let i = 0; i <= 32; i++) {
+    const f = i / 32;
+    if (f <= .34) {
+      const r = R_CW - (f / .34) * (R_CW - R_PORE - .24);
+      pdProfile.push(new THREE.Vector2(r, Y_CW_MID + cwSag(r) + CW_HALF + .035 * Math.sin(r * 1.5)));
+    } else if (f < .66) {
+      const a = ((f - .34) / .32 - .5) * Math.PI; // -pi/2 -> +pi/2 around the pore lip
+      const r = R_PORE + .24 * (1 - Math.cos(a));
+      const y = Y_CW_MID + cwSag(r) - Math.sin(a) * CW_HALF;
+      pdProfile.push(new THREE.Vector2(r, y));
+    } else {
+      const r = (R_PORE + .24) + ((f - .66) / .34) * (R_CW - R_PORE - .24);
+      pdProfile.push(new THREE.Vector2(r, Y_CW_MID + cwSag(r) - CW_HALF + .035 * Math.sin(r * 1.5)));
+    }
   }
-  SITES.mp.push(V(-2.05, Y_PD, -.4));
+  const pdMat = shellMat('mp', '#6b21a8', '#c084fc', '#3b0764', {
+    atten: 1.5, thickness: .36, sheen: '#f3e8ff',
+    extra: { clearcoat: .16, roughness: .40, envMapIntensity: .32, normalMap: bump(16, 16), normalScale: new THREE.Vector2(.22, .22) },
+  });
+  cell.add(shade(new THREE.Mesh(new THREE.LatheGeometry(pdProfile, 72), pdMat), false, true));
+
+  // Central ER Desmotubule running axially through the center of the plasmodesma pore!
+  const desmoGeo = new THREE.CylinderGeometry(.20, .20, CW_HALF * 2.5, 28);
+  desmoGeo.translate(0, Y_CW_MID, 0);
+  cell.add(shade(new THREE.Mesh(desmoGeo, reg('mp', phys({ color: '#9333ea', roughness: .36, clearcoat: .22 }))), true, true));
+
+  // Cutaway cross-section strips in `caps` showing the curved green plant cellulose cell-wall slab + purple plasma-membrane lining!
+  const cwOutline = (axis, yOff, t) => {
+    const r = R_PORE + .18 + t * (R_CW - R_PORE - .18);
+    return axis === 'x' ? V(0, Y_CW_MID + cwSag(r) + yOff, r) : V(r, Y_CW_MID + cwSag(r) + yOff, 0);
+  };
+  const CW_LAYERS = [
+    [CW_HALF - .02, CW_HALF + .09, '#c084fc'],     // upper plant plasma membrane
+    [.12, CW_HALF - .02, '#4ade80'],               // upper primary cellulose cell wall
+    [-.12, .12, '#86efac'],                        // pectin-rich middle lamella
+    [-CW_HALF + .02, -.12, '#4ade80'],             // lower primary cellulose cell wall
+    [-CW_HALF - .09, -CW_HALF + .02, '#c084fc'],   // lower plant plasma membrane
+  ];
+  for (const ax of ['x', 'z']) caps.add(capStripFromOutline('mp', ax, cwOutline, CW_LAYERS, 96));
+
+  // Cut-edge phospholipids along upper & lower plant plasma membranes + cut-face cellulose/pectin fibrils in `caps`
+  const B_CUT_PD = balls('mp', caps, false);
+  const cPH = col('#d8b4fe'), cPT = col('#f3e8ff'), cCell1 = col('#4ade80'), cCell2 = col('#22c55e'), cPec = col('#bbf7d0');
+  for (const ax of ['x', 'z']) {
+    for (let i = 0; i <= 82; i++) {
+      const r = R_PORE + .24 + (i / 82) * (R_CW - R_PORE - .32);
+      const yBase = Y_CW_MID + cwSag(r);
+      for (const sgn of [1, -1]) {
+        const y0 = yBase + sgn * (CW_HALF + .04);
+        const pO = ax === 'x' ? V(-.03, y0 + sgn * .04, r) : V(r, y0 + sgn * .04, -.03);
+        const pI = ax === 'x' ? V(-.03, y0 - sgn * .05, r) : V(r, y0 - sgn * .05, -.03);
+        B_CUT_PD.add(pO, .74 * NM, cPH);
+        B_CUT_PD.stick(pO, pI, .085 * NM, cPT, cPH);
+      }
+      for (let fl = -2; fl <= 2; fl++) {
+        if ((i + fl) % 2 !== 0) continue;
+        const yf = yBase + fl * .20 + .025 * Math.sin(i * .9 + fl);
+        const pf = ax === 'x' ? V(-.025, yf, r) : V(r, yf, -.025);
+        B_CUT_PD.add(pf, (fl === 0 ? .68 : .76) * NM, fl === 0 ? cPec : (i % 3 ? cCell1 : cCell2));
+      }
+    }
+  }
+  B_CUT_PD.done();
+
+  // 360° surface plant plasma-membrane phospholipid headgroups + woven crystalline cellulose microfibrils inside the cell wall (GPU-clipped)
+  for (let i = 0; i < 900; i++) {
+    const r = R_PORE + .32 + Math.sqrt((i + .5) / 900) * (R_CW - R_PORE - .48), a = i * 2.39996;
+    const x = r * Math.cos(a), z = r * Math.sin(a), yTop = Y_CW_MID + cwSag(r) + CW_HALF + .035 * Math.sin(r * 1.5);
+    sMpClip.add(V(x, yTop + .015, z), .68 * NM, i % 2 ? cPH : cPT);
+  }
+  for (let layer = 0; layer < 4; layer++) {
+    const yOff = -.36 + layer * .24;
+    for (let f = 0; f < 24; f++) {
+      const r0 = rr(R_PORE + .38, R_CW - .35), a0 = f * .262 + layer * .65;
+      const dir = a0 + 1.5708 + (layer % 2 ? .28 : -.28);
+      let prev = null;
+      for (let s = -5; s <= 5; s++) {
+        const u = s * .24;
+        const x = r0 * Math.cos(a0) + Math.cos(dir) * u, z = r0 * Math.sin(a0) + Math.sin(dir) * u;
+        const rad = Math.hypot(x, z);
+        if (rad < R_PORE + .28 || rad > R_CW - .2) continue;
+        const cur = V(x, Y_CW_MID + cwSag(rad) + yOff + .02 * Math.sin(s + f), z);
+        if (prev) sMpClip.stick(prev, cur, .12 * NM, cCell1, cCell2);
+        if (s % 3 === 0) sMpClip.add(cur, .72 * NM, cPec);
+        prev = cur;
+      }
+    }
+  }
+  sMpClip.done();
+
+  // 30 kDa TMV Movement Protein (MP) oligomer rings & spoke-tethers inside the plasmodesma cytoplasmic sleeve,
+  // dilating the pore around the central ER desmotubule!
+  const cMp = col('#c084fc'), cMp2 = col('#e879f9'), cDes = col('#f0abfc');
+  for (let ring = 0; ring < 4; ring++) {
+    const y = Y_CW_MID - .39 + ring * .26;
+    for (let k = 0; k < 16; k++) {
+      const a = (k / 16) * Math.PI * 2 + ring * .2;
+      if (Math.cos(a) > 0 && Math.sin(a) > 0) continue; // keep front-right cutaway open into the pore!
+      const pOuter = V(Math.cos(a) * (R_PORE - .06), y, Math.sin(a) * (R_PORE - .06));
+      const pMid = V(Math.cos(a) * .64, y, Math.sin(a) * .64);
+      const pDesmo = V(Math.cos(a) * .22, y, Math.sin(a) * .22);
+      sMp.add(pOuter, 1.25 * NM, k % 2 ? cMp : cMp2);
+      sMp.stick(pOuter, pMid, .10 * NM, cMp, cMp2);
+      if (k % 2 === 0) {
+        sMp.stick(pMid, pDesmo, .085 * NM, cMp2, cDes);
+        sMp.add(pDesmo, .85 * NM, cDes);
+      }
+    }
+  }
+  SITES.mp.push(V(-.98, Y_CW_MID + .12, -.38));
   sRibo.done(); sMp.done();
 }
 
@@ -377,18 +606,18 @@ function emitFlow(type, pts, tags, dur = 3.0) {
 
 const STREAM_TIMERS = [
   { rate: 1.8, acc: .3, go: () => {
-    emitFlow('oasloop', [V(0, Y_BOT + .5, 0), V(0, 0, 0), V(0, Y_TOP + .6, 0), V(-.35, Y_TOP + 2.1, -.2)], ['rna', 'channel', 'disc'], 3.2);
+    emitFlow('oasloop', [V(0, Y_BOT + .5, 0), V(0, 0, 0), V(0, Y_TOP + .6, 0), V(-.30, Y_TOP + 2.1, -.18)], ['rna', 'channel', 'disc'], 3.2);
   }},
   { rate: 1.6, acc: .6, go: () => {
     const a = rr(Math.PI * .55, Math.PI * 1.95);
-    emitFlow('sub20s', [V(Math.cos(a) * 1.8, Y_TOP + 2.2, Math.sin(a) * 1.8), V(Math.cos(a) * .9, Y_TOP + 1.1, Math.sin(a) * .9), V(Math.cos(a) * .72, Y_TOP + .2, Math.sin(a) * .72)], ['disc', 'coat'], 2.6);
+    emitFlow('sub20s', [V(Math.cos(a) * 1.75, Y_TOP + 2.0, Math.sin(a) * 1.75), V(Math.cos(a) * .92, Y_TOP + 1.0, Math.sin(a) * .92), V(Math.cos(a) * .72, Y_TOP + .15, Math.sin(a) * .72)], ['disc', 'coat'], 2.6);
   }},
   { rate: 1.5, acc: .4, go: () => {
     emitFlow('caspar', [V(-.12, Y_TOP, -.12), V(-.12, 0, -.12), V(-.12, Y_BOT, -.12)], ['channel', 'coat'], 2.8);
   }},
   { rate: 1.4, acc: .2, go: () => {
     const rb = SITES.ribo[0];
-    emitFlow('rep126', [V(0, Y_BOT, 0), rb.clone(), rb.clone().add(V(-.8, -.7, -.4)), V(-1.8, Y_BOT - 2.3, -.4)], ['rna', 'ribo', 'mp'], 3.0);
+    emitFlow('rep126', [V(-.12, Y_BOT, -.08), rb.clone(), rb.clone().add(V(.2, -1.0, .3)), V(-.45, Y_BOT - 2.65, -.25)], ['rna', 'ribo', 'mp'], 3.0);
   }},
 ];
 
@@ -475,10 +704,10 @@ function setHi(k) {
 const hiCol = k => new THREE.Color(PARTS.find(p => p[0] === k)[2]);
 
 const VIEWS = [
-  ['virion',   V(11.5, 2.8, 13.5), V(0, -.2, 0)],
-  ['helix',    V(3.8, 1.4, 4.4),   V(-.2, .8, -.2)],
-  ['channel',  V(3.2, 2.8, 3.6),   V(-.1, 1.2, -.1)],
-  ['assembly', V(5.2, 6.2, 5.8),   V(0, 4.8, 0)],
+  ['virion',   V(20.8, 1.3, 23.8), V(0, -.55, 0)],
+  ['helix',    V(4.2, 1.4, 4.8),   V(-.2, .7, -.2)],
+  ['channel',  V(3.5, 2.5, 4.0),   V(-.1, 1.1, -.1)],
+  ['assembly', V(5.8, 6.2, 6.4),   V(0, 4.7, 0)],
 ];
 let view = 0, motion = true, sway = 0, last = performance.now();
 
@@ -643,18 +872,18 @@ function pointsOf(vName) {
   if (POINTS[vName]) return POINTS[vName];
   let P = {};
   if (vName === 'virion') P = {
-    coat: V(-.72, 1.2, -.35), disc: V(-.75, Y_TOP + .9, -.35), rna: V(-.38, .4, -.12),
-    channel: V(-.18, -.5, -.1), ribo: SITES.ribo[0], mp: SITES.mp[0],
+    coat: V(-.74, 1.1, -.35), disc: V(-.76, Y_TOP + .86, -.34), rna: V(-.38, .45, -.12),
+    channel: V(-.18, -.45, -.10), ribo: SITES.ribo[0], mp: SITES.mp[0],
   };
   if (vName === 'helix') P = {
-    coat: V(-.72, 1.0, -.35), rna: V(-.38, .8, -.12), channel: V(-.18, .6, -.1),
+    coat: V(-.74, 1.0, -.35), rna: V(-.38, .8, -.12), channel: V(-.18, .6, -.10),
   };
   if (vName === 'channel') P = {
-    channel: V(-.18, 1.2, -.1), rna: V(-.38, 1.4, -.12), coat: V(-.72, 1.0, -.35),
+    channel: V(-.18, 1.15, -.10), rna: V(-.38, 1.35, -.12), coat: V(-.74, .95, -.35),
   };
   if (vName === 'assembly') P = {
-    disc: V(-.75, Y_TOP + .9, -.35), rna: V(-.25, Y_TOP + 1.8, -.12), coat: V(-.72, Y_TOP - .4, -.35),
-    channel: V(-.18, Y_TOP - .2, -.1),
+    disc: V(-.76, Y_TOP + .86, -.34), rna: V(-.22, Y_TOP + 2.1, -.14), coat: V(-.74, Y_TOP - .35, -.35),
+    channel: V(-.18, Y_TOP - .2, -.10),
   };
   return POINTS[vName] = P;
 }

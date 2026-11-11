@@ -4,7 +4,14 @@
   "description": "Interactive 3D Cellular & Molecular Biology WebGL Explorer powered by Three.js, TypeScript, and Effect",
   "type": "module",
   "scripts": {
+    "dev:web": "esbuild src/pages/*.ts --bundle --splitting --format=esm --outdir=dist --outbase=src --target=es2022 --external:three --external:three/* --watch=forever",
+    "dev:server": "tsx watch src/server/auth_progress_server.ts",
+    "dev": "LEARN_STATIC_ROOT=. PORT=8765 tsx src/server/auth_progress_server.ts",
+    "start": "LEARN_STATIC_ROOT=. PORT=8765 node dist/server.js",
+    "start:api": "PORT=3001 node dist/server.js",
     "build": "esbuild src/pages/*.ts --bundle --splitting --minify --format=esm --outdir=dist --outbase=src --target=es2022 --external:three --external:three/* && esbuild src/server/auth_progress_server.ts --bundle --platform=node --format=esm --outfile=dist/server.js --target=node22 --external:node:*",
+    "export:cues": "tsx scripts/export_tour_cues.ts",
+    "generate:narration": "npm run export:cues && python3 tools/generate_narration_gptsovits.py",
     "typecheck": "tsc --noEmit",
     "test": "tsx tests/verify_all.ts"
   },

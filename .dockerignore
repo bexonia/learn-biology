@@ -7,5 +7,6 @@ tools
 tests
 node_modules
 dist
+audio
 *.md
 LICENSE

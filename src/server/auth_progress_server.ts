@@ -2,7 +2,7 @@ import { createServer, type IncomingMessage, type Server, type ServerResponse } 
 import { createHash, randomBytes, scryptSync, timingSafeEqual } from 'node:crypto';
 import { existsSync, mkdirSync, readFileSync, statSync, writeFileSync } from 'node:fs';
 import { createRequire } from 'node:module';
-import { dirname, extname, join, normalize } from 'node:path';
+import { dirname, extname, join, normalize, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 const requireModule = createRequire(import.meta.url);
@@ -77,7 +77,7 @@ const MIME_BY_EXT: Record<string, string> = {
   '.jpeg': 'image/jpeg',
   '.xml': 'application/xml; charset=utf-8',
   '.txt': 'text/plain; charset=utf-8',
-  '.opus': 'audio/ogg; codecs=opus',
+  '.opus': 'audio/ogg',
   '.mp3': 'audio/mpeg',
 };
 
@@ -706,7 +706,9 @@ export function createLearnServer(options: LearnServerOptions = {}): {
 } {
   const dbPath = options.dbPath ?? process.env.LEARN_DB_PATH ?? '/tmp/bexonia-learn-biology.sqlite';
   const sessionTtlSeconds = options.sessionTtlSeconds ?? DEFAULT_SESSION_TTL_SECONDS;
-  const staticRoot = options.staticRoot ?? null;
+  const rawStaticRoot =
+    options.staticRoot !== undefined ? options.staticRoot : (process.env.LEARN_STATIC_ROOT ?? null);
+  const staticRoot = rawStaticRoot ? resolve(rawStaticRoot) : null;
   const store = new LearnAuthProgressStore(dbPath, sessionTtlSeconds);
 
   const server = createServer(async (req, res) => {
@@ -892,19 +894,48 @@ export function createLearnServer(options: LearnServerOptions = {}): {
       }
 
       if (staticRoot && (method === 'GET' || method === 'HEAD')) {
-        const cleanPath = normalize(pathname === '/' ? '/cell_explorer.html' : pathname).replace(/^(\.\.(\/|\\|$))+/, '');
+        let decodedPath = pathname;
+        try {
+          decodedPath = decodeURIComponent(pathname);
+        } catch {
+          // keep raw pathname if malformed percent sequence
+        }
+        const cleanPath = normalize(decodedPath === '/' ? '/cell_explorer.html' : decodedPath).replace(/^(\.\.(\/|\\|$))+/, '');
         const filePath = join(staticRoot, cleanPath);
         if (filePath.startsWith(staticRoot) && existsSync(filePath) && statSync(filePath).isFile()) {
           const ext = extname(filePath);
-          res.writeHead(200, {
-            'Content-Type': MIME_BY_EXT[ext] ?? 'application/octet-stream',
-            'Cache-Control': 'no-cache',
-          });
-          if (method === 'HEAD') {
-            res.end();
-          } else {
-            res.end(readFileSync(filePath));
+          const contentType = MIME_BY_EXT[ext] ?? 'application/octet-stream';
+          const isAudio = ext === '.opus' || ext === '.mp3';
+          const cacheControl = isAudio ? 'public, max-age=300' : 'no-cache';
+          const buf = readFileSync(filePath);
+          const total = buf.length;
+          const rangeHeader = req.headers.range;
+
+          if (rangeHeader && /^bytes=\d*-\d*$/.test(rangeHeader)) {
+            const [startStr, endStr] = rangeHeader.replace(/^bytes=/, '').split('-');
+            const start = startStr ? Math.min(Number(startStr), Math.max(0, total - 1)) : 0;
+            const end = endStr ? Math.min(Number(endStr), Math.max(0, total - 1)) : Math.max(0, total - 1);
+            if (start <= end && total > 0) {
+              const chunk = buf.subarray(start, end + 1);
+              res.writeHead(206, {
+                'Content-Type': contentType,
+                'Content-Range': `bytes ${start}-${end}/${total}`,
+                'Accept-Ranges': 'bytes',
+                'Content-Length': String(chunk.length),
+                'Cache-Control': cacheControl,
+              });
+              res.end(method === 'HEAD' ? undefined : chunk);
+              return;
+            }
           }
+
+          res.writeHead(200, {
+            'Content-Type': contentType,
+            'Accept-Ranges': 'bytes',
+            'Content-Length': String(total),
+            'Cache-Control': cacheControl,
+          });
+          res.end(method === 'HEAD' ? undefined : buf);
           return;
         }
       }
@@ -923,13 +954,29 @@ export function createLearnServer(options: LearnServerOptions = {}): {
   return { server, store };
 }
 
-const isMain = process.argv[1] && fileURLToPath(import.meta.url) === normalize(process.argv[1]);
+const isMain = process.argv[1] && fileURLToPath(import.meta.url) === resolve(process.argv[1]);
 if (isMain) {
   const port = Number(process.env.PORT || 3001);
   const host = process.env.HOST || '127.0.0.1';
   const dbPath = process.env.LEARN_DB_PATH || '/tmp/bexonia-learn-biology.sqlite';
-  const { server } = createLearnServer({ dbPath, port, host });
+  const staticRoot = process.env.LEARN_STATIC_ROOT || null;
+  const { server, store } = createLearnServer({ dbPath, port, host, staticRoot });
+  const shutdown = () => {
+    server.close(() => {
+      store.close();
+      process.exit(0);
+    });
+    setTimeout(() => process.exit(0), 500).unref();
+  };
+  process.once('SIGINT', shutdown);
+  process.once('SIGTERM', shutdown);
   server.listen(port, host, () => {
-    console.log(`[bexonia-learn-api] Listening on http://${host}:${port} (db=${dbPath})`);
+    if (staticRoot) {
+      console.log(
+        `[bexonia-learn] Frontend + API listening on http://${host}:${port}/cell_explorer.html (db=${dbPath})`
+      );
+    } else {
+      console.log(`[bexonia-learn-api] Listening on http://${host}:${port} (db=${dbPath})`);
+    }
   });
 }

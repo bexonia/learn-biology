@@ -2212,60 +2212,129 @@ function buildMicrovillus() {
 // =====================================================================
 // Bacteriophage T4: capsid, contractile tail, baseplate, tail fibers
 // =====================================================================
+const unitHexPrism = new THREE.CylinderGeometry(1, 1, 1, 6);
+const unitHexRing = new THREE.CylinderGeometry(1, 1, 1, 6, 1, true);
+const unitPentPrism = new THREE.CylinderGeometry(.76, 1, 1, 5);
+
+function addSphericalCutRim(g, rOut, rIn, colHex, yScale = 1, n = 44) {
+  const mat = std(colHex, { glow: .16, rough: .42 });
+  for (const ph of [Math.PI * .25, Math.PI * .75]) {
+    const pos = [], idx = [], cx = -Math.cos(ph), cz = Math.sin(ph);
+    for (let i = 0; i <= n; i++) {
+      const th = (i / n) * Math.PI, st = Math.sin(th), ct = Math.cos(th);
+      pos.push(rOut * cx * st, rOut * yScale * ct, rOut * cz * st);
+      pos.push(rIn * cx * st, rIn * yScale * ct, rIn * cz * st);
+      if (i < n) { const b = i * 2; idx.push(b, b + 1, b + 2, b + 1, b + 3, b + 2); }
+    }
+    const geo = new THREE.BufferGeometry();
+    geo.setAttribute('position', new THREE.Float32BufferAttribute(pos, 3));
+    geo.setIndex(idx); geo.computeVertexNormals();
+    const m = new THREE.Mesh(geo, mat); m.material.side = THREE.DoubleSide; g.add(m);
+  }
+}
+
 function makePhageCapsid() {
-  const g = new THREE.Group(), R = 4.2, H = 5.7, q = new THREE.Quaternion();
-  const shell = new THREE.SphereGeometry(R * .95, 64, 48, CUT[0], CUT[1]); shell.scale(1, H / R, 1);
-  g.add(new THREE.Mesh(shell, xray('#6bc8ff', 1.15, 2.1, .03)));
-  const inner = new THREE.SphereGeometry(R * .89, 64, 48, CUT[0], CUT[1]); inner.scale(1, H / R, 1);
-  g.add(new THREE.Mesh(inner, xray('#4fa8ff', .55, 1.7, .015)));
-  const hexM = [], socM = [], hocM = [], pentM = [];
+  const g = new THREE.Group(), R = 4.2, H = 5.75;
+  // Faceted prolate T=13/Q=20 icosahedral geometry cut open on the front +z wedge
+  const baseIco = new THREE.IcosahedronGeometry(1, 0);
+  baseIco.rotateX(Math.PI / 2 - Math.atan(.5));
+  const posAttr = baseIco.attributes.position;
+  const mapProlate = (u, sc = 1) => {
+    const len = u.length() || 1, rf = THREE.MathUtils.lerp(len, 1.0, .20) / len;
+    return V(u.x * rf * R * sc, u.y * rf * H * sc, u.z * rf * R * sc);
+  };
+  const shellPos = [], innerPos = [];
+  const hexM = [], hexC = [], socM = [], hocM = [], pentM = [], verts = [];
+  const cH0 = new THREE.Color('#5aa9e6'), cH1 = new THREE.Color('#74bef5');
   let hexPt = null, socPt = null, hocPt = null, pentPt = null;
-  const verts = [V(0, H, 0), ...Array.from({ length: 5 }, (_, k) => { const a = k / 5 * Math.PI * 2 + .2; return V(R * .894 * Math.cos(a), H * .447, R * .894 * Math.sin(a)); }),
-    ...Array.from({ length: 5 }, (_, k) => { const a = (k + .5) / 5 * Math.PI * 2 + .2; return V(R * .894 * Math.cos(a), -H * .447, R * .894 * Math.sin(a)); })];
-  verts.forEach(v => {
-    if (inCut(v.clone().normalize())) return;
-    const qi = qFromTo(UP, V(v.x / (R * R), v.y / (H * H), v.z / (R * R)).normalize());
-    pentM.push(M4(v, qi, V(.64, .24, .64)));
-    if (!pentPt || v.z > pentPt.z) pentPt = v.clone();
-  });
-  for (let i = 0; i < 240; i++) {
-    const d = fibDir(i, 240); if (inCut(d) || d.y < -.89) continue;
-    const p = V(d.x * R, d.y * H, d.z * R);
-    if (verts.some(v => v.distanceToSquared(p) < .78 * .78)) continue;
-    const n = V(d.x / R, d.y / H, d.z / R).normalize(), qi = qFromTo(UP, n);
-    hexM.push(M4(p, qi, V(.56, .16, .56)));
-    const hp = p.clone().addScaledVector(n, .22); hocM.push(M4(hp, qi, V(.11, .3, .11)));
-    const sp = p.clone().addScaledVector(n, .06); socM.push(M4(sp, qi, V(.65, .08, .65)));
-    if (d.y > .1 && d.x < -.1 && (!hexPt || p.z > hexPt.z)) hexPt = p.clone();
-    if (d.y > -.2 && d.x > .1 && (!hocPt || hp.z > hocPt.z)) hocPt = hp.clone();
-    if (d.y < .2 && d.x < -.2 && (!socPt || sp.z > socPt.z)) socPt = sp.clone();
+  const addU = (arr, v, tol = .12) => { for (const x of arr) if (x.distanceToSquared(v) < tol) return false; arr.push(v); return true; };
+  const hexPlaced = [];
+
+  const SUB = 5;
+  for (let f = 0; f < posAttr.count; f += 3) {
+    const A0 = V().fromBufferAttribute(posAttr, f), B0 = V().fromBufferAttribute(posAttr, f + 1), C0 = V().fromBufferAttribute(posAttr, f + 2);
+    const pt = (i, j, sc = 1) => mapProlate(A0.clone().multiplyScalar((SUB - i - j) / SUB).addScaledVector(B0, i / SUB).addScaledVector(C0, j / SUB), sc);
+    const fN = pt(1, 0).sub(pt(0, 0)).cross(pt(0, 1).sub(pt(0, 0))).normalize();
+    if (fN.dot(pt(1, 1)) < 0) fN.negate();
+    for (let i = 0; i < SUB; i++) for (let j = 0; j < SUB - i; j++) {
+      const p0 = pt(i, j, .95), p1 = pt(i + 1, j, .95), p2 = pt(i, j + 1, .95);
+      const mid = p0.clone().add(p1).add(p2).divideScalar(3);
+      if (!inCut(mid) && mid.y > -H * .92) {
+        shellPos.push(p0.x, p0.y, p0.z, p1.x, p1.y, p1.z, p2.x, p2.y, p2.z);
+        const q0 = pt(i, j, .90), q1 = pt(i + 1, j, .90), q2 = pt(i, j + 1, .90);
+        innerPos.push(q0.x, q0.y, q0.z, q2.x, q2.y, q2.z, q1.x, q1.y, q1.z);
+      }
+      if (i + j + 1 < SUB) {
+        const p3 = pt(i + 1, j + 1, .95), mid2 = p1.clone().add(p3).add(p2).divideScalar(3);
+        if (!inCut(mid2) && mid2.y > -H * .92) {
+          shellPos.push(p1.x, p1.y, p1.z, p3.x, p3.y, p3.z, p2.x, p2.y, p2.z);
+          const q1 = pt(i + 1, j, .90), q2 = pt(i, j + 1, .90), q3 = pt(i + 1, j + 1, .90);
+          innerPos.push(q1.x, q1.y, q1.z, q2.x, q2.y, q2.z, q3.x, q3.y, q3.z);
+        }
+      }
+    }
+    for (let i = 0; i <= SUB; i++) for (let j = 0; j <= SUB - i; j++) {
+      const k = SUB - i - j, p = pt(i, j, 1.0);
+      if (inCut(p) || p.y < -H * .90) continue;
+      const isVtx = (i === SUB ? 1 : 0) + (j === SUB ? 1 : 0) + (k === SUB ? 1 : 0) === 1;
+      const n = fN.clone().lerp(V(p.x / (R * R), p.y / (H * H), p.z / (R * R)).normalize(), .35).normalize();
+      const qi = qFromTo(UP, n);
+      if (isVtx) {
+        if (addU(verts, p, .15)) {
+          pentM.push(M4(p, qi, V(.46, .26, .46)));
+          if (!pentPt || p.z > pentPt.z) pentPt = p.clone();
+        }
+      } else if (addU(hexPlaced, p, .14)) {
+        hexM.push(M4(p, qi, V(.38, .16, .38))); hexC.push((i + j) % 2 ? cH0 : cH1);
+        const sp = p.clone().addScaledVector(n, .06); socM.push(M4(sp, qi, V(.44, .09, .44)));
+        const hp = p.clone().addScaledVector(n, .22); hocM.push(M4(hp, qi, V(.09, .28, .09)));
+        if (p.y > .6 && p.x < -.5 && (!hexPt || p.z > hexPt.z)) hexPt = p.clone();
+        if (p.y > -.5 && p.x > .5 && (!hocPt || hp.z > hocPt.z)) hocPt = hp.clone();
+        if (p.y < .6 && p.x < -.6 && (!socPt || sp.z > socPt.z)) socPt = sp.clone();
+      }
+    }
   }
-  g.add(instanced(new THREE.CylinderGeometry(1, 1, 1, 6), std('#6bc8ff', { glow: .2 }), hexM),
-    instanced(new THREE.CylinderGeometry(1, 1, 1, 6, 1, true), std('#a8f0c6', { glow: .22 }), socM),
-    instanced(unitCyl, std('#ffd27a', { glow: .25 }), hocM),
-    instanced(new THREE.CylinderGeometry(.7, 1, 1, 5), std('#ff9a6c', { glow: .28 }), pentM));
-  // Coaxially spooled 169 kbp dsDNA inside the cutaway + detailed B-DNA helix segment
-  const dnaPts = [];
-  for (let i = 0; i <= 260; i++) {
-    const t = i / 260, y = (t - .5) * H * 1.48, rMax = R * .76 * Math.sqrt(Math.max(.06, 1 - (y / (H * .85)) ** 2)), a = t * Math.PI * 36;
-    dnaPts.push(V(rMax * Math.cos(a), y, rMax * Math.sin(a)));
+  const sGeo = new THREE.BufferGeometry(); sGeo.setAttribute('position', new THREE.Float32BufferAttribute(shellPos, 3)); sGeo.computeVertexNormals();
+  const iGeo = new THREE.BufferGeometry(); iGeo.setAttribute('position', new THREE.Float32BufferAttribute(innerPos, 3)); iGeo.computeVertexNormals();
+  g.add(new THREE.Mesh(sGeo, std('#3a7ab8', { opacity: .42, glow: .12 })), new THREE.Mesh(iGeo, std('#1f4369', { glow: .06 })));
+  addSphericalCutRim(g, R * .93, R * .85, '#ff9a5c', H / (R * .93), 42);
+  g.add(instanced(unitHexPrism, plain(), hexM, hexC),
+    instanced(unitHexRing, std('#ff9a5c', { glow: .22 }), socM),
+    instanced(unitCyl, std('#ffd866', { glow: .26 }), hocM),
+    instanced(unitPentPrism, std('#c77dff', { glow: .26 }), pentM));
+
+  // Multi-layer coaxially spooled 169 kbp dsDNA inside the cutaway + structured prolate gp22/IPI* core
+  let dnaAnchor = V(0, 1.2, 1.8);
+  for (let layer = 0; layer < 4; layer++) {
+    const sc = .78 - layer * .14, pts = [], turns = 28 - layer * 4, N = 220;
+    for (let i = 0; i <= N; i++) {
+      const t = i / N, u = -1 + 2 * t, y = u * H * .82 * sc;
+      const rMax = R * sc * Math.sqrt(Math.max(.06, 1 - u * u * .88)), a = t * Math.PI * 2 * turns + layer * 1.1;
+      pts.push(V(rMax * Math.cos(a), y, rMax * Math.sin(a)));
+    }
+    g.add(tube(pts, .095, std(layer % 2 ? '#5c7cfa' : '#3d9bff', { glow: .22 }), 6, 480));
+    if (layer === 1) {
+      g.add(dnaAlong(new THREE.CatmullRomCurve3(pts.slice(72, 125)), 11, .24, .058));
+      dnaAnchor = pts[98].clone();
+    }
   }
-  g.add(tube(dnaPts, .11, std('#4fa8ff', { glow: .2 }), 6, 600));
-  const dnaPts2 = [];
-  for (let i = 0; i <= 180; i++) {
-    const t = i / 180, y = (t - .5) * H * 1.25, rMax = R * .52 * Math.sqrt(Math.max(.06, 1 - (y / (H * .75)) ** 2)), a = t * Math.PI * 26 + 1.2;
-    dnaPts2.push(V(rMax * Math.cos(a), y, rMax * Math.sin(a)));
+  // Helical internal scaffolding & IPI* core column
+  for (let pf = 0; pf < 4; pf++) {
+    const cPts = [];
+    for (let s = 0; s <= 32; s++) {
+      const t = s / 32, y = -H * .68 + t * H * 1.36, rf = .46 * Math.sqrt(Math.max(.08, 1 - (2 * t - 1) ** 2)), a = pf * Math.PI / 2 + t * Math.PI * 4;
+      cPts.push(V(rf * Math.cos(a), y, rf * Math.sin(a)));
+    }
+    g.add(tube(cPts, .12, std(pf % 2 ? '#ffd24f' : '#ffae52', { glow: .22 }), 6, 72));
   }
-  g.add(dnaAlong(new THREE.CatmullRomCurve3(dnaPts2.slice(50, 95)), 10, .28, .065));
-  const core = new THREE.Mesh(new THREE.CylinderGeometry(.55, .45, H * 1.05, 20), std('#ff9ad8', { glow: .22 })); g.add(core);
-  // Portal dodecamer (gp20) at the bottom vertex
-  const portal = new THREE.Group(); portal.position.y = -H * .96; g.add(portal);
+  // 12-subunit gp20 portal dodecamer turbine at the bottom vertex
+  const portal = new THREE.Group(); portal.position.y = -H * .95; g.add(portal);
   for (let k = 0; k < 12; k++) {
-    const a = k / 12 * Math.PI * 2, s = blob(.26, std(k % 2 ? '#c77dff' : '#e0aaff', { glow: .25 }), .12, 1.5, 16);
-    s.scale.set(1, 1.8, 1); s.position.set(.85 * Math.cos(a), 0, .85 * Math.sin(a)); portal.add(s);
+    const a = k / 12 * Math.PI * 2, s = blob(.25, std(k % 2 ? '#ff6b8b' : '#ff94ab', { glow: .25 }), .1, 1.5, 16);
+    s.scale.set(1, 1.75, 1); s.position.set(.86 * Math.cos(a), 0, .86 * Math.sin(a)); portal.add(s);
   }
   return { group: g, an: { gp23: hexPt ?? V(-2.8, 1.5, 2.5), soc: socPt ?? V(-3.1, -.5, 2.2), hoc: hocPt ?? V(2.4, 1.2, 2.6),
-    gp24: pentPt ?? V(0, H, 0), dna: dnaPts2[72], core: V(0, .6, .55), portal: V(0, -H * .96, .95) } };
+    gp24: pentPt ?? V(0, H, 0), dna: dnaAnchor, core: V(0, .5, .48), portal: V(0, -H * .95, .92) } };
 }
 function buildPhageCapsid() {
   const m = makePhageCapsid(), a = m.an;
@@ -2277,37 +2346,43 @@ function buildPhageCapsid() {
 
 function makePhageTail() {
   const g = new THREE.Group(), H = 9.2, top = H / 2, bot = -H / 2;
-  // Neck & collar (gp13/gp14/gp15) + 6 fibritin whiskers (gpWac)
-  const collar = new THREE.Mesh(new THREE.TorusGeometry(1.15, .2, 12, 32), std('#7fe6d2', { glow: .22 }));
-  collar.rotation.x = Math.PI / 2; collar.position.y = top - .35; g.add(collar);
+  // 12-fold neck & collar (gp13/gp14/gp15) + 6 coiled-coil fibritin whiskers (gpWac) + 6 collar feelers
+  const collar = new THREE.Mesh(new THREE.TorusGeometry(1.12, .18, 14, 36), std('#7fe0ff', { glow: .22 }));
+  collar.rotation.x = Math.PI / 2; collar.position.y = top - .32; g.add(collar);
+  for (let k = 0; k < 12; k++) {
+    const a = k / 12 * Math.PI * 2, lug = sphere(.16, std('#b3f2ff', { glow: .22 }));
+    lug.position.set(1.24 * Math.cos(a), top - .32, 1.24 * Math.sin(a)); g.add(lug);
+  }
   let whiskPt = null;
   for (let k = 0; k < 6; k++) {
-    const a = k / 6 * Math.PI * 2 + .3, p0 = V(1.15 * Math.cos(a), top - .35, 1.15 * Math.sin(a));
-    const p1 = V(3.2 * Math.cos(a), top - .75, 3.2 * Math.sin(a)), p2 = V(4.6 * Math.cos(a + .08), top - 1.55, 4.6 * Math.sin(a + .08));
-    g.add(tube([p0, p1, p2], .07, std('#a8f0ff', { glow: .2 }), 6, 18));
-    if (!whiskPt || p2.z > whiskPt.z) whiskPt = p1.clone();
+    const a = (k + .5) / 6 * Math.PI * 2, p0 = V(1.18 * Math.cos(a), top - .32, 1.18 * Math.sin(a));
+    const p1 = V(3.1 * Math.cos(a), top - 1.15, 3.1 * Math.sin(a)), p2 = V(4.65 * Math.cos(a), top - 2.65, 4.65 * Math.sin(a));
+    g.add(tube([p0, p1, p2], .068, std('#a6ecff', { glow: .22 }), 6, 20));
+    const tip = sphere(.13, std('#d8f8ff', { glow: .24 })); tip.position.copy(p2); g.add(tip);
+    if (!whiskPt || p1.z > whiskPt.z) whiskPt = p1.clone();
   }
-  // 24 hexameric rings of the gp18 contractile sheath (cut open on the +z face to expose the gp19 inner tail tube)
-  const shM = [], shC = [], tbM = [], q = new THREE.Quaternion(), c0 = new THREE.Color('#4fe0b5'), c1 = new THREE.Color('#3bc49a');
+  // 24 hexameric rings of gp18 contractile sheath (multi-domain helical subunits, cut open in front to expose gp19 inner tube)
+  const shM = [], shC = [], tbM = [], c0 = new THREE.Color('#4ecdc4'), c1 = new THREE.Color('#34b0a6'), c2 = new THREE.Color('#7be6de');
   let shPt = null, tbPt = null;
   for (let r = 0; r < 24; r++) {
-    const y = top - .8 - r * ((H - 1.2) / 23), twist = r * .31;
+    const y = top - .75 - r * ((H - 1.1) / 23), twist = r * (17.2 * Math.PI / 180);
     for (let k = 0; k < 6; k++) {
-      const a = k / 6 * Math.PI * 2 + twist, d = V(Math.cos(a), 0, Math.sin(a));
-      const tp = V(.68 * d.x, y, .68 * d.z); tbM.push(M4(tp, qFromTo(UP, d), V(.22, .26, .16)));
-      if (r === 11 && d.z > .5) tbPt = tp.clone();
-      if (r > 3 && r < 20 && d.z > .45) continue;
-      const sp = V(1.22 * d.x, y, 1.22 * d.z); shM.push(M4(sp, qFromTo(UP, d), V(.32, .38, .28))); shC.push(r % 2 ? c0 : c1);
+      const a = k / 6 * Math.PI * 2 + twist, d = V(Math.cos(a), 0, Math.sin(a)), qd = qFromTo(UP, d);
+      const tp = V(.68 * d.x, y, .68 * d.z);
+      if (!(r > 6 && r < 17 && d.z > .55)) tbM.push(M4(tp, qd, V(.21, .22, .16)));
+      if (r === 11 && d.z < .4 && d.x > .4) tbPt = tp.clone();
+      if (r > 2 && r < 21 && d.z > .42) continue;
+      const sp = V(1.18 * d.x, y, 1.18 * d.z), spOut = V(1.38 * d.x, y + .04, 1.38 * d.z);
+      shM.push(M4(sp, qd, V(.28, .24, .24)), M4(spOut, qd, V(.19, .18, .18)));
+      shC.push((k + r) % 2 ? c0 : c1, c2);
       if (r === 8 && (!shPt || sp.z > shPt.z)) shPt = sp.clone();
     }
   }
-  g.add(instanced(sphGeo, plain(), shM, shC), instanced(sphGeo, std('#ffd26a', { glow: .2 }), tbM));
-  g.add(new THREE.Mesh(new THREE.CylinderGeometry(.62, .62, H - .8, 32, 1, true), xray('#ffd26a', .9, 1.8, .04)));
-  // Central DNA double helix shooting down the lumen
-  const dnaCurve = new THREE.LineCurve3(V(0, top, 0), V(0, bot, 0));
-  g.add(dnaAlong(dnaCurve, 8, .22, .055));
-  return { group: g, an: { collar: V(0, top - .35, 1.25), whisker: whiskPt ?? V(2.5, top - .6, 1.5),
-    sheath: shPt ?? V(-1.1, .8, .6), tube: tbPt ?? V(0, 0, .72), dna: V(0, -.8, .22) } };
+  g.add(instanced(sphGeo, plain(), shM, shC), instanced(sphGeo, std('#ffe66d', { glow: .22 }), tbM));
+  // Central injecting B-DNA double helix inside the 4 nm lumen
+  g.add(dnaAlong(new THREE.LineCurve3(V(0, top, 0), V(0, bot, 0)), 9, .22, .055));
+  return { group: g, an: { collar: V(0, top - .32, 1.25), whisker: whiskPt ?? V(2.5, top - 1.0, 1.5),
+    sheath: shPt ?? V(-1.1, .8, .6), tube: tbPt ?? V(.55, 0, .38), dna: V(0, -.4, .22) } };
 }
 function buildPhageTail() {
   const m = makePhageTail(), a = m.an;
@@ -2319,34 +2394,42 @@ function buildPhageTail() {
 }
 
 function makePhageBaseplate() {
-  const g = new THREE.Group(), R = 2.6;
-  // Hexagonal dome of 6 outer wedges (gp6, gp7, gp8, gp10, gp11, gp25, gp53)
-  const dome = new THREE.Mesh(new THREE.CylinderGeometry(R * .58, R, 1.35, 6, 1, true), xray('#ff9a62', 1.2, 1.9, .04));
-  dome.position.y = .5; g.add(dome);
+  const g = new THREE.Group(), R = 2.65;
+  // Multiprotein 6-pointed star hexagonal dome (gp6 inner ring + 6 radial gp7/gp8/gp10/gp11 star wedges + gp25/gp53 bridges)
+  const ring = new THREE.Mesh(new THREE.TorusGeometry(1.05, .20, 12, 30), std('#f78fb3', { glow: .22 }));
+  ring.rotation.x = Math.PI / 2; ring.position.y = .72; g.add(ring);
   let wedgePt = null, stfPt = null;
   for (let k = 0; k < 6; k++) {
-    const a = k / 6 * Math.PI * 2, ca = Math.cos(a), sa = Math.sin(a), nextA = (k + 1) / 6 * Math.PI * 2;
-    const pTop = V(R * .58 * ca, 1.1, R * .58 * sa), pBot = V(R * ca, -.15, R * sa), pNext = V(R * Math.cos(nextA), -.15, R * Math.sin(nextA));
-    g.add(stick(pTop, pBot, .18, std('#ff9a62', { glow: .22 })), stick(pBot, pNext, .15, std('#ffb47a', { glow: .2 })));
-    const pin = blob(.34, std('#ff7a52', { glow: .25 }), .12, 1.5, 16); pin.position.copy(pBot); g.add(pin);
-    if (!wedgePt || pBot.z > wedgePt.z) wedgePt = pBot.clone();
-    // Short tail fibers (gp12 trimers) extending below the baseplate pins to lock onto host LPS
-    const stfEnd = V(R * 1.12 * ca, -2.35, R * 1.12 * sa);
-    g.add(stick(pBot, stfEnd, .11, std('#ffd26a', { glow: .22 })));
-    const head = blob(.26, std('#ffb84f', { glow: .28 }), .12, 1.5, 16); head.position.copy(stfEnd); g.add(head);
+    const a = k / 6 * Math.PI * 2 + .18, ca = Math.cos(a), sa = Math.sin(a), nextA = (k + 1) / 6 * Math.PI * 2 + .18, midA = a + Math.PI / 6;
+    const pIn = V(1.05 * ca, .72, 1.05 * sa), pSaddle = V(1.72 * ca, .34, 1.72 * sa), pPin = V(R * .88 * ca, -.08, R * .88 * sa), pStar = V(R * ca, -.20, R * sa);
+    const pBridge = V(1.62 * Math.cos(midA), .24, 1.62 * Math.sin(midA));
+    g.add(stick(pIn, pSaddle, .18, std('#f78fb3', { glow: .22 })), stick(pSaddle, pPin, .17, std('#e05c8a', { glow: .22 })),
+      stick(pPin, pStar, .14, std('#ffb3ce', { glow: .24 })), stick(pSaddle, pBridge, .13, std('#d64d7e', { glow: .2 })),
+      stick(V(1.72 * Math.cos(nextA), .34, 1.72 * Math.sin(nextA)), pBridge, .13, std('#d64d7e', { glow: .2 })));
+    for (const [pt, rad, colH] of [[pSaddle, .30, '#f78fb3'], [pPin, .32, '#e05c8a'], [pStar, .22, '#ffb8d1'], [pBridge, .22, '#c94876']]) {
+      const b = blob(rad, std(colH, { glow: .24 }), .1, 1.5, 16); b.position.copy(pt); g.add(b);
+    }
+    if (!wedgePt || pPin.z > wedgePt.z) wedgePt = pPin.clone();
+    // Unfolded gp12 short tail fiber trimers locking irreversibly onto LPS
+    const stfEnd = V(R * 1.04 * ca, -2.28, R * 1.04 * sa);
+    g.add(stick(pPin, stfEnd, .11, std('#ffbe76', { glow: .22 })));
+    for (let s = 1; s <= 3; s++) {
+      const sb = sphere(.14, std('#ffd89b', { glow: .2 })); sb.position.copy(pPin.clone().lerp(stfEnd, s / 4)); g.add(sb);
+    }
+    const head = blob(.28, std('#f0932b', { glow: .28 }), .12, 1.5, 16); head.position.copy(stfEnd); g.add(head);
     if (!stfPt || stfEnd.z > stfPt.z) stfPt = stfEnd.clone();
   }
-  // Central hub (gp27 trimer) + cell-puncturing needle (gp5 triple β-helix) + 3 T4 lysozyme domains
-  const hub = new THREE.Mesh(new THREE.CylinderGeometry(.68, .58, .9, 18), std('#ff6b6b', { glow: .25 })); hub.position.y = .45; g.add(hub);
-  const needle = new THREE.Mesh(new THREE.CylinderGeometry(.26, .07, 3.2, 12), std('#ff4f6a', { glow: .3 })); needle.position.y = -1.45; g.add(needle);
+  // Central hub cup (gp27 trimer) + triple-beta-helix needle (gp5) + 3 T4 lysozyme blades
+  const hub = new THREE.Mesh(new THREE.CylinderGeometry(.68, .58, .92, 18), std('#ff6b6b', { glow: .25 })); hub.position.y = .48; g.add(hub);
+  const needle = new THREE.Mesh(new THREE.CylinderGeometry(.25, .06, 3.15, 12), std('#ff4d6d', { glow: .3 })); needle.position.y = -1.42; g.add(needle);
   let lysoPt = null;
   for (let k = 0; k < 3; k++) {
-    const a = k / 3 * Math.PI * 2 + .4, lp = V(.58 * Math.cos(a), -.55, .58 * Math.sin(a));
-    const ly = blob(.36, std('#7dffb2', { glow: .28 }), .15, 1.5, 18); ly.position.copy(lp); g.add(ly);
+    const a = k / 3 * Math.PI * 2 + .4, lp = V(.58 * Math.cos(a), -.52, .58 * Math.sin(a));
+    const ly = blob(.36, std('#ffd24f', { glow: .26 }), .14, 1.5, 18); ly.position.copy(lp); g.add(ly);
     if (!lysoPt || lp.z > lysoPt.z) lysoPt = lp.clone();
   }
   return { group: g, an: { wedge: wedgePt ?? V(0, 0, R), hub: V(0, .55, .68),
-    needle: V(0, -2.5, .15), lyso: lysoPt ?? V(.5, -.55, .3), stf: stfPt ?? V(0, -2.35, R) } };
+    needle: V(0, -2.5, .15), lyso: lysoPt ?? V(.5, -.52, .3), stf: stfPt ?? V(0, -2.28, R) } };
 }
 function buildPhageBaseplate() {
   const m = makePhageBaseplate(), a = m.an;
@@ -2357,29 +2440,35 @@ function buildPhageBaseplate() {
     A(a.stf, 'Short tail fiber (gp12): clamps irreversibly to LPS', 'gp12-real')], 3.6);
 }
 
-function makePhageFiber() {
+function makePhageFiber(withReceptor = true) {
   const g = new THREE.Group();
-  const p0 = V(-4.2, .8, 0), knee = V(-.2, 3.4, 0), tip = V(4.2, -2.2, 0);
-  // Proximal half-fiber (gp34 trimer), knee hinge (gp35 monomer), distal half-fiber (gp36 + gp37 trimer)
-  g.add(stick(p0, knee, .16, std('#58a6ff', { glow: .22 })), stick(knee, tip, .13, std('#7fc4ff', { glow: .24 })));
+  const p0 = V(-3.8, .4, 0), knee = V(-.2, 3.5, 0), tip = V(4.0, -2.3, 0);
+  const thighPts = new THREE.QuadraticBezierCurve3(p0, V(-2.1, 2.2, 0), knee).getPoints(20);
+  const shinPts = new THREE.QuadraticBezierCurve3(knee, V(2.1, .9, 0), tip).getPoints(22);
+  g.add(tube(thighPts, .13, std('#8c7ae6', { glow: .22 }), 8, 28), tube(shinPts, .11, std('#a29bfe', { glow: .24 }), 8, 28));
   for (let i = 1; i <= 5; i++) {
-    const bp = p0.clone().lerp(knee, i / 6), b = sphere(.21, std('#8fd0ff', { glow: .2 })); b.position.copy(bp); g.add(b);
+    const bp = thighPts[Math.round(i * 3.3)], b = sphere(.21, std('#c7c2ff', { glow: .22 })); b.position.copy(bp); g.add(b);
   }
-  const kn = blob(.32, std('#ffd27a', { glow: .28 }), .12, 1.5, 16); kn.position.copy(knee); g.add(kn);
-  const tp = new THREE.Mesh(new THREE.ConeGeometry(.24, 1.1, 12), std('#a8e4ff', { glow: .3 }));
+  for (let i = 1; i <= 6; i++) {
+    const bp = shinPts[Math.round(i * 3.1)], b = sphere(.18 - i * .012, std('#b8b2ff', { glow: .22 })); b.position.copy(bp); g.add(b);
+  }
+  const kn = blob(.30, std('#ffeaa7', { glow: .28 }), .12, 1.5, 16); kn.position.copy(knee); g.add(kn);
+  const tp = new THREE.Mesh(new THREE.ConeGeometry(.22, 1.05, 12), std('#dcd8ff', { glow: .3 }));
   tp.position.copy(tip); tp.quaternion.copy(qFromTo(UP, tip.clone().sub(knee).normalize())); g.add(tp);
-  // Host E. coli OmpF porin trimer + LPS patch where the gp37 needle tip docks
-  const porin = new THREE.Group(); porin.position.set(4.35, -3.2, 0); g.add(porin);
-  for (let k = 0; k < 3; k++) {
-    const a = k / 3 * Math.PI * 2, br = new THREE.Mesh(new THREE.CylinderGeometry(.55, .55, 1.2, 16, 1, true), xray('#66d9e8', 1.2, 1.7, .05));
-    br.position.set(.48 * Math.cos(a), 0, .48 * Math.sin(a)); porin.add(br);
+  let lpsTip = V(3.1, -2.5, .4);
+  if (withReceptor) {
+    const porin = new THREE.Group(); porin.position.set(4.15, -3.15, 0); g.add(porin);
+    for (let k = 0; k < 3; k++) {
+      const a = k / 3 * Math.PI * 2, br = new THREE.Mesh(new THREE.CylinderGeometry(.52, .52, 1.15, 16, 1, true), std('#4fc39a', { opacity: .65, glow: .2 }));
+      br.position.set(.46 * Math.cos(a), 0, .46 * Math.sin(a)); porin.add(br);
+    }
+    lpsTip = sugarTree(g, V(2.95, -2.55, .4), V(-.2, 1, .1), 2);
   }
-  const lpsTip = sugarTree(g, V(3.1, -2.6, .4), V(-.2, 1, .1), 2);
-  return { group: g, an: { gp34: p0.clone().lerp(knee, .5), gp35: knee.clone(),
-    gp37: knee.clone().lerp(tip, .65), tip: tip.clone(), porin: V(4.35, -3.2, .55), lps: lpsTip } };
+  return { group: g, an: { gp34: thighPts[10].clone(), gp35: knee.clone(),
+    gp37: shinPts[13].clone(), tip: tip.clone(), porin: V(4.15, -3.15, .52), lps: lpsTip } };
 }
 function buildPhageFiber() {
-  const m = makePhageFiber(), a = m.an;
+  const m = makePhageFiber(true), a = m.an;
   return finalize(m.group, [A(a.gp34, 'Proximal half-fiber (gp34 trimer, ~70 nm)', 'protein'),
     A(a.gp35, 'Knee hinge (gp35): bends while scanning the bacterium', 'protein'),
     A(a.gp37, 'Distal half-fiber (gp36 + gp37 trimer)', 'gp37-real'),
@@ -2390,7 +2479,6 @@ function buildPhageFiber() {
 
 function makeBacteriophage() {
   const g = new THREE.Group(), an = [];
-  // Compose from isolated sub-models (partModel + tagFrom) so every part matches its child level and outlines on hover
   const cap = partModel('phage-capsid').group; cap.scale.setScalar(.82); cap.position.y = 6.2; g.add(cap);
   an.push(A(V(-2.2, 7.2, 2.1), 'Prolate icosahedral capsid (gp23* + gp24*)', 'phage-capsid'),
     A(V(0, 6.2, .8), '169 kbp dsDNA genome (coaxial spool)', 'dna'));
@@ -2406,12 +2494,14 @@ function makeBacteriophage() {
     A(V(0, -7.8, .2), 'Cell-puncturing needle & lysozyme (gp27–gp5)', 'phage-baseplate'));
   mk = tagFrom(g, mk, 'phage-baseplate');
 
-  const fibProto = partModel('phage-fiber').group;
+  // Attach 6 hinged 145 nm long tail fibers cleanly into the 6 baseplate lateral sockets (without detached porin patches)
+  const fibProto = liteModel('phage-fiber-clean', () => makePhageFiber(false)).group;
   let fibPt = null;
   for (let k = 0; k < 6; k++) {
-    const a = k / 6 * Math.PI * 2 + .25, f = fibProto.clone();
-    f.scale.setScalar(.75); f.position.set(4.5 * Math.cos(a), -6.5, 4.5 * Math.sin(a)); f.rotation.y = -a; g.add(f);
-    if (!fibPt || f.position.z > fibPt.z) fibPt = V(4.8 * Math.cos(a), -5.2, 4.8 * Math.sin(a));
+    const a = (k + .5) / 6 * Math.PI * 2, f = fibProto.clone(), sc = .66;
+    f.scale.setScalar(sc); f.position.set((1.88 + 3.8 * sc) * Math.cos(a), -6.15 - .4 * sc, (1.88 + 3.8 * sc) * Math.sin(a)); f.rotation.y = -a; g.add(f);
+    const knWorld = V((1.88 + 3.6 * sc) * Math.cos(a), -6.15 + 3.1 * sc, (1.88 + 3.6 * sc) * Math.sin(a));
+    if (!fibPt || knWorld.z > fibPt.z) fibPt = knWorld;
   }
   an.push(A(fibPt, 'Long tail fibers (gp34–gp37, 145 nm)', 'phage-fiber'));
   mk = tagFrom(g, mk, 'phage-fiber');
@@ -2426,63 +2516,78 @@ function buildBacteriophage() {
 // Main Virus Types: Coronavirus (SARS-CoV-2), HIV-1, Adenovirus, TMV & Comparative Hub
 // =====================================================================
 function makeCoronavirus() {
-  const g = new THREE.Group(), R = 4.2;
-  // Cutaway host-derived lipid bilayer envelope + M glycoprotein lattice
-  const env = new THREE.Mesh(new THREE.SphereGeometry(R, 44, 30, ...CUT), xray('#ff9a7a', 1.2, 2.0, .04));
-  const inner = new THREE.Mesh(new THREE.SphereGeometry(R - .32, 44, 30, ...CUT), xray('#d87a62', .95, 2.2, .03));
-  g.add(env, inner);
-  const lipM = [], lipC = [], mM = [], cOut = new THREE.Color('#ff9a7a'), cIn = new THREE.Color('#d87a62');
+  const g = new THREE.Group(), R = 4.15;
+  // Pleomorphic host-ER/Golgi-derived lipid bilayer envelope + cutaway cross-section rim + dense M dimer lattice
+  const envGeo = displace(new THREE.SphereGeometry(R, 48, 34, ...CUT), .035, .6, 7.1, 3);
+  const inGeo = displace(new THREE.SphereGeometry(R - .34, 48, 34, ...CUT), .035, .6, 7.1, 3);
+  g.add(new THREE.Mesh(envGeo, std('#e07a5f', { opacity: .44, glow: .14 })),
+    new THREE.Mesh(inGeo, std('#5c2820', { glow: .06 })));
+  addSphericalCutRim(g, R, R - .17, '#f6a586', 1, 44);
+  addSphericalCutRim(g, R - .17, R - .34, '#ffe19c', 1, 44);
+  addSphericalCutRim(g, R - .34, R - .45, '#f7d794', 1, 44);
+
+  const lipM = [], lipC = [], mM = [], cOut = new THREE.Color('#f59f7e'), cIn = new THREE.Color('#e28468');
   let envPt = null, mPt = null;
-  for (let i = 0; i < 420; i++) {
-    const d = fibDir(i, 420); if (inCut(d)) continue;
+  for (let i = 0; i < 620; i++) {
+    const d = fibDir(i, 620); if (inCut(d)) continue;
+    const wob = 1 + .03 * Math.sin(d.x * 4 + d.y * 3) * Math.cos(d.z * 4);
     const q = qFromTo(UP, d);
-    lipM.push(M4(d.clone().multiplyScalar(R), q, .12), M4(d.clone().multiplyScalar(R - .32), q, .11));
+    lipM.push(M4(d.clone().multiplyScalar(R * wob), q, .115), M4(d.clone().multiplyScalar((R - .34) * wob), q, .105));
     lipC.push(cOut, cIn);
-    if (!envPt && d.z > .65) envPt = d.clone().multiplyScalar(R);
-    if (i % 3 === 0) {
-      const mp = d.clone().multiplyScalar(R - .15);
-      mM.push(M4(mp, q, V(.15, .24, .15)));
-      if (!mPt && d.z > .55 && d.y > .2) mPt = mp;
+    if (!envPt && d.z > .55 && d.x < -.4) envPt = d.clone().multiplyScalar(R * wob);
+    if (i % 2 === 0) {
+      const mp = d.clone().multiplyScalar((R - .40) * wob);
+      mM.push(M4(mp, q, V(.15, .20, .15)));
+      if (!mPt && d.z > .48 && d.y > .25 && d.x < -.3) mPt = mp;
     }
   }
-  g.add(instanced(sphGeo, plain(), lipM, lipC), instanced(sphGeo, std('#66d9e8', { glow: .22 }), mM));
-  // 26 club-shaped Spike (S) trimers (PDB 6VXX) + 3 Envelope (E) viroporin pentamers (PDB 5X29)
+  g.add(instanced(sphGeo, plain(), lipM, lipC), instanced(sphGeo, std('#f7d794', { glow: .2 }), mM));
+
+  // 32 hinged club-shaped Spike (S) trimers (PDB 6VXX) with N-glycan tufts + 4 pentameric Envelope (E) viroporins (PDB 5X29)
+  const glyM = [];
   let spkPt = null, ePt = null;
-  for (let i = 0; i < 28; i++) {
-    const d = fibDir(i, 28); if (inCut(d)) continue;
+  for (let i = 0; i < 36; i++) {
+    const d = fibDir(i, 36); if (inCut(d)) continue;
+    const wob = 1 + .03 * Math.sin(d.x * 4 + d.y * 3) * Math.cos(d.z * 4);
     const q = qFromTo(UP, d);
-    if (i === 5 || i === 18) {
-      const ep = d.clone().multiplyScalar(R - .12);
-      const em = new THREE.Mesh(new THREE.CylinderGeometry(.28, .28, .48, 5), std('#ffd24f', { glow: .28 }));
+    if (i === 5 || i === 14 || i === 23 || i === 31) {
+      const ep = d.clone().multiplyScalar((R - .14) * wob);
+      const em = new THREE.Mesh(new THREE.CylinderGeometry(.28, .26, .48, 5), std('#78e08f', { glow: .26 }));
       em.position.copy(ep); em.quaternion.copy(q); g.add(em);
       if (!ePt || ep.z > ePt.z) ePt = ep.clone();
       continue;
     }
-    const base = d.clone().multiplyScalar(R), tip = d.clone().multiplyScalar(R + 1.45);
-    g.add(stick(base, tip, .14, std('#e04868', { glow: .2 })));
+    const tilt = d.clone().addScaledVector(randDir(), .14).normalize(), qt = qFromTo(UP, tilt);
+    const base = d.clone().multiplyScalar(R * wob), neck = base.clone().addScaledVector(tilt, .92), headC = base.clone().addScaledVector(tilt, 1.42);
+    g.add(stick(base, neck, .12, std('#d64566', { glow: .18 })), stick(neck, headC, .20, std('#e85374', { glow: .2 })));
     for (let k = 0; k < 3; k++) {
-      const a = k / 3 * Math.PI * 2 + i * .7, off = V(Math.cos(a) * .28, 0, Math.sin(a) * .28).applyQuaternion(q);
-      const lobe = blob(.34, std(k === 0 && i % 2 === 0 ? '#ffd26a' : '#ff5a7a', { glow: .26 }), .12, 1.5, 16);
-      lobe.position.copy(tip).add(off); g.add(lobe);
+      const a = k / 3 * Math.PI * 2 + i * .7, off = V(Math.cos(a) * .31, 0, Math.sin(a) * .31).applyQuaternion(qt);
+      const isUp = k === 0 && i % 3 === 0;
+      const lobe = blob(.34, std(isUp ? '#ffbe6b' : '#ff6b8b', { glow: .24 }), .12, 1.5, 16);
+      lobe.position.copy(headC).add(off).addScaledVector(tilt, isUp ? .14 : 0); g.add(lobe);
+      glyM.push(M4(lobe.position.clone().addScaledVector(off.clone().normalize(), .24), qt, .095));
+      if (k < 2) glyM.push(M4(neck.clone().addScaledVector(off.clone().normalize(), .16), qt, .085));
     }
-    if (!spkPt || tip.z > spkPt.z) spkPt = tip.clone();
+    if (!spkPt || headC.z > spkPt.z) spkPt = headC.clone();
   }
-  // Helical (+)ssRNA genome (29.9 kb) & Nucleocapsid (N) beads-on-a-string RNP oligomers (PDB 6VYO)
-  const rnaPts = [];
-  for (let i = 0; i <= 140; i++) {
-    const t = i / 140, a = t * Math.PI * 15, r = (1.1 + 1.95 * Math.sin(t * Math.PI)) * (.82 + .18 * Math.cos(t * 37));
-    rnaPts.push(V(r * Math.cos(a), (t - .5) * 5.6, r * Math.sin(a)));
-  }
-  g.add(tube(rnaPts, .085, std('#ff7ad9', { glow: .26 }), 6, 260));
-  const nM = []; let rnpPt = null;
-  for (let i = 4; i < rnaPts.length; i += 4) {
-    const p = rnaPts[i]; nM.push(M4(p, new THREE.Quaternion(), .26));
+  g.add(instanced(sphGeo, std('#9ef0d0', { glow: .22 }), glyM));
+
+  // Crowded "eggs-in-a-nest" vRNP oligomers (PDB 6VYO) threaded by the 29.9 kb (+)ssRNA genome inside the lumen
+  const rnaPts = [], nM = [], nC = [], cN0 = new THREE.Color('#63cdda'), cN1 = new THREE.Color('#3dc1d3');
+  let rnpPt = null;
+  for (let i = 0; i < 34; i++) {
+    const f = (i + .5) / 34, rad = 2.65 * Math.cbrt(.18 + .82 * ((i * 7) % 11) / 10);
+    const dir = fibDir(i, 34), p = dir.multiplyScalar(rad);
+    if (inCut(p) && p.z > 1.35) p.z *= .35;
+    rnaPts.push(p);
+    const qn = qFromTo(UP, randDir());
+    nM.push(M4(p, qn, V(.32, .24, .32))); nC.push(i % 2 ? cN0 : cN1);
     if (!rnpPt || p.z > rnpPt.z) rnpPt = p.clone();
   }
-  g.add(instanced(sphGeo, std('#ffb347', { glow: .24 }), nM));
+  g.add(tube(rnaPts, .078, std('#ffb35c', { glow: .28 }), 6, 300), instanced(sphGeo, plain(), nM, nC));
   return { group: g, an: { spike: spkPt ?? V(0, R + 1.4, 1.5), env: envPt ?? V(-2.8, 1.2, 2.8),
     mprot: mPt ?? V(-2.2, 2.4, 2.5), echan: ePt ?? V(2.4, -1.8, 2.8),
-    rnp: rnpPt ?? V(.5, .4, 2.1), rna: rnaPts[70].clone() } };
+    rnp: rnpPt ?? V(.5, .4, 1.8), rna: rnaPts[17].clone() } };
 }
 function buildCoronavirus() {
   const m = makeCoronavirus(), a = m.an;
@@ -2495,62 +2600,91 @@ function buildCoronavirus() {
 }
 
 function makeHiv() {
-  const g = new THREE.Group(), R = 4.4;
-  // Cutaway host-derived lipid bilayer + p17 Matrix (MA) inner shell (PDB 1HIW)
-  g.add(new THREE.Mesh(new THREE.SphereGeometry(R, 44, 30, ...CUT), xray('#ff9a62', 1.2, 2.0, .04)),
-    new THREE.Mesh(new THREE.SphereGeometry(R - .42, 40, 28, ...CUT), xray('#5fd08a', .95, 2.2, .03)));
+  const g = new THREE.Group(), R = 4.3;
+  // Cholesterol/sphingolipid raft envelope + myristoylated p17 Matrix (MA, PDB 1HIW) inner shell + cutaway cross-section rims
+  const envGeo = displace(new THREE.SphereGeometry(R, 48, 34, ...CUT), .03, .55, 3.7, 3);
+  const maGeo = displace(new THREE.SphereGeometry(R - .44, 44, 30, ...CUT), .03, .55, 3.7, 3);
+  g.add(new THREE.Mesh(envGeo, std('#e68a5c', { opacity: .42, glow: .14 })),
+    new THREE.Mesh(maGeo, std('#2e6f4e', { opacity: .38, glow: .12 })));
+  addSphericalCutRim(g, R, R - .28, '#ff9f6e', 1, 44);
+  addSphericalCutRim(g, R - .28, R - .48, '#5fd08a', 1, 44);
+
   const lipM = [], maM = []; let maPt = null;
-  for (let i = 0; i < 380; i++) {
-    const d = fibDir(i, 380); if (inCut(d)) continue;
+  for (let i = 0; i < 480; i++) {
+    const d = fibDir(i, 480); if (inCut(d)) continue;
     const q = qFromTo(UP, d);
-    lipM.push(M4(d.clone().multiplyScalar(R), q, .12));
+    lipM.push(M4(d.clone().multiplyScalar(R), q, .11));
     if (i % 2 === 0) {
-      const mp = d.clone().multiplyScalar(R - .42); maM.push(M4(mp, q, V(.18, .12, .18)));
-      if (!maPt && d.z > .6) maPt = mp.clone();
+      const mp = d.clone().multiplyScalar(R - .42); maM.push(M4(mp, q, V(.18, .11, .18)));
+      if (!maPt && d.z > .55 && d.x < -.35) maPt = mp.clone();
     }
   }
-  g.add(instanced(sphGeo, std('#ff9a62', { glow: .18 }), lipM), instanced(sphGeo, std('#5fd08a', { glow: .22 }), maM));
-  // ~14 Env gp120/gp41 trimer spikes (PDB 4TVP) — sparse distribution characteristic of HIV-1
+  g.add(instanced(sphGeo, std('#ff9a62', { glow: .16 }), lipM), instanced(unitHexPrism, std('#5fd08a', { glow: .22 }), maM));
+
+  // ~15 sparse glycan-cloaked Env gp120/gp41 trimer spikes (PDB 4TVP) — authentic low spike density of HIV-1
+  const glyM = [];
   let envPt = null;
-  for (let i = 0; i < 14; i++) {
-    const d = fibDir(i, 14); if (inCut(d)) continue;
-    const q = qFromTo(UP, d), base = d.clone().multiplyScalar(R), top = d.clone().multiplyScalar(R + 1.05);
-    g.add(stick(base, top, .15, std('#a87fff', { glow: .24 })));
+  for (let i = 0; i < 16; i++) {
+    const d = fibDir(i, 16); if (inCut(d)) continue;
+    const q = qFromTo(UP, d), base = d.clone().multiplyScalar(R), stalkTop = d.clone().multiplyScalar(R + .82), headTop = d.clone().multiplyScalar(R + 1.08);
+    g.add(stick(base, stalkTop, .14, std('#b084ff', { glow: .22 })));
     for (let k = 0; k < 3; k++) {
-      const a = k / 3 * Math.PI * 2 + i, off = V(Math.cos(a) * .26, 0, Math.sin(a) * .26).applyQuaternion(q);
-      const head = blob(.32, std('#ff7a52', { glow: .26 }), .12, 1.5, 16); head.position.copy(top).add(off); g.add(head);
+      const a = k / 3 * Math.PI * 2 + i, off = V(Math.cos(a) * .28, 0, Math.sin(a) * .28).applyQuaternion(q);
+      const head = blob(.33, std('#ff6b81', { glow: .24 }), .12, 1.5, 16); head.position.copy(headTop).add(off); g.add(head);
+      for (let s = 0; s < 3; s++) {
+        const ga = a + (s - 1) * .45, goff = V(Math.cos(ga) * .48, (s - 1) * .12, Math.sin(ga) * .48).applyQuaternion(q);
+        glyM.push(M4(headTop.clone().add(goff), q, .095));
+      }
     }
-    if (!envPt || top.z > envPt.z) envPt = top.clone();
+    if (!envPt || headTop.z > envPt.z) envPt = headTop.clone();
   }
-  // Mature fullerene cone capsid (p24 CA hexamers PDB 3H4E + 12 pentamers PDB 3P05), cut open on +z
-  const hexM = [], pentM = []; let hexPt = null, pentPt = null;
-  for (let r = 0; r <= 18; r++) {
-    const t = r / 18, y = -2.65 + t * 5.2, rad = (1.68 * (1 - .62 * t)) * Math.sin(Math.acos(Math.max(-.98, Math.min(.98, (t - .5) * 1.92))) + .35) * .85;
-    const n = Math.max(5, Math.round(rad * 14));
+  g.add(instanced(sphGeo, std('#d6b8ff', { glow: .24 }), glyM));
+
+  // Mature honeycomb fullerene cone capsid: p24 CA hexamers (PDB 3H4E) + 12 pentamers (PDB 3P05), sliced open on +z
+  const hexM = [], hexC = [], pentM = [], cC0 = new THREE.Color('#ffd166'), cC1 = new THREE.Color('#f4b942');
+  let hexPt = null, pentPt = null;
+  const coneR = t => {
+    const capBot = Math.sqrt(Math.max(0, 1 - ((1 - Math.min(1, t / .16)) ** 2)));
+    const capTop = Math.sqrt(Math.max(0, 1 - ((Math.max(0, (t - .86) / .14)) ** 2)));
+    return (1.65 - .92 * t) * capBot * capTop;
+  };
+  for (let r = 0; r <= 20; r++) {
+    const t = r / 20, y = -2.75 + t * 5.45, rad = Math.max(.18, coneR(t));
+    const n = Math.max(5, Math.round(rad * 15));
     for (let k = 0; k < n; k++) {
-      const a = k / n * Math.PI * 2 + r * .28, d = V(Math.cos(a), 0, Math.sin(a));
-      if (r > 3 && r < 15 && d.z > .38) continue;
-      const p = V(rad * d.x, y, rad * d.z), q = qFromTo(UP, V(d.x, .22, d.z).normalize());
-      const isPent = (r === 1 || r === 17) && k % Math.max(1, Math.floor(n / 5)) === 0;
-      if (isPent) { pentM.push(M4(p, q, V(.22, .12, .22))); if (!pentPt || p.z > pentPt.z) pentPt = p.clone(); }
-      else { hexM.push(M4(p, q, V(.21, .11, .21))); if (!hexPt && r === 7 && d.z > .1) hexPt = p.clone(); }
+      const a = k / n * Math.PI * 2 + r * .31, d = V(Math.cos(a), 0, Math.sin(a));
+      if (r > 3 && r < 17 && d.z > .36) continue;
+      const p = V(rad * d.x, y, rad * d.z), q = qFromTo(UP, V(d.x, .20, d.z).normalize());
+      const isPent = ((r === 2 && k % Math.max(1, Math.floor(n / 7)) === 0) || (r === 18 && k % Math.max(1, Math.floor(n / 5)) === 0));
+      if (isPent) {
+        pentM.push(M4(p, q, V(.20, .11, .20)));
+        if (!pentPt || p.z > pentPt.z) pentPt = p.clone();
+      } else {
+        hexM.push(M4(p, q, V(.19, .095, .19))); hexC.push((r + k) % 2 ? cC0 : cC1);
+        if (!hexPt && r === 8 && d.z > .05 && d.x < -.3) hexPt = p.clone();
+      }
     }
   }
-  g.add(instanced(sphGeo, std('#ffd26a', { glow: .24 }), hexM), instanced(sphGeo, std('#ff5a6a', { glow: .28 }), pentM));
-  // Diploid (+)ssRNA genome (two 9.7 kb strands) + Reverse Transcriptase (PDB 1RTD) + Integrase (PDB 1EX4)
+  g.add(instanced(unitHexPrism, plain(), hexM, hexC), instanced(unitPentPrism, std('#ff5a6a', { glow: .28 }), pentM));
+
+  // Diploid (+)ssRNA genome (two 9.7 kb kissing-loop strands coated in NCp7) + Reverse Transcriptase (1RTD) + Integrase (1EX4)
+  const ncM = [];
   for (const s of [-1, 1]) {
     const pts = [];
-    for (let i = 0; i <= 60; i++) {
-      const t = i / 60, a = t * Math.PI * 8 + (s > 0 ? 0 : Math.PI), r = .52 * (1 - .45 * t);
-      pts.push(V(r * Math.cos(a) + s * .14, -2.1 + t * 4.1, r * Math.sin(a)));
+    for (let i = 0; i <= 68; i++) {
+      const t = i / 68, a = t * Math.PI * 9 + (s > 0 ? 0 : Math.PI), r = (.62 - .34 * t) * Math.sin(Math.PI * (.08 + .84 * t));
+      const p = V(r * Math.cos(a) + s * .11 * (1 - t * .6), -2.2 + t * 4.25, r * Math.sin(a));
+      pts.push(p);
+      if (i % 5 === 0) ncM.push(M4(p, new THREE.Quaternion(), .105));
     }
-    g.add(tube(pts, .07, std('#ff7ad9', { glow: .26 }), 6, 120));
+    g.add(tube(pts, .068, std('#ff7ad9', { glow: .26 }), 6, 136));
   }
-  const rt = blob(.36, std('#4fd8ff', { glow: .3 }), .14, 1.5, 18); rt.position.set(.25, -.55, .42); g.add(rt);
-  const intg = blob(.32, std('#ff9df0', { glow: .28 }), .14, 1.5, 18); intg.position.set(-.28, -1.35, .38); g.add(intg);
+  g.add(instanced(sphGeo, std('#a8e6cf', { glow: .2 }), ncM));
+  const rt = blob(.34, std('#4fd8ff', { glow: .3 }), .14, 1.5, 18); rt.position.set(.22, -.55, .42); g.add(rt);
+  const intg = blob(.30, std('#c77dff', { glow: .28 }), .14, 1.5, 18); intg.position.set(-.26, -1.42, .38); g.add(intg);
   return { group: g, an: { env: envPt ?? V(0, R + 1, 1.5), ma: maPt ?? V(-2.5, 1.5, 2.6),
-    cahex: hexPt ?? V(-1.1, -.4, .5), capent: pentPt ?? V(.4, -2.35, .8),
-    rt: rt.position.clone(), int: intg.position.clone(), rna: V(0, .35, .45) } };
+    cahex: hexPt ?? V(-1.1, -.4, .5), capent: pentPt ?? V(.4, -2.25, .8),
+    rt: rt.position.clone(), int: intg.position.clone(), rna: V(0, .35, .42) } };
 }
 function buildHiv() {
   const m = makeHiv(), a = m.an;
@@ -2564,50 +2698,86 @@ function buildHiv() {
 }
 
 function makeAdenovirus() {
-  const g = new THREE.Group(), R = 4.1;
-  // Icosahedral vertices & 20 triangular facets (pseudo-T = 25: 240 hexon trimers + 12 penton vertices + 12 fibers)
+  const g = new THREE.Group(), R = 3.95;
+  // Sharply faceted pseudo-T = 25 icosahedral capsid: 240 Hexon trimers (PDB 1P30) + Protein IX triskelion staples + 12 Pentons & Fibers
   const ico = new THREE.IcosahedronGeometry(R, 0), pos = ico.attributes.position;
-  const verts = [], faces = [];
+  const verts = [], faces = [], shellPos = [], innerPos = [];
   const addV = v => { for (const u of verts) if (u.distanceTo(v) < 1e-2) return u; verts.push(v.clone()); return v; };
   for (let i = 0; i < pos.count; i += 3) {
     const a = addV(V().fromBufferAttribute(pos, i)), b = addV(V().fromBufferAttribute(pos, i + 1)), c = addV(V().fromBufferAttribute(pos, i + 2));
     faces.push([a, b, c]);
   }
-  const hexM = [], hexC = [], cemM = [], c0 = new THREE.Color('#58a6ff'), c1 = new THREE.Color('#7fc4ff');
+  const hexBaseM = [], hexBaseC = [], towerM = [], towerC = [];
+  const cGon = new THREE.Color('#4da3ff'), cPeri = new THREE.Color('#7ec8ff'), cTow = new THREE.Color('#66b5ff');
   let hexPt = null, cemPt = null;
+
   for (const [a, b, c] of faces) {
     const n = b.clone().sub(a).cross(c.clone().sub(a)).normalize();
     if (inCut(n)) continue;
-    const q = qFromTo(UP, n);
-    for (let i = 1; i <= 4; i++) for (let j = 1; j <= 5 - i; j++) {
-      const k = 6 - i - j, p = a.clone().multiplyScalar(i / 6).addScaledVector(b, j / 6).addScaledVector(c, k / 6);
-      hexM.push(M4(p, q, V(.28, .36, .28))); hexC.push((i + j) % 2 ? c0 : c1);
-      if (!hexPt && n.z > .45 && i === 2 && j === 2) hexPt = p.clone();
+    shellPos.push(a.x * .94, a.y * .94, a.z * .94, b.x * .94, b.y * .94, b.z * .94, c.x * .94, c.y * .94, c.z * .94);
+    innerPos.push(a.x * .88, a.y * .88, a.z * .88, c.x * .88, c.y * .88, c.z * .88, b.x * .88, b.y * .88, b.z * .88);
+    const q = qFromTo(UP, n), tang = b.clone().sub(a).normalize();
+    // 12 Hexon trimers per facet (Group-of-Nine in facet interior + 3 peripentonal hexons near vertices)
+    const bary = [
+      [3, 1, 1], [1, 3, 1], [1, 1, 3],
+      [2.4, 1.8, .8], [1.8, 2.4, .8], [2.4, .8, 1.8], [.8, 2.4, 1.8], [1.8, .8, 2.4], [.8, 1.8, 2.4],
+      [1.9, 1.55, 1.55], [1.55, 1.9, 1.55], [1.55, 1.55, 1.9],
+    ];
+    bary.forEach(([u, v, w], idx) => {
+      const s = u + v + w, p = a.clone().multiplyScalar(u / s).addScaledVector(b, v / s).addScaledVector(c, w / s);
+      const isPeri = idx < 3;
+      hexBaseM.push(M4(p, q, V(.31, .28, .31))); hexBaseC.push(isPeri ? cPeri : cGon);
+      // 3 protruding Hexon turret towers per trimer
+      for (let t = 0; t < 3; t++) {
+        const ang = t * 2.094 + idx * .4;
+        const off = tang.clone().applyAxisAngle(n, ang).multiplyScalar(.13);
+        towerM.push(M4(p.clone().add(off).addScaledVector(n, .18), q, V(.11, .16, .11)));
+        towerC.push(isPeri ? cPeri : cTow);
+      }
+      if (!hexPt && n.z > .38 && n.x < -.1 && idx === 9) hexPt = p.clone().addScaledVector(n, .2);
+    });
+    // Protein IX 3-armed triskelion cement staples lacing the facet hexons together
+    const mid = a.clone().add(b).add(c).divideScalar(3).addScaledVector(n, .06);
+    for (let arm = 0; arm < 3; arm++) {
+      const vtx = [a, b, c][arm], end = mid.clone().lerp(vtx, .45).addScaledVector(n, .04);
+      g.add(stick(mid, end, .055, std('#7dffb2', { glow: .26 })));
     }
-    const mid = a.clone().add(b).add(c).divideScalar(3);
-    cemM.push(M4(mid, q, .16));
-    if (!cemPt && n.z > .35) cemPt = mid.clone();
+    const hub = sphere(.11, std('#9effc6', { glow: .26 })); hub.position.copy(mid); g.add(hub);
+    if (!cemPt && n.z > .32 && n.x > .15) cemPt = mid.clone();
   }
-  g.add(instanced(hexGeo, plain(), hexM, hexC), instanced(sphGeo, std('#7dffb2', { glow: .24 }), cemM));
-  // 12 Penton base pentamers (PDB 1X9T) + 12 protruding Fiber shafts & CAR-binding knobs (PDB 1QIU)
+  const sGeo = new THREE.BufferGeometry(); sGeo.setAttribute('position', new THREE.Float32BufferAttribute(shellPos, 3)); sGeo.computeVertexNormals();
+  const iGeo = new THREE.BufferGeometry(); iGeo.setAttribute('position', new THREE.Float32BufferAttribute(innerPos, 3)); iGeo.computeVertexNormals();
+  g.add(new THREE.Mesh(sGeo, std('#386fa4', { opacity: .55, glow: .12 })), new THREE.Mesh(iGeo, std('#1d3858', { glow: .06 })));
+  g.add(instanced(unitHexPrism, plain(), hexBaseM, hexBaseC), instanced(sphGeo, plain(), towerM, towerC));
+
+  // 12 Penton base pentamers (PDB 1X9T) with 5 RGD loops + 12 beaded triple-beta-spiral Fiber shafts & CAR knobs (PDB 1QIU)
   let pentPt = null, fibPt = null;
   for (const v of verts) {
     const d = v.clone().normalize();
     if (inCut(d)) continue;
-    const q = qFromTo(UP, d), pent = new THREE.Mesh(new THREE.CylinderGeometry(.42, .48, .38, 5), std('#ffd26a', { glow: .26 }));
-    pent.position.copy(v); pent.quaternion.copy(q); g.add(pent);
-    const tip = v.clone().addScaledVector(d, 2.35);
-    g.add(stick(v, tip, .09, std('#ff9a62', { glow: .22 })));
-    const knob = blob(.34, std('#ff5a7a', { glow: .28 }), .12, 1.5, 16); knob.position.copy(tip); g.add(knob);
+    const q = qFromTo(UP, d), pent = new THREE.Mesh(unitPentPrism, std('#ffd26a', { glow: .26 }));
+    pent.scale.set(.50, .38, .50); pent.position.copy(v); pent.quaternion.copy(q); g.add(pent);
+    const tip = v.clone().addScaledVector(d, 2.25);
+    g.add(stick(v, tip, .075, std('#ff9f5a', { glow: .22 })));
+    for (let s = 1; s <= 6; s++) {
+      const b = sphere(.095, std('#ffc078', { glow: .2 })); b.position.copy(v.clone().lerp(tip, s / 7)); g.add(b);
+    }
+    for (let k = 0; k < 3; k++) {
+      const a = k * 2.094, off = V(Math.cos(a) * .16, 0, Math.sin(a) * .16).applyQuaternion(q);
+      const kl = blob(.24, std('#ff5a7a', { glow: .28 }), .1, 1.5, 14); kl.position.copy(tip).add(off); g.add(kl);
+    }
     if (!pentPt || v.z > pentPt.z) { pentPt = v.clone(); fibPt = tip.clone(); }
   }
-  // Core: 36 kbp linear dsDNA condensed with viral histone-like protein VII
-  const dnaPts = [];
-  for (let i = 0; i <= 90; i++) {
-    const t = i / 90, a = t * Math.PI * 10, r = 1.9 * Math.sin(t * Math.PI);
-    dnaPts.push(V(r * Math.cos(a), (t - .5) * 4.4, r * Math.sin(a)));
+
+  // Condensed 36 kbp linear dsDNA + Protein VII "adenosome" chromatin core inside the icosahedral lumen
+  const dnaPts = [], viiM = [];
+  for (let i = 0; i <= 110; i++) {
+    const t = i / 110, a = t * Math.PI * 13, r = 2.15 * Math.sin(Math.PI * (.08 + .84 * t));
+    const p = V(r * Math.cos(a), (t - .5) * 4.6, r * Math.sin(a));
+    dnaPts.push(p);
+    if (i % 6 === 3) viiM.push(M4(p, new THREE.Quaternion(), .20));
   }
-  g.add(dnaAlong(new THREE.CatmullRomCurve3(dnaPts), 14, .22, .055));
+  g.add(dnaAlong(new THREE.CatmullRomCurve3(dnaPts), 16, .20, .052), instanced(sphGeo, std('#ffb86c', { glow: .22 }), viiM));
   return { group: g, an: { hexon: hexPt ?? V(-1.8, 1.2, 2.8), penton: pentPt ?? V(0, 2.2, 3.4),
     fiber: fibPt ?? V(0, 3.5, 5.2), cement: cemPt ?? V(1.6, -1.4, 2.8), dna: V(0, .2, 1.4) } };
 }
@@ -2621,52 +2791,67 @@ function buildAdenovirus() {
 }
 
 function makeTmv() {
-  const g = new THREE.Group(), H = 10.4, R = 1.85, turns = 28, perTurn = 16 + 1 / 3, total = Math.round(turns * perTurn);
-  // Helical rod of Coat Protein subunits (PDB 2TMV: 16⅓ subunits per turn, 2.3 nm pitch), cut open on upper front
-  const cpM = [], cpC = [], rnaPts = [], c0 = new THREE.Color('#68d86b'), c1 = new THREE.Color('#9be870');
+  const g = new THREE.Group(), H = 9.8, turns = 30, perTurn = 16 + 1 / 3, total = Math.round(turns * perTurn);
+  // Rigid helical rod of 158-aa 4-helix-bundle Coat Protein shoes (PDB 2TMV: 16⅓ subunits/turn, 2.3 nm pitch)
+  const cpOutM = [], cpInM = [], cpC = [], rnaPts = [], ntM = [], caM = [];
+  const c0 = new THREE.Color('#5cd666'), c1 = new THREE.Color('#8ce665'), c2 = new THREE.Color('#43b856');
   let cpPt = null, turnPt = null;
   for (let i = 0; i < total; i++) {
     const turn = i / perTurn, y = -H / 2 + (turn / turns) * H, a = turn * Math.PI * 2;
-    const d = V(Math.cos(a), 0, Math.sin(a));
-    if (i % 2 === 0) rnaPts.push(V(.82 * d.x, y, .82 * d.z));
-    if (y > -.8 && d.z > .35) continue;
-    const p = V(1.38 * d.x, y, 1.38 * d.z), q = qFromTo(UP, d);
-    cpM.push(M4(p, q, V(.24, .18, .48))); cpC.push(Math.floor(turn) % 2 ? c0 : c1);
-    if (!cpPt && y > .8 && d.x < -.6 && d.z > .2) cpPt = p.clone();
-    if (!turnPt && y < -1.8 && d.z > .9) turnPt = p.clone();
+    const d = V(Math.cos(a), 0, Math.sin(a)), q = qFromTo(UP, d);
+    const rp = V(.84 * d.x, y, .84 * d.z);
+    if (i % 2 === 0) rnaPts.push(rp);
+    if (i % 3 === 0) ntM.push(M4(rp.clone().addScaledVector(d, .08), q, V(.06, .12, .06)));
+    if (i % 16 === 0) caM.push(M4(V(.44 * d.x, y, .44 * d.z), q, .075));
+    if (y > -1.0 && d.z > .30) continue;
+    cpOutM.push(M4(V(1.48 * d.x, y, 1.48 * d.z), q, V(.26, .42, .19)));
+    cpInM.push(M4(V(.96 * d.x, y, .96 * d.z), q, V(.19, .34, .17)));
+    cpC.push(Math.floor(turn) % 3 === 0 ? c0 : (Math.floor(turn) % 3 === 1 ? c1 : c2));
+    if (!cpPt && y > .9 && d.x < -.55 && d.z > .2) cpPt = V(1.48 * d.x, y, 1.48 * d.z);
+    if (!turnPt && y < -1.8 && d.z > .9) turnPt = V(1.48 * d.x, y, 1.48 * d.z);
   }
-  g.add(instanced(sphGeo, plain(), cpM, cpC));
-  g.add(tube(rnaPts, .085, std('#ff5a7a', { glow: .3 }), 6, 360));
-  // 4 nm hollow central channel running down the rod axis
-  g.add(new THREE.Mesh(new THREE.CylinderGeometry(.42, .42, H, 24, 1, true), xray('#7fe6d2', .95, 2.0, .04)));
+  // Self-assembling 20S two-layer coat-protein proto-helix disc hovering at the growing top end
+  for (let layer = 0; layer < 2; layer++) for (let k = 0; k < 17; k++) {
+    const a = (k / 17) * Math.PI * 1.85 + .4, d = V(Math.cos(a), 0, Math.sin(a)), y = H / 2 + .65 + layer * .34 + (k / 17) * .12;
+    cpOutM.push(M4(V(1.46 * d.x, y, 1.46 * d.z), qFromTo(UP, d), V(.24, .38, .17)));
+    cpInM.push(M4(V(.96 * d.x, y, .96 * d.z), qFromTo(UP, d), V(.18, .30, .15)));
+    cpC.push(layer ? c1 : c0);
+  }
+  g.add(instanced(sphGeo, plain(), cpOutM, cpC), instanced(sphGeo, plain(), cpInM, cpC),
+    instanced(sphGeo, std('#ffd24f', { glow: .28 }), ntM), instanced(sphGeo, std('#ff7675', { glow: .26 }), caM));
+  // Coiled 6.4 kb (+)ssRNA at r = 4 nm + travelling OAS packaging hairpin threading up the 4 nm hollow central channel!
+  const loopPts = [rnaPts[rnaPts.length - 1], V(.4, H / 2 + .95, .1), V(0, H / 2 + .4, 0), V(0, 0, 0), V(0, -H / 2 - .5, 0)];
+  g.add(tube(rnaPts, .082, std('#ff5a7a', { glow: .3 }), 6, 400),
+    tube(loopPts, .068, std('#ff9f43', { glow: .28 }), 6, 64));
+  g.add(new THREE.Mesh(new THREE.CylinderGeometry(.42, .42, H, 24, 1, true), xray('#7fe6d2', .85, 2.1, .03)));
   return { group: g, an: { coat: cpPt ?? V(-1.4, 1.5, .8), turn: turnPt ?? V(0, -2.5, 1.6),
-    rna: V(.82, 1.8, .2), lumen: V(0, 2.6, .42) } };
+    rna: V(.84, 1.8, .2), lumen: V(0, 2.4, .42) } };
 }
 function buildTmv() {
   const m = makeTmv(), a = m.an;
   return finalize(m.group, [A(a.coat, 'Coat protein monomer (158 aa four-helix bundle, PDB 2TMV)', 'tmv-sub-real'),
     A(a.turn, 'Helical turn of 16⅓ coat subunits (2.3 nm pitch, PDB 2TMV)', 'tmv-turn-real'),
     A(a.rna, '6.4 kb (+)ssRNA genome coiled at r = 4 nm (3 nt per subunit)', 'rna'),
-    A(a.lumen, '4 nm hollow central channel along the 300 nm rod', 'water')], 6.2);
+    A(a.lumen, '4 nm hollow central channel along the 300 nm rod', 'water')], 6.4);
 }
 
 function buildViruses() {
   const g = new THREE.Group(), an = [];
   const items = [
-    ['bacteriophage', 'Bacteriophage T4 (complex head–tail dsDNA myovirus)', 'real-phage', V(-11.2, .4, 0), .52],
-    ['coronavirus', 'SARS-CoV-2 Coronavirus (enveloped (+)ssRNA)', 'real-coronavirus', V(-5.4, 0, 0), .68],
+    ['bacteriophage', 'Bacteriophage T4 (complex head–tail dsDNA myovirus)', 'real-phage', V(-13.8, .35, 0), .54],
+    ['coronavirus', 'SARS-CoV-2 Coronavirus (enveloped (+)ssRNA)', 'real-coronavirus', V(-6.9, 0, 0), .68],
     ['hiv', 'HIV-1 Retrovirus (enveloped conical-capsid retrovirus)', 'real-hiv', V(0, 0, 0), .68],
-    ['adenovirus', 'Human Adenovirus (non-enveloped icosahedral dsDNA)', 'real-adenovirus', V(5.4, 0, 0), .65],
-    ['tmv', 'Tobacco Mosaic Virus (helical rod (+)ssRNA)', 'real-tmv', V(10.6, 0, 0), .68],
+    ['adenovirus', 'Human Adenovirus (non-enveloped icosahedral dsDNA)', 'real-adenovirus', V(6.9, 0, 0), .65],
+    ['tmv', 'Tobacco Mosaic Virus (helical rod (+)ssRNA)', 'real-tmv', V(13.4, 0, 0), .68],
   ];
   let mk = 0;
   for (const [id, label, realId, pos, sc] of items) {
     const sub = partModel(id).group; sub.scale.setScalar(sc); sub.position.copy(pos); g.add(sub);
-    an.push(A(pos.clone().add(V(0, 3.6, 1.2)), label, realId),
-      A(pos.clone().add(V(0, -3.5, 1.2)), `${NODES[id]?.name ?? id}`, id));
+    an.push(A(pos.clone().add(V(0, 3.85, 1.2)), label, realId),
+      A(pos.clone().add(V(0, -3.75, 1.2)), `${NODES[id]?.name ?? id}`, id));
     mk = tagFrom(g, mk, id);
   }
-  return finalize(g, an, 15.2);
+  return finalize(g, an, 18.0);
 }
 
 // the realistic bacterium's structures (E. coli, from the PDB): one bead per amino acid (Cα) or nucleotide (phosphate), 0.1 Å Int16, base64;

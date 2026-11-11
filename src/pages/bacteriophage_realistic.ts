@@ -8,7 +8,13 @@ import { OutputPass } from 'three/addons/postprocessing/OutputPass.js';
 import { ShaderPass } from 'three/addons/postprocessing/ShaderPass.js';
 import { RoomEnvironment } from 'three/addons/environments/RoomEnvironment.js';
 import { Effect } from 'effect';
-import { runBiologyApp } from '../index.js';
+import {
+  runBiologyApp,
+  buildPdbSurfaceGeo,
+  makeProteinBumpTexture,
+  makeMolBatch,
+  makeSculptedMesh,
+} from '../index.js';
 
 runBiologyApp(20261104, ({ random, geometry, batch, dna, rna, pdb, ribosome, tours }) => {
   if (/[?&]embed\b/.test(location.search)) document.documentElement.classList.add('embed');
@@ -66,6 +72,18 @@ function updateCut() { CUT.forEach((p, i) => { p.copy(CUT_LOCAL[i]); if (!cutOn)
 const CLIP = { clippingPlanes: CUT, clipIntersection: true, clipShadows: true };
 const phys = o => new THREE.MeshPhysicalMaterial({ envMapIntensity: .8, ...CLIP, ...o });
 const nmap = waveNormalMap(), bump = (rx, ry) => { const t = nmap.clone(); t.repeat.set(rx, ry); t.needsUpdate = true; return t; };
+const protBump = makeProteinBumpTexture(256);
+function protMat(key, clip = true, extra = {}) {
+  return reg(key, phys({
+    vertexColors: true, roughness: .42, metalness: .02,
+    clearcoat: .24, clearcoatRoughness: .36, sheen: .36, sheenColor: '#f2f7ff',
+    normalMap: protBump, normalScale: new THREE.Vector2(.34, .34),
+    side: THREE.DoubleSide, clippingPlanes: clip ? CUT : null, clipIntersection: true,
+    ...extra,
+  }));
+}
+const sculpt = (key, parent = cell, clip = true, extra = {}) => makeSculptedMesh(protMat(key, clip, extra), parent);
+const molBatch = (key, geo, parent = cell, clip = true, extra = {}) => makeMolBatch(geo, protMat(key, clip, extra), parent);
 
 // Parts registry for legend, hover highlight, and Cell Explorer tags
 const PARTS = [
@@ -295,13 +313,14 @@ function hostNormal(x, z) {
   return V(hostSurfY(x - e, z) - hostSurfY(x + e, z), 2 * e, hostSurfY(x, z - e) - hostSurfY(x, z + e)).normalize();
 }
 function makeHostDomeGeo(dep = 0, rHole = 0, segR = 64, segA = 96) {
-  const pos = [], idx = [];
+  const pos = [], uv = [], idx = [];
   for (let ir = 0; ir <= segR; ir++) {
     const f = ir / segR, r = rHole + (R_PATCH - rHole) * (f * .65 + f * f * .35);
     for (let ia = 0; ia <= segA; ia++) {
       const a = (ia / segA) * Math.PI * 2, x = r * Math.cos(a), z = r * Math.sin(a);
       const n = hostNormal(x, z), y = hostSurfY(x, z);
       pos.push(x - n.x * dep, y - n.y * dep, z - n.z * dep);
+      uv.push(x * .20 + .5, z * .20 + .5);
     }
   }
   const stride = segA + 1;
@@ -311,6 +330,7 @@ function makeHostDomeGeo(dep = 0, rHole = 0, segR = 64, segA = 96) {
   }
   const g = new THREE.BufferGeometry();
   g.setAttribute('position', new THREE.Float32BufferAttribute(pos, 3));
+  g.setAttribute('uv', new THREE.Float32BufferAttribute(uv, 2));
   g.setIndex(idx);
   g.computeVertexNormals();
   return g;
@@ -358,7 +378,13 @@ function capNormal(p) {
 }
 function prolateIcosaGeo(scale = 1, sub = 6) {
   const posAttr = BASE_ICO.attributes.position;
-  const pos = [];
+  const pos = [], uv = [];
+  const pushTri = (a, b, c) => {
+    for (const p of [a, b, c]) {
+      pos.push(p.x, p.y, p.z);
+      uv.push((p.x + p.z) * .20, p.y * .20);
+    }
+  };
   for (let f = 0; f < posAttr.count; f += 3) {
     const A = V().fromBufferAttribute(posAttr, f);
     const B = V().fromBufferAttribute(posAttr, f + 1);
@@ -367,16 +393,17 @@ function prolateIcosaGeo(scale = 1, sub = 6) {
     for (let i = 0; i < sub; i++) {
       for (let j = 0; j < sub - i; j++) {
         const p0 = pt(i, j), p1 = pt(i + 1, j), p2 = pt(i, j + 1);
-        pos.push(p0.x, p0.y, p0.z, p1.x, p1.y, p1.z, p2.x, p2.y, p2.z);
+        pushTri(p0, p1, p2);
         if (i + j + 1 < sub) {
           const p3 = pt(i + 1, j + 1);
-          pos.push(p1.x, p1.y, p1.z, p3.x, p3.y, p3.z, p2.x, p2.y, p2.z);
+          pushTri(p1, p3, p2);
         }
       }
     }
   }
   const g = new THREE.BufferGeometry();
   g.setAttribute('position', new THREE.Float32BufferAttribute(pos, 3));
+  g.setAttribute('uv', new THREE.Float32BufferAttribute(uv, 2));
   g.computeVertexNormals();
   return g;
 }
@@ -405,8 +432,7 @@ function buildCapsid() {
   }
 
   // Tile real PDB 5VF3 gp23* hexamers + Soc outer trimer cage + Hoc 4-domain Ig spikes across all 20 facets,
-  // aligned consistently with each facet's tangent basis so Soc clamps interlock into a crisp hexagonal lattice!
-  const B_CAP = balls('capsid'), B_SOC = balls('soc'), B_VTX = balls('vertex');
+  // aligned consistently with each facet's tangent basis so Soc clamps interlock into a crisp cryo-EM hexagonal lattice!
   const gp23Cols = ['#5aa9e6', '#4b97d6', '#6cb8f2'].map(col);
   const socCols = [col('#ff9a5c'), col('#ef8140')];
   const hocCols = [col('#ffd866'), col('#ffe694'), col('#ffc43d')];
@@ -440,24 +466,38 @@ function buildCapsid() {
     }
   }
 
-  // Place gp24* pentamers (PDB 5VF3) on all 11 non-portal vertices (skip bottom vertex at y ~ 1.45 where gp20 portal sits)
-  const m24 = model('gp24', true), vTmp = V(), kScale = .01 * NM;
+  // Place sculpted cryo-EM gp24* pentamers (PDB 5VF3) on all 11 non-portal vertices
+  const geoGp24 = buildPdbSurfaceGeo(model('gp24', true), {
+    nm: NM, scale: 1.12, maxDim: 38, sigmaAng: 3.15, aoStrength: .56,
+    colorFn: g => vtxCols[g % 5],
+  });
+  const I_VTX = molBatch('vertex', geoGp24);
   verts.forEach(v => {
     if (v.y < Y_CAP - H_CAP + .5) return;
     const fN = V();
     ICO_FACES.forEach(fc => { if (fc.n.dot(v.clone().sub(V(0, Y_CAP, 0)).normalize()) > .72) fN.add(fc.n); });
     const n = fN.lengthSq() > 1e-4 ? V(fN.x / R_CAP, fN.y / H_CAP, fN.z / R_CAP).normalize() : capNormal(v);
-    const q = qOut(n, 0);
-    for (let i = 0; i < m24.n; i++) {
-      const grp = m24.kind[i] >> 2;
-      vTmp.set(m24.xyz[i * 3], m24.xyz[i * 3 + 1], m24.xyz[i * 3 + 2]).multiplyScalar(kScale * 1.12).applyQuaternion(q).add(v);
-      B_VTX.add(vTmp, .94 * NM, vtxCols[grp % 5]);
-    }
+    I_VTX.add(v, qOut(n, 0));
     if (!(v.x > 0 && v.z > 0)) SITES.vertex.push(v.clone());
   });
+  I_VTX.done();
 
-  // Place full C-alpha gp23* + Soc + Hoc hexamer units across all lattice sites, plus outer Hoc Ig-like domains
+  // Place sculpted cryo-EM gp23* hexamers + interlocking Soc outer clamp cage + Hoc 4-domain Ig spikes across all lattice sites
   const m23 = model('gp23', true);
+  const geoGp23Hex = buildPdbSurfaceGeo(m23, {
+    nm: NM, scale: 1.05, maxDim: 32, sigmaAng: 3.15, aoStrength: .56,
+    filter: g => g === 0,
+    colorFn: (_g, _p, i) => gp23Cols[i % 3],
+  });
+  const geoSocHoc = buildPdbSurfaceGeo(m23, {
+    nm: NM, scale: 1.05, maxDim: 32, sigmaAng: 3.05, aoStrength: .54,
+    filter: g => g > 0,
+    colorFn: (g, _p, i) => g === 1 ? socCols[i & 1] : hocCols[0],
+  });
+  const I_CAP = molBatch('capsid', geoGp23Hex);
+  const I_SOC = molBatch('soc', geoSocHoc);
+  const S_SOC = sculpt('soc');
+  const cCapTints = [col('#ffffff'), col('#eef7ff'), col('#ddeeff')];
   hexSites.forEach(({ p, tang }, idx) => {
     const dirFromC = V(p.x / R_CAP, (p.y - Y_CAP) / H_CAP, p.z / R_CAP).normalize();
     let bestFace = ICO_FACES[0], bestDot = -2;
@@ -467,55 +507,50 @@ function buildCapsid() {
     }
     const n = V(bestFace.n.x / R_CAP, bestFace.n.y / H_CAP, bestFace.n.z / R_CAP).normalize().lerp(capNormal(p), .25).normalize();
     const q = qOutTangent(n, tang);
-    for (let i = 0; i < m23.n; i++) {
-      const grp = m23.kind[i] >> 2;
-      vTmp.set(m23.xyz[i * 3], m23.xyz[i * 3 + 1], m23.xyz[i * 3 + 2]).multiplyScalar(kScale * 1.05).applyQuaternion(q).add(p);
-      if (grp === 0) B_CAP.add(vTmp, .88 * NM, gp23Cols[(idx + (i % 3)) % 3]);
-      else if (grp === 1) B_SOC.add(vTmp, .82 * NM, socCols[i & 1]);
-      else B_SOC.add(vTmp, .92 * NM, hocCols[0]);
-    }
+    I_CAP.add(p, q, 1, cCapTints[idx % 3]);
+    I_SOC.add(p, q);
     // Full-length Hoc fiber protrudes ~11 nm from the hexamer center as 3 additional tandem Ig-like domains (D2-D4)
-    const hBase = p.clone().addScaledVector(n, .16);
+    const hBase = p.clone().addScaledVector(n, .14), hTip = p.clone().addScaledVector(n, .45);
+    S_SOC.stick(hBase, hTip, .034, hocCols[0], hocCols[2]);
     for (let d = 1; d <= 3; d++) {
-      const hp = p.clone().addScaledVector(n, .16 + d * .095);
-      B_SOC.add(hp, (1.02 - d * .1) * NM, hocCols[d - 1]);
-      if (d === 1) B_SOC.stick(hBase, p.clone().addScaledVector(n, .44), .14 * NM, hocCols[0], hocCols[2]);
+      const hp = p.clone().addScaledVector(n, .15 + d * .095), hr = .054 - d * .006;
+      S_SOC.lobe(hp, hr * .88, hr * .88, hr * 1.25, hocCols[d - 1], qOut(n, d * .8));
     }
     if (!(p.x > 0 && p.z > 0)) {
       SITES.capsid.push(p.clone());
       SITES.soc.push(p.clone().addScaledVector(n, .32));
     }
   });
-  B_CAP.done(); B_SOC.done(); B_VTX.done();
+  I_CAP.done(); I_SOC.done(); S_SOC.done();
 }
 
 // ---------------------------------------------------------------------
 // Coaxially spooled 169 kbp dsDNA genome + structured internal core (gp22, IPI*, Alt)
 // ---------------------------------------------------------------------
 function buildGenomeAndCore() {
-  const D = balls('dna'), D_INJ = balls('dna', cell, false), C = balls('core');
+  const D = balls('dna'), D_INJ = balls('dna', cell, false), S_CORE = sculpt('core');
   // Structured prolate internal scaffolding & injected nuclease-inhibitor protein column (gp22, IPI*, Alt)
   const coreCols = ['#ffd24f', '#ffae52', '#ffe388', '#f5983e'].map(col);
   for (let pf = 0; pf < 6; pf++) {
     const baseAng = (pf / 6) * Math.PI * 2;
-    let prev = null;
+    const pts = [];
     for (let s = 0; s <= 56; s++) {
       const t = s / 56, y = 2.15 + t * 9.35, frac = (y - Y_CAP) / (H_CAP * .86);
       const rEnv = .78 * Math.sqrt(Math.max(.05, 1 - frac * frac));
       const a = baseAng + t * Math.PI * 5.2;
       const p = V(rEnv * Math.cos(a), y, rEnv * Math.sin(a));
-      C.add(p, (1.28 + .25 * Math.sin(s * .9)) * NM, coreCols[(pf + s) % 4]);
-      if (prev) C.stick(prev, p, .26 * NM, coreCols[pf % 4], coreCols[(pf + 1) % 4]);
+      pts.push(p);
       if (s % 4 === 0) {
+        S_CORE.lobe(p, .068, .084, .068, coreCols[(pf + s) % 4], qOut(V(Math.cos(a), .35, Math.sin(a)), s));
         const pIn = V(rEnv * .42 * Math.cos(a + .5), y, rEnv * .42 * Math.sin(a + .5));
-        C.add(pIn, 1.38 * NM, coreCols[(pf + 2) % 4]);
-        C.stick(pIn, p, .18 * NM, coreCols[2], coreCols[0]);
+        S_CORE.lobe(pIn, .074, .074, .074, coreCols[(pf + 2) % 4]);
+        S_CORE.stick(pIn, p, .026, coreCols[2], coreCols[0]);
         if (!(p.x > 0 && p.z > 0)) SITES.core.push(p.clone());
       }
-      prev = p;
     }
+    S_CORE.tube(pts, .042, .042, pf & 1 ? coreCols[0] : coreCols[1], pf & 1 ? coreCols[1] : coreCols[2], 7, true);
   }
-  C.done();
+  S_CORE.done();
 
   // 7 densely packed concentric coaxial spools of 169 kbp B-DNA inside the capsid cavity (~60 atm liquid-crystalline packing)
   const c1 = col(BACKBONE[0]), c2 = col(BACKBONE[1]);
@@ -586,27 +621,28 @@ function buildGenomeAndCore() {
 // ---------------------------------------------------------------------
 function buildPortalAndTail() {
   // 1. Portal protein dodecamer gp20 (PDB 3JA7, 12-subunit DNA packaging & exit turbine) at y = 1.48
-  const B_POR = balls('portal');
   const porCols = [col('#ff6b8b'), col('#e64f72'), col('#ff94ab')];
-  placeMol(B_POR, 'gp20', V(0, 1.48, 0), qOut(V(0, 1, 0), 0), g => porCols[g % 3], true);
-  B_POR.done();
+  const geoGp20 = buildPdbSurfaceGeo(model('gp20', true), {
+    nm: NM, maxDim: 46, sigmaAng: 3.1, aoStrength: .56,
+    colorFn: g => porCols[g % 3],
+  });
+  const I_POR = molBatch('portal', geoGp20);
+  I_POR.add(V(0, 1.48, 0), qOut(V(0, 1, 0), 0));
+  I_POR.done();
 
   // 2. 12-fold Neck & Collar (gp13/gp14, clipped) + 6 trimeric coiled-coil fibritin whiskers (gpWac, unclipped)
-  const B_COL_RING = balls('collar', cell, true), B_COL = balls('collar', cell, false);
+  const S_COL_RING = sculpt('collar', cell, true), S_COL = sculpt('collar', cell, false);
   const cCol1 = col('#7fe0ff'), cCol2 = col('#52c4eb'), cWhisk = col('#b3f2ff');
+  S_COL_RING.ring(V(0, 1.06, 0), UP, .74, .052, cCol2, 36, 8);
+  S_COL_RING.ring(V(0, .93, 0), UP, .96, .058, cCol1, 40, 8);
+  S_COL_RING.ring(V(0, .86, 0), UP, 1.18, .048, cWhisk, 44, 8);
   for (let k = 0; k < 12; k++) {
     const a0 = (k / 12) * Math.PI * 2;
-    for (let s = 0; s < 6; s++) {
-      const a = a0 + (s / 72) * Math.PI * 2;
-      B_COL_RING.add(V(.74 * Math.cos(a), 1.06, .74 * Math.sin(a)), .92 * NM, cCol2);
-      B_COL_RING.add(V(.96 * Math.cos(a), .92, .96 * Math.sin(a)), .96 * NM, cCol1);
-      B_COL_RING.add(V(1.18 * Math.cos(a), .86, 1.18 * Math.sin(a)), .88 * NM, k % 2 ? cCol1 : cWhisk);
-    }
     const pIn = V(.76 * Math.cos(a0), .96, .76 * Math.sin(a0)), pOut = V(1.26 * Math.cos(a0), .88, 1.26 * Math.sin(a0));
-    B_COL_RING.stick(pIn, pOut, .22 * NM, cCol2, cCol1);
-    B_COL_RING.add(pOut, 1.12 * NM, cWhisk);
+    S_COL_RING.stick(pIn, pOut, .036, cCol2, cCol1);
+    S_COL_RING.lobe(pOut, .068, .055, .078, k % 2 ? cCol1 : cWhisk, qOut(V(Math.cos(a0), 0, Math.sin(a0)), 0));
   }
-  B_COL_RING.done();
+  S_COL_RING.done();
 
   // 6 trimeric coiled-coil fibritin whiskers (gpWac, 50 nm) clasping the LTF knees + 6 shorter collar feelers (dic)
   for (let w = 0; w < 6; w++) {
@@ -617,17 +653,17 @@ function buildPortalAndTail() {
     const curve = new THREE.QuadraticBezierCurve3(p0, pMid, pKnee);
     const N_SEG = 44, frames = curve.computeFrenetFrames(N_SEG, false);
     for (let st = 0; st < 3; st++) {
-      let prev = null;
+      const strandPts = [];
       for (let i = 0; i <= N_SEG; i++) {
         const t = i / N_SEG, pt = curve.getPoint(t), ang = t * Math.PI * 10 + (st * 2 * Math.PI / 3);
         const rad = .042 * (1 - .25 * t);
-        const p = pt.clone().addScaledVector(frames.normals[i], rad * Math.cos(ang)).addScaledVector(frames.binormals[i], rad * Math.sin(ang));
-        if (prev) B_COL.stick(prev, p, .13 * NM, st === 0 ? cCol1 : cWhisk, cCol2);
-        if (i % 7 === 0 && st === 0) B_COL.add(pt, .68 * NM, cWhisk);
-        prev = p;
+        strandPts.push(pt.clone().addScaledVector(frames.normals[i], rad * Math.cos(ang)).addScaledVector(frames.binormals[i], rad * Math.sin(ang)));
       }
+      const cSt = st === 0 ? cCol1 : (st === 1 ? cWhisk : cCol2);
+      S_COL.tube(strandPts, .022, .017, cSt, cWhisk, 6, true);
     }
-    B_COL.add(pKnee.clone().add(V(0, .14, 0)), 1.05 * NM, cWhisk);
+    for (const f of [.28, .58, .84]) S_COL.lobe(curve.getPoint(f), .046, .046, .046, cWhisk);
+    S_COL.lobe(pKnee.clone().add(V(0, .12, 0)), .074, .058, .074, cWhisk);
     SITES.whiskers.push(pMid);
 
     // Short collar feeler (dic) extending outward from alternate 12-fold collar lugs
@@ -636,35 +672,51 @@ function buildPortalAndTail() {
     const f1 = V(2.15 * Math.cos(aFeel), .55, 2.15 * Math.sin(aFeel));
     const f2 = V(2.75 * Math.cos(aFeel), -.05, 2.75 * Math.sin(aFeel));
     const fPts = new THREE.QuadraticBezierCurve3(f0, f1, f2).getPoints(16);
-    for (let i = 1; i < fPts.length; i++) B_COL.stick(fPts[i - 1], fPts[i], .13 * NM, cCol1, cWhisk);
-    B_COL.add(f2, .78 * NM, cWhisk);
+    S_COL.tube(fPts, .026, .018, cCol1, cWhisk, 6, true);
+    S_COL.lobe(f2, .044, .044, .044, cWhisk);
   }
-  B_COL.done();
+  S_COL.done();
 
   // 3. Inner tail tube gp19 (PDB 5W5F, 24 hexameric rings; rings 6..17 clipped in front quadrant to expose central injecting dsDNA!)
-  const B_TUBE_FULL = balls('tube', cell, false), B_TUBE_CUT = balls('tube', cell, true);
   const tubeCols = [col('#ffe66d'), col('#f5ca44'), col('#fff29c')];
+  const geoGp19 = buildPdbSurfaceGeo(model('gp19', true), {
+    nm: NM, maxDim: 40, sigmaAng: 3.0, aoStrength: .54,
+    colorFn: g => tubeCols[g % 3],
+  });
+  const I_TUBE_FULL = molBatch('tube', geoGp19, cell, false);
+  const I_TUBE_CUT = molBatch('tube', geoGp19, cell, true);
+  const cTubeTints = [col('#ffffff'), col('#fff5cf'), col('#ffe9a8')];
   const RING_RISE = .406, RING_TWIST = 17.2 * Math.PI / 180;
   for (let s = 0; s < 8; s++) {
     const y = .15 - s * (3 * RING_RISE);
     const q = qOut(V(0, 1, 0), s * 3 * RING_TWIST);
-    const targetBalls = (s >= 2 && s <= 5) ? B_TUBE_CUT : B_TUBE_FULL;
-    placeMol(targetBalls, 'gp19', V(0, y, 0), q, g => tubeCols[(g + s) % 3], true);
+    const target = (s >= 2 && s <= 5) ? I_TUBE_CUT : I_TUBE_FULL;
+    target.add(V(0, y, 0), q, 1, cTubeTints[s % 3]);
     SITES.tube.push(V(-.38, y, -.1));
   }
-  B_TUBE_FULL.done(); B_TUBE_CUT.done();
+  I_TUBE_FULL.done(); I_TUBE_CUT.done();
 
   // 4. Contractile tail sheath gp18 (PDB 3J2M): 24 hexameric rings with right-handed 6-start helical protofilament shading
-  const B_SH = balls('sheath', cell, true);
   const shCols = [col('#4ecdc4'), col('#34b0a6'), col('#76e6dd'), col('#2b9890')];
-  placeMol(B_SH, 'gp18', V(0, .55, 0), qOut(V(0, 1, 0), 0), g => g === 0 ? cCol1 : shCols[g % 4], true);
+  const geoGp18Top = buildPdbSurfaceGeo(model('gp18', true), {
+    nm: NM, maxDim: 42, sigmaAng: 3.1, aoStrength: .56,
+    colorFn: g => g === 0 ? cCol1 : shCols[g % 4],
+  });
+  const geoGp18Ring = buildPdbSurfaceGeo(model('gp18r', true), {
+    nm: NM, maxDim: 40, sigmaAng: 3.1, aoStrength: .56,
+    colorFn: g => shCols[g % 4],
+  });
+  const I_SH_TOP = molBatch('sheath', geoGp18Top, cell, true);
+  const I_SH = molBatch('sheath', geoGp18Ring, cell, true);
+  const cShTints = [col('#ffffff'), col('#e4fbf9')];
+  I_SH_TOP.add(V(0, .55, 0), qOut(V(0, 1, 0), 0));
   for (let r = 1; r < 24; r++) {
     const y = .55 - r * RING_RISE;
     const q = qOut(V(0, 1, 0), r * RING_TWIST);
-    placeMol(B_SH, 'gp18r', V(0, y, 0), q, g => shCols[(g + (r % 2)) % 4], true);
+    I_SH.add(V(0, y, 0), q, 1, cShTints[r & 1]);
     if (r % 3 === 0) SITES.sheath.push(V(-1.05, y, -.2));
   }
-  B_SH.done();
+  I_SH_TOP.done(); I_SH.done();
 }
 
 // ---------------------------------------------------------------------
@@ -673,31 +725,34 @@ function buildPortalAndTail() {
 // ---------------------------------------------------------------------
 function buildBaseplateAndFibers() {
   // 1. Central hub gp27 + cell-puncturing triple-beta-helix needle gp5 + 3 T4 lysozyme blades (PDB 1K28)
-  const B_NDL = balls('needle', cell, false);
   const ndlCols = [col('#ff7675'), col('#ff4d4d'), col('#ffd24f')];
-  placeMol(B_NDL, 'gp5', V(0, -9.85, 0), qOut(V(0, 1, 0), 0), g => ndlCols[g % 3], true);
-  B_NDL.done();
+  const geoGp5 = buildPdbSurfaceGeo(model('gp5', true), {
+    nm: NM, maxDim: 48, sigmaAng: 3.05, aoStrength: .56,
+    colorFn: g => ndlCols[g % 3],
+  });
+  const I_NDL = molBatch('needle', geoGp5, cell, false);
+  I_NDL.add(V(0, -9.85, 0), qOut(V(0, 1, 0), 0));
+  I_NDL.done();
 
   // 2. Authentic 6-pointed star / hexagonal dome multiprotein baseplate (~150 subunits: gp6, gp7, gp8, gp10, gp11, gp25, gp48, gp53)
-  const B_BP = balls('baseplate', cell, true);
+  const S_BP = sculpt('baseplate', cell, true);
   const cBp1 = col('#f78fb3'), cBp2 = col('#de5889'), cBp3 = col('#ffb5cf'), cBp4 = col('#c44172');
-  const emitGlobule = (S, center, rx, ry, rz, nBeads, cA, cB, rotY = 0) => {
-    const ca = Math.cos(rotY), sa = Math.sin(rotY);
-    for (let i = 0; i < nBeads; i++) {
-      const f = (i + .5) / nBeads, phi = Math.acos(1 - 2 * f), th = i * 2.3999632;
-      const lx = rx * Math.sin(phi) * Math.cos(th), ly = ry * Math.cos(phi), lz = rz * Math.sin(phi) * Math.sin(th);
-      S.add(V(center.x + lx * ca - lz * sa, center.y + ly, center.z + lx * sa + lz * ca), .88 * NM, i % 2 ? cA : cB);
+  const emitSubunit = (center, rx, ry, rz, cA, cB, rotY = 0) => {
+    const qY = new THREE.Quaternion().setFromAxisAngle(UP, rotY);
+    S_BP.lobe(center, rx * 1.05, ry * 1.08, rz * 1.05, cA, qY);
+    for (let k = 0; k < 3; k++) {
+      const ang = rotY + k * 2.094;
+      const off = V(Math.cos(ang) * rx * .48, (k === 1 ? .22 : -.18) * ry, Math.sin(ang) * rz * .48);
+      S_BP.lobe(center.clone().add(off), rx * .62, ry * .68, rz * .62, k & 1 ? cB : cA, qY);
     }
   };
+  S_BP.ring(V(0, -8.62, 0), UP, 1.02, .052, cBp2, 36, 8);
   for (let w = 0; w < 6; w++) {
     const a0 = w * Math.PI / 3 + .18, aNext = (w + 1) * Math.PI / 3 + .18, aMid = a0 + Math.PI / 6;
-    // Inner gp6 / gp25 / gp53 hexagonal ring around central gp27 hub (r = 0.82 .. 1.25)
     const pRingA = V(1.02 * Math.cos(a0), -8.62, 1.02 * Math.sin(a0));
-    const pRingB = V(1.02 * Math.cos(aNext), -8.62, 1.02 * Math.sin(aNext));
     const pGp25 = V(.88 * Math.cos(aMid), -8.48, .88 * Math.sin(aMid));
-    emitGlobule(B_BP, pRingA, .22, .18, .22, 26, cBp1, cBp2, a0);
-    emitGlobule(B_BP, pGp25, .18, .16, .18, 20, cBp3, cBp1, aMid);
-    B_BP.stick(pRingA, pRingB, .26 * NM, cBp2, cBp1);
+    emitSubunit(pRingA, .21, .17, .21, cBp1, cBp2, a0);
+    emitSubunit(pGp25, .17, .15, .17, cBp3, cBp1, aMid);
 
     // Radial star wedge (gp7 truss arms + gp8 saddle dimer + gp10 3-domain pin + gp11 star vertex tip at r = 2.48)
     const pSaddle = V(1.62 * Math.cos(a0), -8.78, 1.62 * Math.sin(a0));
@@ -707,30 +762,35 @@ function buildBaseplateAndFibers() {
 
     // Converging gp7 structural struts from adjacent inner ring nodes out to the star vertex
     for (const src of [pRingA, V(1.02 * Math.cos(a0 - .32), -8.66, 1.02 * Math.sin(a0 - .32)), V(1.02 * Math.cos(a0 + .32), -8.66, 1.02 * Math.sin(a0 + .32))]) {
-      const armPts = new THREE.QuadraticBezierCurve3(src, pSaddle.clone().add(V(0, .1, 0)), pPin).getPoints(10);
-      for (let i = 1; i < armPts.length; i++) B_BP.stick(armPts[i - 1], armPts[i], .22 * NM, cBp2, cBp1);
+      const armPts = new THREE.QuadraticBezierCurve3(src, pSaddle.clone().add(V(0, .1, 0)), pPin).getPoints(12);
+      S_BP.tube(armPts, .038, .034, cBp2, cBp1, 7, true);
     }
-    B_BP.stick(pSaddle, pBridge, .19 * NM, cBp4, cBp2);
-    B_BP.stick(V(1.62 * Math.cos(aNext), -8.78, 1.62 * Math.sin(aNext)), pBridge, .19 * NM, cBp4, cBp2);
-    emitGlobule(B_BP, pBridge, .20, .15, .20, 22, cBp2, cBp4, aMid);
-    emitGlobule(B_BP, pSaddle, .28, .20, .24, 34, cBp1, cBp3, a0);
-    emitGlobule(B_BP, pPin, .25, .24, .22, 32, cBp2, cBp1, a0);
-    emitGlobule(B_BP, pStarTip, .20, .16, .18, 24, cBp3, cBp1, a0);
-    B_BP.stick(pPin, pStarTip, .24 * NM, cBp1, cBp3);
+    S_BP.stick(pSaddle, pBridge, .034, cBp4, cBp2);
+    S_BP.stick(V(1.62 * Math.cos(aNext), -8.78, 1.62 * Math.sin(aNext)), pBridge, .034, cBp4, cBp2);
+    emitSubunit(pBridge, .19, .14, .19, cBp2, cBp4, aMid);
+    emitSubunit(pSaddle, .26, .19, .23, cBp1, cBp3, a0);
+    emitSubunit(pPin, .24, .23, .21, cBp2, cBp1, a0);
+    emitSubunit(pStarTip, .19, .15, .17, cBp3, cBp1, a0);
+    S_BP.stick(pPin, pStarTip, .042, cBp1, cBp3);
 
     // Lateral LTF attachment socket between star tips (at angle (w + 0.5)*pi/3)
     const aSock = (w + .5) * Math.PI / 3;
     const pSock = V(2.15 * Math.cos(aSock), -8.85, 2.15 * Math.sin(aSock));
-    emitGlobule(B_BP, pSock, .22, .17, .22, 24, cBp3, cBp2, aSock);
-    B_BP.stick(pBridge, pSock, .22 * NM, cBp2, cBp3);
+    emitSubunit(pSock, .21, .16, .21, cBp3, cBp2, aSock);
+    S_BP.stick(pBridge, pSock, .038, cBp2, cBp3);
 
     if (!(pPin.x > 0 && pPin.z > 0)) SITES.baseplate.push(pPin.clone());
   }
-  B_BP.done();
+  S_BP.done();
 
   // 3. Six Short Tail Fibers gp12 (PDB 1OCY) unfolding from the 6 baseplate gp10/gp11 pins to lock onto curved host LPS
-  const B_STF = balls('stf', cell, false);
   const stfCols = [col('#ffbe76'), col('#f0932b'), col('#ffe0ab')];
+  const geoGp12 = buildPdbSurfaceGeo(model('gp12', true), {
+    nm: NM, maxDim: 40, sigmaAng: 3.05, aoStrength: .55,
+    colorFn: g => stfCols[g % 3],
+  });
+  const I_STF = molBatch('stf', geoGp12, cell, false);
+  const S_STF = sculpt('stf', cell, false);
   for (let w = 0; w < 6; w++) {
     const a = w * Math.PI / 3 + .18;
     const pTop = V(2.18 * Math.cos(a), -9.06, 2.18 * Math.sin(a));
@@ -739,23 +799,28 @@ function buildBaseplateAndFibers() {
     // Trimeric coiled-coil / triple-beta-spiral shaft connecting baseplate pin to C-terminal receptor head
     const shaftEnd = pTop.clone().lerp(pBot, .72);
     for (let st = 0; st < 3; st++) {
-      let prev = null;
-      for (let s = 0; s <= 16; s++) {
-        const t = s / 16, pt = pTop.clone().lerp(shaftEnd, t), th = t * Math.PI * 4 + st * 2.094;
-        const p = pt.clone().add(V(.042 * Math.cos(th), 0, .042 * Math.sin(th)));
-        if (prev) B_STF.stick(prev, p, .14 * NM, stfCols[st], stfCols[(st + 1) % 3]);
-        if (s % 4 === 0 && st === 0) B_STF.add(pt, .82 * NM, stfCols[2]);
-        prev = p;
+      const pts = [];
+      for (let s = 0; s <= 18; s++) {
+        const t = s / 18, pt = pTop.clone().lerp(shaftEnd, t), th = t * Math.PI * 4 + st * 2.094;
+        pts.push(pt.clone().add(V(.042 * Math.cos(th), 0, .042 * Math.sin(th))));
       }
+      S_STF.tube(pts, .024, .022, stfCols[st], stfCols[(st + 1) % 3], 6, true);
     }
-    placeMol(B_STF, 'gp12', pBot.clone().add(V(0, .34, 0)), qOut(V(0, -1, 0), a), g => stfCols[g % 3], true);
+    for (const f of [.26, .52, .78]) S_STF.lobe(pTop.clone().lerp(shaftEnd, f), .056, .042, .056, stfCols[2]);
+    I_STF.add(pBot.clone().add(V(0, .34, 0)), qOut(V(0, -1, 0), a));
     if (!(pBot.x > 0 && pBot.z > 0)) SITES.stf.push(pBot);
   }
-  B_STF.done();
+  I_STF.done(); S_STF.done();
 
   // 4. Six 145 nm Multi-Domain Hinged Long Tail Fibers (gp34 P1-P5 thigh, gp35 knee hinge, gp36/gp37 D1-D8 shin + PDB 2XGF tip)
-  const B_LTF = balls('ltf', cell, false);
   const ltfCols = [col('#a29bfe'), col('#7d6ee0'), col('#cdc8ff'), col('#ffeaa7')];
+  const geoGp37 = buildPdbSurfaceGeo(model('gp37', true), {
+    nm: NM, maxDim: 42, sigmaAng: 3.0, aoStrength: .55,
+    colorFn: g => ltfCols[g % 3],
+  });
+  const I_LTF_TIP = molBatch('ltf', geoGp37, cell, false);
+  const S_LTF = sculpt('ltf', cell, false);
+  const cKneeCap = col('#ffd166');
   for (let w = 0; w < 6; w++) {
     const a = (w + .5) * Math.PI / 3, ca = Math.cos(a), sa = Math.sin(a);
     const pSocket = V(2.15 * ca, -8.85, 2.15 * sa);
@@ -764,63 +829,60 @@ function buildBaseplateAndFibers() {
     const pTip = V(tx, hostSurfY(tx, tz) + .06, tz);
     SITES.ltfKnees.push(pKnee); SITES.ltfTips.push(pTip);
 
-    // Proximal half-fiber (gp34 trimer, ~70 nm): slight natural upward bow + 3 intertwined strands + P1..P5 globular domains
+    // Proximal half-fiber (gp34 trimer, ~70 nm): 3 intertwined 3D coiled strands + sculpted P1..P5 globular domains
     const pThighCtrl = pSocket.clone().lerp(pKnee, .5).add(V(.22 * ca, .32, .22 * sa));
     const thighCurve = new THREE.QuadraticBezierCurve3(pSocket, pThighCtrl, pKnee);
     const N_TH = 52, thFrames = thighCurve.computeFrenetFrames(N_TH, false);
     for (let st = 0; st < 3; st++) {
-      let prev = null;
+      const pts = [];
       for (let i = 0; i <= N_TH; i++) {
         const t = i / N_TH, pt = thighCurve.getPoint(t), ang = t * Math.PI * 11 + st * 2.094;
         const rad = .048 * (1 + .25 * Math.sin(t * Math.PI * 5));
-        const p = pt.clone().addScaledVector(thFrames.normals[i], rad * Math.cos(ang)).addScaledVector(thFrames.binormals[i], rad * Math.sin(ang));
-        if (prev) B_LTF.stick(prev, p, .16 * NM, ltfCols[st % 3], ltfCols[(st + 1) % 3]);
-        prev = p;
+        pts.push(pt.clone().addScaledVector(thFrames.normals[i], rad * Math.cos(ang)).addScaledVector(thFrames.binormals[i], rad * Math.sin(ang)));
       }
+      S_LTF.tube(pts, .026, .024, ltfCols[st % 3], ltfCols[(st + 1) % 3], 6, true);
     }
-    for (const f of [.14, .32, .50, .69, .87]) {
-      const dPt = thighCurve.getPoint(f);
-      for (let k = 0; k < 10; k++) {
-        const phi = Math.acos(1 - 2 * (k + .5) / 10), th = k * 2.4;
-        B_LTF.add(dPt.clone().add(V(.11 * Math.sin(phi) * Math.cos(th), .11 * Math.cos(phi), .11 * Math.sin(phi) * Math.sin(th))), .92 * NM, ltfCols[k % 3]);
+    [.14, .32, .50, .69, .87].forEach((f, idx) => {
+      const dPt = thighCurve.getPoint(f), qDom = qOut(thighCurve.getTangent(f), idx * .8);
+      S_LTF.lobe(dPt, .105, .105, .135, ltfCols[idx % 3], qDom);
+      for (let k = 0; k < 3; k++) {
+        const ang = k * 2.094 + idx;
+        S_LTF.lobe(dPt.clone().add(V(.065 * Math.cos(ang), .03 * (k - 1), .065 * Math.sin(ang))), .068, .068, .068, ltfCols[(idx + k) % 3]);
       }
+    });
+
+    // Monomeric gp35 knee-cap hinge joint (sculpted 3-lobed asymmetric cap)
+    S_LTF.lobe(pKnee, .14, .13, .14, ltfCols[3]);
+    for (let k = 0; k < 3; k++) {
+      const ang = a + (k - 1) * .95;
+      S_LTF.lobe(pKnee.clone().add(V(.09 * Math.cos(ang), .05 - .03 * k, .09 * Math.sin(ang))), .085, .085, .085, k === 1 ? cKneeCap : ltfCols[3]);
     }
 
-    // Monomeric gp35 knee-cap hinge joint (3-lobed asymmetric cap)
-    for (let k = 0; k < 14; k++) {
-      const phi = Math.acos(1 - 2 * (k + .5) / 14), th = k * 2.4;
-      B_LTF.add(pKnee.clone().add(V(.15 * Math.sin(phi) * Math.cos(th), .14 * Math.cos(phi), .15 * Math.sin(phi) * Math.sin(th))), .98 * NM, k % 3 === 0 ? col('#ffd166') : ltfCols[3]);
-    }
-
-    // Distal half-fiber (gp36 collar + gp37 trimer shaft + PDB 2XGF Fe2+-coordinated needle tip docking into OmpF!)
+    // Distal half-fiber (gp36 collar + gp37 trimer shaft + cryo-EM PDB 2XGF Fe2+-coordinated needle tip docking into OmpF!)
     const pShinEnd = pKnee.clone().lerp(pTip, .83);
     const pShinCtrl = pKnee.clone().lerp(pShinEnd, .48).add(V(.28 * ca, .28, .28 * sa));
     const shinCurve = new THREE.QuadraticBezierCurve3(pKnee, pShinCtrl, pShinEnd);
     const N_SH = 52, shFrames = shinCurve.computeFrenetFrames(N_SH, false);
     for (let st = 0; st < 3; st++) {
-      let prev = null;
+      const pts = [];
       for (let i = 0; i <= N_SH; i++) {
         const t = i / N_SH, pt = shinCurve.getPoint(t), ang = t * Math.PI * 12 + st * 2.094;
         const rad = .044 * (1 - .25 * t);
-        const p = pt.clone().addScaledVector(shFrames.normals[i], rad * Math.cos(ang)).addScaledVector(shFrames.binormals[i], rad * Math.sin(ang));
-        if (prev) B_LTF.stick(prev, p, .15 * NM, ltfCols[(st + 1) % 3], ltfCols[st % 3]);
-        prev = p;
+        pts.push(pt.clone().addScaledVector(shFrames.normals[i], rad * Math.cos(ang)).addScaledVector(shFrames.binormals[i], rad * Math.sin(ang)));
       }
+      S_LTF.tube(pts, .024, .018, ltfCols[(st + 1) % 3], ltfCols[(st + 2) % 3], 6, true);
     }
-    for (const f of [.11, .23, .36, .49, .62, .75, .88]) {
-      const dPt = shinCurve.getPoint(f), sc = .105 * (1 - .28 * f);
-      for (let k = 0; k < 8; k++) {
-        const phi = Math.acos(1 - 2 * (k + .5) / 8), th = k * 2.4;
-        B_LTF.add(dPt.clone().add(V(sc * Math.sin(phi) * Math.cos(th), sc * Math.cos(phi), sc * Math.sin(phi) * Math.sin(th))), .84 * NM, ltfCols[(k + 1) % 3]);
-      }
-    }
+    [.11, .23, .36, .49, .62, .75, .88].forEach((f, idx) => {
+      const dPt = shinCurve.getPoint(f), sc = .102 * (1 - .26 * f), qDom = qOut(shinCurve.getTangent(f), idx);
+      S_LTF.lobe(dPt, sc, sc, sc * 1.25, ltfCols[(idx + 1) % 3], qDom);
+    });
 
     const shinDir = pTip.clone().sub(pShinEnd).normalize();
     const p2xgf = pShinEnd.clone().lerp(pTip, .42);
-    placeMol(B_LTF, 'gp37', p2xgf, qOut(shinDir, a), g => ltfCols[g % 3], true);
+    I_LTF_TIP.add(p2xgf, qOut(shinDir, a));
     if (!(pKnee.x > 0 && pKnee.z > 0)) SITES.ltf.push(shinCurve.getPoint(.55));
   }
-  B_LTF.done();
+  I_LTF_TIP.done(); S_LTF.done();
 }
 
 // ---------------------------------------------------------------------
@@ -930,9 +992,14 @@ function buildHostEnvelope() {
   }
   B_CUT_OM.done(); B_CUT_PG.done(); B_CUT_IM.done();
 
-  // 360-deg surface LPS O-antigen tufts, OmpF/OmpC porins (PDB 2OMF), breached PG mesh + Lpp tethers, and IM toroidal translocation pore
-  const B_OM = balls('om'), B_POR = balls('porin', cell, true), B_PG = balls('pg'), B_IM = balls('im');
+  // 360-deg surface LPS O-antigen brush, cryo-EM OmpF/OmpC porins (PDB 2OMF), breached PG sacculus + Lpp tethers, and IM translocation collar
+  const S_OM = sculpt('om'), S_PG = sculpt('pg'), S_IM = sculpt('im');
   const porCols = [col('#4fc39a'), col('#68dbb1'), col('#37a880')];
+  const geoOmpf = buildPdbSurfaceGeo(model('ompf', true), {
+    nm: NM, maxDim: 36, sigmaAng: 3.1, aoStrength: .56,
+    colorFn: g => porCols[g % 3],
+  });
+  const I_POR = molBatch('porin', geoOmpf, cell, true);
 
   // Place real OmpF/OmpC porin trimers (PDB 2OMF) directly beneath all 6 LTF gp37 needle tips + across the curved outer membrane
   const porinXY = [];
@@ -947,81 +1014,84 @@ function buildHostEnvelope() {
   }
   porinXY.forEach(([px, pz, isDock], idx) => {
     const n = hostNormal(px, pz), p = V(px, hostSurfY(px, pz), pz).addScaledVector(n, -.22);
-    // Keep LTF-docked receptor porins unclipped when in non-cutaway or let B_POR clip cleanly in cutaway
-    placeMol(B_POR, 'ompf', p, qOut(n, isDock ? idx * Math.PI / 3 : idx * 1.1), g => porCols[g % 3], true);
+    I_POR.add(p, qOut(n, isDock ? idx * Math.PI / 3 : idx * 1.1));
     if (!(px > 0 && pz > 0)) SITES.porin.push(p.clone());
   });
+  I_POR.done();
 
-  // Organic 360-deg LPS glycolipid & O-antigen meadow + periplasmic Braun's lipoprotein (Lpp) tethers
-  for (let i = 0; i < 1900; i++) {
-    const f = (i + .5) / 1900, r = Math.sqrt(f) * (R_PATCH - .85) + .68, a = i * 2.3999632;
+  // Organic 360-deg sculpted LPS O-antigen polysaccharide meadow + periplasmic Braun's lipoprotein (Lpp) α-helical tethers
+  const cLpp1 = col('#8de3be'), cLpp2 = col('#f0d26e');
+  for (let i = 0; i < 340; i++) {
+    const f = (i + .5) / 340, r = Math.sqrt(f) * (R_PATCH - .85) + .68, a = i * 2.3999632;
     const x = r * Math.cos(a), z = r * Math.sin(a);
-    const skipPorin = porinXY.some(([px, pz]) => (px - x) * (px - x) + (pz - z) * (pz - z) < .42);
+    const skipPorin = porinXY.some(([px, pz]) => (px - x) * (px - x) + (pz - z) * (pz - z) < .46);
     if (skipPorin) continue;
     const n = hostNormal(x, z), p0 = V(x, hostSurfY(x, z), z);
-    B_OM.add(p0, .92 * NM, cLipA);
-    if (i % 2 === 0) {
-      let prev = p0;
-      const len = 2 + (i % 4);
-      for (let k = 1; k <= len; k++) {
-        const sp = p0.clone().addScaledVector(n, k * .095).add(V(rr(-.04, .04), 0, rr(-.04, .04)));
-        B_OM.add(sp, (.74 - k * .05) * NM, k === 1 ? cCoreSug : cOAg[k % 3]);
-        if (k <= 2) B_OM.stick(prev, sp, .07 * NM, cCoreSug, cOAg[0]);
-        prev = sp;
-      }
+    const len = 3 + (i % 3);
+    const oagPts = [p0.clone().addScaledVector(n, -.02)];
+    for (let k = 1; k <= len; k++) {
+      oagPts.push(p0.clone().addScaledVector(n, k * .115).add(V(rr(-.045, .045), 0, rr(-.045, .045))));
     }
+    S_OM.tube(oagPts, .022, .013, i % 3 === 0 ? cCoreSug : cOAg[i % 3], cOAg[(i + 1) % 3], 5, true);
     // Braun's lipoprotein (Lpp) alpha-helical trimers stapling OM inner leaflet to PG sacculus across the periplasm
-    if (i % 28 === 0 && r > 1.6) {
+    if (i % 5 === 0 && r > 1.6) {
       const pOmIn = p0.clone().addScaledVector(n, -DEP_OM1), pPg = p0.clone().addScaledVector(n, -DEP_PG);
-      B_OM.stick(pOmIn, pPg, .13 * NM, col('#8de3be'), col('#f0d26e'));
+      S_OM.stick(pOmIn, pPg, .022, cLpp1, cLpp2);
     }
-    if (i < 80 && !(x > 0 && z > 0)) SITES.om.push(p0.clone());
-    if (i % 3 === 0) {
-      const pIm = p0.clone().addScaledVector(n, -DEP_IM0);
-      B_IM.add(pIm, .82 * NM, cHead);
-      if (i < 90 && !(x > 0 && z > 0)) SITES.im.push(pIm.clone());
-    }
+    if (i < 60 && !(x > 0 && z > 0)) SITES.om.push(p0.clone());
+    if (i < 70 && !(x > 0 && z > 0)) SITES.im.push(p0.clone().addScaledVector(n, -DEP_IM0));
   }
-  // Toroidal lipid/protein translocation collar around the inner-membrane DNA entry channel (r = .50)
-  for (let k = 0; k < 28; k++) {
-    const a = (k / 28) * Math.PI * 2, x = .52 * Math.cos(a), z = .52 * Math.sin(a), y0 = hostSurfY(x, z);
-    B_IM.add(V(x, y0 - DEP_IM0 - .18, z), 1.05 * NM, col('#ff9a85'));
-  }
+  S_OM.done();
 
-  // Curved Peptidoglycan murein sacculus (NAG-NAM glycan hoops + peptide cross-bridges + frayed lysozyme-cleaved central rim!)
+  // Sculpted toroidal protein/lipid translocation collar around the inner-membrane DNA entry channel (r = .52)
+  const yImCollar = hostSurfY(0, .52) - DEP_IM0 - .16;
+  const cImCol1 = col('#ff9a85'), cImCol2 = col('#ffd1c4');
+  S_IM.ring(V(0, yImCollar, 0), UP, .52, .068, cImCol1, 32, 8);
+  for (let k = 0; k < 12; k++) {
+    const a = (k / 12) * Math.PI * 2, x = .55 * Math.cos(a), z = .55 * Math.sin(a);
+    S_IM.lobe(V(x, hostSurfY(x, z) - DEP_IM0 - .14, z), .068, .085, .068, k & 1 ? cImCol1 : cImCol2, qOut(V(Math.cos(a), 0, Math.sin(a)), 0));
+  }
+  S_IM.done();
+
+  // Curved Peptidoglycan murein sacculus (3D NAG-NAM glycan hoops + peptide cross-bridges + frayed lysozyme-cleaved central rim!)
   const cSug = [col('#f0d26e'), col('#d6ab42')], cPep = col('#ff8a5c');
   for (let k = 0; k < 26; k++) {
     const a = (k / 26) * Math.PI * 2 + rr(-.05, .05), r0 = 1.18 + rr(0, .28), r1 = r0 + rr(.22, .42);
     const x0 = r0 * Math.cos(a), z0 = r0 * Math.sin(a), x1 = r1 * Math.cos(a + rr(-.08, .08)), z1 = r1 * Math.sin(a + rr(-.08, .08));
     const pA = V(x0, hostSurfY(x0, z0) - DEP_PG + rr(-.12, .12), z0), pB = V(x1, hostSurfY(x1, z1) - DEP_PG, z1);
-    B_PG.stick(pA, pB, .20 * NM, cPep, cSug[0]);
-    B_PG.add(pA, .92 * NM, cPep);
+    S_PG.stick(pA, pB, .026, cPep, cSug[0]);
+    S_PG.lobe(pA, .044, .044, .044, cPep);
   }
   for (let ring = 0; ring < 20; ring++) {
     const r = 1.44 + ring * .60;
-    const steps = Math.floor(r * 24);
-    let prev = null;
-    for (let s = 0; s <= steps; s++) {
+    const steps = Math.max(24, Math.floor(r * 16));
+    const hoopPts = [];
+    for (let s = 0; s < steps; s++) {
       const a = (s / steps) * Math.PI * 2, x = r * Math.cos(a), z = r * Math.sin(a);
       const n = hostNormal(x, z);
-      const p = V(x, hostSurfY(x, z), z).addScaledVector(n, -DEP_PG + .06 * Math.sin(s * .8 + ring));
-      B_PG.add(p, .86 * NM, cSug[s & 1]);
-      if (prev) B_PG.stick(prev, p, .21 * NM, cSug[0], cSug[1]);
-      if (s % 5 === 0 && ring > 0) {
+      const p = V(x, hostSurfY(x, z), z).addScaledVector(n, -DEP_PG + .05 * Math.sin(s * .8 + ring));
+      hoopPts.push(p);
+      if (s % 4 === 0 && ring > 0) {
         const rIn = r - .60, xi = rIn * Math.cos(a), zi = rIn * Math.sin(a);
         const pIn = V(xi, hostSurfY(xi, zi), zi).addScaledVector(hostNormal(xi, zi), -DEP_PG);
-        B_PG.stick(p, pIn, .15 * NM, cPep, cPep);
+        S_PG.stick(p, pIn, .019, cPep, cPep);
       }
-      prev = p;
-      if (ring === 2 && s % 6 === 0 && !(p.x > 0 && p.z > 0)) SITES.pg.push(p.clone());
+      if (ring === 2 && s % 4 === 0 && !(p.x > 0 && p.z > 0)) SITES.pg.push(p.clone());
     }
+    hoopPts.push(hoopPts[0].clone());
+    const cHoop = ring & 1 ? cSug[0] : cSug[1];
+    S_PG.tube(hoopPts, .026, .026, cHoop, cHoop, 6, false);
   }
-  B_OM.done(); B_POR.done(); B_PG.done(); B_IM.done();
+  S_PG.done();
 
-  // Host E. coli cytoplasm: Hijacked RNA polymerases (PDB 4YG2) transcribing injected T4 DNA + crisp 70S polysome ribosomes (PDB 4YBB)
-  const B_RNAP = balls('rnap', cell, false), B_RIBO = balls('ribosome', cell, false);
+  // Host E. coli cytoplasm: Hijacked cryo-EM RNA polymerases (PDB 4YG2) transcribing injected T4 DNA + 70S polysome ribosomes (PDB 4YBB)
   const rnapCols = ['#6fd6c0', '#5aa6ff', '#7f8cff', '#ffd24f', '#ff8a5c'].map(col);
-  const riboCol = (g, part) => col(part === 2 ? (g ? '#e47aae' : '#f5b0d0') : (g ? '#8e6cd0' : '#b896e6'));
+  const geoRnap = buildPdbSurfaceGeo(model('rnap', true), {
+    nm: NM, maxDim: 42, sigmaAng: 3.1, aoStrength: .56,
+    colorFn: g => rnapCols[g % 5],
+  });
+  const I_RNAP = molBatch('rnap', geoRnap, cell, false);
+  const B_RNAP_RNA = balls('rnap', cell, false);
 
   const rnapSpots = [V(-1.5, -13.55, -.65), V(-3.4, -13.75, -.85), V(-2.2, -13.95, -2.5)];
   const riboPolysomes = [
@@ -1029,44 +1099,44 @@ function buildHostEnvelope() {
     [V(-1.4, -14.15, -3.45), V(-2.8, -14.3, -4.15), V(-4.2, -14.25, -4.65), V(.6, -14.05, -3.35)],
   ];
   rnapSpots.forEach((p, idx) => {
-    placeMol(B_RNAP, 'rnap', p, qOut(V(1, .3, .2), idx * 1.7), g => rnapCols[g % 5], true);
+    I_RNAP.add(p, qOut(V(1, .3, .2), idx * 1.7));
     SITES.rnap.push(p);
   });
+  I_RNAP.done();
+
   // Continuous phage early mRNA strands emerging from hijacked RNAPs and threading through 70S polysome ribosomes!
   const mrna1 = new THREE.CatmullRomCurve3([rnapSpots[0], V(-2.0, -13.85, -1.1), ...riboPolysomes[0], V(-5.8, -14.0, -3.1)]).getPoints(90);
   const mrna2 = new THREE.CatmullRomCurve3([rnapSpots[2], V(-1.8, -14.05, -3.0), riboPolysomes[1][0], riboPolysomes[1][1], riboPolysomes[1][2]]).getPoints(90);
   const mrna3 = new THREE.CatmullRomCurve3([rnapSpots[1], V(-4.1, -13.9, -1.3), riboPolysomes[0][1]]).getPoints(48);
-  rnaAlong(B_RNAP, resample(mrna1, .08), MRNA);
-  rnaAlong(B_RNAP, resample(mrna2, .08), MRNA);
-  rnaAlong(B_RNAP, resample(mrna3, .08), MRNA);
+  rnaAlong(B_RNAP_RNA, resample(mrna1, .08), MRNA);
+  rnaAlong(B_RNAP_RNA, resample(mrna2, .08), MRNA);
+  rnaAlong(B_RNAP_RNA, resample(mrna3, .08), MRNA);
+  B_RNAP_RNA.done();
 
-  // Render 4YBB 70S ribosomes with sub-domain molecular resolution (5 sub-beads per coarse domain + nascent phage polypeptide chains!)
-  const mRibo = model('ribo', false), vR = V();
+  // Render cryo-EM 70S ribosomes (PDB 4YBB, 30S + 50S subunits + rRNA/protein pockets) + sculpted nascent phage polypeptide chains!
+  const riboCol = (g, part) => col(part === 2 ? (g ? '#e47aae' : '#f5b0d0') : (g ? '#8e6cd0' : '#b896e6'));
+  const geoRibo = buildPdbSurfaceGeo(model('ribo', false), {
+    nm: NM, maxDim: 40, aoStrength: .56,
+    colorFn: (g, part) => riboCol(g, part),
+  });
+  const I_RIBO = molBatch('ribosome', geoRibo, cell, false);
+  const S_RIBO = sculpt('ribosome', cell, false);
   const cNascent = [col('#ff85b3'), col('#ffb8d2'), col('#6bc8ff')];
-  const subOffsets = [V(0, 0, 0), V(.36, .28, .22), V(-.34, .24, -.26), V(.26, -.34, -.28), V(-.28, -.26, .34), V(.12, .38, -.32)];
   let rIdx = 0;
   riboPolysomes.flat().forEach(p => {
     const q = qOut(V(.35 * Math.cos(rIdx), 1, -.35 * Math.sin(rIdx)).normalize(), rIdx * 1.9);
-    for (let i = 0; i < mRibo.n; i++) {
-      const kd = mRibo.kind[i], rad = (mRibo.rad[i] / 20) * NM;
-      vR.set(mRibo.xyz[i * 3], mRibo.xyz[i * 3 + 1], mRibo.xyz[i * 3 + 2]).multiplyScalar(.01 * NM).applyQuaternion(q).add(p);
-      const c = riboCol(kd >> 2, kd & 3);
-      for (let s = 0; s < subOffsets.length; s++) {
-        B_RIBO.add(vR.clone().addScaledVector(subOffsets[s], rad * .95), rad * (s === 0 ? .62 : .48), c);
-      }
-    }
+    I_RIBO.add(p, q);
     // Nascent phage capsomere polypeptide chain curling out of the 50S exit tunnel
-    let prev = p.clone().add(V(0, -.32, 0));
+    const nascPts = [p.clone().add(V(0, -.28, 0))];
     for (let k = 1; k <= 9; k++) {
-      const np = prev.clone().add(V(.09 * Math.cos(k * 1.2 + rIdx), -.065, .09 * Math.sin(k * 1.1 + rIdx)));
-      B_RIBO.add(np, .76 * NM, cNascent[k % 3]);
-      B_RIBO.stick(prev, np, .12 * NM, cNascent[0], cNascent[2]);
-      prev = np;
+      nascPts.push(nascPts[k - 1].clone().add(V(.09 * Math.cos(k * 1.2 + rIdx), -.065, .09 * Math.sin(k * 1.1 + rIdx))));
     }
+    S_RIBO.tube(nascPts, .024, .020, cNascent[rIdx % 2], cNascent[2], 6, true);
+    S_RIBO.lobe(nascPts[nascPts.length - 1], .068, .054, .068, cNascent[2], q);
     SITES.ribosome.push(p);
     rIdx++;
   });
-  B_RNAP.done(); B_RIBO.done();
+  I_RIBO.done(); S_RIBO.done();
 }
 
 // ---------------------------------------------------------------------

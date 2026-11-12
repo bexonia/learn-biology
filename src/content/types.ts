@@ -9,7 +9,7 @@ export const EXPLANATION_MODES: readonly ExplanationMode[] = [
 
 /**
  * Three audience-tailored Guided Tour content personas:
- * - `pop`: Pop-Culture & Storyteller (`simple` & `story` modes; anime, cartoon & movie analogies)
+ * - `pop`: Everyday Guide (`simple` & `story` modes; plain newcomer prose with sparse, purposeful analogies on complex mechanisms)
  * - `blueprint`: Systems Engineer (`blueprint` mode; I/O ports, rotary turbines, buses, state machines)
  * - `scientific`: Molecular Biologist (`scientific` mode; quantitative nm/µm, stoichiometry, Δp, PDB IDs)
  */
@@ -36,7 +36,7 @@ export function resolveTourPersona(mode: ExplanationMode): TourPersona {
  * Three Public-Domain (CC0 / LibriVox) English narrator voices:
  * - `v1`: Voice 1 — Molecular Biologist preset (`scientific` mode)
  * - `v2`: Voice 2 — Systems Engineer preset (`blueprint` mode)
- * - `v3`: Voice 3 — Pop-Culture Guide preset (`simple` & `story` modes)
+ * - `v3`: Voice 3 — Everyday Guide preset (`simple` & `story` modes)
  */
 export type EnglishVoiceId = 'v1' | 'v2' | 'v3';
 

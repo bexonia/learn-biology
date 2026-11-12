@@ -4,9 +4,9 @@ export const PROKARYOTE_NODE_LENSES: NodeLensMap = {
   prokaryote: {
     en: {
       simple:
-        'A bacterium is the Millennium Falcon of cells: a hot-rodded, open-cockpit speedrunner with zero internal walls, reading DNA and printing proteins side by side inside one armored hull.',
+        'A bacterium is a compact, single-room survival cell with no internal walls—its DNA, protein factories, and power plants all share one fast-moving space inside a tough layered shell.',
       story:
-        'Welcome aboard the Millennium Falcon of biology—a stripped-down speedrunner that ripped out every internal office wall so the whole crew works shoulder-to-shoulder at hyperspeed! Nutrients slip through [[outer-membrane porins|porin]] straight into the open cabin, where enzymes crack fuel on sight and hurl electrons into the [[plasma membrane|plasma-membrane]] to charge the entire hull like a live Arc-Reactor battery.\n\nBecause no nuclear vault locks away the [[nucleoid|nucleoid]], [[70S ribosomes|ribosome-70s]] jump onto messenger RNA while [[RNA polymerase|rna-polymerase]] is still printing it! Bonus Pokémon-style TM plasmids trade survival upgrades, Senzu-bean fuel snowballs pack the pantry, and Anakin-grade pod-racer flagella rocket the ship toward its next meal—letting one cell double in twenty minutes flat.',
+        'Welcome aboard life without walls at 100,000 RPM: a single-hulled survival submarine that ditched internal offices so every crew member can work shoulder-to-shoulder. Sugar and ions slip through [[outer-membrane porins|porin]] and inner-membrane pumps straight into the open cytosol, where enzymes crack fuel on the spot and hurl electrons into the [[plasma membrane|plasma-membrane]] to charge the hull like a live battery.\n\nBecause no nuclear vault locks away the [[nucleoid|nucleoid]], [[70S ribosomes|ribosome-70s]] leap onto fresh messenger RNA while [[RNA polymerase|rna-polymerase]] is still writing it, printing enzymes in seconds flat. Spare genes circulate on rogue plasmids, surplus fuel packs into storage granules, and proton-powered flagella spin outside the cell envelope to rocket the entire vessel toward the next meal.',
       blueprint:
         'Role: Autonomous open-plan microbial cell · From: Extracellular nutrients, ions, and O₂ across [[porins|porin]] and [[plasma membrane|plasma-membrane]] · Inside: Unenclosed [[nucleoid|nucleoid]] runs coupled transcription–translation via [[RNA polymerase|rna-polymerase]] and [[70S ribosomes|ribosome-70s]] while membrane proton gradients power ATP synthesis · To: Daughter cells via binary fission, horizontally shared [[plasmids|plasmid]], and proton-driven [[flagellar|flagellum]] thrust',
       scientific:
@@ -14,9 +14,9 @@ export const PROKARYOTE_NODE_LENSES: NodeLensMap = {
     },
     es: {
       simple:
-        'Una bacteria es el Halcón Milenario de las células: un bólido de cabina abierta sin tabiques internos que lee su ADN e imprime proteínas al mismo tiempo dentro de un casco blindado.',
+        'Una bacteria es una célula compacta de una sola estancia y sin tabiques internos: su ADN, sus fábricas de proteínas y sus turbinas de energía comparten un mismo taller ultrarrápido protegido por un blindaje multicapa.',
       story:
-        'Bienvenido a bordo del Halcón Milenario de la biología: un carguero trucado que derribó todos los despachos internos para que su tripulación trabaje codo con codo a velocidad hiperespacial. Los nutrientes cruzan las [[porinas|porin]] directo al taller abierto, donde las enzimas parten combustible al vuelo e inyectan electrones en la [[membrana plasmática|plasma-membrane]] para cargar todo el casco como una batería viva.\n\nAl no haber aduana nuclear sobre el [[nucleoide|nucleoid]], los [[ribosomas 70S|ribosome-70s]] saltan sobre el ARN mensajero mientras la [[ARN polimerasa|rna-polymerase]] aún lo está imprimiendo. Plásmidos estilo MT de Pokémon intercambian mejoras, gránulos energéticos llenan la despensa y turbinas flagelares lanzan la nave para duplicarse en solo veinte minutos.',
+        'Bienvenido a la vida sin paredes a 100.000 revoluciones por minuto: un submarino de supervivencia de casco único que prescindió de despachos internos para que toda la tripulación trabaje codo con codo. Los azúcares y los iones cruzan las [[porinas|porin]] y los transportadores directos hacia el citosol, donde las enzimas parten el combustible al vuelo e inyectan electrones en la [[membrana plasmática|plasma-membrane]] para cargar todo el perímetro como una batería viva.\n\nAl no existir bóveda nuclear alrededor del [[nucleoide|nucleoid]], los [[ribosomas 70S|ribosome-70s]] saltan sobre el ARN mensajero mientras la [[ARN polimerasa|rna-polymerase]] aún lo está escribiendo, estampando proteínas en cuestión de segundos. Genes extra circulan en plásmidos contrabandistas, el excedente energético se apila en gránulos de reserva y los flagelos impulsados por protones giran fuera de la envoltura celular para lanzar toda la nave tras el rastro del próximo festín.',
       blueprint:
         'Rol: Célula microbiana autónoma sin compartimentos membranosos · De: Nutrientes, iones y O₂ extracelulares vía [[porinas|porin]] y [[membrana plasmática|plasma-membrane]] · Dentro: El [[nucleoide|nucleoid]] abierto acopla transcripción y traducción entre [[ARN polimerasa|rna-polymerase]] y [[ribosomas 70S|ribosome-70s]] mientras el gradiente protónico de membrana genera ATP · Hacia: Células hijas por fisión binaria, [[plásmidos|plasmid]] transferibles y propulsión rotatoria por [[flagelos|flagellum]]',
       scientific:
@@ -27,9 +27,9 @@ export const PROKARYOTE_NODE_LENSES: NodeLensMap = {
   'bacterial-wall': {
     en: {
       simple:
-        'Built like a three-layer Iron Man suit, the bacterial envelope pairs an outer chemical deflector shield, a middle Mithril chainmail corset, and an inner Arc-Reactor skin.',
+        'The bacterial cell envelope is a three-layer suit of armor—an outer chemical shield, a middle chainmail belt that stops the cell from popping, and an inner power-generating skin.',
       story:
-        'Swimming through gut bile and crushing water pressure would pop a naked cell in milliseconds, so a Gram-negative bacterium wears a three-deck Iron Man Mark-III armor suit. Outside, bristling [[lipopolysaccharide|lps]] tiles deflect greasy toxins like Beskar plating while size-checked [[porin|porin]] airlocks let small sugars trickle into the moat-like periplasm.\n\nFloating in that moat, one seamless Mithril-style bag of [[peptidoglycan|peptidoglycan]] holds back atmospheres of internal turgor pressure, bolted above the [[plasma membrane|plasma-membrane]] where respiratory pumps pack protons into the gap. Those banked protons roar back inward to spin [[ATP synthases|atp-synthase]] and pod-racer flagella—turning everyday armor into a live power plant!',
+        'A Gram-negative bacterium swims through bile, detergents, and osmotic pressure that would shred a naked bubble in milliseconds, so it wraps its submarine in triple-decked hull plating. On the outside, tightly packed [[lipopolysaccharide|lps]] molecules lock arms against toxic grease while selective [[porin|porin]] airlocks admit small sugars and salts into the moat-like periplasm.\n\nFloating inside that moat, a single woven sack of [[peptidoglycan|peptidoglycan]] absorbs atmospheres of internal water pressure, stapled down to the [[plasma membrane|plasma-membrane]] where respiratory pumps pack protons into the periplasmic gap. Those trapped protons then pour back inward to spin [[ATP synthases|atp-synthase]] and flagella, turning the cell’s defensive wall into its main power capacitor.',
       blueprint:
         'Role: Triple-layer Gram-negative armor, osmotic brace, and chemiosmotic capacitor · From: Extracellular solutes entering [[porins|porin]] and cytoplasmic precursors/electrons arriving at [[plasma membrane|plasma-membrane]] · Inside: Asymmetric [[LPS|lps]] outer membrane filters toxins, periplasmic [[peptidoglycan|peptidoglycan]] resists turgor, and periplasm stores pumped H⁺ · To: Cytoplasmic nutrient importers, [[ATP synthase|atp-synthase]], and [[flagellar|flagellum]] stators',
       scientific:
@@ -37,9 +37,9 @@ export const PROKARYOTE_NODE_LENSES: NodeLensMap = {
     },
     es: {
       simple:
-        'Construida como una armadura de Iron Man en tres capas, la envoltura bacteriana combina un escudo químico exterior, una cota de malla tipo mithril y una piel interna generadora.',
+        'La envoltura bacteriana es una armadura de tres capas: un escudo químico exterior, una cota de malla intermedia que evita que la célula estalle y una piel interna generadora de electricidad.',
       story:
-        'Nadar entre sales biliares y una presión osmótica brutal reventaría cualquier burbuja desnuda en milisegundos, así que la bacteria Gram-negativa viste un traje de Iron Man de triple cubierta. Afuera, cepillos de [[lipopolisacárido|lps]] repelen venenos grasos como placas de beskar mientras esclusas de [[porina|porin]] filtran azúcares menudos hacia el foso periplásmico.\n\nEn ese foso flota un saco continuo de [[peptidoglicano|peptidoglycan]] digno de una cota de mithril que frena atmósferas enteras de presión, sujeto sobre la [[membrana plasmática|plasma-membrane]] cuyas bombas llenan el espacio de protones. Su regreso en avalancha hace girar la [[ATP sintasa|atp-synthase]] y los flagelos, convirtiendo la muralla en un auténtico Reactor Arc.',
+        'Una bacteria Gram-negativa navega entre sales biliares, detergentes y una presión osmótica capaz de reventar cualquier burbuja desnuda en milisegundos, así que blinda su submarino con un casco de triple cubierta. En la cara exterior, densos cepillos de [[lipopolisacárido|lps]] repelen venenos grasos mientras esclusas selectivas de [[porina|porin]] dejan pasar azúcares pequeños y sales hacia el foso periplásmico.\n\nSuspendido en ese foso, un único saco tejido de [[peptidoglicano|peptidoglycan]] contiene varias atmósferas de empuje interno, sujeto sobre la [[membrana plasmática|plasma-membrane]] cuyas bombas respiratorias inyectan protones al espacio intermedio. Esos protones regresan luego en avalancha para mover la [[ATP sintasa|atp-synthase]] y los flagelos, convirtiendo la muralla defensiva en el gran condensador eléctrico de la célula.',
       blueprint:
         'Rol: Blindaje Gram-negativo tricapa, contención osmótica y condensador quimiosmótico · De: Solutos externos vía [[porinas|porin]] y precursores/electrones citoplasmáticos hacia la [[membrana plasmática|plasma-membrane]] · Dentro: Membrana externa con [[LPS|lps]] filtra tóxicos, [[peptidoglicano|peptidoglycan]] soporta la turgencia y el periplasma acumula H⁺ · Hacia: Importadores de nutrientes, [[ATP sintasa|atp-synthase]] y motores de [[flagelo|flagellum]]',
       scientific:
@@ -50,9 +50,9 @@ export const PROKARYOTE_NODE_LENSES: NodeLensMap = {
   peptidoglycan: {
     en: {
       simple:
-        'Woven like Frodo’s Mithril chainmail shirt around the entire bacterium, peptidoglycan is one unbroken sugar-and-peptide bag that keeps internal water pressure from blowing the cell apart.',
+        'Peptidoglycan is a single, unbroken chainmail bag woven from sugar beams and peptide staples that keeps the bacterium from bursting under its own water pressure.',
       story:
-        'Forged inside the cytosol from [[glucose|glucose]] derivatives and mirror-image D-[[amino acids|amino-acid]] that baffle ordinary proteases, fresh Lipid II bricks flip across the inner membrane to tireless periplasmic welders. Transglycosylases snap NAG–NAM sugars into hoop girders while transpeptidases staple hoop to hoop into one cell-sized Mithril chainmail shirt.\n\nWithout this elastic corset inside the [[cell envelope|bacterial-wall]], turgor pressure would pop the [[plasma membrane|plasma-membrane]] like an overfilled cartoon water balloon—which is why penicillin disguises itself as a D-amino acid staple to jam the welders mid-stitch! Meanwhile, [[flagellar motors|real-motor]] bolt straight onto this mesh for rock-solid torque.',
+        'Fresh Lipid II bricks—forged from [[glucose|glucose]] derivatives and unusual D-[[amino acids|amino-acid]] inside the cytoplasm—flip across the inner membrane to feed the tireless welders patrolling the periplasm. Transglycosylases snap the alternating NAG and NAM sugars into long hoop-like girders around the rod, while transpeptidases cross-staple neighboring hoops into one seamless, cell-sized macromolecule.\n\nWithout this elastic steel-belted corset inside the [[cell envelope|bacterial-wall]], cytoplasmic turgor would blow the [[plasma membrane|plasma-membrane]] apart—which is exactly why penicillin and its β-lactam cousins mimic those D-amino acid staples to jam the welders mid-stitch. Meanwhile, anchored [[flagellar motors|real-motor]] and outer-membrane tethers bolt right onto the mesh for rock-solid leverage.',
       blueprint:
         'Role: Load-bearing covalent exoskeleton (murein sacculus) · From: Cytoplasmic UDP-MurNAc-pentapeptide and UDP-GlcNAc built from [[glucose|glucose]] and [[amino acids|amino-acid]], flipped as Lipid II across [[plasma membrane|plasma-membrane]] · Inside: Glycan strands of β-(1→4)-linked GlcNAc–MurNAc cross-linked by short D/L-peptide stems via PBP/SEDS enzymes · To: Structural anchor for [[bacterial envelope|bacterial-wall]], Braun’s lipoprotein, and [[flagellar|flagellum]] MotB stators',
       scientific:
@@ -60,9 +60,9 @@ export const PROKARYOTE_NODE_LENSES: NodeLensMap = {
     },
     es: {
       simple:
-        'Tejido como la cota de malla de mithril de Frodo alrededor de toda la bacteria, el peptidoglicano es un saco continuo de azúcar y péptidos que evita que la presión reviente la célula.',
+        'El peptidoglicano es un único saco continuo de cota de malla, tejido con vigas de azúcar y grapas peptídicas, que impide que la bacteria reviente por su propia presión interna.',
       story:
-        'Forjados en el citosol con derivados de [[glucosa|glucose]] e inusuales D-[[aminoácidos|amino-acid]] invisibles para las proteasas comunes, los ladrillos de Lípido II voltean la membrana interna hacia soldadores incansables del periplasma. Estos ensamblan azúcares NAG–NAM en largos aros y los engrapan entre sí hasta cerrar una única camisa de mithril del tamaño de toda la célula.\n\nSin este corsé elástico dentro de la [[envoltura bacteriana|bacterial-wall]], la presión interna reventaría la [[membrana plasmática|plasma-membrane]] como un globo de dibujos animados; por eso la penicilina imita esas grapas para atascar a los soldadores en plena obra. Además, los estatores del [[motor flagelar|real-motor]] se atornillan a esta red para ganar apoyo.',
+        'Ladrillos frescos de Lípido II —forjados con derivados de [[glucosa|glucose]] y curiosos D-[[aminoácidos|amino-acid]] en el citoplasma— voltean la membrana interna para abastecer a los soldadores incansables del periplasma. Las transglicosilasas ensamblan los azúcares alternos NAG y NAM en largos aros alrededor del cilindro celular, y las transpeptidasas engrapan aro con aro hasta cerrar una sola macromolécula gigante sin costuras sueltas.\n\nSin este corsé elástico tendido dentro de la [[envoltura bacteriana|bacterial-wall]], la turgencia del interior haría estallar la [[membrana plasmática|plasma-membrane]]; por eso mismo la penicilina imita las grapas peptídicas para atascar a los soldadores en plena obra. Al mismo tiempo, los estatores del [[motor flagelar|real-motor]] y los anclajes externos se atornillan a esta malla para ganar punto de apoyo.',
       blueprint:
         'Rol: Exoesqueleto covalente resistente a la turgencia (sáculo de mureína) · De: Precursores de [[glucosa|glucose]] y [[aminoácidos|amino-acid]] exportados como Lípido II por la [[membrana plasmática|plasma-membrane]] · Dentro: Cadenas de β-(1→4)-GlcNAc–MurNAc entrecruzadas por péptidos cortos con D-aminoácidos mediante enzimas PBP/SEDS · Hacia: Soporte mecánico de la [[envoltura celular|bacterial-wall]], lipoproteína Lpp y estatores del [[flagelo|flagellum]]',
       scientific:
@@ -73,9 +73,9 @@ export const PROKARYOTE_NODE_LENSES: NodeLensMap = {
   nucleoid: {
     en: {
       simple:
-        'Ditching the slow bureaucracy of a nucleus, a bacterium parks its folded chromosome right on the open factory floor so genes are read and built into proteins at the exact same second.',
+        'Instead of locking its DNA inside a nucleus, a bacterium folds its giant chromosome loop right in the center of the room so genes can be read and turned into proteins at the exact same moment.',
       story:
-        'Unspool a bacterium’s single loop of [[DNA|dna]] and it stretches a full millimetre—a thousand times longer than the ship—yet here it coils right in the open Millennium Falcon cabin with zero walls around it! Agile [[HU|hu-protein]] clips and Doctor Strange-style [[gyrase|gyrase]] twist the helix into hundreds of spring-loaded plectoneme loops ready to pop open on cue.\n\nWith no nuclear customs booth slowing paperwork down, [[RNA polymerase|rna-polymerase]] latches straight onto exposed DNA and reels out mRNA whose front tip is immediately boarded by [[70S ribosomes|ribosome-70s]]. Before the back end of a gene even finishes printing, finished enzymes are already leaping into battle!',
+        'Stretch a bacterium’s single loop of [[DNA|dna]] straight and it measures a full millimetre—a thousand times longer than the submarine that carries it—yet here it coils neatly in the middle of the cytosol with zero walls around it. Nimble architectural proteins like [[HU|hu-protein]] and ATP-burning [[gyrase|gyrase]] twist the helix into spring-loaded loops that unpack on demand whenever a gene needs to fire.\n\nBecause there is no customs gate between blueprint and factory floor, [[RNA polymerase|rna-polymerase]] clamps directly onto exposed loops and reels out RNA whose front end is immediately ambushed by waiting [[70S ribosomes|ribosome-70s]]. Before the back end of a gene has even been read, finished polypeptides are already peeling off into the cytoplasm.',
       blueprint:
         'Role: Membrane-free chromosomal command center · From: Cytoplasmic [[nucleotides|nucleotide]], ATP, and architectural proteins ([[HU|hu-protein]], [[gyrase|gyrase]]) · Inside: Circular [[DNA|dna]] chromosome compacted into negatively supercoiled plectonemic domains read directly by [[RNA polymerase|rna-polymerase]] · To: Nascent [[RNA|rna]] transcripts immediately translated at the periphery by [[70S ribosomes|ribosome-70s]] into [[polypeptides|polypeptide]]',
       scientific:
@@ -83,9 +83,9 @@ export const PROKARYOTE_NODE_LENSES: NodeLensMap = {
     },
     es: {
       simple:
-        'Sin la burocracia de un núcleo cerrado, la bacteria pliega su cromosoma gigante en medio del taller abierto para leer genes e imprimir proteínas en el mismo instante.',
+        'En lugar de encerrar su ADN en una caja fuerte nuclear, la bacteria pliega su enorme aro cromosómico en mitad de la sala para leer los genes y fabricar proteínas exactamente al mismo tiempo.',
       story:
-        'Si estiraras el aro de [[ADN|dna]] bacteriano mediría un milímetro entero —mil veces su nave—, pero aquí se pliega en plena cabina abierta del Halcón Milenario sin un solo muro alrededor. Ágiles pinzas [[HU|hu-protein]] y la [[ADN girasa|gyrase]] al estilo Doctor Strange retuercen la hélice en cientos de bucles elásticos listos para abrirse al menor aviso.\n\nSin aduana nuclear que retrase el papeleo, la [[ARN polimerasa|rna-polymerase]] muerde el bucle expuesto y saca ARN cuya punta abordan en el acto los [[ribosomas 70S|ribosome-70s]]. Antes siquiera de terminar de leerse el final del gen, las primeras proteínas ya salen listas al combate.',
+        'Si estiraras el único aro de [[ADN|dna]] bacteriano mediría más de un milímetro —mil veces la eslora del submarino que lo transporta—, pero aquí yace recogido en pleno citosol sin un solo muro alrededor. Ágiles proteínas arquitectas como [[HU|hu-protein]] y la incansable [[ADN girasa|gyrase]] trenzan la doble hélice en bucles elásticos que se abren al instante cuando toca activar un gen.\n\nAl no haber aduana nuclear entre el archivo de planos y la línea de montaje, la [[ARN polimerasa|rna-polymerase]] muerde directamente el bucle expuesto y escupe ARN cuyo extremo inicial es abordado en el acto por [[ribosomas 70S|ribosome-70s]] al acecho. Antes incluso de terminar de copiarse el final del gen, los primeros polipéptidos ya están saliendo listos hacia el citoplasma.',
       blueprint:
         'Rol: Centro de mando cromosómico sin membrana nuclear · De: [[Nucleótidos|nucleotide]], ATP y proteínas arquitectónicas ([[HU|hu-protein]], [[girasa|gyrase]]) del citoplasma · Dentro: Cromosoma circular de [[ADN|dna]] plegado en dominios plectonémicos superenrollados leídos in situ por la [[ARN polimerasa|rna-polymerase]] · Hacia: Hebras nacientes de [[ARN|rna]] traducidas simultáneamente por [[ribosomas 70S|ribosome-70s]] en [[polipéptidos|polypeptide]]',
       scientific:
@@ -96,9 +96,9 @@ export const PROKARYOTE_NODE_LENSES: NodeLensMap = {
   plasmid: {
     en: {
       simple:
-        'Plasmids are the Pokémon TM skill-discs of the microbial world—small bonus DNA rings carrying special moves like "Antibiotic Shield" that bacteria trade with neighbors.',
+        'Plasmids are small bonus rings of DNA that float alongside the main chromosome, carrying survival upgrades like antibiotic shields that bacteria can trade with their neighbors.',
       story:
-        'Picture plasmids as Pokémon Technical Machine skill-discs floating outside the main [[nucleoid|nucleoid]], sipping [[nucleotides|nucleotide]] from the cytosol to copy their compact DNA loops whenever they please. When an antibiotic boss battle begins, [[RNA polymerase|rna-polymerase]] sprints around a resistance plasmid so [[70S ribosomes|ribosome-70s]] flood the ship with beta-lactamase drug shredders or efflux pumps.\n\nWilder still, conjugative plasmids run their own Game Boy Link-Cable trade: they order the bacterium to fire a hollow mating [[pilus|pilus]] grappling hook into a neighbor and beam a copy of the new survival move straight across species lines in minutes!',
+        'Think of plasmids as plug-and-play expansion cartridges circulating outside the main [[nucleoid|nucleoid]], sipping [[nucleotides|nucleotide]] from the cytosol to copy their tight little loops of DNA on their own schedule. When an antibiotic ambush hits the submarine, [[RNA polymerase|rna-polymerase]] races around a resistance plasmid so [[70S ribosomes|ribosome-70s]] can flood the hull with drug-shredding enzymes.\n\nBetter yet, conjugative plasmids pack their own smuggling kit: they direct the cell to extend a hollow mating [[pilus|pilus]] to a neighbor, nick one strand of the ring, and reel a fresh survival upgrade straight across species lines.',
       blueprint:
         'Role: Extrachromosomal mobile genetic module · From: Host cytoplasmic [[nucleotides|nucleotide]], replication enzymes, or horizontal transfer via conjugative [[pilus|pilus]] · Inside: Supercoiled circular ds[[DNA|dna]] (1–200 kb) with autonomous origin of replication and accessory operons · To: [[RNA polymerase|rna-polymerase]] and [[70S ribosomes|ribosome-70s]] for resistance/virulence [[proteins|protein]], plus recipient bacteria via conjugation',
       scientific:
@@ -106,9 +106,9 @@ export const PROKARYOTE_NODE_LENSES: NodeLensMap = {
     },
     es: {
       simple:
-        'Los plásmidos son los discos MT de Pokémon del mundo microbiano: pequeños aros extra de ADN con movimientos especiales como «Escudo Antibiótico» que las bacterias intercambian.',
+        'Los plásmidos son pequeños anillos extra de ADN que flotan junto al cromosoma principal y guardan mejoras de supervivencia —como escudos frente a antibióticos— que las bacterias intercambian entre sí.',
       story:
-        'Imagina los plásmidos como Máquinas Técnicas de Pokémon flotando fuera del [[nucleoide|nucleoid]] central, tomando [[nucleótidos|nucleotide]] del citosol para duplicar sus pequeños anillos a su aire. Si estalla un combate jefe contra antibióticos, la [[ARN polimerasa|rna-polymerase]] recorre el disco a toda mecha para que los [[ribosomas 70S|ribosome-70s]] inunden la nave de enzimas rompe-fármacos y bombas de achique.\n\nMejor aún, los plásmidos conjugativos traen su propio Cable Link de Game Boy: tienden un [[pilus|pilus]] hueco como garfio hacia una bacteria vecina y le transfieren en minutos el nuevo movimiento de resistencia incluso entre especies distintas.',
+        'Imagina los plásmidos como cartuchos de expansión listos para enchufar que flotan fuera del [[nucleoide|nucleoid]] central, tomando [[nucleótidos|nucleotide]] del citosol para duplicar sus apretados aros de ADN a su propio ritmo. Cuando una descarga de antibióticos asedia el submarino, la [[ARN polimerasa|rna-polymerase]] recorre el plásmido a toda máquina para que los [[ribosomas 70S|ribosome-70s]] inunden el casco con enzimas destructoras del fármaco.\n\nMás astutos aún, los plásmidos conjugativos incluyen su propio equipo de contrabando: ordenan tender un [[pilus|pilus]] de acoplamiento hacia otra bacteria vecina, cortan una hebra del anillo y pasan una copia flamante del manual de resistencia incluso entre especies distintas.',
       blueprint:
         'Rol: Módulo genético móvil extracromosómico · De: [[Nucleótidos|nucleotide]] y polimerasas del huésped, o transferencia horizontal mediante [[pilus|pilus]] conjugativo · Dentro: [[ADN|dna]] bicatenario circular superenrollado (1–200 kb) con origen autónomo (oriV) y operones accesorios · Hacia: [[ARN polimerasa|rna-polymerase]] y [[ribosomas 70S|ribosome-70s]] para sintetizar [[proteínas|protein]] adaptativas, y células receptoras por conjugación',
       scientific:
@@ -119,9 +119,9 @@ export const PROKARYOTE_NODE_LENSES: NodeLensMap = {
   'ribosome-70s': {
     en: {
       simple:
-        'Built like a Formula-1 pit crew five times faster than human ribosomes, the sleek 70S printer stitches twenty amino acids a second—though its trim shape gives antibiotics a custom target.',
+        'The 70S ribosome is the bacterium’s compact, high-speed protein printer—slightly trimmer than ours, which lets antibiotics jam bacterial factories while sparing human cells.',
       story:
-        'Barely clear of the [[nucleoid|nucleoid]], a fresh mRNA ribbon gets ambushed by a [[30S small subunit|ribo-30s]] barcode scanner, which snaps a [[50S large subunit|ribo-50s]] anvil on top like a sub-two-second Formula-1 pit-stop clamp! Turbo-charged [[tRNAs|trna]] rocket in from the cytosol, clicking through at twenty amino-acid welds per second—nearly five times faster than our heavier human 80S models.\n\nFinished chains snake out the back tunnel straight into Iron Man-style [[GroEL chaperonins|groel]] or membrane gates. That lightweight 70S chassis hides just one Death Star exhaust port: antibiotics like tetracycline and erythromycin jam its pockets like custom wrenches while leaving human 80S ribosomes untouched!',
+        'Hot off the [[nucleoid|nucleoid]], a fresh ribbon of RNA barely clears the polymerase before a [[30S small subunit|ribo-30s]] snaps onto its leader tag and recruits a [[50S large subunit|ribo-50s]] to lock the clamp shut. Streams of amino-acid-loaded [[tRNAs|trna]] barrel in from the cytosol, clicking codon by codon through the machine at twenty stitches a second—five times faster than a human ribosome.\n\nFinished polypeptides snake out the back tunnel directly into [[GroEL chaperonins|groel]] or inner-membrane pores to keep the whole vessel running. That sleeker 70S geometry is a speed triumph with one fatal catch: drugs like tetracycline and erythromycin fit its pockets like custom wrenches while sliding harmlessly past eukaryotic 80S ribosomes.',
       blueprint:
         'Role: Coupled prokaryotic translation machine · From: Nascent m[[RNA|rna]] from [[RNA polymerase|rna-polymerase]], aminoacyl-[[tRNAs|trna]], and GTP · Inside: [[30S subunit|ribo-30s]] decodes codons while [[50S subunit|ribo-50s]] 23S rRNA catalyzes peptide bonds at ~15–22 aa/s · To: Folded cytoplasmic [[proteins|protein]] (via [[GroEL|groel]]) and membrane/periplasmic proteins via [[plasma membrane|plasma-membrane]] Sec translocons',
       scientific:
@@ -129,9 +129,9 @@ export const PROKARYOTE_NODE_LENSES: NodeLensMap = {
     },
     es: {
       simple:
-        'Como un equipo de boxes de Fórmula 1 cinco veces más veloz que el ribosoma humano, la impresora 70S cose veinte aminoácidos por segundo, aunque su chasis ligero ofrece blanco a los antibióticos.',
+        'El ribosoma 70S es la impresora ultrarrápida y compacta de proteínas de la bacteria: algo más ligera que la humana, diferencia que aprovechan muchos antibióticos para bloquearla sin dañar nuestras células.',
       story:
-        'Apenas asoma del [[nucleoide|nucleoid]], el ARNm es interceptado por el escáner de la [[subunidad menor 30S|ribo-30s]], que encaja encima la [[subunidad mayor 50S|ribo-50s]] con precisión de parada en boxes de Fórmula 1. Ráfagas de [[ARNt|trna]] entran disparadas soldando veinte aminoácidos por segundo, casi cinco veces más rápido que nuestras pesadas máquinas humanas 80S.\n\nLas cadenas nuevas salen por el túnel trasero directo hacia cabinas [[GroEL|groel]] estilo Iron Man o poros de membrana. Ese chasis 70S ligero esconde un único punto débil digno de la Estrella de la Muerte: antibióticos como la tetraciclina o la eritromicina bloquean sus huecos a medida sin rozar nuestros ribosomas.',
+        'Recién salida del [[nucleoide|nucleoid]], una cinta tibia de ARN apenas asoma de la polimerasa cuando una [[subunidad menor 30S|ribo-30s]] muerde su señal de arranque y convoca a la [[subunidad mayor 50S|ribo-50s]] para cerrar el cerrojo. Oleadas de [[ARNt|trna]] cargados de aminoácidos llegan disparadas desde el citosol, encajando codón tras codón a veinte puntadas por segundo.\n\nLos polipéptidos recién cosidos emergen por el túnel trasero directo hacia cámaras [[GroEL|groel]] o poros de la membrana interna para sostener la nave a pleno rendimiento. Ese diseño 70S ligero es un prodigio de velocidad con un talón de Aquiles: antibióticos como la tetraciclina o la estreptomicina encajan en sus huecos como llaves a medida sin tocar nuestros ribosomas 80S.',
       blueprint:
         'Rol: Máquina procariota de traducción acoplada · De: ARNm naciente de [[ARN polimerasa|rna-polymerase]], aminoacil-[[ARNt|trna]] y GTP · Dentro: La [[subunidad 30S|ribo-30s]] verifica codones y la [[subunidad 50S|ribo-50s]] une aminoácidos a ~15–22 aa/s · Hacia: [[Proteínas|protein]] citoplasmáticas (asistidas por [[GroEL|groel]]) y proteínas de envoltura vía [[membrana plasmática|plasma-membrane]]',
       scientific:
@@ -142,9 +142,9 @@ export const PROKARYOTE_NODE_LENSES: NodeLensMap = {
   flagellum: {
     en: {
       simple:
-        'Built like Anakin Skywalker’s pod-racer turbine, the bacterial flagellum is a true proton-powered rotary motor and corkscrew propeller that screams at hundreds of turns per second.',
+        'A bacterial flagellum is a real microscopic outboard motor and corkscrew propeller, spun hundreds of times a second not by ATP fuel directly, but by a rushing stream of protons.',
       story:
-        'Forget flapping fishtails—this is Anakin’s Boonta Eve pod-racer engine bolted straight through the [[cell envelope|bacterial-wall]] and braced on [[peptidoglycan|peptidoglycan]] armor! Protons banked in the periplasm by the [[respiratory chain|electron-transport-chain]] pour down MotA/MotB stator chutes in the [[plasma membrane|plasma-membrane]], kicking rotor gear-teeth up to 18,000 RPM in E. coli and over 100,000 RPM in marine speedsters!\n\nOutside, a flexible universal-joint hook whips a hollow flagellin corkscrew into a tight thrust braid shooting up a sugar trail. One panic ping from the [[chemoreceptor array|real-pole]] slams the gearbox into reverse in a single millisecond, blowing the braid apart into an acrobatic tumble onto a sweeter heading.',
+        'Forget muscles or whipping tails—this propeller runs on a true rotary axle bolted straight through the [[cell envelope|bacterial-wall]] and braced against the [[peptidoglycan|peptidoglycan]] wall. Protons packed into the periplasm by the [[respiratory chain|electron-transport-chain]] cascade back down MotA/MotB stator chutes in the [[plasma membrane|plasma-membrane]], kicking electrostatic teeth on the rotor to whirl the shaft up to 300 revolutions per second.\n\nOutside the hull, a curved universal-joint hook bends that spin into a long corkscrew whip of protein flagellin. Spin counterclockwise and half a dozen whips braid into one sleek thrust bundle driving the cell up a sugar trail; receive a panic signal from the [[chemoreceptor array|real-pole]], slam into reverse for a tenth of a second, and the bundle flies apart to tumble the submarine onto a brand-new heading.',
       blueprint:
         'Role: Proton-driven rotary propulsion nanomachine · From: Periplasmic H⁺ gradient generated by [[respiratory chain|electron-transport-chain]] and directional signals from [[chemoreceptor array|real-pole]] · Inside: [[Peptidoglycan|peptidoglycan]]-anchored stators in [[plasma membrane|plasma-membrane]] torque the basal rotor, universal hook, and helical flagellin [[protein|protein]] filament · To: Hydrodynamic thrust (~25–35 µm/s runs and reorienting tumbles) and spent H⁺ returned to [[cytosol|cytosol]]',
       scientific:
@@ -152,9 +152,9 @@ export const PROKARYOTE_NODE_LENSES: NodeLensMap = {
     },
     es: {
       simple:
-        'Construido como la turbina de vainas de Anakin Skywalker, el flagelo bacteriano es un motor rotatorio real movido por protones que gira cientos de veces por segundo.',
+        'El flagelo bacteriano es un auténtico motor fueraborda microscópico con hélice en sacacorchos, capaz de girar cientos de veces por segundo impulsado directamente por una corriente de protones.',
       story:
-        'Olvida los coletazos musculares: esto es la turbina de carreras de Anakin en Star Wars atornillada a través de la [[envoltura celular|bacterial-wall]] y calzada en la malla de [[peptidoglicano|peptidoglycan]]. Los protones acumulados por la [[cadena respiratoria|electron-transport-chain]] caen por estatores MotA/MotB de la [[membrana plasmática|plasma-membrane]], pateando el rotor hasta 18.000 RPM en E. coli y más de 100.000 RPM en velocistas marinos.\n\nAfuera, un codo universal flexible transmite el giro a un sacacorchos hueco de flagelina trenzado en chorro propulsor rumbo al azúcar. Si llega una alerta de la [[matriz de quimiorreceptores|real-pole]], el motor mete marcha atrás en un solo milisegundo y da un trompo acrobático hacia un nuevo rumbo.',
+        'Olvida los latigazos musculares: esta hélice gira sobre un eje rotatorio real atornillado a través de toda la [[envoltura celular|bacterial-wall]] y calzado contra la malla de [[peptidoglicano|peptidoglycan]]. Los protones acumulados en el periplasma por la [[cadena respiratoria|electron-transport-chain]] caen en cascada por los estatores MotA/MotB de la [[membrana plasmática|plasma-membrane]], golpeando cargas eléctricas del rotor hasta hacerlo zumbar a 300 vueltas por segundo.\n\nFuera del casco, un codo flexible transfiere el giro a un larguísimo tirabuzón de proteína flagelina. Si gira en sentido antihorario, varios látigos se trenzan en una sola cola propulsora que lanza la nave rastro arriba tras el azúcar; si llega una alerta desde la [[matriz de quimiorreceptores|real-pole]], el embrague mete marcha atrás una décima de segundo, el haz se abre y el submarino da un vuelco acrobático hacia un nuevo rumbo.',
       blueprint:
         'Rol: Nanomáquina rotatoria de propulsión impulsada por protones · De: Gradiente de H⁺ periplásmico de la [[cadena respiratoria|electron-transport-chain]] y señales de giro desde la [[matriz de quimiorreceptores|real-pole]] · Dentro: Estatores anclados al [[peptidoglicano|peptidoglycan]] en la [[membrana plasmática|plasma-membrane]] giran el rotor basal, el gancho y el filamento helicoidal de [[proteína|protein]] flagelina · Hacia: Empuje hidrodinámico (carreras de ~25–35 µm/s y vuelcos) y retorno de H⁺ al [[citosol|cytosol]]',
       scientific:
@@ -165,9 +165,9 @@ export const PROKARYOTE_NODE_LENSES: NodeLensMap = {
   pilus: {
     en: {
       simple:
-        'Like Spider-Man’s web-shooters mixed with Attack on Titan’s ODM grappling hooks, hair-thin pili let bacteria cling against rushing fluids, winch across surfaces, or trade bonus DNA.',
+        'Pili are ultra-thin protein grappling hooks bristling from the bacterium’s surface—used to cling onto host tissues against rushing fluids, drag the cell across surfaces, or reel in neighbor DNA.',
       story:
-        'Fresh pilin [[proteins|protein]] cross the [[plasma membrane|plasma-membrane]] and click base-first into outer-membrane usher rings, shooting stiff hair-thin cables into the wild like Attack on Titan ODM gear. At the tip waits a mechanical catch-bond claw that grabs gut or urinary sugars—clamping tighter like a Spider-Man web-line the harder flushing currents yank on the [[bacterium|prokaryote]]!\n\nSpecialized cousins upgrade the superhero gadgetry: Type IV pili burn ATP at their base to reel in cable and haul the cell across surfaces at superhero Gs, while hollow sex pili dock onto neighbors like a Pokémon Link Cable to pipe [[plasmid|plasmid]] [[DNA|dna]] straight across.',
+        'Fresh pilin [[proteins|protein]] thread out across the [[plasma membrane|plasma-membrane]], get escorted across the periplasm by dedicated chaperones, and click base-first into an outer-membrane usher ring that extrudes a stiff hair-thin cable into the outside world. At the very tip sits a spring-loaded adhesin claw tuned to grab sugar coats on gut or urinary walls—tightening its grip like a finger-trap the harder flushing currents tug on the [[bacterium|prokaryote]].\n\nSpecialized cousin pili take the grappling hook further: Type IV pili burn ATP at their base to winch the cell forward like a mountaineer, while conjugative sex pili dock onto another cell to pipe [[plasmid|plasmid]] [[DNA|dna]] straight across the gap.',
       blueprint:
         'Role: Surface adhesion grappling fiber, twitching winch, and DNA bridge · From: Sec-exported pilin [[proteins|protein]] crossing [[plasma membrane|plasma-membrane]] to outer-membrane assembly ushers/ATPases · Inside: Helical rod (~6–7 nm wide) of polymerized pilin subunits capped by lectin-like tip adhesins (e.g. FimH) · To: Host glycoprotein anchorage for [[prokaryote|prokaryote]], biofilm scaffolding, or horizontal [[plasmid|plasmid]] [[DNA|dna]] transfer',
       scientific:
@@ -175,9 +175,9 @@ export const PROKARYOTE_NODE_LENSES: NodeLensMap = {
     },
     es: {
       simple:
-        'Como los lanzatelarañas de Spider-Man cruzados con los garfios de Ataque a los Titanes, los finísimos pili aferran tejidos, arrastran a la bacteria o tienden puentes de ADN.',
+        'Los pili son finísimos garfios proteicos que erizan la superficie bacteriana: sirven para aferrarse a los tejidos frente a corrientes bruscas, arrastrarse sobre superficies o pescar ADN vecino.',
       story:
-        'Ladrillos frescos de [[proteína|protein]] pilina cruzan la [[membrana plasmática|plasma-membrane]] y se ensamblan en anillos externos disparando cables rígidos dignos del equipo de maniobras de Ataque a los Titanes. Su pinza terminal mecánica muerde azúcares intestinales o urinarios, apretando con más saña —igual que una telaraña de Spider-Man— cuanto más fuerte tira la corriente para barrer a la [[bacteria|prokaryote]].\n\nSus primos llevan el arsenal más lejos: los pili tipo IV queman ATP en la base para recoger cable y arrastrar la célula sobre superficies sólidas, mientras los pili sexuales tienden un Cable Link hueco para pasar [[plásmidos|plasmid]] de [[ADN|dna]] a una vecina.',
+        'Subunidades frescas de [[proteína|protein]] pilina cruzan la [[membrana plasmática|plasma-membrane]], atraviesan el periplasma escoltadas por chaperonas y encajan por la base en un anillo ensamblador externo que despliega un cable rígido hacia el exterior. En la punta misma aguarda una pinza adhesiva diseñada para enganchar azúcares de las paredes intestinales o urinarias, cerrando el agarre con más fuerza cuanto más tiran las corrientes para barrer a la [[bacteria|prokaryote]].\n\nOtras variantes llevan el garfio al extremo: los pili tipo IV queman ATP en su base para recoger cable y arrastrar la célula como un escalador, mientras los pili sexuales tienden un puente hueco por donde deslizar [[plásmidos|plasmid]] de [[ADN|dna]] hacia una vecina.',
       blueprint:
         'Rol: Fibra de adhesión superficial, cabrestante retráctil y puente conjugativo · De: Subunidades de [[proteína|protein]] pilina exportadas por la [[membrana plasmática|plasma-membrane]] hacia ensambladores de membrana externa · Dentro: Hélice cilíndrica (~6–7 nm de grosor) de pilinas coronada por adhesinas de punta (como FimH) · Hacia: Anclaje de la [[bacteria|prokaryote]] a tejidos y biopelículas, motilidad contráctil o transferencia de [[plásmidos|plasmid]] de [[ADN|dna]]',
       scientific:
@@ -188,9 +188,9 @@ export const PROKARYOTE_NODE_LENSES: NodeLensMap = {
   microcompartment: {
     en: {
       simple:
-        'Like a Wakandan geodesic lab dome built from interlocking protein tiles with zero membrane fat, microcompartments lock tricky or toxic reactions inside a private geometric room.',
+        'A bacterial microcompartment is a miniature geometric workshop built entirely out of interlocking protein tiles—giving the cell a private room for tricky or toxic chemistry without using any membrane fat.',
       story:
-        'No internal lipid membranes? Build a Wakandan geodesic lab dome instead! Thousands of flat hexagonal and corner pentagonal [[protein|protein]] tiles snap together in the [[cytosol|cytosol]] into a tight icosahedral vault, sealing VIP specialists—like easily distracted [[RuBisCO|rubisco]] and turbo carbonic anhydrase—inside a private cleanroom.\n\nCharged pinholes in the center of each tile wave negatively charged bicarbonate ions inside while locking competing oxygen out and trapping uncharged carbon dioxide indoors. With CO₂ skyrocketing right under RuBisCO’s nose, the dome cranks out three-carbon [[sugar|sugar]] bricks that slip back out the pores to feed the whole [[bacterium|prokaryote]].',
+        'Who says a cell without lipid walls cannot build VIP labs? Thousands of flat hexagonal and pentagonal [[protein|protein]] tiles snap together in the [[cytosol|cytosol]] like a soccer-ball geodesic dome, sealing specialized enzymes—such as sluggish [[RuBisCO|rubisco]] and rapid-fire carbonic anhydrase—inside a private icosahedral vault.\n\nCharged central pores in the tiles invite bicarbonate ions in while blocking uncharged carbon dioxide and oxygen from leaking across the shell. Inside a carboxysome, trapped CO₂ skyrockets right under RuBisCO’s nose, churning out three-carbon [[sugar|sugar]] precursors that slip back out the tile pores to feed the rest of the [[bacterium|prokaryote]].',
       blueprint:
         'Role: Lipid-free polyhedral metabolic organelle · From: Bicarbonate or volatile metabolic substrates entering from [[cytosol|cytosol]] through selective hexamer tile pores · Inside: Icosahedral BMC-[[protein|protein]] shell (~100–200 nm) concentrates CO₂ around encapsulated [[RuBisCO|rubisco]] (carboxysome) or traps toxic aldehydes (metabolosome) · To: 3-phosphoglycerate / fixed carbon intermediates exported to [[cytosol|cytosol]] for [[sugar|sugar]] and biomass synthesis',
       scientific:
@@ -198,9 +198,9 @@ export const PROKARYOTE_NODE_LENSES: NodeLensMap = {
     },
     es: {
       simple:
-        'Como una cúpula geodésica de Wakanda armada solo con baldosas proteicas y cero grasa, el microcompartimento encierra reacciones delicadas o tóxicas en un laboratorio privado.',
+        'Un microcompartimento bacteriano es un taller geométrico en miniatura construido solo con baldosas proteicas encajadas: crea una sala privada para reacciones delicadas o tóxicas sin gastar una sola gota de grasa.',
       story:
-        '¿Sin tabiques internos de grasa? ¡Levanta un domo geodésico de laboratorio digno de Wakanda! Miles de losetas hexagonales planas y pentagonales de esquina hechas de [[proteína|protein]] encajan en el [[citosol|cytosol]] como un balón blindado, aislando especialistas —como la distraída [[RuBisCO|rubisco]] y la veloz anhidrasa carbónica— en una sala limpia privada.\n\nPoros cargados en cada loseta dejan pasar iones bicarbonato pero bloquean al oxígeno rival e impiden que escape el gas carbónico sin carga. Con el CO₂ disparado frente a la RuBisCO, la cúpula despacha ladrillos de [[azúcar|sugar]] por sus poros para alimentar a toda la [[bacteria|prokaryote]].',
+        '¿Quién dijo que una célula sin tabiques de grasa no podía montar laboratorios privados? Miles de losetas hexagonales y pentagonales de [[proteína|protein]] se ensamblan en el [[citosol|cytosol]] como una cúpula geodésica, encerrando enzimas selectas —como la parsimoniosa [[RuBisCO|rubisco]] y la veloz anhidrasa carbónica— dentro de una cámara icosaédrica blindada.\n\nDiminutos poros cargados en el centro de cada loseta dejan entrar iones bicarbonato pero impiden que escapen el gas carbónico o entre el oxígeno competidor. Dentro del carboxisoma, el CO₂ concentrado se dispara justo ante la RuBisCO, que despacha precursores de [[azúcar|sugar]] de vuelta por los poros hacia el resto de la [[bacteria|prokaryote]].',
       blueprint:
         'Rol: Orgánulo metabólico poliédrico exclusivamente proteico · De: Bicarbonato o sustratos metabólicos del [[citosol|cytosol]] a través de poros selectivos centrales · Dentro: Cápside icosaédrica (~100–200 nm) de [[proteínas|protein]] BMC que concentra CO₂ junto a [[RuBisCO|rubisco]] o confina aldehídos volátiles · Hacia: Precursores de [[azúcar|sugar]] (3-fosfoglicerato) y metabolitos limpios exportados al [[citosol|cytosol]]',
       scientific:
@@ -211,9 +211,9 @@ export const PROKARYOTE_NODE_LENSES: NodeLensMap = {
   'ribo-50s': {
     en: {
       simple:
-        'Wearing proteins like mech armor around an ancient RNA wizard core, the 50S large subunit is the catalytic forge that welds amino acids into growing chains.',
+        'The 50S large subunit is the anvil of the bacterial ribosome, where folded RNA—not protein—actually welds amino acids together into a growing chain.',
       story:
-        'Once the [[30S small subunit|ribo-30s]] clears a codon match downstairs, this heavy crown slams shut to welcome incoming [[tRNAs|trna]]. Plot twist straight out of anime lore: zero [[protein|protein]] side chains touch the weld! Folded loops of ancient 23S [[RNA|rna]] align and snap each peptide bond together—proving the ribosome is an RNA wizard piloting a protein mech suit.\n\nFreshly forged chains snake down a 10-nanometre exit tunnel straight into Tony Stark-style [[GroEL cages|groel]] or membrane gates before the crowded cytoplasm can tangle them.',
+        'Once the [[30S small subunit|ribo-30s]] verifies a codon match, this heavier crown slams down on top and opens its catalytic vault to incoming [[tRNAs|trna]]. Deep inside, not a single [[protein|protein]] side chain touches the weld: twisted loops of 23S [[RNA|rna]] position the new amino acid with sub-ångström precision so the growing chain snaps onto it—proving the ribosome is an ancient RNA machine wearing a protein exoskeleton.\n\nEach newly forged link threads straight down a 10-nanometre exit tunnel carved through the 50S core, emerging into waiting [[GroEL cages|groel]] or membrane channels before cytosolic tangles can ambush it.',
       blueprint:
         'Role: Peptidyl-transferase ribozyme core and nascent-chain exit conduit · From: Validated aminoacyl-[[tRNA|trna]] positioned by [[30S subunit|ribo-30s]] and EF-Tu/EF-G GTPase strokes · Inside: 23S and 5S r[[RNA|rna]] scaffolded by 33 ribosomal [[proteins|protein]] catalyzes peptide bond formation and guides chain down a ~10 nm tunnel · To: Nascent [[polypeptides|polypeptide]] emerging to Trigger Factor, [[GroEL|groel]], or Sec translocons, plus deacylated tRNA release',
       scientific:
@@ -221,9 +221,9 @@ export const PROKARYOTE_NODE_LENSES: NodeLensMap = {
     },
     es: {
       simple:
-        'Con proteínas como armadura mecha alrededor de un ancestral hechicero de ARN, la subunidad mayor 50S es la fragua que suelda cada aminoácido a la cadena.',
+        'La subunidad mayor 50S es el yunque del ribosoma bacteriano: en su corazón, hebras plegadas de ARN —y no proteínas— sueldan cada aminoácido a la cadena naciente.',
       story:
-        'Cuando la [[subunidad menor 30S|ribo-30s]] aprueba el codón abajo, esta corona pesada baja y abre su cámara a los [[ARNt|trna]]. Y aquí viene el giro digno de un anime: ¡ninguna [[proteína|protein]] toca la soldadura! Lazos precisos del [[ARN|rna]] 23S alinean y enlazan cada aminoácido, demostrando que el ribosoma es un antiguo mago de ARN pilotando un traje mecha proteico.\n\nCada eslabón nuevo avanza por un túnel de diez nanómetros directo hacia cabinas [[GroEL|groel]] estilo Tony Stark o poros de membrana antes de poder enredarse.',
+        'En cuanto la [[subunidad menor 30S|ribo-30s]] valida el codón correcto, esta cúpula mayor encaja encima y abre su cámara catalítica a los [[ARNt|trna]] entrantes. En lo más hondo del taller ni una sola cadena lateral de [[proteína|protein]] toca la soldadura: pliegues exactos del [[ARN|rna]] 23S alinean el nuevo aminoácido al subångström para transferirle toda la cadena en crecimiento, revelando que el ribosoma es una antiquísima enzima de ARN vestida con armazón proteico.\n\nCada eslabón recién forjado avanza por un túnel de salida de diez nanómetros excavado a través del núcleo 50S, asomando hacia cápsulas [[GroEL|groel]] o poros de membrana antes de poder enredarse.',
       blueprint:
         'Rol: Núcleo ribozímico peptidil-transferasa y túnel de salida naciente · De: Aminoacil-[[ARNt|trna]] verificado por la [[subunidad 30S|ribo-30s]] e impulsos GTPásicos de EF-Tu/EF-G · Dentro: ARNr 23S y 5S de [[ARN|rna]] con 33 [[proteínas|protein]] catalizan el enlace peptídico y guían la hebra por un túnel de ~10 nm · Hacia: [[Polipéptidos|polypeptide]] nacientes entregados a Trigger Factor, [[GroEL|groel]] o SecYEG, y ARNt descargado',
       scientific:
@@ -234,9 +234,9 @@ export const PROKARYOTE_NODE_LENSES: NodeLensMap = {
   'ribo-30s': {
     en: {
       simple:
-        'Acting like a Dragon Ball scouter visor for genetic code, the 30S small subunit catches fresh mRNA and checks every tRNA’s three-letter match before allowing a weld.',
+        'The 30S small subunit is the barcode scanner of the bacterial ribosome—catching fresh mRNA threads and checking that every incoming tRNA matches the three-letter code.',
       story:
-        'Nanoseconds after an mRNA leader pokes out of [[RNA polymerase|rna-polymerase]], the 16S [[RNA|rna]] tail inside this Dragon Ball scouter head locks onto the Shine–Dalgarno landing strip to frame the start codon. With its [[50S partner|ribo-50s]] clamped upstairs, courier [[tRNAs|trna]] audition at twenty tries a second.\n\nTwo spring-loaded adenine fingers flip out like caliper gauges to feel each codon–anticodon handshake: a true Watson–Crick fit nods the head shut to trigger welding, while impostors get booted back into the [[cytosol|cytosol]] before a typo ruins the build!',
+        'Mere nanoseconds after a gene’s 5′ leader pokes out of [[RNA polymerase|rna-polymerase]], the tail end of 16S [[RNA|rna]] inside this nimble head base-pairs directly with the Shine–Dalgarno landing strip to line up the start codon. Once the [[50S partner|ribo-50s]] docks on top, courier [[tRNAs|trna]] audition in the decoding groove at breakneck speed.\n\nTwo spring-loaded adenine fingers on the 16S RNA flip out to feel the geometry of every codon–anticodon pair: a clean Watson–Crick fit snaps the head closed and triggers peptide welding upstairs, while a near-miss gets booted back into the [[cytosol|cytosol]] before a wrong amino acid can spoil the protein.',
       blueprint:
         'Role: mRNA recruitment and high-fidelity codon–anticodon decoding head · From: Nascent m[[RNA|rna]] from [[RNA polymerase|rna-polymerase]], initiator/elongator [[tRNAs|trna]], and initiation factors IF1–IF3 · Inside: 16S r[[RNA|rna]] + 21 [[proteins|protein]] bind Shine–Dalgarno leader and probe A-site minor-groove geometry via A1492/A1493 · To: Validated codon-matched tRNAs handed into [[50S subunit|ribo-50s]] catalytic core within [[70S ribosome|ribosome-70s]]',
       scientific:
@@ -244,9 +244,9 @@ export const PROKARYOTE_NODE_LENSES: NodeLensMap = {
     },
     es: {
       simple:
-        'Como un rastreador de Dragon Ball para el código genético, la subunidad menor 30S atrapa el ARNm fresco y verifica cada triplete antes de autorizar la soldadura.',
+        'La subunidad menor 30S es el lector de código de barras del ribosoma bacteriano: atrapa el ARNm recién nacido y comprueba que cada ARNt entrante coincida exactamente con su triplete.',
       story:
-        'Nanosegundos después de asomar un gen de la [[ARN polimerasa|rna-polymerase]], la cola del [[ARN|rna]] 16S de este visor estilo Dragon Ball se aparea con la pista Shine–Dalgarno para clavar el arranque. Con la [[subunidad 50S|ribo-50s]] acoplada arriba, los mensajeros [[ARNt|trna]] pasan audición a ritmo de vértigo.\n\nDos adeninas saltan como calibres táctiles sobre cada pareja codón-anticodón: si encaja al milímetro, el cabezal asiente y ordena soldar; si falla por un pelo, expulsa al impostor al [[citosol|cytosol]] antes de colar una pieza falsa.',
+        'Apenas unos nanosegundos después de que el extremo inicial de un gen asome de la [[ARN polimerasa|rna-polymerase]], la cola del [[ARN|rna]] 16S de este cabezal ligero se aparea con la pista Shine–Dalgarno para clavar el codón de arranque en posición. Cuando la [[subunidad 50S|ribo-50s]] cierra encima, los mensajeros [[ARNt|trna]] pasan audición tras audición a ritmo vertiginoso.\n\nDos adeninas móviles del ARN 16S saltan como palpadores sobre cada pareja codón-anticodón: si la geometría encaja al milímetro, el cabezal bascula y da luz verde a la soldadura en el piso superior; si falla por un pelo, el intruso sale despedido de vuelta al [[citosol|cytosol]] antes de colar un aminoácido equivocado.',
       blueprint:
         'Rol: Cabezal de captura de ARNm y verificación de fidelidad codón-anticodón · De: ARNm naciente de [[ARN polimerasa|rna-polymerase]], [[ARNt|trna]] cargados y factores IF1–IF3 · Dentro: ARNr 16S de [[ARN|rna]] + 21 [[proteínas|protein]] reconocen la secuencia Shine–Dalgarno e inspeccionan el surco menor con A1492/A1493 · Hacia: ARNt validados transferidos al centro catalítico de la [[subunidad 50S|ribo-50s]] dentro del [[ribosoma 70S|ribosome-70s]]',
       scientific:
@@ -257,9 +257,9 @@ export const PROKARYOTE_NODE_LENSES: NodeLensMap = {
   trna: {
     en: {
       simple:
-        'Shaped like an L-bar Tetris piece chauffeured by The Flash, transfer RNA reads a three-letter mRNA word at one tip and drops off the matching amino acid at the other.',
+        'Transfer RNA is an L-shaped molecular adapter that reads a three-letter RNA word at one end and delivers the matching amino acid brick at the other.',
       story:
-        'Across the bustling [[cytosol|cytosol]], twenty picky synthetase quartermasters burn ATP to clip each [[amino acid|amino-acid]] onto its exact L-shaped tRNA courier. Instantly, speedster escort EF-Tu wraps the loaded courier in a GTP-powered Flash aura and rockets it into the nearest [[70S ribosome|ribosome-70s]].\n\nDown in the [[30S subunit|ribo-30s]], the anticodon tests the mRNA triplet; on a clean match, EF-Tu snaps its GTP latch and steps aside, swinging the brick upstairs into the [[50S catalytic forge|ribo-50s]] before the empty courier pops out for a pit-stop recharge.',
+        'Out in the crowded [[cytosol|cytosol]], twenty specialist synthetase enzymes patrol like meticulous quartermasters, burning ATP to clip each [[amino acid|amino-acid]] onto the 3′ tail of its exact matching L-shaped nucleotide courier. Immediately, elongation factor EF-Tu wraps the loaded courier in a protective GTP-powered escort and rockets it toward the nearest working [[70S ribosome|ribosome-70s]].\n\nDown at the [[30S subunit|ribo-30s]], the anticodon tip tests the mRNA triplet; on a clean match, EF-Tu snaps its GTP latch and bows out, swinging the amino acid upstairs into the [[50S catalytic forge|ribo-50s]]. Moments later, the empty courier ejects through the exit door, ready to be recharged for another lap.',
       blueprint:
         'Role: Bilingual genetic-code adapter between mRNA codons and amino acids · From: Free [[amino acids|amino-acid]], ATP, aminoacyl-tRNA synthetases, and EF-Tu·GTP in [[cytosol|cytosol]] · Inside: ~76-[[nucleotide|nucleotide]] cloverleaf folded into a 7-nm L-shape with anticodon loop at one pole and 3′-CCA aminoacyl ester at the other · To: Codon decoding in [[30S subunit|ribo-30s]] and peptide transfer in [[50S subunit|ribo-50s]] of [[70S ribosomes|ribosome-70s]]',
       scientific:
@@ -267,9 +267,9 @@ export const PROKARYOTE_NODE_LENSES: NodeLensMap = {
     },
     es: {
       simple:
-        'Con silueta de pieza L de Tetris escoltada por Flash, el ARNt lee una palabra de tres letras por una punta y entrega el aminoácido exacto por la otra.',
+        'El ARN de transferencia es un adaptador molecular en forma de L que lee una palabra genética de tres letras por un extremo y entrega el ladrillo de aminoácido exacto por el otro.',
       story:
-        'Por todo el [[citosol|cytosol]], veinte sintetasas intendentes gastan ATP para abrochar cada [[aminoácido|amino-acid]] en la cola de su mensajero exacto en forma de L. Al instante, el velocista EF-Tu lo envuelve en un turbo de GTP digno de Flash y lo dispara hacia el [[ribosoma 70S|ribosome-70s]] más cercano.\n\nEn la [[subunidad 30S|ribo-30s]], su anticodón prueba el triplete del ARNm; si acierta de lleno, EF-Tu quema su GTP y se aparta para que el ladrillo suba a la fragua de la [[subunidad 50S|ribo-50s]], saliendo luego vacío para recargarse en boxes.',
+        'En medio del bullicioso [[citosol|cytosol]], veinte enzimas sintetasas patrullan como intendentes implacables, gastando ATP para enganchar cada [[aminoácido|amino-acid]] en la cola 3′ de su mensajero exacto de nucleótidos plegado en L. Acto seguido, el factor EF-Tu envuelve al mensajero cargado en una escolta propulsada por GTP y lo dispara hacia el [[ribosoma 70S|ribosome-70s]] más cercano.\n\nAbajo, en la [[subunidad 30S|ribo-30s]], la punta del anticodón pone a prueba el triplete del ARNm; si hay pleno acierto, EF-Tu quema su GTP y se aparta para que el aminoácido bascule arriba hacia la fragua de la [[subunidad 50S|ribo-50s]]. Instantes después, el adaptador vacío sale por la compuerta lateral listo para recargarse y volver a la carga.',
       blueprint:
         'Rol: Adaptador bilingüe entre codones del ARNm y aminoácidos · De: [[Aminoácidos|amino-acid]] libres, ATP, aminoacil-ARNt sintetasas y EF-Tu·GTP en el [[citosol|cytosol]] · Dentro: Cadena de ~76 [[nucleótidos|nucleotide]] plegada en L (~7 nm) con bucle anticodón en un extremo y cola aceptora 3′-CCA aminoacilada en el opuesto · Hacia: Lectura en la [[subunidad 30S|ribo-30s]] y entrega peptídica en la [[subunidad 50S|ribo-50s]] del [[ribosoma 70S|ribosome-70s]]',
       scientific:
@@ -280,9 +280,9 @@ export const PROKARYOTE_NODE_LENSES: NodeLensMap = {
   'rna-polymerase': {
     en: {
       simple:
-        'Shaped like a giant Doctor Octopus claw guided by a detachable R2-D2 scout, RNA polymerase unzips DNA and prints live RNA at up to eighty letters a second.',
+        'RNA polymerase is a molecular crab claw that latches onto the start of a gene, unzips a tiny bubble of DNA, and prints a working RNA copy at forty to eighty letters a second.',
       story:
-        'Steered through the [[nucleoid|nucleoid]] by its detachable σ astromech scout, this five-part crab claw slides along [[DNA|dna]] until σ spots a promoter signpost and pries open a twelve-letter bubble. Building blocks pour in from the [[cytosol|cytosol]], snapping onto the template over a magnesium spark at forty to eighty letters per second.\n\nTen letters in, the σ scout ejects like a booster stage and the core locomotive roars down the operon—towing a Snowpiercer-style train of [[70S ribosomes|ribosome-70s]] that translate the fresh [[RNA|rna]] tail while the front end is still printing!',
+        'Guided through the tangled [[nucleoid|nucleoid]] by its detachable σ scout protein, this giant crab claw slides along chromosomal [[DNA|dna]] until σ spots a promoter signpost and pries twelve base pairs apart into an open bubble. Ribonucleoside triphosphates pour in through a side funnel from the [[cytosol|cytosol]], snapping onto the template strand over a catalytic magnesium spark at forty to eighty letters every second.\n\nOnce ten letters clear the chute, the σ scout lets go and the core claw sprints down the operon—with eager [[70S ribosomes|ribosome-70s]] grabbing the fresh [[RNA|rna]] tail right behind its bumper so translation and transcription race forward as one convoy.',
       blueprint:
         'Role: DNA-dependent transcription engine for all bacterial RNAs · From: Supercoiled chromosomal/plasmid [[DNA|dna]] in [[nucleoid|nucleoid]], cytosolic NTP [[nucleotides|nucleotide]], and promoter-specificity σ factors · Inside: α₂ββ′ω core pincers maintain a ~12–14 bp transcription bubble and polymerize 5′→3′ [[RNA|rna]] via two-Mg²⁺ catalysis · To: Nascent mRNA immediately boarded by [[70S ribosomes|ribosome-70s]], plus rRNA and [[tRNA|trna]] transcripts',
       scientific:
@@ -290,9 +290,9 @@ export const PROKARYOTE_NODE_LENSES: NodeLensMap = {
     },
     es: {
       simple:
-        'Como una pinza del Doctor Octopus guiada por un droide R2-D2 desmontable, la ARN polimerasa abre el ADN e imprime ARN vivo hasta a ochenta letras por segundo.',
+        'La ARN polimerasa es una pinza de cangrejo molecular que localiza el inicio de un gen, abre una pequeña burbuja en el ADN e imprime una copia activa de ARN a entre cuarenta y ochenta letras por segundo.',
       story:
-        'Guiada por el [[nucleoide|nucleoid]] gracias a su droide explorador desmontable —el factor σ—, esta tenaza gigante recorre el [[ADN|dna]] hasta divisar un promotor y abrir una burbuja de doce bases. Los ladrillos entran a chorro desde el [[citosol|cytosol]], soldándose junto a un ion magnesio de cuarenta a ochenta letras por segundo.\n\nTras diez letras, el explorador σ salta como etapa propulsora y la locomotora acelera operón abajo, arrastrando un tren estilo Snowpiercer de [[ribosomas 70S|ribosome-70s]] que traducen la cola de [[ARN|rna]] mientras aún se imprime.',
+        'Guiada por el laberinto del [[nucleoide|nucleoid]] gracias a su explorador desmontable —el factor σ—, esta tenaza gigante se desliza sobre el [[ADN|dna]] hasta divisar la señal de arranque de un promotor y abrir una burbuja de doce pares de bases. Los ribonucleótidos entran a chorro por un embudo lateral desde el [[citosol|cytosol]] y se engarzan sobre la hebra molde junto a un ion magnesio catalítico a un ritmo de cuarenta a ochenta letras por segundo.\n\nEn cuanto asoman las diez primeras letras, el factor σ se suelta y la pinza central acelera operón abajo, seguida a escasos nanómetros por [[ribosomas 70S|ribosome-70s]] que atrapan la cola fresca de [[ARN|rna]] en pleno vuelo.',
       blueprint:
         'Rol: Motor único de transcripción dependiente de ADN para todos los ARN bacterianos · De: [[ADN|dna]] superenrollado del [[nucleoide|nucleoid]], [[nucleótidos|nucleotide]] NTP del citosol y factores σ promotores · Dentro: Pinzas α₂ββ′ω sostienen una burbuja abierta de ~12–14 pb y polimerizan [[ARN|rna]] 5′→3′ con dos iones Mg²⁺ · Hacia: ARNm naciente abordado al instante por [[ribosomas 70S|ribosome-70s]], además de ARNr y [[ARNt|trna]]',
       scientific:
@@ -303,9 +303,9 @@ export const PROKARYOTE_NODE_LENSES: NodeLensMap = {
   capsule: {
     en: {
       simple:
-        'Straight out of Cells at Work!, the bacterial capsule is a thick, slippery slime cloak that hoards water and makes invaders glide right out of White Blood Cell hands.',
+        'The capsule is a thick, slippery gel coat outside the cell wall that locks in moisture, glues bacteria into protective communities, and makes them too slick for immune cells to swallow.',
       story:
-        'Remember those smug, helmeted bacterial villains in Cells at Work! slipping straight through White Blood Cell’s grip? Chains of [[glucose|glucose]] and acidic sugars shoot out dedicated export tunnels across the [[cell envelope|bacterial-wall]], moored by [[phospholipids|phospholipid]] into a plush jelly cloak often thicker than the bacterium itself.\n\nIn dry spells on a hospital countertop, that hydrogel sponge hoards life-saving [[water|water]]; inside a human bloodstream, macrophages and complement tags skid right off its slick negative slime while hidden [[pili|pilus]] grappling hooks quietly anchor to tissue underneath!',
+        'Activated [[glucose|glucose]] and acidic sugar bricks assembled inside the cytoplasm ride dedicated export tunnels straight through both membranes of the [[cell envelope|bacterial-wall]], unfurling into a plush, water-soaked halo thicker than the wall itself. Anchor [[phospholipids|phospholipid]] moor those long polysaccharide ribbons to the outer hull so the cloak stays put even in turbulent bloodstreams.\n\nWhen drought strikes, that hydrogel sponge hoards precious [[water|water]] around the bacterium; when immune patrols attack, macrophages and complement proteins skid right off its negatively charged slime while hidden [[pili|pilus]] underneath quietly lock onto host tissue.',
       blueprint:
         'Role: Hydrated anti-phagocytic stealth shield and desiccation buffer · From: Cytoplasmic nucleotide-activated [[sugars|glucose]] translocated across [[plasma membrane|plasma-membrane]] and [[bacterial envelope|bacterial-wall]] via Wzx/Wzy or ABC-transporter Wza channels · Inside: 0.2–1 µm hydrogel matrix of high-molecular-weight anionic polysaccharides moored to outer-membrane [[phospholipids|phospholipid]] · To: Immune evasion (complement/opsonization masking), [[water|water]] retention, and biofilm matrix formation for [[prokaryote|prokaryote]]',
       scientific:
@@ -313,9 +313,9 @@ export const PROKARYOTE_NODE_LENSES: NodeLensMap = {
     },
     es: {
       simple:
-        'Recién salida de Cells at Work!, la cápsula es un grueso manto gelatinoso de invisibilidad y baba que retiene agua y hace que la bacteria se escurra de los glóbulos blancos.',
+        'La cápsula es un grueso abrigo gelatinoso y resbaladizo fuera de la pared celular que retiene la humedad, pega a las bacterias en colonias protegidas e impide que las células inmunitarias las atrapen.',
       story:
-        '¿Recuerdas a esos invasores bacterianos de Cells at Work! que se escurren entre los dedos del Glóbulo Blanco? Largas cintas de [[glucosa|glucose]] y azúcares ácidos cruzan túneles exclusivos por toda la [[envoltura bacteriana|bacterial-wall]], amarradas con [[fosfolípido|phospholipid]] en un manto viscoso más grueso que el propio casco.\n\nEn plena sequía sobre una superficie seca, esa esponja retiene [[agua|water]] vital; dentro de la sangre humana, los macrófagos y el complemento patinan sobre su gel negativo resbaladizo mientras los [[pili|pilus]] ocultos debajo clavan sus garfios en el tejido.',
+        'Ladrillos activados de [[glucosa|glucose]] y azúcares ácidos tejidos en el citoplasma viajan por túneles exclusivos a través de toda la [[envoltura bacteriana|bacterial-wall]], desplegándose al salir en un manto esponjoso empapado de agua más grueso que el propio casco. Anclas de [[fosfolípido|phospholipid]] amarran esas largas cintas azucaradas a la cubierta exterior para que el disfraz no se desprenda ni en pleno torrente sanguíneo.\n\nSi arrecia la sequía, ese hidrogel retiene [[agua|water]] vital alrededor de la bacteria; si atacan las patrullas inmunitarias, los macrófagos resbalan sobre su superficie cargada sin lograr engullirla mientras los [[pili|pilus]] ocultos debajo afianzan la cabeza de playa.',
       blueprint:
         'Rol: Escudo furtivo antifagocítico e hidrogel contra la desecación · De: [[Azúcares|glucose]] activados del citoplasma exportados a través de la [[membrana plasmática|plasma-membrane]] y la [[envoltura bacteriana|bacterial-wall]] vía canales Wza/Kps · Dentro: Matriz hidratada (0,2–1 µm) de polisacáridos aniónicos anclada a [[fosfolípidos|phospholipid]] externos · Hacia: Evasión inmunitaria, retención de [[agua|water]] y cohesión de biopelículas para la [[bacteria|prokaryote]]',
       scientific:
@@ -326,9 +326,9 @@ export const PROKARYOTE_NODE_LENSES: NodeLensMap = {
   lps: {
     en: {
       simple:
-        'Like Wakanda’s energy dome paving the outside of Gram-negative armor, LPS locks fat-anchored sugar bristles edge-to-edge so gut bile and oily drugs bounce right off.',
+        'Lipopolysaccharide (LPS) is a dense, bristling carpet of fat-anchored sugar chains paving the outside of Gram-negative bacteria—keeping detergents and oily drugs from sneaking across the hull.',
       story:
-        'Built on the [[plasma membrane|plasma-membrane]] from six [[fatty-acid tails|fatty-acid-tail]], glucosamine, and [[sugar|glucose]] branches, each LPS tile rides a seven-protein Pez-dispenser bridge across the periplasm onto the outer roof. Up top, [[magnesium|atom-mg]] and calcium ions clip neighboring negatively charged heads into a Wakanda-tight shield wall.\n\nGut bile detergents and greasy antibiotics ricochet right off that wet O-antigen sugar forest, forcing small snacks to line up politely at [[porin|porin]] gates—though if immune battle shatters the hull, loose Lipid A anchors trip human TLR4 alarms like a five-alarm fever siren!',
+        'Forged on the [[plasma membrane|plasma-membrane]] from six saturated [[fatty-acid tails|fatty-acid-tail]], phosphorylated glucosamine, and [[sugar|glucose]] branches, each LPS brick rides a seven-protein molecular escalator across the periplasm until the outer-membrane LptD/E gate flips it onto the exterior deck. Up on the hull, divalent [[magnesium|atom-mg]] and calcium ions cross-bridge the negatively charged phosphate heads into a shoulder-to-shoulder palisade tighter than any ordinary lipid membrane.\n\nBile salts in your gut and bulky hydrophobic antibiotics bounce right off that wet sugar thicket, forcing small nutrients to queue politely at [[porin|porin]] gates instead—though if the cell shatters, freed Lipid A anchors trip mammalian TLR4 alarms as potent endotoxin.',
       blueprint:
         'Role: Asymmetric outer-leaflet permeability barrier and structural endotoxin · From: Cytoplasmic/inner-membrane synthesis from [[fatty-acid tails|fatty-acid-tail]], [[phosphate|phosphate]], and [[sugars|glucose]], ferried across periplasm via LptA–G bridge · Inside: Hexa-acylated Lipid A anchor bridged by [[Mg²⁺|atom-mg]] ions beneath core oligosaccharide and repeating O-antigen chains · To: Exterior face of [[bacterial envelope|bacterial-wall]] shielding [[porins|porin]] and repelling hydrophobic antibiotics/bile salts',
       scientific:
@@ -336,9 +336,9 @@ export const PROKARYOTE_NODE_LENSES: NodeLensMap = {
     },
     es: {
       simple:
-        'Como el escudo fronterizo de Wakanda sobre las bacterias Gram-negativas, el LPS traba cerdas de azúcar ancladas en grasa para que la bilis y los fármacos aceitosos reboten.',
+        'El lipopolisacárido (LPS) es una tupida alfombra de cadenas de azúcar ancladas en grasa que pavimenta por fuera a las bacterias Gram-negativas e impide el paso de detergentes y fármacos aceitosos.',
       story:
-        'Forjado en la [[membrana plasmática|plasma-membrane]] con seis [[colas de ácidos grasos|fatty-acid-tail]] y ramas de [[azúcar|glucose]], cada bloque de LPS sube por un puente dispensador de siete proteínas hasta el tejado exterior. Allí arriba, iones [[magnesio|atom-mg]] y calcio abrochan las cabezas negativas hombro con hombro en un muro digno de Wakanda.\n\nLas sales biliares y los antibióticos grasos rebotan contra ese espeso bosque húmedo de antígeno O, obligando a los nutrientes menudos a hacer fila en las [[porinas|porin]]; aunque si el casco estalla, sus anclas de Lípido A disparan todas las sirenas inmunes humanas.',
+        'Ensamblado sobre la [[membrana plasmática|plasma-membrane]] con seis [[colas de ácidos grasos|fatty-acid-tail]], glucosamina fosforilada y ramas de [[azúcar|glucose]], cada bloque de LPS sube por un puente proteico de siete piezas a través del periplasma hasta que la esclusa LptD/E lo coloca en la cubierta exterior. Allí arriba, iones [[magnesio|atom-mg]] y calcio abrochan las cabezas negativas de fosfato en una empalizada hombro con hombro mucho más hermética que cualquier bicapa común.\n\nLas sales biliares del intestino y los antibióticos hidrófobos rebotan contra ese bosque húmedo de azúcares, obligando a los nutrientes pequeños a pedir paso por las [[porinas|porin]]; pero si la bacteria se rompe, sus anclas de Lípido A sueltas disparan todas las alarmas inmunitarias humanas como endotoxina.',
       blueprint:
         'Rol: Barrera impermeable de la hemicapa externa y endotoxina estructural · De: Síntesis en [[membrana plasmática|plasma-membrane]] con [[ácidos grasos|fatty-acid-tail]], [[fosfato|phosphate]] y [[azúcares|glucose]], transportada por el puente LptA–G · Dentro: Ancla hexaacilada de Lípido A reticulada por [[Mg²⁺|atom-mg]] bajo un núcleo oligosacárido y el antígeno O · Hacia: Cara exterior de la [[envoltura bacteriana|bacterial-wall]] protegiendo [[porinas|porin]] frente a sales biliares y antibióticos',
       scientific:
@@ -349,9 +349,9 @@ export const PROKARYOTE_NODE_LENSES: NodeLensMap = {
   porin: {
     en: {
       simple:
-        'Punched through the outer armor like VIP club bouncers with a strict size-ring, three-barreled porins wave tiny sugars and water inside while slamming the door on giant antibiotics.',
+        'Porins are sturdy three-barreled water tunnels punched through the bacterium’s outer armor, letting small food molecules and salts drift in while keeping big toxic molecules out.',
       story:
-        'Because the [[LPS|lps]] shield seals the hull nearly watertight, the bacterium installs ~100,000 three-barrel bouncers so the crew doesn’t starve inside its own fortress! Unfolded porin [[proteins|protein]] cross the periplasmic moat with jellyfish-like SurA chaperones and get rolled into 16-strand β-barrels by the BAM loom.\n\nHalfway down each water-filled barrel, a charged L3 eyelet loop pinches the doorway to roughly one nanometre wide: [[Water|water]], salts, and [[glucose|glucose]] under 600 daltons stroll right in, while heavyweight antibiotics like vancomycin get clotheslined outside the velvet rope!',
+        'Because the [[LPS|lps]] outer coat seals the submarine almost watertight, the cell punches ~100,000 three-hole sieves right through the armor so its engines do not starve. Unfolded porin [[proteins|protein]] cross the inner membrane, ride periplasmic jellyfish chaperones (Skp and SurA) across the moat, and get rolled into sixteen-strand β-barrels by the BAM folding machine.\n\nInside each water-filled barrel, an inward-folded eyelet loop narrows the throat to barely a nanometre across and lines it with opposing electric charges. [[Water|water]], ions, [[glucose|glucose]], and amino acids under 600 daltons breeze into the periplasm toward inner-membrane pumps, while giant antibiotics like vancomycin slam into the narrow gauge and stay stranded outside.',
       blueprint:
         'Role: Size- and charge-selective outer-membrane passive diffusion sieve · From: Unfolded β-barrel [[proteins|protein]] exported into periplasm and inserted by BAM complex amidst [[LPS|lps]] and [[phospholipids|phospholipid]] · Inside: Homotrimer of 16-stranded antiparallel β-barrels with loop L3 constricting an aqueous pore (~0.7 × 1.1 nm, ~600 Da cutoff) · To: Periplasmic delivery of [[water|water]], ions, [[glucose|glucose]], and [[amino acids|amino-acid]] to inner-membrane importers',
       scientific:
@@ -359,9 +359,9 @@ export const PROKARYOTE_NODE_LENSES: NodeLensMap = {
     },
     es: {
       simple:
-        'Incrustadas en el casco exterior como porteros de discoteca con gálibo estricto, las porinas de tres cañones dejan pasar agua y azúcares menudos pero frenan antibióticos gigantes.',
+        'Las porinas son robustos túneles triples llenos de agua perforados en el blindaje exterior de la bacteria: dejan entrar nutrientes pequeños y sales, pero cierran el paso a moléculas tóxicas grandes.',
       story:
-        'Como el escudo de [[LPS|lps]] deja el casco casi estanco, la bacteria instala cien mil porteros de tres cañones para no morir de hambre dentro de su fortaleza. Las cadenas desplegadas de [[proteína|protein]] cruzan el foso con chaperonas SurA hasta que el telar BAM las enrolla en barriles de dieciséis láminas.\n\nA mitad de cada cañón acuoso, un ojal eléctrico estrecha el paso a un nanómetro exacto: el [[agua|water]], los iones y la [[glucosa|glucose]] menores de 600 daltons entran sin hacer cola, mientras pesos pesados como la vancomicina se quedan fuera del cordón VIP.',
+        'Como la coraza de [[LPS|lps]] vuelve casi estanco el casco exterior, la bacteria perfora en ella cien mil tamices de tres cañones para no morir de hambre dentro de su propia armadura. Las cadenas de [[proteína|protein]] recién salidas cruzan el foso periplásmico escoltadas por chaperonas como Skp y SurA hasta que el taller BAM las enrolla e incrusta como barriles de dieciséis láminas.\n\nEn la cintura de cada tubo acuoso, un bucle interno estrecha el paso a apenas un nanómetro flanqueado por cargas eléctricas enfrentadas. El [[agua|water]], los iones, la [[glucosa|glucose]] y los aminoácidos menores de 600 daltons pasan limpios al periplasma rumbo a los transportadores internos, mientras gigantes como la vancomicina se estrellan contra el gálibo estrecho.',
       blueprint:
         'Rol: Tamiz pasivo selectivo por tamaño y carga en la membrana externa · De: [[Proteínas|protein]] de barril β escoltadas por el periplasma y plegadas por BAM entre [[LPS|lps]] y [[fosfolípidos|phospholipid]] · Dentro: Homotrímero de barriles β de 16 hebras con bucle L3 que estrecha el poro acuoso (~0,7 × 1,1 nm; límite ~600 Da) · Hacia: Paso de [[agua|water]], iones, [[glucosa|glucose]] y [[aminoácidos|amino-acid]] hacia permeasas internas',
       scientific:
@@ -372,9 +372,9 @@ export const PROKARYOTE_NODE_LENSES: NodeLensMap = {
   'storage-granule': {
     en: {
       simple:
-        'Like Dragon Ball Senzu beans stashed for lean times, storage granules pack thousands of spare sugars or phosphates into compact balls that won’t swell the cell with water.',
+        'Storage granules are compact pantry spheres floating in the cytoplasm where bacteria pack away spare sugar, carbon, or phosphate during feasts without bloating the cell with water.',
       story:
-        'Leave millions of loose [[glucose|glucose]] molecules floating in the [[cytosol|cytosol]] and incoming osmotic water would inflate the bacterium like Violet Beauregarde in Willy Wonka! Instead, during carbon feasts, enzymes snap spare sugars into branched glycogen snowballs, string [[phosphates|phosphate]] into high-energy polyphosphate beads, or spin bioplastic droplets.\n\nOne giant insoluble snowball costs almost zero osmotic pressure—a true Dragon Ball Senzu-bean ration pack! When famine strikes, enzymes shave fuel right off the outer branches to keep [[ATP synthases|atp-synthase]] and [[70S ribosomes|ribosome-70s]] humming through the drought.',
+        'Leave ten million free [[glucose|glucose]] molecules dissolved in the [[cytosol|cytosol]] and osmotic water influx would pop the submarine like an overfilled balloon. Instead, whenever carbon is plentiful and nitrogen runs scarce, cytoplasmic enzymes link spare sugars into dense, branched glycogen snowballs, string [[phosphates|phosphate]] into high-energy polyphosphate beads, or polymerize acetyl-CoA into bioplastic PHB droplets wrapped in tidy phasin-protein coats.\n\nBecause giant polymers exert almost zero osmotic pull, the pantry stays feather-light on pressure. The moment outside rations dry up, phosphorylases and depolymerases shave fuel back off the granules to keep glycolysis, [[ATP synthases|atp-synthase]], and [[70S ribosomes|ribosome-70s]] humming through the famine.',
       blueprint:
         'Role: Osmotically inert cytoplasmic carbon, energy, and phosphate reserve · From: Excess [[glucose|glucose]]-1-phosphate, acetyl-CoA, or ATP-[[phosphate|phosphate]] in [[cytosol|cytosol]] during nutrient imbalance · Inside: Membrane-free 50–500 nm inclusions of α-(1→4)/α-(1→6) glycogen, polyphosphate, or phasin-[[protein|protein]]-coated polyhydroxybutyrate (PHB) · To: Mobilized glucose-1-P, β-hydroxybutyrate, and ATP/Pi feeding central metabolism and [[70S ribosomes|ribosome-70s]] during starvation',
       scientific:
@@ -382,9 +382,9 @@ export const PROKARYOTE_NODE_LENSES: NodeLensMap = {
     },
     es: {
       simple:
-        'Como Semillas del Ermitaño de Dragon Ball guardadas para épocas de escasez, los gránulos de reserva compactan miles de azúcares o fosfatos sin hinchar de agua la célula.',
+        'Los gránulos de reserva son esferas compactas de despensa en el citoplasma donde la bacteria guarda azúcar, carbono o fosfato sobrante en épocas de abundancia sin hincharse de agua.',
       story:
-        'Si dejaras millones de moléculas sueltas de [[glucosa|glucose]] en el [[citosol|cytosol]], la avalancha osmótica de agua hincharía la nave como en Charlie y la fábrica de chocolate. Por eso, en tiempos de festín, las enzimas empaquetan el azúcar en esferas ramificadas de glucógeno, ensartan [[fosfatos|phosphate]] energéticos o crean gotas de bioplástico envueltas en [[proteínas|protein]] fasinas.\n\nCada esfera insoluble guarda miles de raciones tipo Semilla del Ermitaño casi sin peaje osmótico; cuando llega el ayuno, las enzimas raspan combustible de sus ramas para sostener a los [[ribosomas 70S|ribosome-70s]] en marcha.',
+        'Si dejaras millones de moléculas sueltas de [[glucosa|glucose]] flotando en el [[citosol|cytosol]], el agua entraría en tromba por ósmosis hasta reventar el casco como un globo pasado de rosca. Por eso, cuando sobra carbono pero escasea nitrógeno, las enzimas empaquetan el azúcar extra en densas esferas ramificadas de glucógeno, ensartan [[fosfatos|phosphate]] en collares energéticos de polifosfato o fabrican gotas de bioplástico PHB envueltas en un abrigo ordenado de [[proteínas|protein]] fasinas.\n\nAl ser polímeros gigantes, apenas ejercen presión osmótica. En cuanto escasea la comida afuera, las enzimas de rescate van raspando raciones del gránulo para mantener encendidos el metabolismo central y los [[ribosomas 70S|ribosome-70s]] durante la travesía en seco.',
       blueprint:
         'Rol: Despensa citoplasmática osmóticamente inerte de carbono, energía y fosfato · De: Exceso de [[glucosa|glucose]], acetil-CoA o [[fosfato|phosphate]] de ATP en el [[citosol|cytosol]] · Dentro: Cuerpos de inclusión sin bicapa lipídica (50–500 nm) de glucógeno ramificado, polifosfato o PHB recubierto de [[proteínas|protein]] fasinas · Hacia: Glucosa-1-P, equivalentes reductores y fosfato liberados durante el ayuno hacia rutas glucolíticas y [[ribosomas 70S|ribosome-70s]]',
       scientific:
@@ -395,9 +395,9 @@ export const PROKARYOTE_NODE_LENSES: NodeLensMap = {
   'real-bacterium': {
     en: {
       simple:
-        'Meet Escherichia coli at true atomic scale: a two-micrometre Millennium Falcon packed wall-to-wall with 70S printers, Ghostbusters efflux cannons, and open-floor DNA.',
+        'This is an Escherichia coli bacterium drawn at true molecular scale—every wall layer, ribosome, motor, and DNA base pair packed into one bustling two-micrometre room with zero internal walls.',
       story:
-        'Step aboard E. coli at real atomic scale—a two-micrometre Millennium Falcon with zero hallways and zero wasted space! Nutrients pour through the [[cell envelope|real-envelope]] into a bustling mosh pit of three million proteins and [[70S ribosomes|ribosome-ecoli]] colliding a million times a second, feeding electrons to [[Complex I|complex-i-ecoli]] to electrify the hull while Ghostbusters-style [[AcrAB–TolC cannons|acrab-tolc]] blast intruding antibiotics right out the roof.\n\nDead center twists the 4.64-million-letter [[nucleoid|real-nucleoid]], where twin Tron-fast replisomes type a thousand bases a second and ribosomes translate mRNA before it even finishes printing—while a Cerebro-like nose array steers pod-racer flagella toward fresh sugar!',
+        'Step inside Escherichia coli at true atomic scale, where one scene unit spans 100 nanometres and luxury hallways do not exist. Sugars pour through outer-membrane sieves of the [[cell envelope|real-envelope]] into a cytoplasm so packed with enzymes and [[70S ribosomes|ribosome-ecoli]] that molecules pinball off neighbors a million times a second, stripping electrons to charge the hull via [[Complex I|complex-i-ecoli]] while [[AcrAB–TolC cannons|acrab-tolc]] blast intruding antibiotics straight back overboard.\n\nRight in the open center, 4.64 million base pairs of chromosome twist inside the [[nucleoid|real-nucleoid]], where replication forks copy a thousand letters a second and coupled gene convoys translate mRNA before transcription even finishes. Out at the bow, a polar chemoreceptor sonar dome tastes faint sugar trails and signals proton-driven flagellar motors to keep this submarine sprinting ahead of starvation.',
       blueprint:
         'Role: True-scale Gram-negative E. coli MG1655 open-plan bioenergetic system (1 unit = 100 nm) · From: Extracellular [[glucose|glucose]], [[amino acids|amino-acid]], and O₂ crossing [[cell envelope|real-envelope]] · Inside: Cytoplasmic glycolysis/TCA feeds [[Complex I|complex-i-ecoli]] H⁺ pumping; [[nucleoid|real-nucleoid]] runs [[replication forks|real-fork]] and coupled [[gene expression|real-gene]] · To: Proton-driven [[ATP synthase|atp-synthase-ecoli]], [[flagellar motors|real-motor]], [[AcrAB–TolC|acrab-tolc]] drug efflux, and binary division every ~20 min',
       scientific:
@@ -405,9 +405,9 @@ export const PROKARYOTE_NODE_LENSES: NodeLensMap = {
     },
     es: {
       simple:
-        'Conoce a Escherichia coli a escala atómica real: un Halcón Milenario de dos micrómetros repleto de impresoras 70S, cañones cazafantasmas y ADN a cielo abierto.',
+        'Esta es una bacteria Escherichia coli construida a escala molecular exacta: cada capa del casco, cada ribosoma, cada motor y cada par de bases del ADN conviven en un taller de dos micrómetros sin un solo muro interior.',
       story:
-        'Sube a bordo de E. coli a escala atómica real: un Halcón Milenario de dos micrómetros sin pasillos ni rincones vacíos. Los nutrientes cruzan la [[envoltura celular|real-envelope]] hacia un taller vibrante de tres millones de enzimas y [[ribosomas 70S|ribosome-ecoli]] que chocan millones de veces por segundo, cargando el casco mediante el [[Complejo I|complex-i-ecoli]] mientras cañones [[AcrAB–TolC|acrab-tolc]] estilo Cazafantasmas expulsan antibióticos por el tejado.\n\nEn pleno centro gira el [[nucleoide|real-nucleoid]] de 4,64 millones de bases, copiándose a mil letras por segundo y traduciendo genes en caliente mientras su radar frontal tipo Cerebro guía turbinas dignas de Anakin Skywalker.',
+        'Entra en una Escherichia coli a escala atómica verdadera, donde cada unidad de escena mide 100 nanómetros y no sobra ni un rincón vacío. Los azúcares atraviesan los tamices de la [[envoltura celular|real-envelope]] hacia un citoplasma tan abarrotado de enzimas y [[ribosomas 70S|ribosome-ecoli]] que cada molécula rebota millones de veces por segundo, cediendo electrones al [[Complejo I|complex-i-ecoli]] para electrificar el casco mientras los cañones [[AcrAB–TolC|acrab-tolc]] escupen antibióticos intrusos fuera de borda.\n\nEn pleno centro abierto, 4,64 millones de pares de bases se retuercen en el [[nucleoide|real-nucleoid]], donde las horquillas de replicación copian mil letras por segundo y los genes activos se traducen antes incluso de terminar de escribirse. En la proa, el radar de la matriz de quimiorreceptores olfatea trazas de alimento y ordena a los motores flagelares propulsados por protones mantener la nave a toda máquina.',
       blueprint:
         'Rol: Sistema bioenergético abierto a escala real de E. coli MG1655 (1 unidad = 100 nm) · De: [[Glucosa|glucose]], [[aminoácidos|amino-acid]] y O₂ a través de la [[envoltura celular|real-envelope]] · Dentro: Glucólisis/TCA alimentan el bombeo de H⁺ del [[Complejo I|complex-i-ecoli]]; el [[nucleoide|real-nucleoid]] ejecuta [[replicación|real-fork]] y [[expresión acoplada|real-gene]] · Hacia: [[ATP sintasa|atp-synthase-ecoli]], [[motores flagelares|real-motor]], eflujo [[AcrAB–TolC|acrab-tolc]] y división celular cada ~20 min',
       scientific:
@@ -418,9 +418,9 @@ export const PROKARYOTE_NODE_LENSES: NodeLensMap = {
   'real-envelope': {
     en: {
       simple:
-        'Just 35 nanometres thick, E. coli’s three-deck hull works like Wakandan shield + Mithril chainmail + Tony Stark’s Arc Reactor rolled into one skin.',
+        'Only 35 nanometres thick, this three-layer hull blocks detergents on the outside, braces against bursting in the middle, and replaces mitochondria on the inside by making all the cell’s ATP.',
       story:
-        'Slice the hull at true scale and three sci-fi decks appear in just 35 nanometres! Up top, magnesium-locked [[LPS|lps]] deflects gut bile while three-barrel [[OmpF porins|porin]] let small snacks enter the periplasmic moat.\n\nMid-deck, Braun’s lipoprotein rivets bolt the roof down to a Mithril-tough sheet of [[peptidoglycan|peptidoglycan]] swimming in pumped-out protons. Down on the [[plasma membrane|plasma-membrane]]—since bacteria carry zero mitochondria—[[Complex I|complex-i-ecoli]] and oxidases charge that proton moat like an Arc Reactor to spin ATP synthases, while 33-nanometre AcrAB–TolC cannons bridge all three decks to hurl poisons into space.',
+        'Zoom into the cut edge of the hull and three distinct engineering decks snap into focus across just 35 nanometres. Up top, an outer shield of [[LPS|lps]] locks out bile salts while trimeric [[OmpF porins|porin]] let small nutrients trickle into the periplasmic moat, where jellyfish chaperones ferry fresh β-barrels to BAM assembly docks.\n\nMid-deck, hundreds of thousands of Braun’s lipoprotein cables rivet the outer armor down to a single woven sheet of [[peptidoglycan|peptidoglycan]] swimming in protons pumped out from below. Down on the inner [[plasma membrane|plasma-membrane]]—because bacteria carry zero mitochondria—[[Complex I|complex-i-ecoli]] and cytochrome oxidases charge that proton moat so ATP synthases can mint ATP, while 33-nanometre AcrAB–TolC towers bridge all three decks to hurl poisons straight into space.',
       blueprint:
         'Role: Integrated 35-nm Gram-negative barrier, exoskeleton, and respiratory power deck · From: External solutes via [[porins|porin]], cytoplasmic NADH/O₂ at [[Complex I|complex-i-ecoli]], and exported envelope [[proteins|protein]] · Inside: [[LPS|lps]] outer membrane + Lpp-tethered [[peptidoglycan|peptidoglycan]] in H⁺-rich periplasm + bioenergetic [[plasma membrane|plasma-membrane]] · To: Cytoplasmic ATP from [[ATP synthase|atp-synthase-ecoli]] and trans-envelope drug expulsion via [[AcrAB–TolC|acrab-tolc]]',
       scientific:
@@ -428,9 +428,9 @@ export const PROKARYOTE_NODE_LENSES: NodeLensMap = {
     },
     es: {
       simple:
-        'En apenas 35 nanómetros, el casco de tres cubiertas de E. coli une escudo de Wakanda, malla de mithril y Reactor Arc de Iron Man en una sola piel.',
+        'Con apenas 35 nanómetros de espesor, este casco de tres cubiertas frena detergentes por fuera, resiste la presión en el medio y suple la falta de mitocondrias fabricando todo el ATP en su membrana interna.',
       story:
-        'Corta el casco a escala real y verás tres cubiertas dignas de ciencia ficción en solo 35 nanómetros. Arriba, el escudo de [[LPS|lps]] frena la bilis mientras las [[porinas OmpF|porin]] dejan pasar bocados pequeños al foso periplásmico.\n\nEn la entreplanta, miles de tirantes remachan el techo a una red tipo mithril de [[peptidoglicano|peptidoglycan]] bañada en protones. Abajo, en la [[membrana plasmática|plasma-membrane]] —sin una sola mitocondria a bordo—, el [[Complejo I|complex-i-ecoli]] carga ese foso como un Reactor Arc para mover las turbinas de ATP, mientras cañones AcrAB–TolC cruzan las tres cubiertas para disparar venenos fuera.',
+        'Acércate al borde seccionado del casco y verás tres cubiertas de ingeniería concentradas en solo 35 nanómetros. Arriba del todo, un pavimento exterior de [[LPS|lps]] repele las sales biliares mientras las [[porinas OmpF|porin]] filtran nutrientes menudos hacia el foso periplásmico, por donde chaperonas escoltan barriles nuevos hasta los astilleros BAM.\n\nEn la entreplanta, cientos de miles de tirantes de lipoproteína de Braun remachan el blindaje externo contra una única red tensa de [[peptidoglicano|peptidoglycan]] bañada en protones. Abajo, en la [[membrana plasmática|plasma-membrane]] —ya que aquí no existen mitocondrias—, el [[Complejo I|complex-i-ecoli]] y las oxidasas cargan ese foso ácido para que las turbinas de ATP sintasa acuñen energía, mientras cañones AcrAB–TolC atraviesan las tres cubiertas de lado a lado para catapultar venenos al exterior.',
       blueprint:
         'Rol: Casco Gram-negativo integrado de 35 nm con barrera selectiva, exoesqueleto y central energética · De: Solutos externos vía [[porinas|porin]], NADH/O₂ en el [[Complejo I|complex-i-ecoli]] y [[proteínas|protein]] exportadas · Dentro: Membrana externa con [[LPS|lps]] + [[peptidoglicano|peptidoglycan]] anclado por Lpp en periplasma ácido + [[membrana plasmática|plasma-membrane]] bioenergética · Hacia: ATP citoplasmático vía [[ATP sintasa|atp-synthase-ecoli]] y expulsión de fármacos por [[AcrAB–TolC|acrab-tolc]]',
       scientific:
@@ -441,9 +441,9 @@ export const PROKARYOTE_NODE_LENSES: NodeLensMap = {
   'real-motor': {
     en: {
       simple:
-        'Cut open like Anakin’s pod-racer engine blueprint, this 45-nanometre electric motor uses eleven proton-fed stators to spin its shaft—and slams into reverse in a millisecond!',
+        'Sliced right down the middle, this 45-nanometre electric motor uses eleven proton-powered stators bolted to the cell wall to spin the propeller shaft—and can slam into reverse in a millisecond.',
       story:
-        'Behold Sebulba’s worst nightmare: a 45-nanometre electric pod-racer turbine built from real protein rings and bushings! Eleven MotA/MotB stators bolted to the [[peptidoglycan|peptidoglycan]] wall channel periplasmic protons across the [[plasma membrane|plasma-membrane]], kicking FliG gear-teeth atop the C-ring to spin the drive rod smoothly through [[cell envelope|real-envelope]] bushings into the corkscrew [[flagellum|flagellum]].\n\nSo long as the bow [[chemoreceptor array|real-pole]] smells rising sugar, counterclockwise spin braids every tail into one turbo jet; one CheY-P tag on the C-ring clutch snaps the motor clockwise in a millisecond to tumble onto a sweeter heading!',
+        'Sliced clean along the hull cutaway, this 45-nanometre turbine looks like it rolled out of a watchmaker’s fever dream. Eleven pink MotA/MotB stator studs bolt onto the [[peptidoglycan|peptidoglycan]] wall in a ring around the rotor, channeling protons from the periplasm back across the [[plasma membrane|plasma-membrane]] to kick FliG gear teeth atop the cytoplasmic C-ring.\n\nThat torque spins the central drive rod cleanly through frictionless P- and L-ring bushings in the [[cell envelope|real-envelope]], bending out through the curved hook into the long helical [[flagellum|flagellum]]. As long as the polar [[chemoreceptor array|real-pole]] smells rising sugar, all motors spin counterclockwise in one smooth thrust bundle; the instant phosphorylated CheY tags the bottom C-ring switch, the gear snaps clockwise, the bundle splays open, and the cell tumbles toward a luckier path.',
       blueprint:
         'Role: Reversible H⁺-driven rotary basal nanomachine (~45 nm diameter) · From: Periplasmic H⁺ proton-motive force across [[plasma membrane|plasma-membrane]] and CheY-P switch signals from [[chemoreceptor array|real-pole]] · Inside: 11 [[peptidoglycan|peptidoglycan]]-anchored MotAB stators drive MS/C-ring rotor, axial rod, P/L-ring bushings, and universal hook · To: Helical [[flagellum|flagellum]] propulsion (~100 Hz runs / clockwise tumbles) and H⁺ return to [[cytosol|cytosol]]',
       scientific:
@@ -451,9 +451,9 @@ export const PROKARYOTE_NODE_LENSES: NodeLensMap = {
     },
     es: {
       simple:
-        'Abierto en corte como el plano de la vaina de carreras de Anakin, este motor eléctrico de 45 nanómetros usa once estatores de protones e invierte la marcha en un milisegundo.',
+        'Abierto por la mitad, este motor eléctrico de 45 nanómetros utiliza once estatores fijados a la pared celular y movidos por protones para girar el eje propulsor e invertir la marcha en un milisegundo.',
       story:
-        'Contempla una turbina digna del Boonta Eve de Star Wars tallada átomo a átomo en solo 45 nanómetros. Once estatores MotA/MotB sujetos al [[peptidoglicano|peptidoglycan]] canalizan protones a través de la [[membrana plasmática|plasma-membrane]], golpeando los dientes FliG del anillo C para girar el eje sin fricción a través de la [[envoltura celular|real-envelope]] hacia el [[flagelo|flagellum]].\n\nMientras el radar de la [[matriz de quimiorreceptores|real-pole]] huela más comida, el giro antihorario trenza las colas en un chorro recto; un toque de CheY-P en el embrague invierte el giro en seco para virar de rumbo al instante.',
+        'Seccionado justo al ras del corte del casco, este motor de 45 nanómetros parece salido del banco de un maestro relojero a escala atómica. Once estatores MotA/MotB anclados a la malla de [[peptidoglicano|peptidoglycan]] rodean la base como bobinas fijas, dejando caer protones a través de la [[membrana plasmática|plasma-membrane]] para empujar diente a diente la corona FliG sobre el anillo C.\n\nEl par resultante hace girar el eje central a través de cojinetes sin fricción P y L en la [[envoltura celular|real-envelope]], doblando el giro por el gancho articulado hacia el largo [[flagelo|flagellum]] helicoidal. Mientras la [[matriz de quimiorreceptores|real-pole]] huela cada vez más comida, el giro antihorario mantiene las colas trenzadas en carrera recta; en cuanto la señal CheY-P golpea el anillo C inferior, el rotor invierte el sentido en seco y la bacteria da un vuelco para reorientar la caza.',
       blueprint:
         'Rol: Nanomáquina basal rotatoria reversible impulsada por H⁺ (~45 nm) · De: Fuerza protón-motriz en la [[membrana plasmática|plasma-membrane]] y señales CheY-P desde la [[matriz de quimiorreceptores|real-pole]] · Dentro: 11 estatores MotAB fijados al [[peptidoglicano|peptidoglycan]] impulsan el rotor MS/C, eje central, cojinetes P/L y gancho universal · Hacia: Giro propulsor del [[flagelo|flagellum]] (~100 Hz) y devolución de H⁺ al [[citosol|cytosol]]',
       scientific:
@@ -464,9 +464,9 @@ export const PROKARYOTE_NODE_LENSES: NodeLensMap = {
   'real-pole': {
     en: {
       simple:
-        'Wired together at the bow like Professor X’s Cerebro helmet, thousands of honeycomb sensors amplify tiny whiffs of sugar into instant steering commands.',
+        'Clustered at the front pole of the cell, thousands of chemical sensors form a honeycomb radar dish that detects tiny changes in nearby food and steers the bacterium’s swimming.',
       story:
-        'Up at the ship’s nose sits E. coli’s own X-Men Cerebro dome: thousands of [[chemoreceptors|chemoreceptor]] locked into a 250-nanometre hexagonal honeycomb across the [[plasma membrane|plasma-membrane]]. Outside, their antennas taste [[glucose|glucose]], amino acids, or toxins; inside, their tips share one cooperative floor of CheA kinases and CheW rings.\n\nBecause the whole honeycomb talks as one mind, losing even a few sugar molecules flips neighboring trimers like dominoes—firing CheA to slap [[phosphate|phosphate]] tags onto CheY couriers that sprint aft and kick the [[flagellar motors|real-motor]] into a course-correcting tumble!',
+        'Up at the submarine’s bow, thousands of [[chemoreceptors|chemoreceptor]] lock into a 250-nanometre hexagonal honeycomb spaced precisely 12 nanometres from trimer to trimer across the [[plasma membrane|plasma-membrane]]. Out in the periplasm, their tips sniff [[glucose|glucose]] escorted by sugar-binding proteins, aspartate, serine, or noxious repellents; down in the cytoplasm, their tails cradle a shared lattice of CheA kinases and CheW adapter rings.\n\nWiring thousands of noses into one crystalline sheet creates hair-trigger teamwork: if just one receptor loses its sugar molecule, neighboring trimers flip together like dominoes, unleashing CheA to slap [[phosphate|phosphate]] tags onto CheY messengers. Those messengers race through the cytosol to flip the [[flagellar motors|real-motor]] into a course-correcting tumble before the scent trail goes cold.',
       blueprint:
         'Role: Cooperative polar chemotaxis sensor array and signal amplifier · From: Periplasmic [[glucose|glucose]], [[amino acids|amino-acid]], and repellents crossing [[porins|porin]] · Inside: Hexagonal lattice (~12 nm spacing) of trimers-of-dimers [[chemoreceptors|chemoreceptor]] in [[plasma membrane|plasma-membrane]] networked at cytoplasmic tips by CheA kinase and CheW · To: Diffusible CheY-[[phosphate|phosphate]] messengers in [[cytosol|cytosol]] controlling [[flagellar motor|real-motor]] reversal',
       scientific:
@@ -474,9 +474,9 @@ export const PROKARYOTE_NODE_LENSES: NodeLensMap = {
     },
     es: {
       simple:
-        'Conectados en proa como el casco Cerebro del Profesor X, miles de sensores en panal amplifican cambios mínimos de olor químico para pilotar la bacteria.',
+        'Agrupados en un polo de la bacteria, miles de sensores químicos forman una antena en panal capaz de notar cambios minúsculos de alimento en el agua y dirigir el rumbo de nado.',
       story:
-        'En la proa misma brilla el Cerebro de X-Men bacteriano: miles de [[quimiorreceptores|chemoreceptor]] engarzados en un panal hexagonal de 250 nanómetros sobre la [[membrana plasmática|plasma-membrane]]. Sus antenas externas catan [[glucosa|glucose]], aminoácidos o venenos; abajo, sus puntas comparten una placa cooperativa de quinasas CheA.\n\nAl trabajar como una sola mente colmena, basta que escasee una pizca de azúcar para volcar en dominó a todo el vecindario: CheA estampa etiquetas de [[fosfato|phosphate]] en mensajeros CheY que cruzan la cabina y ordenan a los [[motores flagelares|real-motor]] dar un trompo corrector.',
+        'En la proa misma del submarino, miles de [[quimiorreceptores|chemoreceptor]] encajan en un panal hexagonal de 250 nanómetros separados exactamente 12 nanómetros de trímero a trímero sobre la [[membrana plasmática|plasma-membrane]]. Sus antenas externas en el periplasma olfatean [[glucosa|glucose]], aminoácidos o repelentes tóxicos; sus puntas internas sostienen en vilo una red cristalina compartida de quinasas CheA y anillos acopladores CheW.\n\nConectar miles de receptores en una sola placa multiplica el oído químico: basta que un puñado deje de oler azúcar para que los vecinos basculen al unísono como fichas de dominó y disparen a CheA a estampar etiquetas de [[fosfato|phosphate]] sobre mensajeros CheY. Estos cruzan veloces el citosol y ordenan a los [[motores flagelares|real-motor]] dar un vuelco inmediato antes de perder el rastro.',
       blueprint:
         'Rol: Antena polar cooperativa de quimiotaxis y amplificador de señales · De: [[Glucosa|glucose]], [[aminoácidos|amino-acid]] y repelentes que entran al periplasma vía [[porinas|porin]] · Dentro: Red hexagonal (paso de 12 nm) de trímeros de dímeros de [[quimiorreceptores|chemoreceptor]] en la [[membrana plasmática|plasma-membrane]] enlazados abajo por CheA y CheW · Hacia: Mensajeros CheY-[[fosfato|phosphate]] difundidos por el [[citosol|cytosol]] hacia el [[motor flagelar|real-motor]]',
       scientific:
@@ -487,9 +487,9 @@ export const PROKARYOTE_NODE_LENSES: NodeLensMap = {
   'real-nucleoid': {
     en: {
       simple:
-        'Coiled like 460 spring-loaded telephone cords with zero nuclear walls, E. coli’s 4.6-million-letter chromosome fits inside one micrometre while staying wide open for instant reading.',
+        'Here all 4.6 million DNA base pairs of E. coli are twisted like braided rubber bands into hundreds of compact loops—packed into one micrometre without a nucleus, yet wide open for business.',
       story:
-        'Stretched straight, E. coli’s DNA ring spans 1.6 millimetres—800 times longer than the ship—yet all 4.64 million base pairs pack neatly into a one-micrometre open cockpit! Doctor Strange-like [[DNA gyrase|gyrase]] underwinds the helix into ~460 braided plectoneme loops while parkour-agile [[HU dimers|hu-protein]], Fis, and IHF pinch sharp corners.\n\nCrowded [[70S ribosomes|ribosome-ecoli]] press gently around the shoreline, while deep inside a [[replication fork|real-fork]] types 1,000 letters a second and outer loops poke into the aisle so [[coupled genes|real-gene]] print straight into waiting ribosome convoys.',
+        'If you unspooled E. coli’s circular DNA chromosome it would stretch 1.6 millimetres—eight hundred times longer than the cell—yet here all 4,641,652 base pairs nestle inside a one-micrometre cloud with no membrane fence in sight. ATP-powered [[DNA gyrase|gyrase]] endlessly underwinds the double helix so it braids back on itself like a twisted phone cord into ~460 plectoneme loops, while nimble [[HU dimers|hu-protein]], Fis, and IHF pinch sharp corners every few hundred letters.\n\nCrowded polysomes press inward from the surrounding cytoplasm, herding the chromosome together while keeping bulk [[70S ribosomes|ribosome-ecoli]] parked neatly around its shoreline. Deep inside, a [[replication fork|real-fork]] duplicates a thousand bases a second, while active loops poke out to the edge so [[coupled genes|real-gene]] can fire straight into waiting ribosomes.',
       blueprint:
         'Role: Full-genome plectonemic E. coli chromosome architecture (~4.64 Mbp) · From: Parental [[DNA|dna]], dNTP/NTP [[nucleotides|nucleotide]], and supercoiling/bending work by [[DNA gyrase|gyrase]] and [[HU|hu-protein]] · Inside: ~460 topological loops (~10 kb each) braided into right-handed plectonemes duplicated by [[replication forks|real-fork]] · To: Surface-exposed [[active genes|real-gene]] transcribed by [[RNA polymerase|rnap-ecoli]] and translated by peripheral [[ribosomes|ribosome-ecoli]]',
       scientific:
@@ -497,9 +497,9 @@ export const PROKARYOTE_NODE_LENSES: NodeLensMap = {
     },
     es: {
       simple:
-        'Trenzado como 460 cables de teléfono con resorte y sin muros nucleares, el cromosoma de 4,6 millones de letras cabe en un micrómetro listo para leerse al vuelo.',
+        'Aquí se pliegan los 4,6 millones de pares de bases de E. coli retorcidos como gomas elásticas trenzadas en cientos de bucles: caben en un micrómetro sin membrana nuclear y siguen listos para leerse al instante.',
       story:
-        'Estirado mediría 1,6 milímetros —ochocientas veces la eslora del casco—, pero aquí los 4,64 millones de pares de bases caben en un micrómetro de cabina abierta. La [[ADN girasa|gyrase]], cual hechicero Doctor Strange, trenza la hélice en unos 460 bucles elásticos mientras ágiles pinzas [[HU|hu-protein]] doblan horquillas cerradas.\n\nEl gentío exterior de [[ribosomas 70S|ribosome-ecoli]] abraza la costa del cromosoma, mientras adentro una [[horquilla de replicación|real-fork]] copia mil bases por segundo y los [[genes activos|real-gene]] asoman al borde para traducirse en caliente.',
+        'Si desenrollaras el aro de ADN de E. coli mediría 1,6 milímetros —ochocientas veces la longitud de la bacteria—, pero aquí sus 4.641.652 pares de bases se recogen en una nube de apenas un micrómetro sin vallas ni membranas. La [[ADN girasa|gyrase]] quema ATP para retorcer la doble hélice en sentido negativo hasta trenzarla sobre sí misma como un cable de teléfono en unos 460 bucles plectonémicos, mientras pequeños dímeros [[HU|hu-protein]], Fis e IHF doblan horquillas cerradas cada pocos cientos de letras.\n\nEl gentío de polisomas empuja desde fuera manteniendo compacto el cromosoma y dejando a los [[ribosomas 70S|ribosome-ecoli]] apostados en su orilla. En el interior, una [[horquilla de replicación|real-fork]] duplica mil bases por segundo mientras los [[genes activos|real-gene]] asoman al borde para traducirse sobre la marcha.',
       blueprint:
         'Rol: Arquitectura cromosómica plectonémica completa de E. coli (~4,64 Mpb) · De: [[ADN|dna]] parental, [[nucleótidos|nucleotide]] y superenrollamiento/plegado por [[ADN girasa|gyrase]] y [[HU|hu-protein]] · Dentro: ~460 dominios topológicos (~10 kb) trenzados en plectonemas y duplicados por [[horquillas de replicación|real-fork]] · Hacia: [[Genes en lectura|real-gene]] expuestos en la periferia hacia [[ARN polimerasa|rnap-ecoli]] y [[ribosomas 70S|ribosome-ecoli]]',
       scientific:
@@ -510,9 +510,9 @@ export const PROKARYOTE_NODE_LENSES: NodeLensMap = {
   'real-gene': {
     en: {
       simple:
-        'Like Gromit laying train tracks right in front of a speeding locomotive, E. coli ribosomes jump onto mRNA while RNA polymerase is still printing it!',
+        'Without a nuclear wall in the way, a line of ribosomes jumps onto a gene’s RNA copy while RNA polymerase is still writing it—turning DNA code into finished proteins in one continuous assembly line.',
       story:
-        'Behold the Millennium Falcon speedrun trick in action, modeled bead-for-bead! Up front, [[E. coli RNA polymerase|rnap-ecoli]] sprints along a [[DNA|dna]] loop braced by [[HU architectural clamps|hu-protein]], feeding a bright orange [[RNA|rna]] ribbon straight out its exhaust chute.\n\nLike Wallace & Gromit laying track mid-chase, a lead [[70S ribosome|ribosome-ecoli]] tailgates bumper-to-bumper behind the polymerase while trailing ribosomes pile on in a Snowpiercer convoy—blocking RNA-chopping scissors and peeling off finished enzymes before the gene even ends!',
+        'Here is bacterial speed’s secret weapon caught red-handed at one bead per amino acid and nucleotide. At the head of the convoy, [[E. coli RNA polymerase|rnap-ecoli]] chews along a chromosomal [[DNA|dna]] loop flanked by [[HU architectural clamps|hu-protein]], reeling a bright orange ribbon of messenger [[RNA|rna]] out of its exit channel.\n\nThat transcript never gets a single second alone: a lead [[70S ribosome|ribosome-ecoli]] rides practically bumper-to-bumper behind the polymerase, and trailing ribosomes pile on behind it, each extruding a longer nascent polypeptide the further down the ribbon it has marched. By shielding the naked RNA from scissor-happy nucleases and premature Rho roadblocks, this expressosome convoy turns genetic ink into working enzymes before the sentence even ends.',
       blueprint:
         'Role: Co-transcriptional translation convoy (expressosome / nascent polysome) · From: Promoter-opened [[DNA|dna]] flanked by [[HU|hu-protein]], cytosolic NTPs, and charged [[tRNAs|trna]] · Inside: [[RNA polymerase|rnap-ecoli]] synthesizes nascent m[[RNA|rna]] while trailing [[E. coli 70S ribosomes|ribosome-ecoli]] simultaneously translate codons · To: Folding nascent [[polypeptides|polypeptide]] handed to [[GroEL|groel]] or inner-membrane translocons',
       scientific:
@@ -520,9 +520,9 @@ export const PROKARYOTE_NODE_LENSES: NodeLensMap = {
     },
     es: {
       simple:
-        'Como Gromit tendiendo vías justo delante de una locomotora a toda marcha, los ribosomas saltan al ARNm mientras la ARN polimerasa todavía lo está escribiendo.',
+        'Al no haber envoltura nuclear de por medio, una fila de ribosomas se sube a la copia de ARN mientras la ARN polimerasa aún la está escribiendo: del ADN a la proteína en una sola cadena de montaje.',
       story:
-        'Aquí tienes cazado átomo a átomo el truco de speedrun del Halcón Milenario bacteriano. En cabeza, la [[ARN polimerasa de E. coli|rnap-ecoli]] corre por un bucle de [[ADN|dna]] sujeto por pinzas [[HU|hu-protein]], tendiendo una cinta naranja de [[ARN|rna]] recién horneada.\n\nIgual que en la persecución del tren de Wallace y Gromit, un [[ribosoma 70S|ribosome-ecoli]] líder viaja pegado a su parachoques seguido por una caravana entera: protegen el ARN frente a tijeras destructoras y entregan proteínas terminadas antes del punto final del gen.',
+        'Aquí tienes cazada in fraganti, esfera por aminoácido y nucleótido, el arma secreta de la velocidad bacteriana. En cabeza del convoy, la [[ARN polimerasa de E. coli|rnap-ecoli]] avanza sobre un bucle de [[ADN|dna]] escoltado por pinzas [[HU|hu-protein]], desenrollando una cinta naranja brillante de [[ARN|rna]] mensajero por su canal de salida.\n\nEse mensaje no pasa ni un segundo a solas: un [[ribosoma 70S|ribosome-ecoli]] líder marcha pegado al parachoques de la polimerasa y varios más se van cargando detrás en fila india, luciendo cada uno un polipéptido naciente más largo cuanto más camino lleva recorrido. Al tapar el ARN desnudo frente a nucleasas voraces y frenos prematuros, este tren expreso transforma tinta genética en máquinas listas antes de poner el punto final al gen.',
       blueprint:
         'Rol: Convoy acoplado de transcripción y traducción simultáneas (expresosoma / polisoma naciente) · De: [[ADN|dna]] promotor flanqueado por [[HU|hu-protein]], NTPs y [[ARNt|trna]] aminoacilados · Dentro: La [[ARN polimerasa|rnap-ecoli]] transcribe ARNm de [[ARN|rna]] mientras [[ribosomas 70S de E. coli|ribosome-ecoli]] lo traducen al paso · Hacia: [[Polipéptidos|polypeptide]] nacientes entregados a [[GroEL|groel]] o translocones de membrana',
       scientific:
@@ -533,9 +533,9 @@ export const PROKARYOTE_NODE_LENSES: NodeLensMap = {
   'ribosome-ecoli': {
     en: {
       simple:
-        'Up to 70,000 of these atomic-scale 70S turbo-printers pack a fast-growing E. coli like a factory planet—cloning every single protein in the ship in twenty minutes flat.',
+        'Built from 4,566 RNA letters and 54 proteins at true atomic coordinates, up to 70,000 of these E. coli ribosomes pack a fast-growing cell to copy every protein it owns in twenty minutes.',
       story:
-        'Every sphere in this 25-nanometre powerhouse maps a real E. coli atom: the [[30S decoding head|ribo-30s]] visor paired with the [[50S catalytic crown|ribo-50s]] forge. When E. coli doubles every twenty minutes, building ribosomes eats over half the ship’s entire power grid, crowding ~50,000 roaring printers around the [[nucleoid|real-nucleoid]].\n\nThree quarters race nose-to-tail as polysome convoys, gulping Flash-fast [[tRNAs|trna]] at twenty peptide welds a second before tossing tricky folds into Tony Stark [[GroEL folding chambers|groel]].',
+        'Every bead in this 25-nanometre boulder marks one real nucleotide or amino acid from E. coli crystal coordinates: a paler [[30S decoding head|ribo-30s]] cradled against a darker [[50S catalytic crown|ribo-50s]]. In a cell doubling every twenty minutes, printing new ribosomes swallows more than half the entire energy budget, packing the cytoplasm outside the [[nucleoid|real-nucleoid]] wall-to-wall with ~50,000 roaring factories.\n\nThree quarters of them ride nose-to-tail along messenger RNA ribbons as polysomes, gulping EF-Tu-delivered [[tRNAs|trna]] to stitch twenty peptide bonds a second before handing tricky chains off to [[GroEL folding chambers|groel]].',
       blueprint:
         'Role: Atomic-resolution E. coli 70S protein synthesis factory (PDB 4YBB) · From: rRNA operons + 54 ribosomal [[proteins|protein]], nascent m[[RNA|rna]], and EF-Tu·GTP·aa-[[tRNA|trna]] · Inside: [[30S subunit|ribo-30s]] (16S rRNA) pairs codons while [[50S subunit|ribo-50s]] (23S/5S rRNA) catalyzes peptide bonds · To: Cytoplasmic proteome folded via [[GroEL|groel]] and envelope proteins routed to [[cell envelope|real-envelope]]',
       scientific:
@@ -543,9 +543,9 @@ export const PROKARYOTE_NODE_LENSES: NodeLensMap = {
     },
     es: {
       simple:
-        'Hasta 70.000 de estas turboimpresoras 70S a escala atómica llenan una E. coli en racha como un planeta factoría, duplicando todas sus proteínas en veinte minutos.',
+        'Construido con 4.566 letras de ARN y 54 proteínas en coordenadas atómicas reales, hasta 70.000 de estos ribosomas de E. coli abarrotan una célula en crecimiento rápido para duplicar todas sus proteínas en veinte minutos.',
       story:
-        'Cada esfera de este coloso de 25 nanómetros marca un átomo real de E. coli: el [[cabezal lector 30S|ribo-30s]] unido a la [[cúpula catalítica 50S|ribo-50s]]. Al dividirse cada veinte minutos, fabricar ribosomas consume más de media energía celular, rodeando el [[nucleoide|real-nucleoid]] con cincuenta mil imprentas a todo gas.\n\nTres cuartas partes desfilan en trenes polisómicos devorando [[ARNt|trna]] veloces a veinte enlaces por segundo y enviando las cadenas rebeldes a las cápsulas [[GroEL|groel]] estilo Tony Stark.',
+        'Cada esfera de esta mole de 25 nanómetros representa un nucleótido o aminoácido real de E. coli: el [[cabezal lector 30S|ribo-30s]], más claro, acoplado contra la [[cúpula catalítica 50S|ribo-50s]], más oscura. Cuando la bacteria se divide cada veinte minutos, fabricar nuevos ribosomas devora más de la mitad de todo el presupuesto energético celular, llenando el citoplasma alrededor del [[nucleoide|real-nucleoid]] con cincuenta mil factorías rugiendo a la vez.\n\nTres cuartas partes avanzan en caravana sobre cintas de ARN mensajero formando polisomas, engullendo [[ARNt|trna]] escoltados por EF-Tu a veinte enlaces por segundo y pasando las cadenas rebeldes a las cámaras [[GroEL|groel]].',
       blueprint:
         'Rol: Factoría ribosómica 70S de E. coli en coordenadas reales (PDB 4YBB) · De: Operones rrn + 54 [[proteínas|protein]] ribosómicas, ARNm de [[ARN|rna]] y complejos EF-Tu·GTP·aa-[[ARNt|trna]] · Dentro: [[Subunidad 30S|ribo-30s]] (ARNr 16S) decodifica y [[subunidad 50S|ribo-50s]] (ARNr 23S/5S) suelda enlaces peptídicos · Hacia: Proteoma citoplasmático vía [[GroEL|groel]] y proteínas de la [[envoltura celular|real-envelope]]',
       scientific:
@@ -556,9 +556,9 @@ export const PROKARYOTE_NODE_LENSES: NodeLensMap = {
   'rnap-ecoli': {
     en: {
       simple:
-        'Modeled from real crystal data, E. coli’s five-piece crab-claw polymerase rides with its detachable R2-D2 sigma-70 navigator to spot genes and launch RNA convoys.',
+        'This real E. coli RNA polymerase structure shows the five-piece enzyme claw paired with its sigma-70 guide, clamped around DNA to copy genes into RNA.',
       story:
-        'Built atom-for-atom from E. coli crystal coordinates, massive β and β′ [[polypeptide|polypeptide]] jaws form a 15-nanometre Doc Ock claw pinned by α dimers and ω. Perched on the rim like R2-D2 in an X-wing socket sits σ⁷⁰, whose [[α-helical|alpha-helix]] sensors spot promoter beacons on [[nucleoid|real-nucleoid]] DNA and melt open the helix.\n\nOnce the RNA spark catches, σ⁷⁰ pops free so the core claw rockets solo down [[active genes|real-gene]]—or stacks bumper-to-bumper down rRNA tracks to mass-produce new [[70S ribosomes|ribosome-ecoli]].',
+        'Modeled residue by residue from E. coli crystal data, two massive β and β′ [[polypeptide|polypeptide]] jaws form a 15-nanometre crab claw braced at the back by two α dimers and a tiny ω pin. Perched along the rim rides σ⁷⁰, the housekeeping scout whose [[α-helical|alpha-helix]] domains read promoter signposts on [[nucleoid|real-nucleoid]] DNA and pry open the double helix right over the buried active site.\n\nOnce RNA synthesis catches fire, σ⁷⁰ pops free so the core claw can sprint solo down [[active genes|real-gene]]—or stack bumper-to-bumper along ribosomal RNA operons like freight trains feeding new [[70S ribosomes|ribosome-ecoli]].',
       blueprint:
         'Role: Atomic-structure E. coli σ⁷⁰-holoenzyme transcription machine (PDB 4YG2) · From: Promoter DNA in [[nucleoid|real-nucleoid]], NTPs, and dissociable σ⁷⁰ specificity [[polypeptide|polypeptide]] · Inside: α₂ββ′ω crab-claw pincers + [[α-helix|alpha-helix]]-rich σ⁷⁰ melt promoter DNA around catalytic Mg²⁺ · To: Co-transcriptionally translated [[gene transcripts|real-gene]] and rRNA Christmas-tree operons for [[ribosomes|ribosome-ecoli]]',
       scientific:
@@ -566,9 +566,9 @@ export const PROKARYOTE_NODE_LENSES: NodeLensMap = {
     },
     es: {
       simple:
-        'Modelada sobre el cristal real, la pinza de cinco piezas de la ARN polimerasa lleva acoplado su navegante sigma-70 tipo R2-D2 para localizar genes y lanzar trenes de ARN.',
+        'Esta estructura real de la ARN polimerasa de E. coli muestra la pinza enzimática de cinco piezas acoplada a su guía sigma-70, abrazando el ADN para copiar genes en ARN.',
       story:
-        'Trazada átomo a átomo, dos grandes mandíbulas [[polipeptídicas|polypeptide]] β y β′ arman una tenaza de 15 nanómetros cerrada por α y ω. Encajado en el borde como R2-D2 en el ala-X viaja σ⁷⁰, cuyos sensores de [[hélice alfa|alpha-helix]] leen las balizas promotoras del [[nucleoide|real-nucleoid]] y abren la doble hélice.\n\nApenas prende la síntesis, σ⁷⁰ se suelta para que la pinza acelere en solitario por los [[genes activos|real-gene]] o forme caravanas compactas en los operones que fabrican nuevos [[ribosomas 70S|ribosome-ecoli]].',
+        'Reconstruida aminoácido a aminoácido a partir del cristal de E. coli, dos enormes mandíbulas [[polipeptídicas|polypeptide]] β y β′ forman una tenaza de 15 nanómetros sujeta por detrás por dos subunidades α y el pasador ω. A caballo sobre el borde viaja el factor σ⁷⁰, cuyos dominios de [[hélice alfa|alpha-helix]] leen las señales promotoras en el [[nucleoide|real-nucleoid]] y abren la doble hélice justo encima del centro activo.\n\nEn cuanto el nuevo ARN coge carrerilla, σ⁷⁰ se desacopla para que la pinza central corra en solitario por los [[genes activos|real-gene]] o se encadene parachoques con parachoques en los operones ribosómicos que abastecen de piezas a los [[ribosomas 70S|ribosome-ecoli]].',
       blueprint:
         'Rol: Holoenzima ARN polimerasa-σ⁷⁰ de E. coli a escala atómica (PDB 4YG2) · De: ADN promotor del [[nucleoide|real-nucleoid]], NTPs y subunidad guía σ⁷⁰ de [[polipéptido|polypeptide]] · Dentro: Tenazas α₂ββ′ω y dominios en [[hélice alfa|alpha-helix]] de σ⁷⁰ funden el promotor sobre el Mg²⁺ catalítico · Hacia: [[Transcripción acoplada|real-gene]] de ARNm y síntesis masiva de ARNr para [[ribosomas 70S|ribosome-ecoli]]',
       scientific:
@@ -579,9 +579,9 @@ export const PROKARYOTE_NODE_LENSES: NodeLensMap = {
   groel: {
     en: {
       simple:
-        'Built like Tony Stark’s cylindrical Iron Man suit-up chamber—or a Dragon Ball Z healing pod—GroEL–GroES seals tangled new proteins inside alone for ten seconds to fold cleanly.',
+        'GroEL–GroES is a barrel-shaped protein rescue chamber with a removable lid—catching tangled new proteins, sealing them inside alone for ten seconds, and letting them fold cleanly.',
       story:
-        'Fresh [[polypeptides|polypeptide]] tumbling out of [[E. coli ribosomes|ribosome-ecoli]] hit a cytoplasmic mosh pit so crowded that sticky hydrophobic patches risk clumping into junk. Standing ready like Tony Stark’s automated suit gantry—or Goku’s healing pod—this 14-subunit double barrel snatches the misfolded rookie into its open ring.\n\nSeven ATPs click in, slamming the dome-shaped GroES helmet lid on top while flipping the inner wall from greasy to water-friendly and doubling room size! Ten quiet VIP seconds later, its [[alpha helices|alpha-helix]] snap into hero form and the pod pops open into the [[cytosol|cytosol]].',
+        'Fresh [[polypeptides|polypeptide]] pouring out of [[E. coli ribosomes|ribosome-ecoli]] enter a cytoplasmic mosh pit so jammed with neighbors that exposed greasy patches risk clumping into useless sludge. Waiting nearby, this back-to-back double barrel of fourteen GroEL subunits—crowned by sticky hydrophobic jaws—snatches the misfolded straggler into its open rim.\n\nSeven ATP molecules snap onto the ring, dropping the dome-shaped GroES lid on top while simultaneously flipping the barrel’s inner walls from greasy to water-loving and doubling the chamber volume. Given ten peaceful seconds inside its private Anfinsen isolation booth while those ATPs tick down to ADP, the [[alpha helices|alpha-helix]] and sheets settle into shape before the opposite ring fires to pop the lid and release a working enzyme into the [[cytosol|cytosol]].',
       blueprint:
         'Role: ATP-driven cylindrical chaperonin isolation chamber (PDB 1AON) · From: Misfolded nascent [[polypeptides|polypeptide]] from [[70S ribosomes|ribosome-ecoli]] and 7 ATP per ring cycle · Inside: Back-to-back GroEL₁₄ heptameric rings capped by GroES₇ dome switch hydrophobic lining to hydrophilic for ~10 s isolated folding · To: Native folded [[α-helical|alpha-helix]]/β-sheet enzymes released into [[cytosol|cytosol]] plus 7 ADP + Pi',
       scientific:
@@ -589,9 +589,9 @@ export const PROKARYOTE_NODE_LENSES: NodeLensMap = {
     },
     es: {
       simple:
-        'Como la cabina cilíndrica donde se ensambla la armadura de Iron Man —o una cápsula médica de Dragon Ball Z—, GroEL–GroES aísla proteínas enredadas diez segundos para plegarlas.',
+        'GroEL–GroES es un barril rescatador de proteínas con tapa desmontable: atrapa cadenas recién hechas que se han enredado, las aísla diez segundos a solas y les permite plegarse sin estorbos.',
       story:
-        'Los [[polipéptidos|polypeptide]] recién salidos de los [[ribosomas de E. coli|ribosome-ecoli]] caen en un pogo citoplasmático tan apretado que sus parches grasos podrían pegarse en chatarra. Al quite espera este doble barril de catorce piezas estilo taller de Tony Stark —o cápsula curativa de Goku— para atrapar al recluta mal plegado.\n\nSiete ATP bajan la cúpula GroES como un casco hermético, duplicando el espacio y volviendo hidrófilas las paredes. Tras diez segundos de paz VIP, sus [[hélices alfa|alpha-helix]] encajan impecables y la compuerta salta devolviéndolo listo al [[citosol|cytosol]].',
+        'Los [[polipéptidos|polypeptide]] recién salidos de los [[ribosomas de E. coli|ribosome-ecoli]] caen en un citoplasma tan atestado que cualquier parche grasiento expuesto corre peligro de pegarse a sus vecinos y formar un amasijo inútil. Al quite espera este doble barril espalda con espalda de catorce piezas GroEL, cuyas bocas hidrofóbicas capturan al náufrago mal plegado.\n\nSiete moléculas de ATP encajan en el anillo, bajan la cúpula GroES como una tapa a presión y, de un golpe mecánico, duplican la cabida interior volviendo hidrófilas sus paredes. Con diez segundos de paz absoluta dentro de esa cabina privada mientras se consume el ATP, las [[hélices alfa|alpha-helix]] y láminas encuentran su pliegue exacto antes de que el anillo opuesto salte la tapa y devuelva una enzima impecable al [[citosol|cytosol]].',
       blueprint:
         'Rol: Cámara cilíndrica de aislamiento y plegado asistido por ATP (PDB 1AON) · De: [[Polipéptidos|polypeptide]] mal plegados procedentes de [[ribosomas 70S|ribosome-ecoli]] y 7 ATP por ciclo · Dentro: Dos anillos heptaméricos GroEL₁₄ con tapa GroES₇ conmutan su cavidad de hidrófoba a hidrófila durante ~10 s · Hacia: Enzimas nativas con [[hélices alfa|alpha-helix]] y láminas β liberadas al [[citosol|cytosol]] más 7 ADP + Pi',
       scientific:
@@ -602,9 +602,9 @@ export const PROKARYOTE_NODE_LENSES: NodeLensMap = {
   'hu-protein': {
     en: {
       simple:
-        'Skipping heavy eukaryotic histone spools, agile Spider-Man-like HU clips swing in and out of DNA grooves in milliseconds—bending sharp hairpins without locking genes away.',
+        'HU is a tiny, agile clip protein that slips two flexible arms into DNA’s groove to bend sharp corners—packing the bacterial chromosome without locking genes away like eukaryotic histones do.',
       story:
-        'Human cells wrap DNA around heavy histone boulders; speedrunner E. coli hires 30,000 parkour-nimble HU dimers to tame its 1.6-millimetre [[nucleoid|real-nucleoid]]! Folded from compact [[alpha-helical|alpha-helix]] bodies, HU slips two β-ribbon fingers into the minor groove of [[DNA|dna]] to kink hairpin turns on a dime.\n\nLike Spider-Man vaulting off a lamppost, HU clips on and off in milliseconds—cinching tidy loops behind the [[replication fork|real-fork]] while leaping politely aside whenever [[RNA polymerase|rnap-ecoli]] thunders through!',
+        'Bacteria skipped bulky histone spools, hiring 30,000 nimble dimers of HU instead to tame the 1.6-millimetre tangle of the [[nucleoid|real-nucleoid]]. Built from two compact [[alpha-helical|alpha-helix]] bodies, HU reaches two slender β-ribbon arms straight into the minor groove of [[DNA|dna]] and pries proline wedges between base pairs, kinking the stiff double helix through a hairpin bend in a fraction of a second.\n\nUnlike permanent spools, HU hops on and off in milliseconds—cinching fresh plectoneme loops behind the [[replication fork|real-fork]] while stepping politely aside whenever [[RNA polymerase|rnap-ecoli]] barrels down a gene.',
       blueprint:
         'Role: Sequence-independent minor-groove DNA architectural bender (PDB 1MUL) · From: HupA and HupB [[polypeptides|polypeptide]] synthesized on cytoplasmic ribosomes · Inside: ~18 kDa [[α-helical|alpha-helix]] dimer inserts two β-ribbon arms (Pro63 intercalation) into [[DNA|dna]] minor groove to induce ~105–140° bends · To: Compact plectonemic loops in [[nucleoid|real-nucleoid]], newly replicated duplexes behind [[replication fork|real-fork]], and promoter loops near [[RNA polymerase|rnap-ecoli]]',
       scientific:
@@ -612,9 +612,9 @@ export const PROKARYOTE_NODE_LENSES: NodeLensMap = {
     },
     es: {
       simple:
-        'En lugar de pesados carretes de histonas, las ágiles pinzas HU entran y salen del ADN en milisegundos al estilo Spider-Man, doblando curvas cerradas sin bloquear genes.',
+        'HU es una diminuta y ágil pinza proteica que mete dos brazos flexibles en el surco del ADN para doblar esquinas cerradas, compactando el cromosoma sin bloquear la lectura de los genes como hacen las histonas.',
       story:
-        'Nuestras células enrollan el ADN en pesados bloques de histonas; la velocista E. coli contrata treinta mil acróbatas HU para domar los 1,6 milímetros del [[nucleoide|real-nucleoid]]. Con un cuerpo compacto de [[hélices alfa|alpha-helix]], HU mete dos dedos flexibles en el surco menor del [[ADN|dna]] para doblar horquillas en el acto.\n\nIgual que Spider-Man apoyándose y saltando en milisegundos, HU recoge los bucles tras la [[horquilla de replicación|real-fork]] y se aparta al vuelo apenas asoma la [[ARN polimerasa|rnap-ecoli]].',
+        'Las bacterias prescindieron de los pesados carretes de histonas y contrataron en su lugar a treinta mil ágiles dímeros HU para domar el ovillo de 1,6 milímetros del [[nucleoide|real-nucleoid]]. Con un pequeño cuerpo de [[hélices alfa|alpha-helix]], HU desliza dos finos brazos de cinta β en el surco menor del [[ADN|dna]] e incrusta cuñas de prolina entre las bases, doblando la rígida doble hélice en codos cerrados en una fracción de segundo.\n\nA diferencia de un carrete fijo, HU salta y se suelta en milisegundos: recoge los bucles recién salidos detrás de la [[horquilla de replicación|real-fork]] y se aparta cortésmente en cuanto la [[ARN polimerasa|rnap-ecoli]] pide vía libre.',
       blueprint:
         'Rol: Proteína arquitectónica plegadora del surco menor del ADN sin especificidad de secuencia (PDB 1MUL) · De: Cadenas [[polipeptídicas|polypeptide]] HupA y HupB traducidas en el citosol · Dentro: Dímero de ~18 kDa con cuerpo en [[hélice alfa|alpha-helix]] y dos brazos β (Pro63) que doblan el [[ADN|dna]] ~105–140° · Hacia: Compactación de plectonemas en el [[nucleoide|real-nucleoid]], dúplex hijos tras la [[horquilla de replicación|real-fork]] y regiones vecinas a [[ARN polimerasa|rnap-ecoli]]',
       scientific:
@@ -625,9 +625,9 @@ export const PROKARYOTE_NODE_LENSES: NodeLensMap = {
   chemoreceptor: {
     en: {
       simple:
-        'Dangling from the nose array like a Daredevil radar tuning fork, this four-helix rod telegraphs a one-atom nudge of sugar taste down to the ship’s steering clutch.',
+        'A chemoreceptor is a long, springy four-helix protein rod hanging inside the cell membrane that relays subtle chemical tastes from outside down to the steering kinase at its tip.',
       story:
-        'Picture a 20-nanometre Daredevil radar wand of four coiled [[alpha helices|alpha-helix]] hanging inside the bow [[chemoreceptor array|real-pole]]. When a sugar or [[amino acid|amino-acid]] kisses its outer tip, one helix slides inward by barely 1.5 ångströms—one atom’s width!—yet the shaft telegraphs that whisper all the way down to calm the CheA kinase.\n\nSo the pilot never goes nose-blind in rich soup, adaptation enzymes add or snip methyl tags along its [[polypeptide|polypeptide]] belt—giving the [[flagellar motors|real-motor]] a two-second memory to ask, "Is life getting sweeter or worse?"',
+        'Picture a 20-nanometre tuning fork of four coiled [[alpha helices|alpha-helix]] dangling into the cytoplasm from the polar [[chemoreceptor array|real-pole]]. Whenever an attractant sugar or [[amino acid|amino-acid]] snaps onto its sensor head out in the periplasm, one transmembrane helix slides inward by less than two ångströms—barely the width of a single atom—yet this coiled-coil shaft faithfully telegraphs that tiny nudge all the way down to quiet the CheA kinase at its bottom tip.\n\nSo the swimmer never goes nose-blind in a rich broth, CheR and CheB enzymes constantly add or clip methyl tags along a middle adaptation belt on its [[polypeptide|polypeptide]] stalks, resetting the spring so the [[flagellar motors|real-motor]] always compare right now against two seconds ago.',
       blueprint:
         'Role: Transmembrane chemotaxis transducer and methylation-memory rod (PDB 1QU7) · From: Periplasmic attractant [[amino acids|amino-acid]] or MalE-bound [[glucose|glucose]]/maltose · Inside: Homodimeric four-[[α-helix|alpha-helix]] coiled-coil hairpin (~20 nm cytoplasmic stalk) with HAMP domain, Glu/Gln methylation belt, and CheA/CheW tip · To: Polar [[chemoreceptor array|real-pole]] kinase control governing [[flagellar motor|real-motor]] tumbling frequency',
       scientific:
@@ -635,9 +635,9 @@ export const PROKARYOTE_NODE_LENSES: NodeLensMap = {
     },
     es: {
       simple:
-        'Colgando en proa como el bastón radar de Daredevil, esta varilla de cuatro hélices transmite un empujón de apenas un átomo desde el azúcar exterior hasta el timón.',
+        'Un quimiorreceptor es un largo bastón elástico de cuatro hélices que cuelga bajo la membrana celular: transmite el sabor químico del exterior hasta la quinasa de timón situada en su punta inferior.',
       story:
-        'Imagina un bastón sensorial digno de Daredevil de 20 nanómetros y cuatro [[hélices alfa|alpha-helix]] suspendido en la [[matriz polar de quimiorreceptores|real-pole]]. Cuando un azúcar o [[aminoácido|amino-acid]] roza su punta externa, una hélice baja apenas el ancho de un átomo, pero el fuste transmite ese susurro íntegro para calmar abajo a la quinasa CheA.\n\nPara no saturarse en un caldo rico, dos enzimas ponen y quitan marcas metilo sobre sus tallos [[polipeptídicos|polypeptide]], dando a los [[motores flagelares|real-motor]] memoria de dos segundos para comparar si el rastro mejora.',
+        'Imagina un diapasón de 20 nanómetros trenzado con cuatro [[hélices alfa|alpha-helix]] que cuelga hacia el citoplasma dentro de la [[matriz polar de quimiorreceptores|real-pole]]. Cuando un azúcar o un [[aminoácido|amino-acid]] atrayente se posa en su antena periplásmica, una hélice transmembrana se desliza hacia dentro apenas un ångström y medio —el ancho de un átomo—, pero este fuste helicoidal transmite ese susurro íntegro hasta su punta inferior para calmar a la quinasa CheA.\n\nPara que la bacteria no pierda olfato dentro de un caldo rico, dos enzimas ponen y quitan grupos metilo sobre el cinturón intermedio de sus tallos [[polipeptídicos|polypeptide]], reajustando el muelle como una memoria de corto plazo para que los [[motores flagelares|real-motor]] comparen siempre el olor de ahora mismo con el de hace dos segundos.',
       blueprint:
         'Rol: Transductor transmembrana de quimiotaxis con memoria adaptativa por metilación (PDB 1QU7) · De: [[Aminoácidos|amino-acid]] o [[glucosa|glucose]]/maltosa periplásmicos · Dentro: Horquilla homodimérica en haz de cuatro [[hélices alfa|alpha-helix]] (~20 nm citoplasmáticos) con dominio HAMP, banda de metilación Glu y punta de unión a CheA/CheW · Hacia: Control de quinasa en la [[matriz polar|real-pole]] para modular vuelcos del [[motor flagelar|real-motor]]',
       scientific:
@@ -648,9 +648,9 @@ export const PROKARYOTE_NODE_LENSES: NodeLensMap = {
   'real-fork': {
     en: {
       simple:
-        'Roaring like a twin-engine Tron light-cycle at 1,000 letters per second, the replisome writes one DNA strand straight ahead while looping the partner strand like a slide trombone!',
+        'This 250-nanometre DNA copying machine unzips the chromosome at 1,000 letters per second—writing one new strand smoothly forward while looping the other strand around to stitch it in quick back-steps.',
       story:
-        'Cloning 4.64 million letters in forty minutes takes twin Tron light-cycles—and here is one replisome caught mid-drift inside the [[nucleoid|real-nucleoid]]! Up front, six-ring [[DnaB helicase|dnab-helicase]] burns ATP to split parental [[DNA|dna]] at 1,000 bases a second, feeding the top rail straight into leading-strand [[DNA polymerase III|pol3-ecoli]].\n\nBecause the bottom strand runs backward chemically, the machine pulls a jazz-trombone stunt: DnaG stamps pink RNA primers, white SSB spools guard the looping single strand, and a twin Pol III stitches 1,500-base Okazaki runs while [[HU clips|hu-protein]] fold both fresh chromosomes aft.',
+        'Copying 4.64 million base pairs in forty minutes takes twin high-speed locomotives—and here is one replisome caught mid-stride inside the [[nucleoid|real-nucleoid]]. Out in front, the six-subunit ring of [[DnaB helicase|dnab-helicase]] burns ATP to plow parental [[DNA|dna]] apart at a thousand base pairs every second, feeding the upper template straight into a leading-strand [[DNA polymerase III|pol3-ecoli]] that lays down pale-blue daughter DNA without lifting its pen.\n\nThe lower strand runs backward chemically, so the replisome pulls a clever trombone trick: DnaG primase lays a short pink RNA starter, white SSB spools keep the bare single strand from tangling as it loops out, and a twin Pol III tethered by flexible τ arms stitches a 1,500-base Okazaki fragment before snapping onto the next primer while [[HU clips|hu-protein]] fold both fresh chromosomes behind it.',
       blueprint:
         'Role: Coupled bidirectional E. coli replisome (~1,000 bp/s per fork) · From: Supercoiled parental [[DNA|dna]] in [[nucleoid|real-nucleoid]], dNTPs, NTP primers, and ATP · Inside: [[DnaB helicase|dnab-helicase]] unwinds duplex; τ-tethered twin [[Pol III cores|pol3-ecoli]] + β₂ clamps synthesize continuous leading strand and DnaG-primed, SSB-coated lagging Okazaki loops · To: Two semiconservative sister chromosomes folded immediately by [[HU|hu-protein]] and [[gyrase|gyrase]]',
       scientific:
@@ -658,9 +658,9 @@ export const PROKARYOTE_NODE_LENSES: NodeLensMap = {
     },
     es: {
       simple:
-        'Rugiendo como una moto de luz de Tron de doble motor a mil letras por segundo, el replisoma escribe una hebra recta mientras curva la otra como la vara de un trombón.',
+        'Esta máquina copiadora de 250 nanómetros abre el cromosoma a mil letras por segundo: escribe una hebra hija seguida hacia delante mientras arquea la otra en bucle para coserla por tramos.',
       story:
-        'Copiar 4,64 millones de bases en cuarenta minutos exige dos motos de luz estilo Tron a tope, y aquí ves un replisoma en plena curva dentro del [[nucleoide|real-nucleoid]]. En proa, el anillo de la [[helicasa DnaB|dnab-helicase]] abre el [[ADN|dna]] parental a mil bases por segundo, sirviendo la vía superior directa a una [[ADN polimerasa III|pol3-ecoli]] continua.\n\nComo la otra vía corre al revés, ejecuta un truco de trombón: la primasa DnaG pone cebadores rosas, carretes blancos SSB protegen el bucle abierto y una Pol III gemela cose tramos de Okazaki mientras pinzas [[HU|hu-protein]] pliegan detrás ambos cromosomas.',
+        'Duplicar 4,64 millones de pares de bases en cuarenta minutos exige dos locomotoras gemelas a toda costa, y aquí tienes un replisoma cazado en plena carrera dentro del [[nucleoide|real-nucleoid]]. En vanguardia, el anillo de seis piezas de la [[helicasa DnaB|dnab-helicase]] quema ATP para hender el [[ADN|dna]] parental a mil bases por segundo, entregando la hebra superior directa a una [[ADN polimerasa III|pol3-ecoli]] que extiende la hebra conductora sin levantar el trazo.\n\nComo la otra hebra corre al revés químicamente, el replisoma ejecuta un malabarismo de trombón: la primasa DnaG planta un breve cebador rosa de ARN, carretes blancos de SSB evitan enredos mientras la hebra desnuda describe un amplio bucle y una segunda Pol III sujeta por brazos τ cose fragmentos de Okazaki de mil quinientas letras mientras pinzas [[HU|hu-protein]] pliegan detrás ambos cromosomas hijos.',
       blueprint:
         'Rol: Replisoma acoplado de E. coli (~1.000 pb/s por horquilla) · De: [[ADN|dna]] parental del [[nucleoide|real-nucleoid]], dNTPs, NTPs para cebadores y ATP · Dentro: [[Helicasa DnaB|dnab-helicase]] separa la hélice; dos núcleos [[Pol III|pol3-ecoli]] unidos por brazos τ copian la hebra conductora continua y el bucle rezagado con SSB y cebadores de [[ARN|rna]] (DnaG) · Hacia: Dos cromosomas semiconservativos compactados por [[HU|hu-protein]] y [[girasa|gyrase]]',
       scientific:
@@ -671,9 +671,9 @@ export const PROKARYOTE_NODE_LENSES: NodeLensMap = {
   'atp-synthase-ecoli': {
     en: {
       simple:
-        'Bolted straight into E. coli’s inner skin like Tony Stark’s rotary Arc Reactor, ATP synthase spins on incoming protons to mint three fresh ATP coins every turn!',
+        'Mounted right in the bacterium’s inner membrane, E. coli ATP synthase is a rotary waterwheel spun by incoming protons—minting three fresh ATP fuel molecules with every full turn.',
       story:
-        'No mitochondria? Bolt Tony Stark’s Arc Reactor straight into your [[cell envelope’s|real-envelope]] inner skin, facing the [[cytosol|cytosol]]! Protons banked outside by [[Complex I|complex-i-ecoli]] hop onto a 10-spoke carousel of [[alpha-helical|alpha-helix]] hairpins, whirling the central γ–ε camshaft inside the stationary α₃β₃ crown.\n\nEvery full spin slams spent ADP and phosphate into three fresh ATP fuel coins. Wildest plot twist: if oxygen vanishes in the gut, the turbine runs backward—burning glycolytic ATP to pump protons out so the [[flagellar motors|real-motor]] never lose power!',
+        'With zero mitochondria aboard, E. coli bolts its rotary power turbines straight into the [[cell envelope’s|real-envelope]] inner membrane, heads pointing inward toward the [[cytosol|cytosol]]. Protons packed into the periplasm by [[Complex I|complex-i-ecoli]] drop down a half-channel in subunit a, hopping onto a carousel of ten c [[alpha-helical|alpha-helix]] hairpins to spin the membrane rotor like a millstone in a fast stream.\n\nAttached to that carousel, the lopsided γ–ε central drive shaft whirls inside the α₃β₃ catalytic crown—held keepsake-still by the slender b₂δ side-stalk—forcing three β jaws through open, loose, and tight strokes that slam ADP and phosphate into three fresh ATPs per turn. And if oxygen vanishes? The turbine simply burns glycolytic ATP in reverse to pump protons out so the [[flagellar motors|real-motor]] never lose voltage.',
       blueprint:
         'Role: Reversible inner-membrane rotary F₁F₀ ATP synthase/ATPase (PDB 6OQR) · From: Periplasmic H⁺ gradient from [[Complex I|complex-i-ecoli]] plus cytosolic ADP + [[phosphate|phosphate]] · Inside: 10-subunit F₀ c₁₀ [[α-helical|alpha-helix]] ring + a stator spin central γ–ε stalk inside b₂δ-braced α₃β₃ head · To: 3 ATP per 360° turn (10 H⁺ / 3 ATP ≈ 3.3 H⁺/ATP) powering [[ribosomes|ribosome-ecoli]], [[GroEL|groel]], and [[replisomes|real-fork]]',
       scientific:
@@ -681,9 +681,9 @@ export const PROKARYOTE_NODE_LENSES: NodeLensMap = {
     },
     es: {
       simple:
-        'Atornillada en la piel interna de E. coli como el Reactor Arc rotatorio de Tony Stark, la ATP sintasa gira con protones para acuñar tres monedas de ATP por vuelta.',
+        'Anclada directamente en la membrana interna de la bacteria, la ATP sintasa de E. coli es una noria rotatoria movida por protones que acuña tres moléculas de ATP por cada vuelta completa.',
       story:
-        '¿Sin mitocondrias? ¡Atornilla el Reactor Arc de Iron Man directo en la piel interna de la [[envoltura celular|real-envelope]] mirando al [[citosol|cytosol]]! Los protones acumulados afuera por el [[Complejo I|complex-i-ecoli]] hacen girar un carrusel de diez horquillas de [[hélice alfa|alpha-helix]], rotando el árbol de levas γ–ε dentro de la corona α₃β₃.\n\nCada giro completo prensa ADP y fosfato en tres monedas nuevas de ATP. Y si falta el oxígeno en el intestino, ¡invierte la marcha quemando ATP para expulsar protones y mantener vivos los [[motores flagelares|real-motor]]!',
+        'Al no llevar mitocondrias a bordo, E. coli atornilla sus turbinas eléctricas directamente en la membrana interna de la [[envoltura celular|real-envelope]], con el cabezal asomando hacia el [[citosol|cytosol]]. Los protones acumulados en el periplasma por el [[Complejo I|complex-i-ecoli]] bajan por la subunidad a y saltan a un carrusel de diez horquillas de [[hélice alfa|alpha-helix]] (anillo c₁₀), haciéndolo girar como una rueda de molino bajo un salto de agua.\n\nSolidario con ese carrusel, el eje central asimétrico γ–ε da vueltas dentro de la corona α₃β₃ —sujeta firme por el brazo lateral b₂δ— y obliga a sus tres cámaras β a prensar ADP y fosfato hasta escupir tres ATP nuevos por giro. ¿Que se acaba el oxígeno? La turbina invierte el giro quemando ATP glucolítico para bombear protones hacia fuera y que los [[motores flagelares|real-motor]] jamás se queden sin tensión.',
       blueprint:
         'Rol: Turbina rotatoria reversible F₁F₀ ATP sintasa de membrana interna (PDB 6OQR) · De: Gradiente periplásmico de H⁺ del [[Complejo I|complex-i-ecoli]], ADP y [[fosfato|phosphate]] · Dentro: Anillo c₁₀ de [[hélices alfa|alpha-helix]] e interfaz a giran el tallo γ–ε dentro del cabezal α₃β₃ frenado por b₂δ · Hacia: 3 ATP por vuelta (3,33 H⁺/ATP) para [[ribosomas|ribosome-ecoli]], [[GroEL|groel]] y [[horquilla de replicación|real-fork]]',
       scientific:
@@ -694,9 +694,9 @@ export const PROKARYOTE_NODE_LENSES: NodeLensMap = {
   'complex-i-ecoli': {
     en: {
       simple:
-        'Built like a Pacific Rim L-shaped diesel-electric piston, Complex I strips high-voltage electrons from NADH in its upright tower to heave four protons out its horizontal hull arm.',
+        'Complex I is an L-shaped power pump in the inner membrane—stripping electrons from food-derived NADH in its upright arm and using that jolt to push four protons out through its membrane arm.',
       story:
-        'While human mitochondria pad Complex I with thirty extra trim pieces, E. coli runs the lean 13-subunit hot-rod engine right in its [[inner envelope|real-envelope]]. NADH from cracked sugars hands two high-voltage electrons to a flavin sparkplug, shooting them down a nine-step iron–sulfur wire to the hinge.\n\nWhen those electrons jump onto membrane quinone, an electrostatic shockwave fires four [[alpha-helical|alpha-helix]] proton pistons along the horizontal arm—charging the periplasmic battery that spins [[ATP synthases|atp-synthase-ecoli]], pod-racer [[flagellar motors|real-motor]], and [[AcrAB–TolC pumps|acrab-tolc]]!',
+        'While human mitochondria wrap Complex I in thirty-plus extra accessory subunits, E. coli runs the lean, stripped-down 13-protein original right in its [[inner envelope|real-envelope]]. Down in the cytoplasmic arm, NADH fresh from glycolysis and the Krebs cycle docks at a flavin sparkplug and hands over two high-energy electrons, which zip down a 9-station wire of iron–sulfur clusters toward the membrane hinge.\n\nWhen those electrons leap onto a waiting quinone carrier inside the bilayer, electrostatic shockwaves ripple down the 18-nanometre horizontal arm of [[alpha-helical|alpha-helix]] antiporter channels, heaving four protons out into the periplasm. Cytochrome oxidases finish the handoff to oxygen while those pumped protons rush back in to spin [[ATP synthases|atp-synthase-ecoli]], [[flagellar motors|real-motor]], and [[AcrAB–TolC pumps|acrab-tolc]].',
       blueprint:
         'Role: Minimalist 13-subunit respiratory NADH:quinone oxidoreductase H⁺ pump (PDB 7NYR) · From: Cytoplasmic NADH + H⁺ from glycolysis/TCA and membrane ubiquinone/menaquinone · Inside: L-shaped NuoA–N complex transfers 2 e⁻ across FMN + 9 Fe–S clusters in peripheral arm to drive 4 H⁺ ejection across [[α-helical|alpha-helix]] membrane arm · To: Reduced quinol for terminal oxidases and periplasmic Δp feeding [[ATP synthase|atp-synthase-ecoli]], [[flagellar motor|real-motor]], and [[AcrAB–TolC|acrab-tolc]]',
       scientific:
@@ -704,9 +704,9 @@ export const PROKARYOTE_NODE_LENSES: NodeLensMap = {
     },
     es: {
       simple:
-        'Como un motor en L de Pacific Rim con cuatro pistones en serie, el Complejo I arranca electrones al NADH en su torre vertical para expulsar cuatro protones por su brazo de membrana.',
+        'El Complejo I es una bomba de energía en forma de L incrustada en la membrana interna: toma electrones del NADH en su brazo vertical y aprovecha ese chispazo para expulsar cuatro protones por su brazo horizontal.',
       story:
-        'Mientras nuestras mitocondrias forran su Complejo I con treinta piezas extra, E. coli monta en su [[envoltura interna|real-envelope]] el bloque motor puro de trece subunidades. El NADH entrega dos electrones a tope que bajan como un rayo por nueve estaciones de hierro-azufre hasta la bisagra.\n\nAl saltar sobre una quinona, la onda electrostática acciona cuatro pistones de [[hélices alfa|alpha-helix]] en el brazo horizontal y lanza cuatro protones al periplasma, cargando la batería que mueve la [[ATP sintasa|atp-synthase-ecoli]], los [[motores flagelares|real-motor]] y los cañones [[AcrAB–TolC|acrab-tolc]].',
+        'Mientras las mitocondrias humanas envuelven su Complejo I con más de treinta piezas accesorias, E. coli monta en su [[envoltura interna|real-envelope]] el motor original puro y ligero de trece proteínas. En el brazo que asoma al citoplasma, el NADH recién llegado de romper azúcares entrega dos electrones llenos de brío a una flavina, desde donde bajan a toda chispa por un cable de nueve centros de hierro-azufre hasta la bisagra de la membrana.\n\nAl saltar esos electrones sobre una quinona liposoluble, una sacudida electrostática recorre los 18 nanómetros del brazo horizontal de [[hélices alfa|alpha-helix]] y empuja cuatro protones al foso periplásmico. Esos mismos protones alimentarán segundos después el giro de la [[ATP sintasa|atp-synthase-ecoli]], los [[motores flagelares|real-motor]] y los cañones [[AcrAB–TolC|acrab-tolc]].',
       blueprint:
         'Rol: Bomba respiratoria minimalista NADH:quinona oxidorreductasa de 13 subunidades (PDB 7NYR) · De: NADH citoplasmático (glucólisis/TCA) y ubiquinona/menaquinona de membrana · Dentro: Complejo NuoA–N en L conduce 2 e⁻ por FMN y 9 centros Fe–S para bombear 4 H⁺ mediante antiporters de [[hélices alfa|alpha-helix]] · Hacia: Quinol reducido para oxidasas terminales y gradiente H⁺ periplásmico para [[ATP sintasa|atp-synthase-ecoli]], [[motor flagelar|real-motor]] y [[AcrAB–TolC|acrab-tolc]]',
       scientific:
@@ -717,9 +717,9 @@ export const PROKARYOTE_NODE_LENSES: NodeLensMap = {
   'acrab-tolc': {
     en: {
       simple:
-        'Think Ghostbusters proton-pack meets rooftop bilge cannon: 33-nanometre AcrAB–TolC snatches antibiotics in the foyer before they ever reach the cytosol and blasts them outside!',
+        'AcrAB–TolC is a 33-nanometre multidrug cannon spanning all three layers of the cell wall—grabbing antibiotics before they even reach the cytoplasm and firing them straight outside.',
       story:
-        'Who ya gonna call when antibiotics breach the outer gate? Spanning all 33 nanometres of the [[cell envelope|real-envelope]], Ghostbusters-style AcrB patrols the [[plasma membrane|plasma-membrane]] like a rotating three-chambered containment trap—snatching bile salts, soaps, dyes, and broad-spectrum drugs right out of the periplasmic foyer before they touch a single ribosome!\n\nPowered by protons roaring back inward from [[Complex I|complex-i-ecoli]], the trimer cycles through Loose, Tight, and Open strokes like a peristaltic bilge cannon, ramming poisons up the AcrA adapter collar and firing them clean out the TolC rooftop chimney past the [[LPS|lps]] shield.',
+        'Why wait for poison to hit your ribosomes when you can intercept it in the hallway and shoot it through the roof? Spanning all 33 nanometres of the [[cell envelope|real-envelope]], trimeric AcrB sits in the [[plasma membrane|plasma-membrane]] like a three-cylinder peristaltic bilge pump, snatching bile salts, detergents, and antibiotics straight out of the lipid bilayer and periplasm.\n\nPowered by periplasmic protons rushing back inward—courtesy of [[Complex I|complex-i-ecoli]]—each AcrB monomer cycles smoothly through access, binding, and squeeze strokes, ramming its toxic catch up a hexameric AcrA adapter collar and straight out the 14-nanometre TolC β-barrel chimney piercing the [[LPS|lps]] outer hull. The drug lands back in the outside world without ever touching the cytoplasm.',
       blueprint:
         'Role: Tripartite RND proton-antiporter multidrug efflux cannon (PDB 5O66) · From: Hydrophobic antibiotics, bile salts, and detergents in periplasm/[[plasma membrane|plasma-membrane]] plus periplasmic H⁺ from [[Complex I|complex-i-ecoli]] · Inside: AcrB₃ inner-membrane peristaltic pump + AcrA₆ periplasmic funnel + TolC₃ outer-membrane channel spanning [[cell envelope|real-envelope]] · To: Direct expulsion past [[LPS|lps]] barrier into extracellular medium and H⁺ return to cytosol',
       scientific:
@@ -727,9 +727,9 @@ export const PROKARYOTE_NODE_LENSES: NodeLensMap = {
     },
     es: {
       simple:
-        'Mitad trampa de los Cazafantasmas y mitad cañón de achique en el tejado: AcrAB–TolC intercepta antibióticos de 33 nanómetros abajo y los dispara fuera sin que pisen el citosol.',
+        'AcrAB–TolC es un cañón expulsador de 33 nanómetros que atraviesa las tres capas de la envoltura celular: atrapa antibióticos antes siquiera de que pisen el citoplasma y los dispara directo al exterior.',
       story:
-        '¿A quién vas a llamar cuando un antibiótico cruza la primera puerta? Cruzando los 33 nanómetros de la [[envoltura celular|real-envelope]], el trímero AcrB vigila en la [[membrana plasmática|plasma-membrane]] como una trampa rotatoria de los Cazafantasmas de tres cámaras, cazando sales biliares, tintes y fármacos en el vestíbulo antes de que rocen un solo ribosoma.\n\nMovido por protones procedentes del [[Complejo I|complex-i-ecoli]], AcrB alterna sus cámaras en tres tiempos implacables, empujando el veneno por el manguito AcrA para escupirlo por la chimenea TolC más allá del escudo de [[LPS|lps]].',
+        '¿Para qué esperar a que un veneno toque tus ribosomas si puedes interceptarlo en el vestíbulo y catapultarlo por el tejado? Tendido a lo largo de los 33 nanómetros completos de la [[envoltura celular|real-envelope]], el trímero AcrB vigila en la [[membrana plasmática|plasma-membrane]] como una bomba de achique de tres tiempos, pescando sales biliares, detergentes y antibióticos directamente en la bicapa y el periplasma.\n\nImpulsado por los protones que regresan desde el periplasma —cargados previamente por el [[Complejo I|complex-i-ecoli]]—, cada pistón AcrB alterna fases de captura, cierre y compresión para empujar el tóxico por el embudo hexamérico AcrA y escupirlo por la chimenea TolC de 14 nanómetros que perfora la coraza de [[LPS|lps]]. El fármaco vuelve a la calle sin haber rozado jamás el interior celular.',
       blueprint:
         'Rol: Cañón tripartito RND de eflujo multirresistente impulsado por H⁺ (PDB 5O66) · De: Antibióticos, detergentes y sales biliares en periplasma/[[membrana plasmática|plasma-membrane]] más H⁺ del [[Complejo I|complex-i-ecoli]] · Dentro: Bomba peristáltica AcrB₃ + embudo periplásmico AcrA₆ + conducto externo TolC₃ a través de la [[envoltura celular|real-envelope]] · Hacia: Expulsión directa más allá del [[LPS|lps]] al medio extracelular y entrada acoplada de H⁺',
       scientific:
@@ -740,9 +740,9 @@ export const PROKARYOTE_NODE_LENSES: NodeLensMap = {
   'dnab-helicase': {
     en: {
       simple:
-        'Threaded onto one DNA strand like a motorized Sonic gold ring, six-piece DnaB helicase burns ATP to unzip the double helix at 1,000 letters per second.',
+        'DnaB helicase is a six-piece protein ring threaded onto one strand of DNA—burning fuel like a motorized zipper pull to split the double helix at 1,000 base pairs per second.',
       story:
-        'Riding the nosecone of the [[replication fork|real-fork]] like a turbo-charged Sonic gold ring, six DnaB subunits encircle the lagging [[DNA|dna]] strand while wedging the partner strand outside like a high-speed snowplow. Burning ATP sequentially around the hexamer, inner staircase loops haul hand-over-hand two letters per step to rip 1,000 base pairs open every second!\n\nFlexible τ tow-cables hitch DnaB directly to twin [[DNA polymerase III|pol3-ecoli]] engines so unzipping never outruns typing, while its front shoulder flags down DnaG primase to stamp fresh RNA starter tabs.',
+        'Right at the sharp prow of the [[replication fork|real-fork]], six identical subunits lock into a 12-nanometre collar around the lagging-strand [[DNA|dna]] template while forcing the leading-strand template outside the ring like a wedge splitting firewood. Burning ATP around its hexameric circle, internal loops step hand-over-hand down the sugar-phosphate backbone, ripping hydrogen bonds apart at a blistering thousand base pairs every second.\n\nDnaB never flies solo: flexible τ tethers tie its tail directly to twin [[DNA polymerase III|pol3-ecoli]] engines so unwinding never outruns copying, while its front shoulder periodically catches DnaG primase to drop fresh RNA starters onto the looping lagging strand.',
       blueprint:
         'Role: Hexameric 5′→3′ replicative DNA unzipping motor (PDB 6QEL) · From: DnaC-mediated loading at oriC onto parental [[DNA|dna]] plus cytosolic ATP/NTPs · Inside: Homohexameric [[polypeptide|polypeptide]] ring (~12 nm) translocates hand-over-hand along lagging template (2 nt/ATP) to sterically exclude leading strand · To: Unwound single-stranded templates feeding [[Pol III|pol3-ecoli]] and DnaG primase inside [[replication fork|real-fork]]',
       scientific:
@@ -750,9 +750,9 @@ export const PROKARYOTE_NODE_LENSES: NodeLensMap = {
     },
     es: {
       simple:
-        'Ensartada en una hebra de ADN como un anillo dorado motorizado de Sonic, la helicasa DnaB de seis piezas quema ATP para abrir la doble hélice a mil letras por segundo.',
+        'La helicasa DnaB es un anillo de seis piezas ensartado en una hebra del ADN: quema energía como el cursor motorizado de una cremallera para abrir la doble hélice a mil pares de bases por segundo.',
       story:
-        'En el morro mismo de la [[horquilla de replicación|real-fork]], seis piezas de DnaB cierran un anillo dorado digno de Sonic sobre la hebra rezagada de [[ADN|dna]], apartando como un quitanieves a toda marcha la hebra opuesta. Quemando ATP en rueda alrededor del hexámero, sus peldaños internos avanzan de dos en dos bases abriendo mil pares por segundo.\n\nTirantes flexibles τ atan a DnaB con las dos [[ADN polimerasas III|pol3-ecoli]] para que el corte nunca deje atrás a las mecanógrafas, mientras su hombro delantero llama a la primasa DnaG para plantar cebadores de ARN.',
+        'En la proa misma de la [[horquilla de replicación|real-fork]], seis subunidades idénticas cierran un collar de 12 nanómetros alrededor del molde rezagado de [[ADN|dna]], obligando a la hebra opuesta a resbalar por fuera del anillo como una cuña que raja leña. Quemando ATP en cascada alrededor del hexámero, sus lazos internos trepan peldaño a peldaño por el esqueleto de fosfatos y abren mil pares de bases por segundo.\n\nDnaB nunca viaja desencadenada: tirantes flexibles τ la atan por detrás a las dos [[ADN polimerasas III|pol3-ecoli]] para sincronizar el paso, mientras su hombro delantero invita cada pocos segundos a la primasa DnaG a estampar un nuevo cebador.',
       blueprint:
         'Rol: Motor hexamérico replicativo de desenrollamiento de ADN 5′→3′ (PDB 6QEL) · De: Carga por DnaC en oriC sobre [[ADN|dna]] parental y ATP/NTPs citosólicos · Dentro: Anillo homohexamérico de [[polipéptidos|polypeptide]] (~12 nm) que avanza mano sobre mano (2 nt/ATP) excluyendo estéricamente la hebra conductora · Hacia: Moldes monocatenarios abiertos para [[Pol III|pol3-ecoli]] y primasa DnaG en la [[horquilla de replicación|real-fork]]',
       scientific:
@@ -763,9 +763,9 @@ export const PROKARYOTE_NODE_LENSES: NodeLensMap = {
   'pol3-ecoli': {
     en: {
       simple:
-        'Locked onto DNA by a golden Sonic-ring clamp, speed-typist Polymerase III hammers out 1,000 letters a second—and taps its built-in ε Backspace pocket whenever a typo slips in!',
+        'DNA polymerase III is E. coli’s master copywriter—locked onto DNA by a sliding ring clamp so it can type 1,000 letters a second while instantly backspacing its own rare typos.',
       story:
-        'Solo, this polymerase would fall off [[DNA|dna]] after a dozen letters; snap the golden β₂ doughnut clamp behind its back, and it sprints non-stop like Sonic on a grind rail! Drafting right behind [[DnaB helicase|dnab-helicase]] in the [[replication fork|real-fork]], its catalytic α palm welds cytosolic [[nucleotides|nucleotide]] at a blistering 1,000 hits per second.\n\nSlip in one rare mispaired base and geometry stalls the palm, flicking the frayed tip four nanometres sideways into the ε exonuclease Backspace shredder to delete the mistake on the spot—handing a near-flawless genome to the daughter [[nucleoid|real-nucleoid]].',
+        'Left to itself, a polymerase core would fall off [[DNA|dna]] after a dozen letters; snap the golden β₂ sliding-clamp doughnut behind it, however, and this 13-nanometre sprinter stays locked on the rail for hundreds of thousands of bases. Trailing right behind [[DnaB helicase|dnab-helicase]] inside the [[replication fork|real-fork]], its catalytic α palm grabs dNTP [[nucleotides|nucleotide]] from the cytoplasm and snaps them onto the 3′ end a thousand times every second.\n\nIf a mismatched base sneaks in—roughly once every hundred thousand tries—the growing tip stalls and flips four nanometres sideways into the ε proofreading pocket, which snips off the typo and hands the clean strand straight back to α so the daughter [[nucleoid|real-nucleoid]] inherits near-flawless code.',
       blueprint:
         'Role: High-speed, high-fidelity replicative DNA polymerase + sliding clamp (PDB 5FKV) · From: Single-stranded templates from [[DnaB helicase|dnab-helicase]], RNA primers, and cytosolic dNTP [[nucleotides|nucleotide]] · Inside: α polymerase + ε 3′→5′ proofreading exonuclease + θ stabilizer locked onto [[DNA|dna]] by dimeric β₂ ring clamp · To: Semiconservative leading and Okazaki lagging duplexes inside [[replication fork|real-fork]] (<10⁻⁷ error/bp)',
       scientific:
@@ -773,9 +773,9 @@ export const PROKARYOTE_NODE_LENSES: NodeLensMap = {
     },
     es: {
       simple:
-        'Engarzada al ADN por un anillo dorado estilo Sonic, la Polimerasa III teclea mil letras por segundo y pulsa al vuelo su bolsillo «Retroceso» si se cuela una errata.',
+        'La ADN polimerasa III es la mecanógrafa maestra de E. coli: sujeta al ADN por un anillo deslizante, escribe mil letras por segundo y borra al vuelo sus contadísimas erratas.',
       story:
-        'Sola, esta polimerasa se caería del [[ADN|dna]] en apenas doce letras; pero con el anillo dorado β₂ cerrado detrás, corre decenas de miles de bases sin soltarse como Sonic sobre un raíl. Pegada a la [[helicasa DnaB|dnab-helicase]] en la [[horquilla de replicación|real-fork]], su palma catalítica α suelda [[nucleótidos|nucleotide]] a un ritmo vertiginoso de mil golpes por segundo.\n\nSi entra una base falsa, el tropiezo geométrico desvía la punta cuatro nanómetros de lado hacia la trituradora correctora ε —su tecla «Retroceso»—, borrando el fallo al vuelo para entregar al nuevo [[nucleoide|real-nucleoid]] una copia impecable.',
+        'Suelto a su suerte, el núcleo polimerasa se caería del [[ADN|dna]] tras una docena de letras; pero en cuanto el anillo dorado de la pinza β₂ se cierra detrás de él, este velocista de 13 nanómetros queda engarzado al raíl para copiar cientos de miles de bases del tirón. Pegado tras la [[helicasa DnaB|dnab-helicase]] en la [[horquilla de replicación|real-fork]], su palma catalítica α caza [[nucleótidos|nucleotide]] dNTP del citoplasma y los suelda a mil impactos por segundo.\n\nSi una base equivocada se cuela —apenas una vez cada cien mil intentos—, la hebra se frena y salta cuatro nanómetros de costado al bolsillo corrector ε, que recorta la errata al instante y devuelve la punta limpia a α para legar al nuevo [[nucleoide|real-nucleoid]] un texto casi perfecto.',
       blueprint:
         'Rol: Polimerasa replicativa de alta velocidad y fidelidad con pinza deslizante (PDB 5FKV) · De: Moldes abiertos por la [[helicasa DnaB|dnab-helicase]], cebadores de ARN y [[nucleótidos|nucleotide]] dNTP · Dentro: Subunidad α polimerasa + exonucleasa correctora ε 3′→5′ + θ aseguradas al [[ADN|dna]] por el anillo dimérico β₂ · Hacia: Dúplex conductor y fragmentos de Okazaki en la [[horquilla de replicación|real-fork]] (error <10⁻⁷/pb)',
       scientific:
@@ -786,9 +786,9 @@ export const PROKARYOTE_NODE_LENSES: NodeLensMap = {
   gyrase: {
     en: {
       simple:
-        'Pulling a Doctor Strange Sling-Ring portal trick on tangled DNA, gyrase snips both strands clean through, passes another loop across the gap, and seals it without a scar!',
+        'DNA gyrase is a molecular untangler and spring-winder: it snips both strands of DNA, passes another loop right through the cut, and seals it back up to keep the chromosome compact and twist-free.',
       story:
-        'Unzipping [[DNA|dna]] at 1,000 bases a second ahead of [[DnaB helicase|dnab-helicase]] and [[RNA polymerase|rnap-ecoli]] winds brutal phone-cord knots that would stall every engine on the ship. Enter the Sorcerer Supreme of the [[nucleoid|real-nucleoid]]: four-part DNA gyrase wraps a duplex loop, slices BOTH strands wide open, burns ATP to pass a second helix straight through the Sling-Ring portal, and welds the cut shut without losing grip!\n\nEvery magic pass erases two twists and spring-loads the chromosome for easy reading—which is why fluoroquinolone drugs like ciprofloxacin turn Doctor Strange lethal by wedging inside the open cut so gyrase cannot close its own portal.',
+        'Unzipping [[DNA|dna]] at a thousand bases a second ahead of [[DnaB helicase|dnab-helicase]] and [[RNA polymerase|rnap-ecoli]] cranks vicious positive knots ahead of every fork—enough torsional jam to bring the whole submarine to a dead halt. Stationed every few thousand base pairs across the [[nucleoid|real-nucleoid]], DNA gyrase wraps a segment of helix around its wheel, slices both strands clean through using active-site tyrosines, and burns ATP to shove a second DNA duplex straight through the open gate before snapping the cut shut without a scar.\n\nEach daring magic trick subtracts two twists—relieving fork gridlock while spring-loading the chromosome with negative supercoils. Fluoroquinolone antibiotics like ciprofloxacin turn this lifesaver into an assassin by wedging inside the open cut so gyrase cannot reseal its own double-strand break.',
       blueprint:
         'Role: ATP-dependent Type IIA topoisomerase introducing negative supercoils (PDB 6RKW) · From: Positively overwound [[DNA|dna]] ahead of [[replication forks|real-fork]] and [[RNA polymerase|rnap-ecoli]], plus 2 ATP · Inside: GyrA₂GyrB₂ heterotetramer (~20 nm) cleaves double-stranded G-segment via Tyr122 covalent linkage, passes T-segment through 3 gates, and religates · To: Negatively supercoiled plectonemes (ΔLk = −2 per cycle) in [[nucleoid|real-nucleoid]] plus 2 ADP + Pi',
       scientific:
@@ -796,9 +796,9 @@ export const PROKARYOTE_NODE_LENSES: NodeLensMap = {
     },
     es: {
       simple:
-        'Ejecutando un portal digno del Doctor Strange sobre el ADN enredado, la girasa corta ambas hebras de cuajo, pasa otro bucle por la brecha y sella el corte sin cicatriz.',
+        'La ADN girasa es un desenredador y tensor molecular: corta de cuajo las dos hebras del ADN, pasa otro tramo a través del hueco y vuelve a sellar el corte sin cicatriz para mantener compacto el cromosoma.',
       story:
-        'Abrir el [[ADN|dna]] a mil bases por segundo ante la [[helicasa DnaB|dnab-helicase]] y la [[ARN polimerasa|rnap-ecoli]] aprieta nudos feroces capaces de gripar todos los motores de la nave. Ahí entra el Hechicero Supremo del [[nucleoide|real-nucleoid]]: la ADN girasa rodea un tramo, taja AMBAS hebras, gasta ATP para cruzar otro segmento por el portal mágico abierto y vuelve a soldar los cabos sin soltarlos jamás.\n\nCada pase borra dos vueltas y tensa el muelle cromosómico para facilitar su lectura; por eso antibióticos como el ciprofloxacino resultan letales al acuñarse en mitad del portal e impedir que la girasa cierre su propio tajo.',
+        'Abrir el [[ADN|dna]] a mil letras por segundo delante de la [[helicasa DnaB|dnab-helicase]] y de la [[ARN polimerasa|rnap-ecoli]] retuerce la doble hélice por delante en nudos positivos tan tensos que pararían en seco toda la maquinaria celular. Apostada cada pocos miles de bases por el [[nucleoide|real-nucleoid]], la ADN girasa abraza un tramo sobre su rueda lateral, taja ambas hebras usando tirosinas activas y gasta ATP para cruzar otro segmento entero a través de la brecha antes de volver a soldar los cabos.\n\nCada pase de prestidigitador descuenta dos vueltas, aliviando el atasco y cargando el cromosoma con superenrollamiento negativo como un muelle listo para abrirse. Antibióticos como el ciprofloxacino convierten a esta salvadora en verdugo acuñándose justo dentro del corte abierto para impedir que vuelva a cerrarlo.',
       blueprint:
         'Rol: Topoisomerasa tipo IIA dependiente de ATP generadora de superenrollamiento negativo (PDB 6RKW) · De: [[ADN|dna]] sobretorcido delante de la [[horquilla de replicación|real-fork]] y [[ARN polimerasa|rnap-ecoli]], más 2 ATP · Dentro: Heterotetrámero GyrA₂GyrB₂ (~20 nm) escinde el segmento G bicatenario (Tyr122), cruza el segmento T por tres compuertas y religa · Hacia: Plectonemas con superenrollamiento negativo (ΔLk = −2/ciclo) en el [[nucleoide|real-nucleoid]] más 2 ADP + Pi',
       scientific:
@@ -814,9 +814,9 @@ export const PROKARYOTE_PART_LENSES: PagePartLensMap = {
       en: {
         subtitle: 'The Asymmetric Endotoxin Hull',
         simple:
-          'Built like a Wakandan border shield over half a lipid bilayer, E. coli’s outer membrane faces gut bile with magnesium-locked LPS sugar armor instead of ordinary fat.',
+          'Unlike ordinary membranes made of phospholipids on both sides, this outer shield coats its exterior in sugar-tipped LPS armor that blocks detergents and oily antibiotics.',
         story:
-          'Gut life means swimming through bile detergents built to pop fat bubbles on sight. E. coli answers with a hybrid Wakandan outer hull: [[phospholipids|phospholipid]] line the inside, while fresh [[LPS|lps]] tiles ride a seven-protein elevator from the [[plasma membrane|plasma-membrane]] to pave the roof in magnesium-locked sugar bristles.\n\nGreasy drugs skid right off that wet shield while oxygen slips down to [[Complex I|complex-i-ecoli]]—forcing water-soluble snacks to check in at [[porin|porin]] bouncer gates.',
+          'Life inside a mammalian gut means swimming through bile salts and digestive detergents designed to dissolve ordinary fat bubbles on contact. E. coli answers with a lopsided outer hull: [[phospholipids|phospholipid]] line the inner face toward the periplasm, while newly minted [[LPS|lps]] molecules ride a seven-protein bridge from the [[plasma membrane|plasma-membrane]] to pave the entire outside deck in a magnesium-locked sugar thicket.\n\nGreasy poisons and bulky drugs skid harmlessly off that wet canopy, while dissolved oxygen slips across toward the [[respiratory chain|complex-i-ecoli]] and metabolic CO₂ exhales outward. Any water-soluble meal hoping to board the submarine has to queue up at embedded [[porin|porin]] airlocks.',
         blueprint: {
           role: 'Asymmetric outer permeability barrier of the [[Gram-negative envelope|real-envelope]]',
           arrivesFrom: '[[LPS|lps]] exported via LptA–G bridge and [[phospholipids|phospholipid]] from [[plasma membrane|plasma-membrane]]',
@@ -839,9 +839,9 @@ export const PROKARYOTE_PART_LENSES: PagePartLensMap = {
       es: {
         subtitle: 'El casco asimétrico de endotoxina',
         simple:
-          'Como un escudo fronterizo de Wakanda sobre media bicapa, la membrana externa de E. coli encara la bilis intestinal con una coraza azucarada de LPS trabada con magnesio.',
+          'A diferencia de las membranas comunes hechas de fosfolípidos por ambas caras, este escudo exterior se pavimenta por fuera con cadenas azucaradas de LPS que frenan detergentes y antibióticos grasos.',
         story:
-          'Vivir en el intestino exige nadar entre detergentes biliares diseñados para reventar burbujas grasas. E. coli responde con un casco híbrido digno de Wakanda: [[fosfolípidos|phospholipid]] por dentro y bloques de [[LPS|lps]] subidos desde la [[membrana plasmática|plasma-membrane]] para pavimentar el techo con cerdas de azúcar y magnesio.\n\nLos fármacos grasos patinan sobre el escudo mientras el oxígeno baja hacia el [[Complejo I|complex-i-ecoli]], obligando a cualquier nutriente soluble a pasar revista en las [[porinas|porin]].',
+          'Vivir en el intestino de un mamífero exige nadar entre sales biliares y detergentes diseñados para disolver cualquier burbuja de grasa al primer roce. E. coli responde con un casco exterior asimétrico: los [[fosfolípidos|phospholipid]] tapizan la cara interna hacia el periplasma, mientras bloques frescos de [[LPS|lps]] cruzan desde la [[membrana plasmática|plasma-membrane]] por un puente proteico para cubrir toda la cubierta externa con un seto de azúcares abrochado con magnesio.\n\nLos venenos aceitosos y los fármacos voluminosos patinan sobre ese dosel húmedo, el oxígeno difunde hacia el [[Complejo I|complex-i-ecoli]] y el CO₂ escapa limpio hacia fuera. Cualquier nutriente soluble que quiera subir a bordo debe hacer cola en las esclusas de [[porina|porin]].',
         blueprint: {
           role: 'Barrera externa asimétrica de permeabilidad de la [[envoltura Gram-negativa|real-envelope]]',
           arrivesFrom: '[[LPS|lps]] vía puente LptA–G y [[fosfolípidos|phospholipid]] desde la [[membrana plasmática|plasma-membrane]]',
@@ -867,9 +867,9 @@ export const PROKARYOTE_PART_LENSES: PagePartLensMap = {
       en: {
         subtitle: 'Airlocks & Barrel Builders of the Outer Deck',
         simple:
-          'Acting like club bouncers alongside R2-D2 hull-repair droids, OmpF porins let small sugars inside while BAM and LptDE machines build the outer armor with zero ATP!',
+          'Crowded β-barrel proteins stud the outer membrane—OmpF sieves let small sugars and amino acids slip inside, while BAM and LptDE machines build and repair the armor itself.',
         story:
-          'A sealed Wakandan shield would starve its own crew, so E. coli crowds the roof with three-barrel [[OmpF porins|porin]] passing [[glucose|glucose]] and [[amino acids|amino-acid]] under 600 daltons while OmpA rivets grip the [[peptidoglycan|peptidoglycan]] below.\n\nWildest engineering flex: there is zero ATP out here! Unfolded chains ride periplasmic chaperones to the R2-D2-like BAM barrel-loom, which folds fresh porins into the wall while LptD–LptE lays [[LPS|lps]] roof tiles.',
+          'An impenetrable hull would starve its own crew in seconds, so E. coli crowds its outer membrane with three-barreled [[OmpF porins|porin]] whose water-filled eyelets pass [[glucose|glucose]], [[amino acids|amino-acid]], and ions under 600 daltons into the periplasmic moat. Right beside them, OmpA barrels bolt the outer deck down onto the [[peptidoglycan|peptidoglycan]] mesh so the armor never peels loose.\n\nHow do you build machines in an outer wall with zero ATP out there? Unfolded polypeptides threaded through Sec channels ride periplasmic Skp and SurA chaperones up to the BAM barrel-folding loom, which rolls fresh porins into the membrane while neighboring LptD–LptE gates lay [[LPS|lps]] tiles onto the roof.',
         blueprint: {
           role: 'Passive nutrient sieving, wall tethering, and outer-membrane biogenesis hub',
           arrivesFrom: 'Extracellular [[glucose|glucose]]/[[amino acids|amino-acid]] and Sec-exported unfolded [[proteins|protein]] + [[LPS|lps]] from periplasm',
@@ -892,9 +892,9 @@ export const PROKARYOTE_PART_LENSES: PagePartLensMap = {
       es: {
         subtitle: 'Esclusas y astilleros de la cubierta exterior',
         simple:
-          'Como porteros con gálibo junto a droides reparadores estilo R2-D2, las porinas OmpF filtran nutrientes pequeños mientras BAM y LptDE arman el casco exterior sin gastar ATP.',
+          'Apretados barriles proteicos salpican la membrana externa: los tamices OmpF dejan entrar azúcares y aminoácidos pequeños, mientras los talleres BAM y LptDE construyen y reparan el propio casco.',
         story:
-          'Un escudo hermético mataría de hambre a la tripulación, así que E. coli llena su cubierta de [[porinas OmpF|porin]] triples que admiten [[glucosa|glucose]] y [[aminoácidos|amino-acid]] ligeros, mientras OmpA atornilla el techo al [[peptidoglicano|peptidoglycan]].\n\n¿Y cómo se repara el casco donde no hay ni gota de ATP? Las cadenas viajan con chaperonas hasta el telar BAM —un auténtico R2-D2 mecánico— que incrusta barriles nuevos mientras su vecino LptD–LptE pavimenta con [[LPS|lps]].',
+          'Un blindaje totalmente hermético mataría de hambre a su tripulación en segundos, así que E. coli tapiza su membrana externa con [[porinas OmpF|porin]] de tres cañones cuyos ojales acuosos dejan pasar [[glucosa|glucose]], [[aminoácidos|amino-acid]] e iones menores de 600 daltons hacia el foso periplásmico. A su lado, los barriles OmpA atornillan la cubierta externa contra la red de [[peptidoglicano|peptidoglycan]] para que el casco jamás se deslamine.\n\n¿Y cómo se montan máquinas en una muralla exterior donde no hay ni gota de ATP? Los polipéptidos exportados por Sec cruzan el periplasma escoltados por las chaperonas Skp y SurA hasta el telar BAM, que enrolla e incrusta barriles nuevos mientras su vecino LptD–LptE pavimenta el tejado con [[LPS|lps]].',
         blueprint: {
           role: 'Tamizado pasivo de nutrientes, anclaje parietal y biogénesis de membrana externa',
           arrivesFrom: '[[Glucosa|glucose]]/[[aminoácidos|amino-acid]] externos, [[proteínas|protein]] desplegadas vía Sec y [[LPS|lps]] periplásmico',
@@ -920,9 +920,9 @@ export const PROKARYOTE_PART_LENSES: PagePartLensMap = {
       en: {
         subtitle: 'The Trans-Envelope Bilge Cannon',
         simple:
-          'Like a Ghostbusters proton trap wired straight to a rooftop cannon, 33-nanometre AcrAB–TolC snatches antibiotics in the wall and fires them right back outside!',
+          'Spanning all three layers of the envelope, AcrAB–TolC uses incoming proton power to vacuum up antibiotics and bile salts from the wall and fire them straight out of the cell.',
         story:
-          'Any antibiotic or bile salt that sneaks through a [[porin|porin]] or dives into the [[plasma membrane|plasma-membrane]] walks straight into a 33-nanometre Ghostbusters trap! Three-chambered [[AcrB pump|acrab-tolc]] scoops greasy poisons right out of the membrane foyer before they ever reach the cytosol.\n\nPowered by periplasmic protons banked by the [[respiratory chain|complex-i-ecoli]], AcrB squeezes in three rhythmic strokes—blasting the captured drug up AcrA and out the TolC chimney past the [[LPS|lps]] roof!',
+          'Every time an antibiotic molecule or gut detergent squeezes past a [[porin|porin]] into the periplasm or wedges into the [[plasma membrane|plasma-membrane]], it walks straight into a 33-nanometre ambush. Anchored in the inner membrane, the three-chambered [[AcrB pump|acrab-tolc]] scoops lipophilic poisons directly out of the membrane leaflet before they ever touch the cytosol.\n\nProtons cascading back inward from the periplasm—pumped out moments earlier by the [[respiratory chain|complex-i-ecoli]]—crank AcrB through a relentless three-stroke peristaltic squeeze. That mechanical push rams the captured drug up a six-piece AcrA collar and blasts it clean through the TolC chimney past the [[LPS|lps]] shield into open water.',
         blueprint: {
           role: 'Tripartite proton-driven multidrug and bile-salt efflux system ([[AcrAB–TolC|acrab-tolc]])',
           arrivesFrom: 'Antibiotics/bile salts in periplasm and [[plasma membrane|plasma-membrane]] plus periplasmic H⁺ from [[respiratory chain|complex-i-ecoli]]',
@@ -945,9 +945,9 @@ export const PROKARYOTE_PART_LENSES: PagePartLensMap = {
       es: {
         subtitle: 'El cañón de achique transenvoltura',
         simple:
-          'Como una trampa de los Cazafantasmas conectada a un cañón en la azotea, AcrAB–TolC captura antibióticos a mitad del muro y los dispara de vuelta a la calle.',
+          'Atravesando de lado a lado las tres capas del casco, la bomba AcrAB–TolC usa la entrada de protones para aspirar antibióticos y sales biliares y dispararlos fuera de la bacteria.',
         story:
-          'Todo antibiótico o detergente que cruce una [[porina|porin]] o se hunda en la [[membrana plasmática|plasma-membrane]] cae en una emboscada estilo Cazafantasmas de 33 nanómetros. El rotor [[AcrAB–TolC|acrab-tolc]] pesca venenos grasos directamente de la bicapa antes de que pisen el citosol.\n\nImpulsado por los protones que bombeó el [[Complejo I|complex-i-ecoli]], AcrB comprime el fármaco en tres tiempos y lo catapulta por la chimenea TolC más allá del techo de [[LPS|lps]].',
+          'Cada vez que un antibiótico o detergente intestinal logra colarse por una [[porina|porin]] al periplasma o se hunde en la [[membrana plasmática|plasma-membrane]], cae de lleno en una emboscada de 33 nanómetros. Apostado en la membrana interna, el rotor de tres cámaras de [[AcrAB–TolC|acrab-tolc]] pesca los venenos grasos directamente de la bicapa antes de que lleguen siquiera a rozar el citosol.\n\nLos protones que reingresan desde el periplasma —bombeados instantes antes por el [[Complejo I|complex-i-ecoli]]— accionan un apretón peristáltico de tres tiempos en AcrB. Ese empuje embute la droga por el embudo hexamérico AcrA y la escupe a través de la chimenea TolC más allá del escudo de [[LPS|lps]], devolviéndola al exterior.',
         blueprint: {
           role: 'Cañón tripartito de eflujo multirresistente impulsado por protones ([[AcrAB–TolC|acrab-tolc]])',
           arrivesFrom: 'Antibióticos/sales biliares en periplasma y [[membrana plasmática|plasma-membrane]] más H⁺ del [[Complejo I|complex-i-ecoli]]',
@@ -973,9 +973,9 @@ export const PROKARYOTE_PART_LENSES: PagePartLensMap = {
       en: {
         subtitle: 'The Chainmail Corset & Proton Moat',
         simple:
-          'Doubling as Frodo’s Mithril chainmail shirt and an acid-filled battery tank, the periplasmic moat stops the cell from popping while storing protons for every motor.',
+          'Between the two membranes lies a narrow gel moat holding a single woven bag of peptidoglycan—stopping the cell from bursting while storing the pumped-out protons that run its motors.',
         story:
-          'Sandwiched between hulls, this 21-nanometre moat is half Mithril armor, half capacitor bank! Lipid II bricks flipped across the [[plasma membrane|plasma-membrane]] get welded into one seamless [[peptidoglycan|peptidoglycan]] chainmail bag riveted tight against multi-atmosphere turgor.\n\nAll around that mesh swirls a dense proton cloud pumped out by the [[respiratory chain|complex-i-ecoli]]—the live battery tapped by every [[ATP synthase|atp-synthase-ecoli]], pod-racer [[flagellar motor|real-motor]], and AcrAB–TolC cannon!',
+          'Packed between outer and inner membranes, the 21-nanometre periplasm works double duty as pressure brace and battery tank. Lipid II wall bricks flipped out across the [[plasma membrane|plasma-membrane]] get stitched along MreB-guided tracks into one unbroken [[peptidoglycan|peptidoglycan]] chainmail sack, riveted to the outer hull by a forest of Braun’s lipoprotein pillars so multi-atmosphere turgor cannot blow the rod apart.\n\nMeanwhile, the gel around that mesh swarms with chaperone escorts (Skp, SurA), sugar-catching MalE scouts, and a dense cloud of protons ejected by the [[respiratory chain|complex-i-ecoli]]. Every [[ATP synthase|atp-synthase-ecoli]], [[flagellar motor|real-motor]], and AcrAB–TolC cannon taps this acidic moat to do its heavy lifting.',
         blueprint: {
           role: 'Osmotic load-bearing sacculus, chaperone transit zone, and periplasmic H⁺ reservoir',
           arrivesFrom: 'Lipid II murein precursors from [[cytosol|cytosol]], H⁺ from [[respiratory chain|complex-i-ecoli]], and solutes from [[porins|porin]]',
@@ -999,9 +999,9 @@ export const PROKARYOTE_PART_LENSES: PagePartLensMap = {
       es: {
         subtitle: 'El corsé de malla y el foso de protones',
         simple:
-          'Mitad cota de mithril de Frodo y mitad tanque acumulador de batería, el foso periplásmico impide que la célula estalle mientras guarda protones para todos sus motores.',
+          'Entre las dos membranas se extiende un estrecho foso gelatinoso que aloja una red continua de peptidoglicano: impide que la bacteria estalle y almacena los protones que mueven sus motores.',
         story:
-          'Entre ambas cubiertas, este foso de 21 nanómetros trabaja a la vez como malla de mithril y condensador eléctrico. Los ladrillos volteados desde la [[membrana plasmática|plasma-membrane]] se tejen en un único saco continuo de [[peptidoglicano|peptidoglycan]] capaz de aguantar atmósferas enteras de empuje.\n\nAlrededor flota la densa nube de protones cargada por el [[Complejo I|complex-i-ecoli]]: de esa batería viva beben cada [[ATP sintasa|atp-synthase-ecoli]], cada [[motor flagelar|real-motor]] y cada cañón expulsador.',
+          'Comprimido entre ambas membranas, el periplasma de 21 nanómetros cumple doble misión como faja de presión y acumulador eléctrico. Los ladrillos de Lípido II volteados desde la [[membrana plasmática|plasma-membrane]] se tejen siguiendo raíles de MreB en un único saco de [[peptidoglicano|peptidoglycan]], remachado al techo externo por cientos de miles de tirantes de lipoproteína de Braun para contener varias atmósferas de empuje osmótico.\n\nAlrededor de esa malla bullen chaperonas mensajeras (Skp, SurA), cazadores de azúcares MalE y una densa nube de protones expulsados por el [[Complejo I|complex-i-ecoli]]. Cada [[ATP sintasa|atp-synthase-ecoli]], cada [[motor flagelar|real-motor]] y cada cañón AcrAB–TolC bebe de este foso ácido para ejecutar su trabajo mecánico.',
         blueprint: {
           role: 'Sáculo resistente a la turgencia, corredor de chaperonas y depósito periplásmico de H⁺',
           arrivesFrom: 'Precursores Lípido II del [[citosol|cytosol]], H⁺ del [[Complejo I|complex-i-ecoli]] y solutos vía [[porinas|porin]]',
@@ -1028,9 +1028,9 @@ export const PROKARYOTE_PART_LENSES: PagePartLensMap = {
       en: {
         subtitle: 'The Powerhouse Skin That Replaces Mitochondria',
         simple:
-          'With zero mitochondria aboard, E. coli turns its own inner skin into a wrap-around Iron Man Arc Reactor—holding 160 millivolts to power ATP, import, and propulsion.',
+          'Because bacteria have no internal organelles, this inner phospholipid membrane does it all—holding a 160-millivolt proton charge while running respiration, ATP synthesis, nutrient import, and swimming motors.',
         story:
-          'Eukaryotes tuck power plants inside mitochondria; E. coli wires its entire inner skin into a 360-degree Tony Stark Arc Reactor! Only 7 nanometres thick, it holds 160 millivolts of proton voltage—a lightning-bolt electric field per metre.\n\nHalf its surface is solid turbo hardware: [[Complex I|complex-i-ecoli]] pumps protons into the [[periplasm|peptidoglycan]], [[ATP synthases|atp-synthase-ecoli]] and pod-racer [[flagellar motors|real-motor]] harvest them roaring back, and Cerebro [[chemoreceptors|real-pole]] steer up front.',
+          'Eukaryotes lock their power plants inside mitochondria; E. coli turns its own skin into one continuous 360-degree dynamo. Woven from fluid phospholipids synthesized on its cytoplasmic face, this 7-nanometre barrier seals the cytosol tight enough to hold protons back at 160 millivolts—an electric field of twenty million volts per metre across so thin a film.\n\nNearly half its surface area is solid machinery: [[Complex I|complex-i-ecoli]] and oxidases pump protons out into the [[periplasm|peptidoglycan]], [[ATP synthases|atp-synthase-ecoli]] and [[flagellar motors|real-motor]] harvest them rushing back in, [[chemoreceptors|real-pole]] keep watch at the bow, and sugar permeases feed hungry enzymes inside.',
         blueprint: {
           role: 'Selective cytoplasmic boundary and chemiosmotic power-plant membrane',
           arrivesFrom: 'Cytosolic [[phospholipid|phospholipid]] synthesis, nascent membrane [[proteins|protein]] from [[ribosomes|ribosome-ecoli]], and filtered periplasmic solutes',
@@ -1054,9 +1054,9 @@ export const PROKARYOTE_PART_LENSES: PagePartLensMap = {
       es: {
         subtitle: 'La piel eléctrica que suple a las mitocondrias',
         simple:
-          'Sin mitocondrias a bordo, E. coli convierte toda su piel interna en un Reactor Arc envolvente estilo Iron Man de 160 milivoltios que fabrica ATP, importa comida y propulsa la nave.',
+          'Al no tener orgánulos internos, esta membrana interna de fosfolípidos lo hace todo: retiene una carga de 160 milivoltios mientras ejecuta la respiración, fabrica ATP, importa comida y mueve los flagelos.',
         story:
-          'Las células eucariotas guardan sus centrales en mitocondrias; E. coli transforma su piel interna entera en un Reactor Arc de 360 grados digno de Tony Stark. En solo 7 nanómetros sostiene 160 milivoltios: la intensidad de campo de un relámpago.\n\nMedia superficie es pura maquinaria: el [[Complejo I|complex-i-ecoli]] carga de protones el [[periplasma|peptidoglycan]], la [[ATP sintasa|atp-synthase-ecoli]] y los [[motores flagelares|real-motor]] cosechan su vuelta, y la [[matriz polar|real-pole]] pilota en proa.',
+          'Las células eucariotas encierran sus centrales eléctricas en mitocondrias; E. coli convierte su propia piel interna en una dinamo continua de 360 grados. Tejida con fosfolípidos fluidos ensamblados en su cara interior, esta película de 7 nanómetros sella el citosol lo bastante bien para sostener 160 milivoltios de diferencia de potencial: un campo eléctrico digno de un relámpago concentrado en unos pocos nanómetros.\n\nMás de la mitad de su superficie es maquinaria pura: el [[Complejo I|complex-i-ecoli]] y las oxidasas bombean protones al [[periplasma|peptidoglycan]], la [[ATP sintasa|atp-synthase-ecoli]] y los [[motores flagelares|real-motor]] aprovechan su regreso, la [[matriz polar|real-pole]] vigila en proa y las permeasas meten combustible al taller.',
         blueprint: {
           role: 'Frontera selectiva citoplasmática y membrana bioenergética generadora de potencial',
           arrivesFrom: 'Síntesis citosólica de [[fosfolípidos|phospholipid]], [[proteínas|protein]] integrales de [[ribosomas|ribosome-ecoli]] y solutos periplásmicos',
@@ -1083,9 +1083,9 @@ export const PROKARYOTE_PART_LENSES: PagePartLensMap = {
       en: {
         subtitle: 'The Proton-Pumping Electron Bucket Brigade',
         simple:
-          'Like Millennium Falcon hyperdrive coils stripping electrons from fuel, these inner-membrane pumps bank eight protons outside per NADH to keep the hull battery topped up.',
+          'Using electrons stripped from food and oxygen diffusing in from outside, these inner-membrane complexes pump protons out into the periplasm to charge the bacterium’s main battery.',
         story:
-          'Cracked sugars hand high-voltage electrons to NADH couriers sprinting to [[Complex I|complex-i-ecoli]]. Two electrons zip down nine iron–sulfur rungs onto a ubiquinone shuttle cruising the [[plasma membrane|plasma-membrane]], kicking four protons out into the [[periplasm|peptidoglycan]].\n\nUbiquinol ferries the charge to cytochrome bo₃ oxidase, turning oxygen into water while banking four more protons outside—eight total per NADH to spin [[ATP synthases|atp-synthase-ecoli]] and [[flagellar motors|real-motor]] ship-wide!',
+          'Every glucose broken down in the cytosol hands high-voltage electrons onto NADH couriers that sprint to the upright arm of [[Complex I|complex-i-ecoli]]. Two electrons leap down its nine iron–sulfur stepping stones onto a mobile ubiquinone shuttle inside the [[plasma membrane|plasma-membrane]], triggering mechanical piston strokes that heave four protons out into the [[periplasm|peptidoglycan]].\n\nLoaded ubiquinol glides millimetres—in molecular terms—through the lipid sea to cytochrome bo₃ oxidase, where oxygen drifted in from outside accepts those spent electrons to become harmless water while four more protons fly outward. Eight protons banked per NADH: that pressurized acid moat immediately drives [[ATP synthases|atp-synthase-ecoli]] and [[flagellar motors|real-motor]] around the entire hull.',
         blueprint: {
           role: 'Modular respiratory electron-transport chain and vectorial H⁺ generator',
           arrivesFrom: 'NADH from [[cytosol|cytosol]] (glycolysis/TCA) and dissolved O₂ diffusing across [[outer membrane|lps]] and [[inner membrane|plasma-membrane]]',
@@ -1108,9 +1108,9 @@ export const PROKARYOTE_PART_LENSES: PagePartLensMap = {
       es: {
         subtitle: 'La brigada de electrones que carga el casco',
         simple:
-          'Como bobinas del hiperimpulsor del Halcón Milenario extrayendo electrones del combustible, estas bombas sacan ocho protones por cada NADH para cargar la batería del casco.',
+          'Con los electrones extraídos de la comida y el oxígeno que entra por difusión, estos complejos de la membrana interna bombean protones al periplasma para cargar la batería principal de la célula.',
         story:
-          'Cada azúcar partido entrega electrones de alto voltaje en NADH directos al [[Complejo I|complex-i-ecoli]]. Dos electrones bajan por nueve peldaños de hierro-azufre hasta una ubiquinona que navega la [[membrana plasmática|plasma-membrane]], bombeando cuatro protones al [[periplasma|peptidoglycan]].\n\nLa oxidasa bo₃ entrega luego esos electrones al oxígeno formando agua y suma cuatro protones más: ocho por NADH para hacer rugir las [[ATP sintasas|atp-synthase-ecoli]] y los [[motores flagelares|real-motor]] de toda la nave.',
+          'Cada azúcar partido en el citosol carga electrones de alto voltaje en mensajeros NADH que acuden directos al brazo vertical del [[Complejo I|complex-i-ecoli]]. Dos electrones saltan por sus nueve escalones de hierro-azufre hasta una ubiquinona móvil en la [[membrana plasmática|plasma-membrane]], disparando un golpe de pistón que expulsa cuatro protones hacia el [[periplasma|peptidoglycan]].\n\nEl ubiquinol cargado navega por el mar lipídico hasta la oxidasa citocromo bo₃, donde el oxígeno llegado de fuera recoge los electrones gastados para formar agua limpia mientras otros cuatro protones salen despedidos. Ocho protones ingresados por cada NADH: ese foso presurizado pone a girar al instante las [[ATP sintasas|atp-synthase-ecoli]] y los [[motores flagelares|real-motor]] de todo el casco.',
         blueprint: {
           role: 'Cadena respiratoria modular de transporte electrónico y bombeo vectorial de H⁺',
           arrivesFrom: 'NADH del [[citosol|cytosol]] (glucólisis/TCA) y O₂ difundido a través del [[LPS|lps]] y la [[membrana interna|plasma-membrane]]',
@@ -1136,9 +1136,9 @@ export const PROKARYOTE_PART_LENSES: PagePartLensMap = {
       en: {
         subtitle: 'The Rotary Proton Mill',
         simple:
-          'Spinning like golden Sonic coin-mints powered by incoming protons, dozens of ATP synthase turbines stamp spent ADP and phosphate into fresh ATP fuel.',
+          'Protons rushing back in from the periplasm spin this molecular turbine like a waterwheel, squeezing spent ADP and phosphate back together into fresh ATP.',
         story:
-          'Out in the [[periplasm|peptidoglycan]], protons banked by [[Complex I|complex-i-ecoli]] crowd the gates to rush home. Golden [[ATP synthase turbines|atp-synthase-ecoli]] collect the toll: protons whirl the 10-spoke rotor and central γ–ε cam inside the α₃β₃ crown.\n\nEvery 120-degree click stamps spent ADP plus phosphate into a fresh ATP coin—snapped up in milliseconds by nearby [[RNA polymerases|rnap-ecoli]] and [[ribosomes|ribosome-ecoli]]!',
+          'Out in the [[periplasm|peptidoglycan]], protons banked by the [[respiratory chain|complex-i-ecoli]] press impatiently against the inner membrane, looking for a chute home. Dozens of golden [[ATP synthase turbines|atp-synthase-ecoli]] offer the deal: three to four protons ride the 10-spoke c carousel down into the cytosol, spinning the central γ–ε camshaft inside the stationary α₃β₃ crown.\n\nEvery 120-degree click of that lopsided cam crushes one spent ADP against inorganic phosphate, popping a freshly charged ATP molecule into the cytoplasm. Within moments, nearby [[RNA polymerases|rnap-ecoli]], [[ribosomes|ribosome-ecoli]], and replisomes snap up that fuel and toss spent ADP right back to the mill.',
         blueprint: {
           role: 'Reversible chemiosmotic rotary ATP generator ([[E. coli F₁F₀ ATP synthase|atp-synthase-ecoli]])',
           arrivesFrom: 'Periplasmic H⁺ from [[respiratory chain|complex-i-ecoli]] via [[periplasm|peptidoglycan]], plus spent ADP + [[phosphate|phosphate]] from [[cytosol|cytosol]]',
@@ -1162,9 +1162,9 @@ export const PROKARYOTE_PART_LENSES: PagePartLensMap = {
       es: {
         subtitle: 'El molino rotatorio de protones',
         simple:
-          'Girando como acuñadoras doradas de monedas estilo Sonic impulsadas por protones, decenas de turbinas ATP sintasa prensan ADP gastado y fosfato para crear ATP nuevo.',
+          'Los protones que regresan en tromba desde el periplasma hacen girar esta turbina molecular como una noria hidráulica, prensando ADP gastado y fosfato para fabricar ATP nuevo.',
         story:
-          'En el [[periplasma|peptidoglycan]], los protones acumulados por el [[Complejo I|complex-i-ecoli]] empujan por volver adentro. Las turbinas doradas de [[ATP sintasa|atp-synthase-ecoli]] cobran peaje haciendo girar su rotor de diez radios y la leva γ–ε.\n\nCada tercio de vuelta acuña una moneda fresca de ATP que devoran al vuelo las [[ARN polimerasas|rnap-ecoli]] y los [[ribosomas|ribosome-ecoli]] vecinos.',
+          'Afuera, en el [[periplasma|peptidoglycan]], los protones acumulados por el [[Complejo I|complex-i-ecoli]] empujan contra la membrana interna buscando un conducto de vuelta a casa. Decenas de turbinas doradas de [[ATP sintasa|atp-synthase-ecoli]] les abren paso con peaje: los protones hacen girar el carrusel de diez radios c₁₀ rumbo al citosol, arrastrando con él el árbol de levas γ–ε dentro del cabezal fijo α₃β₃.\n\nCada tercio de vuelta aplasta un ADP descargado contra un fosfato hasta escupir una molécula flamante de ATP al citoplasma. Al instante, las [[ARN polimerasas|rnap-ecoli]], los [[ribosomas|ribosome-ecoli]] y la horquilla de replicación devoran esa carga y devuelven el ADP gastado al molino.',
         blueprint: {
           role: 'Generador rotatorio quimiosmótico reversible de ATP ([[ATP sintasa F₁F₀ de E. coli|atp-synthase-ecoli]])',
           arrivesFrom: 'H⁺ periplásmicos del [[Complejo I|complex-i-ecoli]] desde el [[periplasma|peptidoglycan]], más ADP + [[fosfato|phosphate]] del [[citosol|cytosol]]',
@@ -1191,9 +1191,9 @@ export const PROKARYOTE_PART_LENSES: PagePartLensMap = {
       en: {
         subtitle: 'Cargo Gates, Protein Threaders & Emergency Valves',
         simple:
-          'Lining the inner hull like Spirited Away bathhouse chutes and Star Trek emergency airlocks, pumps haul food in, Sec motors thread hull parts out, and MscS valves prevent popping!',
+          'Embedded across the inner membrane, specialist pumps pull in sugars and amino acids, Sec motors thread newly built proteins out to the wall, and safety valves vent water if the cell swells.',
         story:
-          'Snacks crossing outer [[porins|porin]] meet busy inner-hull customs: proton symporters haul sugars uphill, PTS gates tag [[glucose|glucose]] so it can’t sneak back out, and ABC pumps feed [[ribosomes|ribosome-ecoli]].\n\nOutbound Sec motors spend ATP from [[ATP synthase|atp-synthase-ecoli]] to thread a third of all new proteins into the [[periplasm|peptidoglycan]]—and if fresh water floods in, MscS panic airlocks pop open in microseconds so osmotic shock never blows the ship!',
+          'Once small nutrients slip through outer [[porins|porin]] into the periplasm, inner-membrane gatekeepers sort the haul. Symporters like LacY ride incoming protons to drag sugars uphill, PTS gates phosphorylate [[glucose|glucose]] the instant it crosses so it cannot leak back out, and ABC importers burn ATP to haul in amino acids for hungry [[ribosomes|ribosome-ecoli]].\n\nTraffic runs outward too: the SecYEG–SecA motor burns ATP from [[ATP synthase|atp-synthase-ecoli]] to thread roughly a third of all newly minted polypeptides out into the [[periplasm|peptidoglycan]] to build the hull. And if sudden rain dilutes the outside world? Mechanosensitive MscS valves snap open in microseconds as membrane tension spikes, dumping ions so osmotic shock never bursts the submarine.',
         blueprint: {
           role: 'Active nutrient uptake, Sec protein export, and mechanosensitive osmotic relief across [[inner membrane|plasma-membrane]]',
           arrivesFrom: 'Periplasmic [[glucose|glucose]]/[[amino acids|amino-acid]] via [[porins|porin]], plus nascent [[proteins|protein]] from [[ribosomes|ribosome-ecoli]] and cytosolic ATP',
@@ -1217,9 +1217,9 @@ export const PROKARYOTE_PART_LENSES: PagePartLensMap = {
       es: {
         subtitle: 'Esclusas de carga, enhebradores Sec y válvulas de alivio',
         simple:
-          'Como compuertas de carga y esclusas de emergencia de Star Trek en la piel interna, estos puertos meten comida, exportan piezas del casco y abren válvulas MscS si sube la presión.',
+          'Repartidos por la membrana interna, estos transportadores meten azúcares y aminoácidos, el motor Sec enhebra proteínas nuevas hacia el casco y las válvulas MscS alivian presión si entra demasiada agua.',
         story:
-          'Los nutrientes que cruzan las [[porinas|porin]] pasan por los aduaneros internos: permeasas suben azúcares con protones, puertas PTS sellan la [[glucosa|glucose]] con fosfato para que no escape e importadores ABC ceban a los [[ribosomas|ribosome-ecoli]].\n\nHacia fuera, el motor Sec gasta ATP de la [[ATP sintasa|atp-synthase-ecoli]] en enviar piezas al [[periplasma|peptidoglycan]]; y si un chaparrón diluye el entorno, las válvulas MscS saltan en microsegundos antes de que reviente el casco.',
+          'Cuando los nutrientes pequeños cruzan las [[porinas|porin]] externas hacia el periplasma, los aduaneros de la membrana interna clasifican el botín. Las permeasas como LacY aprovechan la caída de protones para arrastrar azúcares cuesta arriba, las puertas PTS le estampan un fosfato a la [[glucosa|glucose]] nada más entrar para que no pueda escapar y los importadores ABC gastan ATP en meter aminoácidos para los [[ribosomas|ribosome-ecoli]].\n\nEl tráfico también va hacia fuera: el motor SecYEG–SecA consume ATP de la [[ATP sintasa|atp-synthase-ecoli]] para enhebrar un tercio de todos los polipéptidos nuevos hacia el [[periplasma|peptidoglycan]]. ¿Y si un chaparrón diluye de golpe el medio externo? Las válvulas mecanosensibles MscS se abren en microsegundos al tensarse la membrana y sueltan lastre antes de que la célula reviente.',
         blueprint: {
           role: 'Captación activa de nutrientes, exportación proteica Sec y válvula osmótica en la [[membrana interna|plasma-membrane]]',
           arrivesFrom: '[[Glucosa|glucose]] y [[aminoácidos|amino-acid]] desde [[porinas|porin]], [[proteínas|protein]] nacientes de [[ribosomas|ribosome-ecoli]] y ATP',
@@ -1246,9 +1246,9 @@ export const PROKARYOTE_PART_LENSES: PagePartLensMap = {
       en: {
         subtitle: 'Proton-Driven Rotary Outboards',
         simple:
-          'Half a dozen Anakin-style pod-racer turbines stud the hull—braiding corkscrew whips behind the ship to rocket straight, or kicking clockwise to tumble onto a new trail!',
+          'Six or seven corkscrew propellers sprout around the hull, each spun at ~100 turns a second by a proton-powered rotary motor that bundles them to swim straight or reverses them to tumble.',
         story:
-          'At two micrometres long, water feels thick as warm honey—shut off thrust and you stop in less than an atom’s width! E. coli bores through that syrup with ~6 proton-fed [[rotary motors|real-motor]] braced on [[peptidoglycan|peptidoglycan]] and powered by [[Complex I|complex-i-ecoli]].\n\nCounterclockwise spin braids long [[flagellar filaments|flagellum]] into one turbo propeller; one CheY-P alert from the [[chemoreceptor array|real-pole]] slams a motor clockwise, blowing the braid into a quick tumble toward sweeter water.',
+          'At two micrometres long, water feels as thick as warm honey—coasting stops in less than the width of an atom. To bore through that syrup, E. coli mounts half a dozen 45-nanometre [[rotary motors|real-motor]] around its sides, each anchored to [[peptidoglycan|peptidoglycan]] and fed periplasmic protons banked by the [[respiratory chain|complex-i-ecoli]].\n\nAs protons pour through eleven MotA/MotB stators per motor, curved hooks bend their spin rearward so long left-handed [[flagellar filaments|flagellum]] braid into one sleek corkscrew tail pushing the rod twenty body-lengths every second. One phosphorylated CheY shout from the [[chemoreceptor array|real-pole]] flips a C-ring clockwise, blowing the braid apart into a brief, chaotic tumble that points the bow down a fresher chemical trail.',
         blueprint: {
           role: 'Peritrichous proton-driven run-and-tumble propulsion system ([[flagellar motor|real-motor]] + [[filament|flagellum]])',
           arrivesFrom: 'Periplasmic H⁺ from [[respiratory chain|complex-i-ecoli]] in [[periplasm|peptidoglycan]] and CheY-P switch signals from [[chemoreceptor array|real-pole]]',
@@ -1271,9 +1271,9 @@ export const PROKARYOTE_PART_LENSES: PagePartLensMap = {
       es: {
         subtitle: 'Motores fueraborda rotatorios de protones',
         simple:
-          'Media docena de turbinas dignas de la vaina de Anakin rodean el casco: trenzan sus látigos para salir disparadas en recta o invierten el giro para virar de golpe.',
+          'Seis o siete hélices en sacacorchos brotan por los costados del casco, cada una girada unas cien veces por segundo por un motor eléctrico de protones que las trenza para avanzar o las invierte para virar.',
         story:
-          'A escala de dos micrómetros el agua pesa como miel espesa: si cortas gas, frenas en menos de un átomo. Para taladrar ese jarabe, E. coli monta seis [[motores rotatorios|real-motor]] sujetos al [[peptidoglicano|peptidoglycan]] y cebados por el [[Complejo I|complex-i-ecoli]].\n\nAl girar en antihorario, los [[filamentos flagelares|flagellum]] se trenzan en un solo chorro propulsor; un aviso CheY-P desde la [[matriz de quimiorreceptores|real-pole]] mete reversa un instante, abre el haz y reorienta la caza.',
+          'Para un cuerpo de dos micrómetros, el agua resulta tan espesa como miel tibia: si apagas el motor, te clavas en menos del ancho de un átomo. Para abrirse paso en ese jarabe, E. coli reparte media docena de [[motores rotatorios|real-motor]] de 45 nanómetros por el casco, calzados en el [[peptidoglicano|peptidoglycan]] y alimentados con los protones que el [[Complejo I|complex-i-ecoli]] acumula en el periplasma.\n\nAl caer los protones por once estatores MotA/MotB, los ganchos curvos doblan el giro hacia popa para que los largos [[filamentos flagelares|flagellum]] se trencen en una sola cola propulsora capaz de empujar la nave veinte esloras por segundo. Basta un aviso CheY-P desde la [[matriz de quimiorreceptores|real-pole]] para invertir un anillo C a sentido horario, deshacer la trenza y dar un vuelco fugaz rumbo a aguas más dulces.',
         blueprint: {
           role: 'Sistema perítrico de propulsión carrera-vuelco impulsado por H⁺ ([[motor|real-motor]] + [[flagelo|flagellum]])',
           arrivesFrom: 'H⁺ periplásmicos del [[Complejo I|complex-i-ecoli]] en el [[periplasma|peptidoglycan]] y señal CheY-P de la [[matriz polar|real-pole]]',
@@ -1299,9 +1299,9 @@ export const PROKARYOTE_PART_LENSES: PagePartLensMap = {
       en: {
         subtitle: 'Catch-Bond Grappling Hooks',
         simple:
-          'Bristling like Attack on Titan ODM grappling cables tipped with golden FimH finger-traps, dozens of Type 1 pili clamp tighter the harder rushing currents try to wash E. coli away!',
+          'Dozens of stiff, hair-thin protein rods bristle from the outer membrane, tipped with golden FimH claws that grip host sugar coats tighter the harder fluid currents try to wash the cell away.',
         story:
-          'Propellers find the meal, but staying anchored in a flushing tract takes ODM grappling gear! Pilin [[protein|protein]] bricks from [[70S ribosomes|ribosome-ecoli]] cross the [[periplasm|peptidoglycan]] with FimC escorts and extrude into eighty stiff [[Type 1 pili|pilus]].\n\nEach tip sports a golden FimH claw tuned to host mannose [[sugars|glucose]]: tug gently and it lets go to explore; yank hard with a fluid wave and FimH snaps into a Spider-Man catch-bond lock!',
+          'Swimming finds the feast, but staying put in a flushing gut or urinary tract takes grappling gear. Pilin [[protein|protein]] bricks synthesized on [[70S ribosomes|ribosome-ecoli]] cross the inner membrane through Sec gates, get escorted across the [[periplasm|peptidoglycan]] by FimC chaperones, and polymerize base-first through FimD outer-membrane ushers into eighty stiff [[Type 1 pili|pilus]] bristling from the hull.\n\nCapping the far tip of every 7-nanometre shaft sits a golden FimH lectin claw tuned to mannose [[sugars|glucose]] on host epithelial cells. Pull gently and FimH can let go so the cell explores; yank hard with a rushing fluid shear wave and FimH snaps into a locked catch-bond conformation, mooring the bacterium fast while neighbors weave a biofilm.',
         blueprint: {
           role: 'Chaperone–usher adhesive fimbriae for shear-resistant host colonization ([[Type 1 pili|pilus]])',
           arrivesFrom: 'FimA/FimF/FimG/FimH [[polypeptides|polypeptide]] from [[ribosomes|ribosome-ecoli]] exported via Sec into [[periplasm|peptidoglycan]]',
@@ -1323,9 +1323,9 @@ export const PROKARYOTE_PART_LENSES: PagePartLensMap = {
       es: {
         subtitle: 'Garfios adhesivos a prueba de corriente',
         simple:
-          'Erizados como cables de maniobras de Ataque a los Titanes con pinzas doradas FimH, decenas de pili aprietan más fuerte cuanto más intenta barrerlos la corriente.',
+          'Decenas de rígidas varillas proteicas erizan la membrana externa, rematadas en su punta dorada por pinzas FimH que aprietan más fuerte cuanto más intenta arrastrarlas la corriente.',
         story:
-          'Nadar halla el banquete, pero resistir el barrido intestinal pide garfios de abordaje. Ladrillos de [[proteína|protein]] pilina salidos de [[ribosomas 70S|ribosome-ecoli]] cruzan el [[periplasma|peptidoglycan]] con FimC hasta desplegar ochenta rígidos [[pili tipo 1|pilus]].\n\nCada punta luce una garra dorada FimH que muerde [[azúcares|glucose]] del tejido: en calma suelta amarras para explorar, pero ante un tirón brusco bloquea su cierre mecánico como una telaraña de Spider-Man.',
+          'Nadar sirve para encontrar el banquete, pero no salir barrido por el flujo intestinal o urinario exige lanzar garfios de abordaje. Los ladrillos de [[proteína|protein]] pilina salidos de los [[ribosomas 70S|ribosome-ecoli]] cruzan la membrana interna por Sec, atraviesan el [[periplasma|peptidoglycan]] de la mano de la chaperona FimC y se ensamblan por la base en anillos FimD externos hasta erizar el casco con ochenta [[pili tipo 1|pilus]].\n\nEn la punta dorada de cada pértiga de 7 nanómetros espera la pinza FimH, calibrada para morder [[azúcares|glucose]] de manosa en los tejidos del huésped. Con agua calma suelta amarras para dejar explorar; pero si embiste una corriente brusca, el tirón estira FimH hacia un cierre mecánico de alta tenacidad que clava a la bacteria al sustrato.',
         blueprint: {
           role: 'Fimbrias adhesivas chaperona-usher para colonización resistente al flujo ([[pili tipo 1|pilus]])',
           arrivesFrom: '[[Polipéptidos|polypeptide]] FimA/F/G/H de [[ribosomas|ribosome-ecoli]] exportados vía Sec al [[periplasma|peptidoglycan]]',
@@ -1350,9 +1350,9 @@ export const PROKARYOTE_PART_LENSES: PagePartLensMap = {
       en: {
         subtitle: 'The Polar Chemical Sonar Dome',
         simple:
-          'Like Professor X’s Cerebro wired to the ship’s helm, this polar sensor honeycomb compares right-now’s broth against two seconds ago to steer E. coli up sugar trails.',
+          'At one pole of the cell, thousands of chemoreceptors link into a hexagonal lattice that senses tiny rises or drops in nearby sugars and tells the flagellar motors when to change course.',
         story:
-          'Too tiny to smell front-versus-back, E. coli navigates through time via its 250-nanometre [[polar honeycomb|real-pole]]! Snacks slipping through [[porins|porin]] nudge [[chemoreceptors|chemoreceptor]] a whisper inward across the [[plasma membrane|plasma-membrane]].\n\nWired into one Cerebro crystal by CheA and CheW, even a tiny sugar dip fires a neighborhood of kinases at once—sending CheY-P couriers sprinting to kick [[flagellar motors|real-motor]] into a course-correcting tumble!',
+          'E. coli is far too tiny to tell whether its nose smells sweeter than its tail—so instead it measures time, comparing this second’s broth against two seconds ago through a 250-nanometre [[polar honeycomb|real-pole]]. Sugars and amino acids slipping through outer [[porins|porin]] brush the periplasmic tips of trimeric [[chemoreceptors|chemoreceptor]], sliding their four-helix stalks a whisper inward across the [[plasma membrane|plasma-membrane]].\n\nBecause CheA kinases and CheW rings wire thousands of receptor tips into one cooperative crystal, a tiny drop in sugar flips a whole neighborhood of kinases on at once. Burning ATP, CheA stamps phosphate tags onto CheY couriers that sprint across the cytosol to kick [[flagellar motors|real-motor]] into a course-changing tumble—while methylation enzymes reset the array’s memory for the next sniff.',
         blueprint: {
           role: 'Cooperative polar chemotaxis sensory lattice and kinase switchboard ([[chemoreceptor array|real-pole]])',
           arrivesFrom: 'Periplasmic [[glucose|glucose]]/maltose (via MalE), [[amino acids|amino-acid]], and repellents entering [[porins|porin]], plus cytosolic ATP',
@@ -1375,9 +1375,9 @@ export const PROKARYOTE_PART_LENSES: PagePartLensMap = {
       es: {
         subtitle: 'El domo polar de sonar químico',
         simple:
-          'Como el casco Cerebro del Profesor X conectado al timón, este panal polar compara el olor de ahora mismo con el de hace dos segundos para guiar la caza.',
+          'En un polo de la bacteria, miles de quimiorreceptores se enlazan en un panal hexagonal que detecta subidas o bajadas minúsculas de alimento y avisa a los motores cuándo cambiar de rumbo.',
         story:
-          'Demasiado pequeña para comparar proa y popa, E. coli navega midiendo el tiempo con su [[panal polar|real-pole]] de 250 nanómetros. Los nutrientes que cruzan las [[porinas|porin]] rozan los [[quimiorreceptores|chemoreceptor]] a través de la [[membrana plasmática|plasma-membrane]].\n\nCableados en red tipo Cerebro por CheA y CheW, la menor caída de azúcar enciende todo un sector de quinasas que lanzan mensajeros CheY-P para hacer virar a los [[motores flagelares|real-motor]].',
+          'E. coli es demasiado diminuta para notar diferencia de olor entre su proa y su popa, así que mide el tiempo: compara el caldo de este instante con el de hace dos segundos mediante un [[panal polar|real-pole]] de 250 nanómetros. Los azúcares y aminoácidos que entran por las [[porinas|porin]] rozan las antenas periplásmicas de los [[quimiorreceptores|chemoreceptor]], hundiendo sus tallos de cuatro hélices apenas un suspiro a través de la [[membrana plasmática|plasma-membrane]].\n\nComo las quinasas CheA y los anillos CheW cablean miles de puntas en una sola red cooperativa, basta que escasee una pizca el azúcar para encender todo un vecindario de quinasas a la vez. Consumiendo ATP, CheA estampa fosfatos sobre mensajeros CheY que cruzan el citosol y obligan a los [[motores flagelares|real-motor]] a dar un vuelco hacia aguas más prometedoras.',
         blueprint: {
           role: 'Red sensorial polar cooperativa y centralita quinasa de quimiotaxis ([[matriz polar|real-pole]])',
           arrivesFrom: '[[Glucosa|glucose]]/maltosa (vía MalE), [[aminoácidos|amino-acid]] y repelentes por [[porinas|porin]], más ATP citosólico',
@@ -1403,9 +1403,9 @@ export const PROKARYOTE_PART_LENSES: PagePartLensMap = {
       en: {
         subtitle: 'The Rod-Sculpting Actin Tracks',
         simple:
-          'Cruising around the inner hull like Tron light-ribbons towing periplasmic welders, actin-cousin MreB guides wall hoops in straight circles so E. coli stays a sleek rod.',
+          'Short ribbons of an actin-like protein curve around the inside of the membrane, guiding wall-building enzymes in neat hoops so the growing bacterium stays a straight rod instead of ballooning into a sphere.',
         story:
-          'Why doesn’t a high-pressure bag inflate into a round beach ball as it grows? Hugging the [[plasma membrane|plasma-membrane]], short ribbons of MreB—bacterial cousin of [[actin filaments|actin-filament]]—sip ATP from [[ATP synthase|atp-synthase-ecoli]] and sense where the hull curves sharpest.\n\nRodZ hitches those Tron-like inner sleds to RodA–PBP2 welders out in the [[periplasm|peptidoglycan]], towing them in neat circular orbits that lay straight barrel hoops!',
+          'How does a high-pressure bag grow twice as long without bulging into a round beach ball? Snug against the inner face of the [[plasma membrane|plasma-membrane]], short double-protofilament ribbons of MreB—a bacterial cousin of eukaryotic [[actin filaments|actin-filament]]—drink ATP from [[ATP synthase|atp-synthase-ecoli]] and hug patches where the cylinder curves most.\n\nTransmembrane RodZ linkers hitch these intracellular tracks directly to the RodA–PBP2 wall welders working out in the [[periplasm|peptidoglycan]]. As those welders stitch fresh glycan hoops around the circumference, they tow the MreB sleds steadily around the rod axis, laying straight cylindrical reinforcement until FtsZ pinches the middle in two.',
         blueprint: {
           role: 'Membrane-associated bacterial [[actin-homolog|actin-filament]] scaffold directing rod-shape elongation',
           arrivesFrom: 'MreB [[polypeptides|polypeptide]] from [[70S ribosomes|ribosome-ecoli]] and cytosolic ATP from [[ATP synthase|atp-synthase-ecoli]]',
@@ -1427,9 +1427,9 @@ export const PROKARYOTE_PART_LENSES: PagePartLensMap = {
       es: {
         subtitle: 'Los raíles de actina que esculpen el cilindro',
         simple:
-          'Orbitando bajo la membrana como estelas de luz de Tron que remolcan soldadoras, las cintas de MreB guían aros rectos para que E. coli crezca cilíndrica y no redonda.',
+          'Cortas cintas de una proteína prima de la actina rodean por dentro la membrana, guiando en aros ordenados a las enzimas que tejen la pared para que la bacteria crezca como un bastón recto y no se hinche como un balón.',
         story:
-          '¿Por qué un saco a presión no se hincha como una pelota de playa al crecer? Pegadas a la [[membrana plasmática|plasma-membrane]], cortas cintas de MreB —prima de los [[filamentos de actina|actin-filament]]— beben ATP de la [[ATP sintasa|atp-synthase-ecoli]] allí donde más se curva el cilindro.\n\nPasadores RodZ enganchan estos patines estilo Tron con las soldadoras externas del [[periplasma|peptidoglycan]], guiándolas en órbitas circulares que tejen un fuselaje recto impecable.',
+          '¿Cómo consigue un saco sometido a alta presión duplicar su largo sin deformarse en una pelota redonda? Pegadas a la cara interna de la [[membrana plasmática|plasma-membrane]], cortas cintas dobles de MreB —pariente bacteriana de los [[filamentos de actina|actin-filament]]— consumen ATP de la [[ATP sintasa|atp-synthase-ecoli]] y se acoplan justo donde más se curva el cilindro.\n\nPasadores transmembrana RodZ enganchan estos patines interiores con las soldadoras RodA–PBP2 que trabajan afuera en el [[periplasma|peptidoglycan]]. A medida que las soldadoras cosen nuevos aros de azúcar alrededor del perímetro, arrastran consigo los raíles de MreB en órbitas circulares, reforzando el tubo recto hasta que llega la hora de dividirlo en dos.',
         blueprint: {
           role: 'Andamio bacteriano homólogo a [[actina|actin-filament]] que dirige la elongación cilíndrica de la pared',
           arrivesFrom: '[[Polipéptidos|polypeptide]] MreB de [[ribosomas 70S|ribosome-ecoli]] y ATP citosólico de la [[ATP sintasa|atp-synthase-ecoli]]',
@@ -1454,9 +1454,9 @@ export const PROKARYOTE_PART_LENSES: PagePartLensMap = {
       en: {
         subtitle: '4.6 Million Letters Twisted Without a Vault',
         simple:
-          'All 4.64 million letters of E. coli’s operating manual coil into 460 spring-loaded loops right in the open cabin—copied and read at the exact same time!',
+          'One unbroken circular double helix of 4.64 million base pairs—1.6 millimetres of DNA if stretched straight—folds into hundreds of twisted plectoneme loops right in the center of the cell.',
         story:
-          'Here sits the entire source code of our Millennium Falcon: 4,641,652 base pairs coiled in the open [[nucleoid|real-nucleoid]] with zero nuclear walls! Doctor Strange-style [[DNA gyrase|gyrase]] twists ~460 braided branches pinned by nimble [[HU|hu-protein]] clips.\n\nNever locked in a vault, it multitasks nonstop: twin Tron [[replication forks|real-fork]] copy every letter while outer loops feed [[RNA polymerases|rnap-ecoli]] straight into surrounding ribosomes!',
+          'Here lies the entire operating manual of Escherichia coli: 4,641,652 base pairs of circular B-DNA coiled into the open [[nucleoid|real-nucleoid]] without a shred of nuclear membrane around it. Negative supercoiling wound in by [[DNA gyrase|gyrase]] twists neighboring stretches of double helix around each other into ~460 braided plectoneme branches, cinched at their bases by [[HU|hu-protein]] and Fis clips.\n\nFar from sitting idle in storage, this live cable runs two high-stakes jobs simultaneously: twin [[replication forks|real-fork]] plow around the circle from oriC to copy every letter in forty minutes, while exposed outer loops feed [[RNA polymerases|rnap-ecoli]] so active genes fire straight into the surrounding sea of ribosomes.',
         blueprint: {
           role: 'Single circular 4.64-Mbp genomic blueprint organized as plectonemic domains ([[realistic nucleoid|real-nucleoid]])',
           arrivesFrom: 'Semiconservative synthesis by [[replication forks|real-fork]] using cytosolic dNTP [[nucleotides|nucleotide]] and supercoiling by [[gyrase|gyrase]]',
@@ -1480,9 +1480,9 @@ export const PROKARYOTE_PART_LENSES: PagePartLensMap = {
       es: {
         subtitle: '4,6 millones de letras trenzadas sin bóveda',
         simple:
-          'Las 4,64 millones de letras del manual de E. coli se recogen en 460 bucles con resorte en mitad de la cabina abierta, copiándose y leyéndose a la vez.',
+          'Una única doble hélice circular de 4,64 millones de pares de bases —1,6 milímetros de ADN si se estirara— se recoge en cientos de bucles trenzados justo en el centro abierto de la célula.',
         story:
-          'Aquí late el código maestro de nuestro Halcón Milenario: 4.641.652 pares de bases en el [[nucleoide|real-nucleoid]] abierto sin un solo tabique nuclear. La [[ADN girasa|gyrase]] al estilo Doctor Strange trenza unas 460 ramas sujetas por pinzas [[HU|hu-protein]].\n\nJamás archivado bajo llave, hace doble turno: dos [[horquillas de replicación|real-fork]] copian el círculo mientras los bucles externos ceban a la [[ARN polimerasa|rnap-ecoli]] frente a los ribosomas.',
+          'Aquí late el manual completo de instrucciones de Escherichia coli: 4.641.652 pares de bases de ADN-B circular recogidos en el [[nucleoide|real-nucleoid]] sin un solo tabique nuclear a la vista. El superenrollamiento negativo inyectado por la [[ADN girasa|gyrase]] trenza tramos vecinos entre sí formando unas 460 ramas plectonémicas sujetas por pinzas [[HU|hu-protein]] y Fis.\n\nLejos de dormir archivado, este cable vivo ejecuta dos proezas a la vez: dos [[horquillas de replicación|real-fork]] recorren el anillo en sentidos opuestos para copiar cada letra en cuarenta minutos, mientras los bucles exteriores alimentan a la [[ARN polimerasa|rnap-ecoli]] para que los genes activos se traduzcan directamente en la orilla ribosómica.',
         blueprint: {
           role: 'Genoma circular único de 4,64 Mpb organizado en dominios plectonémicos ([[nucleoide realista|real-nucleoid]])',
           arrivesFrom: 'Duplicación semiconservativa en la [[horquilla de replicación|real-fork]] con [[nucleótidos|nucleotide]] dNTP y tensión de [[girasa|gyrase]]',
@@ -1509,9 +1509,9 @@ export const PROKARYOTE_PART_LENSES: PagePartLensMap = {
       en: {
         subtitle: 'The Nimble Chromosomal Origami Crew',
         simple:
-          'Teaming Spider-Man-agile HU clips with Doctor Strange-style DNA gyrase, E. coli packs 1.6 millimetres of DNA into a one-micrometre room without locking a single gene.',
+          'Instead of wrapping DNA around heavy histone spools, tiny proteins like HU, Fis, and IHF bend sharp corners along the helix while ATP-powered gyrase keeps the whole chromosome spring-loaded.',
         story:
-          'Packing 1.6 millimetres of DNA without heavy histone locks takes acrobats fresh off [[70S ribosomes|ribosome-ecoli]]! Nimble [[HU dimers|hu-protein]] kink flexible bends like Spider-Man parkour clips while Fis and IHF bridge sharp U-turns.\n\nEvery few thousand bases, Sorcerer Supreme [[DNA gyrase|gyrase]] spends ATP from [[ATP synthase|atp-synthase-ecoli]] to slice both strands, pass a loop through the portal, and clear knots ahead of racing [[replication forks|real-fork]].',
+          'Packing 1.6 millimetres of DNA into a one-micrometre submarine without locking genes in storage calls for acrobatic crewmates synthesized fresh on [[70S ribosomes|ribosome-ecoli]]. Every few hundred base pairs, nimble [[HU dimers|hu-protein]] slip β-ribbon fingers into the minor groove to pinch flexible bends, Fis bridges neighboring loops during rapid feasts, and IHF folds hairpin U-turns at regulatory switches.\n\nEvery several thousand letters, the heavy hitter steps in: [[DNA gyrase|gyrase]] grabs ATP minted by [[ATP synthase|atp-synthase-ecoli]], slices both strands of a duplex, passes another segment clean through the gap, and seals the cut to keep plectonemes coiled tight and clear positive knots ahead of advancing [[replication forks|real-fork]].',
         blueprint: {
           role: 'Dynamic nucleoid-associated bending, bridging, and topoisomerase crew ([[HU|hu-protein]], Fis, IHF, [[gyrase|gyrase]])',
           arrivesFrom: 'Architectural [[polypeptides|polypeptide]] from [[ribosomes|ribosome-ecoli]] and cytosolic ATP from [[ATP synthase|atp-synthase-ecoli]]',
@@ -1535,9 +1535,9 @@ export const PROKARYOTE_PART_LENSES: PagePartLensMap = {
       es: {
         subtitle: 'La cuadrilla acrobática de origami cromosómico',
         simple:
-          'Combinando pinzas HU ágiles como Spider-Man con portales de ADN girasa estilo Doctor Strange, E. coli pliega 1,6 milímetros de ADN sin echar llave a ningún gen.',
+          'En vez de enrollar el ADN en pesados carretes de histonas, pequeñas proteínas como HU, Fis e IHF doblan codos ágiles en la hélice mientras la girasa gasta ATP en mantener tenso el muelle.',
         story:
-          'Plegar 1,6 milímetros de ADN sin pesados bloques de histonas pide acróbatas salidos de los [[ribosomas 70S|ribosome-ecoli]]. Los dímeros [[HU|hu-protein]] doblan curvas rápidas al estilo Spider-Man mientras Fis e IHF cierran horquillas.\n\nCada pocos miles de letras, la [[ADN girasa|gyrase]] usa ATP de la [[ATP sintasa|atp-synthase-ecoli]] para abrir un portal digno de Doctor Strange, cruzar otra hebra y despejar nudos ante la [[horquilla de replicación|real-fork]].',
+          'Meter 1,6 milímetros de ADN en un submarino de un micrómetro sin dejar los genes bajo llave exige acróbatas ligeros recién salidos de los [[ribosomas 70S|ribosome-ecoli]]. Cada pocos cientos de pares de bases, los dímeros [[HU|hu-protein]] hunden dedos de cinta β en el surco menor para doblar curvas flexibles, Fis tiende puentes entre ramas durante los banquetes de crecimiento rápido e IHF pliega horquillas cerradas de 160 grados.\n\nCada varios miles de bases entra en acción el peso pesado: la [[ADN girasa|gyrase]] toma ATP de la [[ATP sintasa|atp-synthase-ecoli]], corta de cuajo ambas hebras, cruza otro segmento a través del tajo y vuelve a soldarlo para sostener el trenzado negativo y despejar los nudos delante de la [[horquilla de replicación|real-fork]].',
         blueprint: {
           role: 'Cuadrilla dinámica de plegado, puenteo y superenrollamiento del nucleoide ([[HU|hu-protein]], Fis, IHF, [[girasa|gyrase]])',
           arrivesFrom: '[[Polipéptidos|polypeptide]] desde [[ribosomas|ribosome-ecoli]] y ATP citosólico de la [[ATP sintasa|atp-synthase-ecoli]]',
@@ -1564,9 +1564,9 @@ export const PROKARYOTE_PART_LENSES: PagePartLensMap = {
       en: {
         subtitle: 'The 1,000-Letter-Per-Second Trombone Locomotive',
         simple:
-          'Launching new replication runs before the last one even finishes, E. coli’s twin-polymerase Tron racer unzips and clones 1,000 DNA letters every second!',
+          'Two coupled DNA polymerases race behind a ring-shaped helicase—copying one strand smoothly forward while looping the other strand out to stitch it in 1,500-letter Okazaki sections.',
         story:
-          'Speedrunner math: E. coli divides every 20 minutes even though copying its genome takes 40—launching new [[replication forks|real-fork]] before the previous lap finishes! Up front, [[DnaB helicase|dnab-helicase]] burns [[ATP synthase|atp-synthase-ecoli]] fuel to feed leading [[Pol III|pol3-ecoli]] nonstop.\n\nDownstairs, the lagging strand loops out like a jazz trombone on white SSB spools through a twin Pol III, handing crisp sister helices to [[HU|hu-protein]] and gyrase.',
+          'A fast-growing E. coli divides every twenty minutes even though copying its chromosome takes forty—meaning new [[replication forks|real-fork]] launch at oriC before the previous pair even finishes! At the nose of this 250-nanometre machine, hexameric [[DnaB helicase|dnab-helicase]] burns ATP from [[ATP synthase|atp-synthase-ecoli]] to wedge parental DNA apart, feeding the upper strand straight into leading-strand [[Pol III|pol3-ecoli]] for non-stop copying.\n\nMeanwhile, the lower template threads through the DnaB ring, catches an RNA primer from DnaG primase, wraps safely around white SSB spools in a sweeping trombone loop, and feeds backward through a twin Pol III held by flexible τ arms—handing two crisp sister chromosomes back to [[HU|hu-protein]] and gyrase.',
         blueprint: {
           role: 'High-speed coupled semiconservative chromosome replisome ([[realistic fork|real-fork]])',
           arrivesFrom: 'Parental [[DNA|dna]] unwound ahead by [[gyrase|gyrase]], cytosolic dNTP/NTP [[nucleotides|nucleotide]], and ATP from [[ATP synthase|atp-synthase-ecoli]]',
@@ -1589,9 +1589,9 @@ export const PROKARYOTE_PART_LENSES: PagePartLensMap = {
       es: {
         subtitle: 'La locomotora en trombón de mil letras por segundo',
         simple:
-          'Lanzando nuevas vueltas antes siquiera de terminar la anterior, este bólido estilo Tron de doble polimerasa abre y clona mil letras de ADN por segundo.',
+          'Dos ADN polimerasas acopladas corren tras un anillo helicasa: copian una hebra seguida hacia delante mientras curvan la otra en bucle para coserla en tramos de mil quinientas letras.',
         story:
-          'Matemática de speedrunner: E. coli se divide cada 20 minutos aunque copiar su ADN tarde 40, ¡así que arranca nuevas [[horquillas de replicación|real-fork]] antes de cruzar la meta previa! Delante, la [[helicasa DnaB|dnab-helicase]] quema ATP de la [[ATP sintasa|atp-synthase-ecoli]] sirviendo vía recta a una [[ADN polimerasa III|pol3-ecoli]].\n\nAbajo, la otra hebra traza un bucle de trombón sobre carretes SSB hacia su Pol III gemela, entregando copias limpias a [[HU|hu-protein]].',
+          'En caldo rico, E. coli se divide cada veinte minutos aunque copiar su cromosoma entero lleve cuarenta: ¡eso significa que lanza nuevas [[horquillas de replicación|real-fork]] antes incluso de que terminen las anteriores! En el morro de esta locomotora de 250 nanómetros, la [[helicasa DnaB|dnab-helicase]] quema ATP de la [[ATP sintasa|atp-synthase-ecoli]] para abrir el ADN parental y servir en bandeja la hebra superior a una [[ADN polimerasa III|pol3-ecoli]] continua.\n\nPor debajo, la otra hebra atraviesa el anillo DnaB, recibe un cebador de ARN de la primasa DnaG, se arropa en carretes blancos SSB trazando un lazo de trombón y entra en una segunda Pol III sujeta por brazos τ, entregando dos cromosomas impecables a [[HU|hu-protein]] y la girasa.',
         blueprint: {
           role: 'Replisoma acoplado semiconservativo de alta velocidad ([[horquilla realista|real-fork]])',
           arrivesFrom: '[[ADN|dna]] parental aliviado por [[girasa|gyrase]], [[nucleótidos|nucleotide]] dNTP/NTP y ATP de la [[ATP sintasa|atp-synthase-ecoli]]',
@@ -1617,9 +1617,9 @@ export const PROKARYOTE_PART_LENSES: PagePartLensMap = {
       en: {
         subtitle: 'Crab-Claw Scribes & Ribosomal Christmas Trees',
         simple:
-          'Four thousand crab-claw polymerases prowl the chromosome—towing ribosome convoys on protein genes while bumper-packing rRNA tracks like Bullet Trains!',
+          'Thousands of RNA polymerase claws patrol the chromosome, reading single genes for immediate protein making while packing bumper-to-bumper along ribosomal RNA operons.',
         story:
-          'Four thousand [[E. coli RNA polymerases|rnap-ecoli]] roam the [[nucleoid|real-nucleoid]], burning nucleotides charged by [[ATP synthase|atp-synthase-ecoli]]. On protein genes, lone claws tow Snowpiercer [[ribosome convoys|real-gene]] at fifty letters a second.\n\nSwitch to the seven rRNA operons and it’s Shinkansen rush hour: dozens of claws pack nose-to-tail, sprouting pink rRNA branches into classic "Christmas trees" that birth new [[70S ribosomes|ribosome-ecoli]]!',
+          'Four thousand [[E. coli RNA polymerases|rnap-ecoli]] prowl the [[nucleoid|real-nucleoid]], gulping ribonucleotide triphosphates recharged by [[ATP synthase|atp-synthase-ecoli]] to turn silent DNA into live instructions. Along ordinary protein genes near the nucleoid rim, single claws reel out messenger RNA straight into trailing [[ribosome convoys|real-gene]] at fifty letters per second.\n\nLook up at one of the seven ribosomal RNA operons, however, and traffic turns into a roaring freight train: dozens of polymerases sprint nose-to-tail down the same DNA track, their nascent pink rRNA transcripts growing longer down the line and folding on the fly with ribosomal proteins into a classic electron-micrograph “Christmas tree” that births new [[70S ribosomes|ribosome-ecoli]].',
         blueprint: {
           role: 'Genome-wide mRNA, rRNA, and tRNA transcription fleet ([[E. coli RNAP|rnap-ecoli]])',
           arrivesFrom: 'Promoter [[DNA|dna]] in [[nucleoid|real-nucleoid]], NTP [[nucleotides|nucleotide]] recharged by [[ATP synthase|atp-synthase-ecoli]], and σ factors',
@@ -1642,9 +1642,9 @@ export const PROKARYOTE_PART_LENSES: PagePartLensMap = {
       es: {
         subtitle: 'Tenazas escribas y abetos de ARN ribosómico',
         simple:
-          'Cuatro mil tenazas de ARN polimerasa patrullan el cromosoma: remolcan trenes de ribosomas en genes comunes y llenan como trenes bala las vías de ARN ribosómico.',
+          'Miles de pinzas de ARN polimerasa recorren el cromosoma: leen genes sueltos para fabricar proteínas al vuelo y se encadenan en trenes compactos sobre los operones de ARN ribosómico.',
         story:
-          'Cuatro mil [[ARN polimerasas de E. coli|rnap-ecoli]] recorren el [[nucleoide|real-nucleoid]] con combustible de la [[ATP sintasa|atp-synthase-ecoli]]. En los genes comunes, cada tenaza arrastra detrás [[caravanas de ribosomas|real-gene]] al vuelo.\n\nPero en los siete operones ribosómicos parece hora punta de tren bala japonés: decenas de polimerasas pegadas despliegan ramas rosadas en «árbol de Navidad» de donde nacen nuevos [[ribosomas 70S|ribosome-ecoli]].',
+          'Cuatro mil [[ARN polimerasas de E. coli|rnap-ecoli]] patrullan el [[nucleoide|real-nucleoid]], bebiendo nucleótidos recargados por la [[ATP sintasa|atp-synthase-ecoli]] para despertar el código dormido. En la orilla del nucleoide, pinzas solitarias transcriben genes de trabajo y tienden su cinta de ARN mensajero directamente a las [[caravanas de ribosomas|real-gene]] que trotan detrás.\n\nPero asómate a uno de los siete operones ribosómicos y verás una autopista en hora punta: decenas de polimerasas avanzan pegadas una tras otra por el mismo raíl de ADN, desplegando ramas crecientes de ARNr rosado que ya van reclutando proteínas al vuelo como un «árbol de Navidad» molecular del que nacen nuevos [[ribosomas 70S|ribosome-ecoli]].',
         blueprint: {
           role: 'Flota celular de transcripción de ARNm, ARNr y ARNt ([[ARN polimerasa de E. coli|rnap-ecoli]])',
           arrivesFrom: '[[ADN|dna]] promotor del [[nucleoide|real-nucleoid]], [[nucleótidos|nucleotide]] NTP recargados por [[ATP sintasa|atp-synthase-ecoli]] y factores σ',
@@ -1670,9 +1670,9 @@ export const PROKARYOTE_PART_LENSES: PagePartLensMap = {
       en: {
         subtitle: 'Live-Wire Messages & Catalytic RNA Scaffolds',
         simple:
-          'Like Mission: Impossible self-destructing tapes, bacterial mRNA gets translated mid-print and shredded three minutes later so the ship pivots on a dime!',
+          'Bacterial mRNA lives fast and dies young—read by a string of ribosomes while it is still being made and shredded within minutes so the cell can pivot instantly, while rRNA folds into durable ribosome cores.',
         story:
-          'While eukaryotic [[RNA|rna]] queues for caps, splicing, and nuclear visas, E. coli’s orange mRNA already carries a convoy of [[70S ribosomes|ribosome-ecoli]] before [[RNA polymerase|rnap-ecoli]] finishes typing! Better yet, one tape often prints a whole heist crew of partner enzymes together.\n\nThree minutes later—this tape self-destructs! RNase E shreds old orders so the ship pivots menus instantly, while tough crimson rRNA lives on inside [[50S|ribo-50s]] and [[30S subunits|ribo-30s]].',
+          'In a eukaryote, messenger [[RNA|rna]] gets capped, spliced, polyadenylated, and stamped for export before a ribosome ever sees it; in E. coli, an orange mRNA strand is already feeding a polysome of [[70S ribosomes|ribosome-ecoli]] before [[RNA polymerase|rnap-ecoli]] has even finished writing its tail! Often one polycistronic ribbon carries three or four partner enzymes of the same pathway side by side so the whole crew prints together.\n\nThree minutes later, RNase E scissors chew that spent message back into loose nucleotides—letting the submarine rewrite its entire enzyme lineup the instant gut weather changes. By contrast, crimson ribosomal RNA folds into A-form stems that outlive generations inside [[50S|ribo-50s]] and [[30S subunits|ribo-30s]].',
         blueprint: {
           role: 'Short-lived polycistronic coding dispatches (mRNA) and long-lived catalytic ribosome scaffolds (rRNA)',
           arrivesFrom: 'Transcribed directly off [[nucleoid DNA|real-nucleoid]] by [[RNA polymerase|rnap-ecoli]] using cytosolic NTPs',
@@ -1695,9 +1695,9 @@ export const PROKARYOTE_PART_LENSES: PagePartLensMap = {
       es: {
         subtitle: 'Mensajes fugaces en vivo y armazones eternos de ARNr',
         simple:
-          'Como cintas de Misión Imposible que se autodestruyen en tres minutos, el ARNm bacteriano se traduce mientras se imprime y luego se recicla para cambiar de plan al instante.',
+          'El ARNm bacteriano vive deprisa: una fila de ribosomas lo lee mientras aún se está fabricando y en pocos minutos se recicla para cambiar de menú al instante, mientras el ARNr arma el corazón duradero de los ribosomas.',
         story:
-          'Mientras el [[ARN|rna]] eucariota hace cola por sellos y visados nucleares, el ARNm naranja de E. coli ya carga un tren de [[ribosomas 70S|ribosome-ecoli]] antes de que termine la [[ARN polimerasa|rnap-ecoli]]. A menudo una sola cinta imprime de golpe a todo un equipo de enzimas.\n\nTres minutos después, ¡este mensaje se autodestruirá! La RNasa E recicla el ARNm para cambiar de menú al instante, mientras el resistente ARNr perdura en las subunidades [[50S|ribo-50s]] y [[30S|ribo-30s]].',
+          'En una célula eucariota, el [[ARN|rna]] mensajero recibe caperuza, corte de intrones, cola y pasaporte nuclear antes de ver un ribosoma; en E. coli, una cinta naranja de ARNm ya sostiene un tren entero de [[ribosomas 70S|ribosome-ecoli]] cuando la [[ARN polimerasa|rnap-ecoli]] ni siquiera ha terminado de escribir su final. A menudo una sola tira policistrónica agrupa tres o cuatro enzimas vecinas para imprimir el equipo completo de una tacada.\n\nTres minutos después, las tijeras de la RNasa E desmenuzan ese mensaje de vuelta a nucleótidos sueltos, permitiendo al submarino cambiar de repertorio en cuanto varía el entorno. En cambio, el ARNr carmesí se pliega en horquillas robustas que perduran generación tras generación dentro de las subunidades [[50S|ribo-50s]] y [[30S|ribo-30s]].',
         blueprint: {
           role: 'Despachos codificantes efímeros policistrónicos (ARNm) y andamios catalíticos estables (ARNr)',
           arrivesFrom: 'Transcripción directa desde el [[nucleoide|real-nucleoid]] por la [[ARN polimerasa|rnap-ecoli]] con NTPs citosólicos',
@@ -1723,9 +1723,9 @@ export const PROKARYOTE_PART_LENSES: PagePartLensMap = {
       en: {
         subtitle: '50,000 Protein Forges Crowding the Nucleoid Shore',
         simple:
-          'Ringing the central DNA like Coruscant’s roaring factory districts, ~50,000 purple 70S printers weld twenty amino acids a second along live mRNA tracks.',
+          'Excluded from the tangled center of the DNA, tens of thousands of 70S ribosomes pack the surrounding cytoplasm—strung like beads along mRNAs to build every enzyme, pump, and propeller in the cell.',
         story:
-          'Spot how purple [[70S ribosomes|ribosome-ecoli]] ring the blue [[nucleoid|real-nucleoid]] like Coruscant’s industrial belt around a mountain? Too chunky as polysome trains to squeeze deep inside braided DNA, ~50,000 printers pack the outer cabin along orange [[mRNA ribbons|real-gene]].\n\nFed nonstop by Flash-fast [[tRNAs|trna]] and [[ATP synthase|atp-synthase-ecoli]] power, they forge both cytosolic enzymes and hull armor at twenty welds per second!',
+          'Notice how purple [[70S ribosomes|ribosome-ecoli]] ring the blue [[nucleoid|real-nucleoid]] like a bustling port city around a mountain? Too bulky as multi-ribosome polysomes to squeeze deep into braided DNA, ~50,000 factories pack the outer cytoplasm instead, three quarters of them marching in convoys along orange [[mRNA ribbons|real-gene]] while the rest wait between shifts.\n\nFed non-stop by EF-Tu-escorted [[tRNAs|trna]] and nucleotide fuel from [[ATP synthase|atp-synthase-ecoli]], each ribosome welds twenty amino acids a second. Two thirds of their newly forged chains fold into cytoplasmic workhorses with help from GroEL, while one third carry signal tags straight to inner-membrane Sec gates to armor the hull.',
         blueprint: {
           role: 'High-density polysomal translation fleet surrounding the nucleoid ([[E. coli 70S ribosomes|ribosome-ecoli]])',
           arrivesFrom: 'Nascent m[[RNA|rna]] from [[RNA polymerase|rnap-ecoli]], EF-Tu·GTP·aa-[[tRNAs|trna]], and GTP/ATP energy from [[ATP synthase|atp-synthase-ecoli]]',
@@ -1749,9 +1749,9 @@ export const PROKARYOTE_PART_LENSES: PagePartLensMap = {
       es: {
         subtitle: 'Cincuenta mil fraguas proteicas a orillas del nucleoide',
         simple:
-          'Rodeando el ADN central como los distritos industriales de Coruscant en Star Wars, unas 50.000 impresoras 70S púrpuras sueldan veinte aminoácidos por segundo.',
+          'Excluidos del apretado ovillo central de ADN, decenas de miles de ribosomas 70S llenan el citoplasma periférico ensartados en cintas de ARNm para fabricar cada enzima, bomba y hélice de la bacteria.',
         story:
-          '¿Ves cómo los [[ribosomas 70S|ribosome-ecoli]] púrpuras abrazan el [[nucleoide|real-nucleoid]] azul igual que el anillo industrial de Coruscant rodea una cumbre? Demasiado grandes en trenes para meterse en la maraña de ADN, cincuenta mil factorías desfilan fuera sobre cintas de [[ARNm activo|real-gene]].\n\nCebados sin pausa por [[ARNt|trna]] veloces y energía de la [[ATP sintasa|atp-synthase-ecoli]], forjan cada pieza interna y cada escudo del casco a veinte puntadas por segundo.',
+          '¿Ves cómo los [[ribosomas 70S|ribosome-ecoli]] púrpuras rodean el [[nucleoide|real-nucleoid]] azul igual que una ciudad portuaria abraza una montaña? Demasiado voluminosos cuando viajan en polisomas para colarse entre las trenzas de ADN, unas cincuenta mil factorías abarrotan el anillo exterior del citoplasma: tres cuartas partes desfilan sobre cintas naranjas de [[ARNm activo|real-gene]] y el cuarto restante aguarda turno entre encargos.\n\nAbastecidos sin tregua por [[ARNt|trna]] escoltados por EF-Tu y combustible de la [[ATP sintasa|atp-synthase-ecoli]], cada ribosoma suelda veinte aminoácidos por segundo. Dos tercios de las nuevas cadenas se quedan trabajando en el interior asistidas por GroEL, y un tercio marcha directo a las puertas Sec para blindar la envoltura.',
         blueprint: {
           role: 'Flota polisómica de traducción de alta densidad en la corteza citoplasmática ([[ribosomas 70S|ribosome-ecoli]])',
           arrivesFrom: 'ARNm de [[ARN|rna]] desde [[ARN polimerasa|rnap-ecoli]], complejos EF-Tu·GTP·aa-[[ARNt|trna]] y energía de [[ATP sintasa|atp-synthase-ecoli]]',
@@ -1778,9 +1778,9 @@ export const PROKARYOTE_PART_LENSES: PagePartLensMap = {
       en: {
         subtitle: 'The High-Speed Courier Fleet & EF-Tu Escorts',
         simple:
-          'Escorted by EF-Tu—the Flash-fast courier that outnumbers every other protein in the cabin—hundreds of thousands of tRNAs rocket amino acids into 70S printers.',
+          'Hundreds of thousands of L-shaped tRNA adapters pair up with EF-Tu—the single most abundant protein in the cytoplasm—to rush matching amino acids into working ribosomes.',
         story:
-          'Feeding 50,000 [[ribosomes|ribosome-ecoli]] at twenty welds a second takes a Speed Force courier corps! Twenty synthetases spend [[ATP synthase|atp-synthase-ecoli]] fuel to clip incoming [[amino acids|amino-acid]] onto matching [[tRNA|trna]] adapters.\n\nInstantly, GTP-charged EF-Tu—the single most abundant soluble [[protein|protein]] aboard—wraps each tRNA into a Flash torpedo, nails the codon match, drops the brick, and races back for another lap!',
+          'Keeping fifty thousand [[ribosomes|ribosome-ecoli]] fed at twenty stitches a second requires the busiest courier brigade in biology. As [[amino acids|amino-acid]] pour in through inner-membrane permeases or roll off biosynthetic lines, twenty specialist synthetases burn ATP from [[ATP synthase|atp-synthase-ecoli]] to clip each brick onto its cognate [[tRNA|trna]].\n\nInstantly, GTP-charged EF-Tu—the single most abundant soluble [[protein|protein]] in E. coli—scoops up the loaded tRNA into a streamlined ternary torpedo that protects the fragile ester bond and rockets it into a ribosome’s decoding slot. Once the codon clicks, EF-Tu fires its GTP, hands off the brick, gets recharged by EF-Ts, and races back for another pickup.',
         blueprint: {
           role: 'Aminoacyl-[[tRNA|trna]] and EF-Tu·GTP delivery shuttle feeding ribosomal elongation',
           arrivesFrom: 'Imported/synthesized [[amino acids|amino-acid]], [[tRNA|trna]] transcripts from [[RNAP|rnap-ecoli]], and ATP/GTP from [[ATP synthase|atp-synthase-ecoli]]',
@@ -1803,9 +1803,9 @@ export const PROKARYOTE_PART_LENSES: PagePartLensMap = {
       es: {
         subtitle: 'La flota de mensajeros en L y sus escoltas EF-Tu',
         simple:
-          'Escolados por EF-Tu —el mensajero veloz tipo Flash más abundante de toda la cabina—, cientos de miles de ARNt disparan aminoácidos hacia los ribosomas.',
+          'Cientos de miles de adaptadores ARNt se emparejan con EF-Tu —la proteína soluble más abundante de todo el citoplasma— para entregar aminoácidos a toda carrera en los ribosomas.',
         story:
-          'Abastecer cincuenta mil [[ribosomas|ribosome-ecoli]] a veinte enlaces por segundo exige una brigada digna de Flash. Veinte sintetasas gastan energía de la [[ATP sintasa|atp-synthase-ecoli]] para enganchar cada [[aminoácido|amino-acid]] en su [[ARNt|trna]].\n\nAl vuelo, EF-Tu —la [[proteína|protein]] soluble más numerosa de toda E. coli— envuelve al ARNt en un torpedo con GTP, clava el codón, suelta el ladrillo y vuelve disparado a recargar.',
+          'Alimentar cincuenta mil [[ribosomas|ribosome-ecoli]] a veinte puntadas por segundo exige el servicio de mensajería más frenético de la biología. A medida que los [[aminoácidos|amino-acid]] entran por las permeasas de membrana o salen de las rutas de síntesis, veinte sintetasas especialistas gastan ATP de la [[ATP sintasa|atp-synthase-ecoli]] para abrochar cada ladrillo en su [[ARNt|trna]] exacto.\n\nAl vuelo, el factor EF-Tu cargado con GTP —la [[proteína|protein]] soluble más numerosa de toda E. coli— abraza al ARNt formando un torpedo ternario que protege el enlace químico y lo lanza directo a la ranura lectora del ribosoma. En cuanto el codón encaja, EF-Tu dispara su GTP, suelta la carga, se recarga con ayuda de EF-Ts y vuelve disparado a por el siguiente envío.',
         blueprint: {
           role: 'Lanzadera de entrega de aminoacil-[[ARNt|trna]] y EF-Tu·GTP hacia la elongación ribosómica',
           arrivesFrom: '[[Aminoácidos|amino-acid]] importados/sintetizados, [[ARNt|trna]] de [[ARN polimerasa|rnap-ecoli]] y ATP/GTP de [[ATP sintasa|atp-synthase-ecoli]]',
@@ -1831,9 +1831,9 @@ export const PROKARYOTE_PART_LENSES: PagePartLensMap = {
       en: {
         subtitle: 'The Wall-to-Wall Metabolic Mosh Pit',
         simple:
-          'Packed tighter than a Studio Ghibli bathhouse kitchen—with zero mitochondria—the open cytosol runs glycolysis, Krebs, and Iron Man GroEL rescue pods side by side!',
+          'Packed to a fifth of its volume with thousands of enzyme species, the open cytoplasm cracks glucose via glycolysis and the Krebs cycle—making ATP, NADH electrons, and every building block with no organelles needed.',
         story:
-          'Forget empty soup: E. coli’s [[cytosol|cytosol]] is a Spirited Away boiler-room packed with 2.5 million [[proteins|protein]] bumping every ten nanometres! Incoming glucose hits glycolytic and Krebs enzymes right in the same open hall, firing high-voltage NADH straight to [[Complex I|complex-i-ecoli]] on the wall.\n\nRight beside the stoves, golden Tony Stark [[GroEL–GroES barrels|groel]] rescue tangled rookies fresh off [[70S ribosomes|ribosome-ecoli]] so the line never jams.',
+          'Forget empty watery soup: E. coli’s [[cytosol|cytosol]] is a shoulder-to-shoulder workshop packed with 2.5 million soluble [[proteins|protein]] where molecules travel ten nanometres between collisions. Fresh glucose arriving through inner-membrane gates hits glycolytic workhorses like GAPDH right in the open room, splitting into pyruvate while minting quick ATP and high-energy NADH.\n\nWith zero mitochondria on board, pyruvate steps straight to neighboring Krebs-cycle enzymes floating inches—in molecular terms—away, exhaling CO₂ out through the hull while dispatching torrents of NADH to [[Complex I|complex-i-ecoli]] on the membrane. Amidst the bustle, golden [[GroEL–GroES barrels|groel]] catch tangled newcomers from [[70S ribosomes|ribosome-ecoli]] so no enzyme stalls the line.',
         blueprint: {
           role: 'Crowded organelle-free central metabolic and proteostasis matrix ([[cytosol|cytosol]] + [[GroEL|groel]])',
           arrivesFrom: 'Imported [[glucose|glucose]] from [[inner membrane|plasma-membrane]], glycogen mobilizations from [[storage granules|storage-granule]], and nascent chains from [[ribosomes|ribosome-ecoli]]',
@@ -1858,9 +1858,9 @@ export const PROKARYOTE_PART_LENSES: PagePartLensMap = {
       es: {
         subtitle: 'El taller metabólico abarrotado de pared a pared',
         simple:
-          'Más atestado que la sala de calderas de El viaje de Chihiro y sin mitocondrias, el citosol ejecuta glucólisis, Krebs y rescates GroEL estilo Iron Man codo con codo.',
+          'Ocupado en una quinta parte de su volumen por millones de enzimas, el citoplasma abierto rompe la glucosa mediante la glucólisis y el ciclo de Krebs sin necesitar mitocondrias.',
         story:
-          'Olvida una sopa vacía: el [[citosol|cytosol]] de E. coli hierve como las calderas de Chihiro con 2,5 millones de [[proteínas|protein]] chocando cada diez nanómetros. La glucosa pasa directo de la glucólisis al ciclo de Krebs en la misma sala, enviando oleadas de NADH al [[Complejo I|complex-i-ecoli]].\n\nEntre tanto bullicio, cápsulas doradas [[GroEL–GroES|groel]] estilo Tony Stark rescatan cadenas enredadas salidas de los [[ribosomas 70S|ribosome-ecoli]] sin parar la marcha.',
+          'Olvídate de una sopa acuosa vacía: el [[citosol|cytosol]] de E. coli es un taller codo con codo repleto de dos millones y medio de [[proteínas|protein]] solubles donde nada avanza diez nanómetros sin tropezar con un vecino. La glucosa recién cruzada por las compuertas internas cae en manos de enzimas glucolíticas como GAPDH allí mismo, partiéndose en piruvato mientras rinde ATP rápido y NADH cargado.\n\nAl no haber mitocondrias, el piruvato pasa en el acto a las enzimas vecinas del ciclo de Krebs en la misma sala, exhalando CO₂ a través del casco y enviando oleadas de NADH hacia el [[Complejo I|complex-i-ecoli]] de la membrana. Entre tanto ajetreo, los barriles dorados [[GroEL–GroES|groel]] rescatan proteínas enredadas salidas de los [[ribosomas 70S|ribosome-ecoli]] para que ninguna pieza atasque la cadena.',
         blueprint: {
           role: 'Matriz central abarrotada de metabolismo energético, biosíntesis y proteostasis ([[citosol|cytosol]] + [[GroEL|groel]])',
           arrivesFrom: '[[Glucosa|glucose]] importada por la [[membrana interna|plasma-membrane]], reservas de [[gránulos de glucógeno|storage-granule]] y enzimas de [[ribosomas|ribosome-ecoli]]',
@@ -1888,9 +1888,9 @@ export const PROKARYOTE_PART_LENSES: PagePartLensMap = {
       en: {
         subtitle: 'Osmosis-Safe Sugar Snowballs',
         simple:
-          'Like Dragon Ball Senzu-bean snowballs tucked near the poles, branched glycogen rosettes bank thousands of emergency sugars at the water-swelling cost of one molecule!',
+          'When sugar is plentiful, E. coli links spare glucose into dense branched glycogen rosettes—storing emergency fuel without drawing osmotic water into the cell, then shaving it back off when food runs out.',
         story:
-          'Gut feasts vanish fast, yet hoarding loose [[glucose|glucose]] would swell and pop the hull like a water balloon! Instead, enzymes spend [[ATP synthase|atp-synthase-ecoli]] coins to snap spare sugars into 40-nanometre Senzu-bean [[glycogen rosettes|storage-granule]] outside the nucleoid.\n\nEach snowball banks tens of thousands of sugars at one molecule’s osmotic toll—then shaves fuel right back off during famine to keep [[Complex I|complex-i-ecoli]] and pod-racer [[flagellar motors|real-motor]] roaring!',
+          'Feasts in the gut arrive in sudden waves and vanish just as fast, yet hoarding millions of loose [[glucose|glucose]] molecules in the cytosol would draw in enough osmotic water to pop the hull. Instead, whenever carbon overflows while nitrogen or sulfur runs short, cytoplasmic enzymes spend ATP from [[ATP synthase|atp-synthase-ecoli]] to snap spare sugars into compact, bush-like [[glycogen rosettes|storage-granule]] tucked outside the nucleoid.\n\nEach 40-nanometre snowball locks away thousands of glucose units at the osmotic cost of a single molecule. The instant external sugar dries up, GlgP phosphorylases nibble the outer branches back into glucose-1-phosphate—keeping glycolysis, [[Complex I|complex-i-ecoli]], and [[flagellar motors|real-motor]] powered while the submarine hunts its next meal.',
         blueprint: {
           role: 'Branched α-glucan cytoplasmic energy buffer ([[glycogen storage granules|storage-granule]])',
           arrivesFrom: 'Surplus [[glucose|glucose]]-6-phosphate in [[cytosol|cytosol]] activated with ATP from [[ATP synthase|atp-synthase-ecoli]]',
@@ -1912,9 +1912,9 @@ export const PROKARYOTE_PART_LENSES: PagePartLensMap = {
       es: {
         subtitle: 'Copos compactos de azúcar sin peaje osmótico',
         simple:
-          'Como Semillas del Ermitaño de Dragon Ball apiladas en copos, las rosetas de glucógeno guardan miles de azúcares de emergencia pagando el peaje osmótico de una sola molécula.',
+          'Cuando sobra comida, E. coli enlaza la glucosa extra en tupidas rosetas ramificadas de glucógeno: guarda combustible de emergencia sin hinchar la célula de agua y vuelve a soltarlo cuando llega el ayuno.',
         story:
-          'Los banquetes intestinales vuelan, pero guardar [[glucosa|glucose]] suelta reventaría el casco de pura ósmosis. Por eso la célula invierte monedas de la [[ATP sintasa|atp-synthase-ecoli]] en tejer tupidas [[rosetas de glucógeno|storage-granule]] tipo Semilla del Ermitaño de 40 nanómetros.\n\nCada copo esconde decenas de miles de azúcares sin hinchar la nave y, en cuanto llega el ayuno, suelta combustible al instante para sostener el [[Complejo I|complex-i-ecoli]] y los [[motores flagelares|real-motor]].',
+          'En el intestino los banquetes llegan de golpe y se esfuman igual de rápido, pero acumular millones de moléculas sueltas de [[glucosa|glucose]] en el citosol atraería tanta agua por ósmosis que reventaría el casco. Por eso, cuando abunda el carbono pero falta nitrógeno para crecer, las enzimas invierten ATP de la [[ATP sintasa|atp-synthase-ecoli]] en engarzar el azúcar sobrante formando tupidas [[rosetas de glucógeno|storage-granule]] fuera del nucleoide.\n\nCada copo de 40 nanómetros guarda decenas de miles de azúcares pagando el precio osmótico de una sola molécula. En cuanto se agota el alimento exterior, las fosforilasas GlgP podan las ramas externas liberando glucosa-1-fosfato lista para sostener la glucólisis, el [[Complejo I|complex-i-ecoli]] y los [[motores flagelares|real-motor]] mientras el submarino busca otro rastro.',
         blueprint: {
           role: 'Amortiguador energético citoplasmático de α-glucano ramificado ([[gránulos de glucógeno|storage-granule]])',
           arrivesFrom: 'Excedente de [[glucosa|glucose]]-6-fosfato en el [[citosol|cytosol]] activado con ATP de la [[ATP sintasa|atp-synthase-ecoli]]',

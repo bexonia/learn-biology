@@ -4,9 +4,9 @@ export const PHAGE_DNA_VIRUS_NODE_LENSES: NodeLensMap = {
   'real-phage': {
     en: {
       simple:
-        'Bacteriophage T4 is a microscopic Apollo lunar lander crossed with an Evangelion pile-bunker: a brainless, spring-loaded syringe that lands on bacteria by touch and shoots its DNA inside.',
+        'Bacteriophage T4 is a microscopic, spring-loaded syringe that lands on bacteria and injects its own genetic blueprint inside. Despite looking like a tiny lunar lander, it has no brain or metabolism—it operates purely by physical touch and stored mechanical tension.',
       story:
-        'Drifting blind like a Star Wars Imperial probe droid, this 500-atmosphere lunar lander wakes purely by touch when its six [[long tail fibers|phage-fiber]] brush E. coli’s LPS and [[OmpC porin|porin]] armor. Enough legs lock on to trip a mechanical hair-trigger: the [[baseplate|real-phage-baseplate]] snaps from a dome into a ninja shuriken star, firing the [[contractile gp18 sheath|gp18-real]] like an Evangelion pile-bunker to punch gp5 through the wall and hijack host [[ribosomes|ribosome-ecoli]].',
+        'Drifting blind and metabolically dead through the gut, the 500-atmosphere hypodermic lander wakes only by touch when its six [[long tail fibers|phage-fiber]] brush the LPS and [[OmpC porin|porin]] armor of E. coli. Enough legs lock on to trip a mechanical hair-trigger: the [[baseplate|real-phage-baseplate]] blossoms from a dome into a star, firing the [[contractile gp18 sheath|gp18-real]] in milliseconds to slam an iron-braced spike and gp5 needle straight through the cell wall so pressurized DNA rockets inside to hijack host RNA polymerase and [[ribosomes|ribosome-ecoli]].',
       blueprint:
         'Role: Autonomous mechanochemical dsDNA delivery lander · From: Extracellular fluid collision onto host [[LPS|lps]] and [[porins|porin]] · Inside: [[Long tail fibers|phage-fiber]] trigger [[baseplate|real-phage-baseplate]] expansion, contracting [[gp18 sheath|gp18-real]] to drive [[gp19 tube|gp19-real]] and [[gp5 needle|gp5-real]] across [[envelope|real-envelope]] · To: Pressurized 169 kbp [[DNA|dna]] enters cytoplasm to reprogram [[E. coli RNAP|rnap-ecoli]] and [[70S ribosomes|ribosome-ecoli]] into a phage factory.',
       scientific:
@@ -14,9 +14,9 @@ export const PHAGE_DNA_VIRUS_NODE_LENSES: NodeLensMap = {
     },
     es: {
       simple:
-        'El bacteriófago T4 es un módulo lunar Apolo cruzado con el martinete de Evangelion: una jeringa sin cerebro cargada por resorte que aterriza al tacto sobre bacterias y les dispara su ADN.',
+        'El bacteriófago T4 es una jeringa microscópica cargada por resorte que aterriza sobre las bacterias e inyecta sus propias instrucciones genéticas. Aunque parece un diminuto módulo lunar, carece de cerebro o metabolismo: funciona puramente por contacto físico y tensión mecánica acumulada.',
       story:
-        'Flotando a ciegas como una sonda imperial de Star Wars, este módulo hipodérmico despierta solo al tacto cuando sus seis [[fibras caudales largas|phage-fiber]] rozan el LPS y las [[porinas OmpC|porin]] de E. coli. Al fijarse suficientes patas, la [[placa basal|real-phage-baseplate]] se abre como un shuriken ninja y dispara la [[vaina contráctil gp18|gp18-real]] al estilo Evangelion, clavando la aguja gp5 en la muralla para secuestrar los [[ribosomas|ribosome-ecoli]].',
+        'Flotando a ciegas e inerte por el intestino, este módulo hipodérmico presurizado despierta solo al tacto cuando sus seis [[fibras caudales largas|phage-fiber]] rozan la coraza de LPS y [[porinas OmpC|porin]] de E. coli. En cuanto suficientes patas confirman la textura del objetivo, la [[placa basal|real-phage-baseplate]] se abre como una estrella, disparando en milisegundos la [[vaina contráctil gp18|gp18-real]] para clavar la aguja gp5 a través de la muralla bacteriana y catapultar el ADN hacia la ARN polimerasa y los [[ribosomas|ribosome-ecoli]] cautivos.',
       blueprint:
         'Rol: Vehículo mecanicoquímico autónomo de inyección de ADNbc · Desde: Colisión extracelular con [[LPS|lps]] y [[porinas|porin]] del huésped · Dentro: Las [[fibras largas|phage-fiber]] disparan la [[placa basal|real-phage-baseplate]], contrayendo la [[vaina gp18|gp18-real]] para perforar la [[envoltura|real-envelope]] con el [[tubo gp19|gp19-real]] y la [[aguja gp5|gp5-real]] · Hacia: Inyección de 169 kpb de [[ADN|dna]] para secuestrar la [[ARN polimerasa|rnap-ecoli]] y los [[ribosomas 70S|ribosome-ecoli]].',
       scientific:
@@ -27,9 +27,9 @@ export const PHAGE_DNA_VIRUS_NODE_LENSES: NodeLensMap = {
   'real-phage-capsid': {
     en: {
       simple:
-        'Like a Poké Ball or TARDIS crammed with giant coiled cargo, this faceted protein vault packs a DNA strand hundreds of times longer than itself, strapped with outer clamps so it never explodes.',
+        'This faceted protein vault holds a strand of viral DNA hundreds of times longer than the head itself, coiled tightly like a watch spring. External protein clamps brace the shell so its enormous internal pressure does not blow the walls apart.',
       story:
-        'Before this lander ever met prey, a furious ATP motor stuffed 57 micrometers of [[viral DNA|dna]] through the [[gp20 portal|gp20-real]] until the coils strained like Shenron crammed in a Poké Ball at 60 atmospheres! Only Beskar-tough [[gp23* hexamers|gp23-real]] bolted with Soc roll-cage clamps and [[gp24* corner pentamers|gp24-real]] keep the vault from blowing apart—waiting for the [[tail|real-phage-tail]] valve below to fire a hypersonic launch.',
+        'Long before this lander ever met its prey, an ATP-burning packaging motor crammed 57 micrometers of [[viral DNA|dna]] through the [[gp20 portal|gp20-real]] until the coils pushed outward like a furious coiled serpent. Only an interlocking armor of [[gp23* hexamers|gp23-real]] strapped with Soc clamps and [[gp24* corner pentamers|gp24-real]] keeps the vault intact—waiting for the [[tail|real-phage-tail]] valve below to click open and turn that bottled pressure into a hypersonic launch.',
       blueprint:
         'Role: High-pressure prolate genome vault · From: ATP-driven packaging through basal [[gp20 portal|gp20-real]] · Inside: 155 [[gp23* hexamers|gp23-real]], 810 Soc clamps, and 11 [[gp24* pentamers|gp24-real]] confine coaxially spooled 169 kbp [[DNA|dna]] and IPI* core proteins · To: Releases stored elastic/electrostatic pressure down the [[inner tail tube|gp19-real]] upon host puncture.',
       scientific:
@@ -37,9 +37,9 @@ export const PHAGE_DNA_VIRUS_NODE_LENSES: NodeLensMap = {
     },
     es: {
       simple:
-        'Como una Pokébola o una TARDIS repleta a presión, esta bóveda proteica guarda una hebra de ADN cientos de veces más larga que la cabeza, sujeta con grapas externas para no reventar.',
+        'Esta bóveda proteica facetada guarda una hebra de ADN viral cientos de veces más larga que la propia cabeza, enrollada como el muelle de un reloj. Abrazaderas proteicas externas refuerzan la carcasa para que su enorme presión interna no la haga estallar.',
       story:
-        'Antes de salir de caza, un motor devorador de ATP embutió 57 micrómetros de [[ADN viral|dna]] por el [[portal gp20|gp20-real]] hasta comprimir las espiras como Shenron dentro de una Pokébola a 60 atmósferas. Solo el blindaje de [[hexámeros gp23*|gp23-real]] con grapas Soc y [[pentámeros gp24*|gp24-real]] en las esquinas evita el estallido, aguardando a que la [[cola|real-phage-tail]] abra fuego supersónico.',
+        'Mucho antes de toparse con su víctima, un motor empaquetador impulsado por ATP embutió 57 micrómetros de [[ADN viral|dna]] por el [[portal gp20|gp20-real]] hasta dejar las espiras tensas como una serpiente comprimida. Solo el blindaje de [[hexámeros gp23*|gp23-real]] engrapados por Soc y esquinas de [[pentámeros gp24*|gp24-real]] impide que el tanque reviente, aguardando a que la válvula de la [[cola|real-phage-tail]] se abra y convierta esa furia contenida en un disparo supersónico.',
       blueprint:
         'Rol: Bóveda genómica prolata de alta presión · Desde: Empaquetamiento dependiente de ATP vía [[portal gp20|gp20-real]] · Dentro: 155 [[hexámeros gp23*|gp23-real]], 810 abrazaderas Soc y 11 [[pentámeros gp24*|gp24-real]] confinan 169 kpb de [[ADN|dna]] coaxial y proteínas IPI* · Hacia: Descarga la presión acumulada por el [[tubo caudal gp19|gp19-real]] tras la perforación celular.',
       scientific:
@@ -50,9 +50,9 @@ export const PHAGE_DNA_VIRUS_NODE_LENSES: NodeLensMap = {
   'real-phage-tail': {
     en: {
       simple:
-        'Built like Neon Genesis Evangelion’s one-shot pile-bunker, the phage tail wraps a cocked outer spring around a rigid hollow needle—snapping to half its height with zero fuel to stab the cell.',
+        'The phage tail is a microscopic, one-shot piston wrapped around a rigid hollow needle. Without burning any fuel at the moment of attack, the outer sleeve snaps to less than half its length to punch the inner tube into the bacterium.',
       story:
-        'Cocked during assembly like an Evangelion Unit-01 pile-bunker, 24 twisted rings of the [[gp18 sheath|gp18-real]] wait under hair-trigger tension between the [[gp20 portal|gp20-real]] neck and the [[baseplate|real-phage-baseplate]]. The millisecond the baseplate blooms open on target, those rings spin and crunch to half their height without burning a single ATP—ramming the rigid [[gp19 inner tube|gp19-real]] into the bacterium so [[viral DNA|dna]] floods inside.',
+        'Cocked during assembly like a medieval crossbow, 24 stacked rings of the [[gp18 sheath|gp18-real]] sit twisted under hair-trigger tension between the [[gp20 portal|gp20-real]] collar and the [[baseplate|real-phage-baseplate]] below. The instant the baseplate blooms open on target, those rings slide and spin over one another without spending a single molecule of ATP, crushing down to half their height and ramming the rigid [[gp19 inner tube|gp19-real]] straight into the host so [[viral DNA|dna]] can flood through.',
       blueprint:
         'Role: Metastable ATP-free contractile injection actuator · From: Conformational release signal from [[baseplate|real-phage-baseplate]] · Inside: 24 hexameric [[gp18 sheath|gp18-real]] rings rotate and interdigitate, shortening from 92.5 nm to ~42 nm around the non-contractile [[gp19 tube|gp19-real]] · To: Drives [[gp5 needle|gp5-real]] and [[gp19 tube|gp19-real]] across bacterial envelope to gate [[gp20 portal|gp20-real]] DNA release.',
       scientific:
@@ -60,9 +60,9 @@ export const PHAGE_DNA_VIRUS_NODE_LENSES: NodeLensMap = {
     },
     es: {
       simple:
-        'Construida como el martinete de un solo disparo de Evangelion, la cola envuelve una aguja hueca con un resorte exterior que se encoge a la mitad sin gastar combustible para apuñalar la bacteria.',
+        'La cola del fago es un pistón microscópico de un solo disparo que envuelve una aguja hueca rígida. Sin quemar combustible en el ataque, la funda exterior se encoge a menos de la mitad de su tamaño para clavar el tubo interno en la bacteria.',
       story:
-        'Armados de fábrica como el martinete del EVA-01, 24 anillos retorcidos de la [[vaina gp18|gp18-real]] aguardan tensados al límite entre el cuello del [[portal gp20|gp20-real]] y la [[placa basal|real-phage-baseplate]]. En el milisegundo en que la base estalla sobre la presa, los anillos giran y se aplastan a mitad de altura sin gastar un solo ATP, hundiendo el [[tubo interno gp19|gp19-real]] en la bacteria para inyectar [[ADN viral|dna]].',
+        'Armados desde su ensamblaje como una ballesta medieval, 24 anillos retorcidos de la [[vaina gp18|gp18-real]] aguardan bajo tensión extrema entre el cuello del [[portal gp20|gp20-real]] y la [[placa basal|real-phage-baseplate]]. En el milisegundo en que la placa basal se abre sobre la presa, los anillos se deslizan y giran unos entre otros sin gastar un solo ATP, aplastándose a mitad de altura para hundir el rígido [[tubo interno gp19|gp19-real]] en la bacteria y abrir paso al torrente de [[ADN viral|dna]].',
       blueprint:
         'Rol: Actuador contráctil metaestable de inyección sin gasto de ATP · Desde: Señal conformacional liberada por la [[placa basal|real-phage-baseplate]] · Dentro: 24 anillos hexaméricos de [[vaina gp18|gp18-real]] rotan y se interdigitan (92.5 nm → ~42 nm) alrededor del [[tubo rígido gp19|gp19-real]] · Hacia: Empuja la [[aguja gp5|gp5-real]] y el [[tubo gp19|gp19-real]] a través de la envoltura y abre el paso de [[ADN|dna]].',
       scientific:
@@ -73,9 +73,9 @@ export const PHAGE_DNA_VIRUS_NODE_LENSES: NodeLensMap = {
   'real-phage-baseplate': {
     en: {
       simple:
-        'Like a Transformers gear-hub mixed with a camera shutter, the baseplate is the phage’s mechanical brain: once sensor legs confirm the right target, it snaps into a star and fires the drill.',
+        'The baseplate is the phage’s mechanical brain and drill head rolled into one. Once its sensor legs confirm the right bacterium, it flips open like a camera shutter, clamps onto the surface, and punches a hole right through the cell wall.',
       story:
-        'Mechanical tugs race up the [[gp37 fiber tips|gp37-real]] as they lock onto [[OmpC porins|porin]], wrenching this 150-part Transformers dome past its breaking point until it snaps flat into a six-pointed shuriken star! Six Batman-style [[gp12 grappling hooks|gp12-real]] swing down onto LPS, unleashing the sheath above to ram the [[gp5 needle|gp5-real]] through peptidoglycan so viral genes flood [[host ribosomes|ribosome-ecoli]].',
+        'Tugging signals travel up the [[gp37 fiber tips|gp37-real]] as they skate across [[OmpC porins|porin]], wrenching this 150-subunit dome past its point of no return until it snaps flat into a six-pointed star. Six [[gp12 grappling hooks|gp12-real]] swing down to staple the lander onto LPS, unleashing the sheath above to ram the [[gp5 needle|gp5-real]] through outer armor and chew open peptidoglycan so viral DNA pours into [[host ribosomes|ribosome-ecoli]].',
       blueprint:
         'Role: Mechanosensory dome-to-star switch and envelope breach hub · From: Mechanical torque from receptor-bound [[long tail fibers|phage-fiber]] on [[porins|porin]] · Inside: Six peripheral wedges splay open, deploying [[gp12 short fibers|gp12-real]] onto [[LPS|lps]] and releasing the [[gp5 puncturing hub|gp5-real]] · To: Breaches outer membrane and [[peptidoglycan|peptidoglycan]] to dock tail tube at the [[inner membrane|plasma-membrane]].',
       scientific:
@@ -83,9 +83,9 @@ export const PHAGE_DNA_VIRUS_NODE_LENSES: NodeLensMap = {
     },
     es: {
       simple:
-        'Como un núcleo de Transformers cruzado con el obturador de una cámara, la placa basal es el cerebro mecánico del fago: al confirmar la presa, salta a forma de estrella y dispara el taladro.',
+        'La placa basal es el cerebro mecánico y el cabezal perforador del fago reunidos en una sola pieza. Cuando sus patas sensoras confirman la bacteria correcta, se abre como un obturador, se aferra a la superficie y taladra la pared celular.',
       story:
-        'Los tirones suben desde las [[puntas gp37|gp37-real]] al encajar en [[porinas OmpC|porin]], forzando esta cúpula digna de Transformers hasta abrirse de golpe como un shuriken ninja de seis puntas. Seis [[garfios cortos gp12|gp12-real]] al estilo Batman clavan el módulo al LPS y sueltan la vaina para hundir la [[aguja gp5|gp5-real]] en el peptidoglicano rumbo a los [[ribosomas bacterianos|ribosome-ecoli]].',
+        'Los tirones mecánicos suben desde las [[puntas gp37|gp37-real]] al reconocer [[porinas OmpC|porin]], forzando esta cúpula de 150 piezas más allá de su límite hasta desplegarse como una estrella plana de seis puntas. Seis [[garfios cortos gp12|gp12-real]] bajan para clavar el módulo al LPS, liberando la vaina superior que hunde la [[aguja gp5|gp5-real]] a través del peptidoglicano para inundar de genes virales los [[ribosomas bacterianos|ribosome-ecoli]].',
       blueprint:
         'Rol: Interruptor mecanosensorial cúpula-estrella y cabezal perforador · Desde: Tracción mecánica de las [[fibras largas|phage-fiber]] unidas a [[porinas|porin]] · Dentro: Seis cuñas periféricas se abren, despliegan las [[fibras cortas gp12|gp12-real]] sobre el [[LPS|lps]] y desbloquean el [[buje-aguja gp5|gp5-real]] · Hacia: Perfora membrana externa y [[peptidoglicano|peptidoglycan]] hasta acoplar el tubo con la [[membrana interna|plasma-membrane]].',
       scientific:
@@ -96,9 +96,9 @@ export const PHAGE_DNA_VIRUS_NODE_LENSES: NodeLensMap = {
   'bacteriophage': {
     en: {
       simple:
-        'Like Voltron snapped together from separate robot lions, Bacteriophage T4 unites four precision modules: a DNA vault head, a pile-bunker syringe tail, a star-trigger baseplate, and six Spider-Man legs.',
+        'Isolated in 3D, Bacteriophage T4 reveals the four modular assemblies of a bacterial hunter: a DNA-packed head, a spring-loaded syringe tail, a star-switching baseplate, and six jointed sensor legs.',
       story:
-        'Like Voltron combining mid-battle, this lone hunter was forged on three separate assembly lines inside a doomed bacterium before clicking into one 500-atmosphere mech weapon. Set loose in the gut, its [[six long legs|phage-fiber]] stalk fresh prey—ready to trip the [[baseplate|phage-baseplate]], slam the [[contractile tail|phage-tail]], and fire [[viral DNA|dna]] out of its [[pressurized capsid|phage-capsid]] in milliseconds.',
+        'Every piece of this isolated hunter was forged on three separate assembly lines inside a dying bacterium before snapping together into a single 500-atmosphere weapon. Once set loose, its [[six long legs|phage-fiber]] stalk fresh prey, ready to trip the [[baseplate|phage-baseplate]], fire the [[contractile tail|phage-tail]], and drain the [[pressurized capsid|phage-capsid]] of [[viral DNA|dna]] in fractions of a second.',
       blueprint:
         'Role: Modular four-part virion architecture · From: Independent head, tail, and fiber self-assembly pathways in infected host · Inside: [[Prolate capsid|phage-capsid]] + [[contractile tail|phage-tail]] + [[hexagonal baseplate|phage-baseplate]] + six [[long tail fibers|phage-fiber]] · To: Delivers [[dsDNA genome|dna]] into target E. coli in the [[realistic infection scene|real-phage]].',
       scientific:
@@ -106,9 +106,9 @@ export const PHAGE_DNA_VIRUS_NODE_LENSES: NodeLensMap = {
     },
     es: {
       simple:
-        'Como Voltron ensamblado a partir de módulos independientes, el bacteriófago T4 une cuatro piezas letales: cabeza bóveda de ADN, cola martinete, placa basal transformable y seis patas estilo Spider-Man.',
+        'Aislado en 3D, el bacteriófago T4 muestra los cuatro módulos de un cazador de bacterias: una cabeza llena de ADN, una cola-jeringa con resorte, una placa basal transformable y seis patas sensoras articuladas.',
       story:
-        'Igual que Voltron uniéndose para el combate, este cazador se forjó en tres líneas de montaje distintas dentro de una bacteria condenada antes de encajar en un arma a 500 atmósferas. Suelto en el intestino, sus [[seis patas largas|phage-fiber]] acechan nuevas presas listas para detonar la [[placa basal|phage-baseplate]], hundir la [[cola contráctil|phage-tail]] y vaciar el [[ADN viral|dna]] de la [[cápside|phage-capsid]] en milisegundos.',
+        'Cada módulo de este cazador solitario se fabricó en tres líneas de montaje separadas dentro de una bacteria agonizante antes de ensamblarse en un arma presurizada lista para saltar. Libre en el medio, sus [[seis patas largas|phage-fiber]] rastrean nuevas presas listas para activar la [[placa basal|phage-baseplate]], disparar la [[cola contráctil|phage-tail]] y vaciar el [[ADN viral|dna]] de la [[cápside|phage-capsid]] en milisegundos.',
       blueprint:
         'Rol: Arquitectura modular cuatripartita del virión · Desde: Tres rutas independientes de autoensamblaje (cabeza, cola y fibras) · Dentro: [[Cápside prolata|phage-capsid]] + [[cola contráctil|phage-tail]] + [[placa basal|phage-baseplate]] + seis [[fibras largas|phage-fiber]] · Hacia: Inyecta el [[genoma de ADNbc|dna]] sobre E. coli en la [[escena realista|real-phage]].',
       scientific:
@@ -119,9 +119,9 @@ export const PHAGE_DNA_VIRUS_NODE_LENSES: NodeLensMap = {
   'phage-capsid': {
     en: {
       simple:
-        'Sliced open like a Death Star blueprint, the phage head reveals hexagonal and pentagonal armor plates caging a tightly wound spool of DNA above a one-way bottom cannon valve.',
+        'Cut open, the phage head shows how a crystal-like shell of protein hexagons and pentagons cages a tightly wound spool of DNA above a one-way bottom valve.',
       story:
-        'Born as a soft scaffolded shell, this chamber leveled up into Captain America vibranium-grade armor when viral proteases trimmed its [[gp23* wall tiles|gp23-real]] and locked [[gp24* pentamers|gp24-real]] into the corners. A turbo rotary motor at the [[gp20 portal|gp20-real]] then crammed 169,000 base pairs of [[DNA|dna]] inside to ~60 atmospheres, cocking the hydraulic cannon behind [[tail injection|phage-tail]].',
+        'Built first as a fragile scaffolded shell, this chamber swelled into hardened armor when viral proteases cleaved its [[gp23* wall tiles|gp23-real]] and locked [[gp24* pentamers|gp24-real]] into its corners. A rotary motor at the [[gp20 portal|gp20-real]] then stuffed 169,000 base pairs of [[DNA|dna]] inside until internal repulsion reached ~60 atmospheres, cocking the hydraulic cannon that powers [[tail injection|phage-tail]].',
       blueprint:
         'Role: Isolated capsid shell and portal valve sub-assembly · From: Prohead scaffolding maturation and gp17 ATPase packaging · Inside: 155 [[gp23* hexamers|gp23-real]], 11 [[gp24* vertex pentamers|gp24-real]], coaxial [[dsDNA|dna]], and basal [[gp20 portal|gp20-real]] · To: Couples via neck rings to the [[contractile tail|phage-tail]] for pressurized genome ejection.',
       scientific:
@@ -129,9 +129,9 @@ export const PHAGE_DNA_VIRUS_NODE_LENSES: NodeLensMap = {
     },
     es: {
       simple:
-        'Abierta en corte como los planos de la Estrella de la Muerte, la cabeza muestra placas hexagonales y pentagonales encerrando un carrete tenso de ADN sobre una válvula de cañón unidireccional.',
+        'Abierta en corte, la cabeza del fago revela cómo un caparazón cristalino de hexágonos y pentágonos proteicos encierra un carrete apretado de ADN sobre una válvula inferior unidireccional.',
       story:
-        'Nacida como una cáscara blanda, esta recámara subió de nivel a blindaje digno del escudo del Capitán América cuando proteasas recortaron sus [[losetas gp23*|gp23-real]] y fijaron [[pentámeros gp24*|gp24-real]] en los vértices. Un motor rotatorio en el [[portal gp20|gp20-real]] embutió luego 169,000 pares de bases de [[ADN|dna]] a ~60 atmósferas, cargando el cañón hidráulico de la [[cola contráctil|phage-tail]].',
+        'Nacida como una cáscara blanda sobre un andamio temporal, esta cámara se endureció cuando proteasas virales recortaron sus [[losetas gp23*|gp23-real]] y sellaron las esquinas con [[pentámeros gp24*|gp24-real]]. Después, un motor rotatorio en el [[portal gp20|gp20-real]] embutió 169,000 pares de bases de [[ADN|dna]] hasta alcanzar decenas de atmósferas de empuje, dejando cargado el cañón hidráulico para la [[cola contráctil|phage-tail]].',
       blueprint:
         'Rol: Subensamblaje aislado de cápside y válvula portal · Desde: Maduración proteolítica de procápside y empaquetamiento por ATPasa gp17 · Dentro: 155 [[hexámeros gp23*|gp23-real]], 11 [[pentámeros gp24*|gp24-real]], [[ADNbc|dna]] coaxial y [[portal gp20|gp20-real]] · Hacia: Se acopla mediante el cuello a la [[cola contráctil|phage-tail]] para eyectar el genoma.',
       scientific:
@@ -142,9 +142,9 @@ export const PHAGE_DNA_VIRUS_NODE_LENSES: NodeLensMap = {
   'phage-tail': {
     en: {
       simple:
-        'Like Assassin’s Creed’s spring-loaded hidden blade, this cutaway shows an outer sleeve that crunches downward during attack to shoot a slick inner stiletto pipe through bacterial armor.',
+        'This cutaway view reveals two nested tubes: a springy outer sleeve that snaps shut during attack, and a smooth inner pipe that slides straight through the bacterial wall.',
       story:
-        'Six collar whiskers near the neck fold the lander’s [[long sensor legs|phage-fiber]] up like X-wing S-foils whenever acid or salt spells bad hunting. Once prime waters let the landing gear drop and the [[baseplate|phage-baseplate]] trips, the outer [[gp18 sleeve|gp18-real]] collapses violently, shooting the slick [[gp19 inner pipe|gp19-real]] out like an Assassin’s Creed hidden blade to inject [[DNA|dna]].',
+        'Six delicate collar whiskers near the top keep the lander’s [[long sensor legs|phage-fiber]] folded neatly against its body whenever salt or acid levels spell trouble. Once favorable waters let those legs drop and the [[baseplate|phage-baseplate]] fires, the outer [[gp18 sleeve|gp18-real]] collapses violently downward, driving the slick [[gp19 inner pipe|gp19-real]] out the bottom like a stiletto to deliver [[DNA|dna]].',
       blueprint:
         'Role: Coaxial contractile sheath, inner tube, and whisker collar · From: Polymerizes upward from assembled [[baseplate|phage-baseplate]] and caps with gp15/gp13/gp14 neck · Inside: Outer 24-ring [[gp18 contractile sheath|gp18-real]] encasing rigid 24-ring [[gp19 tube|gp19-real]] · To: Translates baseplate trigger into 50 nm axial thrust of [[gp19 tube|gp19-real]].',
       scientific:
@@ -152,9 +152,9 @@ export const PHAGE_DNA_VIRUS_NODE_LENSES: NodeLensMap = {
     },
     es: {
       simple:
-        'Como la hoja oculta con resorte de Assassin’s Creed, este corte revela una funda exterior que se encoge de golpe para disparar un estilete hueco interior a través de la muralla bacteriana.',
+        'Esta vista en corte muestra dos tubos concéntricos: una funda exterior elástica que se contrae de golpe durante el ataque y una tubería interior lisa que atraviesa la pared bacteriana.',
       story:
-        'Seis bigotes del cuello pliegan las [[patas sensoras largas|phage-fiber]] como las alas de un X-wing cuando el medio ácido arruina la caza. Apenas aguas propicias bajan el tren de aterrizaje y salta la [[placa basal|phage-baseplate]], la [[funda externa gp18|gp18-real]] colapsa de golpe y dispara el [[tubo interno gp19|gp19-real]] cual hoja oculta de Assassin’s Creed para inyectar [[ADN|dna]].',
+        'Seis finos bigotes en el cuello mantienen las [[patas sensoras largas|phage-fiber]] plegadas contra el fuselaje cuando el entorno químico es hostil. En cuanto aguas propicias permiten bajar el tren de aterrizaje y la [[placa basal|phage-baseplate]] da la orden, la [[funda externa gp18|gp18-real]] colapsa violentamente hacia abajo, proyectando el [[tubo interno gp19|gp19-real]] como un estilete hueco para inyectar [[ADN|dna]].',
       blueprint:
         'Rol: Subensamblaje coaxial de vaina contráctil, tubo interno y cuello con bigotes · Desde: Polimeriza sobre la [[placa basal|phage-baseplate]] y se sella con el cuello gp15/gp13/gp14 · Dentro: 24 anillos de [[vaina gp18|gp18-real]] rodeando 24 anillos del [[tubo rígido gp19|gp19-real]] · Hacia: Convierte el disparo basal en ~50 nm de avance perforante del [[tubo gp19|gp19-real]].',
       scientific:
@@ -165,9 +165,9 @@ export const PHAGE_DNA_VIRUS_NODE_LENSES: NodeLensMap = {
   'phage-baseplate': {
     en: {
       simple:
-        'Like an Indiana Jones temple pressure-plate, six wedged protein blocks hold a central dagger and six folded grappling hooks—waiting for one tug from the legs to spring the trap.',
+        'Six interlocking protein wedges hold a sharp central needle and six folded grappling hooks, waiting for a tug from the long legs to spring open.',
       story:
-        'Picture this hexagonal crown as an Indiana Jones booby-trap holding back the cocked [[tail sheath|phage-tail]]. The instant the [[long tail fibers|phage-fiber]] yank its outer rim, all six wedges snap open into a ninja star—dropping [[gp12 short hooks|gp12-real]] onto the victim while unsheathing the central [[gp5 β-helix dagger|gp5-real]] and its wall-chewing lysozyme blades.',
+        'Think of this hexagonal crown as a mechanical Mousetrap holding back the entire [[tail sheath|phage-tail]]. The moment the [[long tail fibers|phage-fiber]] yank its outer rim, the six wedges slide apart to drop [[gp12 short hooks|gp12-real]] onto the target while exposing the central [[gp5 β-helix dagger|gp5-real]] and its wall-dissolving lysozyme blades.',
       blueprint:
         'Role: Six-wedge mechanical trigger hub and puncturing tip · From: Assembles six peripheral wedges around central [[gp27–gp5 hub|gp5-real]] · Inside: Holds stowed [[gp12 short tail fibers|gp12-real]] and triple-β-helix needle with three T4 lysozyme domains · To: Unlocks [[gp18 sheath|gp18-real]] contraction upon [[long fiber|phage-fiber]] engagement.',
       scientific:
@@ -175,9 +175,9 @@ export const PHAGE_DNA_VIRUS_NODE_LENSES: NodeLensMap = {
     },
     es: {
       simple:
-        'Como una baldosa trampa de Indiana Jones, seis cuñas proteicas sujetan una daga central y seis garfios plegados, esperando un tirón de las patas para disparar toda la trampa.',
+        'Seis cuñas proteicas entrelazadas sujetan una aguja central afilada y seis garfios plegados, aguardando un tirón de las patas largas para abrirse de golpe.',
       story:
-        'Imagina esta corona hexagonal como el mecanismo trampa de un templo de Indiana Jones reteniendo la [[vaina caudal|phage-tail]]. Apenas las [[fibras largas|phage-fiber]] tiran del borde, las seis cuñas se abren en estrella ninja, clavando los [[garfios cortos gp12|gp12-real]] en la presa mientras desenvainan la [[daga central gp5|gp5-real]] con sus cuchillas de lisozima.',
+        'Imagina esta corona hexagonal como el fiador mecánico de una trampa que retiene toda la [[vaina caudal|phage-tail]]. Apenas las [[fibras largas|phage-fiber]] tiran de su borde exterior, las seis cuñas se separan, despliegan los [[garfios cortos gp12|gp12-real]] contra la víctima y desnudan la [[daga central gp5|gp5-real]] armada con cuchillas de lisozima.',
       blueprint:
         'Rol: Corona disparadora de seis cuñas y punta perforadora · Desde: Ensambla seis cuñas periféricas en torno al [[buje central gp27–gp5|gp5-real]] · Dentro: Aloja [[fibras cortas gp12|gp12-real]] plegadas y aguja en triple hélice β con tres dominios lisozima · Hacia: Desbloquea la contracción de la [[vaina gp18|gp18-real]] al tensarse las [[fibras largas|phage-fiber]].',
       scientific:
@@ -188,9 +188,9 @@ export const PHAGE_DNA_VIRUS_NODE_LENSES: NodeLensMap = {
   'phage-fiber': {
     en: {
       simple:
-        'Like Spider-Man’s Iron-Spider mechanical legs, each 145-nanometer hinged fiber tiptoes across a bacterium to feel for the exact right doorway proteins before letting the phage fire.',
+        'Each long tail fiber is a hinged, 145-nanometer leg that taps across a bacterium’s surface like a blindfolded scout’s cane, feeling for the exact right doorway proteins before letting the phage fire.',
       story:
-        'Bent at a nimble knee joint like Spider-Man’s Iron-Spider claws, six spindly legs let the lander tiptoe across E. coli—tapping surface sugars until their iron-braced [[gp37 needle tips|gp37-real]] click into [[OmpC porins|porin]] and [[LPS|lps]]. When at least three legs lock on together, their lever pull wrenches the [[baseplate|phage-baseplate]] open and seals the bacterium’s doom.',
+        'Bent at a nimble knee hinge, six of these spindly legs let the lander "walk" across E. coli by binding and letting go of surface sugars until their iron-stiffened [[gp37 needle tips|gp37-real]] slot into [[OmpC porins|porin]] and [[LPS|lps]]. When at least three legs plant firmly at once, their combined lever pull wrenches the [[baseplate|phage-baseplate]] open and seals the bacterium’s fate.',
       blueprint:
         'Role: Hinged host-recognition sensor leg and mechanical lever · From: Extends from [[baseplate|phage-baseplate]] gp9 socket when collar whiskers release it · Inside: Proximal gp34 thigh + monomeric gp35 knee hinge + gp36 shin + iron-braced [[gp37 receptor tip|gp37-real]] · To: Reversibly samples [[LPS|lps]] and [[OmpC/OmpF porins|porin]], transmitting pull to [[baseplate|phage-baseplate]].',
       scientific:
@@ -198,9 +198,9 @@ export const PHAGE_DNA_VIRUS_NODE_LENSES: NodeLensMap = {
     },
     es: {
       simple:
-        'Como las patas mecánicas del traje Iron-Spider de Spider-Man, cada fibra articulada de 145 nanómetros tantea la bacteria buscando las cerraduras exactas antes de autorizar el disparo.',
+        'Cada fibra caudal larga es una pata articulada de 145 nanómetros que tantea la superficie bacteriana como el bastón de un explorador a ciegas, buscando las proteínas exactas antes de autorizar el disparo.',
       story:
-        'Articuladas con rodilla propia como las garras Iron-Spider de Spider-Man, seis largas patas permiten al módulo caminar sobre E. coli probando azúcares hasta que sus [[puntas gp37|gp37-real]] con núcleo de hierro encajan en [[porinas OmpC|porin]] y [[LPS|lps]]. Cuando tres o más patas fijan blanco a la vez, su palanca abre la [[placa basal|phage-baseplate]] y sentencia a la célula.',
+        'Dobladas en una ágil rodilla molecular, seis de estas patas permiten al módulo «caminar» sobre E. coli, soltando y probando azúcares superficiales hasta que sus [[puntas gp37|gp37-real]] reforzadas con hierro encajan en las [[porinas OmpC|porin]] y el [[LPS|lps]]. Cuando al menos tres patas se afianzan a la vez, su palanca conjunta descerraja la [[placa basal|phage-baseplate]] y sentencia a la célula.',
       blueprint:
         'Rol: Pata sensora articulada de reconocimiento y palanca mecánica · Desde: Se extiende desde el zócalo gp9 de la [[placa basal|phage-baseplate]] al soltarse del collar · Dentro: Muslo proximal gp34 + rótula monomérica gp35 + tibia gp36 + [[punta receptora gp37|gp37-real]] con iones hierro · Hacia: Explora [[LPS|lps]] y [[porinas OmpC/OmpF|porin]], transmitiendo tracción a la [[placa basal|phage-baseplate]].',
       scientific:
@@ -211,9 +211,9 @@ export const PHAGE_DNA_VIRUS_NODE_LENSES: NodeLensMap = {
   'gp23-real': {
     en: {
       simple:
-        'Six gp23* proteins lock into a flat Beskar-tough hexagonal shield tile, while tiny outer clamp proteins weld tile to tile into an almost unbreakable pressure tank.',
+        'Six copies of the gp23* protein lock into a flat hexagonal tile, while tiny clamp proteins around the rim weld neighboring tiles into an almost unbreakable pressure vessel.',
       story:
-        'To cage 169,000 base pairs bucking inside the [[phage head|real-phage-capsid]], 155 six-sided shields pave the walls between [[gp24* corner caps|gp24-real]]. Each subunit weaves its [[polypeptide chains|polypeptide]] like Mandalorian Beskar chainmail, while outer Soc clamps staple seam to seam so acid shock, heat, and 60 atmospheres of DNA pressure never crack the hull.',
+        'To hold back the furious push of 169,000 base pairs coiled inside the [[phage head|real-phage-capsid]], 155 of these six-sided shields tile the flat walls between the [[gp24* corner caps|gp24-real]]. Each subunit weaves its [[polypeptide chains|polypeptide]] into chainmail, while outer Soc clamps staple tile to tile so boiling heat, acid shock, and 60 atmospheres of internal DNA tension cannot crack the vault.',
       blueprint:
         'Role: Major hexameric capsid wall tile with external Soc/Hoc reinforcement · From: Translated as gp23 on host ribosomes, folded via GroEL/gp31, cleaved to gp23* · Inside: Six HK97-fold [[polypeptides|polypeptide]] ringed by Soc trimer clamps and a central Hoc spike · To: Interlocks across 20 facets with [[gp24* pentamers|gp24-real]] and [[gp20 portal|gp20-real]] to form the [[capsid|real-phage-capsid]].',
       scientific:
@@ -221,9 +221,9 @@ export const PHAGE_DNA_VIRUS_NODE_LENSES: NodeLensMap = {
     },
     es: {
       simple:
-        'Seis proteínas gp23* forman un escudo hexagonal digno del beskar mandaloriano, mientras grapas exteriores sueldan loseta con loseta en un tanque de presión casi irrompible.',
+        'Seis copias de la proteína gp23* encajan formando una loseta hexagonal plana, mientras pequeñas grapas proteicas en el borde sueldan las losetas vecinas en un tanque de presión casi irrompible.',
       story:
-        'Para contener los 169,000 pares de bases embravecidos en la [[cabeza del fago|real-phage-capsid]], 155 escudos hexagonales pavimentan los muros entre las [[esquinas gp24*|gp24-real]]. Cada pieza trenza sus [[cadenas polipeptídicas|polypeptide]] como cota de beskar mandaloriano y las grapas Soc refuerzan las juntas para resistir ácido, calor y 60 atmósferas sin agrietarse.',
+        'Para contener el empuje feroz de 169,000 pares de bases comprimidos dentro de la [[cabeza del fago|real-phage-capsid]], 155 de estos escudos hexagonales pavimentan los muros entre las [[esquinas gp24*|gp24-real]]. Cada subunidad entrelaza sus [[cadenas polipeptídicas|polypeptide]] como cota de malla, mientras las abrazaderas Soc engrapan loseta con loseta para que ni el ácido ni decenas de atmósferas agrieten la bóveda.',
       blueprint:
         'Rol: Loseta hexamérica principal de la cápside reforzada con Soc y Hoc · Desde: Traducida como gp23, plegada con GroEL/gp31 y escindida a gp23* · Dentro: Seis [[polipéptidos|polypeptide]] con plegamiento HK97 rodeados por grapas Soc y una espiga Hoc central · Hacia: Ensambla las facetas junto a [[pentámeros gp24*|gp24-real]] y el [[portal gp20|gp20-real]] en la [[cápside|real-phage-capsid]].',
       scientific:
@@ -234,9 +234,9 @@ export const PHAGE_DNA_VIRUS_NODE_LENSES: NodeLensMap = {
   'gp24-real': {
     en: {
       simple:
-        'Just like a classic Champions League soccer ball needs twelve pentagons among its hexagons to curve shut, eleven five-part gp24* caps seal the phage head’s sharpest corners.',
+        'Flat hexagons alone can never close into a ball—you need exactly twelve five-sided corners, just like on a soccer ball. Eleven of the phage head’s corners are sealed by these five-part gp24* caps.',
       story:
-        'Pure geometry rules even alien-looking viruses: flat [[gp23* hexagons|gp23-real]] alone would roll into an endless pipe unless five-sided keystones curve the armor closed like a soccer ball. Eleven pentamer caps rivet the highest-stress corners of the [[capsid vault|real-phage-capsid]] against pushing [[DNA|dna]], saving the twelfth bottom corner for the [[gp20 portal|gp20-real]] cannon.',
+        'Geometric law dictates that flat sheets of [[gp23* hexagons|gp23-real]] would roll forever into an open pipe unless five-sided keystones bend the armor shut. Eleven of these five-subunit caps snap into the sharpest corners of the [[capsid vault|real-phage-capsid]]—where internal [[DNA|dna]] pressure strains the shell hardest—leaving the twelfth bottom corner open for the [[gp20 portal|gp20-real]] cannon mouth.',
       blueprint:
         'Role: Five-fold icosahedral corner keystone · From: Pentamerizes at 11 prohead vertices during gp22-guided assembly and matures via gp21 cleavage · Inside: Five HK97-fold [[polypeptide|polypeptide]] subunits lacking Soc/Hoc binding sites · To: Introduces 60° disclination curvature into the [[gp23* hexamer|gp23-real]] lattice to close the [[phage head|real-phage-capsid]].',
       scientific:
@@ -244,9 +244,9 @@ export const PHAGE_DNA_VIRUS_NODE_LENSES: NodeLensMap = {
     },
     es: {
       simple:
-        'Igual que un balón de fútbol necesita doce pentágonos entre sus hexágonos para cerrarse en esfera, once tapas gp24* de cinco piezas sellan las esquinas más agudas de la cabeza del fago.',
+        'Con puros hexágonos planos nunca se puede cerrar una esfera: hacen falta exactamente doce esquinas de cinco lados, igual que en un balón de fútbol. Once esquinas de la cabeza del fago están selladas por estas tapas pentagonales gp24*.',
       story:
-        'La geometría manda hasta en los virus: puros [[hexágonos gp23*|gp23-real]] formarían un tubo sin fin a menos que piezas de cinco lados curven el blindaje como un balón de fútbol. Once tapas pentagonales remachan los vértices más exigidos de la [[bóveda de la cápside|real-phage-capsid]] frente al empuje del [[ADN|dna]], dejando el duodécimo vértice al [[portal gp20|gp20-real]].',
+        'La geometría dicta que una lámina de [[hexágonos gp23*|gp23-real]] solo formaría un tubo infinito a menos que piedras angulares de cinco lados curven y cierren el blindaje. Once de estas cúpulas de cinco piezas encajan en los vértices más tensos de la [[bóveda de la cápside|real-phage-capsid]] donde más empuja el [[ADN|dna]], reservando el duodécimo vértice inferior para la boca de cañón del [[portal gp20|gp20-real]].',
       blueprint:
         'Rol: Piedra angular pentamérica de los vértices icosaédricos · Desde: Pentameriza en 11 vértices de la procápside y madura por corte de gp21 · Dentro: Cinco subunidades [[polipeptídicas|polypeptide]] con plegamiento HK97 sin sitios Soc/Hoc · Hacia: Introduce la curvatura pentagonal en la red de [[hexámeros gp23*|gp23-real]] para cerrar la [[cabeza del fago|real-phage-capsid]].',
       scientific:
@@ -257,9 +257,9 @@ export const PHAGE_DNA_VIRUS_NODE_LENSES: NodeLensMap = {
   'gp20-real': {
     en: {
       simple:
-        'Perched at the bottom corner like an Iron Man jet nozzle, this 12-bladed protein ring first pumps DNA uphill into the head and later fires it hyperspeed down the tail.',
+        'Sitting at the bottom corner of the phage head, this twelve-part protein ring works first as a loading funnel to pump DNA inside, and later as a one-way nozzle to shoot that DNA down the tail.',
       story:
-        'Guarding the one corner of the [[capsid|real-phage-capsid]] left uncapped, this 12-bladed Stark-style turbine first docks a furious ATP motor that stuffs 169,000 base pairs of [[DNA|dna]] uphill into the vault. Once pressure hits 60 atmospheres, neck rings cork the nozzle until the [[contractile sheath|gp18-real]] fires below—uncorking the valve into the [[inner tail tube|gp19-real]].',
+        'Occupying the sole corner of the [[capsid|real-phage-capsid]] left uncapped by pentamers, this 12-bladed turbine first docks a furious ATP-burning motor that crams all 169,000 base pairs of [[DNA|dna]] uphill into the head. Once the vault hits 60 atmospheres, neck rings cork the nozzle shut until the [[contractile sheath|gp18-real]] fires below—uncorking the valve so the genome rockets into the [[inner tail tube|gp19-real]].',
       blueprint:
         'Role: Bidirectional DNA packaging valve and head-to-tail symmetry adaptor · From: Nucleates prohead assembly on host inner membrane before gp17 packaging · Inside: Dodecameric ring of [[alpha-helical|alpha-helix]] crown, clip, stem, and wing domains framing a 3.5 nm channel · To: Connects 5-fold [[capsid vertex|real-phage-capsid]] to 6-fold neck and [[gp19 tail tube|gp19-real]].',
       scientific:
@@ -267,9 +267,9 @@ export const PHAGE_DNA_VIRUS_NODE_LENSES: NodeLensMap = {
     },
     es: {
       simple:
-        'Situado en la esquina inferior como la tobera de un reactor de Iron Man, este anillo de 12 piezas bombea primero el ADN hacia la cabeza y luego lo dispara a toda máquina por la cola.',
+        'Situado en la esquina inferior de la cabeza del fago, este anillo de doce piezas funciona primero como embudo de carga para bombear el ADN hacia dentro y luego como boquilla para dispararlo por la cola.',
       story:
-        'Instalada en el único vértice libre de la [[cápside|real-phage-capsid]], esta turbina de 12 álabes al estilo Tony Stark acopla primero un motor de ATP que embute 169,000 pares de bases de [[ADN|dna]] cuesta arriba. A 60 atmósferas, el cuello tapona la tobera hasta que dispara la [[vaina contráctil|gp18-real]] y descorcha el genoma por el [[tubo interno gp19|gp19-real]].',
+        'Instalada en la única esquina de la [[cápside|real-phage-capsid]] sin tapa pentagonal, esta turbina de 12 álabes acopla primero un motor devorador de ATP que embute los 169,000 pares de bases de [[ADN|dna]] contra presión extrema. Lleno el tanque, los anillos del cuello taponan la boquilla hasta que la [[vaina contráctil|gp18-real]] dispara abajo, descorchando la válvula para lanzar el genoma por el [[tubo interno gp19|gp19-real]].',
       blueprint:
         'Rol: Válvula bidireccional de ADN y adaptador de simetría cabeza-cola · Desde: Nuclea la procápside antes del empaquetamiento por el motor gp17 · Dentro: Anillo dodecamérico con dominios ricos en [[hélices alfa|alpha-helix]] en torno a un poro de 3.5 nm · Hacia: Acopla el vértice de orden 5 de la [[cápside|real-phage-capsid]] con la simetría 6 del [[tubo gp19|gp19-real]].',
       scientific:
@@ -280,9 +280,9 @@ export const PHAGE_DNA_VIRUS_NODE_LENSES: NodeLensMap = {
   'gp18-real': {
     en: {
       simple:
-        'Twenty-four stacked rings of gp18 coil around the tail like a cocked mecha piston; once tripped, the gears slide into one another to slam the inner needle straight through armor.',
+        'Twenty-four stacked rings of gp18 form a coiled molecular spring around the phage tail. When triggered, the subunits slide past one another like interlocking gears to slam the inner needle downward.',
       story:
-        'Pinned beneath the [[portal valve|gp20-real]] and held taut by the [[baseplate|real-phage-baseplate]] below, 144 gp18 subunits crouch like a cocked Evangelion pile-bunker spring. One flick of the baseplate latch triggers a domino wave up all 24 rings: neighboring [[polypeptides|polypeptide]] twist and interleave, squashing the sleeve short and ramming the [[gp19 inner pipe|gp19-real]] into E. coli.',
+        'Anchored at the top by the gp15 neck ring just beneath the [[portal valve|gp20-real]] and held taut at the bottom by the [[baseplate|real-phage-baseplate]], 144 copies of gp18 wait in a high-energy crouch. One flick of the baseplate latch ripples an avalanche up all 24 rings: neighbouring [[polypeptides|polypeptide]] twist, interleave, and squash the sleeve wide and short, driving the [[gp19 inner pipe|gp19-real]] through bacterial armor.',
       blueprint:
         'Role: Spring-loaded contractile sheath ring and gp15 neck terminator · From: Polymerizes in metastable extended state around [[gp19 tube|gp19-real]] from baseplate upward · Inside: Hexameric gp18 rings bridged via β-sheet handshakes and capped by hexameric gp15 · To: Releases stored conformational energy upon [[baseplate|real-phage-baseplate]] expansion to thrust [[gp19 tube|gp19-real]] downward.',
       scientific:
@@ -290,9 +290,9 @@ export const PHAGE_DNA_VIRUS_NODE_LENSES: NodeLensMap = {
     },
     es: {
       simple:
-        'Veinticuatro anillos de gp18 rodean la cola como el pistón cargado de un mecha; al soltarse el seguro, sus piezas engranan entre sí para clavar la aguja interior en la coraza.',
+        'Veinticuatro anillos apilados de gp18 forman un resorte molecular enrollado alrededor de la cola. Al dispararse, sus piezas se deslizan unas entre otras como engranajes para clavar la aguja interior hacia abajo.',
       story:
-        'Sujetas bajo la [[válvula portal|gp20-real]] y retenidas abajo por la [[placa basal|real-phage-baseplate]], 144 copias de gp18 aguardan agazapadas como el resorte de un martinete de Evangelion. Soltar el pestillo desata un dominó por los 24 anillos: los [[polipéptidos|polypeptide]] giran y se entrelazan, acortando la manga para clavar el [[tubo interno gp19|gp19-real]] en E. coli.',
+        'Sujetas arriba por el anillo conector gp15 bajo la [[válvula portal|gp20-real]] y retenidas abajo por la [[placa basal|real-phage-baseplate]], 144 copias de gp18 aguardan tensadas al límite. Basta soltar el pestillo basal para desatar una avalancha por los 24 anillos: los [[polipéptidos|polypeptide]] vecinos giran, se entrelazan y acortan la manga a la mitad, hundiendo de lleno el [[tubo interno gp19|gp19-real]] en la coraza bacteriana.',
       blueprint:
         'Rol: Anillo de vaina contráctil metaestable y conector apical gp15 · Desde: Polimeriza en estado extendido de alta energía en torno al [[tubo gp19|gp19-real]] · Dentro: Anillos hexaméricos gp18 enlazados por hojas β y sellados arriba por gp15 · Hacia: Libera energía elástica al abrirse la [[placa basal|real-phage-baseplate]], empujando al [[tubo gp19|gp19-real]].',
       scientific:
@@ -303,9 +303,9 @@ export const PHAGE_DNA_VIRUS_NODE_LENSES: NodeLensMap = {
   'gp19-real': {
     en: {
       simple:
-        'Like Magneto’s frictionless magnetic railgun barrel, this rigid 4-nanometer inner pipe uses negative electrical charges to levitate DNA down the center at thousands of letters per second.',
+        'Inside the outer spring sits a rigid, ultra-smooth hollow pipe only four nanometers wide inside—just wide enough for double-stranded DNA to shoot through single-file without snagging.',
       story:
-        'While the [[gp18 outer sheath|gp18-real]] crunches violently outside, this rigid railgun barrel never bends: tipped by the [[gp5 puncturing needle|gp5-real]], it punches across the breached wall to kiss the [[inner membrane|plasma-membrane]]. Negatively charged walls repel negatively charged [[DNA|dna]] like Magneto levitating steel, firing 169,000 base pairs through with zero friction!',
+        'While the [[gp18 outer sheath|gp18-real]] violently crunches around it, this rigid syringe barrel never flinches: tipped by the [[gp5 puncturing needle|gp5-real]], it punches clean across the breached bacterial wall until its rim kisses the [[inner membrane|plasma-membrane]]. Its negatively charged inner walls repel negatively charged [[DNA|dna]], creating a frictionless magnetic-levitation tunnel so 169,000 base pairs race through at thousands of letters per second.',
       blueprint:
         'Role: Rigid piercing syringe barrel and low-friction DNA conduit · From: Stacks 24 hexameric rings atop [[gp27–gp5 hub|gp5-real]] along gp29 tape-measure · Inside: Smooth β-barrel lumen (4 nm bore) lined with electronegative [[amino acids|amino-acid]] · To: Delivers pressurized [[DNA|dna]] from [[gp20 portal|gp20-real]] across host [[inner membrane|plasma-membrane]].',
       scientific:
@@ -313,9 +313,9 @@ export const PHAGE_DNA_VIRUS_NODE_LENSES: NodeLensMap = {
     },
     es: {
       simple:
-        'Como un cañón de riel magnético de Magneto sin fricción, este tubo rígido de 4 nanómetros usa cargas negativas para hacer levitar el ADN por su centro a miles de letras por segundo.',
+        'Dentro del resorte exterior se esconde una tubería hueca rígida y ultralisa de apenas cuatro nanómetros de ancho interno: el calibre exacto para que el ADN pase en fila india sin atascarse.',
       story:
-        'Mientras la [[vaina externa gp18|gp18-real]] se aplasta afuera, este cañón rígido no cede: guiado por la [[aguja perforadora gp5|gp5-real]], cruza la muralla rota hasta besar la [[membrana interna|plasma-membrane]]. Su interior negativo repele al [[ADN|dna]] negativo como Magneto levitando metal, disparando 169,000 pares de bases sin fricción alguna.',
+        'Mientras la [[vaina externa gp18|gp18-real]] se encoge con violencia a su alrededor, este cañón rígido no cede un milímetro: precedido por la [[aguja perforadora gp5|gp5-real]], atraviesa la muralla rota hasta besar la [[membrana interna|plasma-membrane]]. Sus paredes internas de carga negativa repelen el [[ADN|dna]] también negativo, creando un túnel sin fricción por donde 169,000 pares de bases vuelan a miles de letras por segundo.',
       blueprint:
         'Rol: Cañón perforador rígido y conducto de ADN de baja fricción · Desde: Apila 24 hexámeros sobre el [[buje gp27–gp5|gp5-real]] guiado por la cinta métrica gp29 · Dentro: Barril β continuo (4 nm de luz) tapizado por [[aminoácidos|amino-acid]] electronegativos · Hacia: Canaliza el [[ADN|dna]] desde el [[portal gp20|gp20-real]] a través de la [[membrana interna|plasma-membrane]].',
       scientific:
@@ -326,9 +326,9 @@ export const PHAGE_DNA_VIRUS_NODE_LENSES: NodeLensMap = {
   'gp5-real': {
     en: {
       simple:
-        'Like Evangelion’s Progressive Knife tipped with armor-cutting scissors, this triangular protein dagger punches through outer skin and then snips a clean doorway through the cell wall.',
+        'At the very tip of the phage’s syringe sits a triangular protein dagger carrying three built-in wall-dissolving enzymes. First it stabs through the bacterium’s outer skin, then its enzymes chew a doorway through the rigid wall underneath.',
       story:
-        'Mounted on the nose of the [[gp19 tail tube|gp19-real]] inside the [[baseplate|real-phage-baseplate]], three braided chains form an Evangelion-style Progressive Knife stiff enough to stab straight through outer [[LPS|lps]] armor. Inside the periplasm, the tip pops off like a tank sabot so three lysozyme blades scissor open the [[peptidoglycan|peptidoglycan]] mesh ahead of the tube.',
+        'Capped onto the bottom of the [[gp19 tail tube|gp19-real]] inside the [[baseplate|real-phage-baseplate]], three interwoven chains twist into a molecular stiletto stiff enough to punch straight through outer [[LPS|lps]] armor when the sheath fires. Once inside the periplasm, the needle tip snaps away and three flanking lysozyme blades snip the [[peptidoglycan|peptidoglycan]] mesh apart so the open tube can dock against the cytoplasm.',
       blueprint:
         'Role: Membrane-piercing β-helix spike and periplasmic murein hydrolase · From: Driven downward by [[gp18 sheath|gp18-real]] thrust via [[gp19 tube|gp19-real]] · Inside: Cup-like gp27 trimer adaptor + gp5 triple-stranded β-helix needle + three T4 lysozyme domains · To: Punctures [[LPS outer membrane|lps]] and digests [[peptidoglycan|peptidoglycan]] before dissociating from the tube tip.',
       scientific:
@@ -336,9 +336,9 @@ export const PHAGE_DNA_VIRUS_NODE_LENSES: NodeLensMap = {
     },
     es: {
       simple:
-        'Como el cuchillo progresivo de Evangelion armado con tijeras enzimáticas, esta daga triangular perfora la piel externa de la bacteria y recorta luego una puerta limpia en su pared.',
+        'En la punta misma de la jeringa del fago asoma una daga proteica triangular equipada con tres enzimas disolventes. Primero apuñala la piel exterior de la bacteria y luego sus enzimas abren un boquete en el muro rígido inferior.',
       story:
-        'Montadas en la punta del [[tubo caudal gp19|gp19-real]] dentro de la [[placa basal|real-phage-baseplate]], tres cadenas trenzadas forman un cuchillo progresivo digno de Evangelion capaz de perforar el [[LPS|lps]] exterior. En el periplasma, la punta salta como casquillo de tanque y tres cuchillas de lisozima tijeretean el [[peptidoglicano|peptidoglycan]] frente al tubo.',
+        'Engarzadas en la boca del [[tubo caudal gp19|gp19-real]] en el corazón de la [[placa basal|real-phage-baseplate]], tres cadenas entrelazadas forman un estilete capaz de perforar de un golpe la coraza externa de [[LPS|lps]]. Al irrumpir en el periplasma, la punta se desprende y sus tres cuchillas laterales de lisozima tijeretean la malla de [[peptidoglicano|peptidoglycan]], despejando el camino hacia el citoplasma.',
       blueprint:
         'Rol: Estilete perforador en triple hélice β e hidrolasa de mureína · Desde: Impulsado axialmente por la [[vaina gp18|gp18-real]] a través del [[tubo gp19|gp19-real]] · Dentro: Adaptador trimérico gp27 + aguja gp5 en prisma β + tres dominios lisozima · Hacia: Perfora la [[membrana de LPS|lps]] y digiere el [[peptidoglicano|peptidoglycan]] antes de soltarse.',
       scientific:
@@ -349,9 +349,9 @@ export const PHAGE_DNA_VIRUS_NODE_LENSES: NodeLensMap = {
   'gp37-real': {
     en: {
       simple:
-        'Reinforced down the middle by seven iron atoms like Wolverine’s adamantium bones, this slender leg tip feels for E. coli’s exact surface pores so the phage never wastes its one shot.',
+        'This slender needle tip at the end of each long phage leg is braced down the middle by a line of seven iron atoms. Its rounded tip feels for specific doorway proteins on E. coli so the phage never wastes its one shot on the wrong target.',
       story:
-        'At the tip of each [[long tail fiber|phage-fiber]], three [[polypeptide strands|polypeptide]] braid around seven iron ions like Wolverine’s metal-laced skeleton so the probe never buckles on impact. Its fingertip taps [[LPS|lps]] sugars until it clicks cleanly into trimeric [[OmpC porins|porin]], sending the mechanical tug up the leg to fire the [[baseplate|real-phage-baseplate]].',
+        'Out at the farthest reach of each [[long tail fiber|phage-fiber]], three [[polypeptide strands|polypeptide]] braid around seven iron atoms like rebar inside concrete so the feeler will not buckle on impact. Its fingertip kisses and releases bacterial [[LPS|lps]] sugars until it slots cleanly into trimeric [[OmpC porins|porin]], sending the fateful tug back up the leg to fire the [[baseplate|real-phage-baseplate]].',
       blueprint:
         'Role: Iron-braced distal receptor-recognition fingertip · From: Terminates each 145 nm [[long tail fiber|phage-fiber]] distal rod · Inside: Intertwined gp37 homotrimer coordinated along its symmetry axis by seven Fe²⁺ ions · To: Specifically binds E. coli [[OmpC porins|porin]] and [[LPS|lps]] glucosyl residues to trigger [[baseplate|real-phage-baseplate]] unlocking.',
       scientific:
@@ -359,9 +359,9 @@ export const PHAGE_DNA_VIRUS_NODE_LENSES: NodeLensMap = {
     },
     es: {
       simple:
-        'Reforzada por dentro con siete átomos de hierro como el esqueleto de Wolverine, la punta de cada pata larga palpa los poros exactos de E. coli para no malgastar jamás su único disparo.',
+        'Esta esbelta punta al final de cada pata larga está reforzada por dentro con una fila de siete átomos de hierro. Su extremo redondeado palpa proteínas específicas de E. coli para no malgastar jamás su único disparo.',
       story:
-        'En el extremo de cada [[fibra caudal larga|phage-fiber]], tres [[hebras polipeptídicas|polypeptide]] se trenzan sobre siete iones de hierro como los huesos blindados de Wolverine para no doblarse al chocar. Su yema tantea el [[LPS|lps]] hasta encajar en las [[porinas OmpC|porin]], enviando pata arriba el tirón que detona la [[placa basal|real-phage-baseplate]].',
+        'En el extremo más lejano de cada [[fibra caudal larga|phage-fiber]], tres [[hebras polipeptídicas|polypeptide]] se trenzan alrededor de siete iones de hierro como varillas en hormigón armado para no doblarse al chocar. Su yema tantea azúcares del [[LPS|lps]] hasta encajar con precisión en las [[porinas OmpC|porin]], enviando pierna arriba el tirón mecánico que detona la [[placa basal|real-phage-baseplate]].',
       blueprint:
         'Rol: Punta sensora distal reforzada con hierro para reconocimiento de receptores · Desde: Remata el segmento distal de cada [[fibra larga|phage-fiber]] de 145 nm · Dentro: Homotrímero gp37 entrelazado sobre un eje de siete iones Fe²⁺ · Hacia: Reconoce [[porinas OmpC|porin]] y glucosas del [[LPS|lps]], transmitiendo tracción a la [[placa basal|real-phage-baseplate]].',
       scientific:
@@ -372,9 +372,9 @@ export const PHAGE_DNA_VIRUS_NODE_LENSES: NodeLensMap = {
   'gp12-real': {
     en: {
       simple:
-        'Like Attack on Titan’s ODM grappling hooks, six zinc-tipped short claws flip down under the baseplate at the moment of attack to bolt the phage down against syringe recoil.',
+        'Once the phage decides to attack, six of these short, zinc-tipped grappling hooks swing down from under the baseplate and clamp onto the bacterium for good so recoil cannot push the syringe off target.',
       story:
-        'Folded out of sight under the [[baseplate|real-phage-baseplate]] while the [[long fibers|phage-fiber]] scout ahead, six gp12 claws swing 180 degrees down the instant the dome snaps into a star. Like Attack on Titan ODM anchors, their zinc-loaded jaws bite irreversibly into [[LPS|lps]] so kickback from the [[gp5 needle|gp5-real]] cannot bounce the lander off target.',
+        'Tucked out of sight beneath the [[baseplate|real-phage-baseplate]] while the [[long fibers|phage-fiber]] scout ahead, six gp12 spikes flip 180 degrees downward the instant the dome snaps into a star. Their zinc-loaded heads bite irreversibly into the deep core of bacterial [[LPS|lps]], bolting the lander down against the violent recoil of the [[gp5 needle|gp5-real]] ramming through the wall.',
       blueprint:
         'Role: Irreversible secondary grappling hook resisting puncture recoil · From: Stowed horizontally under dome-state [[baseplate|real-phage-baseplate]] wedges · Inside: Homotrimeric β-spiral shaft and Zn²⁺-stabilized C-terminal receptor head · To: Rotates downward during dome-to-star transition to lock onto [[LPS|lps]] inner core during [[gp18 sheath|gp18-real]] firing.',
       scientific:
@@ -382,9 +382,9 @@ export const PHAGE_DNA_VIRUS_NODE_LENSES: NodeLensMap = {
     },
     es: {
       simple:
-        'Como los garfios de maniobras de Ataque a los Titanes, seis garras cortas con punta de zinc bajan de la placa basal al atacar para empernar el fago contra el retroceso.',
+        'En cuanto el fago decide atacar, seis de estos garfios cortos con punta de zinc se despliegan bajo la placa basal y se aferran para siempre a la bacteria, evitando que el retroceso desvíe la jeringa.',
       story:
-        'Plegados bajo la [[placa basal|real-phage-baseplate]] mientras exploran las [[fibras largas|phage-fiber]], seis espolones gp12 giran 180 grados abajo apenas la cúpula estalla en estrella. Igual que los anclajes de Ataque a los Titanes, sus garras de zinc muerden sin retorno el [[LPS|lps]] para que el retroceso de la [[aguja gp5|gp5-real]] no despegue al módulo.',
+        'Ocultos bajo la [[placa basal|real-phage-baseplate]] mientras las [[fibras largas|phage-fiber]] exploran el terreno, seis espolones gp12 giran 180 grados hacia abajo apenas la cúpula estalla en estrella. Sus cabezales cargados de zinc muerden sin retorno el corazón del [[LPS|lps]] bacteriano, empernando el módulo contra el brutal retroceso de la [[aguja gp5|gp5-real]] al perforar la pared.',
       blueprint:
         'Rol: Garfio secundario irreversible contra el retroceso de punción · Desde: Plegado horizontalmente bajo las cuñas de la [[placa basal|real-phage-baseplate]] · Dentro: Eje homotrimérico en triple espiral β y cabezal C-terminal con ion Zn²⁺ · Hacia: Rota hacia abajo al abrirse la estrella para anclarse al [[LPS|lps]] durante el disparo de la [[vaina gp18|gp18-real]].',
       scientific:
@@ -395,9 +395,9 @@ export const PHAGE_DNA_VIRUS_NODE_LENSES: NodeLensMap = {
   viruses: {
     en: {
       simple:
-        'Viruses are the Ocean’s Eleven of microbiology: non-living genetic heist crews with zero metabolism, packing DNA or RNA inside custom syringes, crystals, rods, or stealth cloaks to rob living cells.',
+        'Viruses are tiny, non-living genetic pirates that cannot eat, breathe, or reproduce on their own. Each class packs DNA or RNA inside a custom-built shell—from syringes and crystals to lipid bubbles and rigid rods—designed to break into a specific kind of cell.',
       story:
-        'Meet the Ocean’s Eleven of molecular safecrackers—stone-dead outside a host, yet each built for a signature heist! [[Bacteriophage T4|real-phage]] slams E. coli with an Evangelion-style hypodermic pile-bunker, [[Human Adenovirus|real-adenovirus]] rolls a Kryptonian crystal Trojan horse to a nuclear pore, and [[Tobacco Mosaic Virus|real-tmv]] tunnels a helical rod between plant cells, while [[SARS-CoV-2|real-coronavirus]] and [[HIV-1|real-hiv]] fuse stolen lipid disguises straight into human targets.',
+        'Five master safecrackers line up side by side, each completely dead outside a host yet engineered for a different heist: [[Bacteriophage T4|real-phage]] punches E. coli with a 500-atmosphere hypodermic needle, [[Human Adenovirus|real-adenovirus]] sneaks a 20-faced crystal Trojan horse down to a nuclear pore, and [[Tobacco Mosaic Virus|real-tmv]] rides a calcium-triggered helical rod through plant wall tunnels, while membrane-wrapped [[SARS-CoV-2|real-coronavirus]] and [[HIV-1|real-hiv]] fuse stolen lipid cloaks directly into human cells.',
       blueprint:
         'Role: Comparative taxonomy of viral capsid symmetries and genome strategies · From: Inert extracellular virions awaiting specific host surface receptors or wounds · Inside: Protective protein/lipid shells housing [[DNA|dna]] or [[RNA|rna]] across myovirus ([[T4|real-phage]]), icosahedral ([[Ad5|real-adenovirus]]), helical ([[TMV|real-tmv]]), and enveloped ([[CoV-2|real-coronavirus]], [[HIV-1|real-hiv]]) classes · To: Hijacks host transcription and translation machinery to self-assemble progeny.',
       scientific:
@@ -405,9 +405,9 @@ export const PHAGE_DNA_VIRUS_NODE_LENSES: NodeLensMap = {
     },
     es: {
       simple:
-        'Los virus son la banda de Ocean’s Eleven de la microbiología: piratas genéticos sin vida propia que guardan ADN o ARN en jeringas, cristales, bastones o capas furtivas para asaltar células.',
+        'Los virus son diminutos piratas genéticos sin vida propia que no comen, respiran ni se reproducen solos. Cada familia guarda ADN o ARN dentro de un envase a medida —desde jeringas y cristales hasta burbujas de grasa o bastones rígidos— para asaltar un tipo concreto de célula.',
       story:
-        'Conoce al escuadrón Ocean’s Eleven del asalto molecular: inertes fuera del huésped, pero diseñados para golpes maestros. El [[bacteriófago T4|real-phage]] perfora bacterias con un martinete estilo Evangelion, el [[adenovirus humano|real-adenovirus]] cuela un cristal kryptoniano hasta el poro nuclear y el [[virus del mosaico del tabaco|real-tmv]] cruza túneles vegetales, mientras [[SARS-CoV-2|real-coronavirus]] y [[VIH-1|real-hiv]] funden capas lipídicas robadas contra células humanas.',
+        'Cinco maestros del asalto molecular posan hombro con hombro, inertes fuera de su presa pero diseñados para golpes distintos: el [[bacteriófago T4|real-phage]] perfora bacterias con una aguja a 500 atmósferas, el [[adenovirus humano|real-adenovirus]] cuela un caballo de Troya cristalino hasta el poro nuclear, y el [[virus del mosaico del tabaco|real-tmv]] desliza su bastón helicoidal por túneles vegetales, mientras [[SARS-CoV-2|real-coronavirus]] y [[VIH-1|real-hiv]] funden capas lipídicas robadas contra células humanas.',
       blueprint:
         'Rol: Comparativa estructural de simetrías de cápside y estrategias genómicas · Desde: Viriones extracelulares inertes a la espera de receptores o heridas celulares · Dentro: Cubiertas proteicas o lipídicas con [[ADN|dna]] o [[ARN|rna]]: miovirus ([[T4|real-phage]]), icosaédrico ([[Ad5|real-adenovirus]]), helicoidal ([[VMT|real-tmv]]) y envueltos ([[CoV-2|real-coronavirus]], [[VIH-1|real-hiv]]) · Hacia: Secuestran la maquinaria celular para autoensamblar progenie.',
       scientific:
@@ -418,9 +418,9 @@ export const PHAGE_DNA_VIRUS_NODE_LENSES: NodeLensMap = {
   'real-adenovirus': {
     en: {
       simple:
-        'Built like a Kryptonian crystal from Superman’s Fortress of Solitude sprouting twelve satellite antennas, Human Adenovirus tricks airway cells into swallowing it and smuggles DNA to the nucleus.',
+        'Human Adenovirus is a sharp-edged, 20-sided protein crystal bristling with twelve long corner antennas. Without any fatty outer envelope, it tricks airway cells into swallowing it whole and then smuggles its DNA straight to the cell’s nucleus.',
       story:
-        'Faceted like a 20-sided Kryptonian gem of 240 [[hexon towers|adv-hexon-real]], this crystal Trojan horse slips twelve [[fiber antennas|adv-fiber-real]] into airway tight junctions at the [[entry zone|real-adv-entry]]. Gulped into a [[clathrin vesicle|vesicle]], it pops its corner pins like grenades and slashes the sac open with hidden protein VI switchblades—hitching a dynein train straight to a [[nuclear pore|nuclear-pore]].',
+        'Built like a 20-faced armored gem of 240 [[hexon towers|adv-hexon-real]], this Trojan horse reaches into airway tight junctions with twelve [[fiber antennas|adv-fiber-real]] to snag CAR receptors at the [[entry zone|real-adv-entry]]. Swallowed inside a [[clathrin vesicle|vesicle]], the crystal pops off its corner caps to unsheathe hidden protein VI blades that slash the acidifying sac open before lysosomes can melt it—hitching a ride on dynein motors straight to a [[nuclear pore|nuclear-pore]].',
       blueprint:
         'Role: Non-enveloped icosahedral Trojan-horse dsDNA vector · From: Inhaled respiratory droplets docking onto epithelial [[CAR/integrin entry sites|real-adv-entry]] · Inside: 90 nm pseudo-T=25 shell of 240 [[Hexon trimers|adv-hexon-real]], 12 [[Penton/Fiber vertices|real-adv-vertex]], lytic cement VI, and [[36 kbp adenosome core|real-adv-core]] · To: Escapes early [[endocytic vesicles|vesicle]] and rides [[dynein motors|motor-protein]] to inject DNA at a [[nuclear pore|nuclear-pore]].',
       scientific:
@@ -428,9 +428,9 @@ export const PHAGE_DNA_VIRUS_NODE_LENSES: NodeLensMap = {
     },
     es: {
       simple:
-        'Tallado como un cristal kryptoniano de la Fortaleza de la Soledad de Superman con doce antenas de satélite, el adenovirus engaña a las células respiratorias para tragárselo rumbo al núcleo.',
+        'El adenovirus humano es un cristal proteico de 20 caras afiladas erizado con doce largas antenas en sus esquinas. Sin envoltura de grasa, engaña a las células respiratorias para que se lo traguen entero y lleva su ADN directo al núcleo.',
       story:
-        'Facetado como una joya kryptoniana de 240 [[torres de hexón|adv-hexon-real]], este caballo de Troya tiende doce [[antenas de fibra|adv-fiber-real]] hacia las uniones epiteliales en la [[zona de entrada|real-adv-entry]]. Tragado en una [[vesícula de clatrina|vesicle]], suelta sus esquinas como anillas de granada y raja la bolsa con navajas internas de proteína VI, tomando un tren de dineína directo al [[poro nuclear|nuclear-pore]].',
+        'Tallado como una joya blindada de 20 caras y 240 [[torres de hexón|adv-hexon-real]], este caballo de Troya extiende doce [[antenas de fibra|adv-fiber-real]] hacia las uniones epiteliales para enganchar receptores CAR en la [[zona de entrada|real-adv-entry]]. Engullido en una [[vesícula de clatrina|vesicle]], desprende sus esquinas y desenvaina cuchillas internas de proteína VI que rajan la bolsa ácida antes de que los lisosomas lo destruyan, subiéndose a motores de dineína directo hacia un [[poro nuclear|nuclear-pore]].',
       blueprint:
         'Rol: Vector icosaédrico desnudo de ADNbc tipo caballo de Troya · Desde: Gotículas respiratorias acopladas a [[receptores CAR/integrina|real-adv-entry]] · Dentro: Cápside pseudo-T=25 de 90 nm con 240 [[trímeros de Hexón|adv-hexon-real]], 12 [[vértices Pentón/Fibra|real-adv-vertex]], cemento lítico VI y [[núcleo adenosómico|real-adv-core]] · Hacia: Rompe [[vesículas endocíticas|vesicle]] y viaja en [[motores de dineína|motor-protein]] hasta el [[poro nuclear|nuclear-pore]].',
       scientific:
@@ -441,9 +441,9 @@ export const PHAGE_DNA_VIRUS_NODE_LENSES: NodeLensMap = {
   'real-adv-vertex': {
     en: {
       simple:
-        'Each of the crystal’s twelve corners works like a James Bond ejector hatch topped with a radar boom—hooking the target cell first, then popping loose inside to deploy hidden escape knives.',
+        'Each of the twelve corners of the adenovirus crystal works like a breakaway hatch topped with a long radar antenna. After the antenna hooks a cell, the corner base pops loose inside the cell to spring the virus’s escape blades.',
       story:
-        'Set like a turret between [[hexon walls|adv-hexon-real]], each [[penton base|adv-penton-real]] launches a 30-nanometer [[fiber antenna|adv-fiber-real]] to hook airway junctions. By Q-branch design, that corner is a breakaway grenade pin: once integrin tugs and endosome acid twist the collar, the whole cap pops off, spilling hidden protein VI switchblades to slash the [[vesicle|vesicle]] wide open!',
+        'Crowning every five-sided corner between surrounding [[hexon walls|adv-hexon-real]], a ring of [[penton base|adv-penton-real]] launches a 30-nanometer [[fiber antenna|adv-fiber-real]] to snare tight-junction receptors. That corner is deliberately built as a weak link: once integrin tugs and acidifying endosomes flex the vertex, the whole cap pops off like a grenade pin, spilling hidden protein VI daggers to slash the [[vesicle|vesicle]] open.',
       blueprint:
         'Role: Receptor-targeting antenna mount and programmed disassembly hatch · From: Crowns all 12 five-fold corners of the [[Hexon lattice|adv-hexon-real]] · Inside: Five-subunit [[Penton base|adv-penton-real]] with RGD integrin loops clasping the trimeric [[Fiber shaft and knob|adv-fiber-real]] · To: Initiates [[CAR/integrin entry|real-adv-entry]] and sheds inside early [[vesicles|vesicle]] to release membrane-lytic protein VI.',
       scientific:
@@ -451,9 +451,9 @@ export const PHAGE_DNA_VIRUS_NODE_LENSES: NodeLensMap = {
     },
     es: {
       simple:
-        'Cada una de las doce esquinas del cristal actúa como una escotilla eyectable de James Bond con antena: primero engancha la célula y luego salta por dentro para soltar cuchillas de escape.',
+        'Cada una de las doce esquinas del cristal del adenovirus funciona como una escotilla desprendible coronada por una larga antena. Tras enganchar la célula, la esquina salta dentro de ella para liberar las cuchillas de escape del virus.',
       story:
-        'Encajada entre muros de [[hexones|adv-hexon-real]], cada [[base de pentón|adv-penton-real]] lanza una [[antena de fibra|adv-fiber-real]] de 30 nanómetros para pescar uniones celulares. Esa esquina es a propósito una anilla de granada: cuando el tirón de las integrinas y el ácido endosómico la retuercen, la tapa salta y libera navajas de proteína VI que rajan la [[vesícula|vesicle]].',
+        'Coronando cada esquina entre los muros de [[hexones|adv-hexon-real]], un anillo de [[base de pentón|adv-penton-real]] proyecta una [[antena de fibra|adv-fiber-real]] de 30 nanómetros para pescar receptores epiteliales. Esa esquina está diseñada a propósito como un eslabón frágil: en cuanto el tirón de las integrinas y la acidez endosómica la retuercen, salta como la anilla de una granada y suelta dagas de proteína VI que rajan la [[vesícula|vesicle]].',
       blueprint:
         'Rol: Soporte de antena receptora y escotilla de desensamblaje programado · Desde: Cierra los 12 vértices pentaméricos de la red de [[Hexones|adv-hexon-real]] · Dentro: [[Base de Pentón|adv-penton-real]] con bucles RGD que sujeta el eje trimérico de la [[Fibra|adv-fiber-real]] · Hacia: Inicia la [[entrada por CAR/integrina|real-adv-entry]] y se desprende en la [[vesícula|vesicle]] para liberar proteína VI.',
       scientific:
@@ -464,9 +464,9 @@ export const PHAGE_DNA_VIRUS_NODE_LENSES: NodeLensMap = {
   'real-adv-core': {
     en: {
       simple:
-        'Like a Mission: Impossible spy wearing a latex mask, the virus wraps its 36,000-letter DNA around spool proteins that impersonate human chromosomes so the nucleus welcomes it right in.',
+        'Inside the crystal shell, the virus wraps its 36,000-letter DNA strand around hundreds of its own spool proteins, mimicking the cell’s own chromosomes so the host nucleus welcomes the invader’s genes.',
       story:
-        'Shielded behind [[hexon armor|adv-hexon-real]] as it dodges lysosomes down [[microtubule highways|microtubule]], 36,000 base pairs of [[viral DNA|dna]] coil around 800 protein VII spools in a Mission: Impossible chromatin disguise. When kinesin motors rip the last shell open at a [[nuclear pore|nuclear-pore]], this counterfeit chromosome strolls past security for [[RNA polymerase II|pol-ii]] to read!',
+        'Safely shielded behind [[hexon armor|adv-hexon-real]] during the perilous sprint past lysosomes and along [[microtubule highways|microtubule]], 36,000 base pairs of [[viral DNA|dna]] sit coiled around 800 copies of arginine-rich protein VII like counterfeit pearls on a string. When the battered shell finally docks at a [[nuclear pore|nuclear-pore]] and kinesin motors rip the last armor open, this disguised "adenosome" chromatin slips smoothly inside for [[RNA polymerase II|pol-ii]] to read.',
       blueprint:
         'Role: Pseudo-chromatin viral genome core and nuclear import payload · From: Condensed during virion maturation by AVP protease cleavage of pre-VII and pre-V · Inside: 36 kbp linear [[dsDNA|dna]] wrapped around ~800 protein VII spools, bridged to [[hexon shell|adv-hexon-real]] by protein V, 5′-capped by Terminal Protein · To: Extrudes through [[nuclear pore|nuclear-pore]] into host nucleus to hijack [[Pol II|pol-ii]].',
       scientific:
@@ -474,9 +474,9 @@ export const PHAGE_DNA_VIRUS_NODE_LENSES: NodeLensMap = {
     },
     es: {
       simple:
-        'Como un espía de Misión Imposible con máscara perfecta, el virus enrolla su ADN de 36,000 letras en carretes propios que imitan cromosomas humanos para entrar al núcleo como en casa.',
+        'Dentro de la coraza cristalina, el virus enrolla su hebra de ADN de 36,000 letras alrededor de cientos de carretes proteicos propios, imitando los cromosomas humanos para que el núcleo acepte los genes invasores.',
       story:
-        'Protegidos tras [[hexones|adv-hexon-real]] en plena huida por [[autopistas de microtúbulos|microtubule]], 36,000 pares de bases de [[ADN viral|dna]] viajan sobre 800 carretes de proteína VII con un disfraz de cromatina digno de Misión Imposible. Al abrirse el casco ante un [[poro nuclear|nuclear-pore]], este falso cromosoma burla la aduana y pone a trabajar a la [[ARN polimerasa II|pol-ii]].',
+        'Resguardados tras el blindaje de [[hexones|adv-hexon-real]] durante la carrera mortal frente a lisosomas y por las [[autopistas de microtúbulos|microtubule]], 36,000 pares de bases de [[ADN viral|dna]] viajan enrollados sobre 800 copias de proteína VII como un collar de cromatina falsificada. Cuando el casco atraca en un [[poro nuclear|nuclear-pore]] y motores celulares desarman sus últimas placas, este «adenosoma» entra de incógnito para poner a trabajar a la [[ARN polimerasa II|pol-ii]].',
       blueprint:
         'Rol: Núcleo de pseudocromatina viral y carga útil de importación nuclear · Desde: Condensado durante la maduración por corte de pre-VII y pre-V mediante la proteasa AVP · Dentro: 36 kpb de [[ADNbc|dna]] lineal sobre ~800 carretes de proteína VII, unido al [[casco de hexones|adv-hexon-real]] por proteína V y sellado en 5′ por TP · Hacia: Cruza el [[poro nuclear|nuclear-pore]] para secuestrar la [[Pol II|pol-ii]].',
       scientific:
@@ -487,9 +487,9 @@ export const PHAGE_DNA_VIRUS_NODE_LENSES: NodeLensMap = {
   'real-adv-entry': {
     en: {
       simple:
-        'Like a bank-vault heist needing two keys turned at once, Adenovirus hooks a tight-junction anchor with its long antenna and then rings a second receptor doorbell so the cell swallows it whole.',
+        'Adenovirus uses a clever two-key handshake to break into a cell: first its long fiber antenna grabs a surface anchor, then its corner ring touches a second receptor that tricks the cell into swallowing the whole virus.',
       story:
-        'Phase one of this Ocean’s Eleven con starts when the [[fiber knob|adv-fiber-real]] reaches between cells to snag a [[tight-junction CAR receptor|cell-junction]], letting membrane currents tug the tether sideways. Bending the shaft bows the [[penton base|adv-penton-real]] onto integrins on the [[lipid bilayer|phospholipid]], Jedi-mind-tricking the cell into gulping the crystal inside a [[clathrin vesicle|vesicle]] while already loosening its grenade pin!',
+        'Step one of the Trojan-horse con begins when the [[fiber knob|adv-fiber-real]] slips between airway cells to hook a [[tight-junction CAR receptor|cell-junction]], tethering the crystal close while drifting membrane currents tug laterally on the tether. Bending at its flexible shaft brings the [[penton base|adv-penton-real]] down to kiss host integrins on the [[lipid bilayer|phospholipid]], fooling the cell into wrapping the invader inside a [[clathrin vesicle|vesicle]] while already loosening its vertex pin.',
       blueprint:
         'Role: Sequential two-receptor attachment, mechanical priming, and endocytosis trigger · From: Extracellular [[Adenovirus virion|real-adenovirus]] encountering polarized epithelial surface · Inside: High-affinity [[Fiber knob|adv-fiber-real]]–CAR tether + secondary [[Penton RGD|adv-penton-real]]–αvβ3/αvβ5 integrin clustering · To: Induces [[clathrin-coated vesicle|vesicle]] uptake and mechanical vertex shedding for endosomal escape.',
       scientific:
@@ -497,9 +497,9 @@ export const PHAGE_DNA_VIRUS_NODE_LENSES: NodeLensMap = {
     },
     es: {
       simple:
-        'Como una cámara acorazada que exige girar dos llaves a la vez, el adenovirus engancha un ancla con su antena y toca luego un segundo receptor timbre para que la célula se lo trague entero.',
+        'El adenovirus usa un apretón de manos de doble llave para colarse en la célula: primero su larga antena atrapa un ancla superficial, y luego el anillo de su esquina toca un segundo receptor que engaña a la célula para tragárselo.',
       story:
-        'El primer paso de esta estafa a lo Ocean’s Eleven arranca cuando el [[botón de la fibra|adv-fiber-real]] pesca las [[uniones estrechas CAR|cell-junction]] y deja que la deriva celular tire del amarre. Al doblarse el mástil, la [[base de pentón|adv-penton-real]] besa las integrinas sobre la [[bicapa de fosfolípidos|phospholipid]], logrando con un truco mental Jedi que la célula lo trague en una [[vesícula de clatrina|vesicle]] mientras afloja su espoleta.',
+        'El primer acto de la estafa del caballo de Troya arranca cuando el [[botón de la fibra|adv-fiber-real]] se desliza hacia las [[uniones estrechas CAR|cell-junction]], amarrando el cristal mientras las corrientes de la membrana tiran de la amarra. Al doblarse la antena, la [[base de pentón|adv-penton-real]] baja a besar las integrinas sobre la [[bicapa de fosfolípidos|phospholipid]], embaucando a la célula para envolver al intruso en una [[vesícula de clatrina|vesicle]] mientras afloja ya el seguro de sus cuchillas.',
       blueprint:
         'Rol: Anclaje secuencial de doble receptor, cebado mecánico y disparo endocítico · Desde: [[Virión de adenovirus|real-adenovirus]] sobre la superficie epitelial polarizada · Dentro: Amarre de alta afinidad [[botón de Fibra|adv-fiber-real]]–CAR + agrupamiento secundario [[bucles RGD de Pentón|adv-penton-real]]–integrinas αvβ3/αvβ5 · Hacia: Induce invaginación en [[vesículas de clatrina|vesicle]] y pérdida del vértice.',
       scientific:
@@ -510,9 +510,9 @@ export const PHAGE_DNA_VIRUS_NODE_LENSES: NodeLensMap = {
   adenovirus: {
     en: {
       simple:
-        'Floating solo like a Sputnik satellite carved out of Superman’s Kryptonian crystal, Human Adenovirus pairs twenty flat armor walls and twelve corner antennas around a DNA core.',
+        'Viewed on its own, Human Adenovirus looks like a geometric satellite: twenty flat triangular walls of protein blocks, twelve spiky antennas at the corners, and a tightly spooled DNA core inside.',
       story:
-        'With zero fatty cloak to dry out on doorknobs or melt in soap, this bare Kryptonian-crystal fortress shrugs off the outside world like Terminator armor. Twelve [[fiber antennas|adv-fiber-real]] jut from [[penton corner hatches|adv-penton-real]] framed by 240 [[hexon towers|adv-hexon-real]], guarding 36,000 letters of [[DNA|dna]] until one breath drops the Trojan horse into an airway.',
+        'Without a fragile lipid coat to dry out on doorknobs or dissolve in mild detergents, this bare crystal fortress waits patiently between hosts. Twelve [[fiber antennas|adv-fiber-real]] stand guard atop [[penton corner hatches|adv-penton-real]] framed by 240 [[hexon towers|adv-hexon-real]], guarding 36,000 base pairs of [[DNA|dna]] until a single breath carries the Trojan horse into an unsuspecting airway.',
       blueprint:
         'Role: Isolated pseudo-T=25 icosahedral virion architecture · From: Nuclear assembly in host cell followed by AVP proteolytic maturation and cell lysis · Inside: 240 [[Hexon trimers|adv-hexon-real]] + 12 [[Penton bases|adv-penton-real]] + 12 [[Fiber trimers|adv-fiber-real]] + cement staples enclosing [[36 kbp dsDNA|dna]] · To: Executes two-step [[receptor entry|real-adv-entry]] in the [[realistic scene|real-adenovirus]].',
       scientific:
@@ -520,9 +520,9 @@ export const PHAGE_DNA_VIRUS_NODE_LENSES: NodeLensMap = {
     },
     es: {
       simple:
-        'Flotando en solitario como un satélite Sputnik tallado en cristal kryptoniano, el adenovirus combina veinte muros triangulares planos y doce antenas angulares sobre un núcleo de ADN.',
+        'Visto en solitario, el adenovirus humano parece un satélite geométrico: veinte paredes triangulares planas de bloques proteicos, doce antenas puntiagudas en las esquinas y un núcleo compacto de ADN en su interior.',
       story:
-        'Sin envoltura grasa que se seque en un picaporte, esta fortaleza desnuda de cristal kryptoniano resiste el mundo exterior como el chasis de un Terminator. Doce [[antenas de fibra|adv-fiber-real]] coronan [[escotillas de pentón|adv-penton-real]] entre 240 [[torres de hexón|adv-hexon-real]], escoltando 36,000 letras de [[ADN|dna]] hasta que un suspiro la lleva a tus vías respiratorias.',
+        'Sin una frágil envoltura grasa que se reseque en superficies, esta fortaleza de cristal desnudo aguarda intacta entre un huésped y otro. Doce [[antenas de fibra|adv-fiber-real]] vigilan sobre [[escotillas de pentón|adv-penton-real]] enmarcadas por 240 [[torres de hexón|adv-hexon-real]], custodiando 36,000 pares de bases de [[ADN|dna]] hasta que una bocanada de aire deposita al caballo de Troya en una vía respiratoria.',
       blueprint:
         'Rol: Arquitectura aislada del virión icosaédrico pseudo-T=25 · Desde: Ensamblaje nuclear, maduración por proteasa AVP y lisis celular · Dentro: 240 [[trímeros de Hexón|adv-hexon-real]] + 12 [[bases de Pentón|adv-penton-real]] + 12 [[Fibras|adv-fiber-real]] + proteínas cemento en torno a [[36 kpb de ADNbc|dna]] · Hacia: Ejecuta la [[entrada por doble receptor|real-adv-entry]] en la [[escena realista|real-adenovirus]].',
       scientific:
@@ -533,9 +533,9 @@ export const PHAGE_DNA_VIRUS_NODE_LENSES: NodeLensMap = {
   'adv-hexon-real': {
     en: {
       simple:
-        'Pulling off a Transformers geometry trick, just three identical protein chains fold a six-sided base so 240 Hexon towers lock into twenty rock-solid triangular crystal walls.',
+        'Even though it is built from just three identical protein chains, the Hexon block has a six-sided footprint on the bottom so 240 of them pack into twenty flat, rock-solid crystal walls.',
       story:
-        'Evolution used clever origami to plate the [[adenovirus Trojan horse|real-adenovirus]]: three [[polypeptide chains|polypeptide]] each fold twin barrels to fake a hexagonal base, tiling 20 razor-flat facets between [[penton corners|adv-penton-real]]. After endosome jailbreak, loops atop these towers grab [[dynein motors|motor-protein]] like Marty McFly skitching a truck straight to the nucleus!',
+        'Nature pulled off a geometric sleight of hand to armor the [[adenovirus Trojan horse|real-adenovirus]]: three [[polypeptide chains|polypeptide]] each fold two barrel domains side by side, giving a three-part tower a six-sided footprint that tiles 20 flat walls around the [[penton corners|adv-penton-real]]. After endosome escape, the outer tower loops snag [[dynein motors|motor-protein]] directly so the naked shell rides cellular highways straight to the nucleus.',
       blueprint:
         'Role: Major pseudo-hexagonal capsid wall block and dynein motor hitch · From: Folded in host cytosol with viral 100K chaperone and imported into nucleus · Inside: Homotrimer of polypeptide II with pseudo-hexagonal double-jelly-roll base and three intertwined loop towers · To: Tiles 20 facets (240 trimers) around [[Penton vertices|adv-penton-real]] and recruits [[dynein|motor-protein]] post-endolysis.',
       scientific:
@@ -543,9 +543,9 @@ export const PHAGE_DNA_VIRUS_NODE_LENSES: NodeLensMap = {
     },
     es: {
       simple:
-        'Con un truco geométrico digno de Transformers, solo tres cadenas idénticas pliegan una base de seis lados para que 240 torres de Hexón armen veinte paredes cristalinas indestructibles.',
+        'Aunque está hecho de solo tres cadenas proteicas idénticas, el bloque de Hexón tiene una base de seis lados para que 240 de ellos encajen formando veinte paredes cristalinas planas y ultrarresistentes.',
       story:
-        'La evolución usó origami puro para blindar al [[caballo de Troya adenoviral|real-adenovirus]]: tres [[cadenas polipeptídicas|polypeptide]] doblan barriles gemelos para fingir una huella hexagonal entre [[esquinas de pentón|adv-penton-real]]. Tras fugarse del endosoma, sus bucles enganchan [[motores de dineína|motor-protein]] como Marty McFly colgado de una camioneta directo al núcleo.',
+        'La evolución logró un truco geométrico brillante para blindar al [[caballo de Troya adenoviral|real-adenovirus]]: tres [[cadenas polipeptídicas|polypeptide]] aportan dos barriles cada una para dar una huella de seis lados que pavimenta 20 muros planos entre las [[esquinas de pentón|adv-penton-real]]. Tras escapar del endosoma, sus torres exteriores enganchan directamente [[motores de dineína|motor-protein]] para viajar a toda máquina hasta el núcleo.',
       blueprint:
         'Rol: Bloque principal pseudohexagonal de las facetas y enganche para dineína · Desde: Plegado en citosol con la chaperona viral 100K e importado al núcleo · Dentro: Homotrímero del polipéptido II con base de doble rollo de gelatina y tres torres de bucles · Hacia: Pavimenta 20 facetas (240 trímeros) junto a [[vértices de Pentón|adv-penton-real]] y recluta [[dineína|motor-protein]].',
       scientific:
@@ -556,9 +556,9 @@ export const PHAGE_DNA_VIRUS_NODE_LENSES: NodeLensMap = {
   'adv-penton-real': {
     en: {
       simple:
-        'Like a five-fingered Jedi mind-trick collar at every corner, Penton holds the long antenna and waves sticky RGD bait loops that convince the cell to gulp the virus—before popping off inside.',
+        'Five Penton subunits lock into a ring at every corner of the virus, holding the long fiber antenna in the middle while waving five sticky protein loops that convince the host cell to swallow the particle.',
       story:
-        'Once the [[fiber antenna|adv-fiber-real]] tethers the crystal and bends aside, five RGD bait loops atop this corner collar wave at host integrins in the [[entry zone|real-adv-entry]]—"These ARE the droids you want to swallow!" Pulled into a [[clathrin bubble|vesicle]], the collar twists free from its [[hexon neighbors|adv-hexon-real]] like a grenade pin so escape blades spill out.',
+        'Once the [[fiber antenna|adv-fiber-real]] tethers the crystal to an airway cell and bends aside, five flexible RGD loops waving atop this five-sided corner collar latch onto host integrins at the [[entry zone|real-adv-entry]]. That five-fingered handshake tricks the cell into pulling the virus into a [[clathrin bubble|vesicle]] while twisting the penton ring loose from its [[hexon neighbors|adv-hexon-real]] so endosome-ripping blades can spill out.',
       blueprint:
         'Role: Five-fold vertex keystone, fiber socket, and integrin-triggered endocytosis activator · From: Self-assembles into homopentamers and complexes with [[Fiber trimers|adv-fiber-real]] · Inside: Five jelly-roll [[polypeptides|polypeptide]] displaying flexible Arg-Gly-Asp (RGD) surface loops around a central fiber-binding pore · To: Clusters host αvβ3/αvβ5 integrins at [[entry zone|real-adv-entry]] to trigger [[vesicle|vesicle]] uptake and vertex release.',
       scientific:
@@ -566,9 +566,9 @@ export const PHAGE_DNA_VIRUS_NODE_LENSES: NodeLensMap = {
     },
     es: {
       simple:
-        'Como un collar de cinco dedos con truco mental Jedi en cada esquina, el Pentón sujeta la antena y agita lazos RGD que convencen a la célula de tragarse el virus antes de saltar como tapón.',
+        'Cinco subunidades de Pentón cierran un anillo en cada esquina del virus: sujetan la larga antena central mientras agitan cinco lazos pegajosos que convencen a la célula de tragarse la partícula.',
       story:
-        'Cuando la [[antena de fibra|adv-fiber-real]] amarra el cristal y se aparta, cinco lazos RGD sobre este anillo seducen a las integrinas de la [[zona de entrada|real-adv-entry]] al más puro estilo truco mental Jedi. Ya dentro de la [[burbuja de clatrina|vesicle]], el anillo se suelta de sus [[hexones vecinos|adv-hexon-real]] como la anilla de una granada y libera las dagas de fuga.',
+        'En cuanto la [[antena de fibra|adv-fiber-real]] amarra el cristal a la célula respiratoria y se dobla hacia un lado, cinco lazos flexibles RGD sobre este collar de cinco piezas atrapan las integrinas de la [[zona de entrada|real-adv-entry]]. Ese apretón de cinco dedos engaña a la célula para engullir el virus en una [[burbuja de clatrina|vesicle]], al tiempo que desencaja el pentón de sus [[hexones vecinos|adv-hexon-real]] para soltar las dagas rompe-membranas.',
       blueprint:
         'Rol: Piedra angular pentamérica, zócalo de fibra y activador endocítico por integrinas · Desde: Forma homopentámeros que engarzan el extremo N de las [[Fibras|adv-fiber-real]] · Dentro: Cinco [[polipéptidos|polypeptide]] en barril β con bucles móviles Arg-Gly-Asp (RGD) alrededor del poro central · Hacia: Agrupa integrinas αvβ3/αvβ5 en la [[zona de entrada|real-adv-entry]] para inducir [[vesículas|vesicle]] y liberar el vértice.',
       scientific:
@@ -579,9 +579,9 @@ export const PHAGE_DNA_VIRUS_NODE_LENSES: NodeLensMap = {
   'adv-fiber-real': {
     en: {
       simple:
-        'Like an Inspector Gadget grappling boom sticking 30 nanometers out of every corner, this rigid three-strand antenna reaches between airway cells to hook hidden docking locks.',
+        'Sticking thirty nanometers out from every corner, this rigid three-stranded antenna ends in a rounded knob that fishes for tight-junction proteins between human airway cells.',
       story:
-        'Plugged into the [[penton corner ring|adv-penton-real]], this 30-nanometer Inspector Gadget mast reaches past mucus to slip its knob between cells and snag [[tight-junction CAR|cell-junction]]. When drifting membrane currents yank sideways at the [[entry zone|real-adv-entry]], the shaft snaps loose like a rocket booster stage—kicking off the [[adenovirus|real-adenovirus]] break-in!',
+        'Anchored by its base inside the [[penton corner ring|adv-penton-real]], this slender triple-spiral mast reaches past surface mucus to slip its terminal knob between airway cells and snag [[tight-junction CAR|cell-junction]]. When the cell’s drifting membrane tugs sideways against that high-affinity grip, the shaft flexes and snaps free at the [[entry zone|real-adv-entry]]—serving as the first sacrificial stage of the [[adenovirus|real-adenovirus]] break-in.',
       blueprint:
         'Role: Long-range primary receptor-fishing antenna and mechanical uncoating lever · From: Anchored via N-terminal tails into the central pore of [[Penton base|adv-penton-real]] · Inside: Triple β-spiral shaft of 22 pseudo-repeats topped by a trimeric β-sandwich receptor Knob · To: Tethers [[tight-junction CAR|cell-junction]] at [[entry site|real-adv-entry]], bends to present Penton RGD loops, and sheds upon entry.',
       scientific:
@@ -589,9 +589,9 @@ export const PHAGE_DNA_VIRUS_NODE_LENSES: NodeLensMap = {
     },
     es: {
       simple:
-        'Como un brazo extensible del Inspector Gadget proyectado 30 nanómetros desde cada esquina, esta antena rígida se cuela entre células respiratorias para pescar cerraduras ocultas.',
+        'Sobresaliendo treinta nanómetros desde cada esquina, esta antena rígida de tres hebras termina en un botón redondeado que pesca proteínas de unión entre las células de las vías respiratorias.',
       story:
-        'Encajado en el [[anillo de pentón|adv-penton-real]], este mástil de 30 nanómetros digno del Inspector Gadget supera el moco para colar su botón entre células y atrapar [[receptores CAR de unión celular|cell-junction]]. Al tirar la membrana en la [[zona de entrada|real-adv-entry]], la antena salta como la primera etapa de un cohete, iniciando el asalto del [[adenovirus|real-adenovirus]].',
+        'Clavado por su base en el [[anillo de pentón|adv-penton-real]], este mástil en triple espiral asoma sobre el moco epitelial para colar su botón terminal entre dos células y enganchar [[receptores CAR de unión celular|cell-junction]]. Cuando la deriva de la membrana tira de ese agarre férreo en la [[zona de entrada|real-adv-entry]], el mástil se dobla y acaba soltándose como la primera etapa descartable del asalto del [[adenovirus|real-adenovirus]].',
       blueprint:
         'Rol: Antena primaria de captura de receptor a larga distancia y palanca de desencapsidado · Desde: Anclada por colas N-terminales en el poro central de la [[base de Pentón|adv-penton-real]] · Dentro: Eje en triple espiral β (22 repeticiones) rematado por el botón homotrimérico C-terminal · Hacia: Fija [[CAR epitelial|cell-junction]] en la [[entrada|real-adv-entry]], se flexiona para acercar el Pentón y se desprende.',
       scientific:
@@ -602,9 +602,9 @@ export const PHAGE_DNA_VIRUS_NODE_LENSES: NodeLensMap = {
   'real-tmv': {
     en: {
       simple:
-        'Built like an armored Dune sandworm cylinder of 2,130 identical spiral bricks, Tobacco Mosaic Virus shrugs off decades in dry leaves—then unzips inside a wounded plant to tunnel cell-to-cell.',
+        'Tobacco Mosaic Virus is a rigid, hollow protein rod built from 2,130 identical tiles wound in a spiral around a single strand of RNA. Outside a plant it can survive decades in dried leaves; inside a wounded leaf cell, it unzips and tunnels from cell to cell.',
       story:
-        'Decades in dry cigar tins cannot crack 2,130 [[coat tiles|tmv-sub-real]] locked around a single [[RNA|rna]] spring—until a beetle bite drops this Dune-tough cylinder into low-calcium sap! That trips the [[central channel switch|real-tmv-channel]], popping top bricks loose so a plant [[ribosome|ribosome]] strips the armor while forging MP30 crowbars to pry open [[plasmodesmata|plasmodesma]] wall tunnels for an Ocean’s Eleven heist next door.',
+        'Decades in dry soil or scorching sun cannot crack these 2,130 identical [[coat tiles|tmv-sub-real]] snapped around a single [[RNA|rna]] spring—until a chewing beetle scrapes open a leaf cell. Plunging into low-calcium cytosol flips the [[central channel switch|real-tmv-channel]], popping the top tiles loose so a plant [[ribosome|ribosome]] strips off the remaining armor while reading its genes, forging MP30 crowbars that pry open [[plasmodesmata|plasmodesma]] tunnels to march naked viral RNA into neighboring cells.',
       blueprint:
         'Role: Hyper-stable helical rod virion and cell-to-cell plant pathogen · From: Mechanical leaf wound entry into low-Ca²⁺ [[plant cytosol|cytosol]] · Inside: 2,130 [[coat monomers|tmv-sub-real]] in a 16⅓-per-turn [[helical lattice|real-tmv-helix]] shielding 6,395 nt [[(+)ssRNA|rna]] around a [[4 nm Ca²⁺-gated lumen|real-tmv-channel]] · To: Uncoats on [[80S ribosomes|ribosome]], replicates, and spreads via MP30-dilated [[plasmodesmata|plasmodesma]].',
       scientific:
@@ -612,9 +612,9 @@ export const PHAGE_DNA_VIRUS_NODE_LENSES: NodeLensMap = {
     },
     es: {
       simple:
-        'Construido como un gusano de arena de Dune blindado con 2,130 ladrillos idénticos en espiral, el VMT resiste décadas en hojas secas y luego abre túneles de célula en célula al entrar en una planta.',
+        'El virus del mosaico del tabaco es un bastón proteico hueco y rígido hecho de 2,130 piezas idénticas en espiral alrededor de una sola hebra de ARN. Fuera de la planta resiste décadas en hojas secas; dentro de una hoja herida, se abre y cruza de célula en célula.',
       story:
-        'Ni décadas en tabaco seco rompen las 2,130 [[losetas idénticas de cubierta|tmv-sub-real]] cerradas sobre su muelle de [[ARN|rna]], hasta que un insecto arroja este cilindro digno de Dune a una hoja herida. La caída de calcio dispara el [[interruptor del canal central|real-tmv-channel]] para que un [[ribosoma|ribosome]] desnude el bastón y fabrique palancas MP30 que fuerzan los [[plasmodesmos|plasmodesma]] al estilo Ocean’s Eleven.',
+        'Ni décadas en hojas secas ni el sol abrasador logran quebrar las 2,130 [[losetas idénticas de cubierta|tmv-sub-real]] encajadas sobre su muelle de [[ARN|rna]], hasta que un insecto rasga una célula foliar. La caída brusca de calcio activa el [[interruptor del canal central|real-tmv-channel]] y afloja la punta para que un [[ribosoma|ribosome]] vegetal desnude el bastón mientras traduce sus genes, fabricando proteínas MP30 que fuerzan los túneles [[plasmodesmos|plasmodesma]] para infiltrar las células vecinas.',
       blueprint:
         'Rol: Virión helicoidal hiperestable y corredor intercelular vegetal · Desde: Entrada mecánica por herida foliar al [[citosol vegetal|cytosol]] bajo en Ca²⁺ · Dentro: 2,130 [[monómeros de cubierta|tmv-sub-real]] en [[hélice de 16⅓ piezas/vuelta|real-tmv-helix]] protegiendo 6,395 nt de [[ARNmc(+)|rna]] en torno al [[canal de 4 nm|real-tmv-channel]] · Hacia: Se desnuda en [[ribosomas 80S|ribosome]] y cruza [[plasmodesmos|plasmodesma]] dilatados por MP30.',
       scientific:
@@ -625,9 +625,9 @@ export const PHAGE_DNA_VIRUS_NODE_LENSES: NodeLensMap = {
   'real-tmv-helix': {
     en: {
       simple:
-        'Like spiral LEGO Technic armor five nanometers thick, every protein brick in the wall cradles three letters of RNA inside a snug groove where leaf-chewing enzymes cannot touch it.',
+        'Looking closely at the spiral wall, every protein brick cradles exactly three RNA letters in a snug inner groove, hiding the fragile genetic thread under five nanometers of solid protein armor.',
       story:
-        'Click together 130 spiral turns of [[16⅓ protein bricks|tmv-turn-real]] and a fragile [[RNA|rna]] scroll becomes tougher than Dwarven Moria stone against plant nucleases! Each four-helix [[coat monomer|tmv-sub-real]] hugs three [[nucleotides|nucleotide]] at a four-nanometer radius, keeping the heist blueprint bone-dry until a host ribosome yanks the 5′ fuse free.',
+        'Snap together 130 spiral turns of [[16⅓ protein bricks|tmv-turn-real]] and a delicate [[RNA|rna]] message becomes tougher than cured timber against leaf-chewing enzymes. Each four-helix [[coat monomer|tmv-sub-real]] clamps three RNA [[nucleotides|nucleotide]] at a four-nanometer radius—holding the genetic fuse dry and safe until a cytosolic ribosome yanks the 5′ end free to start the heist.',
       blueprint:
         'Role: Right-handed ribonucleoprotein armor lattice and RNase shield · From: Coaxial stacking of [[lock-washer discs|real-tmv-assembly]] along viral RNA · Inside: Radial [[alpha-helix|alpha-helix]] bundles of [[coat monomers|tmv-sub-real]] binding 3 [[nucleotides|nucleotide]] per subunit at r = 4.0 nm · To: Shields [[(+)ssRNA|rna]] outside the host and releases it sequentially during co-translational stripping.',
       scientific:
@@ -635,9 +635,9 @@ export const PHAGE_DNA_VIRUS_NODE_LENSES: NodeLensMap = {
     },
     es: {
       simple:
-        'Como un blindaje en espiral de LEGO Technic de cinco nanómetros de grosor, cada ladrillo proteico abraza tres letras de ARN en una ranura interna lejos de las enzimas destructoras.',
+        'Visto de cerca en la pared espiral, cada ladrillo proteico abraza exactamente tres letras de ARN en una ranura interna, ocultando el frágil hilo genético bajo cinco nanómetros de blindaje sólido.',
       story:
-        'Ensambla 130 giros espirales de [[16⅓ ladrillos por giro|tmv-turn-real]] y un frágil rollo de [[ARN|rna]] resistirá mejor que piedra enana de Moria frente a las nucleasas de la hoja. Cada [[monómero de cuatro hélices|tmv-sub-real]] sujeta tres [[nucleótidos|nucleotide]] a cuatro nanómetros del eje, protegiendo la mecha genética hasta que un ribosoma tira de la punta 5′.',
+        'Basta ensamblar 130 vueltas espirales de [[16⅓ ladrillos por giro|tmv-turn-real]] para que un delicado mensaje de [[ARN|rna]] resista mejor que la madera seca frente a las enzimas destructoras de la hoja. Cada [[monómero de cuatro hélices|tmv-sub-real]] sujeta tres [[nucleótidos|nucleotide]] a cuatro nanómetros del eje, guardando intacta la mecha genética hasta que un ribosoma tira del extremo 5′ para iniciar el golpe.',
       blueprint:
         'Rol: Red ribonucleoproteica dextrógira de blindaje frente a ribonucleasas · Desde: Apilamiento coaxial de [[discos en arandela|real-tmv-assembly]] sobre el ARN viral · Dentro: Haces radiales de [[hélices alfa|alpha-helix]] en [[monómeros|tmv-sub-real]] que fijan 3 [[nucleótidos|nucleotide]] cada uno a r = 4.0 nm · Hacia: Protege el [[ARNmc(+)|rna]] en el exterior y lo cede durante el desnudamiento cotraduccional.',
       scientific:
@@ -648,9 +648,9 @@ export const PHAGE_DNA_VIRUS_NODE_LENSES: NodeLensMap = {
   'real-tmv-channel': {
     en: {
       simple:
-        'Wired like Indiana Jones’s golden-idol pressure trap, the virus’s watery center tunnel stays calm while calcium ions weight it down outside—but pops the lid off the instant calcium vanishes inside a cell!',
+        'Running right down the center of the virus is a narrow water-filled tunnel lined with negatively charged chemical triggers. Calcium ions outside the cell lock those triggers calm, but the low-calcium interior of a living cell makes them repel each other and pop the rod open.',
       story:
-        'How does a brainless rod know it just entered a living leaf? Down its 4-nanometer [[water-filled lumen|water]], negative acid rings on every [[helical turn|tmv-turn-real]] stay pinned calm outside by calcium Counterweights; drop into low-calcium [[plant cytosol|cytosol]]—just like swapping Indy’s idol—and calcium rushes out, negative charges shove apart, and [[viral RNA|rna]] springs free for a [[ribosome|ribosome]]!',
+        'How does an indestructible vault know the exact moment it has entered a living leaf? Down this 4-nanometer [[water-filled lumen|water]], clusters of negatively charged acid groups on every [[helical turn|tmv-turn-real]] stay pinned together outside the plant by positively charged calcium bridges; the instant the rod slips into low-calcium [[plant cytosol|cytosol]], calcium washes out, negative charges shove one another apart, and the 5′ cap of [[viral RNA|rna]] springs loose for a waiting [[ribosome|ribosome]].',
       blueprint:
         'Role: Electrostatic Ca²⁺/H⁺ environmental sensor and uncoating trigger · From: Extracellular sap (millimolar Ca²⁺, acidic pH) into wounded [[cytosol|cytosol]] (nanomolar Ca²⁺, pH 7.5) · Inside: 4.0 nm central channel lined by carboxylate clusters across [[coat monomers|tmv-sub-real]] · To: Loss of Ca²⁺/H⁺ destabilizes 5′-end [[helical turns|tmv-turn-real]] to expose [[RNA|rna]] to [[ribosomes|ribosome]].',
       scientific:
@@ -658,9 +658,9 @@ export const PHAGE_DNA_VIRUS_NODE_LENSES: NodeLensMap = {
     },
     es: {
       simple:
-        'Conectado como el pedestal trampa del ídolo de Indiana Jones, el túnel acuoso central viaja quieto mientras el calcio exterior lo sujeta, pero hace saltar la tapa apenas entra al interior sin calcio de la célula.',
+        'Por todo el centro del virus corre un estrecho túnel lleno de agua tapizado con interruptores de carga negativa. Fuera de la célula el calcio los mantiene quietos, pero el interior pobre en calcio de una célula viva hace que se repelan y abran el bastón.',
       story:
-        '¿Cómo sabe un cilindro sin cerebro que ya está dentro de una hoja viva? Por su conducto de [[agua|water]] de 4 nanómetros, anillos negativos de cada [[giro helicoidal|tmv-turn-real]] viajan sujetos por puentes de calcio; al caer al [[citosol vegetal|cytosol]] sin calcio —igual que al quitar el ídolo de Indiana Jones—, las cargas se repelen y el [[ARN viral|rna]] salta hacia un [[ribosoma|ribosome]].',
+        '¿Cómo sabe un cilindro indestructible que acaba de entrar en una célula viva? A lo largo de este conducto de [[agua|water]] de cuatro nanómetros, anillos de cargas negativas en cada [[giro helicoidal|tmv-turn-real]] viajan sujetos desde fuera por puentes de calcio; apenas el bastón cae al [[citosol vegetal|cytosol]] pobre en calcio, los iones escapan, las cargas negativas se empujan con furia y la punta 5′ del [[ARN viral|rna]] salta libre hacia un [[ribosoma|ribosome]].',
       blueprint:
         'Rol: Sensor ambiental electrostático de Ca²⁺/H⁺ y disparador de desencapsidado · Desde: Savia extracelular (Ca²⁺ milimolar, pH ácido) hacia [[citosol|cytosol]] herido (Ca²⁺ nanomolar, pH 7.5) · Dentro: Lumen central de 4.0 nm tapizado por carboxilatos en [[monómeros de cubierta|tmv-sub-real]] · Hacia: La salida de Ca²⁺/H⁺ afloja los [[giros 5′|tmv-turn-real]] y expone el [[ARN|rna]] al [[ribosoma|ribosome]].',
       scientific:
@@ -671,9 +671,9 @@ export const PHAGE_DNA_VIRUS_NODE_LENSES: NodeLensMap = {
   'real-tmv-assembly': {
     en: {
       simple:
-        'Like Tony Stark’s Mark-42 Iron Man suit flying onto him piece by piece, flat two-layer protein washers spot a secret loop on viral RNA, twist into spiral lock-washers, and reel the thread inside.',
+        'New virus rods build themselves automatically without any outside machines: flat two-layer protein washers recognize a special loop on the viral RNA, snap into a spiral lock-washer, and reel the RNA thread up through the center hole.',
       story:
-        'At getaway time, with the cell flooded by fresh [[viral RNA|rna]] and loose [[coat subunits|tmv-sub-real]], the armor suits up like Iron Man’s Mark-42 by pure physics! Two-layer 20S washers recognize a secret hairpin near the 3′ tail, snap into a spiral lock-washer to start the [[helix|real-tmv-helix]], and reel a traveling RNA loop up the [[4 nm central chimney|real-tmv-channel]] as new rings stack on.',
+        'Late in the heist, once neighboring cells are flooded with fresh copies of [[viral RNA|rna]] and thousands of newly minted [[coat subunits|tmv-sub-real]], the getaway armor builds itself by pure physics. Thirty-four-brick 20S discs sniff out a specific hairpin loop near the 3′ tail, twist into a split lock-washer to start the [[helix|real-tmv-helix]], and haul a traveling loop of RNA up the [[4 nm central chimney|real-tmv-channel]] as new washers snap onto the growing stack.',
       blueprint:
         'Role: Autonomous Origin-of-Assembly (OAS) nucleation and bidirectional rod elongation · From: Newly translated [[coat proteins|tmv-sub-real]] and progeny [[(+)ssRNA|rna]] in infected cytosol · Inside: Bilayer 34-subunit 20S discs convert on the OAS hairpin into proto-helical lock-washers · To: Reels 5′-tail RNA through the [[central 4 nm lumen|real-tmv-channel]] until a mature 300 nm [[TMV rod|real-tmv]] completes.',
       scientific:
@@ -681,9 +681,9 @@ export const PHAGE_DNA_VIRUS_NODE_LENSES: NodeLensMap = {
     },
     es: {
       simple:
-        'Como la armadura Mark-42 de Iron Man ensamblándose sola al vuelo, arandelas proteicas detectan un lazo secreto del ARN viral, saltan a espiral e izan todo el hilo por el tubo central.',
+        'Los nuevos bastones virales se arman solos sin ayuda externa: arandelas proteicas de dos capas reconocen un lazo especial del ARN viral, saltan a una forma en espiral e izan el hilo de ARN por el agujero central.',
       story:
-        'En la huida final, con la célula llena de [[ARN viral|rna]] y [[subunidades de cubierta|tmv-sub-real]], el blindaje se viste solo como el traje Mark-42 de Iron Man. Arandelas 20S de dos pisos detectan una horquilla secreta cerca del extremo 3′, saltan a espiral para fundar la [[hélice|real-tmv-helix]] e izan el ARN por la [[chimenea central de 4 nm|real-tmv-channel]] apilando anillo tras anillo.',
+        'En el tramo final del atraco, con la fábrica celular rebosante de copias nuevas de [[ARN viral|rna]] y miles de [[subunidades de cubierta|tmv-sub-real]], el blindaje de huida se ensambla por pura física. Discos 20S de 34 piezas detectan una horquilla secreta cerca de la cola 3′, se parten en arandela de presión para fundar la [[hélice|real-tmv-helix]] e izan un lazo viajero de ARN por la [[chimenea central de 4 nm|real-tmv-channel]] mientras nuevas arandelas coronan la torre.',
       blueprint:
         'Rol: Nucleación autónoma en la horquilla OAS y elongación del bastón · Desde: [[Proteínas de cubierta|tmv-sub-real]] recién traducidas y [[ARNmc(+)|rna]] progenie en el citosol · Dentro: Discos bicapa 20S (34 subunidades) pasan a arandela helicoidal al fijar el bucle OAS · Hacia: Tira de la cola 5′ del ARN por el [[canal central de 4 nm|real-tmv-channel]] hasta cerrar el [[bastón de 300 nm|real-tmv]].',
       scientific:
@@ -694,9 +694,9 @@ export const PHAGE_DNA_VIRUS_NODE_LENSES: NodeLensMap = {
   tmv: {
     en: {
       simple:
-        'Sleek as a lightsaber hilt, Tobacco Mosaic Virus is a 300-nanometer hollow cylinder whose exact length is measured automatically by the single RNA thread wound inside.',
+        'Seen on its own, Tobacco Mosaic Virus is perfection in miniature: a straight, 300-nanometer hollow cylinder whose length is set automatically by the length of the single RNA thread wound inside it.',
       story:
-        'Zero factory rulers measure out this lightsaber-straight 300-nanometer battering ram: stacking [[spiral turns|tmv-turn-real]] of [[coat bricks|tmv-sub-real]] stops the instant the last letter of [[viral RNA|rna]] tucks inside! Tough enough to survive boiling sap around its [[water-lined core|water]], it waits like a sleeper agent for pruning shears or a beetle jaw to open a fresh leaf.',
+        'No blueprint ruler is needed to measure out this 300-nanometer battering ram: stacking [[spiral turns|tmv-turn-real]] of [[coat bricks|tmv-sub-real]] simply stops the instant the last nucleotide of [[viral RNA|rna]] disappears inside. Tough enough to survive boiling sap and dry tobacco tins around a [[water-lined core|water]], it waits silently for a gardener’s shears or an insect jaw to carry it into a fresh green leaf.',
       blueprint:
         'Role: Isolated ruler-templated helical rod virion · From: Self-terminating encapsidation along the 6,395 nt [[RNA|rna]] template · Inside: ~130 [[helical turns|tmv-turn-real]] of [[coat monomers|tmv-sub-real]] surrounding a [[water-filled 4 nm channel|water]] · To: Uncoats and spreads cell-to-cell in the [[realistic plant infection scene|real-tmv]].',
       scientific:
@@ -704,9 +704,9 @@ export const PHAGE_DNA_VIRUS_NODE_LENSES: NodeLensMap = {
     },
     es: {
       simple:
-        'Recto como la empuñadura de un sable de luz, el virus del mosaico del tabaco es un cilindro hueco de 300 nanómetros cuyo largo queda fijado automáticamente por su hilo interno de ARN.',
+        'Visto en solitario, el virus del mosaico del tabaco es precisión pura: un cilindro hueco y recto de 300 nanómetros cuya longitud queda fijada automáticamente por el largo del hilo de ARN enrollado adentro.',
       story:
-        'Ninguna regla mide este ariete recto como un sable láser de 300 nanómetros: el apilamiento de [[giros espirales|tmv-turn-real]] de [[ladrillos proteicos|tmv-sub-real]] frena en seco al cubrir la última letra de [[ARN viral|rna]]. Capaz de resistir savia hirviente en torno a su [[núcleo acuoso|water]], aguarda como agente durmiente a que unas tijeras o un escarabajo le abran otra hoja.',
+        'Ninguna regla externa mide este ariete de 300 nanómetros: el apilamiento de [[giros espirales|tmv-turn-real]] de [[ladrillos proteicos|tmv-sub-real]] se detiene en seco cuando el último rincón del [[ARN viral|rna]] queda cubierto. Capaz de resistir savia hirviente en torno a su [[núcleo acuoso|water]], aguarda en silencio a que unas tijeras de poda o la mandíbula de un insecto le abran paso hacia una hoja fresca.',
       blueprint:
         'Rol: Virión helicoidal aislado cuya longitud la dicta el molde de ARN · Desde: Encapsidación autolimitada sobre los 6,395 nt de [[ARN|rna]] · Dentro: ~130 [[vueltas helicoidales|tmv-turn-real]] de [[monómeros de cubierta|tmv-sub-real]] en torno a un [[canal acuoso de 4 nm|water]] · Hacia: Ejecuta desencapsidado e invasión intercelular en la [[escena realista|real-tmv]].',
       scientific:
@@ -717,9 +717,9 @@ export const PHAGE_DNA_VIRUS_NODE_LENSES: NodeLensMap = {
   'tmv-turn-real': {
     en: {
       simple:
-        'Like staggered LEGO bricks built so vertical seams never line up, each spiral turn fits sixteen-and-a-third protein wedges around 49 RNA letters clipped neatly underneath.',
+        'One single spiral turn of the virus stacks just over sixteen wedge-shaped protein bricks in a ring, tucking 49 RNA letters neatly underneath like electrical wire clipped into a circular raceway.',
       story:
-        'Why sixteen-and-a-third [[protein wedges|tmv-sub-real]] per turn instead of an even sixteen? Master LEGO builders know the trick: offsetting every ring by a third of a brick stagger-locks the seams across three stories—clipping 49 letters of [[RNA|rna]] around the [[water-filled central bore|water]] so no vertical crack can ever split the [[TMV rod|real-tmv]].',
+        'Why sixteen-and-a-third [[protein wedges|tmv-sub-real]] per turn instead of an even sixteen? Because offsetting every ring by a third of a brick stagger-locks the seams across three full turns—like master masonry—wrapping 49 letters of [[RNA|rna]] around the [[water-filled central bore|water]] so no straight vertical crack can ever split the [[TMV rod|real-tmv]].',
       blueprint:
         'Role: Stagger-locked 16⅓-subunit helical repeat unit · From: Driven by proto-helical slip of [[20S assembly discs|real-tmv-assembly]] · Inside: 16⅓ wedge-shaped [[coat monomers|tmv-sub-real]] made of [[amino acids|amino-acid]] clasping 49 [[RNA|rna]] bases around a [[water lumen|water]] · To: Repeats ~130 times axially to build the rigid [[300 nm helix|real-tmv-helix]].',
       scientific:
@@ -727,9 +727,9 @@ export const PHAGE_DNA_VIRUS_NODE_LENSES: NodeLensMap = {
     },
     es: {
       simple:
-        'Como ladrillos LEGO colocados a matajunta para no alinear nunca las ranuras, cada vuelta espiral reúne dieciséis cuñas y un tercio sujetando debajo 49 letras de ARN.',
+        'Una sola vuelta en espiral del virus reúne poco más de dieciséis cuñas proteicas en anillo, sujetando debajo 49 letras de ARN como un cable eléctrico encajado en una canaleta circular.',
       story:
-        '¿Por qué dieciséis [[cuñas proteicas|tmv-sub-real]] y un tercio por giro en vez de dieciséis exactas? Todo maestro de LEGO conoce el truco: desfasar cada anillo un tercio traba las juntas a lo largo de tres pisos, fijando 49 letras de [[ARN|rna]] alrededor del [[conducto de agua|water]] para que ninguna grieta vertical parta el [[bastón del VMT|real-tmv]].',
+        '¿Por qué dieciséis [[cuñas proteicas|tmv-sub-real]] y un tercio por giro en vez de dieciséis exactas? Porque desfasar cada vuelta un tercio de ladrillo traba las juntas a lo largo de tres pisos —como mampostería maestra—, abrazando 49 bases de [[ARN|rna]] en torno al [[conducto de agua|water]] para que ninguna grieta recta pueda partir jamás el [[bastón del VMT|real-tmv]].',
       blueprint:
         'Rol: Unidad repetitiva helicoidal trabada de 16⅓ subunidades · Desde: Generada por el deslizamiento en arandela de los [[discos 20S|real-tmv-assembly]] · Dentro: 16⅓ [[monómeros de cubierta|tmv-sub-real]] formados por [[aminoácidos|amino-acid]] que sujetan 49 bases de [[ARN|rna]] alrededor de [[agua|water]] · Hacia: Se repite ~130 veces para erigir la [[hélice de 300 nm|real-tmv-helix]].',
       scientific:
@@ -740,9 +740,9 @@ export const PHAGE_DNA_VIRUS_NODE_LENSES: NodeLensMap = {
   'tmv-sub-real': {
     en: {
       simple:
-        'With a tiny budget of genes, TMV builds its entire fortress by copy-pasting one Minecraft-style wedge brick 2,130 times—each carrying a notch that snaps over three RNA letters.',
+        'This single wedge-shaped protein brick is the entire building kit of the virus: four parallel protein rods bundled together, with a notch near the inner end that clasps three letters of viral RNA.',
       story:
-        'Too travel-light to pack dozens of fancy parts, [[TMV|real-tmv]] pulls a speedrunner move—cloning one 158-[[amino-acid|amino-acid]] brick 2,130 times! Four bundled [[alpha-helices|alpha-helix]] form a wedge whose inner jaw clamps three [[RNA nucleotides|nucleotide]] tight outside the leaf, then pops off brick by brick as a host ribosome Pac-Mans down the strand.',
+        'With a tiny genome that cannot afford dozens of fancy parts, [[TMV|real-tmv]] bets the whole heist on 2,130 copies of one 158-[[amino-acid|amino-acid]] brick. Four tight [[alpha-helices|alpha-helix]] form a tapered wedge whose inner jaw snaps over three [[RNA nucleotides|nucleotide]]—locking shut outside the plant, then letting go one brick at a time as a host ribosome bulldozes down the genetic track.',
       blueprint:
         'Role: Minimalist asymmetric building block and 3-nucleotide RNA clamp · From: Translated abundantly from subgenomic coat-protein mRNA late in infection · Inside: 158 [[amino acids|amino-acid]] folded into a four-[[alpha-helix|alpha-helix]] bundle clasping three [[nucleotides|nucleotide]] · To: Polymerizes into [[16⅓-subunit turns|tmv-turn-real]] to armor progeny [[TMV virions|real-tmv]].',
       scientific:
@@ -750,9 +750,9 @@ export const PHAGE_DNA_VIRUS_NODE_LENSES: NodeLensMap = {
     },
     es: {
       simple:
-        'Con un presupuesto mínimo de genes, el VMT levanta toda su fortaleza copiando 2,130 veces un mismo ladrillo estilo Minecraft cuya muesca interior atrapa tres letras de ARN.',
+        'Este único ladrillo proteico en forma de cuña es todo el juego de construcción del virus: cuatro bastoncillos paralelos agrupados, con una muesca en la punta interior que sujeta tres letras de ARN.',
       story:
-        'Con un genoma demasiado compacto para lujos, el [[VMT|real-tmv]] aplica táctica de speedrunner clonando 2,130 veces un solo ladrillo de 158 [[aminoácidos|amino-acid]]. Cuatro [[hélices alfa|alpha-helix]] forman una cuña que muerde tres [[nucleótidos de ARN|nucleotide]] fuera de la planta y se suelta pieza a pieza cuando un ribosoma avanza a lo Pac-Man por la hebra.',
+        'Con un genoma diminuto que no puede permitirse decenas de piezas distintas, el [[VMT|real-tmv]] se juega todo el golpe con 2,130 copias idénticas de un ladrillo de 158 [[aminoácidos|amino-acid]]. Cuatro [[hélices alfa|alpha-helix]] forman una cuña cuya mandíbula interna atrapa tres [[nucleótidos de ARN|nucleotide]], cerrándose como un candado fuera de la hoja y soltándose pieza a pieza cuando un ribosoma avanza leyendo la pista.',
       blueprint:
         'Rol: Unidad asimétrica mínima de construcción y pinza de tres nucleótidos · Desde: Traducida masivamente a partir del ARNm subgenómico tardío · Dentro: 158 [[aminoácidos|amino-acid]] en un haz de cuatro [[hélices alfa|alpha-helix]] abrazando tres [[nucleótidos|nucleotide]] · Hacia: Polimeriza en [[vueltas de 16⅓ piezas|tmv-turn-real]] para blindar nuevos [[viriones VMT|real-tmv]].',
       scientific:
@@ -767,9 +767,9 @@ export const PHAGE_DNA_VIRUS_PART_LENSES: PagePartLensMap = {
       en: {
         subtitle: 'The 500-Atmosphere Chainmail Vault',
         simple:
-          'Nine hundred and thirty Beskar-style protein plates lock into an elongated hexagonal pressure tank, caging coiled viral DNA at dozens of atmospheres.',
+          'Nine hundred and thirty interlocking protein plates form an elongated hexagonal tank that holds the phage’s tightly coiled DNA under crushing internal pressure.',
         story:
-          'Folded inside Iron Man-style [[GroEL chaperones|groel]] and hardened by protease cuts, 155 [[gp23* hexamers|gp23-real]] weld into a sleek prolate pressure tank. Strapped outside by Soc roll-cages and riveted at the corners by [[gp24* pentamers|gp24-real]], this hull cages 169,000 base pairs of coiled [[DNA|dna]] until the [[gp20 portal|gp20-real]] blasts open!',
+          'Forged inside a doomed bacterium with the help of [[GroEL chaperones|groel]] and hardened by protease cuts, 155 [[gp23* hexamers|gp23-real]] lock edges to create a sleek prolate pressure vessel. Reinforced outside by Soc clamps and sealed at the corners by [[gp24* pentamers|gp24-real]], this chainmail vault holds back the furious push of 169,000 base pairs of [[DNA|dna]] until the [[gp20 portal|gp20-real]] opens fire.',
         blueprint: {
           role: 'Primary load-bearing prolate icosahedral shell',
           arrivesFrom: 'Prohead assembly around gp22 scaffold and folding via [[GroEL|groel]]/gp31',
@@ -791,9 +791,9 @@ export const PHAGE_DNA_VIRUS_PART_LENSES: PagePartLensMap = {
       es: {
         subtitle: 'La bóveda de cota de malla a alta presión',
         simple:
-          'Novecientas treinta placas proteicas dignas del beskar encajan en un tanque hexagonal alargado que retiene el ADN viral a decenas de atmósferas.',
+          'Novecientas treinta placas proteicas entrelazadas forman un tanque hexagonal alargado que retiene el ADN enrollado bajo una presión interna descomunal.',
         story:
-          'Plegados en cabinas [[chaperonas GroEL|groel]] estilo Iron Man y templados por proteasas, 155 [[hexámeros gp23*|gp23-real]] forman un tanque blindado alargado. Sujeto con jaulas Soc y remachado en los vértices por [[pentámeros gp24*|gp24-real]], este casco retiene 169,000 pares de bases de [[ADN|dna]] hasta que el [[portal gp20|gp20-real]] abre fuego.',
+          'Plegados con ayuda de [[chaperonas GroEL|groel]] y templados a golpes de proteasa, 155 [[hexámeros gp23*|gp23-real]] encajan borde con borde para levantar un tanque blindado alargado. Sujeto por fuera con grapas Soc y cerrado en las esquinas por [[pentámeros gp24*|gp24-real]], este muro de cota de malla contiene el empuje feroz de 169,000 pares de bases de [[ADN|dna]] hasta que el [[portal gp20|gp20-real]] abre fuego.',
         blueprint: {
           role: 'Carcasa estructural primaria icosaédrica prolata',
           arrivesFrom: 'Procápside ensamblada sobre gp22 y plegada mediante [[GroEL|groel]]/gp31',
@@ -818,9 +818,9 @@ export const PHAGE_DNA_VIRUS_PART_LENSES: PagePartLensMap = {
       en: {
         subtitle: 'External Roll-Cage Clamps & Mucus Anchors',
         simple:
-          'Like a Mad Max external roll cage bolted over armor seams, hundreds of tiny Soc clamps keep heat or pressure from splitting the head, while Hoc spikes snag gut mucus to ambush bacteria.',
+          'Hundreds of tiny clamp proteins staple neighboring head tiles together from the outside so heat, acid, or internal DNA pressure cannot split the seams, while tall central spikes help the phage cling to gut mucus.',
         story:
-          'Once the [[capsid shell|real-phage-capsid]] pops to full size, 810 Soc clamps bolt across the seams between [[gp23* hexamers|gp23-real]] like a Mad Max War Rig roll cage. Sprouting from each hexagon’s bullseye, 155 Hoc Velcro-antennas snag gut mucus so the lander camps right along the highway where [[target bacteria|real-bacterium]] cruise past!',
+          'Only after the [[capsid shell|real-phage-capsid]] expands to full size do 810 Soc clamps snap over the seams between [[gp23* hexamers|gp23-real]] like an external roll cage bolted onto an armored car. Rising from the middle of every hexagon, 155 Hoc antennas snag gut mucin sugars so the lander lurks right where [[target bacteria|real-bacterium]] swim past.',
         blueprint: {
           role: 'External capsid cross-bracing lattice and mucin-tethering display',
           arrivesFrom: 'Spontaneously binds expanded [[gp23* hexamer|gp23-real]] interfaces post-maturation',
@@ -842,9 +842,9 @@ export const PHAGE_DNA_VIRUS_PART_LENSES: PagePartLensMap = {
       es: {
         subtitle: 'Jaula antivuelco externa y anclas de moco',
         simple:
-          'Como una jaula antivuelco de Mad Max atornillada sobre las costuras, cientos de grapas Soc impiden que la cabeza estalle mientras espigas Hoc se enganchan al moco para emboscar bacterias.',
+          'Cientos de diminutas grapas proteicas sueldan por fuera las placas vecinas de la cabeza para que ni el ácido ni la presión interna abran las costuras, mientras espigas centrales ayudan al fago a sujetarse al moco intestinal.',
         story:
-          'Apenas la [[cápside|real-phage-capsid]] se expande al máximo, 810 grapas Soc abrochan las juntas entre [[hexámeros gp23*|gp23-real]] como la jaula blindada de un camión de Mad Max. Del centro de cada hexágono brotan 155 antenas Hoc que se aferran al moco intestinal, apostando al cazador justo por donde patrullan las [[bacterias huésped|real-bacterium]].',
+          'Solo cuando la [[cápside|real-phage-capsid]] alcanza su tamaño definitivo se abrochan 810 grapas Soc sobre las juntas entre [[hexámeros gp23*|gp23-real]], como una jaula antivuelco atornillada sobre un furgón blindado. En el centro de cada hexágono se alzan además 155 antenas Hoc que se enganchan al moco intestinal, apostando al cazador justo por donde patrullan las [[bacterias huésped|real-bacterium]].',
         blueprint: {
           role: 'Arriostramiento externo de cápside y anclaje mucoso',
           arrivesFrom: 'Se acopla espontáneamente a las juntas de [[hexámeros gp23*|gp23-real]] expandidos',
@@ -869,9 +869,9 @@ export const PHAGE_DNA_VIRUS_PART_LENSES: PagePartLensMap = {
       en: {
         subtitle: 'The Eleven Corner Keystones',
         simple:
-          'Like the pentagon panels that curve a soccer ball shut, eleven five-sided protein caps rivet the phage head’s sharpest corners into a leak-proof vault.',
+          'Eleven five-sided protein caps close the sharp corners of the phage head so the flat hexagonal walls can bend into a sealed container.',
         story:
-          'Where flat [[gp23* walls|gp23-real]] meet at steep angles, six-sided tiles alone would buckle under coiled [[DNA|dna]] pressure. Eleven [[gp24* pentamers|gp24-real]] rivet those high-stress corners like Nautilus submarine bolts, leaving only the twelfth bottom vertex open for the [[gp20 portal|gp20-real]] launch cannon.',
+          'Where flat [[gp23* walls|gp23-real]] meet at steep angles, ordinary six-sided tiles would buckle under the outward shove of spooled [[DNA|dna]]. Eleven [[gp24* pentamers|gp24-real]] lock those corners tight like iron rivets on a submarine hull, leaving only the bottom twelfth corner open for the [[gp20 portal|gp20-real]] launch tube.',
         blueprint: {
           role: 'Five-fold icosahedral corner closure capsomers',
           arrivesFrom: 'Co-assembles at 11 prohead corners and undergoes gp21 proteolytic cleavage',
@@ -893,9 +893,9 @@ export const PHAGE_DNA_VIRUS_PART_LENSES: PagePartLensMap = {
       es: {
         subtitle: 'Las once piedras angulares del blindaje',
         simple:
-          'Como los paneles pentagonales que cierran un balón de fútbol, once tapas de cinco lados remachan las esquinas agudas de la cabeza en una bóveda hermética.',
+          'Once tapas proteicas de cinco lados cierran las esquinas agudas de la cabeza del fago para que las paredes hexagonales puedan doblarse formando un envase hermético.',
         story:
-          'Donde los muros planos de [[hexámeros gp23*|gp23-real]] chocan en ángulo agudo, losetas de seis lados reventarían ante el [[ADN|dna]] comprimido. Once [[pentámeros gp24*|gp24-real]] remachan esas esquinas como pernos del submarino Nautilus, dejando libre solo el duodécimo vértice para la tobera del [[portal gp20|gp20-real]].',
+          'Allí donde los muros planos de [[hexámeros gp23*|gp23-real]] convergen en ángulo cerrado, una loseta de seis lados reventaría bajo el empuje del [[ADN|dna]] comprimido. Once [[pentámeros gp24*|gp24-real]] remachan esas esquinas como pernos de submarino, dejando abierta únicamente la duodécima esquina inferior para la tobera del [[portal gp20|gp20-real]].',
         blueprint: {
           role: 'Capsómeros pentaméricos de cierre de esquinas icosaédricas',
           arrivesFrom: 'Coensamblaje en 11 vértices de la procápside y corte madurativo por gp21',
@@ -920,9 +920,9 @@ export const PHAGE_DNA_VIRUS_PART_LENSES: PagePartLensMap = {
       en: {
         subtitle: 'The Sugar-Coated Coiled Harpoon',
         simple:
-          'Wearing Harry Potter-style sugar camouflage so bacterial DNA-scissors cannot chop it up, this coiled 169,000-letter blueprint rockets inside to take over the cell.',
+          'Wound in tight layers inside the head is a 169,000-letter DNA blueprint coated in sugar armor so the bacterium’s defensive DNA-scissors cannot chop it up once it rockets inside.',
         story:
-          'Crammed inside the [[capsid|real-phage-capsid]] like a coiled spring, this 57-micrometer [[DNA|dna]] scroll wears an invisibility cloak of glucose-glazed cytosines that blind E. coli’s CRISPR and restriction scissors! Once the [[gp19 tail tube|gp19-real]] kisses the [[inner membrane|plasma-membrane]], bottled pressure blasts the code straight to [[host RNA polymerase|rnap-ecoli]].',
+          'Crammed inside the [[capsid|real-phage-capsid]] until its negative charges strain like a compressed spring, this 57-micrometer [[DNA|dna]] payload wears chemical camouflage: modified cytosines glazed with glucose sugars blind the host’s restriction scissors. The instant the [[gp19 tail tube|gp19-real]] breaches the [[inner membrane|plasma-membrane]], internal pressure fires the entire takeover code into the cytoplasm to commandeer [[host RNA polymerase|rnap-ecoli]].',
         blueprint: {
           role: 'Pressurized, restriction-proof viral genome payload',
           arrivesFrom: 'Concatemeric headful packaging (~102% genome) pumped through [[gp20 portal|gp20-real]] by gp17 ATPase',
@@ -944,9 +944,9 @@ export const PHAGE_DNA_VIRUS_PART_LENSES: PagePartLensMap = {
       es: {
         subtitle: 'El arpón genético recubierto de azúcar',
         simple:
-          'Cubierto con una capa de invisibilidad de azúcares al estilo Harry Potter que ciega las tijeras defensivas bacterianas, este plano de 169,000 letras entra disparado para tomar la célula.',
+          'Enrollado en capas apretadas dentro de la cabeza viaja un plano de ADN de 169,000 letras recubierto con azúcares protectores para que las tijeras defensivas de la bacteria no puedan cortarlo al entrar.',
         story:
-          'Comprimido en la [[cápside|real-phage-capsid]] como un muelle ardiente, este rollo de [[ADN|dna]] viste una capa de invisibilidad de glucosa que burla las tijeras de restricción del huésped. Apenas el [[tubo caudal gp19|gp19-real]] besa la [[membrana interna|plasma-membrane]], la presión dispara el código pirata directo hacia la [[ARN polimerasa bacteriana|rnap-ecoli]].',
+          'Comprimida dentro de la [[cápside|real-phage-capsid]] hasta que sus cargas negativas empujan como un muelle al rojo vivo, esta hebra de [[ADN|dna]] de 57 micrómetros viste camuflaje químico: citosinas modificadas bañadas en glucosa que ciegan las tijeras de restricción del huésped. Apenas el [[tubo caudal gp19|gp19-real]] alcanza la [[membrana interna|plasma-membrane]], la presión dispara todo el código pirata directo hacia la [[ARN polimerasa bacteriana|rnap-ecoli]].',
         blueprint: {
           role: 'Carga genómica presurizada resistente a endonucleasas de restricción',
           arrivesFrom: 'Empaquetamiento headful (~102%) bombeado a través del [[portal gp20|gp20-real]] por la ATPasa gp17',
@@ -971,9 +971,9 @@ export const PHAGE_DNA_VIRUS_PART_LENSES: PagePartLensMap = {
       en: {
         subtitle: 'Bodyguard Saboteurs Fired Ahead of the Genome',
         simple:
-          'Packed beside the DNA like John Wick’s advance breach team, saboteur proteins blast into the bacterium at the exact same instant to jam defenses and hotwire its gene printer.',
+          'Packed right alongside the DNA inside the head are special "saboteur" proteins that shoot into the bacterium at the exact same moment, jamming the host’s defenses and rewiring its gene-reading machine.',
         story:
-          'Hidden among the [[DNA coils|dna]] inside the [[capsid|real-phage-capsid]] waits a black-ops breach squad: hundreds of IPI* decoys plus the chemical sniper Alt. The millisecond the [[gp20 portal|gp20-real]] opens, these commandos rocket down the [[gp19 tube|gp19-real]] to jam E. coli’s anti-sugar nucleases and Agent-Smith-tag [[host RNA polymerase|rnap-ecoli]] into serving the phage!',
+          'First built as the inner mold around which the [[capsid|real-phage-capsid]] took shape, this protein core hides a commando squad among the [[DNA coils|dna]]: hundreds of IPI* decoys and the enzymatic sniper Alt. The instant the [[gp20 portal|gp20-real]] opens, these bodyguards blast down the [[gp19 tube|gp19-real]] right alongside the genome—blinding E. coli’s anti-sugar nucleases and chemically tagging [[host RNA polymerase|rnap-ecoli]] to obey viral orders first.',
         blueprint: {
           role: 'Assembly scaffold remnants and co-injected anti-defense saboteur proteins',
           arrivesFrom: 'Encapsidated inside prohead scaffold prior to gp21 maturation cleavage',
@@ -995,9 +995,9 @@ export const PHAGE_DNA_VIRUS_PART_LENSES: PagePartLensMap = {
       es: {
         subtitle: 'Saboteadores guardaespaldas disparados con el ADN',
         simple:
-          'Empaquetado junto al ADN como un comando de asalto de película de acción, un escuadrón de proteínas saboteadoras entra disparado al mismo tiempo para cegar defensas y trucar la imprenta celular.',
+          'Empaquetadas junto al ADN dentro de la cabeza viajan proteínas «saboteadoras» que entran disparadas en la bacteria en el mismo instante, bloqueando sus defensas y trucando su máquina lectora de genes.',
         story:
-          'Oculto entre las espiras de [[ADN|dna]] dentro de la [[cápside|real-phage-capsid]] viaja un comando de operaciones especiales: señuelos IPI* y el francotirador químico Alt. Al abrirse el [[portal gp20|gp20-real]], vuelan por el [[tubo gp19|gp19-real]] para bloquear las nucleasas enemigas y reprogramar a lo Agente Smith a la [[ARN polimerasa del huésped|rnap-ecoli]].',
+          'Nacido como el molde interno sobre el que creció la [[cápside|real-phage-capsid]], este núcleo esconde un comando de élite entre las espiras de [[ADN|dna]]: cientos de señuelos IPI* y el francotirador químico Alt. En cuanto se abre el [[portal gp20|gp20-real]], estos guardaespaldas vuelan por el [[tubo gp19|gp19-real]] escoltando al genoma para neutralizar las nucleasas enemigas y marcar químicamente a la [[ARN polimerasa del huésped|rnap-ecoli]] para que obedezca solo al fago.',
         blueprint: {
           role: 'Andamio interno madurado y comando proteico coinjectado',
           arrivesFrom: 'Coensamblado dentro de la procápside y procesado por la proteasa gp21',
@@ -1022,9 +1022,9 @@ export const PHAGE_DNA_VIRUS_PART_LENSES: PagePartLensMap = {
       en: {
         subtitle: 'The Twelve-Bladed Loading & Firing Valve',
         simple:
-          'Like the Death Star’s superlaser ring at the base of the head, this 12-part valve first reels DNA inside at record speed and then blasts it down the tail.',
+          'This twelve-part protein ring sits at the base of the head like the nozzle on a scuba tank—used first to pump DNA in under extreme pressure, and then to blast it out into the tail.',
         story:
-          'Every [[capsid|real-phage-capsid]] grows atop this 12-bladed [[gp20 turbine|gp20-real]], where biology’s fastest packaging motor burns ATP to cram 169,000 base pairs of [[DNA|dna]] uphill into the vault. Corked tight during the prowl, its gate snaps open when the [[tail|real-phage-tail]] fires—turning loading funnel into Death Star superlaser nozzle!',
+          'Every [[capsid|real-phage-capsid]] begins life anchored on this 12-subunit [[gp20 turbine|gp20-real]], where the fastest packaging motor known in biology burns ATP to cram 169,000 base pairs of [[DNA|dna]] uphill into the head. Corked tight by neck rings during the hunt, its inner tunnel loops snap open when the [[tail|real-phage-tail]] fires below, turning the loading funnel into a high-pressure cannon barrel.',
         blueprint: {
           role: 'Symmetry-bridging dodecameric portal and pressure-gating valve',
           arrivesFrom: 'Nucleates prohead on host inner membrane and docks pentameric gp17 terminase',
@@ -1046,9 +1046,9 @@ export const PHAGE_DNA_VIRUS_PART_LENSES: PagePartLensMap = {
       es: {
         subtitle: 'La válvula turbina de doce álabes',
         simple:
-          'Como el anillo del superláser de la Estrella de la Muerte en la base de la cabeza, esta válvula de 12 piezas mete primero el ADN a presión récord y luego lo dispara por la cola.',
+          'Este anillo de doce piezas en la base de la cabeza actúa como la grifería de una botella de buceo: sirve primero para inyectar el ADN a gran presión y después para dispararlo hacia la cola.',
         story:
-          'Toda [[cápside|real-phage-capsid]] crece sobre esta [[turbina gp20|gp20-real]] de 12 álabes, donde el motor biológico más veloz quema ATP para embutir 169,000 pares de bases de [[ADN|dna]] cuesta arriba. Taponada durante el acecho, se descorcha al disparar la [[cola|real-phage-tail]], convirtiendo el embudo en cañón digno de la Estrella de la Muerte.',
+          'Toda [[cápside|real-phage-capsid]] nace sobre esta [[turbina gp20|gp20-real]] de 12 subunidades, donde el motor biológico más potente conocido quema ATP para embutir 169,000 pares de bases de [[ADN|dna]] cuesta arriba. Taponada por el cuello durante la cacería, su compuerta interior se abre al disparar la [[cola|real-phage-tail]], transformando el embudo de carga en la recámara de un cañón.',
         blueprint: {
           role: 'Portal dodecamérico adaptador de simetría y válvula de presión',
           arrivesFrom: 'Nuclea la procápside en la membrana interna y acopla la terminasa gp17',
@@ -1073,9 +1073,9 @@ export const PHAGE_DNA_VIRUS_PART_LENSES: PagePartLensMap = {
       en: {
         subtitle: 'Weather-Sensing Whiskers & Safety Catch',
         simple:
-          'Sprouting six Doraemon-style cat whiskers around the phage’s neck, this collar tastes the water and folds the long legs up on safety lock whenever hunting conditions turn foul.',
+          'Around the narrow neck between head and tail sprout six slender "whiskers" that test the surrounding water—folding the phage’s long legs safely upward when conditions are bad for hunting.',
         story:
-          'Bolting the [[portal valve|gp20-real]] onto the cocked [[tail sheath|gp18-real]] is only half its job: six fibritin whiskers jut out like anime cat vibrissae to taste salt and acid. In cold or starving water where bacteria cannot build phages anyway, the whiskers hug the [[long tail fibers|phage-fiber]] up like X-wing S-foils until prime hunting returns!',
+          'Bolting the pressurized [[portal valve|gp20-real]] onto the cocked [[tail sheath|gp18-real]] is only half this neck’s job: six fibritin whiskers jut outward like a cat’s vibrissae to taste pH and salt levels. In cold, nutrient-starved, or acidic waters where bacteria cannot build phages anyway, those whiskers hug the [[long tail fibers|phage-fiber]] tight against the body as a safety catch—dropping the landing gear only when prime hunting returns.',
         blueprint: {
           role: 'Head-to-tail structural coupler and environmental safety interlock',
           arrivesFrom: 'gp13/gp14 seal filled [[gp20 portal|gp20-real]] and dock onto gp15-capped [[tail|real-phage-tail]]',
@@ -1097,9 +1097,9 @@ export const PHAGE_DNA_VIRUS_PART_LENSES: PagePartLensMap = {
       es: {
         subtitle: 'Bigotes sensores ambientales y seguro de caza',
         simple:
-          'Con seis bigotes felinos estilo Doraemon alrededor del cuello, este anillo prueba el agua y pliega las patas largas con el seguro puesto cuando el entorno es malo para cazar.',
+          'Alrededor del estrecho cuello entre la cabeza y la cola brotan seis finos «bigotes» que analizan el agua circundante: si las condiciones son malas para cazar, pliegan las patas largas hacia arriba como seguro.',
         story:
-          'Unir la [[válvula portal|gp20-real]] con la [[vaina caudal|gp18-real]] es solo mitad de su tarea: seis bigotes de fibritina asoman como antenas felinas para medir sal y acidez. En aguas heladas o pobres donde la presa no podría fabricar virus, pliegan las [[fibras largas|phage-fiber]] contra el cuerpo como alas de X-wing hasta hallar buena caza.',
+          'Atornillar la [[válvula portal|gp20-real]] presurizada sobre la [[vaina caudal|gp18-real]] es solo la mitad de su misión: seis bigotes de fibritina asoman como vibrisas felinas para tantear la salinidad y el pH. En aguas ácidas o heladas donde una bacteria moribunda no podría fabricar nuevos virus, esos bigotes abrazan las [[fibras largas|phage-fiber]] contra el fuselaje con el seguro puesto, bajando el tren de aterrizaje solo cuando vuelve la caza mayor.',
         blueprint: {
           role: 'Acoplador estructural cabeza-cola y seguro ambiental reversible',
           arrivesFrom: 'gp13/gp14 sellan el [[portal gp20|gp20-real]] lleno y se unen a la [[cola|real-phage-tail]] vía gp15',
@@ -1124,9 +1124,9 @@ export const PHAGE_DNA_VIRUS_PART_LENSES: PagePartLensMap = {
       en: {
         subtitle: 'The One-Shot Molecular Crossbow',
         simple:
-          'Like Evangelion Unit-01’s spring-loaded pile-bunker, 144 cocked protein blocks wrap the tail in 24 twisted rings—snapping to less than half height with zero fuel to drive the needle home.',
+          'One hundred and forty-four spring-loaded protein blocks wrap around the tail in twenty-four twisted rings. Without burning any fuel, they snap shut to less than half their height to drive the inner needle into the bacterium.',
         story:
-          'All the brute force of the lander’s strike sits coiled inside 24 twisted rings of [[gp18|gp18-real]] cocked during assembly. The millisecond the [[baseplate|real-phage-baseplate]] snaps into a shuriken star, a domino wave races up the sleeve: rings twist and crush from 92.5 to ~38 nanometers, slamming the [[gp19 inner tube|gp19-real]] through armor like an Evangelion pile-bunker!',
+          'Every ounce of violence in the lander’s strike is stored right here inside 24 twisted rings of [[gp18|gp18-real]] cocked during assembly. The millisecond the [[baseplate|real-phage-baseplate]] blooms into a star at the bottom, a wave of collapsing dominoes races upward to the collar: rings twist, widen, and crush from 92.5 down to ~36–42 nanometers, ramming the rigid [[gp19 inner tube|gp19-real]] through E. coli’s armor like a pneumatic pile driver.',
         blueprint: {
           role: 'Metastable ATP-independent linear force generator',
           arrivesFrom: 'Assembles in high-energy extended conformation from [[baseplate|real-phage-baseplate]] to gp15 neck',
@@ -1148,9 +1148,9 @@ export const PHAGE_DNA_VIRUS_PART_LENSES: PagePartLensMap = {
       es: {
         subtitle: 'La ballesta molecular de un solo disparo',
         simple:
-          'Como el martinete cargado por resorte del EVA-01 en Evangelion, 144 bloques tensados en 24 anillos se encogen a menos de la mitad sin quemar combustible para clavar la aguja.',
+          'Ciento cuarenta y cuatro bloques cargados por resorte rodean la cola en veinticuatro anillos retorcidos. Sin gastar combustible en el ataque, se encogen a menos de la mitad para clavar la aguja interior en la bacteria.',
         story:
-          'Toda la violencia del impacto aguarda en 24 anillos retorcidos de [[gp18|gp18-real]] armados de fábrica. En el milisegundo en que la [[placa basal|real-phage-baseplate]] estalla abajo en shuriken, una ola de dominó encoge la manga de 92.5 a ~38 nanómetros, hundiendo el [[tubo interno gp19|gp19-real]] en la coraza como el martinete de Evangelion.',
+          'Toda la brutalidad del impacto del fago está almacenada aquí dentro, en 24 anillos retorcidos de [[gp18|gp18-real]] tensados durante su fabricación. En el milisegundo en que la [[placa basal|real-phage-baseplate]] se abre abajo como una estrella, una ola de fichas de dominó trepa hasta el cuello: los anillos giran, se ensanchan y colapsan de 92.5 a ~36–42 nanómetros, hundiendo el [[tubo interno gp19|gp19-real]] en la coraza bacteriana como un martinete neumático.',
         blueprint: {
           role: 'Generador lineal de fuerza metaestable independiente de ATP',
           arrivesFrom: 'Polimeriza en conformación extendida de alta energía desde la [[placa basal|real-phage-baseplate]] hasta gp15',
@@ -1175,9 +1175,9 @@ export const PHAGE_DNA_VIRUS_PART_LENSES: PagePartLensMap = {
       en: {
         subtitle: 'The Frictionless Hypodermic Barrel',
         simple:
-          'Sliding down the center like a frictionless maglev train tunnel, this rigid smooth pipe punches through the breached wall to shoot DNA straight into the bacterium.',
+          'Running down the core of the tail is a rigid, smooth-walled protein pipe that punches straight through the breached cell wall to pipe viral DNA into the bacterium.',
         story:
-          'Driven like an oil-rig drill stem by the crunching [[gp18 sheath|gp18-real]], 24 rings of [[gp19|gp19-real]] push the [[gp5 needle|gp5-real]] across the breached wall to kiss the [[inner membrane|plasma-membrane]]. Its negatively charged 4-nanometer bore repels negative [[DNA|dna]] like a maglev railgun, gliding 169 kilobases inside on an electrostatic cushion!',
+          'Driven downward like a drill stem by the collapsing [[gp18 sheath|gp18-real]], 24 stacked rings of [[gp19|gp19-real]] push the [[gp5 needle|gp5-real]] through outer armor and across the chewed-out wall until the open pipe docks against the [[inner membrane|plasma-membrane]]. Because its four-nanometer bore is lined with negative charges that repel negatively charged [[DNA|dna]], the entire 169-kilobase genome glides into the cell on an electrostatic cushion.',
         blueprint: {
           role: 'Rigid transmembrane injection barrel and electrostatic DNA waveguide',
           arrivesFrom: 'Polymerizes atop [[gp27–gp5 hub|gp5-real]] to exact 24-ring length set by gp29 tape-measure',
@@ -1199,9 +1199,9 @@ export const PHAGE_DNA_VIRUS_PART_LENSES: PagePartLensMap = {
       es: {
         subtitle: 'El cañón hipodérmico sin fricción',
         simple:
-          'Deslizándose por el eje como un túnel de tren de levitación magnética, este tubo rígido y liso atraviesa la muralla abierta para disparar el ADN dentro de la bacteria.',
+          'Por el centro de la cola corre un tubo proteico rígido y de paredes lisas que atraviesa la pared perforada para inyectar el ADN viral dentro de la bacteria.',
         story:
-          'Impulsados por el colapso de la [[vaina gp18|gp18-real]], 24 anillos de [[gp19|gp19-real]] empujan la [[aguja gp5|gp5-real]] hasta acoplar su boca contra la [[membrana interna|plasma-membrane]]. Su calibre negativo de 4 nanómetros repele al [[ADN|dna]] como un riel maglev, deslizando las 169 kilobases sobre un colchón electrostático sin roce.',
+          'Empujados hacia abajo como un vástago de perforación por la [[vaina gp18|gp18-real]], 24 anillos apilados de [[gp19|gp19-real]] hunden la [[aguja gp5|gp5-real]] a través de la muralla digerida hasta acoplar su boca contra la [[membrana interna|plasma-membrane]]. Como su calibre de cuatro nanómetros está forrado de cargas negativas que repelen al [[ADN|dna]], las 169 kilobases enteras patinan hacia la bacteria sobre un colchón electrostático.',
         blueprint: {
           role: 'Cañón rígido de inyección transmembrana y guía electrostática de ADN',
           arrivesFrom: 'Polimeriza sobre el [[buje gp27–gp5|gp5-real]] hasta 24 anillos medidos por la proteína gp29',
@@ -1226,9 +1226,9 @@ export const PHAGE_DNA_VIRUS_PART_LENSES: PagePartLensMap = {
       en: {
         subtitle: 'The Dome-to-Star Mechanical Brain',
         simple:
-          'Built from 150 clockwork pieces with zero brain cells, this Transformers dome flips flat into a six-pointed ninja star the instant enough legs confirm the right target.',
+          'Built from 150 protein pieces in six interlocking wedges, this dome acts as the phage’s decision center: once enough sensor legs grip the right bacterium, it snaps flat into a star to fire the syringe.',
         story:
-          'Zero neurons, zero microchips—just 150 clockwork parts poised in a tense dome at the foot of the [[tail|real-phage-tail]]. When three or more [[long tail fibers|phage-fiber]] lock onto [[OmpC porins|porin]] and yank the rim, the dome transforms into a flat shuriken star—dropping [[gp12 hooks|gp12-real]] onto LPS and pulling the pin on the [[gp18 sheath|gp18-real]]!',
+          'No neurons, no circuits—just 150 clockwork parts poised in a tense hexagonal dome at the foot of the [[tail|real-phage-tail]]. When at least three [[long tail fibers|phage-fiber]] plant onto [[OmpC porins|porin]] and pull outward on the rim, the six wedges slide apart into a flat star, simultaneously swinging [[gp12 hooks|gp12-real]] down onto LPS and pulling the pin on the [[gp18 sheath|gp18-real]] above.',
         blueprint: {
           role: 'Allosteric 150-subunit decision computer and trigger latch',
           arrivesFrom: 'Six peripheral wedges self-assemble around the central [[gp27–gp5 hub|gp5-real]]',
@@ -1250,9 +1250,9 @@ export const PHAGE_DNA_VIRUS_PART_LENSES: PagePartLensMap = {
       es: {
         subtitle: 'El cerebro mecánico de cúpula a estrella',
         simple:
-          'Armada con 150 piezas de relojería y cero neuronas, esta cúpula digna de Transformers se aplana en estrella ninja apenas suficientes patas confirman la bacteria correcta.',
+          'Construida con 150 piezas proteicas en seis cuñas entrelazadas, esta cúpula es el centro de decisión del fago: cuando suficientes patas agarran la bacteria correcta, se aplana en estrella y dispara la jeringa.',
         story:
-          'Sin chips ni cerebro: 150 piezas mecánicas tensadas al pie de la [[cola|real-phage-tail]]. Cuando al menos tres [[fibras largas|phage-fiber]] enganchan [[porinas OmpC|porin]] y tiran del aro, la cúpula se transforma en estrella shuriken, bajando los [[garfios gp12|gp12-real]] al LPS mientras suelta el seguro de la [[vaina gp18|gp18-real]].',
+          'Sin neuronas ni chips: solo 150 piezas de relojería tensadas en una cúpula hexagonal al pie de la [[cola|real-phage-tail]]. Cuando al menos tres [[fibras largas|phage-fiber]] se afianzan en [[porinas OmpC|porin]] y tiran del borde, las seis cuñas se abren en una estrella plana que despliega los [[garfios gp12|gp12-real]] sobre el LPS y suelta a la vez el fiador de la [[vaina gp18|gp18-real]].',
         blueprint: {
           role: 'Computador mecánico alostérico de 150 subunidades y fiador de disparo',
           arrivesFrom: 'Seis cuñas periféricas se ensamblan alrededor del [[buje central gp27–gp5|gp5-real]]',
@@ -1277,9 +1277,9 @@ export const PHAGE_DNA_VIRUS_PART_LENSES: PagePartLensMap = {
       en: {
         subtitle: 'Six Zinc-Tipped Grappling Hooks',
         simple:
-          'Tucked under the belly like Batman’s grapple-gun claws, six short spikes flip down during attack to bolt the lander permanently onto the bacterium’s sugar armor.',
+          'Folded neatly under the baseplate until the moment of attack, six short spikes flip downward to bolt the phage permanently onto the bacterium’s outer sugar coat.',
         story:
-          'Firing a pile-bunker into bacterial armor kicks hard enough to bounce an unbolted lander into space! So the instant the [[baseplate|real-phage-baseplate]] blooms open, six [[gp12 short fibers|gp12-real]] swing down like Batman grapnel claws and sink zinc jaws into [[LPS|lps]]—bolting the rig rock-steady while the [[gp18 sheath|gp18-real]] slams shut.',
+          'Ramming a needle through tough bacterial armor creates enough kickback to bounce an unbolted lander right off its prey. So the instant the [[baseplate|real-phage-baseplate]] blossoms open, six [[gp12 short fibers|gp12-real]] unfold from its belly and sink their zinc-braced claws into the deep core of [[LPS|lps]]—anchoring the launchpad rock-steady while the [[gp18 sheath|gp18-real]] fires.',
         blueprint: {
           role: 'Irreversible surface clamp counteracting puncture recoil',
           arrivesFrom: 'Stowed in folded wreath under dome-state [[baseplate|real-phage-baseplate]]',
@@ -1301,9 +1301,9 @@ export const PHAGE_DNA_VIRUS_PART_LENSES: PagePartLensMap = {
       es: {
         subtitle: 'Seis garfios de anclaje con punta de zinc',
         simple:
-          'Ocultos bajo el vientre como los garfios de Batman, seis espolones cortos bajan de golpe en el ataque para atornillar el módulo a la coraza azucarada de la bacteria.',
+          'Plegados bajo la placa basal hasta el instante del asalto, seis espolones cortos bajan de golpe para atornillar el fago de forma permanente a la capa exterior de azúcares de la bacteria.',
         story:
-          'Disparar un martinete contra una muralla bacteriana genera un retroceso capaz de lanzar al fago por los aires. Por eso, al abrirse la [[placa basal|real-phage-baseplate]], seis [[fibras cortas gp12|gp12-real]] bajan como garfios de Batman y clavan sus dientes de zinc en el [[LPS|lps]], empernando la plataforma mientras dispara la [[vaina gp18|gp18-real]].',
+          'Clavar una aguja en una muralla bacteriana genera un retroceso capaz de despedir por los aires a un módulo sin amarras. Por eso, apenas se abre la [[placa basal|real-phage-baseplate]], seis [[fibras cortas gp12|gp12-real]] se despliegan desde su vientre y hunden sus garras de zinc en la raíz del [[LPS|lps]], dejando la plataforma inmóvil mientras dispara la [[vaina gp18|gp18-real]].',
         blueprint: {
           role: 'Anclaje superficial irreversible frente al retroceso mecánico',
           arrivesFrom: 'Plegadas en corona bajo las cuñas de la [[placa basal|real-phage-baseplate]] en reposo',
@@ -1328,9 +1328,9 @@ export const PHAGE_DNA_VIRUS_PART_LENSES: PagePartLensMap = {
       en: {
         subtitle: 'The Armor-Piercing Dagger & Wall-Melting Blades',
         simple:
-          'Tipped like an armor-piercing tank sabot flanked by three Edward Scissorhands enzyme blades, this warhead stabs the outer membrane and snips a clean hole through the wall.',
+          'Mounted on the tip of the inner tube is a rock-hard triangular needle surrounded by three enzyme blades: first the needle punches through the outer membrane, then the enzymes chew a hole through the cell wall.',
         story:
-          'Riding the nose of the [[gp19 tail tube|gp19-real]] as the [[sheath|gp18-real]] fires, this [[gp27–gp5 warhead|gp5-real]] punches its triple-β-helix stiletto straight through outer [[LPS|lps]]. Inside the moat, the tip pops off like a tank sabot so three Edward-Scissorhands lysozyme blades snip a neat doorway through [[peptidoglycan|peptidoglycan]] chainmail!',
+          'Riding the nose of the [[gp19 tail tube|gp19-real]] as the [[sheath|gp18-real]] slams shut, this [[gp27–gp5 warhead|gp5-real]] punches its sharp triple-stranded β-helix straight through the outer [[LPS|lps]] skin. Inside the periplasm, the needle tip pops off like a discarded sabot shell so three flanking lysozyme blades can snip a clean hole through the [[peptidoglycan|peptidoglycan]] chainmail ahead of the advancing tube.',
         blueprint: {
           role: 'Mechanical outer-membrane perforator and enzymatic murein breach',
           arrivesFrom: 'Seated centrally inside [[baseplate|real-phage-baseplate]] at the distal tip of [[gp19 tube|gp19-real]]',
@@ -1352,9 +1352,9 @@ export const PHAGE_DNA_VIRUS_PART_LENSES: PagePartLensMap = {
       es: {
         subtitle: 'La daga perforadora y sus tres cuchillas de lisozima',
         simple:
-          'Como un proyectil perforante flanqueado por tres tijeras al estilo El joven manos de tijera, esta ojiva atraviesa la membrana externa y recorta un hueco limpio en la pared.',
+          'En la punta del tubo interno viaja una aguja triangular durísima rodeada de tres cuchillas enzimáticas: primero la aguja atraviesa la membrana externa y luego las enzimas abren un boquete en la pared celular.',
         story:
-          'En la punta del [[tubo gp19|gp19-real]] al cerrarse la [[vaina|gp18-real]], esta [[ojiva gp27–gp5|gp5-real]] clava su estilete a través del [[LPS|lps]] exterior. Ya en el periplasma, la punta se suelta como un casquillo perforante y tres cuchillas de lisozima dignas de Manos de Tijera recortan la cota de [[peptidoglicano|peptidoglycan]].',
+          'Montada en el morro del [[tubo gp19|gp19-real]] mientras se cierra la [[vaina|gp18-real]], esta [[ojiva gp27–gp5|gp5-real]] clava su afilada triple hélice β a través de la piel externa de [[LPS|lps]]. Una vez en el periplasma, la punta se suelta como un casquillo desechable para que tres cuchillas de lisozima recorten un orificio limpio en la malla de [[peptidoglicano|peptidoglycan]] frente al tubo en avance.',
         blueprint: {
           role: 'Perforador mecánico de membrana externa e hidrolasa local de mureína',
           arrivesFrom: 'Alojado en el centro de la [[placa basal|real-phage-baseplate]] en la boca del [[tubo gp19|gp19-real]]',
@@ -1379,9 +1379,9 @@ export const PHAGE_DNA_VIRUS_PART_LENSES: PagePartLensMap = {
       en: {
         subtitle: 'Six Hinged Iron-Tipped Scout Legs',
         simple:
-          'Spanning 145 nanometers with a nimble knee joint like Iron-Spider claws, these six spindly scout legs walk across a bacterium to check its ID before firing.',
+          'Spanning 145 nanometers with a bendable knee joint in the middle, these six spindly legs walk across a bacterium’s surface to verify its identity before pulling the trigger.',
         story:
-          'Dropped into action by collar whiskers, six [[hinged long fibers|phage-fiber]] let this brainless hunter tiptoe like Spider-Man’s Iron-Spider suit across [[LPS|lps]] bristles until iron-braced [[gp37 needle tips|gp37-real]] click into [[OmpC porins|porin]]. Once three legs lock onto real targets together, their crouch wrenches the [[baseplate|real-phage-baseplate]] and fires!',
+          'Released by collar whiskers into prime hunting waters, six [[hinged long fibers|phage-fiber]] let the dead nanomachine tiptoe across E. coli, touching and releasing [[LPS|lps]] sugars until their iron-reinforced [[gp37 needle tips|gp37-real]] click into [[OmpC porins|porin]]. Once three or more legs lock onto real receptors simultaneously, their downward crouch wrenches the [[baseplate|real-phage-baseplate]] rim and fires the heist.',
         blueprint: {
           role: 'Reversible surface-walking scout legs and mechanochemical trigger levers',
           arrivesFrom: 'Released from collar whiskers and articulated at gp9 sockets on [[baseplate|real-phage-baseplate]]',
@@ -1403,9 +1403,9 @@ export const PHAGE_DNA_VIRUS_PART_LENSES: PagePartLensMap = {
       es: {
         subtitle: 'Seis patas exploradoras con punta de hierro',
         simple:
-          'Con 145 nanómetros y rodilla articulada como las patas del traje Iron-Spider, estas seis patas exploradoras caminan sobre la bacteria para verificar su identidad antes de disparar.',
+          'Con 145 nanómetros de largo y una rodilla flexible a mitad de camino, estas seis largas patas caminan sobre la bacteria para confirmar su identidad antes de apretar el gatillo.',
         story:
-          'Desplegadas por los bigotes del cuello, seis [[fibras largas articuladas|phage-fiber]] dejan al cazador caminar sobre el [[LPS|lps]] al estilo Iron-Spider hasta que sus [[puntas gp37|gp37-real]] con hierro encajan en [[porinas OmpC|porin]]. Cuando tres patas confirman blanco a la vez, su flexión descerraja la [[placa basal|real-phage-baseplate]] y abre fuego.',
+          'Liberadas por los bigotes del cuello cuando el entorno invita a la caza, seis [[fibras largas articuladas|phage-fiber]] permiten a esta máquina muerta caminar de puntillas sobre E. coli, probando azúcares del [[LPS|lps]] hasta que sus [[puntas gp37|gp37-real]] armadas con hierro encajan en [[porinas OmpC|porin]]. Cuando tres o más patas confirman blanco a la vez, su flexión tira del borde de la [[placa basal|real-phage-baseplate]] y desata el disparo.',
         blueprint: {
           role: 'Patas exploradoras reversibles y palancas mecánicas de activación',
           arrivesFrom: 'Desplegadas por los bigotes gpWac desde los zócalos gp9 de la [[placa basal|real-phage-baseplate]]',
@@ -1430,9 +1430,9 @@ export const PHAGE_DNA_VIRUS_PART_LENSES: PagePartLensMap = {
       en: {
         subtitle: 'The Sugar-Bristled Outer Fortress Wall',
         simple:
-          'Plot twist worthy of Cells at Work!: the dense outer sugar shield bacteria grow to block soaps and drugs is the exact landing pad T4 uses to lock on and attack.',
+          'Gram-negative bacteria wear an extra outer coat studded with dense sugar chains meant to keep soaps and antibiotics out—yet T4 uses those very sugar bristles as its landing pad.',
         story:
-          'Grown by [[E. coli|real-bacterium]] like a Riot Shield against gut bile and antibiotics, this dense [[LPS|lps]] sugar forest ironically broadcasts a neon landing beacon to T4! First [[gp37 scout tips|gp37-real]] skate across its outer bristles; milliseconds later [[gp12 grappling hooks|gp12-real]] bite its deep core while the [[gp5 needle|gp5-real]] punches right through.',
+          'Built by [[E. coli|real-bacterium]] to repel bile salts and drugs, this asymmetric [[LPS|lps]] forest ironically betrays the defender’s address to every passing hunter. First the lander’s [[gp37 scout tips|gp37-real]] skate across its outer glucose bristles; moments later [[gp12 grappling hooks|gp12-real]] clamp onto its deep sugar core while the [[gp5 needle|gp5-real]] punches a smoking crater straight through the bilayer.',
         blueprint: {
           role: 'Host outer asymmetric lipid-sugar barrier co-opted as viral landing pad',
           arrivesFrom: 'Biosynthesized in host inner membrane/periplasm and exported via Lpt machinery onto [[bacterial envelope|real-envelope]]',
@@ -1454,9 +1454,9 @@ export const PHAGE_DNA_VIRUS_PART_LENSES: PagePartLensMap = {
       es: {
         subtitle: 'La muralla exterior erizada de azúcares',
         simple:
-          'Giro de guion digno de Cells at Work!: el denso escudo exterior de azúcares que la bacteria levanta contra jabones y fármacos es justo la pista de aterrizaje que usa el fago T4.',
+          'Las bacterias gramnegativas visten una capa exterior extra cubierta de densas cadenas de azúcar para frenar jabones y antibióticos, pero el fago T4 usa precisamente esas cerdas como pista de aterrizaje.',
         story:
-          'Levantado por [[E. coli|real-bacterium]] como escudo antidisturbios frente a bilis y antibióticos, este bosque de [[LPS|lps]] termina sirviendo de faro de aterrizaje al fago. Primero patinan sobre él las [[puntas exploradoras gp37|gp37-real]]; al instante los [[garfios gp12|gp12-real]] muerden su raíz mientras la [[aguja gp5|gp5-real]] perfora la bicapa.',
+          'Levantado por [[E. coli|real-bacterium]] para repeler sales biliares y fármacos, este espeso bosque de [[LPS|lps]] termina delatando la dirección exacta de la fortaleza ante el cazador. Primero las [[puntas exploradoras gp37|gp37-real]] patinan sobre sus glucosas superficiales; instantes después los [[garfios gp12|gp12-real]] muerden su raíz profunda mientras la [[aguja gp5|gp5-real]] abre un cráter limpio a través de la bicapa.',
         blueprint: {
           role: 'Barrera lipopolisacárida externa del huésped convertida en plataforma de anclaje',
           arrivesFrom: 'Exportada mediante el sistema Lpt hacia la cara exterior de la [[envoltura bacteriana|real-envelope]]',
@@ -1481,9 +1481,9 @@ export const PHAGE_DNA_VIRUS_PART_LENSES: PagePartLensMap = {
       en: {
         subtitle: 'Nutrient Sieves Turned Traitor Beacons',
         simple:
-          'Like the Death Star’s unavoidable thermal exhaust ports, bacteria must keep thousands of nutrient pores open to eat—giving the phage’s scout legs a foolproof handle.',
+          'Bacteria stud their outer skin with thousands of tiny three-barrel protein pores to let sugar and salt trickle in—giving the phage’s long legs a foolproof handle to grab onto.',
         story:
-          'A hungry [[bacterium|real-bacterium]] cannot weld shut its dinner windows without starving, leaving ~100,000 three-barrel [[OmpC and OmpF sieves|porin]] exposed across its [[LPS|lps]] hull like Death Star exhaust ports! Those exact rims are what iron-braced [[gp37 fingertips|gp37-real]] feel for—turning food chutes into tripwires for the [[baseplate|real-phage-baseplate]].',
+          'A starving [[bacterium|real-bacterium]] cannot brick up its nutrient windows without suffocating, so ~100,000 three-hole [[OmpC and OmpF sieves|porin]] dot its outer [[LPS|lps]] wall. That unavoidable weak spot is exactly what the lander’s iron-braced [[gp37 fingertips|gp37-real]] feel for—turning the host’s dinner-table doorways into the tripwires that detonate the [[baseplate|real-phage-baseplate]].',
         blueprint: {
           role: 'Abundant outer-membrane nutrient channel exploited as primary phage receptor',
           arrivesFrom: 'Inserted into outer [[envelope|real-envelope]] by the host BamA–E β-barrel assembly machine',
@@ -1505,9 +1505,9 @@ export const PHAGE_DNA_VIRUS_PART_LENSES: PagePartLensMap = {
       es: {
         subtitle: 'Tamices nutritivos convertidos en balizas traidoras',
         simple:
-          'Como los conductos de ventilación inevitables de la Estrella de la Muerte, la bacteria debe dejar abiertos miles de poros de comida, dándole al fago el agarradero perfecto.',
+          'Las bacterias llenan su piel exterior de miles de diminutos poros de tres cañones para dejar entrar nutrientes, ofreciéndole sin querer a las patas del fago el agarradero perfecto.',
         story:
-          'Una [[bacteria|real-bacterium]] no puede tapiar sus ventanas de comida sin morir de hambre, dejando unas 100,000 [[porinas OmpC y OmpF|porin]] expuestas en su casco de [[LPS|lps]] cual conducto de la Estrella de la Muerte. Esos bordes exactos buscan las [[puntas gp37|gp37-real]] para convertir el comedor en cable trampa de la [[placa basal|real-phage-baseplate]].',
+          'Una [[bacteria|real-bacterium]] no puede tapiar sus ventanas de alimento sin morir de hambre, así que unas 100,000 [[porinas OmpC y OmpF|porin]] de tres bocas salpican su muralla de [[LPS|lps]]. Ese talón de Aquiles inevitable es justo lo que buscan a tientas las [[puntas gp37|gp37-real]] reforzadas con hierro, convirtiendo las puertas del comedor bacteriano en el cable trampa que activa la [[placa basal|real-phage-baseplate]].',
         blueprint: {
           role: 'Canal pasivo de nutrientes en membrana externa explotado como receptor primario',
           arrivesFrom: 'Insertado en la [[envoltura externa|real-envelope]] mediante la maquinaria bacteriana BamA–E',
@@ -1532,9 +1532,9 @@ export const PHAGE_DNA_VIRUS_PART_LENSES: PagePartLensMap = {
       en: {
         subtitle: 'The Surgical Hole in the Chainmail Wall',
         simple:
-          'Like cutting a neat Catwoman glass circle instead of dynamiting the bank, the phage’s enzymes snip a tiny 10-nanometer keyhole in the wall mesh so the host stays alive to build viruses.',
+          'Sandwiched between the bacterium’s two membranes is a tough mesh bag that keeps the cell from bursting. The phage’s needle enzymes snip a tiny circular keyhole right through it without popping the bacterium too soon.',
         story:
-          'Blowing a wide gash in this pressurized [[peptidoglycan|peptidoglycan]] Mithril shirt would pop the victim before it forged a single phage! Instead, after the [[gp5 warhead|gp5-real]] stabs past [[LPS|lps]], its three lysozyme blades cut a Catwoman-clean 10-nanometer circle—just wide enough for the [[gp19 tail tube|gp19-real]] to reach the [[inner membrane|plasma-membrane]].',
+          'Slicing too wide a gash in this pressurized [[peptidoglycan|peptidoglycan]] corset would blow the host apart before it could forge a single new virus. Instead, once the [[gp5 warhead|gp5-real]] punches past the outer [[LPS|lps]] layer, its three tethered lysozyme blades nibble a surgical 10-nanometer keyhole—just wide enough for the [[gp19 tail tube|gp19-real]] to slip through to the [[inner membrane|plasma-membrane]].',
         blueprint: {
           role: 'Periplasmic load-bearing murein mesh locally breached by tail lysozyme',
           arrivesFrom: 'Cross-linked glycan-peptide sacculus spanning the periplasm beneath [[LPS outer membrane|lps]]',
@@ -1556,9 +1556,9 @@ export const PHAGE_DNA_VIRUS_PART_LENSES: PagePartLensMap = {
       es: {
         subtitle: 'El ojal quirúrgico en la cota de malla',
         simple:
-          'Como Catwoman cortando un círculo limpio en un cristal en vez de dinamitar el banco, las enzimas recortan un ojal de 10 nanómetros en la malla sin reventar antes de tiempo al huésped.',
+          'Entre las dos membranas de la bacteria se tiende una malla resistente que evita que la célula estalle. Las enzimas de la aguja recortan en ella un diminuto ojo de cerradura sin reventar antes de tiempo al huésped.',
         story:
-          'Rajar de más esta camisa presurizada de [[peptidoglicano|peptidoglycan]] haría estallar la presa antes de armar un solo virus. Por eso, tras cruzar el [[LPS|lps]], las tres cuchillas del [[complejo gp5|gp5-real]] recortan un círculo digno de Catwoman de diez nanómetros, justo para que el [[tubo caudal gp19|gp19-real]] alcance la [[membrana interna|plasma-membrane]].',
+          'Rasgar de más este corsé presurizado de [[peptidoglicano|peptidoglycan]] haría estallar la presa antes de fabricar un solo virus nuevo. Por eso, tras cruzar la piel de [[LPS|lps]], las tres cuchillas de lisozima del [[complejo gp5|gp5-real]] recortan un ojal quirúrgico de apenas diez nanómetros: el hueco justo para que el [[tubo caudal gp19|gp19-real]] avance limpio hasta la [[membrana interna|plasma-membrane]].',
         blueprint: {
           role: 'Sáculo estructural periplásmico perforado localmente por lisozimas caudales',
           arrivesFrom: 'Malla covalente glucano-peptídica bajo la [[membrana externa de LPS|lps]]',
@@ -1583,9 +1583,9 @@ export const PHAGE_DNA_VIRUS_PART_LENSES: PagePartLensMap = {
       en: {
         subtitle: 'The Self-Sealing Cytoplasmic Airlock',
         simple:
-          'Docking like a Star Wars boarding airlock instead of ripping the hull, the tail tube seals snugly against the inner membrane so the bacterium’s power grid stays live during the takeover.',
+          'Instead of punching a fatal hole through the bacterium’s inner energized membrane, the phage tube docks snugly against it to open a temporary doorway—keeping the host’s battery alive to build new viruses.',
         story:
-          'Shredding this inner [[phospholipid|phospholipid]] bilayer would short-circuit the proton battery spinning [[ATP synthases|atp-synthase-ecoli]] and black out the factory! Instead, like a Millennium Falcon boarding collar, the [[gp19 tail tube|gp19-real]] forms a leak-tight airlock against the membrane—shooting [[169 kbp of DNA|dna]] into the [[cytosol|cytosol]] before sealing shut.',
+          'Punching an open rip in this inner [[phospholipid|phospholipid]] bilayer would drain the electrical battery driving [[ATP synthases|atp-synthase-ecoli]] and kill the factory on the spot. Instead, once the gp5 needle steps aside, the rim of the [[gp19 tail tube|gp19-real]] kisses the membrane to form a tight, leak-free seal—shooting [[169 kbp of DNA|dna]] into the [[cytosol|cytosol]] before snapping shut.',
         blueprint: {
           role: 'Energized cytoplasmic bilayer forming a transient, non-lethal DNA translocation pore',
           arrivesFrom: 'Reached after [[gp19 tube|gp19-real]] traverses breached [[peptidoglycan|peptidoglycan]]',
@@ -1607,9 +1607,9 @@ export const PHAGE_DNA_VIRUS_PART_LENSES: PagePartLensMap = {
       es: {
         subtitle: 'La esclusa citoplasmática autosellante',
         simple:
-          'Acoplándose como una esclusa de abordaje de Star Wars sin rasgar el casco, el tubo sella contra la membrana interna para no apagar la batería eléctrica que fabricará nuevos virus.',
+          'En lugar de desgarrar mortalmente la membrana interna cargada de electricidad, el tubo del fago se acopla contra ella abriendo una compuerta temporal que mantiene viva la batería celular para fabricar más virus.',
         story:
-          'Romper esta bicapa interna de [[fosfolípidos|phospholipid]] descargaría la batería que mueve las [[ATP sintasas|atp-synthase-ecoli]] y apagaría la fábrica. En cambio, cual esclusa de abordaje espacial, el [[tubo gp19|gp19-real]] besa la membrana sin fugas, dispara las [[169 kpb de ADN|dna]] al [[citosol|cytosol]] y vuelve a cerrar la compuerta.',
+          'Desgarrar sin control esta bicapa interna de [[fosfolípidos|phospholipid]] descargaría la batería eléctrica que mueve las [[ATP sintasas|atp-synthase-ecoli]] y mataría la fábrica en el acto. Por eso, cuando se aparta la aguja gp5, el borde del [[tubo gp19|gp19-real]] besa la membrana formando una esclusa hermética que inyecta las [[169 kpb de ADN|dna]] al [[citosol|cytosol]] y vuelve a sellarse sin fugas.',
         blueprint: {
           role: 'Bicapa citoplasmática energizada que forma un canal transitorio sin fugas iónicas',
           arrivesFrom: 'Alcanzada cuando el [[tubo gp19|gp19-real]] cruza el ojal del [[peptidoglicano|peptidoglycan]]',
@@ -1634,9 +1634,9 @@ export const PHAGE_DNA_VIRUS_PART_LENSES: PagePartLensMap = {
       en: {
         subtitle: 'The Brainwashed Host Printing Press',
         simple:
-          'Pulling an Agent Smith takeover straight out of The Matrix, viral saboteurs chemically hotwire the bacterium’s own RNA polymerase in seconds so it prints only viral orders.',
+          'Phage T4 does not even pack its own gene-reading enzyme—within seconds of breaking in, its saboteur proteins chemically hotwire the bacterium’s RNA polymerase so it stops reading bacterial genes and prints only viral orders.',
         story:
-          'Seconds after [[phage DNA|dna]] arrives, the Alt commando tags [[host RNA polymerase|rnap-ecoli]] like Agent Smith overwriting a Matrix citizen—pulling it off the [[bacterial nucleoid|real-nucleoid]] onto viral genes! Soon AsiA and MotA handcuff its guide factor, turning E. coli’s press into a non-stop dispatcher feeding viral [[mRNA|rna]] to [[70S ribosomes|ribosome-ecoli]].',
+          'Seconds after [[phage DNA|dna]] and the Alt sniper burst into the cytoplasm, [[host RNA polymerase|rnap-ecoli]] gets chemically tagged on its alpha arms so it abandons the [[bacterial nucleoid|real-nucleoid]] for viral early promoters. Minutes later, viral factors AsiA and MotA handcuff its sigma-70 guide, turning E. coli’s own printing press into a dedicated assembly-line dispatcher feeding viral [[mRNA|rna]] straight to [[70S ribosomes|ribosome-ecoli]].',
         blueprint: {
           role: 'Hijacked host multi-subunit RNA polymerase reprogrammed in three temporal waves',
           arrivesFrom: 'Host [[E. coli RNAP holoenzyme|rnap-ecoli]] diverted from [[host nucleoid|real-nucleoid]] upon phage entry',
@@ -1658,9 +1658,9 @@ export const PHAGE_DNA_VIRUS_PART_LENSES: PagePartLensMap = {
       es: {
         subtitle: 'La imprenta celular reprogramada',
         simple:
-          'En una toma de control al estilo Agente Smith en Matrix, los saboteadores puentean en segundos la ARN polimerasa bacteriana para que ignore sus genes e imprima solo órdenes virales.',
+          'El fago T4 ni siquiera carga su propia enzima lectora de genes: en segundos, sus proteínas saboteadoras puentean la ARN polimerasa de la bacteria para que deje de leer genes propios e imprima solo órdenes virales.',
         story:
-          'Segundos después de irrumpir el [[ADN del fago|dna]], el francotirador Alt reprograma la [[ARN polimerasa bacteriana|rnap-ecoli]] como el Agente Smith en Matrix, apartándola del [[nucleoide del huésped|real-nucleoid]]. Luego AsiA y MotA esposan su guía, volviendo la imprenta un capataz exclusivo que bombea [[ARNm viral|rna]] a los [[ribosomas 70S|ribosome-ecoli]].',
+          'Segundos después de que el [[ADN del fago|dna]] y el francotirador Alt irrumpan en el citoplasma, la [[ARN polimerasa bacteriana|rnap-ecoli]] recibe una marca química en sus brazos alfa y abandona el [[nucleoide del huésped|real-nucleoid]]. Minutos más tarde, las proteínas AsiA y MotA esposan su guía sigma-70, convirtiendo la imprenta de E. coli en un capataz exclusivo que bombea [[ARNm viral|rna]] hacia los [[ribosomas 70S|ribosome-ecoli]].',
         blueprint: {
           role: 'Holoenzima ARN polimerasa del huésped secuestrada en tres oleadas temporales',
           arrivesFrom: '[[ARN polimerasa de E. coli|rnap-ecoli]] desviada desde el [[nucleoide bacteriano|real-nucleoid]]',
@@ -1685,9 +1685,9 @@ export const PHAGE_DNA_VIRUS_PART_LENSES: PagePartLensMap = {
       en: {
         subtitle: 'Captive Forges Mass-Producing Two Hundred New Landers',
         simple:
-          'Like Saruman’s Isengard forges working overtime, 50,000 hijacked bacterial ribosomes crank out phage heads, tails, and legs nonstop until ~200 new hunters burst out in 25 minutes!',
+          'Tens of thousands of the bacterium’s own protein-making factories are put to work reading viral messages, churning out fresh heads, tails, and legs until ~200 new phages burst out twenty-five minutes later.',
         story:
-          'Behold the jackpot of the heist: 50,000 captive [[70S ribosomes|ribosome-ecoli]] fed viral scripts by hijacked [[RNA polymerase|rnap-ecoli]], turbo-boosted with eight bonus [[tRNAs|trna]] brought by the phage itself! Like Isengard war-forges, within 25 minutes they hammer out every [[gp23* shield|gp23-real]] and [[gp18 spring|gp18-real]] for ~200 fresh landers before blowing the cell wide open.',
+          'Here is the grand prize of the entire 500-atmosphere heist: 50,000 captive [[70S ribosomes|ribosome-ecoli]] fed nonstop streams of viral mRNA from hijacked [[RNA polymerase|rnap-ecoli]], backed up by eight extra [[tRNAs|trna]] encoded by the phage itself to speed through rare codons. Within 25 minutes at 37 °C, these hijacked anvils forge every [[gp23* shield|gp23-real]], [[gp18 spring|gp18-real]], and gp37 leg needed to assemble ~200 fresh landers before bursting the cell wide open.',
         blueprint: {
           role: 'Captive bacterial translation factories mass-producing phage hardware',
           arrivesFrom: 'Host [[70S ribosomes|ribosome-ecoli]] loaded with nascent phage [[mRNA|rna]] and phage-encoded [[tRNAs|trna]]',
@@ -1709,9 +1709,9 @@ export const PHAGE_DNA_VIRUS_PART_LENSES: PagePartLensMap = {
       es: {
         subtitle: 'Fraguas cautivas forjando doscientos nuevos cazadores',
         simple:
-          'Como las fraguas de Isengard trabajando a destajo, 50,000 ribosomas secuestrados fabrican cabezas, colas y patas sin pausa hasta que unos 200 fagos nuevos revientan la célula en 25 minutos.',
+          'Decenas de miles de fábricas de proteínas de la propia bacteria son obligadas a leer mensajes virales, produciendo en serie cabezas, colas y patas hasta que unos 200 fagos nuevos revientan la célula veinticinco minutos después.',
         story:
-          'Aquí está el botín mayor del golpe: 50,000 [[ribosomas 70S|ribosome-ecoli]] cautivos leyendo guiones de la [[ARN polimerasa|rnap-ecoli]] secuestrada, acelerados con ocho [[ARNt|trna]] extra del propio fago. Como fraguas de Isengard, en 25 minutos forjan cada [[escudo gp23*|gp23-real]] y [[resorte gp18|gp18-real]] para 200 módulos nuevos antes de volar la célula.',
+          'Aquí culmina el botín supremo de todo el asalto hipodérmico: 50,000 [[ribosomas 70S|ribosome-ecoli]] cautivos recibiendo ríos incesantes de ARNm viral desde la [[ARN polimerasa|rnap-ecoli]] secuestrada, reforzados con ocho [[ARNt|trna]] propios del fago para acelerar la lectura de sus codones favoritos. En apenas 25 minutos a 37 °C, estos yunques esclavizados forjan cada [[escudo gp23*|gp23-real]], cada [[resorte gp18|gp18-real]] y cada pata gp37 para armar 200 módulos nuevos antes de volar la bacteria en pedazos.',
         blueprint: {
           role: 'Fábricas bacterianas de traducción dedicadas a producir en masa piezas del fago',
           arrivesFrom: '[[Ribosomas 70S|ribosome-ecoli]] alimentados con [[ARNm|rna]] viral y ocho [[ARNt|trna]] codificados por T4',
@@ -1738,9 +1738,9 @@ export const PHAGE_DNA_VIRUS_PART_LENSES: PagePartLensMap = {
       en: {
         subtitle: 'Two Hundred and Forty Towers of the Crystal Fortress',
         simple:
-          'Three identical chains fold a six-sided footprint so 240 Hexon towers build twenty Kryptonian-crystal walls—and later hitchhike on cellular cargo motors straight to the nucleus!',
+          'Each Hexon tower is made of three identical protein chains whose bases mimic a six-sided tile, allowing 240 towers to lock into twenty flat, armor-plated triangular walls.',
         story:
-          'Even bare of lipid cloak, this [[Armored Crystal Trojan Horse|real-adenovirus]] shrugs off stomach acid thanks to 240 [[Hexon towers|adv-hexon-real]] locked into twenty facets between [[Penton corners|adv-penton-real]]. Once free in the cytosol, acid-primed tower loops grab [[dynein cargo motors|motor-protein]] like Marty McFly skitching a DeLorean tow-line, racing down [[microtubules|microtubule]] to the nucleus!',
+          'Even without a fatty envelope, the [[Armored Crystal Trojan Horse|real-adenovirus]] shrugs off stomach acid and room-temperature air thanks to 240 [[Hexon towers|adv-hexon-real]] tiled across twenty razor-sharp facets around its [[Penton corners|adv-penton-real]]. Once the virus slashes its way out of an endosome into the cytosol, acid-primed loops atop these very towers grab [[dynein cargo motors|motor-protein]] directly—turning the stripped armor into an express sled racing down [[microtubules|microtubule]] to the nucleus.',
         blueprint: {
           role: 'Primary pseudo-hexagonal facet shield and cytosolic dynein motor hitch',
           arrivesFrom: 'Translated on [[host ribosomes|ribosome]], trimerized by viral L4-100K chaperone, imported into [[nucleus|real-nucleus]]',
@@ -1762,9 +1762,9 @@ export const PHAGE_DNA_VIRUS_PART_LENSES: PagePartLensMap = {
       es: {
         subtitle: 'Doscientas cuarenta torres de la fortaleza de cristal',
         simple:
-          'Tres cadenas idénticas imitan un bloque hexagonal para que 240 torres de Hexón levanten veinte muros de cristal kryptoniano y luego viajen gratis en motores celulares hasta el núcleo.',
+          'Cada torre de Hexón está hecha de tres cadenas proteicas idénticas cuya base imita un bloque de seis lados, permitiendo que 240 torres formen veinte paredes triangulares planas y acorazadas.',
         story:
-          'Sin gota de grasa exterior, este [[caballo de Troya cristalino|real-adenovirus]] resiste el aire seco y el ácido gracias a 240 [[torres de Hexón|adv-hexon-real]] talladas entre [[esquinas de Pentón|adv-penton-real]]. Ya libre en el citosol, sus bucles enganchan [[motores de dineína|motor-protein]] como Marty McFly agarrado a un camión, corriendo por [[microtúbulos|microtubule]] directo al núcleo.',
+          'Incluso sin envoltura grasa, el [[caballo de Troya cristalino|real-adenovirus]] resiste el aire seco y los detergentes gracias a 240 [[torres de Hexón|adv-hexon-real]] ensambladas en veinte facetas afiladas entre sus [[esquinas de Pentón|adv-penton-real]]. Apenas el virus raja el endosoma y salta al citosol, los bucles superiores de estas mismas torres enganchan [[motores de dineína|motor-protein]], convirtiendo el blindaje en un trineo expreso sobre [[microtúbulos|microtubule]] rumbo al núcleo.',
         blueprint: {
           role: 'Escudo pseudohexagonal principal de las facetas y enganche directo para dineína',
           arrivesFrom: 'Traducido en [[ribosomas 80S|ribosome]], trimerizado por la chaperona viral 100K e importado al [[núcleo|real-nucleus]]',
@@ -1789,9 +1789,9 @@ export const PHAGE_DNA_VIRUS_PART_LENSES: PagePartLensMap = {
       en: {
         subtitle: 'The Five-Fingered Trapdoor & Integrin Bait',
         simple:
-          'Capping all twelve crystal corners like pull-pin grenades, these five-part rings wave sticky RGD bait to get swallowed—then pop right out inside the bubble to spring escape knives!',
+          'Sealing all twelve corners of the crystal, these five-part rings wave sticky protein loops that trick the host cell into swallowing the virus—and then pop off inside to spring its escape blades.',
         story:
-          'Framed by [[Hexon towers|adv-hexon-real]] and holding a [[Fiber antenna|adv-fiber-real]], each [[Penton pentamer|adv-penton-real]] runs a Jedi mind-trick: five RGD bait loops cluster integrins at the [[entry site|real-adv-entry]] so the cell gulps the crystal into a [[clathrin vesicle|vesicle]]. Twisted by pull and acid, all twelve corner pins pop out—unleashing protein VI switchblades!',
+          'Ringed by [[Hexon towers|adv-hexon-real]] and clutching the base of a [[Fiber antenna|adv-fiber-real]], each [[Penton pentamer|adv-penton-real]] hides a double agenda: five flexible RGD loops wave like bait to cluster integrins at the [[entry site|real-adv-entry]] so the cell gulps the crystal into a [[clathrin vesicle|vesicle]]. Twisted loose by membrane pull and rising endosomal acid, all twelve corner hatches pop right out—opening escape ports for internal protein VI blades.',
         blueprint: {
           role: 'Five-fold vertex keystone, integrin endocytosis trigger, and breakaway uncoating hatch',
           arrivesFrom: 'Assembles into homopentamers in cytosol and complexes with [[Fiber shafts|adv-fiber-real]] before nuclear capsid assembly',
@@ -1813,9 +1813,9 @@ export const PHAGE_DNA_VIRUS_PART_LENSES: PagePartLensMap = {
       es: {
         subtitle: 'La trampilla pentagonal y su señuelo de integrinas',
         simple:
-          'Cerrando las doce esquinas como granadas con anilla, estos anillos agitan cebos RGD para hacerse tragar y luego saltan dentro de la burbuja liberando navajas de escape.',
+          'Cerrando las doce esquinas del cristal, estos anillos de cinco piezas agitan lazos adhesivos que engañan a la célula para tragarse el virus y luego saltan por dentro para soltar sus cuchillas de escape.',
         story:
-          'Rodeado por [[torres de Hexón|adv-hexon-real]] y sosteniendo una [[antena de Fibra|adv-fiber-real]], cada [[pentámero de Pentón|adv-penton-real]] ejecuta un truco mental Jedi: sus cinco lazos RGD atraen integrinas en la [[zona de entrada|real-adv-entry]] para entrar en una [[vesícula de clatrina|vesicle]]. Retorcidas por tracción y ácido, las doce tapas saltan y sueltan cuchillas VI.',
+          'Rodeado de [[torres de Hexón|adv-hexon-real]] y sujetando el mástil de una [[antena de Fibra|adv-fiber-real]], cada [[pentámero de Pentón|adv-penton-real]] juega a dos bandas: sus cinco lazos flexibles RGD atraen integrinas en la [[zona de entrada|real-adv-entry]] hasta que la célula se traga el cristal en una [[vesícula de clatrina|vesicle]]. Retorcidas por la tracción y el ácido incipiente, estas doce escotillas saltan como tapones para dejar salir las cuchillas internas de proteína VI.',
         blueprint: {
           role: 'Piedra angular pentamérica, disparador de endocitosis y escotilla de escape',
           arrivesFrom: 'Pentameriza en el citosol y engarza los [[ejes de Fibra|adv-fiber-real]] rumbo al ensamblaje nuclear',
@@ -1840,9 +1840,9 @@ export const PHAGE_DNA_VIRUS_PART_LENSES: PagePartLensMap = {
       en: {
         subtitle: 'Twelve Tight-Junction Grappling Antennas',
         simple:
-          'Jutting 30 nanometers from every corner like Inspector Gadget grappling rods, twelve knobbed antennas reach into tight gaps between airway cells to hook CAR locks.',
+          'Projecting thirty nanometers from each corner like satellite booms, twelve slender rods tipped with rounded knobs reach between airway cells to hook the virus’s primary docking receptor.',
         story:
-          'Airway cells hide their CAR locks deep inside [[cell-to-cell tight junctions|cell-junction]], out of reach for stubby viruses. So [[Adenovirus|real-adenovirus]] fires twelve 30-nanometer [[Fiber antennas|adv-fiber-real]] from its [[Penton sockets|adv-penton-real]] like Inspector Gadget arms—and when membrane drift yanks sideways, the shaft snaps off on cue like Apollo staging to start uncoating!',
+          'Because airway cells hide their CAR adhesion locks deep inside [[cell-to-cell tight junctions|cell-junction]], a stubby virus could never reach the keyhole. So [[Adenovirus|real-adenovirus]] extends twelve 30-nanometer [[Fiber antennas|adv-fiber-real]] from its [[Penton sockets|adv-penton-real]] to snag CAR first—and when drifting surface currents tug sideways against that anchor, the fiber snaps off right on cue to kick-start mechanical uncoating.',
         blueprint: {
           role: 'Long-reach primary CAR receptor grapnel and sacrificial uncoating lever',
           arrivesFrom: 'Homotrimerizes in cytosol and slots N-terminal FNPVYP tails into [[Penton base|adv-penton-real]] pores',
@@ -1864,9 +1864,9 @@ export const PHAGE_DNA_VIRUS_PART_LENSES: PagePartLensMap = {
       es: {
         subtitle: 'Doce antenas de abordaje hacia las uniones celulares',
         simple:
-          'Sobresaliendo 30 nanómetros en cada esquina como brazos del Inspector Gadget, doce antenas con botón se cuelan entre células respiratorias para enganchar cerraduras CAR ocultas.',
+          'Proyectándose treinta nanómetros desde cada esquina como mástiles de satélite, doce finas varillas rematadas en botón se cuelan entre las células respiratorias para enganchar el receptor principal del virus.',
         story:
-          'El epitelio respiratorio esconde sus cerraduras CAR en las [[uniones estrechas intercelulares|cell-junction]], lejos de virus rechonchos. Por eso el [[adenovirus|real-adenovirus]] tiende doce [[antenas de Fibra|adv-fiber-real]] desde sus [[bases de Pentón|adv-penton-real]] cual brazos del Inspector Gadget, soltándolas luego como etapas de un cohete Apolo para iniciar el desempaquetado.',
+          'Como el epitelio respiratorio esconde sus cerraduras CAR dentro de las [[uniones estrechas intercelulares|cell-junction]], una cápside rechoncha jamás alcanzaría el cerrojo. Por eso el [[adenovirus|real-adenovirus]] tiende doce [[antenas de Fibra|adv-fiber-real]] de 30 nanómetros desde sus [[bases de Pentón|adv-penton-real]], y cuando las corrientes de la membrana tiran de ese amarre, el mástil se parte en el momento justo para cebar la apertura del cristal.',
         blueprint: {
           role: 'Arpeo primario de largo alcance para CAR y palanca descartable de apertura',
           arrivesFrom: 'Homotrimeriza en el citosol e inserta colas N-terminales FNPVYP en la [[base de Pentón|adv-penton-real]]',
@@ -1891,9 +1891,9 @@ export const PHAGE_DNA_VIRUS_PART_LENSES: PagePartLensMap = {
       en: {
         subtitle: 'Hidden Rivets & Endosome-Slashing Switchblades',
         simple:
-          'Glueing the 240 crystal blocks together from both sides, minor cement protein VI hides a Wolverine-style switchblade that slashes the cell’s swallowing bubble wide open!',
+          'Four sets of minor "cement" proteins glue the 240 Hexon towers together from both sides—and one of them, protein VI, doubles as a hidden knife that slices open the cell’s swallowing bubble so the virus can escape.',
         story:
-          'Outer protein IX clasps and inner staples rivet 240 [[Hexon blocks|adv-hexon-real]] tight—until the Trojan horse gets gulped into an acidifying [[clathrin vesicle|vesicle]]. The moment [[Penton corners|adv-penton-real]] pop off, ~360 copies of hidden protein VI snikt out like Wolverine claws, shredding the endosome seconds before acid [[lysosomes|lysosome]] can melt the heist crew!',
+          'Without mortar, 240 [[Hexon blocks|adv-hexon-real]] would crumble long before reaching a host, so outer triskelions of protein IX and inner staples IIIa and VIII rivet the crystal tight—until the Trojan horse gets swallowed inside an acidifying [[clathrin vesicle|vesicle]]. As the [[Penton corners|adv-penton-real]] pop loose, ~360 copies of hidden protein VI shoot out amphipathic switchblades that shred the endosomal membrane seconds before deadly [[lysosomes|lysosome]] arrive.',
         blueprint: {
           role: 'Dual-sided icosahedral lattice mortar and membrane-lytic endosomal escape weapon',
           arrivesFrom: 'Co-assembles on inner/outer [[Hexon|adv-hexon-real]] surfaces and is armed via AVP protease cleavage',
@@ -1915,9 +1915,9 @@ export const PHAGE_DNA_VIRUS_PART_LENSES: PagePartLensMap = {
       es: {
         subtitle: 'Remaches ocultos y navajas rompe-endosomas',
         simple:
-          'Además de soldar los 240 bloques del cristal, la proteína cemento VI esconde garras al estilo Wolverine que desgarran desde dentro la burbuja celular para escapar a tiempo.',
+          'Cuatro familias de proteínas «cemento» pegan las 240 torres de Hexón por dentro y por fuera, y una de ellas —la proteína VI— actúa además como una navaja oculta que raja la burbuja celular para escapar a tiempo.',
         story:
-          'Grapas externas IX e internas remachan los 240 [[bloques de Hexón|adv-hexon-real]] hasta que el cristal cae en una [[vesícula de clatrina|vesicle]]. Apenas saltan las [[esquinas de Pentón|adv-penton-real]], unas 360 copias de proteína VI desenvainan cuchillas como garras de Wolverine y desgarran el endosoma segundos antes de llegar a los [[lisosomas|lysosome]].',
+          'Sin argamasa, 240 [[bloques de Hexón|adv-hexon-real]] se desmoronarían antes de hallar huésped; por eso trisqueles externos IX y grapas internas IIIa y VIII remachan el cristal hasta que el caballo de Troya cae dentro de una [[vesícula de clatrina|vesicle]]. Apenas saltan las [[esquinas de Pentón|adv-penton-real]], unas 360 copias de proteína VI desenvainan cuchillas anfipáticas que desgarran el endosoma segundos antes de que lleguen los [[lisosomas|lysosome]] destructores.',
         blueprint: {
           role: 'Mortero estructural en ambas caras de la cápside y arma lítica de escape endosómico',
           arrivesFrom: 'Coensamblado sobre [[Hexones|adv-hexon-real]] y activado proteolíticamente por la enzima viral AVP',
@@ -1942,9 +1942,9 @@ export const PHAGE_DNA_VIRUS_PART_LENSES: PagePartLensMap = {
       en: {
         subtitle: 'Thirty-Six Thousand Letters of Nuclear Counterfeit',
         simple:
-          'Like a self-starting counterfeit press, this straight 36,000-letter DNA strand carries a starter protein glued to each tip so it prints tens of thousands of copies inside the nucleus.',
+          'Tucked inside the crystal is a straight, double-stranded DNA molecule of 36,000 letters with a special starter protein glued to each end so it can copy itself nonstop inside the human nucleus.',
         story:
-          'Sledding down [[microtubules|microtubule]] inside hexon armor, this 36,000-base-pair [[linear DNA|dna]] waits until cellular motors pry the shell open right at a [[nuclear pore|nuclear-pore]]. Slipping into the [[nucleus|real-nucleus]], its E1A genes hotwire cell division like Hackers while Terminal Proteins glued on both 5′ ends prime non-stop viral DNA printing!',
+          'Hauled along [[microtubules|microtubule]] inside its battered hexon sled, this 36,000-base-pair [[linear DNA|dna]] waits until kinesin motors rip the shell open right at the mouth of a [[nuclear pore|nuclear-pore]]. Slipping smoothly into the [[nucleus|real-nucleus]], its E1A genes immediately hotwire the cell cycle while covalent Terminal Proteins glued to both 5′ tips prime viral DNA polymerase to print tens of thousands of fresh genomes.',
         blueprint: {
           role: 'Linear double-stranded viral genome with protein-primed replication origins',
           arrivesFrom: 'Packaged via left-end A-repeat packaging signals into preformed nuclear capsids',
@@ -1966,9 +1966,9 @@ export const PHAGE_DNA_VIRUS_PART_LENSES: PagePartLensMap = {
       es: {
         subtitle: 'Treinta y seis mil letras de falsificación nuclear',
         simple:
-          'Como una imprenta pirata con arranque propio, esta hebra recta de ADN de 36,000 letras lleva una proteína cebadora en cada punta para copiarse miles de veces en el núcleo.',
+          'Guardada dentro del cristal viaja una hebra recta de ADN de 36,000 letras con una proteína cebadora pegada en cada punta para poder copiarse sin parar al llegar al núcleo humano.',
         story:
-          'Deslizándose por [[microtúbulos|microtubule]] en su trineo de hexones, este [[ADN lineal|dna]] aguarda a que motores celulares abran el casco frente a un [[poro nuclear|nuclear-pore]]. Al entrar al [[núcleo|real-nucleus]], sus genes E1A puentean el ciclo celular como hackers de película mientras sus Proteínas Terminales 5′ disparan copias en serie.',
+          'Remolcado sobre [[microtúbulos|microtubule]] dentro de su trineo abollado de hexones, este [[ADN lineal|dna]] de 36,000 pares de bases aguarda hasta que motores celulares desgarran el casco en la boca misma de un [[poro nuclear|nuclear-pore]]. Al colarse en el [[núcleo|real-nucleus]], sus genes tempranos E1A puentean el ciclo celular mientras las Proteínas Terminales selladas en sus extremos 5′ disparan la impresión de decenas de miles de genomas nuevos.',
         blueprint: {
           role: 'Genoma lineal de ADNbc con extremos cebados por Proteína Terminal',
           arrivesFrom: 'Empaquetado mediante secuencias señal izquierdas dentro de cápsides ensambladas en el núcleo',
@@ -1993,9 +1993,9 @@ export const PHAGE_DNA_VIRUS_PART_LENSES: PagePartLensMap = {
       en: {
         subtitle: 'Counterfeit Chromatin Spools & the DNA-Sliding Protease',
         simple:
-          'Wrapped around 800 positively charged viral spools like Mystique impersonating human chromatin, the core also packs a protease ninja that slides down DNA snipping the shell into combat mode.',
+          'Hundreds of positively charged viral spool proteins wrap the DNA into tidy beads inside the shell, while a built-in viral enzyme slides along the DNA cutting precursor bricks to lock the mature crystal into combat readiness.',
         story:
-          'Stuffing 12 micrometers of negative [[DNA|dna]] into a tiny gem would blow it apart without ~800 protein VII spools coiling a Mystique-style chromatin disguise inside the [[adenosome core|real-adv-core]]. Skating along that DNA like a rail-grinding ninja, protease AVP snips precursor bricks from inside—arming the [[Trojan horse|real-adenovirus]] for its run to the [[nuclear pore|nuclear-pore]].',
+          'Cramming 12 micrometers of negatively charged [[DNA|dna]] into a 62-nanometer cavity would blow the crystal apart without ~800 copies of arginine-rich protein VII winding it into counterfeit nucleosomes inside the [[adenosome core|real-adv-core]]. Riding those very DNA tracks during assembly, cysteine protease AVP snips precursor cements and spools—arming the [[Trojan horse|real-adenovirus]] from the inside out before accompanying the genome right through the [[nuclear pore|nuclear-pore]].',
         blueprint: {
           role: 'Genome-condensing pseudo-histone spools and DNA-guided maturation protease',
           arrivesFrom: 'Co-packaged as pre-VII, pre-V, pre-µ, and inactive AVP inside nascent nuclear virions',
@@ -2017,9 +2017,9 @@ export const PHAGE_DNA_VIRUS_PART_LENSES: PagePartLensMap = {
       es: {
         subtitle: 'Carretes de cromatina falsa y la proteasa corrediza',
         simple:
-          'Enrollado en 800 carretes virales que imitan cromatina humana al estilo Mystique, el núcleo incluye una proteasa ninja que patina por el ADN dejando el cristal listo para el combate.',
+          'Cientos de carretes virales de carga positiva enrollan el ADN en cuentas compactas, mientras una enzima interna patina sobre esa misma hebra recortando piezas hasta dejar el cristal armado para el ataque.',
         story:
-          'Embutir 12 micrómetros de [[ADN|dna]] negativo reventaría la gema sin 800 copias de proteína VII disfrazándolo de cromatina estilo Mystique en el [[núcleo adenosómico|real-adv-core]]. Patinando por esa hebra como un ninja sobre rieles, la proteasa AVP recorta piezas internas y deja armado al [[caballo de Troya|real-adenovirus]] rumbo al [[poro nuclear|nuclear-pore]].',
+          'Embutir 12 micrómetros de [[ADN|dna]] con carga negativa en una cavidad de 62 nanómetros reventaría el cristal si unas 800 copias de proteína VII rica en arginina no lo enrollaran en falsos nucleosomas dentro del [[núcleo adenosómico|real-adv-core]]. Deslizándose por esos mismos raíles de ADN, la proteasa AVP recorta los cementos inmaduros para armar desde dentro el [[caballo de Troya|real-adenovirus]] antes de escoltar el genoma por el [[poro nuclear|nuclear-pore]].',
         blueprint: {
           role: 'Carretes tipo histona condensadores del genoma y proteasa madurativa guiada por ADN',
           arrivesFrom: 'Coempaquetados como precursores pVII, pV, pre-µ y proteasa AVP en viriones nucleares nacientes',
@@ -2044,9 +2044,9 @@ export const PHAGE_DNA_VIRUS_PART_LENSES: PagePartLensMap = {
       en: {
         subtitle: 'The Two-Lock Handshake on the Airway Surface',
         simple:
-          'Like unwitting security guards holding the vault door open, human CAR anchors the virus’s long antenna while αvβ5 integrins ring the endocytosis doorbell that pulls the invader inside!',
+          'Two normal human surface proteins accidentally team up to let the virus inside: CAR acts as the sticky mooring post for the long fiber, and αvβ5 integrins act as the doorbell that opens an inward bubble.',
         story:
-          'Built to zip airway cells shut, [[tight-junction CAR|cell-junction]] gets hooked by the [[Fiber knob|adv-fiber-real]] and dragged sideways by actin currents. That tug bows the crystal onto αvβ5 integrins, whose five-fingered handshake with [[Penton RGD loops|adv-penton-real]] rings the swallow-me doorbell—pulling in the [[Trojan horse|real-adenovirus]] while popping its first grenade pin!',
+          'Meant to zip neighboring airway cells into a leak-proof barrier, [[tight-junction CAR|cell-junction]] instead gets snagged by the virus’s [[Fiber knob|adv-fiber-real]] and dragged sideways by actin currents beneath the membrane. That tug-of-war pulls the crystal down onto stationary αvβ5 integrins, whose five-way grip on the [[Penton RGD loops|adv-penton-real]] rings the cell’s own endocytosis doorbell—tricking the victim into swallowing the [[Trojan horse|real-adenovirus]] while prying loose its first corner cap.',
         blueprint: {
           role: 'Dual host receptor system coupling high-affinity attachment to mechanical uncoating and uptake',
           arrivesFrom: 'Endogenous [[tight-junction CAR|cell-junction]] and apical/basolateral αvβ3/αvβ5 integrins on [[host membrane|plasma-membrane]]',
@@ -2068,9 +2068,9 @@ export const PHAGE_DNA_VIRUS_PART_LENSES: PagePartLensMap = {
       es: {
         subtitle: 'El apretón de manos de doble cerradura',
         simple:
-          'Como guardias engañados que abren la bóveda al ladrón, el receptor humano CAR amarra la antena larga mientras las integrinas tocan el timbre que mete al invasor en casa.',
+          'Dos proteínas normales de la célula humana colaboran sin querer con el invasor: CAR sirve de poste de amarre para la larga antena y las integrinas funcionan como el timbre que abre la puerta hacia dentro.',
         story:
-          'Pensado para sellar células vecinas, el [[CAR de las uniones estrechas|cell-junction]] cae pescado por el [[botón de la Fibra|adv-fiber-real]] y arrastrado de lado. Ese tirón inclina el cristal hacia las integrinas αvβ5, cuyo agarre a los [[bucles RGD del Pentón|adv-penton-real]] toca el timbre endocítico: la célula engulle al [[caballo de Troya|real-adenovirus]] y le quita el primer seguro.',
+          'Diseñado para abrochar células respiratorias vecinas sin rendijas, el receptor [[CAR de las uniones estrechas|cell-junction]] cae enganchado por el [[botón de la Fibra|adv-fiber-real]] mientras corrientes de actina tiran de él bajo la superficie. Ese forcejeo abate el cristal sobre las integrinas αvβ5, cuyo agarre a los [[bucles RGD del Pentón|adv-penton-real]] toca el timbre endocítico de la célula: la víctima engulle al [[caballo de Troya|real-adenovirus]] al mismo tiempo que le quita el seguro a su esquina.',
         blueprint: {
           role: 'Sistema receptor dual del huésped que acopla fijación, tracción mecánica e internalización',
           arrivesFrom: '[[CAR de uniones estrechas|cell-junction]] e integrinas αvβ3/αvβ5 residentes en la [[membrana plasmática|plasma-membrane]]',
@@ -2095,9 +2095,9 @@ export const PHAGE_DNA_VIRUS_PART_LENSES: PagePartLensMap = {
       en: {
         subtitle: 'The Epithelial Border Wall & Clathrin Bubble Trap',
         simple:
-          'Thinking it trapped an intruder for acid disposal, the airway cell’s fatty membrane wraps the crystal in a bubble—only to suffer an Alien-style chestburster breakout five minutes later!',
+          'Lining your nose, throat, and lungs is a flexible fatty membrane that folds inward into tiny protein-caged bubbles whenever surface receptors are triggered—unwittingly ferrying the crystal virus past the outer border.',
         story:
-          'Guarding [[human airway cells|real-cell]], this lipid border falls for the integrin trick at the [[entry zone|real-adv-entry]] and cages the crystal inside a [[vesicle|vesicle]] bound for acid [[lysosomes|lysosome]]. Big mistake: within five minutes, protein VI blades pull a Ridley Scott Alien breakout—shredding the bubble so the capsid sprints down [[microtubules|microtubule]]!',
+          'Every breath tests this phospholipid frontier guarding [[human airway cells|real-cell]]. Fooled by the five-way integrin handshake at the [[entry zone|real-adv-entry]], the membrane dimples inward into a clathrin-caged [[vesicle|vesicle]] intending to ship the intruder to [[lysosomes|lysosome]] for acid disposal—only to have protein VI blades rip that bubble wide open within five minutes so the crystal sprints down [[microtubules|microtubule]] to the nucleus.',
         blueprint: {
           role: 'Host epithelial plasma membrane invaginating into early endosomal entry vesicles',
           arrivesFrom: 'Polarized mucosal surface of [[human respiratory epithelial cell|real-cell]]',
@@ -2119,9 +2119,9 @@ export const PHAGE_DNA_VIRUS_PART_LENSES: PagePartLensMap = {
       es: {
         subtitle: 'La frontera epitelial y la trampa de la burbuja de clatrina',
         simple:
-          'Creyendo atrapar a un intruso rumbo al ácido, la membrana respiratoria envuelve el cristal en una burbuja, pero sufre una fuga al estilo Alien apenas cinco minutos después.',
+          'Tapizando nariz, garganta y pulmones se extiende una membrana flexible de grasa que se pliega hacia dentro formando diminutas burbujas cada vez que tocan sus receptores, metiendo sin saberlo al virus de cristal en casa.',
         story:
-          'Custodiando las [[células epiteliales humanas|real-cell]], esta frontera cae en la trampa de la [[zona de entrada|real-adv-entry]] y encierra el cristal en una [[vesícula de clatrina|vesicle]] rumbo a los [[lisosomas|lysosome]]. Error fatal: en cinco minutos las cuchillas VI protagonizan una fuga digna de Alien y lanzan la cápside por los [[microtúbulos|microtubule]].',
+          'Cada inspiración pone a prueba esta frontera de fosfolípidos que protege a las [[células epiteliales humanas|real-cell]]. Engañada por el apretón quíntuple de las integrinas en la [[zona de entrada|real-adv-entry]], la membrana se hunde formando una [[vesícula de clatrina|vesicle]] con intención de mandar al intruso a los [[lisosomas|lysosome]], sin sospechar que en cinco minutos las cuchillas de proteína VI rajarán la burbuja para soltar al cristal hacia los [[microtúbulos|microtubule]].',
         blueprint: {
           role: 'Membrana plasmática epitelial que se invagina formando vesículas endocíticas tempranas',
           arrivesFrom: 'Superficie mucosa polarizada de la [[célula epitelial respiratoria|real-cell]]',
@@ -2148,9 +2148,9 @@ export const PHAGE_DNA_VIRUS_PART_LENSES: PagePartLensMap = {
       en: {
         subtitle: 'Two Thousand One Hundred and Thirty Interlocking Armor Tiles',
         simple:
-          'Over two thousand identical LEGO-like wedges spiral into an armor rod tougher than dried leather—until low calcium inside a wounded leaf pops the tip loose for ribosomes to peel.',
+          'Over two thousand identical wedge-shaped protein bricks wind into a rock-solid spiral tube, hiding the fragile viral RNA strand deep inside so heat, sun, and leaf enzymes cannot touch it.',
         story:
-          'Locked into ~130 [[spiral turns|tmv-turn-real]] around one [[RNA|rna]] spring, 2,130 identical [[coat tiles|tmv-sub-real]] forge a Dune-tough cylinder that survives decades in dead leaves. Yet the instant a bug bite drops it into low-calcium sap, the top bricks pop loose so a host [[ribosome|ribosome]] strips the whole suit off brick by brick!',
+          'Snapped into ~130 right-handed [[spiral turns|tmv-turn-real]] around a single [[RNA|rna]] spring, 2,130 identical [[coat tiles|tmv-sub-real]] turn a fragile genetic thread into an indestructible rod tough enough to outlast a dead leaf for decades. Yet the instant a beetle bite drops the rod into low-calcium cytosol, the top tiles pop loose so a host [[ribosome|ribosome]] can strip the entire armor off brick by brick.',
         blueprint: {
           role: 'Self-assembling helical capsid armor and reversible RNA clamp',
           arrivesFrom: 'Translated in massive copy numbers from subgenomic coat mRNA on [[plant 80S ribosomes|ribosome]]',
@@ -2172,9 +2172,9 @@ export const PHAGE_DNA_VIRUS_PART_LENSES: PagePartLensMap = {
       es: {
         subtitle: 'Dos mil ciento treinta losetas de blindaje en espiral',
         simple:
-          'Más de dos mil cuñas idénticas estilo LEGO forman un bastón blindado capaz de resistir décadas al sol, hasta que la falta de calcio en una hoja herida destapa su punta.',
+          'Más de dos mil ladrillos proteicos idénticos en forma de cuña se enrollan en un tubo espiral durísimo, escondiendo el frágil hilo de ARN para que ni el sol ni las enzimas de la hoja lo alcancen.',
         story:
-          'Trabadísimas en ~130 [[vueltas espirales|tmv-turn-real]] sobre un muelle de [[ARN|rna]], 2,130 [[losetas idénticas|tmv-sub-real]] forjan un cilindro digno de Dune que aguanta décadas en hojas muertas. Pero apenas la mordida de un insecto lo tira al citosol sin calcio, saltan las piezas superiores y un [[ribosoma|ribosome]] desmonta todo el traje.',
+          'Encajadas en ~130 [[vueltas espirales|tmv-turn-real]] alrededor de un único muelle de [[ARN|rna]], 2,130 [[losetas idénticas|tmv-sub-real]] convierten un delicado mensaje genético en un bastón indestructible capaz de sobrevivir décadas en rastrojos secos. Sin embargo, apenas la mordedura de un insecto lo arroja al citosol pobre en calcio, las piezas de la punta saltan sueltas para que un [[ribosoma|ribosome]] vegetal desmonte el blindaje ladrillo a ladrillo.',
         blueprint: {
           role: 'Blindaje helicoidal autoensamblable y pinza reversible de ARN',
           arrivesFrom: 'Traducida masivamente desde el ARNm subgenómico tardío en [[ribosomas 80S vegetales|ribosome]]',
@@ -2199,9 +2199,9 @@ export const PHAGE_DNA_VIRUS_PART_LENSES: PagePartLensMap = {
       en: {
         subtitle: 'The Self-Threading Split Lock-Washer',
         simple:
-          'Like Iron Man’s automated suit rings, 34 coat bricks pre-assemble into a flat two-layer washer that spots a secret password loop on viral RNA and snaps into a spiral lock-washer!',
+          'To build a new virus, thirty-four coat bricks first team up into a flat two-layer ring, grab a special loop on the viral RNA, and pop into a spiral split-washer that reels the RNA up through the center hole.',
         story:
-          'How do loose [[coat bricks|tmv-sub-real]] pick viral [[RNA|rna]] out of thousands of plant scrolls without packing civilian mail? Thirty-four bricks form a Stark-tech [[20S disc|real-tmv-assembly]] tuned to one secret hairpin near the 3′ tail—snapping on contact into a spiral lock-washer that reels an RNA loop up the [[4 nm central chimney|real-tmv-channel]]!',
+          'How do 2,130 loose [[coat bricks|tmv-sub-real]] pick out viral [[RNA|rna]] from thousands of ordinary plant messages without packing the wrong scroll? Thirty-four bricks pre-assemble into a two-layer [[20S disc|real-tmv-assembly]] tuned to recognize only one guanine-rich hairpin near the 3′ tail—snapping on contact into a helical lock-washer that hauls a traveling RNA loop up the [[4 nm central chimney|real-tmv-channel]] as fresh washers stack on top.',
         blueprint: {
           role: 'Selective RNA-nucleating oligomer and rapid rod-elongation module',
           arrivesFrom: 'Equilibrates from newly synthesized [[coat monomers|tmv-sub-real]] at cytosolic pH 7.0 and low ionic strength',
@@ -2223,9 +2223,9 @@ export const PHAGE_DNA_VIRUS_PART_LENSES: PagePartLensMap = {
       es: {
         subtitle: 'La arandela de presión que enhebra su propio ARN',
         simple:
-          'Como los anillos automáticos del traje de Iron Man, 34 ladrillos forman un disco doble que detecta una contraseña secreta del ARN viral y salta a espiral para izarlo.',
+          'Para armar un virus nuevo, treinta y cuatro ladrillos forman primero un anillo plano de dos pisos, atrapan un lazo especial del ARN viral y saltan a una espiral que iza el hilo por el agujero central.',
         story:
-          '¿Cómo eligen los [[ladrillos sueltos|tmv-sub-real]] el [[ARN viral|rna]] entre miles de mensajes vegetales sin equivocarse de paquete? Treinta y cuatro piezas arman un [[disco 20S|real-tmv-assembly]] digno de Tony Stark que solo reconoce una horquilla secreta 3′, partiéndose en arandela espiral para izar el ARN por la [[chimenea central de 4 nm|real-tmv-channel]].',
+          '¿Cómo distinguen 2,130 [[ladrillos sueltos|tmv-sub-real]] el [[ARN viral|rna]] entre miles de mensajes propios de la planta sin empaquetar el pergamino equivocado? Treinta y cuatro piezas se agrupan antes en un [[disco 20S|real-tmv-assembly]] de dos capas que solo encaja en una horquilla secreta rica en guaninas cerca de la cola 3′; al tocarla, el anillo se parte en arandela espiral e iza un lazo viajero de ARN por la [[chimenea central de 4 nm|real-tmv-channel]] mientras se apilan más discos encima.',
         blueprint: {
           role: 'Oligómero selectivo de nucleación en OAS y módulo de elongación rápida',
           arrivesFrom: 'Autoasociación de [[monómeros de cubierta|tmv-sub-real]] a pH citosólico ~7.0',
@@ -2250,9 +2250,9 @@ export const PHAGE_DNA_VIRUS_PART_LENSES: PagePartLensMap = {
       en: {
         subtitle: 'The Coiled Genetic Spring & Tunnel Traveller',
         simple:
-          'Wearing fake ID badges at both ends, this single 6,395-letter RNA thread works as the virus’s ruler, ribosome script, and Shawshank fugitive sneaking through wall tunnels next door!',
+          'Coiled between the protein turns is a single 6,395-letter RNA strand that works simultaneously as the ruler setting the virus’s length, the blueprint read by plant ribosomes, and the naked fugitive sneaking into next-door cells.',
         story:
-          'Coiled inside the [[helical coat|real-tmv-helix]], this 6,395-letter [[RNA spring|rna]] flashes forged passports—a 5′ cellular cap and a 3′ tRNA tail disguise! Once low calcium pops the lid, its 5′ cap lures a plant [[ribosome|ribosome]] into printing replicases while naked sister copies slip Shawshank-style through [[plasmodesmata|plasmodesma]] into neighboring cells.',
+          'Wound at a four-nanometer radius inside the [[helical coat|real-tmv-helix]], this 6,395-letter [[RNA spring|rna]] wears a counterfeit cellular cap on its 5′ nose and a tRNA disguise on its 3′ tail. The moment low calcium pops the top coat tiles loose, its 5′ cap lures a plant [[ribosome|ribosome]] into translating replicase enzymes while naked sister strands team up with movement proteins to slip through [[plasmodesmata|plasmodesma]] into neighboring leaf cells.',
         blueprint: {
           role: 'Positive-sense single-stranded genome, length template, and cell-to-cell infectious agent',
           arrivesFrom: 'Synthesized via (-)RNA intermediates inside ER-bound viral replication complexes',
@@ -2274,9 +2274,9 @@ export const PHAGE_DNA_VIRUS_PART_LENSES: PagePartLensMap = {
       es: {
         subtitle: 'El muelle genético y fugitivo de los túneles',
         simple:
-          'Con pasaportes falsos en ambas puntas, este hilo de ARN de 6,395 letras actúa a la vez como regla del virus, guion del ribosoma y fugitivo que cruza túneles hacia células vecinas.',
+          'Enrollada entre las vueltas proteicas viaja una sola hebra de ARN de 6,395 letras que sirve a la vez como regla que fija el largo del virus, manual de instrucciones para el ribosoma y fugitivo que se cuela a las células vecinas.',
         story:
-          'Enrollado bajo la [[cubierta helicoidal|real-tmv-helix]], este [[muelle de ARN|rna]] exhibe credenciales falsas: caperuza 5′ celular y disfraz de ARNt en la cola 3′. Al destaparse el bastón, seduce a un [[ribosoma|ribosome]] para imprimir enzimas copiadoras mientras copias desnudas escapan a lo Sueño de Fuga por los [[plasmodesmos|plasmodesma]] vecinos.',
+          'Alojado a cuatro nanómetros del centro bajo la [[cubierta helicoidal|real-tmv-helix]], este [[muelle de ARN|rna]] de 6,395 letras luce una caperuza falsa en su punta 5′ y un disfraz de ARNt en su cola 3′. Apenas la caída de calcio destapa la punta del bastón, esa caperuza seduce a un [[ribosoma|ribosome]] vegetal para fabricar enzimas copiadoras, mientras copias desnudas se alían con proteínas de movimiento para cruzar los [[plasmodesmos|plasmodesma]] hacia las células de al lado.',
         blueprint: {
           role: 'Genoma monocatenario positivo, regla estructural y agente infeccioso intercelular',
           arrivesFrom: 'Replicado mediante moldes (-)ARN en fábricas virales asociadas al [[retículo endoplasmático|rough-er]]',
@@ -2301,9 +2301,9 @@ export const PHAGE_DNA_VIRUS_PART_LENSES: PagePartLensMap = {
       en: {
         subtitle: 'The Four-Nanometer Calcium Tripwire',
         simple:
-          'Like Indiana Jones’s idol trap in reverse, calcium ions outside the leaf hold negative charges calm down this watery core—until low-calcium cell sap makes them repel and pop the lid!',
+          'Down the hollow core of the rod runs a narrow water tunnel lined with negative charges: calcium ions outside the plant glue those charges calm, but the low-calcium fluid inside a living cell makes them push apart and pop the lid off.',
         story:
-          'A sealed vault that never opens is a coffin, so [[TMV|real-tmv]] runs an Indiana Jones booby-trap down its 4-nanometer [[water-filled bore|water]]. Outside, calcium pins negative acid rings calm on every [[helical turn|tmv-turn-real]]; plunge into low-calcium [[plant cytosol|cytosol]] and calcium vanishes, charges shove apart, and the 5′ tip springs out for a [[ribosome|ribosome]]!',
+          'A vault that never opens is a tomb, so [[TMV|real-tmv]] wires an automatic chemical altimeter down its 4-nanometer [[water-filled bore|water]]. Outside the leaf, abundant calcium and protons pin negatively charged acid clusters together across every [[helical turn|tmv-turn-real]]; the instant the rod plunges into low-calcium [[plant cytosol|cytosol]], those ions diffuse away, electrostatic repulsion pries the weakly held 5′ cap tiles loose, and a waiting [[ribosome|ribosome]] grabs the exposed RNA.',
         blueprint: {
           role: 'Hollow axial assembly chimney and Ca²⁺/H⁺-sensing electrostatic uncoating switch',
           arrivesFrom: 'Extracellular environment (~mM Ca²⁺, pH ~5.5) transitioning into wounded [[plant cytosol|cytosol]] (~100 nM Ca²⁺, pH 7.5)',
@@ -2325,9 +2325,9 @@ export const PHAGE_DNA_VIRUS_PART_LENSES: PagePartLensMap = {
       es: {
         subtitle: 'El cable trampa electrostático de cuatro nanómetros',
         simple:
-          'Como la trampa del ídolo de Indiana Jones al revés, el calcio exterior mantiene quietas las cargas negativas de este túnel de agua hasta que el citosol sin calcio hace saltar la tapa.',
+          'Por el centro hueco del bastón corre un fino túnel de agua forrado de cargas negativas: fuera de la planta el calcio las mantiene sujetas, pero el interior pobre en calcio de la célula viva hace que se repelan y salte la tapa.',
         story:
-          'Una caja fuerte que no abre jamás sería un ataúd, así que el [[VMT|real-tmv]] cablea una trampa digna de Indiana Jones por su conducto de [[agua|water]]. Afuera, el calcio sujeta cargas negativas en cada [[vuelta helicoidal|tmv-turn-real]]; al entrar al [[citosol vegetal|cytosol]] sin calcio, las cargas se repelen y salta la punta 5′ hacia un [[ribosoma|ribosome]].',
+          'Una caja fuerte que jamás se abre sería una tumba, así que el [[VMT|real-tmv]] tiende un sensor químico automático a lo largo de su conducto central de [[agua|water]] de cuatro nanómetros. Fuera de la hoja, el calcio y la acidez abrochan anillos de cargas negativas en cada [[vuelta helicoidal|tmv-turn-real]]; apenas el bastón entra al [[citosol vegetal|cytosol]] casi sin calcio, los iones escapan, las cargas se empujan con fuerza y saltan las primeras losetas 5′ directo hacia un [[ribosoma|ribosome]].',
         blueprint: {
           role: 'Chimenea axial de ensamblaje e interruptor electrostático de desencapsidado sensible a Ca²⁺/H⁺',
           arrivesFrom: 'Paso desde savia extracelular (Ca²⁺ milimolar, pH ~5.5) al [[citosol herido|cytosol]] (Ca²⁺ ~100 nM, pH 7.5)',
@@ -2352,9 +2352,9 @@ export const PHAGE_DNA_VIRUS_PART_LENSES: PagePartLensMap = {
       en: {
         subtitle: 'The "Striposome" Bulldozer Uncoating & Reading at Once',
         simple:
-          'Chugging down the RNA like Pac-Man in a bulldozer, the plant’s own ribosome pries off the remaining virus armor bricks in front while printing the virus’s giant copying machine behind!',
+          'Once calcium loss pops a few top bricks off the rod, a plant ribosome latches onto the exposed RNA tip and chugs forward—simultaneously peeling off the rest of the virus coat and building the viral copying enzyme.',
         story:
-          'Why pack an uncoating motor when the victim works for free? Once the [[calcium switch|real-tmv-channel]] loosens the top [[coat tiles|tmv-sub-real]], a plant [[80S ribosome|ribosome]] clamps onto [[viral RNA|rna]] like a Pac-Man bulldozer ("striposome")—wedging hundreds of bricks off ahead while extruding viral replicase onto the [[endoplasmic reticulum|rough-er]]!',
+          'Why pack your own uncoating motor when the victim’s protein factories work for free? The moment the [[calcium switch|real-tmv-channel]] pops the top [[coat tiles|tmv-sub-real]] off the 5′ Ω leader, a plant [[80S ribosome|ribosome]] clamps onto the [[viral RNA|rna]] and bulldozes down the rod as a "striposome"—wedging off hundreds of coat bricks ahead of its nose while extruding the massive 126/183-kilodalton replicase behind its back onto the [[endoplasmic reticulum|rough-er]].',
         blueprint: {
           role: 'Co-translational virion uncoating motor ("striposome") and viral replicase synthesizer',
           arrivesFrom: 'Host [[80S ribosomal subunits|ribosome]] recruited via eIF4F/HSP101 onto the exposed 5′ Ω leader of [[TMV RNA|rna]]',
@@ -2376,9 +2376,9 @@ export const PHAGE_DNA_VIRUS_PART_LENSES: PagePartLensMap = {
       es: {
         subtitle: 'La excavadora «estriposoma» que desnuda y traduce a la vez',
         simple:
-          'Avanzando por el ARN como Pac-Man subido a una excavadora, el propio ribosoma vegetal arranca el resto de la coraza por delante mientras imprime la copiadora viral por detrás.',
+          'Apenas saltan los primeros ladrillos de la punta, un ribosoma de la planta engancha el extremo del ARN y avanza como una excavadora: va pelando el resto de la coraza al mismo tiempo que fabrica la enzima copiadora del virus.',
         story:
-          '¿Para qué traer motor propio si la víctima trabaja gratis? Apenas el [[interruptor de calcio|real-tmv-channel]] afloja las primeras [[losetas de cubierta|tmv-sub-real]], un [[ribosoma 80S|ribosome]] muerde el [[ARN viral|rna]] cual Pac-Man excavadora («estriposoma»), arrancando ladrillos al frente mientras levanta fábricas de copia en el [[retículo endoplasmático|rough-er]].',
+          '¿Para qué cargar un motor propio de apertura si las fábricas de la víctima trabajan gratis? En cuanto el [[interruptor de calcio|real-tmv-channel]] suelta las primeras [[losetas de cubierta|tmv-sub-real]], un [[ribosoma 80S|ribosome]] vegetal muerde la punta 5′ del [[ARN viral|rna]] y avanza por el bastón convertido en «estriposoma»: arranca cientos de ladrillos con el morro mientras por detrás escupe la gigantesca replicasa que levanta cuarteles de copia sobre el [[retículo endoplasmático|rough-er]].',
         blueprint: {
           role: 'Motor de desencapsidado cotraduccional («estriposoma») y forja de la replicasa viral',
           arrivesFrom: '[[Subunidades ribosómicas 80S|ribosome]] reclutadas por el líder 5′ Ω destapado del [[ARN del VMT|rna]]',
@@ -2403,9 +2403,9 @@ export const PHAGE_DNA_VIRUS_PART_LENSES: PagePartLensMap = {
       en: {
         subtitle: 'The Tunnel-Runner Crowbar Prying Open Cell Walls',
         simple:
-          'Because plant cells sit behind wooden walls with tiny 2-nanometer pores, TMV builds an Ocean’s Eleven crowbar protein (MP30) that pries wall tunnels wide open to smuggle naked RNA next door!',
+          'Plant cells are sealed behind thick wooden walls connected only by microscopic tunnels too narrow for a virus rod. So TMV builds a special "movement protein" that pries those tunnels wide open and marches naked viral RNA next door.',
         story:
-          'Blowing up a [[plant cell|real-plant]] gets you nowhere behind thick [[cellulose walls|real-wall]]—and an 18-nanometer [[TMV rod|real-tmv]] cannot fit 2-nanometer [[plasmodesmata|plasmodesma]]! So Movement Protein MP30 pulls an Ocean’s Eleven tunnel job: flattening [[viral RNA|rna]] into a skinny ribbon and melting callose collars to pry the pore >9 nanometers wide into the next cell!',
+          'Bursting out of a [[plant cell|real-plant]] makes zero sense when every neighbor is locked behind solid [[cellulose walls|real-wall]]—and an 18-nanometer [[TMV rod|real-tmv]] is far too fat to squeeze through 2-nanometer [[plasmodesmata|plasmodesma]] pores. Instead, the virus’s 30-kilodalton Movement Protein coats naked [[viral RNA|rna]] into a skinny ribbon, severs actin gatekeepers, and recruits callose-melting enzymes to pry the tunnel >9 nanometers wide—invading the next cell without ever stepping outside.',
         blueprint: {
           role: 'Plasmodesmata gate-dilating crowbar and single-stranded RNA chaperone',
           arrivesFrom: 'Translated mid-infection from subgenomic MP mRNA on [[ER-associated ribosomes|ribosome]] and trafficked along ER/actin',
@@ -2427,9 +2427,9 @@ export const PHAGE_DNA_VIRUS_PART_LENSES: PagePartLensMap = {
       es: {
         subtitle: 'La palanca corredora que fuerza los túneles de la pared',
         simple:
-          'Como las células vegetales viven tras muros con poros diminutos, el VMT fabrica una proteína palanca (MP30) al estilo Ocean’s Eleven que ensancha esos túneles y cuela el ARN al vecino.',
+          'Las células vegetales viven encerradas tras gruesas paredes conectadas solo por túneles microscópicos demasiado estrechos para el bastón viral; por eso el virus fabrica una «proteína de movimiento» que ensancha esos túneles y pasa el ARN desnudo a la célula vecina.',
         story:
-          'Reventar una [[célula vegetal|real-plant]] no sirve tras gruesas [[paredes de celulosa|real-wall]], y un [[bastón de 18 nanómetros|real-tmv]] no cabe por [[plasmodesmos|plasmodesma]] de dos nanómetros. Por eso la proteína MP30 ejecuta un golpe a lo Ocean’s Eleven: aplana el [[ARN viral|rna]] en cinta fina y disuelve anillos de calosa para ensanchar el túnel a más de nueve nanómetros.',
+          'Reventar una [[célula vegetal|real-plant]] no sirve de nada cuando todas las vecinas se atrincheran tras gruesas [[paredes de celulosa|real-wall]] y un [[bastón de 18 nanómetros|real-tmv]] jamás cabría por [[plasmodesmos|plasmodesma]] de dos nanómetros. En vez de salir al exterior, la Proteína de Movimiento MP30 estira el [[ARN viral|rna]] desnudo en una cinta ultrafina, disuelve los anillos de calosa y ensancha el túnel a más de nueve nanómetros para tomar la célula contigua desde dentro.',
         blueprint: {
           role: 'Palanca dilatadora de plasmodesmos y chaperona de transporte intercelular de ARN',
           arrivesFrom: 'Traducida a mitad de infección en [[ribosomas|ribosome]] y guiada sobre la membrana cortical del [[RE|rough-er]]',

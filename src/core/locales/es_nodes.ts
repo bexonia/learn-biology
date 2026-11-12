@@ -1041,5 +1041,15 @@ export const ES_NODES: Record<string, NodeTranslation> = {
     name: 'Átomo de fósforo',
     scale: '~0.2 nm',
     desc: '15 protones, 16 neutrones, 15 electrones (2 + 8 + 5). Es el átomo central de los grupos fosfato en el ADN, el ARN, el ATP y los fosfolípidos de membrana.'
+  },
+  'life-overview': {
+    name: 'Introducción a la biología: células, células parásitas y virus',
+    scale: '~20 nm – 100 µm (4 niveles biológicos)',
+    desc: 'Escenario comparativo en 3D de los cuatro niveles de organización biológica evaluados según los cuatro pilares de la vida (membrana lipídica, genoma de ADN bicatenario, ribosomas y producción propia de ATP): procariotas autónomos (E. coli), eucariotas compartimentados (levadura, célula animal y vegetal), bacterias mínimas e intracelulares que importan ATP del huésped (Mycoplasma, Chlamydia y Rickettsia) y virus acelulares sin ribosomas ni metabolismo.'
+  },
+  'parasitic-cells-overview': {
+    name: 'Células parásitas y mínimas (Mycoplasma, Chlamydia y Rickettsia)',
+    scale: '~0.3 – 1.2 µm (genomas de 0.58 – 1.11 Mpb)',
+    desc: 'Comparativa de bacterias con evolución genómica reductiva extrema: Mycoplasma genitalium (célula mínima sin pared celular, 580 kpb), Chlamydia trachomatis (ciclo bifásico dentro de una inclusión vacuolar) y Rickettsia prowazekii (bacteria intracelular citosólica emparentada con el ancestro mitocondrial). A diferencia de los virus, conservan membrana plasmática, ADN bicatenario circular, ribosomas 70S propios y fisión binaria, pero emplean translocasas Npt1/Tlc1 para importar ATP de la célula huésped.'
   }
 };

@@ -14,6 +14,8 @@ export const ES_TOURS_PHRASES: Record<string, string> = {
   'The plant cell: a guided tour': 'La célula vegetal: recorrido guiado',
   'Tobacco Mosaic Virus: a guided tour': 'Virus del mosaico del tabaco: recorrido guiado',
   'Main types of viruses: a guided tour': 'Principales tipos de virus: recorrido guiado',
+  'Introduction to biology: cells, parasitic cells & viruses':
+    'Introducción a la biología: células, células parásitas y virus',
 
   // ─── Tour Summaries ───────────────────────────────────────────────────────
   'From the whole cell down to a gene being read: each part lights up, the camera flies to it, and subtitles explain it. About eight minutes.':
@@ -36,6 +38,8 @@ export const ES_TOURS_PHRASES: Record<string, string> = {
     'Desde la cubierta helicoidal de 16⅓ subunidades y los discos autoensamblables 20S hasta el canal de 4 nm regulado por Ca²⁺, los estriposomas y los plasmodesmos. Unos seis minutos.',
   'Compare the five major architectures of the virosphere side by side: head–tail phage, enveloped coronavirus, conical retrovirus, naked icosahedron and helical rod.':
     'Compara lado a lado las cinco grandes arquitecturas de la virosfera: fago cabeza-cola, coronavirus envuelto, retrovirus cónico, icosaedro desnudo y bastón helicoidal.',
+  'Start here: compare simple prokaryotes, compartmentalized eukaryotes, ATP-stealing intracellular bacteria and non-living viruses across the four pillars of life.':
+    'Empieza aquí: compara procariotas simples, eucariotas compartimentados, bacterias intracelulares que roban ATP y virus sin vida propia a través de los cuatro pilares de la vida.',
 
   // ─── Chapter Titles ───────────────────────────────────────────────────────
   'Welcome': 'Bienvenida',
@@ -82,6 +86,11 @@ export const ES_TOURS_PHRASES: Record<string, string> = {
   'Self-assembly & uncoating in motion': 'Autoensamblaje y desencapsidación en movimiento',
   'Complex & enveloped viruses': 'Virus complejos y envueltos',
   'Naked icosahedral & helical viruses': 'Virus icosaédricos desnudos y helicoidales',
+  'The four pillars of life': 'Los cuatro pilares de la vida',
+  'Simple cells: prokaryotes': 'Células simples: procariotas',
+  'Complex cells: eukaryotes': 'Células complejas: eucariotas',
+  'Parasitic & minimal cells': 'Células parásitas y mínimas',
+  'Viruses: why code alone is not alive': 'Virus: por qué el código solo no está vivo',
 
   // ─── Step Titles ──────────────────────────────────────────────────────────
   'A crystal-like icosahedron': 'Un icosaedro cristalino',
@@ -235,6 +244,12 @@ export const ES_TOURS_PHRASES: Record<string, string> = {
   '4. Naked icosahedron (Adenovirus)': '4. Icosaedro desnudo (Adenovirus)',
   '5. Helical rod (TMV)': '5. Bastón helicoidal (TMV)',
   'All five classes': 'Las cinco clases',
+  'What makes something alive?': '¿Qué hace que algo esté vivo?',
+  '1. Prokaryotes — life in one open room': '1. Procariotas — la vida en una sala abierta',
+  '2. Eukaryotes — internal rooms & power plants': '2. Eucariotas — salas internas y centrales de energía',
+  '3. Incomplete cells — own ribosomes, borrowed ATP': '3. Células incompletas — ribosomas propios, ATP prestado',
+  '4. Viruses — genetic hijackers with zero ribosomes': '4. Virus — secuestradores genéticos sin ribosomas',
+  'Start the sequential course': 'Comienza el curso secuencial',
 
   // ─── Pathway Link Labels ──────────────────────────────────────────────────
   '1. CAR attachment': '1. Unión a CAR',
@@ -1499,4 +1514,70 @@ export const ES_TOURS_PHRASES: Record<string, string> = {
   'Helical plant rod: Tobacco Mosaic Virus': 'Bastón helicoidal vegetal: Virus del mosaico del tabaco',
   'Now click any virus to explore its realistic molecular scene or 3D parts.':
     'Ahora haz clic en cualquier virus para explorar su escena molecular realista o sus partes 3D.',
+
+  // ─── Tour Cues: Introduction to Biology (Stage 0, 32 cues) ────────────────
+  'Welcome to biology: four stages stand side by side to show what makes a cell alive.':
+    'Bienvenido a la biología: cuatro etapas lado a lado muestran qué hace viva a una célula.',
+  'Every autonomous living cell on Earth relies on the same four core pillars.':
+    'Toda célula viva y autónoma de la Tierra se apoya en los mismos cuatro pilares básicos.',
+  'First, a lipid membrane boundary encloses cytoplasm and separates inside from outside.':
+    'Primero, una membrana lipídica encierra el citoplasma y separa el interior del exterior.',
+  'Second, a double-stranded DNA genome stores the heritable instructions for every part.':
+    'Segundo, un genoma de ADN bicatenario guarda las instrucciones heredables de cada pieza.',
+  'Third, ribosomes read messenger RNA to build proteins; fourth, enzymes generate own ATP.':
+    'Tercero, los ribosomas leen ARNm y crean proteínas; cuarto, la célula genera su propio ATP.',
+  'Across these four pedestals, watch how life scales those pillars up or strips them away.':
+    'En estos cuatro pedestales verás cómo la vida amplía esos pilares o los pierde paso a paso.',
+  '[[Prokaryotes|real-bacterium]] like E. coli run all four pillars inside one shared open room.':
+    'Los [[procariotas|real-bacterium]] como E. coli reúnen los cuatro pilares en un solo espacio abierto.',
+  'With no nucleus, its 4.6 Mbp circular dsDNA coils directly in the central nucleoid.':
+    'Sin núcleo, su ADNbc circular de 4,6 Mpb se pliega directamente en el nucleoide central.',
+  'Fast 70S ribosomes latch onto mRNA right beside the DNA, translating genes immediately.':
+    'Rápidos ribosomas 70S se unen al ARNm junto al ADN y traducen los genes al instante.',
+  'In the plasma membrane, respiratory pumps and ATP synthase turbines mint its own ATP.':
+    'En la membrana plasmática, bombas respiratorias y turbinas ATP sintasa generan su propio ATP.',
+  'A tough peptidoglycan chainmail wall braces the envelope against internal water pressure.':
+    'Una resistente pared de peptidoglicano protege la envoltura frente a la presión interna.',
+  'Biology is easiest to learn here first: every core machine works in plain view.':
+    'Aprender biología es más fácil empezando aquí: cada máquina esencial actúa a plena vista.',
+  '[[Eukaryotes|real-cell]] - yeast, animal and plant cells - scale up 1,000-fold in volume.':
+    'Los [[eucariotas|real-cell]] —levaduras, animales y plantas— multiplican por 1.000 su volumen.',
+  'To manage that size, they divide the interior into specialized membrane-bound organelles.':
+    'Para gestionar ese tamaño, dividen su interior en orgánulos especializados con membrana.',
+  'Linear chromosomes sit inside a double-membrane nucleus guarded by selective nuclear pores.':
+    'Los cromosomas lineales residen en un núcleo de doble membrana con poros selectivos.',
+  'Larger 80S ribosomes translate exported mRNA across the cytosol and rough ER sheets.':
+    'Ribosomas 80S más grandes traducen el ARNm en el citosol y en las láminas del RE rugoso.',
+  'Hundreds of mitochondria - once free-living bacteria - supply ATP across the whole cell.':
+    'Cientos de mitocondrias —antiguas bacterias libres— suministran ATP a toda la célula.',
+  'Plant cells add a second bacterial symbiont, the chloroplast, to turn sunlight into sugar.':
+    'Las células vegetales suman otro simbionte, el cloroplasto, para fijar luz solar en azúcar.',
+  '[[Parasitic and minimal bacteria|parasitic-cells-overview]] often confuse students because many live inside host cells.':
+    'Las [[bacterias parásitas y mínimas|parasitic-cells-overview]] suelen confundirse porque muchas viven dentro de células.',
+  'Meet Mycoplasma, Chlamydia and Rickettsia: tiny bacteria that shed dozens of metabolic pathways.':
+    'Conoce a Mycoplasma, Chlamydia y Rickettsia: bacterias diminutas que perdieron rutas propias.',
+  'Are they viruses? Not at all: each keeps a lipid membrane and circular dsDNA of 0.58 to 1.1 Mbp.':
+    '¿Son virus? En absoluto: conservan membrana lipídica y ADNbc circular de 0,58 a 1,1 Mpb.',
+  'Crucially, they carry their own 70S ribosomes to build proteins and divide by binary fission.':
+    'Clave: poseen sus propios ribosomas 70S para crear proteínas y se dividen por fisión binaria.',
+  'Because they keep Pillars 1, 2 and 3, they are true living cells - just metabolically incomplete.':
+    'Al conservar los pilares 1, 2 y 3, son células vivas reales, pero metabólicamente incompletas.',
+  'Chlamydia and Rickettsia use Npt1 and Tlc1 membrane antiporters to import ATP from a host cell.':
+    'Chlamydia y Rickettsia usan antiporters Npt1 y Tlc1 para importar ATP directo de su huésped.',
+  'Antibiotics targeting 70S ribosomes still stop them, proving they run cellular protein factories.':
+    'Los antibióticos contra ribosomas 70S las frenan, probando que usan fábricas celulares propias.',
+  '[[Viruses|viruses]] like Phage T4, SARS-CoV-2 and HIV-1 cross the line out of cellular life.':
+    'Los [[virus|viruses]] como el fago T4, SARS-CoV-2 y VIH-1 cruzan la frontera fuera de la vida celular.',
+  'Each virion is only compact DNA or RNA packed inside a protein capsid and optional lipid coat.':
+    'Cada virión es solo ADN o ARN compacto dentro de una cápside proteica y envoltura opcional.',
+  'Unlike Chlamydia or E. coli, a virus has zero cytoplasm, zero ATP synthesis and zero ribosomes.':
+    'A diferencia de Chlamydia o E. coli, un virus tiene cero citoplasma, cero ATP y cero ribosomas.',
+  'Outside a living cell a virion is completely inert, unable to read genes or copy itself.':
+    'Fuera de una célula viva el virión es del todo inerte, incapaz de leer genes o copiarse.',
+  'Only after docking and injecting its genome can it hijack host ribosomes to print new virions.':
+    'Solo al acoplarse e inyectar su genoma secuestra ribosomas del huésped para crear más viriones.',
+  'You now have the map of biology: from autonomous cells to ATP thieves and acellular viruses.':
+    'Ya tienes el mapa de la biología: de células autónomas a ladronas de ATP y virus acelulares.',
+  'Click Next in Course or [[Bacterium (E. coli)|real-bacterium]] to explore our first living cell.':
+    'Pulsa Siguiente en el curso o [[Bacteria (E. coli)|real-bacterium]] para explorar la primera célula.',
 };

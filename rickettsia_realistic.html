@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Interactive 3D Rickettsia prowazekii Model — Tlc1 ATP Translocase, Sca2 Actin Comet Tail &amp; Mitochondrial Homology | BEXONIA</title>
+<!-- SEO:START -->
+<meta name="description" content="Interactive 3D Rickettsia prowazekii alphaproteobacterium at true molecular scale: Gram-negative envelope with microcapsular slime, OmpA/OmpB passenger adhesins, Tlc1 ATP/ADP translocase, respiratory chain (ETC), rotary F1Fo ATP synthase, Rvh T4SS, polar Sca2 F-actin comet tail, 1.11 Mbp dsDNA genome, and adjacent host mitochondrion.">
+<meta name="keywords" content="3D biology, interactive 3D cell model, Rickettsia prowazekii, Alphaproteobacteria, endosymbiotic theory, mitochondrial evolution, Tlc1 ATP ADP translocase, Sca2 actin polymerase, actin comet tail, Rvh Type IV Secretion System, OmpA OmpB, F1Fo ATP synthase, respiratory chain, 70S ribosome, WebGL2, Three.js, Bexonia">
+<meta name="author" content="BEXONIA">
+<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">
+<link rel="canonical" href="https://learn.bexonia.com/rickettsia_realistic.html">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="BEXONIA Learn Biology">
+<meta property="og:title" content="Interactive 3D Rickettsia prowazekii Model — Tlc1 ATP Translocase, Sca2 Actin Comet Tail &amp; Mitochondrial Homology | BEXONIA">
+<meta property="og:description" content="Interactive 3D Rickettsia prowazekii alphaproteobacterium in eukaryotic cytosol: Tlc1 ATP/ADP antiporter, respiratory chain and F1Fo ATP synthase alongside a cutaway host mitochondrion, Rvh T4SS, and polar Sca2 F-actin comet tail.">
+<meta property="og:url" content="https://learn.bexonia.com/rickettsia_realistic.html">
+<meta property="og:image" content="https://learn.bexonia.com/screenshots/bacterium_cell.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Interactive 3D Rickettsia prowazekii Model — Tlc1 ATP Translocase, Sca2 Actin Comet Tail &amp; Mitochondrial Homology | BEXONIA">
+<meta name="twitter:description" content="Interactive 3D Rickettsia prowazekii alphaproteobacterium in eukaryotic cytosol: Tlc1 ATP/ADP antiporter, respiratory chain and F1Fo ATP synthase alongside a cutaway host mitochondrion, Rvh T4SS, and polar Sca2 F-actin comet tail.">
+<meta name="twitter:image" content="https://learn.bexonia.com/screenshots/bacterium_cell.jpg">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":["LearningResource","WebApplication"],"name":"Interactive 3D Rickettsia prowazekii Model — Tlc1 ATP Translocase, Sca2 Actin Comet Tail & Mitochondrial Homology | BEXONIA","description":"Interactive 3D Rickettsia prowazekii alphaproteobacterium at true molecular scale: Gram-negative envelope with microcapsular slime, OmpA/OmpB passenger adhesins, Tlc1 ATP/ADP translocase, respiratory chain (ETC), rotary F1Fo ATP synthase, Rvh T4SS, polar Sca2 F-actin comet tail, 1.11 Mbp dsDNA genome, and adjacent host mitochondrion.","url":"https://learn.bexonia.com/rickettsia_realistic.html","image":"https://learn.bexonia.com/screenshots/bacterium_cell.jpg","applicationCategory":"EducationalApplication","operatingSystem":"Web Browser (WebGL)","learningResourceType":["Interactive 3D Model","Simulation","Guided Tour"],"educationalUse":["Self-study","Classroom instruction","Reference library"],"isAccessibleForFree":true,"license":"https://opensource.org/licenses/MIT","inLanguage":"en","author":{"@type":"Organization","name":"BEXONIA","url":"https://bexonia.com"},"about":[{"@type":"Thing","name":"Rickettsia prowazekii"},{"@type":"Thing","name":"Alphaproteobacteria"},{"@type":"Thing","name":"Mitochondrial Evolution"},{"@type":"Thing","name":"ATP/ADP Translocase"},{"@type":"Thing","name":"Actin Polymerization"},{"@type":"Thing","name":"ATP Synthase"}],"keywords":"3D biology, interactive 3D cell model, Rickettsia prowazekii, Alphaproteobacteria, endosymbiotic homology, Tlc1, Sca2, F-actin comet tail, Rvh T4SS, F1Fo ATP synthase, WebGL2, Three.js, Bexonia"}</script>
+<!-- SEO:END -->
+<style>
+  :root { --bg: #05070c; --fg: #e8edf6; --muted: #8e98ab; --line: rgba(255,255,255,.12); --accent: #9fd8ff; }
+  html, body { margin: 0; height: 100%; background: var(--bg); color: var(--fg); font-family: system-ui, -apple-system, "Segoe UI", sans-serif; overflow: hidden; }
+  canvas { display: block; }
+  #hud { position: absolute; left: 22px; top: 18px; pointer-events: none; }
+  #hud h1 { margin: 0; font-size: 22px; font-weight: 650; letter-spacing: .01em; }
+  #hud p { margin: 4px 0 0; font-size: 13px; color: var(--muted); }
+  #legend { position: absolute; left: 16px; top: 86px; width: 252px; max-height: calc(100% - 156px); overflow: auto; background: rgba(8,11,18,.6); border: 1px solid var(--line); border-radius: 10px; padding: 6px; backdrop-filter: blur(6px); }
+  .it { display: flex; align-items: center; gap: 9px; padding: 5px 8px; border-radius: 7px; font-size: 13px; cursor: default; }
+  .it:hover { background: rgba(159,216,255,.14); }
+  .sw { width: 13px; height: 13px; border-radius: 50%; flex: none; box-shadow: inset 0 0 0 1px rgba(255,255,255,.3); }
+  .key { grid-column: 1 / -1; margin-top: 4px; padding: 8px 8px 4px; border-top: 1px solid var(--line); font-size: 12px; color: var(--muted); line-height: 1.5; }
+  .key .row { display: flex; align-items: center; flex-wrap: wrap; gap: 5px; margin-bottom: 6px; }
+  .chip { width: 19px; height: 19px; border-radius: 50%; display: inline-grid; place-items: center; font-size: 11px; font-weight: 700; color: #141414; }
+  .bar { width: 18px; height: 6px; border-radius: 3px; display: inline-block; }
+  #flows { position: absolute; right: 16px; top: 18px; width: 224px; max-height: calc(100% - 132px); overflow: auto; background: rgba(8,11,18,.6); border: 1px solid var(--line); border-radius: 10px; padding: 8px 6px 6px; backdrop-filter: blur(6px); }
+  #flows h2 { margin: 2px 8px 4px; font-size: 13px; font-weight: 650; }
+  .speed { display: flex; align-items: center; gap: 8px; margin: 2px 8px 8px; font-size: 12px; color: var(--muted); }
+  .speed input { flex: 1; min-width: 0; accent-color: var(--accent); }
+  #spd { width: 38px; text-align: right; color: var(--fg); font-variant-numeric: tabular-nums; }
+  #tip { margin: 0 8px 8px; font-size: 12px; line-height: 1.45; color: var(--muted); }
+  #tip b { color: var(--fg); font-weight: 600; }
+  .mol { display: flex; align-items: center; gap: 8px; padding: 3px 8px; border-radius: 7px; font-size: 12.5px; cursor: default; }
+  .mol:hover { background: rgba(159,216,255,.14); }
+  .mol canvas { width: 22px; height: 22px; flex: none; }
+  #tools { position: absolute; right: 16px; bottom: 16px; display: flex; gap: 8px; }
+  #tools button { background: rgba(8,11,18,.72); color: var(--fg); border: 1px solid rgba(255,255,255,.22); border-radius: 8px; padding: 7px 12px; font: inherit; font-size: 13px; cursor: pointer; }
+  #tools button:hover { border-color: var(--accent); }
+  #hint { position: absolute; right: 18px; bottom: 58px; font-size: 12px; color: var(--muted); pointer-events: none; }
+  #busy { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; color: var(--muted); font-size: 14px; pointer-events: none; }
+  @media (max-width: 720px) {
+    #legend { top: auto; bottom: 62px; left: 10px; right: 10px; width: auto; max-height: 26vh; display: grid; grid-template-columns: 1fr 1fr; }
+    #hint, #flows { display: none; }
+    #hud h1 { font-size: 18px; }
+  }
+  .embed #hud, .embed #legend, .embed #flows, .embed #hint, .embed #tools, .embed #busy { display: none !important; }
+</style>
+<script type="importmap">
+{ "imports": {
+  "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js",
+  "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"
+} }
+</script>
+</head>
+<body>
+<div id="busy">Building Rickettsia prowazekii…</div>
+<div id="hud"><h1>Intracellular Alphaproteobacterium (<i>Rickettsia prowazekii</i>)</h1><p>Realistic rendering · cutaway rod in host cytosol with adjacent mitochondrion · 1.11 Mbp genome (1 unit = 50 nm)</p></div>
+<div id="legend"></div>
+<div id="flows"><h2>What moves</h2><label class="speed">Speed <input id="speed" type="range" min="-3" max="2" step=".1" value="0"><span id="spd">1×</span></label><div id="tip"></div><div id="mols"></div></div>
+<div id="hint">Drag to look around · W A S D to move · scroll to zoom · right-drag to pan · hover a name to highlight it</div>
+<div id="tools"><button id="view">View: cytosol</button><button id="flow">Metabolism: on</button><button id="look">Envelope: gel</button><button id="cut">Close cutaway</button><button id="motion">Pause</button><button id="snap">Save PNG</button></div>
+<script type="module" src="dist/pages/rickettsia_realistic.js"></script>
+</body>
+</html>

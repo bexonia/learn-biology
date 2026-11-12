@@ -65,6 +65,9 @@ const HTML_PAGES = [
   'plant_cell_realistic.html',
   'fungal_cell_realistic.html',
   'prokaryote_cell_realistic.html',
+  'mycoplasma_realistic.html',
+  'chlamydia_realistic.html',
+  'rickettsia_realistic.html',
   'bacteriophage_realistic.html',
   'coronavirus_realistic.html',
   'hiv_realistic.html',
@@ -245,9 +248,9 @@ async function runUnitTests() {
     assert.equal(pdbEmitter.beads.length, 1, 'PdbService.placeProtein should decode and emit PDB spheres');
     ok('RibosomeService & PdbService (80S rough ER, free 80S, polysome rosettes, PDB decoder, OccupancyGrid)');
 
-    // TourService + Multi-Persona Guided Tour Scripts (4,794 cues across 11 tours × EN/ES × pop/blueprint/scientific)
+    // TourService + Multi-Persona Guided Tour Scripts (5,604 cues across 14 tours × EN/ES × pop/blueprint/scientific)
     const all = tours.tours;
-    assert.equal(Object.keys(all).length, 11, 'TourService must provide all 11 guided tours');
+    assert.equal(Object.keys(all).length, 14, 'TourService must provide all 14 guided tours');
     const plainOf = (s: string) => s.replace(/\[\[([^\]|]+)(?:\|[^\]]+)?\]\]/g, '$1');
     const extractHighlightTargets = (s: string): string[] =>
       [...s.matchAll(/\[\[([^|\]]+)(?:\|([^\]]+))?\]\]/g)].map((m) =>
@@ -342,23 +345,29 @@ async function runUnitTests() {
         }
       }
     }
-    assert.equal(Object.keys(ALL_TOURS).length, 11);
-    assert.equal(uniqueTourCuesCount, 799, `Expected 799 unique tour cues across 11 tours, got ${uniqueTourCuesCount}`);
+    assert.equal(Object.keys(ALL_TOURS).length, 14);
+    assert.equal(uniqueTourCuesCount, 934, `Expected 934 unique tour cues across 14 tours, got ${uniqueTourCuesCount}`);
     assert.equal(
       verifiedPersonaCueStrings,
-      4794,
-      `Expected 4794 verified multi-persona tour cue strings, got ${verifiedPersonaCueStrings}`
+      5604,
+      `Expected 5604 verified multi-persona tour cue strings, got ${verifiedPersonaCueStrings}`
     );
     assert.ok(
       tourAnalogyCounts['life-overview'] >= 1 && tourAnalogyCounts['life-overview'] <= 2,
       `Expected <= 2 sparse complex-concept analogies in Tour 0 (life-overview), got ${tourAnalogyCounts['life-overview']}`
     );
+    for (const s3Root of ['real-mycoplasma', 'real-chlamydia', 'real-rickettsia'] as const) {
+      assert.ok(
+        tourAnalogyCounts[s3Root] >= 2 && tourAnalogyCounts[s3Root] <= 3,
+        `Expected 2..3 sparse complex-mechanism analogies in Stage 3 tour ${s3Root}, got ${tourAnalogyCounts[s3Root]}`
+      );
+    }
     assert.ok(
-      curatedAnalogyCueCount >= 22 && curatedAnalogyCueCount <= 47,
-      `Expected sparse, high-value analogies on complex mechanisms only (22..47 of 799 cues, ~1 every 2 min), got ${curatedAnalogyCueCount}`
+      curatedAnalogyCueCount >= 28 && curatedAnalogyCueCount <= 55,
+      `Expected sparse, high-value analogies on complex mechanisms only (28..55 of 934 cues, ~1 every 2 min), got ${curatedAnalogyCueCount}`
     );
     ok(
-      `TourService & Multi-Persona Scripts (11 tours, ${uniqueTourCuesCount} unique cues, ${curatedAnalogyCueCount} sparse complex-mechanism analogies [Tour 0: ${tourAnalogyCounts['life-overview']}], all ${verifiedPersonaCueStrings} cues <= 110 chars & highlight-verified)`
+      `TourService & Multi-Persona Scripts (14 tours, ${uniqueTourCuesCount} unique cues, ${curatedAnalogyCueCount} sparse complex-mechanism analogies [Tour 0: ${tourAnalogyCounts['life-overview']}, Stage 3: ${tourAnalogyCounts['real-mycoplasma']}/${tourAnalogyCounts['real-chlamydia']}/${tourAnalogyCounts['real-rickettsia']}], all ${verifiedPersonaCueStrings} cues <= 110 chars & highlight-verified)`
     );
 
     // I18nService + AtomRef reactivity checks
@@ -380,7 +389,7 @@ async function runUnitTests() {
       'The [[Membrana plasmática|membrane]] encloses the cell.'
     );
     const esDef = i18n.getLocaleDefinition('es');
-    assert.ok(Object.keys(esDef.nodes).length >= 210, 'ES_LOCALE must include all 210 NODES');
+    assert.ok(Object.keys(esDef.nodes).length >= 222, 'ES_LOCALE must include all 222 NODES');
     for (const [id, n] of Object.entries(esDef.nodes)) {
       assert.ok(n.name && n.name.length > 0, `Missing ES name for node ${id}`);
       assert.ok(n.scale && n.scale.length > 0, `Missing ES scale for node ${id}`);
@@ -414,21 +423,21 @@ async function runUnitTests() {
         }
       }
     }
-    assert.ok(totalTranslatedCues >= 687, `Expected >= 687 translated tour cues, got ${totalTranslatedCues}`);
+    assert.ok(totalTranslatedCues >= 822, `Expected >= 822 translated tour cues, got ${totalTranslatedCues}`);
     Effect.runSync(i18n.setLocaleEffect('en'));
     assert.equal(i18n.locale, 'en');
     assert.equal(i18n.t('structureTree'), 'Structure tree');
     unsubscribe();
     assert.deepEqual(observedLocales, ['es', 'en'], 'AtomRef subscription must emit locale transitions');
-    ok(`I18nService (Effect service + AtomRef reactivity, 210/210 ES node descriptions, ${totalTranslatedCues}/687 ES tour cues verified)`);
+    ok(`I18nService (Effect service + AtomRef reactivity, 222/222 ES node descriptions, ${totalTranslatedCues}/822 ES tour cues verified)`);
 
-    // Explanation Modes (Simple, Story, Blueprint, Scientific) + 210 Node Lenses + 149 Realistic Part Lenses checks
+    // Explanation Modes (Simple, Story, Blueprint, Scientific) + 222 Node Lenses + 205 Realistic Part Lenses checks
     const validNodeIds = new Set(Object.keys(esDef.nodes));
-    assert.equal(validNodeIds.size, 210, 'Expected 210 total explorer node IDs');
+    assert.equal(validNodeIds.size, 222, 'Expected 222 total explorer node IDs');
     assert.equal(
       Object.keys(NODE_LENS_REGISTRY).length,
-      210,
-      `Expected 210 registered node lenses, got ${Object.keys(NODE_LENS_REGISTRY).length}`
+      222,
+      `Expected 222 registered node lenses, got ${Object.keys(NODE_LENS_REGISTRY).length}`
     );
     const verifyInlineTokens = (ctx: string, raw: string) => {
       for (const tok of parseRichInline(raw)) {
@@ -487,7 +496,7 @@ async function runUnitTests() {
         verifiedPartCount++;
       }
     }
-    assert.equal(verifiedPartCount, 149, `Expected 149 verified realistic part lenses across 9 pages, got ${verifiedPartCount}`);
+    assert.equal(verifiedPartCount, 205, `Expected 205 verified realistic part lenses across 12 pages, got ${verifiedPartCount}`);
 
     const observedModes: string[] = [];
     const unsubMode = i18n.onModeChange((m) => observedModes.push(m));
@@ -505,15 +514,19 @@ async function runUnitTests() {
     assert.notEqual(simMito, storyMito);
     unsubMode();
     assert.deepEqual(observedModes, ['scientific', 'blueprint', 'simple', 'story']);
-    ok('Multi-mode Explanation Lenses (210/210 bilingual node lenses, 149/149 bilingual realistic part supply chains, & AtomRef mode reactivity)');
+    ok('Multi-mode Explanation Lenses (222/222 bilingual node lenses, 205/205 bilingual realistic part supply chains, & AtomRef mode reactivity)');
 
     // Sequential Curriculum (COURSE_SEQUENCE, markTourCompleted, isTourCompleted, getNextCourseRoot) unit check
+    assert.equal(COURSE_SEQUENCE.length, 15, 'Expected 15-step sequential curriculum');
     assert.equal(COURSE_SEQUENCE[0], 'life-overview', 'Curriculum must start with Stage 0 (life-overview)');
     assert.equal(COURSE_SEQUENCE[1], 'real-bacterium', 'Stage 1 cellular deep dives must start with Bacterium (E. coli)');
     const seqPm = new CourseProgressManager();
     assert.equal(seqPm.getNextCourseRoot('life-overview'), 'real-bacterium');
     assert.equal(seqPm.getNextCourseRoot('real-plant'), 'parasitic-cells-overview');
-    assert.equal(seqPm.getNextCourseRoot('parasitic-cells-overview'), 'viruses');
+    assert.equal(seqPm.getNextCourseRoot('parasitic-cells-overview'), 'real-mycoplasma');
+    assert.equal(seqPm.getNextCourseRoot('real-mycoplasma'), 'real-chlamydia');
+    assert.equal(seqPm.getNextCourseRoot('real-chlamydia'), 'real-rickettsia');
+    assert.equal(seqPm.getNextCourseRoot('real-rickettsia'), 'viruses');
     assert.equal(seqPm.getNextCourseRoot('real-hiv'), null);
     assert.equal(seqPm.isTourCompleted('life-overview'), false);
     seqPm.markTourCompleted('life-overview');
@@ -964,7 +977,9 @@ function runStaticChecks() {
     'audio_lenses_es_spain_bp.tar.gz',
     'audio_lenses_es_spain_sci.tar.gz',
     'audio_stage0_en.tar.gz',
-    'audio_stage0_es.tar.gz'
+    'audio_stage0_es.tar.gz',
+    'audio_stage3_en.tar.gz',
+    'audio_stage3_es.tar.gz'
   ];
   assert.ok(
     !fs.existsSync(path.join(ROOT_DIR, 'audio_tours_es.tar.gz')),
@@ -984,7 +999,9 @@ function runStaticChecks() {
   if (
     !fs.existsSync(path.join(ROOT_DIR, 'audio', 'en', 'v1')) ||
     !fs.existsSync(path.join(ROOT_DIR, 'audio', 'en', 'v1', 'life-overview')) ||
+    !fs.existsSync(path.join(ROOT_DIR, 'audio', 'en', 'v1', 'real-mycoplasma')) ||
     !fs.existsSync(path.join(ROOT_DIR, 'audio', 'es', 'latam', 'life-overview')) ||
+    !fs.existsSync(path.join(ROOT_DIR, 'audio', 'es', 'latam', 'real-mycoplasma')) ||
     !fs.existsSync(path.join(ROOT_DIR, 'audio', 'es', 'spain', 'blueprint')) ||
     !fs.existsSync(path.join(ROOT_DIR, 'audio', 'es', 'spain', 'scientific')) ||
     !fs.existsSync(path.join(ROOT_DIR, 'audio', 'lenses', 'en', 'v1', 'scientific')) ||
@@ -1033,7 +1050,7 @@ function runStaticChecks() {
       }
     }
   });
-  assert.equal(verifiedTourOpusCount, 4794, `Expected 4794 verified multi-persona tour .opus files, got ${verifiedTourOpusCount}`);
+  assert.equal(verifiedTourOpusCount, 5604, `Expected 5604 verified multi-persona tour .opus files, got ${verifiedTourOpusCount}`);
 
   let verifiedLensOpusCount = 0;
   for (const nodeId of Object.keys(NODE_LENS_REGISTRY)) {
@@ -1049,11 +1066,11 @@ function runStaticChecks() {
       }
     }
   }
-  assert.equal(verifiedLensOpusCount, 4200, `Expected 4200 verified multi-voice node lens .opus files, got ${verifiedLensOpusCount}`);
+  assert.equal(verifiedLensOpusCount, 4440, `Expected 4440 verified multi-voice node lens .opus files, got ${verifiedLensOpusCount}`);
   const totalOpusCount = verifiedTourOpusCount + verifiedLensOpusCount;
-  assert.equal(totalOpusCount, 8994, `Expected 8994 total verified .opus files, got ${totalOpusCount}`);
+  assert.equal(totalOpusCount, 10044, `Expected 10044 total verified .opus files, got ${totalOpusCount}`);
   ok(
-    `All ${totalOpusCount} pre-generated Public Domain narration (.opus) files verified (${verifiedTourOpusCount} multi-persona tour cues + ${verifiedLensOpusCount} 4-mode lenses across EN v1/v2/v3 & ES latam/spain, all 17 archives < 48 MB)`
+    `All ${totalOpusCount} pre-generated Public Domain narration (.opus) files verified (${verifiedTourOpusCount} multi-persona tour cues + ${verifiedLensOpusCount} 4-mode lenses across EN v1/v2/v3 & ES latam/spain, all 19 archives < 48 MB)`
   );
 }
 
@@ -1155,7 +1172,7 @@ function findChromeBinary(): string {
 }
 
 async function runBrowserE2ETests() {
-  console.log('\n=== 3. Headless Chrome WebGL End-to-End Verification (All 14 Pages, All Models & Tours) ===');
+  console.log('\n=== 3. Headless Chrome WebGL End-to-End Verification (All 17 Pages, All Models & Tours) ===');
   const { server, port } = await startStaticServer(ROOT_DIR);
   const chromeBin = findChromeBinary();
   const debugPort = 9222 + Math.floor(Math.random() * 1000);
@@ -1306,7 +1323,7 @@ async function runBrowserE2ETests() {
                 builtModels++;
               }
             }
-            const roots = ['life-overview', 'real-bacterium', 'real-fungal', 'real-cell', 'real-plant', 'viruses', 'real-phage', 'real-tmv', 'real-adenovirus', 'real-coronavirus', 'real-hiv'];
+            const roots = ['life-overview', 'real-bacterium', 'real-fungal', 'real-cell', 'real-plant', 'real-mycoplasma', 'real-chlamydia', 'real-rickettsia', 'viruses', 'real-phage', 'real-tmv', 'real-adenovirus', 'real-coronavirus', 'real-hiv'];
             for (const r of roots) {
               const cues = window.TOURS && Object.values(window.TOURS).find(t => t.root === r);
               if (!cues || !cues.chapters || cues.chapters.length === 0) {
@@ -1360,12 +1377,18 @@ async function runBrowserE2ETests() {
             window.__progress.resetCourse('life-overview');
             exp.showNow(['life-overview']);
 
-            // Verify Stage 0 tour + lens .opus HTTP streams
+            // Verify Stage 0 + Stage 3 tour & lens .opus HTTP streams
             const introUrls = [
               nar.resolveAudioUrl({ id: 'intro.ch0.pillars.01', lang: 'en-US', root: 'life-overview' }),
               nar.resolveAudioUrl({ id: 'intro.ch0.pillars.01', lang: 'es-ES', root: 'life-overview' }),
+              nar.resolveAudioUrl({ id: 'myco.ch0.s0.01', lang: 'en-US', root: 'real-mycoplasma' }),
+              nar.resolveAudioUrl({ id: 'chla.ch0.s0.01', lang: 'es-ES', root: 'real-chlamydia' }),
+              nar.resolveAudioUrl({ id: 'rick.ch0.s0.01', lang: 'en-US', root: 'real-rickettsia' }),
               nar.resolveLensAudioUrl({ nodeId: 'life-overview', mode: 'story', lang: 'en-US', voice: 'v3' }),
-              nar.resolveLensAudioUrl({ nodeId: 'parasitic-cells-overview', mode: 'story', lang: 'es-ES', esVoice: 'latam' })
+              nar.resolveLensAudioUrl({ nodeId: 'parasitic-cells-overview', mode: 'story', lang: 'es-ES', esVoice: 'latam' }),
+              nar.resolveLensAudioUrl({ nodeId: 'real-mycoplasma', mode: 'scientific', lang: 'en-US', voice: 'v1' }),
+              nar.resolveLensAudioUrl({ nodeId: 'real-chlam-npt1', mode: 'blueprint', lang: 'es-ES', esVoice: 'spain' }),
+              nar.resolveLensAudioUrl({ nodeId: 'real-rick-mito', mode: 'story', lang: 'en-US', voice: 'v3' })
             ];
             const introRes = await Promise.all(introUrls.map(u => fetch(u)));
             const introBufs = await Promise.all(introRes.map(r => r.arrayBuffer()));
@@ -1395,11 +1418,11 @@ async function runBrowserE2ETests() {
         assert.equal(explorerCheck.autonomyPillsCount, 4, '#autonomyBar must display 4-Pillar Autonomy badges on root view');
         assert.ok(explorerCheck.totalNodes > 40, 'cell_explorer must have > 40 biological nodes');
         assert.ok(explorerCheck.builtModels > 30, 'cell_explorer must build all standalone 3D organelle/molecular models');
-        assert.equal(explorerCheck.tourRoots.length, 11);
+        assert.equal(explorerCheck.tourRoots.length, 14);
         assert.equal(explorerCheck.langSwitchOk, true);
         assert.equal(explorerCheck.esStageGroupsOk, true, 'Spanish locale must translate all 5 curriculum stage headers');
         assert.equal(explorerCheck.introTourNextCourseOk, true, 'Finishing Tour 0 must mark ✓ in #tree and advance via #tNextCourse to #real-bacterium');
-        assert.equal(explorerCheck.introStreamsOk, true, 'Stage 0 EN/ES tour and lens .opus streams must return HTTP 200 + OggS');
+        assert.equal(explorerCheck.introStreamsOk, true, 'Stage 0 & Stage 3 EN/ES tour and lens .opus streams must return HTTP 200 + OggS');
 
         // Verify 4-Mode Explanation Selector (#lensBar), Bidirectional Narrator <-> Persona Sync, Voice Lock (#voiceLockBtn), Connected Supply-Chain Cards (#io), and Inline Links in Browser
         const lensE2E = await cdp.eval<{

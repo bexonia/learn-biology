@@ -16,6 +16,9 @@ export const ES_TOURS_PHRASES: Record<string, string> = {
   'Main types of viruses: a guided tour': 'Principales tipos de virus: recorrido guiado',
   'Introduction to biology: cells, parasitic cells & viruses':
     'Introducción a la biología: células, células parásitas y virus',
+  'Mycoplasma genitalium: a guided tour': 'Mycoplasma genitalium: recorrido guiado',
+  'Chlamydia trachomatis: a guided tour': 'Chlamydia trachomatis: recorrido guiado',
+  'Rickettsia prowazekii: a guided tour': 'Rickettsia prowazekii: recorrido guiado',
 
   // ─── Tour Summaries ───────────────────────────────────────────────────────
   'From the whole cell down to a gene being read: each part lights up, the camera flies to it, and subtitles explain it. About eight minutes.':
@@ -40,6 +43,12 @@ export const ES_TOURS_PHRASES: Record<string, string> = {
     'Compara lado a lado las cinco grandes arquitecturas de la virosfera: fago cabeza-cola, coronavirus envuelto, retrovirus cónico, icosaedro desnudo y bastón helicoidal.',
   'Start here: compare simple prokaryotes, compartmentalized eukaryotes, ATP-stealing intracellular bacteria and non-living viruses across the four pillars of life.':
     'Empieza aquí: compara procariotas simples, eucariotas compartimentados, bacterias intracelulares que roban ATP y virus sin vida propia a través de los cuatro pilares de la vida.',
+  'Explore the smallest self-replicating cell: a wall-less cholesterol membrane, polarized Nap adhesin, internal gliding rod, 580 kbp DNA and 70S ribosomes.':
+    'Explora la célula autorreplicante más pequeña: membrana sin pared con colesterol, adhesina Nap polar, bastón interno de deslizamiento, ADN de 580 kpb y ribosomas 70S.',
+  'Inside a shielded epithelial inclusion vacuole: compare the armored Elementary Body, T3SS needle, dividing Reticulate Body and Npt1 ATP theft.':
+    'Dentro de una vacuola de inclusión epitelial: compara el cuerpo elemental blindado, la aguja T3SS, el cuerpo reticulado en división y el robo de ATP por Npt1.',
+  'Free in the host cytosol: follow phagosome escape, Tlc1 ATP theft, own respiratory chain, Sca2 actin comet propulsion and the origin of Mitochondria.':
+    'Libre en el citosol huésped: sigue el escape del fagosoma, el robo de ATP por Tlc1, su cadena respiratoria, la cola de actina Sca2 y el origen de las mitocondrias.',
 
   // ─── Chapter Titles ───────────────────────────────────────────────────────
   'Welcome': 'Bienvenida',
@@ -91,6 +100,21 @@ export const ES_TOURS_PHRASES: Record<string, string> = {
   'Complex cells: eukaryotes': 'Células complejas: eucariotas',
   'Parasitic & minimal cells': 'Células parásitas y mínimas',
   'Viruses: why code alone is not alive': 'Virus: por qué el código solo no está vivo',
+  'Minimal living cell & wall-less membrane': 'Célula viva mínima y membrana sin pared',
+  'Polarized Nap adhesin & cilium grip': 'Adhesina Nap polarizada y anclaje al cilio',
+  'Internal cytoskeletal rod & gliding': 'Bastón citoesquelético interno y deslizamiento',
+  '580 kbp minimal genome & 70S ribosomes': 'Genoma mínimo de 580 kpb y ribosomas 70S',
+  'Metabolic scavenging & beta-lactam immunity': 'Reciclaje metabólico e inmunidad a betalactámicos',
+  'Inside the inclusion vacuole shield': 'Dentro del escudo de la vacuola de inclusión',
+  'The armored Elementary Body & T3SS strike': 'El cuerpo elemental blindado y la aguja T3SS',
+  'Differentiating into the Reticulate Body': 'Diferenciación en el cuerpo reticulado',
+  'Energy parasitism: Npt1 & Npt2 antiporters': 'Parasitismo energético: antiporters Npt1 y Npt2',
+  'True cellular machinery & re-condensation': 'Maquinaria celular genuina y recondensación',
+  'Phagosome escape & naked cytosolic life': 'Escape del fagosoma y vida libre en el citosol',
+  'Envelope, T4SS & 1.11 Mbp reductive genome': 'Envoltura, T4SS y genoma reductivo de 1,11 Mpb',
+  'Dual energy strategy: Tlc1 & own respiration': 'Estrategia energética dual: Tlc1 y respiración propia',
+  'Polar Sca2 actin comet & cell-to-cell spread': 'Cola polar de actina Sca2 y avance entre células',
+  'Living cousin of Mitochondria': 'Pariente vivo de las mitocondrias',
 
   // ─── Step Titles ──────────────────────────────────────────────────────────
   'A crystal-like icosahedron': 'Un icosaedro cristalino',
@@ -250,6 +274,51 @@ export const ES_TOURS_PHRASES: Record<string, string> = {
   '3. Incomplete cells — own ribosomes, borrowed ATP': '3. Células incompletas — ribosomas propios, ATP prestado',
   '4. Viruses — genetic hijackers with zero ribosomes': '4. Virus — secuestradores genéticos sin ribosomas',
   'Start the sequential course': 'Comienza el curso secuencial',
+  'Smallest self-replicating cell': 'La célula autorreplicante más pequeña',
+  'Single cholesterol-stiffened bilayer': 'Bicapa única rigidizada con colesterol',
+  'Surface lipoproteins & immune decoy': 'Lipoproteínas de superficie y señuelo inmune',
+  'P140/P110 Nap adhesin crown': 'Corona de adhesinas Nap P140/P110',
+  'Clasping sialylated oligosaccharides': 'Sujeción a oligosacáridos sialilados',
+  'Riding the human airway cilium': 'Sobre el cilio epitelial respiratorio humano',
+  'Terminal button & segmented core rod': 'Botón terminal y bastón central segmentado',
+  'Basal bowl wheel complex': 'Complejo basal en rueda de cuenco',
+  'ATP-driven inchworm gliding': 'Deslizamiento tipo oruga impulsado por ATP',
+  '580 kbp circular dsDNA & HU bending': 'ADNbc circular de 580 kpb y plegamiento por HU',
+  'Replication fork & RNA polymerase': 'Horquilla de replicación y ARN polimerasa',
+  'Coupled translation on 70S ribosomes': 'Traducción acoplada en ribosomas 70S',
+  'Scavenging host building blocks': 'Captación de bloques constructivos del huésped',
+  'Glycolysis & why penicillin fails': 'Glucólisis y por qué falla la penicilina',
+  'Minimal cell in motion': 'La célula mínima en movimiento',
+  'An obligate intracellular bacterium': 'Una bacteria intracelular obligada',
+  'Inc proteins & lysosome evasion': 'Proteínas Inc y evasión de lisosomas',
+  'Intercepting Golgi lipid vesicles': 'Intercepción de vesículas lipídicas del Golgi',
+  'Disulfide-armored Elementary Body (EB)': 'Cuerpo elemental (EB) blindado por disulfuros',
+  'Hc1-condensed nucleoid & MOMP trimers': 'Nucleoide condensado por Hc1 y trímeros MOMP',
+  'Type III Secretion needle & TarP': 'Aguja de secreción tipo III y efector TarP',
+  'Swelling into the Reticulate Body (RB)': 'Expansión hacia el cuerpo reticulado (RB)',
+  'The Chlamydial anomaly: septal ring': 'La anomalía clamidial: el anillo septal',
+  'MreB-guided binary fission': 'Fisión binaria guiada por MreB',
+  'Npt1 ATP/ADP translocase swap': 'Intercambio ATP/ADP por la translocasa Npt1',
+  'Npt2 ribonucleotide symporter': 'Simportador de ribonucleótidos Npt2',
+  'Inclusion glycogen & backup glycolysis': 'Glucógeno de inclusión y glucólisis de respaldo',
+  '1.04 Mbp dsDNA & RNA polymerase': 'ADNbc de 1,04 Mpb y ARN polimerasa',
+  '70S ribosomes: proof of a true cell': 'Ribosomas 70S: prueba de una célula genuina',
+  'Re-condensation & inclusion exit': 'Recondensación y salida de la inclusión',
+  'Living naked in the host cytosol': 'Viviendo desnuda en el citosol del huésped',
+  'Pld & TlyC phagosome breakout': 'Ruptura del fagosoma mediante Pld y TlyC',
+  'Microcapsular slime & OmpB S-layer': 'Capa mucosa microcapsular y capa S de OmpB',
+  'Gram-negative envelope & peptidoglycan': 'Envoltura gramnegativa y peptidoglicano',
+  'Rvh Type IV Secretion channel': 'Canal de secreción tipo IV (Rvh T4SS)',
+  '1.11 Mbp DNA, RNAP & 70S ribosomes': 'ADN de 1,11 Mpb, ARN polimerasa y ribosomas 70S',
+  'Early phase: Tlc1 ATP/ADP theft': 'Fase temprana: robo de ATP/ADP vía Tlc1',
+  'Late phase: own respiratory chain (ETC)': 'Fase tardía: cadena respiratoria propia (ETC)',
+  'F1Fo ATP synthase rotary turbine': 'Turbina rotatoria de la ATP sintasa F1Fo',
+  'Polar Sca2 formin mimic': 'Sca2 polar: imitador de forminas',
+  'Actin comet tail propulsion': 'Propulsión por cola cometa de actina',
+  'Punching into the neighbor cell': 'Proyección directa hacia la célula vecina',
+  'Side-by-side with a host mitochondrion': 'Cara a cara con una mitocondria del huésped',
+  'From ATP thief to cellular power plant': 'De ladrón de ATP a central energética celular',
+  'Bridging cells and viruses': 'El puente evolutivo entre células y virus',
 
   // ─── Pathway Link Labels ──────────────────────────────────────────────────
   '1. CAR attachment': '1. Unión a CAR',
@@ -1580,4 +1649,280 @@ export const ES_TOURS_PHRASES: Record<string, string> = {
     'Ya tienes el mapa de la biología: de células autónomas a ladronas de ATP y virus acelulares.',
   'Click Next in Course or [[Bacterium (E. coli)|real-bacterium]] to explore our first living cell.':
     'Pulsa Siguiente en el curso o [[Bacteria (E. coli)|real-bacterium]] para explorar la primera célula.',
+
+  // ─── Tour Cues: Mycoplasma genitalium (Stage 3.1, 45 cues) ────────────────
+  'Meet Mycoplasma genitalium, the smallest known self-replicating cell on Earth.':
+    'Conoce a Mycoplasma genitalium, la célula autorreplicante más pequeña conocida.',
+  'Its flask-shaped body spans just 300 by 600 nm, smaller than some giant viruses.':
+    'Su cuerpo en forma de matraz mide solo 300 por 600 nm, menor que algunos virus gigantes.',
+  'Yet a [[lipid membrane|membrane]], [[DNA|dna]] and [[70S ribosomes|ribosome]] prove it is truly alive.':
+    'Aun así, [[membrana lipídica|membrane]], [[ADN|dna]] y [[ribosomas 70S|ribosome]] prueban que está viva.',
+  'Unlike E. coli, Mycoplasma wears zero peptidoglycan cell wall outside its [[membrane|membrane]].':
+    'A diferencia de E. coli, carece por completo de pared de peptidoglicano sobre su [[membrana|membrane]].',
+  'To keep this naked bilayer from tearing, it packs [[host cholesterol|sterol]] between lipids.':
+    'Para evitar que esta bicapa desnuda se rasgue, inserta [[colesterol del huésped|sterol]] entre lípidos.',
+  'Planar [[sterol rings|sterol]] stiffen the fluid membrane and curb osmotic leaks.':
+    'Los [[anillos planos de esterol|sterol]] dan rigidez a la membrana fluida y frenan fugas osmóticas.',
+  'Anchored in the outer leaflet sit dense [[surface lipoproteins|lipo]] facing the airway.':
+    'Ancladas en la cara externa se alzan densas [[lipoproteínas de superficie|lipo]] hacia la vía aérea.',
+  'Mycoplasma shuffles these [[lipoprotein coats|lipo]] to evade host antibodies.':
+    'Mycoplasma alterna estas [[cubiertas de lipoproteínas|lipo]] para esquivar los anticuerpos.',
+  'Without a rigid wall, the pliable [[bilayer|membrane]] squeezes through 220 nm filters.':
+    'Sin pared rígida, su [[bicapa flexible|membrane]] logra colarse por filtros de 220 nm.',
+  'At the narrow neck juts a polarized crown of [[Nap adhesin complexes|nap]].':
+    'En el cuello estrecho sobresale una corona polarizada de [[complejos adhesina Nap|nap]].',
+  'Each four-part [[Nap spike|nap]] pairs two P140 stalks with two P110 receptor heads.':
+    'Cada [[espícula Nap|nap]] tetramérica une dos tallos P140 con dos cabezas receptoras P110.',
+  'Crowding [[Nap complexes|nap]] at one tip turns the flask neck into a sticky nose.':
+    'Agrupar [[complejos Nap|nap]] en un polo convierte el cuello del matraz en una proa adhesiva.',
+  'The P110 pocket clasps [[sialylated sugar chains|sialo]] on human airway cells.':
+    'El bolsillo de P110 sujeta [[cadenas de azúcares sialilados|sialo]] del epitelio humano.',
+  'Catch-and-release cycles on [[sialic acid receptors|sialo]] keep the cell tethered.':
+    'Ciclos de agarre y suelta sobre [[receptores de ácido siálico|sialo]] mantienen fija la célula.',
+  'When ATP cleavage resets [[Nap|nap]], the clamp lets go to step forward.':
+    'Cuando la hidrólisis de ATP reajusta [[Nap|nap]], la pinza se suelta para dar otro paso.',
+  'Below stretches a beating [[human epithelial cilium|cilium]] meant to sweep mucus clear.':
+    'Debajo se extiende un [[cilio epitelial humano|cilium]] batiente que barre el moco respiratorio.',
+  'By locking [[Nap adhesins|nap]] onto [[ciliary sugars|sialo]], Mycoplasma resists clearance.':
+    'Al fijar [[adhesinas Nap|nap]] a los [[azúcares ciliares|sialo]], Mycoplasma evita ser arrastrado.',
+  'It glides down the [[cilium shaft|cilium]] to colonize the warm mucosal surface.':
+    'Se desliza por el [[eje del cilio|cilium]] hasta colonizar la cálida superficie mucosa.',
+  'Inside the neck sits an internal skeleton capped by a dense [[terminal button|button]].':
+    'Dentro del cuello se aloja un esqueleto interno rematado por un [[botón terminal|button]] denso.',
+  'HMW1, HMW2 and P65 proteins lock the [[terminal button|button]] beneath the tip membrane.':
+    'Las proteínas HMW1, HMW2 y P65 fijan el [[botón terminal|button]] bajo la membrana apical.',
+  'Behind it runs a segmented [[cytoskeletal rod|rod]] that braces the wall-less neck.':
+    'Detrás corre un [[bastón citoesquelético|rod]] segmentado que sostiene el cuello sin pared.',
+  'The back end of the [[core rod|rod]] seats into a saucer-like [[bowl wheel complex|wheel]].':
+    'La base del [[bastón central|rod]] encaja en un [[complejo rueda en cuenco|wheel]] cóncavo.',
+  'This [[basal wheel|wheel]] transmits pulling forces into the rest of the cytoplasm.':
+    'Esta [[rueda basal|wheel]] transmite las fuerzas de tracción al resto del citoplasma.',
+  'Before cell division, the entire [[rod|rod]] and [[wheel|wheel]] duplicate for the daughter.':
+    'Antes de dividirse, todo el [[bastón|rod]] y la [[rueda|wheel]] se duplican para la célula hija.',
+  'With zero flagella, Mycoplasma crawls using [[gliding motor complexes|gliding]] at the neck.':
+    'Sin flagelos, Mycoplasma repta usando [[complejos motores de deslizamiento|gliding]] en el cuello.',
+  'ATP-burning [[gliding motors|gliding]] pull against the [[internal rod|rod]] to tug [[Nap feet|nap]].':
+    'Los [[motores de deslizamiento|gliding]] queman ATP sobre el [[bastón|rod]] y tiran de [[Nap|nap]].',
+  'Inchworm strokes drag the cell across [[airway cilia|cilium]] at ~100 nm per second.':
+    'Pasos rítmicos arrastran la célula sobre los [[cilios respiratorios|cilium]] a ~100 nm por segundo.',
+  'Coiled in the center is a 580,076 bp [[circular dsDNA chromosome|dna]] with ~482 genes.':
+    'En el centro se enrolla un [[cromosoma circular de ADNbc|dna]] de 580.076 pb y ~482 genes.',
+  'That is eight times smaller than E. coli, near the bare minimum for cellular life.':
+    'Es ocho veces menor que el de E. coli, rozando el mínimo absoluto de la vida celular.',
+  'Architectural [[HU proteins|hu]] bend the [[supercoiled DNA|dna]] into compact loops.':
+    'Las [[proteínas arquitectónicas HU|hu]] doblan el [[ADN superenrollado|dna]] en bucles compactos.',
+  'A minimal [[replisome fork|fork]] unwinds and duplicates the [[chromosome|dna]] before fission.':
+    'Una [[horquilla replisómica|fork]] mínima desenrolla y duplica el [[cromosoma|dna]] antes de dividir.',
+  'Nearby, bacterial [[RNA polymerase|rnap]] transcribes essential genes into [[mRNA|mrna]].':
+    'Cerca, la [[ARN polimerasa|rnap]] bacteriana transcribe genes esenciales en [[ARNm|mrna]].',
+  'Even with 482 genes, over 100 are spent just maintaining [[DNA|dna]] and [[RNA|mrna]].':
+    'Aun con solo 482 genes, más de 100 se dedican a mantener el [[ADN|dna]] y el [[ARN|mrna]].',
+  'About 150 bacterial [[70S ribosomes|ribosome]] pack the tiny cytosol to translate [[mRNA|mrna]].':
+    'Unos 150 [[ribosomas 70S|ribosome]] bacterianos llenan el citosol para traducir el [[ARNm|mrna]].',
+  'Owning [[70S ribosomes|ribosome]] separates Mycoplasma sharply from ribosome-free viruses.':
+    'Poseer [[ribosomas 70S|ribosome]] separa con nitidez a Mycoplasma de los virus sin ribosomas.',
+  'Macrolides and tetracyclines cure infection by jamming these [[70S ribosomes|ribosome]].':
+    'Macrólidos y tetraciclinas curan la infección bloqueando estos [[ribosomas 70S|ribosome]].',
+  'Evolution deleted pathways for making amino acids, fatty acids and nucleotides de novo.':
+    'La evolución borró las vías para fabricar aminoácidos, ácidos grasos y nucleótidos de novo.',
+  'Membrane [[ABC importers|import]] scavenge ready-made nucleosides and lipids from the host.':
+    'Los [[importadores ABC|import]] de membrana captan nucleósidos y lípidos listos del huésped.',
+  'That dependency keeps its [[genome|dna]] tiny while restricting life to warm host tissues.':
+    'Esa dependencia mantiene diminuto su [[genoma|dna]], pero lo ata a tejidos cálidos del huésped.',
+  'Lacking a TCA cycle or respiratory chain, cytosolic [[glycolytic enzymes|glycolysis]] mint its ATP.':
+    'Sin ciclo de Krebs ni cadena respiratoria, las [[enzimas glucolíticas|glycolysis]] generan su ATP.',
+  'Penicillin blocks peptidoglycan cross-linking, leaving wall-less [[Mycoplasma|membrane]] unharmed.':
+    'La penicilina frena el peptidoglicano, dejando intacta a la [[membrana sin pared|membrane]].',
+  'Clinicians therefore skip beta-lactams and target [[70S ribosomes|ribosome]] or DNA gyrase.':
+    'Por eso en clínica se evitan betalactámicos y se atacan [[ribosomas 70S|ribosome]] o ADN girasa.',
+  'Watch [[ABC importers|import]], [[glycolysis|glycolysis]], [[70S ribosomes|ribosome]] and [[Nap gliding|nap]] run as one.':
+    'Observa actuar juntos [[importadores ABC|import]], [[glucólisis|glycolysis]], [[ribosomas 70S|ribosome]] y [[Nap|nap]].',
+  'Four hundred eighty-two genes suffice to enclose, copy, translate and power a living cell.':
+    'Cuatrocientos ochenta y dos genes bastan para encerrar, copiar, traducir y dar energía.',
+  'Explore any tag now, or continue to Chlamydia to see full intracellular ATP theft.':
+    'Explora cualquier etiqueta o avanza a Chlamydia para ver el robo intracelular de ATP.',
+
+  // ─── Tour Cues: Chlamydia trachomatis (Stage 3.2, 45 cues) ────────────────
+  'Meet Chlamydia trachomatis, an obligate intracellular bacterium inside a human cell.':
+    'Conoce a Chlamydia trachomatis, bacteria intracelular obligada dentro de una célula humana.',
+  'Rather than floating free in [[host cytosol|host_cyto]], it builds a membrane-bound [[inclusion|inclusion]].':
+    'En vez de flotar libre en el [[citosol huésped|host_cyto]], crea una [[inclusión|inclusion]] con membrana.',
+  'Inside this private sac, Chlamydia alternates between two specialized cellular forms.':
+    'Dentro de este saco privado, Chlamydia alterna entre dos formas celulares especializadas.',
+  'Normally a swallowed microbe is destroyed when acidic host lysosomes fuse with its sac.':
+    'Normalmente un microbio ingerido se destruye cuando los lisosomas ácidos se unen a su saco.',
+  'Chlamydia studs the [[inclusion membrane|inclusion]] with bacterial [[Inc effector proteins|inc]].':
+    'Chlamydia tapiza la [[membrana de inclusión|inclusion]] con [[proteínas efectoras Inc|inc]].',
+  'Hairpin [[Inc proteins|inc]] disguise the vacuole and block lysosomal fusion completely.':
+    'Las [[proteínas Inc|inc]] en horquilla camuflan la vacuola e impiden la fusión lisosomal.',
+  'As bacteria multiply, the [[inclusion sac|inclusion]] must expand tenfold without bursting.':
+    'Al multiplicarse las bacterias, el [[saco de inclusión|inclusion]] crece diez veces sin estallar.',
+  '[[Inc adaptors|inc]] reroute [[Golgi sphingolipid vesicles|golgi_lip]] from the [[host cytosol|host_cyto]].':
+    '[[Adaptadores Inc|inc]] desvían [[vesículas del Golgi|golgi_lip]] desde el [[citosol huésped|host_cyto]].',
+  'Fusing [[Golgi lipids|golgi_lip]] feeds both the [[inclusion wall|inclusion]] and bacterial membranes.':
+    'La fusión de [[lípidos del Golgi|golgi_lip]] nutre la [[inclusión|inclusion]] y las membranas bacterianas.',
+  "Infection begins with the 300 nm [[Elementary Body|eb_om]], Chlamydia's extracellular form.":
+    'La infección inicia con el [[cuerpo elemental|eb_om]] de 300 nm, su forma extracelular.',
+  'Chlamydia splits life in two: a tough [[Elementary Body|eb_om]] for transit and a [[Reticulate Body|rb_om]] to grow.':
+    'Divide su ciclo en dos: un [[cuerpo elemental|eb_om]] resistente y un [[cuerpo reticulado|rb_om]] que crece.',
+  'Disulfide bonds cross-link [[MOMP porins|momp]] and OmcB into a rigid spore-like shell.':
+    'Puentes disulfuro entrelazan [[porinas MOMP|momp]] y OmcB en una coraza tipo espora.',
+  'Inside the [[EB shell|eb_om]], histone-like Hc1 clamps the [[1.04 Mbp DNA|eb_dna]] into a tight core.':
+    'Dentro de la [[cubierta del EB|eb_om]], Hc1 comprime el [[ADN de 1,04 Mpb|eb_dna]] en un núcleo denso.',
+  'Locked in that crystal-dense state, [[EB chromatin|eb_dna]] pauses transcription outside hosts.':
+    'En ese estado cristalino denso, la [[cromatina del EB|eb_dna]] pausa toda transcripción fuera.',
+  'Trimeric [[MOMP beta-barrels|momp]] stay disulfide-sealed until entry reduces their bonds.':
+    'Los [[barriles beta MOMP|momp]] triméricos siguen sellados hasta que la entrada los reduce.',
+  'One pole of the [[Elementary Body|eb_om]] bristles with [[Type III Secretion needles|t3ss]].':
+    'Un polo del [[cuerpo elemental|eb_om]] se eriza con [[agujas de secreción tipo III|t3ss]].',
+  'On contact, hollow [[T3SS syringes|t3ss]] fire [[TarP effectors|tarP]] into [[host cytosol|host_cyto]].':
+    'Al contacto, las [[jeringas T3SS|t3ss]] inyectan [[efectores TarP|tarP]] al [[citosol huésped|host_cyto]].',
+  'Injected [[TarP|tarP]] bundles host actin to pull the bacterium into its new [[inclusion|inclusion]].':
+    '[[TarP|tarP]] agrupa actina del huésped para engullir la bacteria en su nueva [[inclusión|inclusion]].',
+  'Within hours inside the [[inclusion|inclusion]], disulfide cross-links break and the cell swells.':
+    'En pocas horas dentro de la [[inclusión|inclusion]], se rompen los disulfuros y la célula se hincha.',
+  'It becomes a 1,000 nm [[Reticulate Body|rb_om]] bounded by outer and [[inner membranes|rb_im]].':
+    'Se transforma en un [[cuerpo reticulado|rb_om]] de 1.000 nm con [[membrana interna|rb_im]] y externa.',
+  'Hc1 releases the [[relaxed chromosome|rb_dna]] so genes switch on at full speed.':
+    'Hc1 suelta el [[cromosoma relajado|rb_dna]] para activar los genes a máxima velocidad.',
+  'Instead of a full peptidoglycan wall, Chlamydia builds only a transient [[septal ring|septum]].':
+    'En lugar de pared completa, Chlamydia solo ensambla un [[anillo septal|septum]] transitorio.',
+  'This narrow [[peptidoglycan belt|septum]] forms solely at the division plane between membranes.':
+    'Este estrecho [[cinturón de peptidoglicano|septum]] surge solo en el plano de división celular.',
+  'Once two daughter [[Reticulate Bodies|rb_om]] pinch apart, enzymes dismantle the [[ring|septum]].':
+    'Cuando dos [[cuerpos reticulados|rb_om]] hijos se separan, enzimas desmontan el [[anillo|septum]].',
+  'Lacking FtsZ, Chlamydia steers division with [[MreB filaments|mreb]] under the [[inner membrane|rb_im]].':
+    'Sin FtsZ, dirige su fisión con [[filamentos MreB|mreb]] bajo la [[membrana interna|rb_im]].',
+  'Polymerizing [[MreB arcs|mreb]] position the [[septal synthesis complex|septum]] around the waist.':
+    'Los [[arcos de MreB|mreb]] posicionan el [[complejo del anillo septal|septum]] en la cintura.',
+  'Every two to three hours, [[MreB-driven fission|mreb]] doubles the [[RB population|rb_om]].':
+    'Cada dos o tres horas, la [[fisión guiada por MreB|mreb]] duplica la [[población de RB|rb_om]].',
+  'Why was Chlamydia long mistaken for an energy-less virus? Look at [[Npt1|npt1]] in its membrane.':
+    '¿Por qué se confundió a Chlamydia con un virus sin energía? Mira [[Npt1|npt1]] en su membrana.',
+  '[[Npt1 antiporters|npt1]] import one host ATP molecule in strict exchange for one spent bacterial ADP.':
+    'Los [[antiporters Npt1|npt1]] importan un ATP del huésped a cambio exacto de un ADP gastado.',
+  'Porous [[inclusion pores|inclusion]] let host ATP diffuse in so [[Npt1|npt1]] can tap it.':
+    'Poros en la [[membrana de inclusión|inclusion]] dejan pasar ATP para que [[Npt1|npt1]] lo capte.',
+  'Beside [[Npt1|npt1]] sits a second transporter, [[Npt2|npt2]], in the [[RB inner membrane|rb_im]].':
+    'Junto a [[Npt1|npt1]] opera un segundo transportador, [[Npt2|npt2]], en la [[membrana interna|rb_im]].',
+  'Coupled to protons, [[Npt2|npt2]] imports host GTP, CTP and UTP intact for RNA synthesis.':
+    'Acoplado a protones, [[Npt2|npt2]] importa GTP, CTP y UTP intactos para sintetizar ARN.',
+  'Together [[Npt1|npt1]] and [[Npt2|npt2]] spare Chlamydia from making purines or pyrimidines.':
+    'Juntos, [[Npt1|npt1]] y [[Npt2|npt2]] ahorran a Chlamydia fabricar purinas o pirimidinas.',
+  'Floating in the [[inclusion lumen|inclusion]] are branched [[glycogen granules|glycogen]] stained by iodine.':
+    'En el [[lumen de la inclusión|inclusion]] flotan [[gránulos de glucógeno|glycogen]] teñibles con yodo.',
+  'Chlamydia still keeps glycolytic enzymes and converts imported glucose-6-P into [[glycogen|glycogen]].':
+    'Chlamydia conserva enzimas glucolíticas y convierte glucosa-6-P importada en [[glucógeno|glycogen]].',
+  'Late in the cycle, stored [[glycogen|glycogen]] fuels re-condensation when host ATP drops.':
+    'Al final del ciclo, el [[glucógeno|glycogen]] acumulado impulsa la recondensación celular.',
+  'Inside the [[Reticulate Body|rb_om]], ~895 genes sit on a circular [[1.04 Mbp dsDNA genome|rb_dna]].':
+    'Dentro del [[cuerpo reticulado|rb_om]], ~895 genes residen en el [[ADNbc de 1,04 Mpb|rb_dna]].',
+  'Bacterial [[RNA polymerase|rnap]] reads early, mid and late gene cascades into [[mRNA|mrna]].':
+    'La [[ARN polimerasa|rnap]] bacteriana transcribe cascadas génicas en [[ARNm|mrna]].',
+  'Late genes switch on Hc1 and OmcB to convert dividing [[RBs|rb_om]] back into [[EBs|eb_om]].':
+    'Los genes tardíos activan Hc1 y OmcB para reconvertir [[RB|rb_om]] en nuevos [[EB|eb_om]].',
+  'Hundreds of bacterial [[70S ribosomes|ribosome]] translate [[chlamydial mRNA|mrna]] into proteins.':
+    'Cientos de [[ribosomas 70S|ribosome]] bacterianos traducen el [[ARNm clamidial|mrna]] en proteínas.',
+  "Stolen host ATP powers Chlamydia's own [[70S ribosomes|ribosome]] rather than host 80S ones.":
+    'El ATP robado alimenta sus propios [[ribosomas 70S|ribosome]] y no los 80S del huésped.',
+  'Azithromycin and doxycycline cure Chlamydia by halting these [[70S ribosomes|ribosome]].':
+    'Azitromicina y doxiciclina curan la infección frenando estos [[ribosomas 70S|ribosome]].',
+  'After ~48 hours, hundreds of [[Reticulate Bodies|rb_om]] condense back into armored [[EBs|eb_om]].':
+    'Tras ~48 horas, cientos de [[cuerpos reticulados|rb_om]] se condensan en [[EB blindados|eb_om]].',
+  'The mature [[inclusion|inclusion]] extrudes or lyses to release infectious [[EBs|eb_om]] to neighbors.':
+    'La [[inclusión|inclusion]] madura se extruye o lisa liberando [[EB infecciosos|eb_om]] a células vecinas.',
+  "Explore any tag up close, or continue to Rickettsia to meet Mitochondria's living cousin.":
+    'Explora cualquier etiqueta o sigue a Rickettsia, pariente vivo de las mitocondrias.',
+
+  // ─── Tour Cues: Rickettsia prowazekii (Stage 3.3, 45 cues) ────────────────
+  'Meet Rickettsia prowazekii, the alphaproteobacterium behind epidemic typhus.':
+    'Conoce a Rickettsia prowazekii, la alfaproteobacteria causante del tifus epidémico.',
+  'Unlike Chlamydia inside a sac, Rickettsia swims naked right in the eukaryotic cytosol.':
+    'A diferencia de Chlamydia en su saco, Rickettsia vive libre en pleno citosol eucariota.',
+  'Beside it sits a [[host mitochondrion|host_mito]], its distant evolutionary cousin.':
+    'A su lado reposa una [[mitocondria del huésped|host_mito]], su prima evolutiva lejana.',
+  'After entering across the [[host membrane|host_mem]], it refuses to stay trapped in a vacuole.':
+    'Tras cruzar la [[membrana del huésped|host_mem]], rehúsa quedar atrapada en una vacuola.',
+  'Secreted [[phospholipase D (Pld) and TlyC|pld]] chew open the phagosome lipid bilayer.':
+    'La [[fosfolipasa D (Pld) y TlyC|pld]] secretadas perforan la bicapa lipídica del fagosoma.',
+  'Within minutes [[Pld lysis|pld]] frees the rod into nutrient-rich cytoplasm before lysosomes arrive.':
+    'En minutos, la [[lisis por Pld|pld]] libera al bacilo al citoplasma antes de llegar lisosomas.',
+  'Coating the exterior is a hydrated [[microcapsular slime layer|slime]] that masks surface antigens.':
+    'Recubriendo el exterior hay una [[capa mucosa microcapsular|slime]] que oculta antígenos.',
+  'Beneath the [[slime|slime]], [[OmpA and OmpB autotransporters|omp]] tile a crystalline S-layer.':
+    'Bajo el [[manto mucoso|slime]], [[autotransportadores OmpA y OmpB|omp]] forman una capa S.',
+  '[[OmpB|omp]] binds host Ku70 to trigger uptake, then shields the [[outer membrane|om]] inside.':
+    '[[OmpB|omp]] se une a Ku70 para inducir la entrada y luego blinda la [[membrana externa|om]].',
+  'Cut open, Rickettsia shows a true Gram-negative [[outer membrane|om]] and [[inner membrane|im]].':
+    'En corte, Rickettsia muestra [[membrana externa|om]] y [[membrana interna|im]] gramnegativas.',
+  'Between them lies a thin [[peptidoglycan mesh|pg]] that holds its 1.1 um rod shape.':
+    'Entre ambas yace una fina [[malla de peptidoglicano|pg]] que sostiene su bastón de 1,1 um.',
+  'Spanning both bilayers is the VirB/VirD4 [[Type IV Secretion System|t4ss]].':
+    'Atravesando ambas bicapas se alza el [[sistema de secreción tipo IV|t4ss]] VirB/VirD4.',
+  'The [[Rvh T4SS machine|t4ss]] forms a gated protein conduit across the entire cell envelope.':
+    'La [[maquinaria Rvh T4SS|t4ss]] forma un conducto proteico a través de toda la envoltura.',
+  'Powered by VirD4 ATPases at the [[inner membrane|im]], [[T4SS|t4ss]] exports stealth effectors.':
+    'Impulsado por ATPasas VirD4 en la [[membrana interna|im]], el [[T4SS|t4ss]] exporta efectores.',
+  'Those signals suppress host apoptosis so the infected cell stays alive as an incubator.':
+    'Esas señales frenan la apoptosis del huésped para mantener viva la célula incubadora.',
+  'In the cytosol coils a [[1.11 Mbp circular dsDNA genome|dna]] with ~834 protein-coding genes.':
+    'En el citosol se pliega un [[genoma circular de 1,11 Mpb|dna]] con ~834 genes codificantes.',
+  'Nearly a quarter of the [[chromosome|dna]] is non-coding pseudogene wreckage caught mid-decay.':
+    'Casi un cuarto del [[cromosoma|dna]] son pseudogenes inactivos en plena reducción evolutiva.',
+  '[[RNA polymerase|rnap]] and [[70S ribosomes|ribosome]] build its proteome; doxycycline blocks [[70S|ribosome]].':
+    '[[ARN polimerasa|rnap]] y [[ribosomas 70S|ribosome]] crean proteínas; la doxiciclina frena [[70S|ribosome]].',
+  'While host ATP is plentiful, Rickettsia runs twelve-helix [[Tlc1 translocases|tlc1]] in its [[inner membrane|im]].':
+    'Cuando abunda ATP huésped, usa [[translocasas Tlc1|tlc1]] en su [[membrana interna|im]].',
+  "Like Chlamydia's Npt1, [[Tlc1|tlc1]] imports cytosolic host ATP one-for-one for spent bacterial ADP.":
+    'Como Npt1 en Chlamydia, [[Tlc1|tlc1]] importa ATP citosólico uno a uno por ADP bacteriano.',
+  'Having eliminated glycolysis, Rickettsia relies on [[Tlc1|tlc1]] and imported glutamate or pyruvate.':
+    'Tras perder la glucólisis, depende de [[Tlc1|tlc1]] y de glutamato o piruvato importados.',
+  'Unlike Chlamydia, Rickettsia kept a complete TCA cycle and [[electron transport chain|etc]].':
+    'A diferencia de Chlamydia, conservó el ciclo de Krebs y la [[cadena respiratoria|etc]].',
+  'As crowded bacteria drain host ATP, [[Complexes I, III and IV|etc]] oxidize NADH with oxygen.':
+    'Al agotarse el ATP huésped, los [[complejos I, III y IV|etc]] oxidan NADH con oxígeno.',
+  'The [[respiratory complexes|etc]] pump H+ across the [[inner membrane|im]] into the periplasm.':
+    'Los [[complejos respiratorios|etc]] bombean H+ por la [[membrana interna|im]] hacia el periplasma.',
+  'Periplasmic protons rush back through rotary [[F1Fo ATP synthases|atps]] in the [[inner membrane|im]].':
+    'Los protones regresan por las [[ATP sintasas F1Fo|atps]] rotatorias de la [[membrana interna|im]].',
+  "Spinning the c-ring drives [[F1Fo catalytic heads|atps]] to mint Rickettsia's own ATP.":
+    'El giro del anillo c impulsa las [[cabezas F1Fo|atps]] para acuñar el propio ATP bacteriano.',
+  'This dual strategy steals ATP via [[Tlc1|tlc1]] early and breathes via [[ETC|etc]] and [[F1Fo|atps]] late.':
+    'Esta vía dual roba ATP vía [[Tlc1|tlc1]] al inicio y respira con [[ETC|etc]] y [[F1Fo|atps]] después.',
+  'At the rear pole of the [[outer membrane|om]] sits the autotransporter [[Sca2|sca2]].':
+    'En el polo posterior de la [[membrana externa|om]] se sitúa el autotransportador [[Sca2|sca2]].',
+  '[[Sca2|sca2]] mimics eukaryotic formin proteins, grabbing profilin-bound [[host G-actin|g_actin]].':
+    '[[Sca2|sca2]] imita a las forminas eucariotas y capta [[actina G del huésped|g_actin]].',
+  'Unlike branched Arp2/3 networks, [[Sca2|sca2]] nucleates long unbranched [[F-actin bundles|comet]].':
+    'A diferencia de Arp2/3, [[Sca2|sca2]] nuclea largos [[haces lineales de actina F|comet]].',
+  'Fresh [[G-actin monomers|g_actin]] lock onto barbed ends right against polar [[Sca2|sca2]].':
+    'Nuevos [[monómeros de actina G|g_actin]] se suman al extremo barbado junto a [[Sca2|sca2]].',
+  'Polymerizing [[actin filaments|comet]] push Rickettsia through the cytosol at ~15 um per minute.':
+    'Los [[filamentos de actina|comet]] empujan a Rickettsia por el citosol a ~15 um por minuto.',
+  'Older filaments depolymerize behind the [[comet tail|comet]], recycling [[G-actin|g_actin]] to the pool.':
+    'Detrás de la [[cola cometa|comet]] la red se desmonta, reciclando [[actina G|g_actin]] libre.',
+  'Driven by its [[actin comet|comet]], the bacterium rams the [[host plasma membrane|host_mem]].':
+    'Impulsada por su [[cola de actina|comet]], la bacteria embiste la [[membrana plasmática|host_mem]].',
+  'It pushes a finger-like protrusion of [[host membrane|host_mem]] deep into the adjacent cell.':
+    'Empuja una prolongación de [[membrana del huésped|host_mem]] dentro de la célula vecina.',
+  '[[Pld phospholipases|pld]] dissolve both membranes, spreading stealthily past blood antibodies.':
+    'Las [[fosfolipasas Pld|pld]] abren ambas membranas, propagándose sin tocar anticuerpos.',
+  'Look side by side at Rickettsia and the eukaryotic [[host mitochondrion|host_mito]] beside it.':
+    'Observa lado a lado a Rickettsia y a la [[mitocondria del huésped|host_mito]] junto a ella.',
+  'Both carry double membranes, circular [[dsDNA|dna]], [[70S-type ribosomes|ribosome]] and [[F1Fo synthases|atps]].':
+    'Ambas tienen doble membrana, [[ADNbc|dna]] circular, [[ribosomas 70S|ribosome]] y [[sintasas F1Fo|atps]].',
+  'Phylogenomics places Rickettsiales near the alphaproteobacterial root of [[mitochondria|host_mito]].':
+    'La filogenómica sitúa a Rickettsiales cerca de la raíz evolutiva de las [[mitocondrias|host_mito]].',
+  'Notice the opposite direction of ATP flow between [[Tlc1|tlc1]] and [[mitochondrial cristae|host_mito]].':
+    'Fíjate en el flujo opuesto de ATP entre [[Tlc1|tlc1]] y las [[crestas mitocondriales|host_mito]].',
+  'Around two billion years ago, an engulfed alphaproteobacterium evolved into [[mitochondria|host_mito]].':
+    'Hace unos dos mil millones de años, un ancestro engullido dio origen a las [[mitocondrias|host_mito]].',
+  'Instead of [[Tlc1|tlc1]] pulling ATP in, [[mitochondria|host_mito]] installed ANT carriers to export ATP out.':
+    'En vez de absorber ATP con [[Tlc1|tlc1]], las [[mitocondrias|host_mito]] usan ANT para exportarlo.',
+  'Across Mycoplasma, Chlamydia and Rickettsia, every parasite kept [[DNA|dna]] and [[70S ribosomes|ribosome]].':
+    'En Mycoplasma, Chlamydia y Rickettsia, todas conservaron [[ADN|dna]] y [[ribosomas 70S|ribosome]].',
+  'Next in Stage 4, viruses strip away membranes, cytoplasm and [[ribosomes|ribosome]] altogether.':
+    'En la Etapa 4, los virus pierden por completo membranas, citoplasma y [[ribosomas|ribosome]].',
+  'Explore any 3D structure now, or advance to Stage 4 to cross into the acellular virosphere.':
+    'Explora cualquier estructura 3D o avanza a la Etapa 4 hacia la virosfera acelular.',
 };

@@ -1,7 +1,7 @@
 # 08 — `3 · Parasitic & Minimal Cells`: *Mycoplasma*, *Chlamydia* & *Rickettsia* Realistic 3D Models & Tours
 
 **Iteration:** `08` (Three Standalone Realistic WebGL2 Intracellular/Minimal Bacteria Models, Host-ATP-Theft Molecular Simulations, 3-Persona Guided Tours & GPU `.opus` Narration in `EN` & `ES`)  
-**Status:** 📋 **Planned**  
+**Status:** ✅ **Completed & Verified**  
 **Parent Index:** [`roadmap/README.md`](./README.md)  
 **Previous Step:** [`07-biology-introduction-stage-and-sequential-curriculum-tree.md`](./07-biology-introduction-stage-and-sequential-curriculum-tree.md)
 

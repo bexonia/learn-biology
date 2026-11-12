@@ -1051,5 +1051,65 @@ export const ES_NODES: Record<string, NodeTranslation> = {
     name: 'Células parásitas y mínimas (Mycoplasma, Chlamydia y Rickettsia)',
     scale: '~0.3 – 1.2 µm (genomas de 0.58 – 1.11 Mpb)',
     desc: 'Comparativa de bacterias con evolución genómica reductiva extrema: Mycoplasma genitalium (célula mínima sin pared celular, 580 kpb), Chlamydia trachomatis (ciclo bifásico dentro de una inclusión vacuolar) y Rickettsia prowazekii (bacteria intracelular citosólica emparentada con el ancestro mitocondrial). A diferencia de los virus, conservan membrana plasmática, ADN bicatenario circular, ribosomas 70S propios y fisión binaria, pero emplean translocasas Npt1/Tlc1 para importar ATP de la célula huésped.'
+  },
+  'real-mycoplasma': {
+    name: 'Mycoplasma genitalium (realista)',
+    scale: 'matraz sin pared de ~300 × 600 nm',
+    desc: 'Una célula realista de Mycoplasma genitalium sujeta a un cilio respiratorio humano, abierta en corte a escala molecular. Con apenas 580,076 pares de bases (~482 genes codificantes), M. genitalium es el organismo autorreplicante más pequeño conocido: más pequeño que algunos virus gigantes, pero inequívocamente vivo porque encierra su propio citoplasma, replica su propio cromosoma de ADNbc, traduce sus proteínas en ~150 ribosomas 70S y genera ATP por glucólisis. Al carecer de pared de peptidoglicano, endurece su bicapa con colesterol del huésped y se desliza usando un orgánulo terminal polarizado.'
+  },
+  'real-myco-nap': {
+    name: 'Adhesina terminal Nap y sinapsis ciliar (realista)',
+    scale: 'punta de anclaje de ~45 nm',
+    desc: 'En el cuello estrecho de la célula piriforme, heterodímeros de P140 y P110 se ensamblan en coronas tetraméricas «Nap» (PDB 6RUT) que atrapan oligosacáridos sialilados sobre los cilios respiratorios y urogenitales humanos en un ciclo de agarre y liberación impulsado por ATP.'
+  },
+  'real-myco-rod': {
+    name: 'Bastón terminal interno y motor de deslizamiento (realista)',
+    scale: 'núcleo citoesquelético de ~250 nm',
+    desc: 'Incluso sin pared celular, M. genitalium construye un citoesqueleto bacteriano interno: un botón terminal distal (HMW3/P65), un bastón central segmentado electrodenso (HMW1/HMW2) y un complejo basal en cuenco que transmite impulsos impulsados por ATP para deslizar la célula a ~0.1 µm/s y segregar los cromosomas hijos.'
+  },
+  'real-myco-nucleoid': {
+    name: 'Genoma mínimo de 580 kpb y traducción 70S (realista)',
+    scale: 'núcleo citoplasmático de ~220 nm',
+    desc: 'El referente de la vida celular mínima (base de la célula sintética JCVI-syn3.0): 580 kpb de ADNbc circular que codifican la replicación, transcripción, ~150 ribosomas 70S y la glucólisis, delegando la síntesis de novo de aminoácidos, nucleótidos y lípidos en importadores ABC de membrana.'
+  },
+  'real-chlamydia': {
+    name: 'Inclusión de Chlamydia trachomatis (realista)',
+    scale: 'CE de 300 nm · CR de 1.0 µm en inclusión',
+    desc: 'Una inclusión realista de Chlamydia trachomatis dentro de una célula epitelial humana, abierta en corte para mostrar su ciclo bifásico y su parasitismo energético obligado. Los Cuerpos Elementales (CE) infecciosos de 300 nm, blindados por enlaces disulfuro en OmcB/MOMP, disparan agujas de secreción tipo III (T3SS) a través de la vacuola para instalar proteínas Inc que bloquean a los lisosomas. Dentro del lumen, los CE se transforman en Cuerpos Reticulados (CR) de 1 µm que importan ATP del huésped a cambio de ADP mediante translocasas Npt1 mientras replican su ADNbc de 1.04 Mpb y traducen proteínas en ribosomas 70S.'
+  },
+  'real-chlam-eb': {
+    name: 'Cuerpo Elemental (CE) e inyectisoma T3SS (realista)',
+    scale: 'célula infecciosa tipo espora de ~300 nm',
+    desc: 'La fase extracelular de supervivencia de Chlamydia: una esfera metabólicamente latente de 300 nm cuyas proteínas de membrana externa (MOMP, OmcB, OmcA) forman una jaula rígida entrecruzada por puentes disulfuro y cuyo cromosoma de 1.04 Mpb está compactado por proteínas tipo histona Hc1/Hc2 hasta que las agujas T3SS inician la entrada celular.'
+  },
+  'real-chlam-rb': {
+    name: 'Cuerpo Reticulado (CR) y anillo de división MreB (realista)',
+    scale: 'célula intracelular replicativa de ~1.0 µm',
+    desc: 'Una vez dentro de la inclusión, los puentes disulfuro se reducen y Hc1 libera el ADN, expandiendo el CE en un Cuerpo Reticulado de 1 µm. Los CR carecen de FtsZ y sintetizan peptidoglicano únicamente como un anillo transitorio de división guiado por filamentos de MreB mientras sus ribosomas 70S fabrican cientos de proteínas propias.'
+  },
+  'real-chlam-npt1': {
+    name: 'Robo energético por translocasa ATP/ADP Npt1 (realista)',
+    scale: 'barriles antiportadores de ~8 nm',
+    desc: 'La razón por la que antes se confundía a Chlamydia con un «virus parásito de energía»: los antiportadores Npt1 de 12 hélices transmembrana intercambian un ADP + Pi bacteriano gastado hacia afuera por un ATP cargado del huésped hacia adentro, mientras Npt2 importa GTP, CTP y UTP.'
+  },
+  'real-rickettsia': {
+    name: 'Rickettsia prowazekii en el citosol del huésped (realista)',
+    scale: 'bacteria citosólica de ~350 × 1,100 nm',
+    desc: 'Un cocobacilo realista de Rickettsia prowazekii viviendo libre en el citosol endotelial humano junto a su pariente evolutivo más cercano: una Mitocondria eucariota. A diferencia de Chlamydia, Rickettsia lisa su vacuola de entrada en pocos minutos mediante fosfolipasa D (Pld) y TlyC para nadar directamente en el citosol: al inicio importa ATP del huésped vía Tlc1, más tarde respira piruvato/glutamato con su propia cadena respiratoria y ATP sintasa F1Fo homólogas a las mitocondriales, y polimeriza actina del huésped con Sca2 en un polo para propulsarse a células vecinas.'
+  },
+  'real-rick-envelope': {
+    name: 'Escape vacuolar, T4SS e importación de ATP por Tlc1 (realista)',
+    scale: 'envoltura Gram-negativa de ~40 nm',
+    desc: 'A través de sus dos membranas Gram-negativas y su fina capa de peptidoglicano, Rickettsia despliega fosfolipasas Pld/TlyC para disolver el fagosoma del huésped, canales de secreción tipo IV (Rvh T4SS) para modular la célula huésped y translocasas Tlc1 ATP/ADP para absorber directamente el ATP citosólico.'
+  },
+  'real-rick-comet': {
+    name: 'Cola cometaria polar de actina F por Sca2 (realista)',
+    scale: 'haz propulsor de actina de ~2.5 µm',
+    desc: 'En un polo bacteriano, el autotransportador Sca2 imita a las forminas eucariotas para nuclear y elongar haces largos y paralelos de actina F del huésped. La inserción continua de monómeros empuja a Rickettsia a ~10 µm/min por el citoplasma y la proyecta hacia células vecinas sin exponerse a los anticuerpos extracelulares.'
+  },
+  'real-rick-mito': {
+    name: 'Vínculo endosimbiótico Rickettsia y Mitocondria (realista)',
+    scale: 'comparación lado a lado de ~1.1 µm',
+    desc: 'Hace casi dos mil millones de años, una alfaproteobacteria emparentada con Rickettsiales entró en un huésped arqueano. Rickettsia y las Mitocondrias modernas aún comparten los Complejos respiratorios I–IV, la ATP sintasa rotatoria F1Fo, ADNbc circular y ribosomas 70S, con una inversión crucial: la parásita Rickettsia usa Tlc1 para importar ATP hacia ADENTRO, mientras la Mitocondria domesticada evolucionó el translocador ANT para exportar ATP hacia AFUERA e impulsar toda la vida eucariota.'
   }
 };

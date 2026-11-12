@@ -60,6 +60,9 @@ jobs:
             plant_cell_realistic.html \
             fungal_cell_realistic.html \
             prokaryote_cell_realistic.html \
+            mycoplasma_realistic.html \
+            chlamydia_realistic.html \
+            rickettsia_realistic.html \
             molecules_preview.html \
             bacteriophage_realistic.html \
             hiv_realistic.html \
@@ -116,6 +119,12 @@ jobs:
           curl -sf -r 0-3 "http://127.0.0.1:8080/audio/es/latam/life-overview/intro.ch0.pillars.01.opus" | grep -q "OggS"
           curl -sf -r 0-3 "http://127.0.0.1:8080/audio/lenses/en/v3/story/life-overview.opus" | grep -q "OggS"
           curl -sf -r 0-3 "http://127.0.0.1:8080/audio/lenses/es/latam/story/life-overview.opus" | grep -q "OggS"
+          curl -sf "http://127.0.0.1:8080/mycoplasma_realistic.html" | grep -q "Mycoplasma"
+          curl -sf "http://127.0.0.1:8080/chlamydia_realistic.html" | grep -q "Chlamydia"
+          curl -sf "http://127.0.0.1:8080/rickettsia_realistic.html" | grep -q "Rickettsia"
+          curl -sf -r 0-3 "http://127.0.0.1:8080/audio/lenses/en/v3/story/real-mycoplasma.opus" | grep -q "OggS"
+          curl -sf -r 0-3 "http://127.0.0.1:8080/audio/lenses/es/latam/story/real-chlamydia.opus" | grep -q "OggS"
+          curl -sf -r 0-3 "http://127.0.0.1:8080/audio/lenses/en/v1/scientific/real-rickettsia.opus" | grep -q "OggS"
           echo "Smoke test passed (/api/health, /, /dist/pages/cell_explorer.js, /audio/*.opus, /robots.txt, /sitemap.xml)."
 
   publish:

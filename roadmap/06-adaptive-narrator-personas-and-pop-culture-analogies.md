@@ -1,47 +1,50 @@
-# 06 — Adaptive Narrator Personas, Multi-Script Guided Tours & Pop-Culture Analogies
+# 06 — Adaptive Narrator Personas, Multi-Script Guided Tours & Purposeful Analogies
 
-**Iteration:** `06` (Bidirectional Narrator ↔ Content Persona Coupling, 3-Persona Guided Tour Scripts Across All `10` Tours, & Anime / Cartoon / Movie Analogies in `EN` & `ES`)  
+**Iteration:** `06` (Bidirectional Narrator ↔ Content Persona Coupling, 3-Persona Guided Tour Scripts Across All `10` Tours, & Sparse Complex-Mechanism Analogies in `EN` & `ES`)  
 **Status:** ✅ **Completed & Verified**  
 **Parent Index:** [`roadmap/README.md`](./README.md)  
-**Previous Step:** [`05-multi-mode-lenses-and-connected-stories.md`](./05-multi-mode-lenses-and-connected-stories.md)
+**Previous Step:** [`05-multi-mode-lenses-and-connected-stories.md`](./05-multi-mode-lenses-and-connected-stories.md)  
+**Next Step:** [`07-biology-introduction-stage-and-sequential-curriculum-tree.md`](./07-biology-introduction-stage-and-sequential-curriculum-tree.md)
 
 ---
 
-## 1. Executive Summary & Goals
-
-While **Phase 05** introduced 4 reading lenses (`Simple` · `Story` · `Blueprint` · `Scientific`) on Explorer sidebar descriptions (`#desc` / `#io`) and 5 Public-Domain (`CC0`) voices (`3` English + `2` Spanish), two gaps remain:
-1. **All `10` Guided Tours (`767` timed cues) still speak a single shared script**, meaning a molecular biologist, a systems engineer, and a complete newcomer all hear the exact same introductory lines during animated tours.
-2. **Selecting a Narrator (`#voiceSelect` / `#tVoiceSelect`) currently swaps only the audio voice** rather than adapting the written & spoken explanation to match that narrator's specialist or storytelling persona, and newcomer explanations use general metaphors rather than memorable pop-culture, anime, cartoon, and movie references.
+## 1. Executive Summary & Shipped Design
 
 **Phase 06** upgrades `learn-biology` (`https://learn.bexonia.com`) so every Narrator acts as a complete **Voice + Content Persona** across **all `10` Guided Tours (`767` cues × `3` scripts), all `208` Explorer Nodes, and all `149` 3D Hover Cards** in both **English (`EN`)** and **Spanish (`ES`)**:
 
 1. **Three Audience-Tailored Guided Tour Scripts (`4,602` Localized Tour Cues Across `EN` & `ES`):**
-   - **`Everyday Guide` (`pop` — active in `Simple` & `Story` modes):** Clear, direct newcomer tour script (`96.4%` plain, accessible prose) paired with **sparse, purposeful analogies (`28` cues across all `10` tours, ~1 every 2 minutes)** reserved strictly for genuinely important, conceptually complex biological mechanisms (such as rotary ATP synthase turbines, selective nuclear pore gates, 3D-printer ribosomes, pre-cocked phage spring syringes, and retroviral chromosome integration)—never gratuitous filler.
+   - **`Everyday Guide` (`pop` — active in `Simple` & `Story` modes):** Clear, direct newcomer tour script (`96.4%` = `739` of `767` cues written in plain, distraction-free prose) paired with **sparse, purposeful analogies (`28` cues across all `10` tours, ~1 every 2 minutes)** reserved strictly for genuinely important, conceptually complex biological mechanisms.
    - **`Systems Blueprint` (`blueprint` — active in `Blueprint` mode):** Engineering & systems-architecture tour script framing organelles and virions as input/output ports, rotary ATP turbines, mRNA instruction buses, error-correcting polymerases, pressure vessels (`~60 atm`), and two-factor receptor handshakes.
    - **`Specialist Scientific` (`scientific` — active in `Scientific` mode):** High-density quantitative molecular biology tour script delivering exact dimensions (`nm` / `µm`), subunit stoichiometry, enzyme complexes, electrochemical gradients (`Δp`), and experimental `PDB` accessions with zero narrative filler.
 2. **Restrained Functional Analogies Across All `208` Explorer Nodes & `149` 3D Hover Cards:**
-   - Keeps `simple` and `story` entries (`EN` + `ES`) across [`src/content/lenses_*.ts`](../src/content/) direct and distraction-free on straightforward structures while using clear functional metaphors only on complex molecular machines, preserving every interactive `[[Label|nodeId]]` upstream/downstream supply-chain link.
+   - Keeps `simple` and `story` entries (`EN` + `ES`) across [`src/content/lenses_*.ts`](../src/content/) direct and distraction-free on straightforward structures (membranes, small molecules, basic compartments) while using clear functional metaphors only on complex molecular machines, preserving `100%` of interactive `[[Label|nodeId]]` supply-chain links.
 3. **Bidirectional Narrator ↔ Content Sync (with Optional Custom Voice Lock):**
-   - Picking a Narrator in `#voiceSelect` or `#tVoiceSelect` automatically switches **both the active voice and its matching explanation mode/script** (`EN`: `Voice 1` → `Scientific`, `Voice 2` → `Blueprint`, `Voice 3` → `Story` Pop-Culture; `ES`: `Latinoamérica` → `Historia` Pop-Culture, `España` → `Científico` / `Esquema`), including live mid-Tour subtitle + `.opus` updates.
-   - Users who want a specific voice paired with a different reading mode can toggle **`🔒 Lock Voice`** (`Custom Voice Lock`), and click **`Preset` / `Preajuste`** at any time to restore automatic Persona + Voice synchronization.
-   - Adds a compact 4-mode lens switcher directly inside the **Guided Tour HUD (`#tourBar` & `#tCard`)** so visitors can switch personas without leaving a tour.
+   - Picking a Narrator in `#voiceSelect` or `#tVoiceSelect` automatically switches **both the active voice and its matching explanation mode/script** (`EN`: `Voice 1` → `Scientific`, `Voice 2` → `Blueprint`, `Voice 3` → `Story`; `ES`: `Latinoamérica` → `Historia`, `España` → `Científico` / `Esquema`), including live mid-Tour subtitle + `.opus` updates.
+   - Users who want a specific voice paired with a different reading mode can toggle **`🔒 Lock Voice`**, and click **`Preset` / `Preajuste`** at any time to restore automatic Persona + Voice synchronization.
+   - Adds a compact 4-mode lens switcher directly inside the **Guided Tour HUD (`#tourBar` & `#tCard`)** so visitors can switch personas live mid-Tour.
+
+> [!IMPORTANT]
+> **Editorial Rule — Strict Analogy Restraint (Mandatory for All Current & Future Tours/Lenses):**
+> - **Never add an analogy just because it is fun or entertaining.** Analogies on intros, dimensions, camera cutaways, UI instructions, simple shapes, or rapid-fire recaps create cognitive noise and fatigue.
+> - **Frequency cap in Guided Tours:** At most **1 analogy every ~1.5–2.5 minutes** (`1–4` cues per tour; `< 5%` of total cues). The remaining `> 95%` of cues in `Everyday Guide` (`Simple` / `Story`) must explain the biology directly and clearly in plain language.
+> - **Selection test:** Include an analogy **only** when (a) the part or process is **biologically central**, and (b) its mechanism is **conceptually complex or counterintuitive** so a concrete functional mental model makes the mechanism click immediately.
 
 ---
 
-## 2. Target Architecture & Persona Mapping
+## 2. Architecture & Persona Mapping
 
 ```mermaid
 flowchart LR
   UI["Explorer #lensBar / #voiceSelect\n& Tour HUD #tourBar / #tVoiceSelect"] --> Sync["Bidirectional Persona Controller\n(I18nService + CourseProgressManager)"]
-  Sync --> Bio["Biologist Persona (Scientific)\nEN: Voice 1 · ES: España"]
-  Sync --> Eng["Engineer Persona (Blueprint)\nEN: Voice 2 · ES: España"]
-  Sync --> Pop["Pop-Culture Guide (Simple & Story)\nEN: Voice 3 · ES: Latinoamérica"]
+  Sync --> Bio["Molecular Biologist (Scientific)\nEN: Voice 1 · ES: España"]
+  Sync --> Eng["Systems Engineer (Blueprint)\nEN: Voice 2 · ES: España"]
+  Sync --> Pop["Everyday Guide (Simple & Story)\nEN: Voice 3 · ES: Latinoamérica"]
   Bio --> TourSci["10 Guided Tours: Scientific Script\n(767 EN + 767 ES cues + .opus)"]
   Eng --> TourBp["10 Guided Tours: Blueprint Script\n(767 EN + 767 ES cues + .opus)"]
-  Pop --> TourPop["10 Guided Tours: Pop-Culture Script\n(767 EN + 767 ES cues + .opus)"]
+  Pop --> TourPop["10 Guided Tours: Everyday Guide Script\n(739 plain + 28 complex-concept analogies)"]
   Bio --> NodeSci["208 Nodes + 149 Parts: Scientific"]
   Eng --> NodeBp["208 Nodes + 149 Parts: Blueprint"]
-  Pop --> NodePop["208 Nodes + 149 Parts: Pop-Culture Simple & Story"]
+  Pop --> NodePop["208 Nodes + 149 Parts: Plain Simple & Story"]
 ```
 
 ### Persona-to-Mode & Voice Matrix
@@ -50,81 +53,43 @@ flowchart LR
 | :--- | :--- | :--- | :--- | :--- |
 | **Molecular Biologist** | `scientific` (`Científico`) | `v1` (David Clarke — LibriVox `CC0`) | `spain` (Castilian Baritone — Common Voice `CC0`) | Biologists, clinicians & advanced researchers inspecting immediate quantitative specs, complexes, stoichiometry, and `PDB` codes. |
 | **Systems Engineer** | `blueprint` (`Esquema`) | `v2` (Peter Yearsley — LibriVox `CC0`) | `spain` (Castilian Baritone — Common Voice `CC0`) | Engineers & systems thinkers inspecting `Arrives from → Inside → Delivers to` circuits, energy budgets, valves, and state machines. |
-| **Pop-Culture Storyteller** | `story` (`Historia`) & `simple` (`Sencillo`) | `v3` (Martin Geeson — LibriVox `CC0`) | `latam` (Latin American Baritone — Common Voice `CC0`) | Newcomers, students & curious explorers learning through memorable *Cells at Work!*, *Star Wars*, *Attack on Titan*, *The Matrix*, *Pokémon*, *Dragon Ball Z*, *Avengers*, and *Monsters, Inc.* analogies. |
+| **Everyday Guide** | `story` (`Historia`) & `simple` (`Sencillo`) | `v3` (Martin Geeson — LibriVox `CC0`) | `latam` (Latin American Baritone — Common Voice `CC0`) | Newcomers & students learning through plain, clear biology explanations with **sparse analogies (~1 every 2 minutes)** reserved strictly for complex mechanisms. |
 
 ---
 
 ## 3. Side-by-Side Content Specification
 
-### A. Guided Tour Cues (`src/tours/personas_*.ts`) — *Example: Bacteriophage T4 Injection*
-Every persona script preserves the exact 3D camera choreography, cue count (`767`), and `[[label|part]]` mesh highlight tokens of the base tour:
+### A. Plain Cue vs. Complex-Mechanism Analogy Cue (`src/tours/personas_*.ts`)
 
-| Cue ID | `Pop-Culture` (`Simple` / `Story` — `EN v3` · `ES latam`) | `Blueprint` (`EN v2` · `ES spain`) | `Scientific` (`EN v1` · `ES spain`) |
-| :--- | :--- | :--- | :--- |
-| `ch0.intro.01` | Meet [[Bacteriophage T4\|capsid]]—like a *Star Wars* lunar lander crossed with a syringe. | [[Bacteriophage T4\|capsid]]: spring-loaded mechanical payload injector; zero onboard metabolism. | *Caudoviricetes* myovirus [[T4 virion\|capsid]] (`~200 × 90 nm`; prolate $T=13\text{ laevo}$ gp23*/gp24* head). |
-| `ch2.land.01` | Six [[long tail fibers\|fibers]] sweep *E. coli* like *Spider-Man* tripwires hunting `OmpC` ports. | Six [[long tail fibers\|fibers]] execute a reversible two-factor receptor handshake on `LPS` and `OmpC`. | Distal gp37 [[long tail fibers\|fibers]] reversibly bind `OmpC`/LPS before gp12 short fibers lock the baseplate. |
-| `ch2.inject.01` | Target locked! The [[sheath\|sheath]] fires like an *Evangelion* pile-bunker in milliseconds. | Baseplate trigger contracts the [[helical sheath\|sheath]] 55%, driving the inner tube across peptidoglycan. | Dome-to-star transition contracts the 138-subunit gp18 [[tail sheath\|sheath]] (`92.5 → 42 nm`) + gp5 lysozyme tip. |
-| `ch2.inject.02` | Viral [[DNA\|dna]] blasts in—pulling a *Matrix* Agent Smith takeover on host ribosomes! | Internal `~60 atm` pressure flushes the `169 kbp` [[dsDNA payload\|dna]] into the host execution bus. | Pressurized `168.9 kbp` glucosylated hmC [[dsDNA\|dna]] translocates across the inner membrane at `~4 kbp/s`. |
+| Cue Type | Cue ID | `Everyday Guide` (`Simple` / `Story`) | `Blueprint` (`EN v2` · `ES spain`) | `Scientific` (`EN v1` · `ES spain`) |
+| :--- | :--- | :--- | :--- | :--- |
+| **Standard Cue (`96.4%` — Zero Analogy)** | `ch0.intro.01` | This is an animal cell, like the ones that make up your body. | System overview: a self-contained eukaryotic chassis running your body tissues. | Eukaryotic somatic animal cell: a compartmentalized, membrane-bound living unit. |
+| **Complex Mechanism (`3.6%` — Sparse Analogy)** | `ch4.ribosome.01` | [[Ribosomes]] work like 3D factory printers, reading 3-letter mRNA codes to snap amino acids together. | [[Ribosomes]]: two-subunit translation engines decoding 3-bit mRNA codons into polypeptides. | `80S` [[ribosomes]] (`40S` + `60S`, ~4.3 MDa) catalyze peptidyl transfer across A/P/E tRNA sites. |
+| **Complex Mechanism (`3.6%` — Sparse Analogy)** | `t4.ch2.sheath.02` | With zero ATP on board, this sleeve comes pre-cocked from the host factory like a spring syringe. | Mechanical actuator pre-tensioned during assembly; fires without onboard ATP supply. | Metastable extended gp18 lattice stores elastic free energy during morphogenesis for ATP-free firing. |
 
-### B. Pop-Culture Analogy Anchors Across the 10 Organisms (`Simple` & `Story`)
-- **Animal Cell (`real-cell`):** ***Cells at Work!*** bustling metropolis — **Tony Stark Arc Reactor / Goku Senzu Bean** `Mitochondria`, ***Monsters, Inc.* door-vault** `Nuclear Pores`, **Amazon / *Cells at Work!* courier walkers** (`Kinesin` & `Dynein` marching down `Microtubule` highways), **Pac-Man / acid chop-shop** `Lysosomes`.
-- **Plant Cell (`real-plant`):** ***Attack on Titan* Wall Maria** crisscrossed `Cell Wall` holding back high-pressure `Central Vacuole` turgor, **Superman solar-fortress** `Chloroplasts` splitting water with starlight.
-- **Fungal Cell (`real-fungal`):** **Dwarven pressure-brewery** armored in `Chitin` & `β-glucan`, inflating a daughter bud through a `Septin` hourglass portal.
-- **Prokaryotic Cell (`real-bacterium`):** **Millennium Falcon open-cockpit speedrunner** — translating mRNA while it is still being printed and spinning `100,000 RPM` proton-driven `Flagella` pod-racer turbines.
-- **Viruses (`T4`, `SARS-CoV-2`, `HIV-1`, `Adenovirus`, `TMV`, & comparative `viruses`):** ***Star Wars* / *Evangelion*** T4 lander, **Mystique / *Predator* glycan-camouflaged** SARS-CoV-2 `6VSB` spikes, **Trojan Horse + *Matrix* Agent Smith** HIV-1 `p24` fullerene cone & Integrase, **Kryptonian crystal fortress** Adenovirus icosahedron, and ***Dune* sandworm / tunnel-heist** TMV co-translational uncoating + `MP30` plasmodesmata widening.
+### B. Curated Complex-Mechanism Analogies Across the `10` Tours (`28` of `767` Cues)
+- **Animal Cell (`4` cues in ~8.5 min):** Walking motor couriers vs. random diffusion (`ch2.mt.02`), nuclear-pore ID customs gates (`ch3.pores.02`), 3D-printer ribosomes (`ch4.ribosome.01`), and cristae hydroelectric ATP turbines (`ch5.mito.04`).
+- **Plant, Fungal & Bacterial Cells (`3` cues each):** Vacuolar tire-inner-tube turgor pressure, thylakoid dam-spillway ATP turbines, RuBisCO welding invisible CO₂ gas into solid sugar, fungal proton-battery symport, septin hourglass airlock, yeast closed "ship-in-a-bottle" mitosis, tripartite bilge efflux pump, flagellar clutch reversal, and coupled transcription–translation while mRNA is still printing.
+- **Viruses (`1–4` cues per tour):** Phage champagne-pressure capsid + pre-cocked spring syringe + lunar-lander receptor feelers, SARS-CoV-2 hidden-key RBD flip + S2 harpoon-winch fusion, HIV Trojan-horse capsid pores + RNase H self-erasing template + permanent chromosome stitch, Adenovirus mooring-line tether + backfiring acid-trap escape, TMV calcium safety pins + movement-protein wall-tunnel crowbar, and virus as an unplugged USB drive outside a host cell.
 
 ---
 
-## 4. Implementation Steps & File Plan
+## 4. Verification Gates (`tests/verify_all.ts`)
 
-### Step 1: Bidirectional Persona State & Tour HUD Controls
-- Extend [`src/content/types.ts`](../src/content/types.ts) with `TourPersona = 'pop' | 'blueprint' | 'scientific'`, `MODE_TO_TOUR_PERSONA`, `DEFAULT_MODE_BY_ENGLISH_VOICE` (`v1 → 'scientific'`, `v2 → 'blueprint'`, `v3 → 'story'`), and `DEFAULT_MODE_BY_SPANISH_VOICE` (`latam → 'story'`, `spain → 'scientific'`), plus a boolean `voiceLocked` state in [`src/core/i18n.ts`](../src/core/i18n.ts) and [`src/core/progress_service.ts`](../src/core/progress_service.ts).
-- Update [`cell_explorer.html`](../cell_explorer.html) and [`src/pages/cell_explorer.ts`](../src/pages/cell_explorer.ts) to:
-  1. Render compact 4-mode pills (`Simple` · `Story` · `Blueprint` · `Scientific`) inside `#tourBar` and `#tCard` so Guided Tour viewers can switch content + narrator live.
-  2. Make `#voiceSelect` and `#tVoiceSelect` switch **both** the voice and its signature explanation mode when `voiceLocked === false`, while providing a **`🔒 Lock` / `Preset`** button for custom voice overrides.
-
-### Step 2: Multi-Persona Tour Script Modules (`src/tours/`)
-- Create [`src/tours/tour_personas.ts`](../src/tours/tour_personas.ts) and modular bilingual persona scripts covering all `10` tours (`767` cues × `3` personas × `2` locales = `4,602` cues, each `<= 110` chars for clean 2-line subtitle display and preserving exact `[[label|part]]` tokens):
-  - `src/tours/personas_eukaryote.ts` (`real-cell`, `real-plant`, `real-fungal`)
-  - `src/tours/personas_prokaryote_phage.ts` (`real-bacterium`, `real-phage`)
-  - `src/tours/personas_viruses.ts` (`real-coronavirus`, `real-hiv`, `real-adenovirus`, `real-tmv`, `viruses`)
-- Update cue lookup in [`src/pages/cell_explorer.ts`](../src/pages/cell_explorer.ts) (`renderCue`, `speak`, `renderMenu`, `showCard`) so active Tour subtitles, chapter transcripts, and spoken cues dynamically resolve from `(tourRoot, cueId, locale, tourPersona)`.
-
-### Step 3: Pop-Culture Upgrade for Explorer `Simple` & `Story` Lenses (`src/content/`)
-- Upgrade `en.simple`, `en.story`, `es.simple`, and `es.story` across all `208` nodes and `149` realistic 3D parts in:
-  - [`src/content/lenses_animal.ts`](../src/content/lenses_animal.ts)
-  - [`src/content/lenses_plant_fungal.ts`](../src/content/lenses_plant_fungal.ts)
-  - [`src/content/lenses_prokaryote.ts`](../src/content/lenses_prokaryote.ts)
-  - [`src/content/lenses_phage_dna_viruses.ts`](../src/content/lenses_phage_dna_viruses.ts)
-  - [`src/content/lenses_enveloped_viruses.ts`](../src/content/lenses_enveloped_viruses.ts)
-- Leave `blueprint` and `scientific` node/part lenses (and their `2,080` existing `.opus` files) untouched.
-
-### Step 4: Offline Multi-Persona `.opus` Synthesis & `< 48 MB` Sharded Packaging
-- Update [`scripts/export_tour_cues.ts`](../scripts/export_tour_cues.ts) and [`src/core/narrator_service.ts`](../src/core/narrator_service.ts):
-  - Route English Tour audio (`audio.tar.gz`, `~27 MB`) by persona/voice: `audio/en/v1/{root}/{cueId}.opus` (`scientific` script), `audio/en/v2/{root}/{cueId}.opus` (`blueprint` script), `audio/en/v3/{root}/{cueId}.opus` (`pop` script) — zero extra archive count in English!
-  - Route Spanish Tour audio across two `< 38 MB` shards (`audio_tours_es_pop.tar.gz` for `audio/es/latam/{root}/{cueId}.opus` `pop` script, and `audio_tours_es_tech.tar.gz` for `audio/es/spain/{blueprint,scientific}/{root}/{cueId}.opus`).
-  - Re-synthesize only the `_a` (`simple` + `story`) Explorer node lens shards (`audio_lenses_v{1,2,3}_a.tar.gz`, `audio_lenses_es_{latam,spain}_a.tar.gz`) via [`tools/generate_narration_gptsovits.py`](../tools/generate_narration_gptsovits.py) and [`tools/generate_narration_f5_es.py`](../tools/generate_narration_f5_es.py), keeping all `.tar.gz` files strictly `< 48 MB` and updating [`Makefile`](../Makefile) + [`Dockerfile`](../Dockerfile).
-
----
-
-## 5. Verification Gates (`tests/verify_all.ts`)
-
-1. **Multi-Persona Tour Integrity:**
-   - Assert every one of the `767` cues across all `10` Guided Tours defines non-empty, distinct `pop`, `blueprint`, and `scientific` texts in both `en` and `es` (`4,602` total cues), each `<= 110` plain characters and preserving exact `[[...|part]]` 3D highlight targets.
-2. **Explorer Pop-Culture Lens Integrity:**
-   - Assert all `208` Explorer nodes and `149` realistic 3D parts pass `[[Label|nodeId]]` link validation and mode distinctness across `simple`, `story`, `blueprint`, and `scientific` in `en` and `es`.
+1. **Multi-Persona Tour & Analogy-Restraint Integrity:**
+   - Asserts every one of the `767` cues across all `10` Guided Tours defines non-empty, pairwise-distinct `pop`, `blueprint`, and `scientific` texts in both `en` and `es` (`4,602` total cues, `<= 110` plain chars, `100%` `[[...|part]]` highlight preservation).
+   - Enforces an automated **Analogy Restraint bound (`20..45` of `767` cues)** so analogies remain sparse (`~1` every 2 minutes on complex mechanisms) and never regress into per-cue filler.
+2. **Explorer Lens Integrity:**
+   - Asserts all `208` Explorer nodes and `149` realistic 3D parts pass `[[Label|nodeId]]` link validation and 4-mode distinctness in `en` and `es`.
 3. **Bidirectional Narrator ↔ Persona Reactivity:**
-   - Assert selecting a narrator in unlocked (`Preset`) mode updates `i18n.mode` and active Tour/Explorer text automatically, while enabling `voiceLocked` preserves a custom voice across mode switches until reset to `Preset`.
-4. **Static `.opus` & Archive Verification:**
-   - Verify `100%` of Tour Persona and 4-Mode Explorer `.opus` files exist on disk with valid `OggS` headers and every `audio*.tar.gz` archive is `< 48 MB`.
-5. **Headless Chrome WebGL E2E (`make test`):**
-   - Verify live switching between `Pop-Culture Guide`, `Systems Engineer`, and `Molecular Biologist` mid-Tour updates `#subs` subtitle text and streams the matching `.opus` audio (`HTTP 200`, `OggS`) across `EN` and `ES` with `0` console/page errors.
+   - Asserts selecting a narrator in unlocked (`Preset`) mode updates `i18n.mode` and active Tour/Explorer text automatically, while `voiceLocked` preserves a custom voice across mode switches until reset to `Preset`.
+4. **Static `.opus` & Archive Verification + Headless Chrome WebGL E2E (`make test`):**
+   - Verifies all `8,762` `.opus` files have valid `OggS` headers across `15` `< 48 MB` archives, and live mid-Tour switching across `Everyday Guide`, `Systems Engineer`, and `Molecular Biologist` updates `#subs` subtitles and streams matching `.opus` audio (`HTTP 200`, `OggS`) in `EN` and `ES` with `0` console/page errors.
 
 ---
 
-## 6. Shipped Verification Summary
+## 5. Shipped Verification Summary
 
 - **Bidirectional Narrator ↔ Persona Controls:** Shipped `TourPersona` (`pop` | `blueprint` | `scientific`), `MODE_TO_TOUR_PERSONA`, `selectNarrator` / `selectSpanishNarrator`, `voiceLocked` (`🔓 Lock Voice` / `🔒 Voice Locked` + `Preset` / `Preajuste`), and live 4-mode pills (`#tourLensBar` & `#tCardLensBar`) inside the Guided Tour HUD.
-- **4,602 Multi-Persona Guided Tour Cues (`10` Tours × `767` Cues × `3` Personas × `2` Locales):** Authored and verified across `src/tours/personas_eukaryote.ts` (`247` cues), `src/tours/personas_prokaryote_phage.ts` (`176` cues), and `src/tours/personas_viruses.ts` (`344` cues), using clean direct newcomer prose on `739` cues and `28` sparse, high-clarity analogies (~1 every 2 minutes) strictly on complex mechanisms (`<= 110` plain chars, `100%` `[[label|part]]` preservation).
-- **Clean Functional `Simple` & `Story` Lenses (`208` Explorer Nodes + `149` 3D Hover Cards in `EN` & `ES`):** Verified across all `5` content modules with `100%` interactive `[[Label|nodeId]]` link integrity and zero excessive pop-culture noise.
-- **8,762 Pre-Generated `.opus` Clips Across `15` `< 48 MB` Sharded Archives:** Synthesized locally on RTX 4080 GPU via `GPT-SoVITS` (`EN` `v1`/`v2`/`v3`) and `F5-Spanish` (`ES` `latam` + `spain/{blueprint,scientific}`) using Public-Domain (`CC0`) studio voices (`17–46 MB` per archive) and verified 100% green via `make test`.
+- **4,602 Multi-Persona Guided Tour Cues (`10` Tours × `767` Cues × `3` Personas × `2` Locales):** Verified across `src/tours/personas_eukaryote.ts`, `src/tours/personas_prokaryote_phage.ts`, and `src/tours/personas_viruses.ts` (`739` clean direct newcomer cues + `28` sparse complex-mechanism analogies, `0` errors).
+- **8,762 Pre-Generated `.opus` Clips Across `15` `< 48 MB` Sharded Archives:** Synthesized locally on RTX 4080 GPU via `GPT-SoVITS` (`EN` `v1`/`v2`/`v3`) and `F5-Spanish` (`ES` `latam` + `spain/{blueprint,scientific}`) using Public-Domain (`CC0`) studio voices and verified 100% green via `make test` (`29/29` checks).

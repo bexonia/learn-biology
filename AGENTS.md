@@ -59,7 +59,12 @@ This project is a set of single-file three.js pages that show cells, from the wh
 7. **Document what you did:**
    - Update the manual of what you changed: numbers, pitfalls, what is simplified.
    - For a new page, add it to `README.md` and write its manual in the same shape as the others.
-8. **Git:** commit to `main` with a message in the existing style (`Plant: …`, `Explorer: …`). Don't push unless asked.
+8. **Narrator personas & strict analogy restraint (`src/tours/` & `src/content/`):**
+   - Every Guided Tour cue (`src/tours/personas_*.ts`) supports three personas in both `en` and `es`: `pop` (`Everyday Guide` — active in `Simple` & `Story`), `blueprint` (`Systems Engineer`), and `scientific` (`Molecular Biologist`), with `<= 110` plain characters and 100% `[[label|part]]` highlight parity.
+   - **Strict Analogy Restraint:** Never add an analogy just because it is fun or entertaining (no analogies on intros, dimensions, UI instructions, camera cutaways, simple shapes, or rapid-fire recaps). Keep `> 95%` of `Everyday Guide` (`Simple` / `Story`) cues and Explorer descriptions direct, clear, and distraction-free. Include an analogy **at most once every ~1.5–2.5 minutes (`1–4` cues per tour)**, and **only** when a biologically central mechanism is conceptually complex and genuinely needs a concrete mental model to become clear.
+9. **TypeScript build & verification (`make test`):**
+   - Source code lives in TypeScript under `src/` (`esbuild` compiles bundles to `dist/`). Always run `make typecheck && make build && make test` and ensure 100% of unit, static, `.opus` (`< 48 MB` per `audio*.tar.gz` shard), and headless Chrome WebGL2 E2E checks pass before opening or merging a PR.
+10. **Git:** use feature branches / PRs into `main` unless instructed otherwise. Don't push unless asked.
 
 ## Quick facts
 

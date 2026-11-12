@@ -1,27 +1,35 @@
 import {
+  MODE_TO_TOUR_PERSONA,
   PRESET_SPANISH_VOICE_BY_MODE,
   PRESET_VOICE_BY_MODE,
   isValidEnglishVoiceId,
   isValidSpanishVoiceId,
+  isValidTourPersona,
   resolveEnglishVoice,
   resolveSpanishVoice,
+  resolveTourPersona,
   type EnglishVoiceId,
   type ExplanationMode,
   type SpanishVoiceId,
   type SpanishVoicePreference,
+  type TourPersona,
   type VoicePreference
 } from '../content/types.js';
 
 export {
+  MODE_TO_TOUR_PERSONA,
   PRESET_SPANISH_VOICE_BY_MODE,
   PRESET_VOICE_BY_MODE,
   isValidEnglishVoiceId,
   isValidSpanishVoiceId,
+  isValidTourPersona,
   resolveEnglishVoice,
   resolveSpanishVoice,
+  resolveTourPersona,
   type EnglishVoiceId,
   type SpanishVoiceId,
   type SpanishVoicePreference,
+  type TourPersona,
   type VoicePreference
 };
 
@@ -42,6 +50,7 @@ export interface NarratorCueRef {
   readonly id: string;
   readonly lang?: string;
   readonly root?: string | null;
+  readonly persona?: TourPersona;
   readonly voice?: EnglishVoiceId;
   readonly esVoice?: SpanishVoiceId;
 }
@@ -83,6 +92,7 @@ export interface StaticNarratorOptions {
   readonly createAudio?: (src: string) => AudioElementLike;
   readonly storage?: Pick<Storage, 'getItem' | 'setItem'> | null;
   readonly getTourRuntime?: () => TourRuntimeStateLike | null | undefined;
+  readonly getTourPersona?: () => TourPersona;
   readonly getVoice?: () => EnglishVoiceId;
   readonly getSpanishVoice?: () => SpanishVoiceId;
   readonly initialVolume?: number;
@@ -173,8 +183,8 @@ const ES_FEMININE_ORDINALS: Record<string, string> = {
 export function normalizeSpeechText(raw: string, lang = 'en-US'): string {
   const isEs = primaryNarrationLang(lang) === 'es';
   let out = stripTourMarkup(raw)
-    .replace(/[«»]/g, '"')
-    .replace(/’/g, "'")
+    .replace(/[«»“”]/g, '"')
+    .replace(/[‘’]/g, "'")
     .replace(/···/g, ' ');
 
   if (isEs) {
@@ -353,6 +363,9 @@ export function normalizeSpeechText(raw: string, lang = 'en-US'): string {
       .replace(/⁻/g, ' negativo ')
       .replace(/[″]/g, ' doble prima ')
       .replace(/[′]/g, ' prima ')
+      .replace(/\bPDB[:\s]+([0-9][A-Z0-9]{3})(?:\/([0-9][A-Z0-9]{3}))?\b/g, (_, a: string, b?: string) =>
+        b ? `P D B ${a.split('').join(' ')} y ${b.split('').join(' ')}` : `P D B ${a.split('').join(' ')}`
+      )
       .replace(/_/g, ' ')
       .replace(/\s*&\s*/g, ' y ')
       .replace(/\s+\+\s+/g, ' más ');
@@ -531,9 +544,14 @@ export function normalizeSpeechText(raw: string, lang = 'en-US'): string {
       .replace(/⁻/g, ' minus ')
       .replace(/[″]/g, ' double prime ')
       .replace(/[′]/g, ' prime ')
+      .replace(/\bPDB[:\s]+([0-9][A-Z0-9]{3})(?:\/([0-9][A-Z0-9]{3}))?\b/g, (_, a: string, b?: string) =>
+        b ? `P D B ${a.split('').join(' ')} and ${b.split('').join(' ')}` : `P D B ${a.split('').join(' ')}`
+      )
       .replace(/_/g, ' ')
       .replace(/\s*&\s*/g, ' and ')
-      .replace(/\s+\+\s+/g, ' plus ');
+      .replace(/\s+\+\s+/g, ' plus ')
+      .normalize('NFD')
+      .replace(/[\u0300-\u036f]/g, '');
   }
 
   return out
@@ -652,13 +670,39 @@ export function createStaticTourNarrator(options: StaticNarratorOptions = {}): S
     if (!cue.id || cue.id.startsWith('detail.')) return null;
     const root = resolveRoot(cue);
     if (!root) return null;
+    const enc = encodeURIComponent(cue.id);
+    const persona = isValidTourPersona(cue.persona) ? cue.persona : options.getTourPersona?.();
     const langCode = primaryNarrationLang(cue.lang);
     if (langCode === 'es') {
-      const esVoice = resolveActiveSpanishVoice(cue.esVoice);
-      return `${audioBaseUrl}/es/${esVoice}/${root}/${encodeURIComponent(cue.id)}.opus`;
+      if (cue.esVoice && isValidSpanishVoiceId(cue.esVoice)) {
+        if (cue.esVoice === 'latam') {
+          return `${audioBaseUrl}/es/latam/${root}/${enc}.opus`;
+        }
+        const techSub = persona === 'blueprint' ? 'blueprint' : 'scientific';
+        return `${audioBaseUrl}/es/spain/${techSub}/${root}/${enc}.opus`;
+      }
+      if (persona && isValidTourPersona(persona)) {
+        if (persona === 'pop') {
+          return `${audioBaseUrl}/es/latam/${root}/${enc}.opus`;
+        }
+        return `${audioBaseUrl}/es/spain/${persona}/${root}/${enc}.opus`;
+      }
+      const esVoice = resolveActiveSpanishVoice();
+      if (esVoice === 'latam') {
+        return `${audioBaseUrl}/es/latam/${root}/${enc}.opus`;
+      }
+      return `${audioBaseUrl}/es/spain/scientific/${root}/${enc}.opus`;
     }
-    const voice = resolveActiveEnglishVoice(cue.voice);
-    return `${audioBaseUrl}/en/${voice}/${root}/${encodeURIComponent(cue.id)}.opus`;
+    if (cue.voice && isValidEnglishVoiceId(cue.voice)) {
+      return `${audioBaseUrl}/en/${cue.voice}/${root}/${enc}.opus`;
+    }
+    if (persona && isValidTourPersona(persona)) {
+      const personaVoice: EnglishVoiceId =
+        persona === 'scientific' ? 'v1' : persona === 'blueprint' ? 'v2' : 'v3';
+      return `${audioBaseUrl}/en/${personaVoice}/${root}/${enc}.opus`;
+    }
+    const voice = resolveActiveEnglishVoice();
+    return `${audioBaseUrl}/en/${voice}/${root}/${enc}.opus`;
   };
 
   const resolveLensAudioUrl = (ref: LensAudioRef): string | null => {
@@ -684,6 +728,7 @@ export function createStaticTourNarrator(options: StaticNarratorOptions = {}): S
       id: nextItem.id,
       lang: cue.lang,
       root: resolveRoot(cue),
+      persona: cue.persona,
       voice: cue.voice,
       esVoice: cue.esVoice
     };

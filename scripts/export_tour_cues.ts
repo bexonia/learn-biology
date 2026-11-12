@@ -8,10 +8,13 @@ import {
   ENGLISH_VOICE_IDS,
   EXPLANATION_MODES,
   SPANISH_VOICE_IDS,
-  type ExplanationMode
+  TOUR_PERSONAS,
+  type ExplanationMode,
+  type TourPersona
 } from '../src/content/types.js';
 import { NODE_LENS_REGISTRY } from '../src/content/registry.js';
 import { normalizeSpeechText, stripTourMarkup } from '../src/core/narrator_service.js';
+import { getTourPersonaCueText } from '../src/tours/tour_personas.js';
 
 export interface NarrationManifestEntry {
   readonly kind: 'tour' | 'lens';
@@ -21,6 +24,7 @@ export interface NarrationManifestEntry {
   readonly stepId: string | null;
   readonly detailId: string | null;
   readonly cueId: string | null;
+  readonly persona: TourPersona | null;
   readonly nodeId: string | null;
   readonly mode: ExplanationMode | null;
   readonly lang: 'en' | 'es';
@@ -55,38 +59,56 @@ function main() {
           if (seenCueIds.has(dedupKey)) return;
           seenCueIds.add(dedupKey);
 
-          const translated = i18n.tr(cue.text);
-          const plainText = stripTourMarkup(translated);
-          const sourceForSpeech = lang === 'en' && cue.say ? cue.say : plainText;
-          const speechText = normalizeSpeechText(sourceForSpeech, speechLang);
+          const fallbackText = i18n.tr(cue.text);
           const encCueId = encodeURIComponent(cue.id);
 
-          const targets: Record<string, string> =
-            lang === 'en'
-              ? Object.fromEntries(
-                  ENGLISH_VOICE_IDS.map(v => [v, `audio/en/${v}/${tour.root}/${encCueId}.opus`])
-                )
-              : Object.fromEntries(
-                  SPANISH_VOICE_IDS.map(v => [v, `audio/es/${v}/${tour.root}/${encCueId}.opus`])
-                );
+          for (const persona of TOUR_PERSONAS) {
+            const rawPersonaText = getTourPersonaCueText(
+              tour.root,
+              cue.id,
+              lang,
+              persona,
+              fallbackText
+            );
+            const plainText = stripTourMarkup(rawPersonaText);
+            const speechText = normalizeSpeechText(rawPersonaText, speechLang);
 
-          entries.push({
-            kind: 'tour',
-            tourKey,
-            tourRoot: tour.root,
-            chapterId,
-            stepId,
-            detailId,
-            cueId: cue.id,
-            nodeId: null,
-            mode: null,
-            lang,
-            speechLang,
-            plainText,
-            speechText,
-            audioPath: lang === 'en' ? targets.v3 : targets.latam,
-            targets
-          });
+            let targets: Record<string, string>;
+            if (lang === 'en') {
+              const voiceKey =
+                persona === 'scientific' ? 'v1' : persona === 'blueprint' ? 'v2' : 'v3';
+              targets = {
+                [voiceKey]: `audio/en/${voiceKey}/${tour.root}/${encCueId}.opus`
+              };
+            } else if (persona === 'pop') {
+              targets = {
+                latam: `audio/es/latam/${tour.root}/${encCueId}.opus`
+              };
+            } else {
+              targets = {
+                spain: `audio/es/spain/${persona}/${tour.root}/${encCueId}.opus`
+              };
+            }
+
+            entries.push({
+              kind: 'tour',
+              tourKey,
+              tourRoot: tour.root,
+              chapterId,
+              stepId,
+              detailId,
+              cueId: cue.id,
+              persona,
+              nodeId: null,
+              mode: null,
+              lang,
+              speechLang,
+              plainText,
+              speechText,
+              audioPath: Object.values(targets)[0]!,
+              targets
+            });
+          }
         };
 
         for (const ch of tour.chapters) {
@@ -139,6 +161,7 @@ function main() {
             stepId: null,
             detailId: null,
             cueId: null,
+            persona: null,
             nodeId,
             mode,
             lang,
@@ -167,6 +190,7 @@ function main() {
         languages: ['en', 'es'],
         englishVoices: ENGLISH_VOICE_IDS,
         spanishVoices: SPANISH_VOICE_IDS,
+        personas: TOUR_PERSONAS,
         modes: EXPLANATION_MODES,
         entries
       },

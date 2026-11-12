@@ -5,17 +5,24 @@ import { ES_TOURS_PHRASES } from './locales/es_tours.js';
 import { ES_EXTRA_PHRASES } from './locales/es_phrases.js';
 import '../content/index.js';
 import {
+  DEFAULT_MODE_BY_ENGLISH_VOICE,
+  DEFAULT_MODE_BY_SPANISH_VOICE,
   EXPLANATION_MODES,
+  MODE_TO_TOUR_PERSONA,
   PRESET_SPANISH_VOICE_BY_MODE,
   PRESET_VOICE_BY_MODE,
+  isValidEnglishVoiceId,
+  isValidSpanishVoiceId,
   isValidSpanishVoicePreference,
   isValidVoicePreference,
   resolveEnglishVoice,
   resolveSpanishVoice,
+  resolveTourPersona,
   type EnglishVoiceId,
   type ExplanationMode,
   type SpanishVoiceId,
   type SpanishVoicePreference,
+  type TourPersona,
   type VoicePreference
 } from '../content/types.js';
 import { isValidExplanationMode, stripRichLinks } from '../content/parser.js';
@@ -51,6 +58,9 @@ export interface I18nShape {
   readonly locale: LocaleCode;
   readonly modeRef: AtomRef.AtomRef<ExplanationMode>;
   readonly mode: ExplanationMode;
+  readonly tourPersona: TourPersona;
+  readonly voiceLockedRef: AtomRef.AtomRef<boolean>;
+  readonly voiceLocked: boolean;
   readonly voiceRef: AtomRef.AtomRef<VoicePreference>;
   readonly voicePreference: VoicePreference;
   readonly activeEnglishVoice: EnglishVoiceId;
@@ -64,6 +74,10 @@ export interface I18nShape {
   readonly cycleLocale: () => LocaleCode;
   readonly setMode: (mode: ExplanationMode) => ExplanationMode;
   readonly cycleMode: () => ExplanationMode;
+  readonly setVoiceLocked: (locked: boolean) => boolean;
+  readonly toggleVoiceLocked: () => boolean;
+  readonly selectNarrator: (pref: VoicePreference) => EnglishVoiceId;
+  readonly selectSpanishNarrator: (pref: SpanishVoicePreference) => SpanishVoiceId;
   readonly setVoicePreference: (pref: VoicePreference) => VoicePreference;
   readonly resetVoiceToPreset: () => VoicePreference;
   readonly setSpanishVoicePreference: (pref: SpanishVoicePreference) => SpanishVoicePreference;
@@ -76,6 +90,7 @@ export interface I18nShape {
   readonly nodeDesc: (id: string, fallback: string, modeOverride?: ExplanationMode) => string;
   readonly onChange: (listener: (locale: LocaleCode) => void) => () => void;
   readonly onModeChange: (listener: (mode: ExplanationMode) => void) => () => void;
+  readonly onVoiceLockChange: (listener: (locked: boolean) => void) => () => void;
   readonly onVoiceChange: (listener: (pref: VoicePreference, resolved: EnglishVoiceId) => void) => () => void;
   readonly onSpanishVoiceChange: (
     listener: (pref: SpanishVoicePreference, resolved: SpanishVoiceId) => void
@@ -96,6 +111,7 @@ const STORAGE_KEY = 'learnBioLang';
 const MODE_STORAGE_KEY = 'learnBioMode';
 const VOICE_STORAGE_KEY = 'learnBioVoice';
 const SPANISH_VOICE_STORAGE_KEY = 'learnBioVoiceEs';
+const VOICE_LOCKED_STORAGE_KEY = 'learnBioVoiceLocked';
 
 const SPANISH_TIMEZONES = new Set([
   'Europe/Madrid',
@@ -254,20 +270,23 @@ const EN_UI: Record<string, string> = {
   listenBtn: '🔊 Listen',
   stopListenBtn: '⏹ Stop',
   listenTitle: 'Listen to this explanation in the active narrator voice',
-  voiceLabel: 'Narrator voice',
+  voiceLabel: 'Narrator persona & voice',
   voicePresetBtn: 'Preset',
-  voicePresetTitle: 'Automatic preset voice: redirects narrator voice to match each explanation style unless you choose a custom voice',
+  voicePresetTitle: 'Automatic narrator-to-persona sync: picking a narrator switches both voice and content style',
+  voiceLockBtnOff: '🔓 Lock Voice',
+  voiceLockBtnOn: '🔒 Voice Locked',
+  voiceLockTitle: 'Lock a custom narrator voice across mode switches, or unlock so narrator selection switches content style too',
   voiceAutoOption: 'Preset · {voice}',
-  voiceV1Short: 'Voice 1 (Scientific)',
-  voiceV2Short: 'Voice 2 (Engineers)',
-  voiceV3Short: 'Voice 3 (Learners)',
-  voiceV1Option: 'Voice 1 · Scientific',
-  voiceV2Option: 'Voice 2 · Engineers',
-  voiceV3Option: 'Voice 3 · Kids & Learners',
-  voiceEsLatamShort: 'Latin America',
-  voiceEsSpainShort: 'Spain',
-  voiceEsLatamOption: 'Voice 1 · Latin America',
-  voiceEsSpainOption: 'Voice 2 · Spain',
+  voiceV1Short: 'Molecular Biologist',
+  voiceV2Short: 'Systems Engineer',
+  voiceV3Short: 'Pop-Culture Guide',
+  voiceV1Option: 'Molecular Biologist · Scientific',
+  voiceV2Option: 'Systems Engineer · Blueprint',
+  voiceV3Option: 'Pop-Culture Guide · Story',
+  voiceEsLatamShort: 'Pop-Culture Guide (LatAm)',
+  voiceEsSpainShort: 'Engineer & Biologist (Spain)',
+  voiceEsLatamOption: 'Pop-Culture Guide · Latin America',
+  voiceEsSpainOption: 'Engineer & Biologist · Spain',
   voiceEsBadge: 'Voz · Español'
 };
 
@@ -394,20 +413,23 @@ const ES_UI: Record<string, string> = {
   listenBtn: '🔊 Escuchar',
   stopListenBtn: '⏹ Detener',
   listenTitle: 'Escuchar esta explicación con la voz del narrador',
-  voiceLabel: 'Voz del narrador',
+  voiceLabel: 'Narrador y estilo',
   voicePresetBtn: 'Preajuste',
-  voicePresetTitle: 'Voz preajustada automática según el estilo de explicación',
+  voicePresetTitle: 'Sincronización automática: elegir un narrador cambia tanto la voz como el estilo de explicación',
+  voiceLockBtnOff: '🔓 Fijar voz',
+  voiceLockBtnOn: '🔒 Voz fija',
+  voiceLockTitle: 'Fija una voz personalizada entre modos, o desbloquéala para cambiar voz y contenido juntos',
   voiceAutoOption: 'Preajuste · {voice}',
-  voiceV1Short: 'Voz 1 (Científica)',
-  voiceV2Short: 'Voz 2 (Ingeniería)',
-  voiceV3Short: 'Voz 3 (Aprendizaje)',
-  voiceV1Option: 'Voz 1 · Científica',
-  voiceV2Option: 'Voz 2 · Ingeniería',
-  voiceV3Option: 'Voz 3 · Niños y aprendices',
-  voiceEsLatamShort: 'Latinoamérica',
-  voiceEsSpainShort: 'España',
-  voiceEsLatamOption: 'Voz 1 · Latinoamérica',
-  voiceEsSpainOption: 'Voz 2 · España',
+  voiceV1Short: 'Biólogo Molecular',
+  voiceV2Short: 'Ingeniero de Sistemas',
+  voiceV3Short: 'Guía Pop',
+  voiceV1Option: 'Biólogo Molecular · Científico',
+  voiceV2Option: 'Ingeniero de Sistemas · Esquema',
+  voiceV3Option: 'Guía Pop e Historia · Relato',
+  voiceEsLatamShort: 'Guía Pop (LatAm)',
+  voiceEsSpainShort: 'Ingeniero y Científico (España)',
+  voiceEsLatamOption: 'Guía Pop e Historia · Latinoamérica',
+  voiceEsSpainOption: 'Ingeniero y Científico · España',
   voiceEsBadge: 'Voz · Español'
 };
 
@@ -1135,11 +1157,44 @@ function detectInitialSpanishVoicePreference(): SpanishVoicePreference {
   return 'auto';
 }
 
+function detectInitialVoiceLocked(
+  initialVoicePref: VoicePreference,
+  initialEsVoicePref: SpanishVoicePreference
+): boolean {
+  if (typeof window !== 'undefined') {
+    try {
+      const saved = window.localStorage.getItem(VOICE_LOCKED_STORAGE_KEY);
+      if (saved === '1' || saved === 'true') return true;
+      if (saved === '0' || saved === 'false') return false;
+    } catch {
+      // ignore storage errors
+    }
+  }
+  if (typeof document !== 'undefined') {
+    const parts = (document.cookie || '').split(';');
+    for (const part of parts) {
+      const eq = part.indexOf('=');
+      if (eq <= 0) continue;
+      if (part.slice(0, eq).trim() === 'bexonia_learn_progress') {
+        try {
+          const parsed = JSON.parse(decodeURIComponent(part.slice(eq + 1).trim()));
+          if (parsed?.vl === 1 || parsed?.vl === true) return true;
+          if (parsed?.vl === 0 || parsed?.vl === false) return false;
+        } catch {
+          // ignore cookie parse error
+        }
+      }
+    }
+  }
+  return initialVoicePref !== 'auto' || initialEsVoicePref !== 'auto';
+}
+
 export function createI18nShape(
   initialLocale?: LocaleCode,
   initialMode?: ExplanationMode,
   initialVoice?: VoicePreference,
-  initialSpanishVoice?: SpanishVoicePreference
+  initialSpanishVoice?: SpanishVoicePreference,
+  initialVoiceLocked?: boolean
 ): I18nShape {
   const locales: LocaleDefinition[] = [EN_LOCALE, ES_LOCALE];
   const localeRef = AtomRef.make<LocaleCode>(initialLocale ?? detectBrowserLocale(locales));
@@ -1147,6 +1202,9 @@ export function createI18nShape(
   const voiceRef = AtomRef.make<VoicePreference>(initialVoice ?? detectInitialVoicePreference());
   const spanishVoiceRef = AtomRef.make<SpanishVoicePreference>(
     initialSpanishVoice ?? detectInitialSpanishVoicePreference()
+  );
+  const voiceLockedRef = AtomRef.make<boolean>(
+    initialVoiceLocked ?? detectInitialVoiceLocked(voiceRef.value, spanishVoiceRef.value)
   );
   const voiceListeners = new Set<(pref: VoicePreference, resolved: EnglishVoiceId) => void>();
   const spanishVoiceListeners = new Set<
@@ -1291,6 +1349,17 @@ export function createI18nShape(
     return modeRef.value;
   };
 
+  const persistVoiceLocked = (locked: boolean) => {
+    if (typeof window !== 'undefined') {
+      try {
+        window.localStorage.setItem(VOICE_LOCKED_STORAGE_KEY, locked ? '1' : '0');
+      } catch {
+        // ignore storage errors
+      }
+    }
+    voiceLockedRef.set(locked);
+  };
+
   const setVoicePreference = (pref: VoicePreference): VoicePreference => {
     if (!isValidVoicePreference(pref)) return voiceRef.value;
     const changed = voiceRef.value !== pref;
@@ -1302,13 +1371,21 @@ export function createI18nShape(
       }
     }
     voiceRef.set(pref);
+    if (pref !== 'auto' && !voiceLockedRef.value) {
+      persistVoiceLocked(true);
+    } else if (pref === 'auto' && spanishVoiceRef.value === 'auto' && voiceLockedRef.value) {
+      persistVoiceLocked(false);
+    }
     if (changed) {
       notifyVoiceListeners();
     }
     return voiceRef.value;
   };
 
-  const resetVoiceToPreset = (): VoicePreference => setVoicePreference('auto');
+  const resetVoiceToPreset = (): VoicePreference => {
+    persistVoiceLocked(false);
+    return setVoicePreference('auto');
+  };
 
   const setSpanishVoicePreference = (pref: SpanishVoicePreference): SpanishVoicePreference => {
     if (!isValidSpanishVoicePreference(pref)) return spanishVoiceRef.value;
@@ -1321,14 +1398,82 @@ export function createI18nShape(
       }
     }
     spanishVoiceRef.set(pref);
+    if (pref !== 'auto' && !voiceLockedRef.value) {
+      persistVoiceLocked(true);
+    } else if (pref === 'auto' && voiceRef.value === 'auto' && voiceLockedRef.value) {
+      persistVoiceLocked(false);
+    }
     if (changed) {
       notifySpanishVoiceListeners();
     }
     return spanishVoiceRef.value;
   };
 
-  const resetSpanishVoiceToPreset = (): SpanishVoicePreference =>
-    setSpanishVoicePreference('auto');
+  const resetSpanishVoiceToPreset = (): SpanishVoicePreference => {
+    persistVoiceLocked(false);
+    return setSpanishVoicePreference('auto');
+  };
+
+  const setVoiceLocked = (locked: boolean): boolean => {
+    const next = Boolean(locked);
+    if (next) {
+      persistVoiceLocked(true);
+      if (voiceRef.value === 'auto') {
+        setVoicePreference(resolveEnglishVoice(modeRef.value, 'auto'));
+      }
+      if (spanishVoiceRef.value === 'auto') {
+        setSpanishVoicePreference(resolveSpanishVoice(modeRef.value, 'auto'));
+      }
+    } else {
+      persistVoiceLocked(false);
+      if (voiceRef.value !== 'auto') setVoicePreference('auto');
+      if (spanishVoiceRef.value !== 'auto') setSpanishVoicePreference('auto');
+    }
+    return voiceLockedRef.value;
+  };
+
+  const toggleVoiceLocked = (): boolean => setVoiceLocked(!voiceLockedRef.value);
+
+  const selectNarrator = (pref: VoicePreference): EnglishVoiceId => {
+    if (!isValidVoicePreference(pref)) return resolveEnglishVoice(modeRef.value, voiceRef.value);
+    if (pref === 'auto') {
+      resetVoiceToPreset();
+      return resolveEnglishVoice(modeRef.value, 'auto');
+    }
+    if (voiceLockedRef.value) {
+      setVoicePreference(pref);
+      return resolveEnglishVoice(modeRef.value, voiceRef.value);
+    }
+    if (voiceRef.value !== 'auto') {
+      setVoicePreference('auto');
+    }
+    const targetMode = DEFAULT_MODE_BY_ENGLISH_VOICE[pref];
+    setMode(targetMode);
+    return resolveEnglishVoice(modeRef.value, voiceRef.value);
+  };
+
+  const selectSpanishNarrator = (pref: SpanishVoicePreference): SpanishVoiceId => {
+    if (!isValidSpanishVoicePreference(pref)) {
+      return resolveSpanishVoice(modeRef.value, spanishVoiceRef.value);
+    }
+    if (pref === 'auto') {
+      resetSpanishVoiceToPreset();
+      return resolveSpanishVoice(modeRef.value, 'auto');
+    }
+    if (voiceLockedRef.value) {
+      setSpanishVoicePreference(pref);
+      return resolveSpanishVoice(modeRef.value, spanishVoiceRef.value);
+    }
+    if (spanishVoiceRef.value !== 'auto') {
+      setSpanishVoicePreference('auto');
+    }
+    const targetMode =
+      pref === 'spain' && modeRef.value === 'blueprint'
+        ? 'blueprint'
+        : DEFAULT_MODE_BY_SPANISH_VOICE[pref];
+    setMode(targetMode);
+    return resolveSpanishVoice(modeRef.value, spanishVoiceRef.value);
+  };
 
   const cycleMode = (): ExplanationMode => {
     const idx = EXPLANATION_MODES.indexOf(modeRef.value);
@@ -1428,6 +1573,9 @@ export function createI18nShape(
 
   const onModeChange = (listener: (mode: ExplanationMode) => void): (() => void) =>
     modeRef.subscribe(listener);
+
+  const onVoiceLockChange = (listener: (locked: boolean) => void): (() => void) =>
+    voiceLockedRef.subscribe(listener);
 
   const onVoiceChange = (
     listener: (pref: VoicePreference, resolved: EnglishVoiceId) => void
@@ -1743,6 +1891,9 @@ export function createI18nShape(
         if (e.key === SPANISH_VOICE_STORAGE_KEY && isValidSpanishVoicePreference(e.newValue)) {
           setSpanishVoicePreference(e.newValue);
         }
+        if (e.key === VOICE_LOCKED_STORAGE_KEY) {
+          setVoiceLocked(e.newValue === '1' || e.newValue === 'true');
+        }
       });
     }
   };
@@ -1779,6 +1930,13 @@ export function createI18nShape(
     get mode() {
       return modeRef.value;
     },
+    get tourPersona() {
+      return resolveTourPersona(modeRef.value);
+    },
+    voiceLockedRef,
+    get voiceLocked() {
+      return voiceLockedRef.value;
+    },
     voiceRef,
     get voicePreference() {
       return voiceRef.value;
@@ -1804,6 +1962,10 @@ export function createI18nShape(
     cycleLocale,
     setMode,
     cycleMode,
+    setVoiceLocked,
+    toggleVoiceLocked,
+    selectNarrator,
+    selectSpanishNarrator,
     setVoicePreference,
     resetVoiceToPreset,
     setSpanishVoicePreference,
@@ -1816,6 +1978,7 @@ export function createI18nShape(
     nodeDesc,
     onChange,
     onModeChange,
+    onVoiceLockChange,
     onVoiceChange,
     onSpanishVoiceChange,
     createLanguageBadge,

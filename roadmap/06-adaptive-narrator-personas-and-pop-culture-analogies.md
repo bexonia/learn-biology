@@ -1,7 +1,7 @@
 # 06 — Adaptive Narrator Personas, Multi-Script Guided Tours & Pop-Culture Analogies
 
 **Iteration:** `06` (Bidirectional Narrator ↔ Content Persona Coupling, 3-Persona Guided Tour Scripts Across All `10` Tours, & Anime / Cartoon / Movie Analogies in `EN` & `ES`)  
-**Status:** 📋 **Planned**  
+**Status:** ✅ **Completed & Verified**  
 **Parent Index:** [`roadmap/README.md`](./README.md)  
 **Previous Step:** [`05-multi-mode-lenses-and-connected-stories.md`](./05-multi-mode-lenses-and-connected-stories.md)
 
@@ -119,3 +119,12 @@ Every persona script preserves the exact 3D camera choreography, cue count (`767
    - Verify `100%` of Tour Persona and 4-Mode Explorer `.opus` files exist on disk with valid `OggS` headers and every `audio*.tar.gz` archive is `< 48 MB`.
 5. **Headless Chrome WebGL E2E (`make test`):**
    - Verify live switching between `Pop-Culture Guide`, `Systems Engineer`, and `Molecular Biologist` mid-Tour updates `#subs` subtitle text and streams the matching `.opus` audio (`HTTP 200`, `OggS`) across `EN` and `ES` with `0` console/page errors.
+
+---
+
+## 6. Shipped Verification Summary
+
+- **Bidirectional Narrator ↔ Persona Controls:** Shipped `TourPersona` (`pop` | `blueprint` | `scientific`), `MODE_TO_TOUR_PERSONA`, `selectNarrator` / `selectSpanishNarrator`, `voiceLocked` (`🔓 Lock Voice` / `🔒 Voice Locked` + `Preset` / `Preajuste`), and live 4-mode pills (`#tourLensBar` & `#tCardLensBar`) inside the Guided Tour HUD.
+- **4,602 Multi-Persona Guided Tour Cues (`10` Tours × `767` Cues × `3` Personas × `2` Locales):** Authored and verified across `src/tours/personas_eukaryote.ts` (`247` cues), `src/tours/personas_prokaryote_phage.ts` (`176` cues), and `src/tours/personas_viruses.ts` (`344` cues), preserving `100%` of `[[label|part]]` 3D mesh highlight targets (`<= 110` plain chars).
+- **Pop-Culture `Simple` & `Story` Lenses (`208` Explorer Nodes + `149` 3D Hover Cards in `EN` & `ES`):** Upgraded across all `5` content modules while preserving `100%` of interactive `[[Label|nodeId]]` links and leaving `blueprint` / `scientific` lenses intact.
+- **8,762 Pre-Generated `.opus` Clips Across `15` `< 48 MB` Sharded Archives:** Synthesized locally on RTX 4080 GPU via `GPT-SoVITS` (`EN` `v1`/`v2`/`v3`) and `F5-Spanish` (`ES` `latam` + `spain/{blueprint,scientific}`) using Public-Domain (`CC0`) studio voices (`17–39 MB` per archive) and verified 100% green via `make test`.

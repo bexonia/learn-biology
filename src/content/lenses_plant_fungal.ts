@@ -4,9 +4,9 @@ export const PLANT_FUNGAL_NODE_LENSES: NodeLensMap = {
   'plant-cell': {
     en: {
       simple:
-        'A plant cell is a solar-powered factory locked inside a tough fiber box, making its own sugar from sunlight and air while water pressure keeps it standing tall.',
+        'Think Bulbasaur’s Solar Beam factory locked inside an Attack on Titan fiber fortress: it cooks sunlight and air into sugar while water pressure holds it tall.',
       story:
-        'Rooted in soil with zero chance of outrunning hunger or weather, a plant cell survives by eating starlight. Photons that left the sun eight minutes ago crash into green [[chloroplasts|chloroplast]], cracking [[water|water]] open so famously clumsy [[RuBisCO|rubisco]] can weld thin air into sweet carbon.\n\nWhenever RuBisCO accidentally grabs oxygen instead of CO₂, a frantic salvage relay passes the mistake from chloroplast to [[peroxisome|peroxisome]] to [[mitochondrion|mitochondrion]] before that hard-won carbon escapes. Meanwhile, incoming water inflates the enormous [[central vacuole|central-vacuole]] like an inner tube pressing outward against cable-strong [[cell walls|cell-wall]], while tiny [[plasmodesmata|plasmodesma]] share liquid sugar with the neighbors.',
+        'Rooted in dirt with zero chance of running for takeout, a plant cell survives like Superman under a yellow sun—by eating pure starlight. Photons crash into green [[chloroplasts|chloroplast]], cracking [[water|water]] open like Bulbasaur charging a Solar Beam so lovably clumsy [[RuBisCO|rubisco]] can weld thin air into sweet sugar.\n\nWhenever nearsighted RuBisCO grabs oxygen by mistake, a frantic Cells at Work! relay passes the fumble from chloroplast to [[peroxisome|peroxisome]] to [[mitochondrion|mitochondrion]] to save the carbon. Meanwhile, water inflates the giant [[central vacuole|central-vacuole]] like a hydraulic mecha pressing against Attack on Titan [[cell walls|cell-wall]], while Mario-style [[plasmodesmata|plasmodesma]] warp pipes share sugar next door.',
       blueprint:
         'Role: Self-sufficient autotrophic structural unit · From: Photons, soil [[water|water]] & minerals, atmospheric CO₂ · Inside: [[Chloroplasts|chloroplast]] fix carbon, [[central vacuole|central-vacuole]] generates turgor against [[cell wall|cell-wall]], [[peroxisomes|peroxisome]] & [[mitochondria|mitochondrion]] run energy and photorespiratory salvage · To: O₂ to air; sucrose & signals exported via [[plasmodesmata|plasmodesma]]',
       scientific:
@@ -14,9 +14,9 @@ export const PLANT_FUNGAL_NODE_LENSES: NodeLensMap = {
     },
     es: {
       simple:
-        'Una célula vegetal es una fábrica solar encerrada en una caja de fibras ultrarresistentes: fabrica su propio azúcar con luz y aire mientras la presión del agua la mantiene firme.',
+        'Imagina el Rayo Solar de Bulbasaur encerrado en una fortaleza tipo Attack on Titan: cocina luz y aire en azúcar mientras la presión del agua la mantiene firme.',
       story:
-        'Clavada en la tierra sin poder huir de la sequía ni salir a cazar, la célula vegetal sobrevive comiendo luz de las estrellas. Fotones que viajaron 150 millones de kilómetros impactan en los [[cloroplastos|chloroplast]], parten moléculas de [[agua|water]] y entregan la chispa para que la torpe pero incansable [[RuBisCO|rubisco]] suelde el aire en azúcar.\n\nCuando esa enzima se equivoca y atrapa oxígeno, tres orgánulos —cloroplasto, [[peroxisoma|peroxisome]] y [[mitocondria|mitochondrion]]— se pasan el relevo de rescate para no perder el carbono. Al mismo tiempo, el agua hincha la gigantesca [[vacuola central|central-vacuole]] contra los cables de la [[pared celular|cell-wall]] como un neumático a presión, mientras los [[plasmodesmos|plasmodesma]] reparten el botín dulce a las células vecinas.',
+        'Clavada al suelo sin poder huir ni pedir comida a domicilio, la célula vegetal sobrevive como Superman bajo el sol amarillo: comiendo luz estelar. Los fotones impactan en los [[cloroplastos|chloroplast]] y parten [[agua|water]] al estilo del Rayo Solar de Bulbasaur para que la despistada [[RuBisCO|rubisco]] suelde el aire en azúcar.\n\nCada vez que esa enzima confunde oxígeno con CO₂, un relevo digno de Cells at Work! pasa el error del cloroplasto al [[peroxisoma|peroxisome]] y a la [[mitocondria|mitochondrion]] para rescatar el carbono. A la vez, el agua infla la [[vacuola central|central-vacuole]] como un mecha hidráulico contra la [[pared celular|cell-wall]] digna del Muro María, mientras tuberías de [[plasmodesmos|plasmodesma]] tipo Mario reparten el botín.',
       blueprint:
         'Rol: Unidad estructural autótrofa presurizada · De: Fotones, [[agua|water]] e iones del suelo, CO₂ atmosférico · Dentro: Los [[cloroplastos|chloroplast]] fijan carbono, la [[vacuola central|central-vacuole]] genera turgencia contra la [[pared celular|cell-wall]], y [[peroxisomas|peroxisome]] y [[mitocondrias|mitochondrion]] rescatan carbono y producen ATP · Hacia: O₂ a la atmósfera; sacarosa y señales vía [[plasmodesmos|plasmodesma]]',
       scientific:
@@ -27,9 +27,9 @@ export const PLANT_FUNGAL_NODE_LENSES: NodeLensMap = {
   'light-reactions': {
     en: {
       simple:
-        'This tiny solar wire inside the leaf catches sunlight, splits water into oxygen, and charges the chemical batteries the cell needs to make sugar.',
+        'Like Goku charging a Spirit Bomb from sunbeams, this tiny leaf circuit splits water into oxygen and charges the chemical batteries needed to make sugar.',
       story:
-        'Every sugar crystal on Earth starts as a bolt of starlight striking a green membrane just twenty nanometers thick. [[Photosystem II|photosystem-ii]] catches incoming photons with [[chlorophyll|chlorophyll]] antennae and rips electrons straight off [[water|water]], tossing breathable oxygen aside as sparkling exhaust while firing those electrons down a high-speed relay.\n\nAs the charge leaps from plastoquinone through cytochrome b₆f to Photosystem I, protons flood into the tight thylakoid pocket underneath, turning it fiercely acidic. That pent-up proton torrent roars back out through spinning [[ATP synthase|atp-synthase]] turbines to mint fresh ATP alongside NADPH, handing both charged batteries straight to [[RuBisCO|rubisco]] waiting in the stroma.',
+        'Every sugar grain on Earth starts like Goku raising his hands for a Dragon Ball Z Spirit Bomb—except this twenty-nanometer green membrane gathers pure starlight. [[Photosystem II|photosystem-ii]] catches photons with [[chlorophyll|chlorophyll]] dishes and mugs [[water|water]] for its electrons, tossing breathable oxygen aside while firing that spark down a molecular wire.\n\nAs the charge leaps toward Photosystem I, protons flood the tiny thylakoid pocket below until it turns sour as lemon juice. That pent-up torrent roars out through spinning [[ATP synthase|atp-synthase]] turbines to mint fresh ATP alongside NADPH, handing both charged power packs straight to [[RuBisCO|rubisco]] in the stroma.',
       blueprint:
         'Role: Thylakoid photochemical electron & proton circuit · From: Sunlight photons, luminal [[water|water]], stromal ADP + Pᵢ & NADP⁺ · Inside: [[Photosystem II|photosystem-ii]] → plastoquinone → Cyt b₆f → plastocyanin → PSI → ferredoxin/FNR, driving H⁺ translocation for [[ATP synthase|atp-synthase]] · To: O₂ to air; ATP & NADPH to [[chloroplast|chloroplast]] stroma Calvin cycle',
       scientific:
@@ -37,9 +37,9 @@ export const PLANT_FUNGAL_NODE_LENSES: NodeLensMap = {
     },
     es: {
       simple:
-        'Este diminuto cable solar de la hoja atrapa la luz del sol, rompe agua liberando oxígeno y recarga las baterías químicas necesarias para fabricar azúcar.',
+        'Como Goku reuniendo una Genkidama con rayos de sol, este circuito foliar rompe agua liberando oxígeno y carga las baterías químicas para fabricar azúcar.',
       story:
-        'Cada grano de azúcar del planeta nace cuando un rayo de sol golpea una membrana verde de apenas veinte nanómetros. El [[Fotosistema II|photosystem-ii]] concentra esos fotones con sus antenas de [[clorofila|chlorophyll]] y arranca electrones directamente del [[agua|water]], soltando el oxígeno que respiramos mientras dispara la carga por una pista de relevos molecular.\n\nAl cruzar hacia el Fotosistema I, el relevo bombea protones al estrecho bolsillo del lumen hasta volverlo ácido como un limón. Esa marea contenida escapa haciendo girar las turbinas de la [[ATP sintasa|atp-synthase]], que entrega ATP recién acuñado junto con NADPH directamente a la [[RuBisCO|rubisco]] en el estroma vecino.',
+        'Cada grano de azúcar del planeta empieza como una Genkidama de Dragon Ball Z, pero reuniendo fotones sobre una membrana verde de veinte nanómetros. El [[Fotosistema II|photosystem-ii]] concentra la luz con sus antenas de [[clorofila|chlorophyll]] y le arranca electrones al [[agua|water]], soltando el oxígeno que respiramos mientras dispara la chispa por una pista de relevos.\n\nEn su carrera hacia el Fotosistema I, el cable bombea protones al estrecho bolsillo interior hasta volverlo ácido como limón. Ese chorro escapa haciendo girar las turbinas de la [[ATP sintasa|atp-synthase]], que entrega baterías recién cargadas de ATP y NADPH directamente a la [[RuBisCO|rubisco]].',
       blueprint:
         'Rol: Circuito fotoquímico tilacoidal de electrones y protones · De: Fotones solares, [[agua|water]] luminal, ADP + Pᵢ y NADP⁺ del estroma · Dentro: [[Fotosistema II|photosystem-ii]] → plastoquinona → Cit b₆f → plastocianina → PSI → ferredoxina/FNR, generando ΔpH para la [[ATP sintasa|atp-synthase]] · Hacia: O₂ liberado; ATP y NADPH al ciclo de Calvin del [[cloroplasto|chloroplast]]',
       scientific:
@@ -50,9 +50,9 @@ export const PLANT_FUNGAL_NODE_LENSES: NodeLensMap = {
   'cellulose-synthase': {
     en: {
       simple:
-        'Shaped like a tiny six-petaled flower in the cell membrane, this machine spins eighteen sugar threads at once into a single cable of cell-wall armor.',
+        'Picture Spider-Man’s web-shooter built as a six-petaled flower in the membrane, spinning eighteen sugar threads at once into steel-tough wall armor.',
       story:
-        'Freshly delivered from the [[Golgi|golgi]] in membrane [[vesicles|vesicle]], this six-lobed rosette settles into the [[plasma membrane|plasma-membrane]] and grabs sugar bricks arriving from photosynthetic harvests. Eighteen catalytic mouths chew through UDP-[[glucose|glucose]] on the cytoplasmic side, stitching one glucose after another onto growing chains and shoving them outward into the daylight.\n\nNo external tugboats pull it along: the sheer force of eighteen polymerizing threads crystallizing into a stiff [[cellulose microfibril|cellulose-microfibril]] pushes the whole rosette forward through the membrane like a jet-propelled paver, steered neatly along cortical [[microtubules|microtubule]] right underneath.',
+        'Delivered from the [[Golgi|golgi]] aboard tiny [[vesicles|vesicle]], this six-lobed rosette docks in the [[plasma membrane|plasma-membrane]] like Spider-Man’s multi-nozzle web-shooter. Eighteen catalytic mouths chew up cytosolic UDP-[[glucose|glucose]], stitching one sugar brick after another onto growing strands and firing all eighteen threads outward into the daylight.\n\nNo tugboat pulls this machine: as those eighteen threads snap together into a crystal-stiff [[cellulose microfibril|cellulose-microfibril]], the sheer force of crystallization shoves the whole rosette forward like a Tron light-cycle, steered neatly along [[microtubules|microtubule]] right underneath.',
       blueprint:
         'Role: Membrane-embedded glucan extrusion nanomachine · From: Cytosolic UDP-[[glucose|glucose]] & [[Golgi|golgi]]-derived [[vesicles|vesicle]]; guided by cortical [[microtubules|microtubule]] · Inside: 18 CESA subunits polymerize β-1,4-glucan chains and extrude them across the [[plasma membrane|plasma-membrane]] · To: Crystalline [[cellulose microfibril|cellulose-microfibril]] woven into the [[cell wall|cell-wall]]',
       scientific:
@@ -60,9 +60,9 @@ export const PLANT_FUNGAL_NODE_LENSES: NodeLensMap = {
     },
     es: {
       simple:
-        'Con forma de diminuta flor de seis pétalos en la membrana, esta máquina hila dieciocho hebras de azúcar a la vez para trenzar un cable de la pared celular.',
+        'Imagina el lanzatelarañas de Spider-Man hecho flor de seis pétalos en la membrana, hilando dieciocho hebras de azúcar a la vez en un cable de armadura.',
       story:
-        'Recién desembarcada desde el [[aparato de Golgi|golgi]] a bordo de [[vesículas|vesicle]], esta roseta de seis lóbulos encaja en la [[membrana plasmática|plasma-membrane]] lista para tejer armadura. Sus dieciocho bocas catalíticas atrapan ladrillos de UDP-[[glucosa|glucose]] del citosol, los engarzan uno tras otro y empujan las hebras recién nacidas hacia el exterior.\n\nNadie la remolca desde fuera: el propio empuje físico de las dieciocho cadenas al cristalizar en una rígida [[microfibrilla de celulosa|cellulose-microfibril]] propulsa la roseta por la membrana a unos cientos de nanómetros por minuto, siguiendo fielmente los rieles de [[microtúbulos|microtubule]] tendidos justo debajo.',
+        'Recién llegada desde el [[aparato de Golgi|golgi]] en pequeñas [[vesículas|vesicle]], esta roseta de seis lóbulos encaja en la [[membrana plasmática|plasma-membrane]] como el lanzatelarañas múltiple de Spider-Man. Sus dieciocho bocas devoran UDP-[[glucosa|glucose]] del citosol, engarzan ladrillos dulces sin parar y disparan las hebras hacia el exterior.\n\nNadie la remolca desde fuera: cuando las dieciocho hebras cristalizan de golpe en una rígida [[microfibrilla de celulosa|cellulose-microfibril]], el propio empuje físico propulsa la roseta por la membrana como una moto de luz de Tron sobre los rieles de [[microtúbulos|microtubule]] tendidos debajo.',
       blueprint:
         'Rol: Nanomáquina de membrana extrusora de glucanos · De: UDP-[[glucosa|glucose]] citosólica y [[vesículas|vesicle]] del [[Golgi|golgi]]; guiada por [[microtúbulos|microtubule]] corticales · Dentro: 18 subunidades CESA polimerizan y extruyen cadenas β-1,4 a través de la [[membrana plasmática|plasma-membrane]] · Hacia: [[Microfibrilla de celulosa|cellulose-microfibril]] integrada en la [[pared celular|cell-wall]]',
       scientific:
@@ -73,9 +73,9 @@ export const PLANT_FUNGAL_NODE_LENSES: NodeLensMap = {
   'amyloplast': {
     en: {
       simple:
-        'An underground storage pantry packed with dense starch — and in root tips, its heavy grains sink like pebbles to tell the plant which way gravity pulls.',
+        'An underground WALL-E pantry that packs dense starch cubes—and in root tips, its heavy grains roll like Indiana Jones boulders to sense gravity.',
       story:
-        'Far beneath the sunlit canopy, root and tuber cells never see a single photon, yet sugar piped down from leaf [[chloroplasts|chloroplast]] pours steadily into their [[cytosol|cytosol]]. Colourless cousins of chloroplasts called amyloplasts drink up those imported carbon skeletons and pack thousands of [[glucose|glucose]] rings into dense, crystalline [[starch|starch]] boulders for winter or sprouting.\n\nDown in the very tip of a growing root, these heavy starch-stuffed sacs pull off a second trick: they tumble to the bottom floor of the cell whenever the root tilts, nudging internal membranes to redirect growth hormones so the root bends unerringly toward Earth.',
+        'Deep underground where sunbeams never reach, root and potato cells drink up sugar piped down from leaf [[chloroplasts|chloroplast]] into their [[cytosol|cytosol]]. Pale cousins of chloroplasts called amyloplasts act like diligent WALL-E compactors, pressing thousands of [[glucose|glucose]] rings into dense, crystalline [[starch|starch]] boulders for winter rations.\n\nDown in the very tip of a growing root, those heavy starch-packed sacs pull off an Indiana Jones temple trick: whenever the root tilts, they tumble to the bottom floor of the cell, nudging hormone switches so the root always bends toward Earth.',
       blueprint:
         'Role: Non-pigmented starch-storage plastid & gravitropic statolith · From: Sucrose-derived ADP-[[glucose|glucose]] / hexose phosphates imported from [[cytosol|cytosol]] · Inside: Polymerizes & crystallizes semi-crystalline [[starch|starch]] granules inside a double [[phospholipid|phospholipid]] envelope · To: Mobilized sugars during night/germination; sedimenting force signals root gravity vector',
       scientific:
@@ -83,9 +83,9 @@ export const PLANT_FUNGAL_NODE_LENSES: NodeLensMap = {
     },
     es: {
       simple:
-        'Una despensa subterránea repleta de almidón compacto; además, en la punta de la raíz sus granos pesados caen al fondo para indicar hacia dónde tira la gravedad.',
+        'Una despensa subterránea estilo WALL-E repleta de almidón; en la punta de la raíz, sus granos ruedan como la roca de Indiana Jones para detectar la gravedad.',
       story:
-        'Bajo tierra, donde jamás llega un rayo de sol, las células de raíces y tubérculos reciben en su [[citosol|cytosol]] el azúcar enviado desde los [[cloroplastos|chloroplast]] de las hojas. Allí entran en acción los amiloplastos, primos incoloros del cloroplasto que engullen esos azúcares y empaquetan miles de anillos de [[glucosa|glucose]] en densas rocas de [[almidón|starch]] listas para pasar el invierno.\n\nEn la punta misma de la raíz cumplen además una misión de brújula física: al pesar mucho más que el líquido vecino, estos sacos cargados de almidón ruedan hacia el fondo cada vez que la raíz se inclina, avisando a la planta exactamente hacia dónde está abajo.',
+        'Bajo tierra, donde jamás llega un fotón, las células de raíces y patatas reciben en su [[citosol|cytosol]] el azúcar enviado desde los [[cloroplastos|chloroplast]] de las hojas. Allí trabajan los amiloplastos como pequeños compactadores WALL-E, prensando miles de anillos de [[glucosa|glucose]] en densas rocas blancas de [[almidón|starch]] para pasar el invierno.\n\nEn la punta misma de la raíz ejecutan además un truco digno del templo de Indiana Jones: al pesar tanto, estos sacos ruedan hasta el suelo celular cada vez que la raíz se inclina, accionando interruptores hormonales que guían el crecimiento directo hacia abajo.',
       blueprint:
         'Rol: Plastidio incoloro de reserva de almidón y estatolito gravitrópico · De: Fosfatos de hexosa derivados de sacarosa en el [[citosol|cytosol]] · Dentro: Sintetiza y empaqueta gránulos densos de [[almidón|starch]] bajo doble bicapa de [[fosfolípidos|phospholipid]] · Hacia: [[Glucosa|glucose]] movilizada en germinación/oscuridad; señal mecánica de gravedad en la cofia radicular',
       scientific:
@@ -96,9 +96,9 @@ export const PLANT_FUNGAL_NODE_LENSES: NodeLensMap = {
   'cell-wall': {
     en: {
       simple:
-        'A woven armor of plant fibers and natural pectin glue outside the cell that holds back massive internal water pressure so stems and leaves stay crisp.',
+        'The plant cell’s own Attack on Titan Wall Maria: woven sugar rebar set in pectin jelly that holds back massive water pressure so stems stand crisp.',
       story:
-        'Without bones to stand on, every plant builds a personal exoskeleton out of spun sugar. Right at the [[plasma membrane|plasma-membrane]], roving [[cellulose synthase|cellulose-synthase]] rosettes extrude steel-grade [[cellulose microfibrils|cellulose-microfibril]], while [[Golgi|golgi]] vesicles dump sticky pectin jelly and hemicellulose cross-ties around them like wet concrete poured over rebar.\n\nOnce assembled, this layered corset pushes back against the swelling [[central vacuole|central-vacuole]] at tire-level pressures so tender shoots can pierce hard soil—yet tiny [[plasmodesmata|plasmodesma]] tunnels stay wide open through the armor so neighboring cells never lose touch.',
+        'With zero bones to stand on, every plant cell builds its own Attack on Titan Wall Maria out of spun sugar. Right along the [[plasma membrane|plasma-membrane]], roving [[cellulose synthase|cellulose-synthase]] rosettes lay steel-tough [[cellulose microfibrils|cellulose-microfibril]], while [[Golgi|golgi]] bubbles dump sticky pectin jelly and cross-ties over them like wet concrete on rebar.\n\nOnce cured, this layered fortress holds back the swelling [[central vacuole|central-vacuole]] at car-tire pressures so tender shoots can punch through hard dirt—while Mario-style [[plasmodesmata|plasmodesma]] warp tunnels keep every neighbor connected.',
       blueprint:
         'Role: Load-bearing extracellular fiber-composite matrix · From: [[Cellulose microfibrils|cellulose-microfibril]] spun by [[cellulose synthase|cellulose-synthase]]; pectin & xyloglucan delivered via [[Golgi|golgi]] vesicles · Inside: Cross-linked glucan rebar in hydrated galacturonan gel pierced by [[plasmodesmata|plasmodesma]] · To: Mechanical counter-force to [[central vacuole|central-vacuole]] turgor & morphogenesis control',
       scientific:
@@ -106,9 +106,9 @@ export const PLANT_FUNGAL_NODE_LENSES: NodeLensMap = {
     },
     es: {
       simple:
-        'Una armadura tejida con fibras vegetales y gel de pectina por fuera de la célula que resiste la enorme presión del agua interna para mantener erguida la planta.',
+        'El Muro María particular de la célula vegetal al estilo Attack on Titan: fibras de azúcar y gel de pectina que frenan la presión del agua para erguir el tallo.',
       story:
-        'Sin esqueleto de hueso ni músculo para sostenerse, cada célula vegetal fabrica su propia coraza con azúcar hilado. Al ras de la [[membrana plasmática|plasma-membrane]], las rosetas de [[celulosa sintasa|cellulose-synthase]] tienden cables de [[microfibrillas de celulosa|cellulose-microfibril]] mientras el [[aparato de Golgi|golgi]] vierte encima lazos de hemicelulosa y gel de pectina como hormigón fresco sobre varillas de acero.\n\nEsa caja trenzada frena el empuje colosal de la [[vacuola central|central-vacuole]] hinchada de agua, manteniendo tersos tallos y hojas frente al viento, pero dejando abiertos diminutos túneles de [[plasmodesmos|plasmodesma]] para que el vecindario siga conectado.',
+        'Sin un solo hueso en el cuerpo, cada célula vegetal levanta su propio Muro María de Attack on Titan con azúcar hilado. Al ras de la [[membrana plasmática|plasma-membrane]], las rosetas de [[celulosa sintasa|cellulose-synthase]] tienden cables de [[microfibrillas de celulosa|cellulose-microfibril]] mientras el [[aparato de Golgi|golgi]] vierte encima lazos y gel de pectina como hormigón sobre varillas de acero.\n\nEsa muralla trenzada resiste el empuje colosal de la [[vacuola central|central-vacuole]] hinchada a presión de neumático para sostener hojas y tallos, dejando abiertos pasadizos de [[plasmodesmos|plasmodesma]] tipo Mario hacia las células vecinas.',
       blueprint:
         'Rol: Matriz extracelular compuesta resistente a la tracción · De: [[Microfibrillas de celulosa|cellulose-microfibril]] de la [[celulosa sintasa|cellulose-synthase]]; pectinas y hemicelulosas del [[Golgi|golgi]] · Dentro: Red de microfibrillas enlazadas en gel péctico hidratado atravesada por [[plasmodesmos|plasmodesma]] · Hacia: Contrapresión mecánica ante la [[vacuola central|central-vacuole]] y soporte tisular',
       scientific:
@@ -119,9 +119,9 @@ export const PLANT_FUNGAL_NODE_LENSES: NodeLensMap = {
   'cellulose-microfibril': {
     en: {
       simple:
-        'A microscopic rope twisted from eighteen to thirty-six straight sugar chains locked together so tightly that, pound for pound, it rivals steel.',
+        'Botanical Vibranium wire: eighteen to thirty-six straight sugar chains zipped together so tightly that, pound for pound, this micro-cable rivals steel.',
       story:
-        'The instant eighteen [[cellulose|cellulose]] chains emerge side by side from a [[cellulose synthase|cellulose-synthase]] rosette, water gets squeezed out from between them and hundreds of hydrogen bonds snap shut like microscopic zippers. Each flat ribbon of [[glucose|glucose]] locks cleanly against its neighbors, turning soft sugar into an insoluble crystal rod.\n\nLaid down in criss-crossing hoops around the [[plasma membrane|plasma-membrane]], these slender cables take the full brunt of internal water pressure inside the [[cell wall|cell-wall]], dictating which direction a young shoot is allowed to stretch.',
+        'The instant eighteen [[cellulose|cellulose]] strands shoot side-by-side out of a [[cellulose synthase|cellulose-synthase]] nozzle, water gets squeezed out and hundreds of hydrogen bonds snap shut like Wakandan Vibranium weave. Each flat ribbon of [[glucose|glucose]] locks flush against its neighbors, turning ordinary sugar into an unbreakable crystal rod.\n\nWrapped in tight hoops around the [[plasma membrane|plasma-membrane]] like ODM-gear steel cables from Attack on Titan, these slender rods take the full blast of water pressure inside the [[cell wall|cell-wall]] and dictate which way a young stem can stretch.',
       blueprint:
         'Role: Crystalline tensile rebar of the plant cell wall · From: Parallel [[cellulose|cellulose]] chains co-extruded by [[cellulose synthase|cellulose-synthase]] · Inside: 18–36 β-1,4-glucan chains packed via intra- and inter-chain H-bonds & hydrophobic stacking · To: Primary tensile framework within the [[cell wall|cell-wall]] resisting turgor',
       scientific:
@@ -129,9 +129,9 @@ export const PLANT_FUNGAL_NODE_LENSES: NodeLensMap = {
     },
     es: {
       simple:
-        'Un cable microscópico formado por entre dieciocho y treinta y seis cadenas rectas de azúcar unidas con tanta fuerza que, a igual peso, rivaliza con el acero.',
+        'El vibranio del mundo vegetal: entre dieciocho y treinta y seis cadenas rectas de azúcar abrochadas con tal fuerza que, a igual peso, rivalizan con el acero.',
       story:
-        'En el preciso instante en que dieciocho cadenas de [[celulosa|cellulose]] asoman juntas desde una roseta de [[celulosa sintasa|cellulose-synthase]], el agua queda expulsada de sus costuras y cientos de puentes de hidrógeno se cierran de golpe como una cremallera. Cada cinta plana de [[glucosa|glucose]] encaja al milímetro con sus vecinas hasta formar una varilla cristalina indisoluble.\n\nTendidos como aros de barril alrededor de la [[membrana plasmática|plasma-membrane]], estos cables diminutos soportan en la [[pared celular|cell-wall]] todo el empuje osmótico de la planta y deciden hacia dónde puede estirarse un tallo joven.',
+        'En cuanto dieciocho cadenas de [[celulosa|cellulose]] salen juntas de una roseta de [[celulosa sintasa|cellulose-synthase]], el agua queda expulsada y cientos de puentes de hidrógeno se cierran de golpe como un tejido de vibranio de Wakanda. Cada cinta plana de [[glucosa|glucose]] encaja al milímetro con sus vecinas hasta formar una varilla cristalina indisoluble.\n\nEnrollados alrededor de la [[membrana plasmática|plasma-membrane]] como los cables de acero de Attack on Titan, estos tirantes soportan en la [[pared celular|cell-wall]] toda la presión hidráulica interna y deciden hacia dónde se estira el tallo.',
       blueprint:
         'Rol: Cable cristalino de refuerzo a tracción de la pared vegetal · De: Cadenas paralelas de [[celulosa|cellulose]] extruidas por la [[celulosa sintasa|cellulose-synthase]] · Dentro: 18–36 cadenas β-1,4-glucano empaquetadas por puentes de H y apilamiento hidrofóbico · Hacia: Armazón estructural de la [[pared celular|cell-wall]] frente a la presión osmótica',
       scientific:
@@ -142,9 +142,9 @@ export const PLANT_FUNGAL_NODE_LENSES: NodeLensMap = {
   'cellulose': {
     en: {
       simple:
-        'A long, ruler-straight ribbon made of thousands of glucose sugars linked head-to-tail with every second sugar flipped upside down — the single most common biological molecule on Earth.',
+        'Flip every second glucose brick upside down and soft potato sugar transforms into ruler-straight armor plating—the #1 most abundant bio-molecule on Earth.',
       story:
-        'Take the exact same [[glucose|glucose]] rings that build soft, digestible [[starch|starch]] in a potato, and make one tiny geometric tweak inside [[cellulose synthase|cellulose-synthase]]: flip every alternating ring upside down by 180 degrees as you snap them together. Instead of curling into a loose edible spring, the chain shoots out dead straight and flat as a carpenter’s ruler.\n\nThat flat profile lets neighboring ribbons stack flush into indestructible [[cellulose microfibrils|cellulose-microfibril]], locking billions of tons of atmospheric [[carbon|atom-c]] harvested by [[chloroplasts|chloroplast]] into wood, cotton, and every blade of grass on the planet.',
+        'Take the exact same [[glucose|glucose]] bricks that build soft, chewable [[starch|starch]] in french fries and pull one Transformers-worthy geometric flip inside [[cellulose synthase|cellulose-synthase]]: rotate every second ring 180 degrees upside down as they click together. Instead of coiling into an edible spring, the polymer shoots out dead straight like an Iron Man armor plate.\n\nThat flat profile lets neighboring ribbons stack flush into steel-grade [[cellulose microfibrils|cellulose-microfibril]], locking billions of tons of air [[carbon|atom-c]] caught by [[chloroplasts|chloroplast]] into cotton, redwoods, and every blade of grass.',
       blueprint:
         'Role: Linear structural polysaccharide monomer chain · From: UDP-[[glucose|glucose]] polymerized by [[cellulose synthase|cellulose-synthase]] · Inside: Unbranched β-1,4-D-glucan with 180°-alternating cellobiose repeat (~1.03 nm per dimer) · To: Self-associates into [[cellulose microfibrils|cellulose-microfibril]] inside the [[cell wall|cell-wall]]',
       scientific:
@@ -152,9 +152,9 @@ export const PLANT_FUNGAL_NODE_LENSES: NodeLensMap = {
     },
     es: {
       simple:
-        'Una cinta larga y totalmente recta hecha de miles de glucosas donde cada eslabón gira al revés respecto al anterior: es la molécula orgánica más abundante de la Tierra.',
+        'Gira al revés uno de cada dos ladrillos de glucosa y un azúcar blando se transforma en una viga recta indestructible: la biomolécula más abundante de la Tierra.',
       story:
-        'Toma exactamente los mismos anillos de [[glucosa|glucose]] que forman el tierno [[almidón|starch]] de una patata y haz un solo truco geométrico dentro de la [[celulosa sintasa|cellulose-synthase]]: gira 180 grados cada pieza respecto a la anterior al abrocharlas. En vez de enrollarse en un muelle blando y digerible, la cadena sale disparada tan recta y plana como una regla.\n\nEsa geometría impecable permite que docenas de cintas encajen cara con cara en [[microfibrillas de celulosa|cellulose-microfibril]], fijando miles de millones de toneladas de [[carbono|atom-c]] capturado por los [[cloroplastos|chloroplast]] en madera, algodón y hojas.',
+        'Toma exactamente los mismos anillos de [[glucosa|glucose]] de las patatas fritas de [[almidón|starch]] y aplica un giro digno de Transformers dentro de la [[celulosa sintasa|cellulose-synthase]]: voltea 180 grados cada pieza alterna al abrocharla. En vez de enrollarse en un muelle comestible, la cadena sale disparada tan recta y plana como una placa de Iron Man.\n\nEsa geometría permite apilar docenas de cintas en [[microfibrillas de celulosa|cellulose-microfibril]] ultrarresistentes, fijando miles de millones de toneladas de [[carbono|atom-c]] cosechado por los [[cloroplastos|chloroplast]] en bosques, algodón y praderas.',
       blueprint:
         'Rol: Cadena polisacárida lineal de soporte estructural · De: UDP-[[glucosa|glucose]] polimerizada por [[celulosa sintasa|cellulose-synthase]] · Dentro: Homopolímero β-1,4-D-glucano sin ramificar con giro alterno de 180° (unidad celobiosa ~1.03 nm) · Hacia: Se ensambla en [[microfibrillas de celulosa|cellulose-microfibril]] de la [[pared celular|cell-wall]]',
       scientific:
@@ -165,9 +165,9 @@ export const PLANT_FUNGAL_NODE_LENSES: NodeLensMap = {
   'plasmodesma': {
     en: {
       simple:
-        'A secret doorway bored right through the rigid cell wall, letting neighboring plant cells share water, sugar, and chemical messages directly.',
+        'A Super Mario green warp pipe bored straight through the solid cell wall so neighboring plant cells can trade water, sugar, and gossip directly.',
       story:
-        'Encasing yourself in a solid [[cell wall|cell-wall]] would mean total isolation if plant cells didn’t leave secret passages open when dividing. Lined seamlessly by the [[plasma membrane|plasma-membrane]] of both neighbors and threaded down the middle by a skinny tube of [[smooth ER|smooth-er]], each plasmodesma turns an entire leaf into one shared living commune.\n\nFresh sucrose brewed from [[chloroplast|chloroplast]] harvests, [[water|water]], and even mobile signal [[proteins|protein]] slip through the sleeve around that central rod, streaming cell-to-cell toward the leaf veins—until an emergency triggers a callose collar to slam the drawbridge shut against invading viruses.',
+        'Locking yourself inside an Attack on Titan [[cell wall|cell-wall]] would mean solitary confinement if dividing plant cells didn’t leave Avatar-style “Secret Tunnels” wide open. Lined continuously by both neighbors’ [[plasma membrane|plasma-membrane]] and threaded down the middle by a skinny pipe of [[smooth ER|smooth-er]], each plasmodesma wires an entire leaf into one shared co-op.\n\nLiquid sucrose from [[chloroplast|chloroplast]] harvests, [[water|water]], and courier [[proteins|protein]] stream through the sleeve like Mario warp pipes toward leaf veins—until a virus attacks and a callose blast door slams the hatch shut.',
       blueprint:
         'Role: Symplastic intercellular nanopore & signaling conduit · From: [[Cytosol|cytosol]] and [[smooth ER|smooth-er]] of donor plant cell · Inside: ~50 nm [[cell wall|cell-wall]] tunnel lined by continuous [[plasma membrane|plasma-membrane]] around an axial ER desmotubule · To: Neighboring cell cytoplasm & phloem export route (gated by callose sphincter)',
       scientific:
@@ -175,9 +175,9 @@ export const PLANT_FUNGAL_NODE_LENSES: NodeLensMap = {
     },
     es: {
       simple:
-        'Un pasadizo secreto perforado a través de la rígida pared celular que permite a las células vecinas compartir agua, azúcar y mensajes sin salir al exterior.',
+        'Una tubería verde de Super Mario perforada a través de la dura pared celular para que las células vecinas compartan agua, azúcar y avisos al instante.',
       story:
-        'Encerrarse dentro de una [[pared celular|cell-wall]] maciza condenaría a cada célula al aislamiento total si no dejaran túneles abiertos al dividirse. Tapizado sin costuras por la [[membrana plasmática|plasma-membrane]] de ambas vecinas y atravesado en su eje por un finísimo tubo de [[retículo endoplasmático liso|smooth-er]], cada plasmodesmo convierte toda la hoja en una gran red conectada.\n\nPor la manga líquida que rodea ese tubo central fluyen [[agua|water]], sacarosa recién salida de las cosechas del [[cloroplasto|chloroplast]] e incluso [[proteínas|protein]] mensajeras rumbo a las venas de la hoja, salvo que un virus intente colarse y un anillo de calosa cierre la compuerta de golpe.',
+        'Encerrarse tras una [[pared celular|cell-wall]] maciza sería cadena perpetua si las plantas no dejaran abiertos «¡Túneles Secretos!» al estilo Avatar. Tapizado sin costuras por la [[membrana plasmática|plasma-membrane]] de ambas vecinas y recorrido al centro por un fino tubo de [[retículo endoplasmático liso|smooth-er]], cada plasmodesmo une toda la hoja en modo cooperativo.\n\nPor esa tubería digna de Super Mario fluyen [[agua|water]], sacarosa recién salida del [[cloroplasto|chloroplast]] e incluso [[proteínas|protein]] mensajeras rumbo a las venas, salvo que asome un virus y una compuerta de calosa cierre el túnel de golpe.',
       blueprint:
         'Rol: Nanoporo intercelular simplástico de transporte y señalización · De: [[Citosol|cytosol]] y [[RE liso|smooth-er]] de la célula donadora · Dentro: Canal de ~50 nm en la [[pared celular|cell-wall]] revestido de [[membrana plasmática|plasma-membrane]] con desmotúbulo axial · Hacia: Citoplasma vecino y ruta al floema (regulado por esfínter de calosa)',
       scientific:
@@ -188,9 +188,9 @@ export const PLANT_FUNGAL_NODE_LENSES: NodeLensMap = {
   'central-vacuole': {
     en: {
       simple:
-        'A giant water balloon filling most of the plant cell; when pumped full, it pushes outward against the cell wall to keep leaves and stems upright without bones.',
+        'A giant waterbending balloon filling up to 90% of the plant cell; pumped tight, it pushes against the wall like a hydraulic mecha so stems stand without bones.',
       story:
-        'Growing a vast sunlit leaf out of pure [[cytosol|cytosol]] and protein would bankrupt a plant’s nitrogen budget, so the cell cheats brilliantly: it blows up an enormous water bag in the middle and presses all its working machinery into a thin, well-lit rim against the [[cell wall|cell-wall]]. Proton pumps in its tonoplast skin burn ATP from [[mitochondria|mitochondrion]] to cram salts, malate, and spare sugars inside.\n\n[[Water|water]] rushes in through [[channel proteins|channel-protein]] to chase those dissolved solutes, inflating the sac to hydraulic turgor pressure that holds soft stems skyward, locks bitter toxins away from caterpillars, and digests worn-out parts just like a recycling vat.',
+        'Filling a huge leaf with thick [[cytosol|cytosol]] would bankrupt a plant’s nitrogen budget, so the cell pulls a SpongeBob-meets-Pacific Rim move: it inflates a colossal water tank in the middle and presses its working gear into a sunny rim against the [[cell wall|cell-wall]]. Tonoplast proton pumps burn [[mitochondrial|mitochondrion]] ATP to cram salts and spare sugars inside.\n\n[[Water|water]] surges in through aquaporin [[channel proteins|channel-protein]] like Master Katara waterbending, pumping up hydraulic pressure that holds soft stems skyward, locks bitter anti-caterpillar potions away, and recycles worn-out parts.',
       blueprint:
         'Role: Hydraulic turgor reservoir, solute vault & lytic compartment · From: [[Water|water]] via aquaporin [[channels|channel-protein]]; ions, sugars & metabolites pumped from [[cytosol|cytosol]] · Inside: Tonoplast V-ATPase & V-PPase acidify cell sap (up to 90% cell volume) · To: Outward hydrostatic pressure against [[cell wall|cell-wall]]; nighttime solutes & recycled monomers back to cytosol',
       scientific:
@@ -198,9 +198,9 @@ export const PLANT_FUNGAL_NODE_LENSES: NodeLensMap = {
     },
     es: {
       simple:
-        'Un enorme globo de agua que ocupa casi toda la célula vegetal: al hincharse empuja contra la pared celular y mantiene tallos y hojas firmes sin necesidad de huesos.',
+        'Un globo gigante de agua control que ocupa hasta el 90 % de la célula: al hincharse empuja la pared como un mecha hidráulico para erguir la planta sin huesos.',
       story:
-        'Rellenar una hoja entera con puro [[citosol|cytosol]] denso arruinaría el presupuesto de nitrógeno de cualquier planta, así que la célula recurre a un truco genial: infla un saco colosal en el centro y empuja toda su maquinaria viva en una fina lámina pegada a la [[pared celular|cell-wall]], justo donde da el sol. Las bombas de su membrana queman ATP de las [[mitocondrias|mitochondrion]] para abarrotar el interior de sales, ácidos y azúcares de reserva.\n\nEl [[agua|water]] entra en tromba por [[proteínas de canal|channel-protein]] persiguiendo esas sales e hincha la bolsa con presión hidráulica de neumático: así mantiene erguidos los tallos tiernos, esconde toxinas amargas contra insectos y recicla piezas viejas.',
+        'Llenar una hoja entera de [[citosol|cytosol]] espeso arruinaría a cualquier planta, así que la célula aplica una jugada entre Bob Esponja y Pacific Rim: infla un tanque colosal en el centro y aprieta su maquinaria contra el borde soleado de la [[pared celular|cell-wall]]. Las bombas de su membrana queman ATP de las [[mitocondrias|mitochondrion]] para abarrotarlo de sales y reservas.\n\nEl [[agua|water]] irrumpe por [[proteínas de canal|channel-protein]] como un golpe de agua control de Avatar, generando presión hidráulica que mantiene firmes los tallos, esconde venenos amargos contra orugas y recicla piezas gastadas.',
       blueprint:
         'Rol: Depósito hidráulico de turgencia, almacén osmótico y compartimento lítico · De: [[Agua|water]] por [[canales|channel-protein]] acuaporinas; iones y azúcares bombeados desde el [[citosol|cytosol]] · Dentro: Bombas V-ATPasa y V-PPasa en el tonoplasto acidifican la savia (hasta 90 % del volumen) · Hacia: Presión hidrostática contra la [[pared celular|cell-wall]]; solutos nocturnos y monómeros reciclados al citosol',
       scientific:
@@ -211,9 +211,9 @@ export const PLANT_FUNGAL_NODE_LENSES: NodeLensMap = {
   'chloroplast': {
     en: {
       simple:
-        'The green solar kitchen of the plant cell, once a free-living microbe, that catches sunlight to split water, release oxygen, and cook carbon dioxide into sugar.',
+        'The leaf’s green Fortress of Solitude—an ancient sun-eating microbe swallowed long ago that splits water, vents oxygen, and cooks thin air into sugar.',
       story:
-        'More than a billion years ago, a hungry eukaryote swallowed a sun-eating cyanobacterium and never digested it—striking the partnership that painted Earth’s continents green. Inside its double membrane, towering [[grana|granum]] stacks catch incoming sunlight and crack [[water|water]] apart in the [[light reactions|light-reactions]], filling the surrounding stroma with fresh ATP and NADPH.\n\nWaiting in that bustling liquid stroma, crowds of [[RuBisCO|rubisco]] grab atmospheric CO₂ and weld it into three-carbon sugars that stream out to feed the [[cytosol|cytosol]] or pile up locally as daytime [[starch|starch]] grains—unless RuBisCO slips and grabs oxygen, shipping glycolate next door to the [[peroxisome|peroxisome]] for emergency rescue.',
+        'Over a billion years ago, a hungry cell swallowed a sun-eating microbe and—like a friendly Venom symbiote—never digested it, painting Earth’s continents green. Inside this Superman Fortress of Solitude, emerald [[grana|granum]] stacks catch sunbeams and crack [[water|water]] open in the [[light reactions|light-reactions]], flooding the stroma with ATP and NADPH.\n\nOut in that liquid courtyard, crowds of [[RuBisCO|rubisco]] weld CO₂ into sugars that feed the [[cytosol|cytosol]] or stack up as daytime [[starch|starch]] rations—unless nearsighted RuBisCO grabs oxygen by mistake and rushes the mess next door to a [[peroxisome|peroxisome]].',
       blueprint:
         'Role: Photosynthetic endosymbiotic plastid · From: Photons, [[water|water]], CO₂, and nuclear-encoded [[proteins|protein]] · Inside: [[Grana|granum]] [[light reactions|light-reactions]] generate ATP & NADPH; stromal [[RuBisCO|rubisco]] runs Calvin cycle & temporary [[starch|starch]] synthesis · To: O₂ to air; triose phosphates to [[cytosol|cytosol]]; 2-phosphoglycolate salvage via [[peroxisome|peroxisome]]',
       scientific:
@@ -221,9 +221,9 @@ export const PLANT_FUNGAL_NODE_LENSES: NodeLensMap = {
     },
     es: {
       simple:
-        'La cocina solar verde de la célula vegetal —antigua bacteria domesticada— que atrapa luz del sol para romper agua, soltar oxígeno y convertir aire en azúcar.',
+        'La Fortaleza de la Soledad verde de la planta: un antiguo microbio solar domesticado que rompe agua, suelta oxígeno y cocina el aire para hacer azúcar.',
       story:
-        'Hace más de mil millones de años, una célula hambrienta engulló una cianobacteria comedora de sol y en vez de digerirla firmó el pacto que tiñó de verde los continentes. Dentro de su doble envoltura, las pilas de [[grana|granum]] cazan fotones y parten [[agua|water]] en la [[fase luminosa|light-reactions]], inundando el estroma con baterías recién cargadas de ATP y NADPH.\n\nEn ese caldo espeso aguarda un ejército de [[RuBisCO|rubisco]] para atrapar CO₂ del aire y forjar azúcares que salen a nutrir el [[citosol|cytosol]] o se guardan como granos diurnos de [[almidón|starch]], salvo cuando la enzima tropieza con oxígeno y envía glicolato de urgencia al [[peroxisoma|peroxisome]] vecino.',
+        'Hace más de mil millones de años, una célula hambrienta se tragó una bacteria solar y, como un simbionte amistoso al estilo Venom, jamás la digirió. Dentro de esta Fortaleza de la Soledad de Superman, las pilas de [[grana|granum]] cazan luz y parten [[agua|water]] en la [[fase luminosa|light-reactions]], inundando el estroma de ATP y NADPH.\n\nAllí aguarda un ejército de [[RuBisCO|rubisco]] para soldar CO₂ en azúcares que nutren el [[citosol|cytosol]] o se apilan como reservas diurnas de [[almidón|starch]], salvo cuando la enzima tropieza con oxígeno y manda el estropicio de urgencia al [[peroxisoma|peroxisome]] vecino.',
       blueprint:
         'Rol: Plastidio endosimbiótico fotosintético · De: Fotones, [[agua|water]], CO₂ y [[proteínas|protein]] importadas del citosol · Dentro: Las pilas de [[grana|granum]] ejecutan la [[fase luminosa|light-reactions]]; la [[RuBisCO|rubisco]] estromática fija carbono y acumula [[almidón|starch]] · Hacia: O₂ al aire; triosas fosfato al [[citosol|cytosol]]; glicolato al [[peroxisoma|peroxisome]]',
       scientific:
@@ -234,9 +234,9 @@ export const PLANT_FUNGAL_NODE_LENSES: NodeLensMap = {
   'granum': {
     en: {
       simple:
-        'A neat stack of green pancake-like membrane discs inside the chloroplast, packed tightly to catch as much sunlight as possible.',
+        'A tower of green Super Mario coin stacks inside the chloroplast, piled tight so no sunbeam escapes without paying an energy toll.',
       story:
-        'Like a roll of emerald coins inside the [[chloroplast|chloroplast]], a granum piles flattened membrane sacs one atop another so passing sunbeams have to run a gauntlet of pigment traps. Crowded into the tight, glued-together faces sit [[Photosystem II|photosystem-ii]] complexes running the opening act of the [[light reactions|light-reactions]], splitting water and stuffing protons into the wafer-thin hollow inside each coin.\n\nBecause bulky [[ATP synthase|atp-synthase]] turbines have heads too tall to squeeze between stacked pancakes, they camp out on the open top, bottom, and connecting bridges, spinning furiously as those trapped protons shoot out to power sugar-making in the stroma.',
+        'Like stacked green Super Mario coins inside the [[chloroplast|chloroplast]], a granum piles flat membrane sacs one atop another so every passing photon runs a gauntlet of pigment traps. Squeezed into the tight, glued-together inner faces sit [[Photosystem II|photosystem-ii]] crews kicking off the [[light reactions|light-reactions]]—splitting water and stuffing protons into each wafer-thin coin.\n\nBecause spinning [[ATP synthase|atp-synthase]] turbines wear bulky helmets too tall to fit between stacked pancakes, they camp out on the open penthouse roof and side bridges, roaring like Star Wars pod-racers as trapped protons shoot out.',
       blueprint:
         'Role: Stacked thylakoid light-harvesting & proton-trapping hub · From: Sunlight photons, luminal [[water|water]], stromal ADP + Pᵢ · Inside: Appressed discs concentrate [[Photosystem II|photosystem-ii]] for [[light reactions|light-reactions]]; margins & lamellae host PSI and [[ATP synthase|atp-synthase]] · To: Stromal ATP & NADPH for [[chloroplast|chloroplast]] carbon fixation; O₂ gas',
       scientific:
@@ -244,9 +244,9 @@ export const PLANT_FUNGAL_NODE_LENSES: NodeLensMap = {
     },
     es: {
       simple:
-        'Una pila ordenada de discos verdes dentro del cloroplasto, apilados como monedas para no dejar escapar ni un rayo de luz solar.',
+        'Una torre de monedas verdes al estilo Super Mario dentro del cloroplasto, apiladas tan juntas que ningún rayo de sol escapa sin pagar peaje.',
       story:
-        'Como una columna de monedas esmeralda dentro del [[cloroplasto|chloroplast]], el granum apila sacos de membrana aplastados para tender una emboscada perfecta a cada fotón que cruza la hoja. En las caras pegadas entre moneda y moneda se aprietan los complejos del [[Fotosistema II|photosystem-ii]], que abren la [[fase luminosa|light-reactions]] partiendo agua y abarrotando de protones el estrechísimo hueco interior.\n\nComo los cabezales giratorios de la [[ATP sintasa|atp-synthase]] son demasiado altos para caber entre dos discos apilados, se instalan en las tapas exteriores y en los puentes laterales, donde el chorro de protones los hace girar a toda máquina para alimentar el estroma.',
+        'Como una columna de monedas esmeralda de Super Mario dentro del [[cloroplasto|chloroplast]], el granum apila sacos planos de membrana para tender una emboscada total a cada fotón. En las estrechas caras pegadas entre disco y disco se aprieta el [[Fotosistema II|photosystem-ii]], que abre la [[fase luminosa|light-reactions]] partiendo agua e inflando de protones el hueco interior.\n\nComo los cabezales giratorios de la [[ATP sintasa|atp-synthase]] son demasiado altos para caber entre dos monedas, acampan en la azotea despejada y en los puentes laterales, girando como turbinas de Star Wars al escapar el chorro ácido.',
       blueprint:
         'Rol: Pila tilacoidal concentradora de luz y gradiente de protones · De: Fotones solares, [[agua|water]] luminal y ADP + Pᵢ del estroma · Dentro: Regiones apiladas concentran [[Fotosistema II|photosystem-ii]] en la [[fase luminosa|light-reactions]]; márgenes alojan PSI y [[ATP sintasa|atp-synthase]] · Hacia: ATP y NADPH al estroma del [[cloroplasto|chloroplast]]; O₂ liberado',
       scientific:
@@ -257,9 +257,9 @@ export const PLANT_FUNGAL_NODE_LENSES: NodeLensMap = {
   'photosystem-ii': {
     en: {
       simple:
-        'Nature’s only water-splitting machine: it uses captured sunlight to rip electrons out of ordinary water and release the oxygen gas every animal breathes.',
+        'Biology’s boldest heist crew: like Bulbasaur firing a Solar Beam, it uses pure sunlight to mug ordinary water for electrons and release breathable oxygen.',
       story:
-        'Splitting [[water|water]] is one of chemistry’s hardest heists, yet this twenty-nanometer complex in the [[granum|granum]] pulls it off millions of times a second using nothing gentler than visible light. Hundreds of surrounding [[chlorophyll|chlorophyll]] molecules catch photons and funnel the jolt to a special pair at the core, which fires an excited electron into the [[light reactions|light-reactions]] wire.\n\nNow missing an electron, that core becomes the fiercest oxidizing agent in all biology: via a four-manganese cluster hanging into the lumen, it strips four electrons cleanly off two water molecules, releasing protons to drive ATP turbines and bubbling pure oxygen out to the sky.',
+        'Cracking stable [[water|water]] open is chemistry’s toughest Ocean’s Eleven vault job, yet this twenty-nanometer machine in the [[granum|granum]] pulls it off millions of times a second using visible starlight. Hundreds of [[chlorophyll|chlorophyll]] dishes catch photons and funnel a Dragon Ball energy blast to the core, firing a hot electron down the [[light reactions|light-reactions]] wire.\n\nMissing that electron turns the core into biology’s fiercest electron mugger: through a four-manganese claw in the lumen, it rips four electrons clean off two water molecules, dumping protons for ATP turbines while pure O₂ bubbles into our sky.',
       blueprint:
         'Role: Light-driven water–plastoquinone oxidoreductase · From: Photons via [[chlorophyll|chlorophyll]] antennae & luminal [[water|water]] · Inside: P680 reaction center excites electrons to pheophytin/plastoquinone while Mn₄CaO₅ cluster oxidizes 2 H₂O · To: Plastoquinol (PQH₂) & luminal H⁺ into [[light reactions|light-reactions]]; O₂ gas out of [[granum|granum]]',
       scientific:
@@ -267,9 +267,9 @@ export const PLANT_FUNGAL_NODE_LENSES: NodeLensMap = {
     },
     es: {
       simple:
-        'La única máquina de la naturaleza capaz de partir agua con luz visible: le arranca electrones al agua común y suelta el oxígeno que respiramos.',
+        'El atracador más audaz de la biología: al estilo Bulbasaur, usa pura luz solar para robarle electrones al agua común y liberar el oxígeno que respiramos.',
       story:
-        'Romper una molécula de [[agua|water]] es uno de los atracos químicos más difíciles del universo, pero este complejo de veinte nanómetros alojado en el [[granum|granum]] lo logra millones de veces por segundo a plena luz del día. Su red de [[clorofilas|chlorophyll]] atrapa fotones y concentra el latigazo energético en el corazón del complejo, que dispara un electrón hacia el cable de la [[fase luminosa|light-reactions]].\n\nCon ese hueco recién abierto, el centro se vuelve el ladrón de electrones más voraz de la biología: mediante un racimo de manganeso y calcio asomado al lumen, despoja de cuatro electrones a dos moléculas de agua, liberando protones y burbujas de oxígeno puro hacia la atmósfera.',
+        'Abrir la caja fuerte de una molécula de [[agua|water]] es un golpe digno de Ocean’s Eleven, pero este complejo del [[granum|granum]] lo logra millones de veces por segundo con simple luz visible. Cientos de [[clorofilas|chlorophyll]] concentran el impacto solar como un disparo de Dragon Ball en su núcleo y lanzan un electrón al cable de la [[fase luminosa|light-reactions]].\n\nCon ese hueco abierto, el centro se vuelve el ladrón de electrones más feroz de la vida: mediante una garra de manganeso y calcio despoja a dos moléculas de agua, soltando protones para fabricar ATP y burbujas de oxígeno puro al cielo.',
       blueprint:
         'Rol: Agua-plastoquinona oxidorreductasa impulsada por luz · De: Fotones vía antenas de [[clorofila|chlorophyll]] y [[agua|water]] del lumen · Dentro: El centro P680 transfiere e⁻ a feofitina/plastoquinona y el clúster Mn₄CaO₅ oxida 2 H₂O · Hacia: Plastoquinol (PQH₂) y H⁺ luminales a la [[fase luminosa|light-reactions]]; O₂ fuera del [[granum|granum]]',
       scientific:
@@ -280,9 +280,9 @@ export const PLANT_FUNGAL_NODE_LENSES: NodeLensMap = {
   'chlorophyll': {
     en: {
       simple:
-        'The flat green ring molecule with a single magnesium atom at its center that drinks up red and blue sunlight while bouncing green light back to your eyes.',
+        'Tony Stark’s green Arc Reactor: a flat ring built around one glowing magnesium atom that drinks red and blue sunlight while bouncing green light to your eyes.',
       story:
-        'At the heart of every green leaf sits a molecular solar dish built around a single [[magnesium atom|atom-mg]] cradled by four [[nitrogen|atom-n]] corners. Anchored into the thylakoid membrane by a greasy hydrocarbon tail, this flat ring gulps down blue and red photons arriving from space while reflecting unused green wavelengths straight to our eyes.\n\nWithin picoseconds of catching a sunbeam, its cloud of outer electrons rings like a struck tuning fork and hands that pure packet of excitation energy neighbor-to-neighbor across [[Photosystem II|photosystem-ii]] and its antennae, launching the [[light reactions|light-reactions]] before the energy can fade away as mere heat.',
+        'Mounted across every leaf like miniature Iron Man Arc Reactors, each chlorophyll molecule cradles a single [[magnesium atom|atom-mg]] locked inside four [[nitrogen|atom-n]] corners. Anchored into the membrane by a greasy tail, this flat green power ring gulps down blue and red photons from space while reflecting unused green light straight back to your eyes.\n\nWithin picoseconds of a hit, its electron cloud rings like Captain America’s Vibranium shield and passes that pure jolt neighbor-to-neighbor across [[Photosystem II|photosystem-ii]], igniting the [[light reactions|light-reactions]] before the spark can fade as heat.',
       blueprint:
         'Role: Photoreceptor tetrapyrrole pigment & exciton funnel · From: Biosynthesized from glutamate + [[Mg²⁺|atom-mg]] in stroma; absorbs solar blue (~430 nm) & red (~662–680 nm) photons · Inside: Conjugated chlorin ring enters excited singlet state while C₂₀ phytol tail anchors in lipid bilayer · To: Resonance energy transfer & charge separation in [[Photosystem II|photosystem-ii]] / [[light reactions|light-reactions]]',
       scientific:
@@ -290,9 +290,9 @@ export const PLANT_FUNGAL_NODE_LENSES: NodeLensMap = {
     },
     es: {
       simple:
-        'El anillo molecular plano con un átomo de magnesio en el centro que bebe luz roja y azul del sol y rebota la luz verde hacia nuestros ojos.',
+        'El Reactor Arc verde al estilo Iron Man: un anillo plano con un átomo de magnesio central que bebe luz roja y azul y rebota el verde hacia tus ojos.',
       story:
-        'En el corazón de cada hoja verde late una diminuta antena parabólica construida alrededor de un único [[átomo de magnesio|atom-mg]] sujeto por cuatro esquinas de [[nitrógeno|atom-n]]. Anclada en la membrana tilacoidal por una larga cola grasa, esta placa plana traga fotones azules y rojos recién llegados del espacio y devuelve intacta la luz verde que vemos en los bosques.\n\nApenas atrapa un rayo solar, su nube de electrones vibra como un diapasón en picosegundos y pasa ese paquete de energía de vecina en vecina por el [[Fotosistema II|photosystem-ii]], encendiendo la [[fase luminosa|light-reactions]] antes de que el chispazo se disipe como calor.',
+        'Repartida por millones en cada hoja como diminutos Reactores Arc de Iron Man, cada clorofila sujeta un único [[átomo de magnesio|atom-mg]] entre cuatro esquinas de [[nitrógeno|atom-n]]. Anclada en la membrana por una cola grasa, esta joya plana devora fotones azules y rojos del espacio y rebota intacto el brillo verde de los bosques.\n\nEn picosegundos tras el impacto, su nube de electrones vibra como el escudo de vibranio del Capitán América y pasa el chispazo de antena en antena por el [[Fotosistema II|photosystem-ii]], encendiendo la [[fase luminosa|light-reactions]] sin desperdiciarlo en calor.',
       blueprint:
         'Rol: Pigmento fotorreceptor de clorina y embudo excitónico · De: Fotones solares azules (~430 nm) y rojos (~662–680 nm); coordinado con [[magnesio|atom-mg]] · Dentro: Macrociclo conjugado pasa a estado excitado singlete anclado por cola de fitol · Hacia: Transferencia de energía por resonancia y separación de carga en [[Fotosistema II|photosystem-ii]] y [[fase luminosa|light-reactions]]',
       scientific:
@@ -303,9 +303,9 @@ export const PLANT_FUNGAL_NODE_LENSES: NodeLensMap = {
   'rubisco': {
     en: {
       simple:
-        'The hardest-working yet clumsiest enzyme on Earth: it builds nearly all living carbon by grabbing CO₂ from air, though it works slowly and often grabs oxygen by mistake.',
+        'The Psyduck of enzymes: Earth’s #1 food builder welds air into carbon, yet works at sloth speed and grabs oxygen by mistake one time in four.',
       story:
-        'Every bite of food you have ever eaten passed through the sixteen-piece barrel of RuBisCO floating in a [[chloroplast|chloroplast]]—yet for the gateway to the biosphere, it is shockingly slow and nearsighted. Powered indirectly by ATP and NADPH pouring off the [[light reactions|light-reactions]], each active site manages to weld just three or four molecules of CO₂ per second onto five-carbon sugar catchers to feed [[glucose|glucose]] and [[starch|starch]] synthesis.\n\nWorse still, evolved in an ancient world with almost no free oxygen, RuBisCO gets fooled roughly once every four tries by O₂—spitting out toxic phosphoglycolate that forces the chloroplast, [[peroxisome|peroxisome]], and [[mitochondrion|mitochondrion]] into an expensive three-organelle rescue relay.',
+        'Every bite of pizza or salad you have ever eaten passed through the sixteen-piece barrel of RuBisCO inside a [[chloroplast|chloroplast]]—yet this planetary MVP acts like Pokémon’s confused Psyduck. Backed by ATP and NADPH from the [[light reactions|light-reactions]], it welds a pokey three CO₂ molecules per second onto sugar catchers to build [[glucose|glucose]] and [[starch|starch]].\n\nBuilt eons ago before Earth’s air filled with oxygen, nearsighted RuBisCO gets tricked by O₂ one try in four—spitting out toxic waste that scrambles a Cells at Work! rescue relay across chloroplast, [[peroxisome|peroxisome]], and [[mitochondrion|mitochondrion]].',
       blueprint:
         'Role: Primary CO₂-fixing carboxylase/oxygenase of the Calvin cycle · From: Atmospheric CO₂ (or O₂) + ribulose-1,5-bisphosphate, backed by [[light reactions|light-reactions]] ATP/NADPH · Inside: L₈S₈ hexadecamer in [[chloroplast|chloroplast]] stroma cleaves 6C intermediate into two 3-phosphoglycerates · To: Triose phosphates for [[glucose|glucose]]/[[starch|starch]]; 2-phosphoglycolate mistake routed to [[peroxisome|peroxisome]]',
       scientific:
@@ -313,9 +313,9 @@ export const PLANT_FUNGAL_NODE_LENSES: NodeLensMap = {
     },
     es: {
       simple:
-        'La enzima más abundante y a la vez más torpe de la Tierra: fabrica casi todo el alimento del mundo atrapando CO₂ del aire, pero trabaja despacio y a menudo confunde el CO₂ con oxígeno.',
+        'El Psyduck de las enzimas: construye casi toda la comida de la Tierra atrapando CO₂, pero va a paso de tortuga y confunde el aire con oxígeno una de cada cuatro veces.',
       story:
-        'Cada bocado de comida de tu vida pasó alguna vez por este barril de dieciséis piezas que flota en el [[cloroplasto|chloroplast]], aunque para ser la puerta de entrada a la biosfera es desesperadamente lenta y miope. Con el respaldo del ATP y el NADPH recién llegados de la [[fase luminosa|light-reactions]], apenas logra soldar tres o cuatro moléculas de CO₂ por segundo para fabricar [[glucosa|glucose]] y [[almidón|starch]].\n\nPara colmo, como evolucionó cuando el aire casi no tenía oxígeno, una de cada cuatro veces se deja engañar por el O₂ y escupe un compuesto defectuoso que obliga al cloroplasto, al [[peroxisoma|peroxisome]] y a la [[mitocondria|mitochondrion]] a montar una costosa cadena de rescate a tres bandas.',
+        'Cada bocado de comida de tu vida pasó por este barril de dieciséis piezas dentro de un [[cloroplasto|chloroplast]], aunque el gran héroe de la biosfera es tan despistado como Psyduck en Pokémon. Con las baterías de la [[fase luminosa|light-reactions]], apenas suelda tres moléculas de CO₂ por segundo para fabricar [[glucosa|glucose]] y [[almidón|starch]].\n\nComo nació cuando la Tierra casi no tenía oxígeno, una de cada cuatro veces muerde O₂ por error y escupe un compuesto tóxico que desata una frenética misión de rescate tipo Cells at Work! entre cloroplasto, [[peroxisoma|peroxisome]] y [[mitocondria|mitochondrion]].',
       blueprint:
         'Rol: Carboxilasa/oxigenasa primaria fijadora de carbono del ciclo de Calvin · De: CO₂ (u O₂) y ribulosa-1,5-bisfosfato, sostenida por ATP/NADPH de la [[fase luminosa|light-reactions]] · Dentro: Complejo L₈S₈ en el estroma del [[cloroplasto|chloroplast]] genera dos 3-fosfogliceratos · Hacia: Triosas para [[glucosa|glucose]] y [[almidón|starch]]; 2-fosfoglicolato enviado a rescate vía [[peroxisoma|peroxisome]]',
       scientific:
@@ -326,9 +326,9 @@ export const PLANT_FUNGAL_NODE_LENSES: NodeLensMap = {
   'starch': {
     en: {
       simple:
-        'Compact, insoluble grains of coiled and branched sugar chains that let plants stash daytime solar harvests safely without bursting the cell with water.',
+        'Botanical Senzu Beans and Elven lembas rations: dry, coiled sugar grains that stash daytime sunlight safely without popping the cell like a water balloon.',
       story:
-        'If a sun-drenched [[chloroplast|chloroplast]] left all the [[glucose|glucose]] made by [[RuBisCO|rubisco]] floating loose in liquid, water would rush in osmotically until the organelle popped like an overfilled balloon. Instead, the cell coils thousands of glucose rings via gentle α-bonds into tight helices and tree-like branches, packing them into dry, solid grains that take up zero osmotic room.\n\nBy day these pale boulders fatten inside leaves—or get stockpiled long-term inside underground [[amyloplasts|amyloplast]]—and as soon as darkness falls, unzipping enzymes nibble the branches back into soluble maltose and glucose so [[mitochondria|mitochondrion]] can keep breathing till dawn.',
+        'If a sunlit [[chloroplast|chloroplast]] left all the [[glucose|glucose]] made by [[RuBisCO|rubisco]] floating loose, water would flood in until the organelle popped like Shrek’s balloon frog. Instead, the plant packs thousands of sugars via α-bonds into tight coils and branches—dry, compact Lord of the Rings lembas wafers that draw zero extra water.\n\nBy day these pale boulders fatten in leaves or fill underground [[amyloplasts|amyloplast]] like Senzu Bean vaults; the instant night falls, enzymes nibble them back into sugar so [[mitochondria|mitochondrion]] keep the lights on till dawn.',
       blueprint:
         'Role: Osmotically inert carbohydrate energy reserve · From: Triose phosphates / hexose phosphates fixed by [[RuBisCO|rubisco]] in [[chloroplast|chloroplast]] or imported into [[amyloplast|amyloplast]] · Inside: α-1,4 helical amylose (~20–30%) packed with α-1,4/α-1,6 branched amylopectin (~70–80%) · To: Hydrolyzed at night or germination into [[glucose|glucose]]/maltose for [[mitochondrion|mitochondrion]] & growth',
       scientific:
@@ -336,9 +336,9 @@ export const PLANT_FUNGAL_NODE_LENSES: NodeLensMap = {
     },
     es: {
       simple:
-        'Granos compactos e insolubles de cadenas de azúcar enrolladas y ramificadas que permiten guardar la cosecha solar del día sin reventar la célula por exceso de agua.',
+        'Pan élfico lembas y Semillas del Ermitaño vegetales: granos secos de azúcar enrollado que guardan energía solar sin reventar la célula por exceso de agua.',
       story:
-        'Si un [[cloroplasto|chloroplast]] a pleno sol dejara flotando suelta toda la [[glucosa|glucose]] que cosecha la [[RuBisCO|rubisco]], el agua entraría en avalancha hasta reventarlo como un globo. Para evitarlo, la planta engarza miles de glucosas en espirales y ramas compactas mediante enlaces alfa, apilándolas en granos sólidos y secos que no atraen ni una gota extra de agua.\n\nDurante el día estos guijarros blancos engordan en las hojas —o se almacenan por meses dentro de [[amiloplastos|amyloplast]] subterráneos— y, apenas cae la noche, enzimas podadoras los desmontan en azúcares solubles para que las [[mitocondrias|mitochondrion]] mantengan encendida la planta hasta el amanecer.',
+        'Si un [[cloroplasto|chloroplast]] al sol dejara suelta toda la [[glucosa|glucose]] que hornea la [[RuBisCO|rubisco]], el agua entraría en avalancha hasta reventarlo como el sapo inflado de Shrek. Para evitarlo, la planta enrolla miles de azúcares en hélices y ramas secas como pan lembas de El Señor de los Anillos, sin atraer ni una gota de agua.\n\nDe día estos granos engordan en las hojas o llenan [[amiloplastos|amyloplast]] subterráneos como reservas de Semillas del Ermitaño; al caer la noche, enzimas podadoras los deshacen poco a poco para que las [[mitocondrias|mitochondrion]] aguanten hasta el alba.',
       blueprint:
         'Rol: Reserva glucídica osmóticamente inerte · De: Hexosas fosfato fijadas por [[RuBisCO|rubisco]] en [[cloroplasto|chloroplast]] o importadas al [[amiloplasto|amyloplast]] · Dentro: Amilosa helicoidal α-1,4 (~20–30 %) y amilopectina ramificada α-1,4/α-1,6 (~70–80 %) · Hacia: Hidrolizado de noche o en germinación a [[glucosa|glucose]]/maltosa para [[mitocondrias|mitochondrion]] y crecimiento',
       scientific:
@@ -349,9 +349,9 @@ export const PLANT_FUNGAL_NODE_LENSES: NodeLensMap = {
   'real-plant': {
     en: {
       simple:
-        'A true-to-life cutaway of a sunlit leaf cell, where a huge water sac presses green solar chloroplasts right up against a woven fiber wall to turn air and light into sugar.',
+        'A true-scale cutaway of a leaf’s solar mecha: a giant water-balloon core presses Bulbasaur-style chloroplasts against Attack on Titan walls to eat sunlight.',
       story:
-        'Step inside a living leaf mesophyll cell pinned in place under open sky, eating starlight to stay alive. Because the swollen [[central vacuole|central-vacuole]] claims most of the interior, the entire living [[cytosol|cytosol]] is pressed into a thin, sunlit gallery against the [[cell wall|real-wall]] where [[chloroplasts|real-chloroplast]] bask in incoming photons and stream endlessly along [[actin cables|actin-filament]].\n\nUp in those emerald plastids, split water powers clumsy [[RuBisCO|rubisco-real]]—and whenever oxygen fools it, [[peroxisomes|peroxisome]] and [[mitochondria|mitochondrion]] huddle right alongside to rescue the stray carbon. Fresh sucrose fuels [[CESA rosettes|cesa-real]] spinning wall armor, feeds proton pumps, or slips out through [[plasmodesmata|plasmodesma]] toward the leaf veins.',
+        'Step inside a living leaf cell standing tall under open sky like a solar-powered Evangelion unit. Because the swollen [[central vacuole|central-vacuole]] claims ~80% of the room, the entire living [[cytosol|cytosol]] is pressed into a sunlit gallery against the Attack on Titan [[cell wall|real-wall]], where [[chloroplasts|real-chloroplast]] bask in photons and surf [[actin cables|actin-filament]].\n\nInside those green fortresses, split water fuels Psyduck-clumsy [[RuBisCO|rubisco-real]]—with [[peroxisomes|peroxisome]] and [[mitochondria|mitochondrion]] huddled right alongside like Cells at Work! medics to rescue oxygen fumbles. Fresh sugar feeds Spider-Man [[CESA rosettes|cesa-real]] or warps out via [[plasmodesmata|plasmodesma]] pipes.',
       blueprint:
         'Role: Photosynthetic leaf mesophyll cell (3D molecular cutaway) · From: Photons, CO₂, and xylem [[water|water]] via [[PIP2 aquaporins|pip-real]] · Inside: [[Chloroplasts|real-chloroplast]] fix carbon, [[peroxisomes|peroxisome]] & [[mitochondria|mitochondrion]] close the photorespiratory loop, and [[central vacuole|central-vacuole]] presses against [[cell wall|real-wall]] · To: O₂ to air; sucrose exported through [[plasmodesmata|plasmodesma]]',
       scientific:
@@ -359,9 +359,9 @@ export const PLANT_FUNGAL_NODE_LENSES: NodeLensMap = {
     },
     es: {
       simple:
-        'Una célula real del interior de una hoja vista en corte: una gran bolsa de agua empuja los cloroplastos contra la pared fibrosa para cazar luz y fabricar azúcar.',
+        'Corte real del mecha solar de una hoja: un gran globo de agua aprieta cloroplastos estilo Bulbasaur contra murallas de Attack on Titan para comer luz.',
       story:
-        'Entra en una célula viva del mesófilo foliar, inmóvil bajo el cielo abierto y decidida a comer luz de las estrellas. Como la inmensa [[vacuola central|central-vacuole]] ocupa casi todo el centro, el [[citosol|cytosol]] entero queda comprimido en una galería luminosa pegada a la [[pared celular|real-wall]], donde los [[cloroplastos|real-chloroplast]] toman el sol mientras navegan sobre [[cables de actina|actin-filament]].\n\nAllí arriba el agua partida impulsa a la torpe [[RuBisCO|rubisco-real]], siempre escoltada de cerca por [[peroxisomas|peroxisome]] y [[mitocondrias|mitochondrion]] listos para rescatar sus tropiezos con el oxígeno. El azúcar recién horneado alimenta a las [[rosetas CESA|cesa-real]] que tejen la pared o viaja por los [[plasmodesmos|plasmodesma]] rumbo a las venas de la hoja.',
+        'Entra en una célula viva de la hoja, erguida bajo el sol como un mecha hidráulico de Evangelion. Como la inmensa [[vacuola central|central-vacuole]] ocupa casi todo el salón, el [[citosol|cytosol]] queda apretado contra la [[pared celular|real-wall]] digna de Attack on Titan, donde los [[cloroplastos|real-chloroplast]] cazan fotones navegando sobre [[cables de actina|actin-filament]].\n\nAllí arriba el agua partida impulsa a la torpe [[RuBisCO|rubisco-real]], escoltada por [[peroxisomas|peroxisome]] y [[mitocondrias|mitochondrion]] como paramédicos de Cells at Work! listos para rescatar sus fallos con el oxígeno. El azúcar nuevo nutre a las [[rosetas CESA|cesa-real]] o sale por tuberías de [[plasmodesmos|plasmodesma]].',
       blueprint:
         'Rol: Célula fotosintética del mesófilo foliar (corte molecular 3D) · De: Fotones, CO₂ y [[agua|water]] vía [[acuaporinas PIP2|pip-real]] · Dentro: Los [[cloroplastos|real-chloroplast]] fijan carbono, [[peroxisomas|peroxisome]] y [[mitocondrias|mitochondrion]] cierran el rescate fotorrespiratorio, y la [[vacuola central|central-vacuole]] tensa la [[pared|real-wall]] · Hacia: O₂ liberado; sacarosa exportada por [[plasmodesmos|plasmodesma]]',
       scientific:
@@ -372,9 +372,9 @@ export const PLANT_FUNGAL_NODE_LENSES: NodeLensMap = {
   'real-plant-nucleus': {
     en: {
       simple:
-        'The command library of a real plant cell, where ten chromosomes anchor their dense centers at the outer rim while dispatching gene instructions for photosynthesis.',
+        'The Matrix mainframe of a real leaf cell, where ten chromosomes clamp their dark knots along the outer wall while dispatching sunrise solar blueprints.',
       story:
-        'Tucked into the thin cytoplasmic ribbon beside the giant vacuole, this Arabidopsis nucleus runs the whole solar factory despite having surrendered thousands of ancient cyanobacterial genes to its own [[chloroplasts|real-chloroplast]] eons ago. Signals arriving through [[nuclear pores|nuclear-pore]] tell it when dawn breaks, prompting [[transcribing genes|real-plant-dna]] to flood the cell with blueprints for light-harvesting antennae and RuBisCO’s small subunits.\n\nLook along the inner rim and you’ll spot a signature plant habit: all ten [[chromosomes|chromosome]] clamp their dense centromere knots into dark peripheral hubs called chromocenters, looping their active gene arms inward around the busy [[nucleolus|real-plant-nucleolus]].',
+        'Pressed beside the giant vacuole like Zordon’s Command Center—or Zion’s mainframe in The Matrix—this Arabidopsis nucleus runs the whole solar factory after inheriting thousands of ancient genes from its [[chloroplasts|real-chloroplast]]. Dawn dispatches arriving through [[nuclear pores|nuclear-pore]] wake up [[transcribing genes|real-plant-dna]] to flood the cell with antenna and RuBisCO blueprints.\n\nPeek along the inner wall for a signature plant move: all ten [[chromosomes|chromosome]] clamp their dense centromere knots into dark rim hubs called chromocenters, looping active gene strands inward around the bustling [[nucleolus|real-plant-nucleolus]].',
       blueprint:
         'Role: Plant genomic command & plastid-coordinating hub · From: Retrograde plastid/light signals, nucleotides & proteins via [[nuclear pores|nuclear-pore]] · Inside: 10 [[chromosomes|chromosome]] anchored at peripheral chromocenters; [[active loci|real-plant-dna]] & [[nucleolus|real-plant-nucleolus]] synthesize RNAs · To: mRNAs & ribosomal subunits exported to [[cytosol|cytosol]] and [[rough ER|rough-er]]',
       scientific:
@@ -382,9 +382,9 @@ export const PLANT_FUNGAL_NODE_LENSES: NodeLensMap = {
     },
     es: {
       simple:
-        'La biblioteca central de la célula vegetal, donde diez cromosomas anclan sus nudos densos en el borde mientras envían instrucciones para capturar la luz solar.',
+        'La computadora central estilo Matrix de la hoja: diez cromosomas anclan sus nudos oscuros en el borde mientras despachan planos solares al amanecer.',
       story:
-        'Acomodado en la estrecha franja de citoplasma junto a la gran vacuola, este núcleo de Arabidopsis gobierna toda la fábrica solar tras haber heredado miles de genes que antaño pertenecieron a los [[cloroplastos|real-chloroplast]]. Apenas entran por los [[poros nucleares|nuclear-pore]] las señales del amanecer, sus [[genes activos|real-plant-dna]] despachan oleadas de planos para fabricar antenas de luz y subunidades pequeñas de RuBisCO.\n\nJunto al borde interno asoma una huella típicamente vegetal: los diez [[cromosomas|chromosome]] agrupan sus centrómeros compactos en nudos oscuros periféricos llamados cromocentros, desplegando sus bucles activos hacia el interior alrededor del [[nucléolo|real-plant-nucleolus]].',
+        'Apretado junto a la gran vacuola como el centro de mando de Matrix, este núcleo de Arabidopsis dirige toda la fábrica tras haber heredado miles de antiguos genes de sus [[cloroplastos|real-chloroplast]]. Apenas entran por los [[poros nucleares|nuclear-pore]] los avisos del amanecer, sus [[genes activos|real-plant-dna]] lanzan oleadas de planos para antenas solares y RuBisCO.\n\nMira su borde interno y verás un sello vegetal inconfundible: los diez [[cromosomas|chromosome]] clavan sus centrómeros en nudos oscuros periféricos llamados cromocentros, desplegando lazos activos hacia el centro en torno al [[nucléolo|real-plant-nucleolus]].',
       blueprint:
         'Rol: Centro de control genómico vegetal y coordinador plastidial · De: Señales luminosas/retrógradas, nucleótidos y proteínas vía [[poros nucleares|nuclear-pore]] · Dentro: 10 [[cromosomas|chromosome]] anclados en cromocentros periféricos; [[genes en lectura|real-plant-dna]] y [[nucléolo|real-plant-nucleolus]] · Hacia: ARNm y subunidades ribosómicas hacia [[citosol|cytosol]] y [[RE rugoso|rough-er]]',
       scientific:
@@ -395,9 +395,9 @@ export const PLANT_FUNGAL_NODE_LENSES: NodeLensMap = {
   'real-plant-nucleolus': {
     en: {
       simple:
-        'The bustling ribosome workshop inside the plant nucleus, snapping together RNA and proteins into protein-making machines.',
+        'Kamaji’s Spirited Away boiler shop inside the plant nucleus, snapping RNA and proteins together into ribosome factories.',
       story:
-        'Replacing sun-damaged [[Photosystem II|psii-real]] cores and cranking out millions of [[RuBisCO|rubisco-real]] barrels takes a staggering army of cytoplasmic [[ribosomes|ribosome]], and every single one is born right here. Fresh ribosomal [[proteins|protein]] troop in from the cytosol through nuclear pores to meet long ribbons of [[RNA|rna]] freshly peeled off ribosomal [[DNA|dna]] loops.\n\nInside this membrane-free droplet at the center of the [[plant nucleus|real-plant-nucleus]], molecular scissors trim and fold those transcripts into 40S and 60S ribosome halves before shipping them back out to work.',
+        'Replacing sun-fried [[Photosystem II|psii-real]] cores and cranking out millions of [[RuBisCO|rubisco-real]] barrels takes a Naruto Shadow-Clone army of [[ribosomes|ribosome]], and every cytoplasmic one is forged right here. Ribosomal [[proteins|protein]] troop in from the cytosol like Spirited Away soot sprites to meet fresh [[RNA|rna]] ribbons peeled off ribosomal [[DNA|dna]] loops.\n\nInside this membrane-free droplet at the heart of the [[plant nucleus|real-plant-nucleus]], molecular scissors trim and snap those pieces into 40S and 60S halves before shipping them out to work.',
       blueprint:
         'Role: Plant 80S ribosome biogenesis condensate · From: Nucleolar organizer [[DNA|dna]] (NORs on chromosomes 2 & 4), NTPs, and imported ribosomal [[proteins|protein]] · Inside: Pol I transcribes 45S pre-[[rRNA|rna]]; snoRNPs cleave & fold subunits · To: Pre-40S and pre-60S subunits exported through [[plant nucleus|real-plant-nucleus]] pores to [[ribosomes|ribosome]]',
       scientific:
@@ -405,9 +405,9 @@ export const PLANT_FUNGAL_NODE_LENSES: NodeLensMap = {
     },
     es: {
       simple:
-        'El taller de ensamblaje dentro del núcleo vegetal donde se recortan hebras de ARN y se unen con proteínas para fabricar ribosomas.',
+        'La sala de calderas incansable estilo El viaje de Chihiro dentro del núcleo vegetal, donde ARN y proteínas se ensamblan en fábricas de ribosomas.',
       story:
-        'Reponer sin descanso las piezas quemadas por el sol en el [[Fotosistema II|psii-real]] y mantener lleno el almacén de [[RuBisCO|rubisco-real]] exige un ejército colosal de [[ribosomas|ribosome]], y todos nacen en esta esfera sin membrana. Hasta aquí llegan [[proteínas|protein]] recién importadas del citosol para abrazar largas cintas de [[ARN|rna]] copiadas de bucles repetidos de [[ADN|dna]].\n\nEn el corazón del [[núcleo vegetal|real-plant-nucleus]], tijeras moleculares recortan y pliegan esas hebras en mitades ribosómicas 40S y 60S listas para cruzar los poros nucleares y ponerse a traducir.',
+        'Reponer piezas quemadas por el sol en el [[Fotosistema II|psii-real]] y fabricar millones de barriles de [[RuBisCO|rubisco-real]] exige un ejército de clones de sombra de [[ribosomas|ribosome]], y todos nacen aquí. Decenas de [[proteínas|protein]] entran en fila como los duendecillos del hollín de El viaje de Chihiro para abrazar cintas de [[ARN|rna]] recién copiadas de bucles de [[ADN|dna]].\n\nEn esta gota sin membrana en pleno [[núcleo vegetal|real-plant-nucleus]], tijeras precisas recortan y abrochan mitades 40S y 60S listas para salir a traducir.',
       blueprint:
         'Rol: Condensado nuclear de biogénesis de ribosomas 80S · De: Bucles de [[ADN|dna]] organizador nucleolar (NOR2/NOR4), NTPs y [[proteínas|protein]] ribosómicas · Dentro: Pol I transcribe pre-[[ARNr|rna]] 45S; procesamiento y ensamblaje · Hacia: Subunidades pre-40S y pre-60S exportadas del [[núcleo vegetal|real-plant-nucleus]] para formar [[ribosomas|ribosome]]',
       scientific:
@@ -418,9 +418,9 @@ export const PLANT_FUNGAL_NODE_LENSES: NodeLensMap = {
   'real-plant-dna': {
     en: {
       simple:
-        'A close-up of a plant gene being read: histone spools step aside so RNA polymerase II can copy a stretch of DNA into a fresh mRNA message.',
+        'Like unrolling a Naruto jutsu scroll at sunrise, histone spools step aside so RNA polymerase II can copy a plant gene into a fresh mRNA message.',
       story:
-        'Every morning when blue and red photons hit leaf photoreceptors, chemical wake-up calls race into the [[plant nucleus|real-plant-nucleus]] and pry apart tightly wound [[nucleosomes|nucleosome]] along light-regulated genes. Clamping onto the exposed [[DNA|dna]] double helix, [[RNA polymerase II|pol-ii]] unzips the strands and stitches incoming [[nucleotides|nucleotide]] into a growing ribbon of messenger [[RNA|rna]].\n\nAs that transcript curls into tiny hairpins behind the moving enzyme, cap-and-tail crews dress it for export so cytosolic [[ribosomes|ribosome]] can build fresh photosynthetic gear before noon.',
+        'Every dawn when blue and red sunbeams trip leaf sensors, wake-up signals race into the [[plant nucleus|real-plant-nucleus]] and pry apart tightly wound [[nucleosomes|nucleosome]] like unsealing a Naruto scroll. Clamping onto exposed [[DNA|dna]], [[RNA polymerase II|pol-ii]] zips down the track stitching [[nucleotides|nucleotide]] into streaming Matrix-green code of messenger [[RNA|rna]].\n\nAs that fresh ribbon folds into hairpins behind the moving reader, cap-and-tail crews armor it for export so cytosolic [[ribosomes|ribosome]] can build solar gear before noon.',
       blueprint:
         'Role: Active euchromatic transcription locus · From: Light-triggered transcription factors, NTP [[nucleotides|nucleotide]] & ATP in [[plant nucleus|real-plant-nucleus]] · Inside: Chromatin remodelers displace [[nucleosomes|nucleosome]]; [[RNA Pol II|pol-ii]] copies template [[DNA|dna]] · To: Capped, spliced [[mRNA|rna]] exported to cytosolic [[ribosomes|ribosome]]',
       scientific:
@@ -428,9 +428,9 @@ export const PLANT_FUNGAL_NODE_LENSES: NodeLensMap = {
     },
     es: {
       simple:
-        'Un acercamiento a un gen vegetal en plena lectura: los carretes de histonas se apartan para que la ARN polimerasa II copie el ADN en un mensaje de ARNm.',
+        'Como desenrollar un pergamino ninja de Naruto al amanecer: los carretes de histonas se apartan para que la ARN polimerasa II copie el gen en ARNm.',
       story:
-        'Cada mañana, apenas los primeros rayos de sol despiertan los sensores de la hoja, órdenes químicas entran al [[núcleo vegetal|real-plant-nucleus]] y aflojan los carretes de [[nucleosomas|nucleosome]] sobre los genes fotosintéticos. La [[ARN polimerasa II|pol-ii]] abraza entonces la doble hélice de [[ADN|dna]], separa sus hebras y ensarta [[nucleótidos|nucleotide]] uno tras otro en una cinta naciente de [[ARN|rna]] mensajero.\n\nMientras la hebra recién copiada se pliega en pequeñas horquillas tras la enzima, equipos de acabado la blindan para cruzar al citosol y alimentar los [[ribosomas|ribosome]] antes del mediodía.',
+        'Cada mañana, cuando los primeros rayos despiertan los sensores de la hoja, avisos urgentes entran al [[núcleo vegetal|real-plant-nucleus]] y abren los [[nucleosomas|nucleosome]] como quien despliega un pergamino de Naruto. La [[ARN polimerasa II|pol-ii]] se aferra al [[ADN|dna]] expuesto y ensarta [[nucleótidos|nucleotide]] en un flujo de código digno de Matrix hecho de [[ARN|rna]] mensajero.\n\nMientras la cinta se pliega en horquillas tras la enzima, cuadrillas de acabado le ponen casco y cola para que los [[ribosomas|ribosome]] armen paneles solares antes del mediodía.',
       blueprint:
         'Rol: Locus eucromático en transcripción activa · De: Factores activados por luz, [[nucleótidos|nucleotide]] y ATP en el [[núcleo vegetal|real-plant-nucleus]] · Dentro: Desplazamiento de [[nucleosomas|nucleosome]] y síntesis por [[ARN Pol II|pol-ii]] sobre [[ADN|dna]] · Hacia: [[ARNm|rna]] procesado exportado hacia los [[ribosomas|ribosome]]',
       scientific:
@@ -441,9 +441,9 @@ export const PLANT_FUNGAL_NODE_LENSES: NodeLensMap = {
   'real-chloroplast': {
     en: {
       simple:
-        'A realistic leaf chloroplast sliced open to reveal forty green thylakoid stacks, daytime starch boulders, bacterial-style DNA, and a true-scale molecular window.',
+        'Superman’s green Fortress of Solitude sliced open: forty thylakoid coin stacks, daytime starch rations, ancient bacterial DNA, and a 1:1 atomic window.',
       story:
-        'Pressed right against the sunlit ceiling of the [[leaf cell|real-plant]] by the swelling vacuole underneath, this lens-shaped solar furnace still carries its own circular [[DNA|dna]] and [[70S ribosomes|ribosome-70s]] from its free-living cyanobacterial past. Sunlight pouring through the double envelope ignites forty interconnected [[thylakoid grana|real-thylakoid]], splitting water to flood the surrounding stroma with ATP and NADPH.\n\nPacked shoulder-to-shoulder in that stroma, [[RuBisCO|rubisco-real]] welds CO₂ into triose sugars that either exit to sweeten the cytosol or crystallize on the spot into hefty [[starch|starch]] boulders—while any oxygen blunders get rushed next door to a waiting [[peroxisome|peroxisome]].',
+        'Pinned against the sunny ceiling of the [[leaf cell|real-plant]] by the giant vacuole below, this lens-shaped solar reactor still keeps its own circular [[DNA|dna]] and bacterial [[70S ribosomes|ribosome-70s]] from its ancient free-living days. Starlight pierces the double hull and ignites forty [[thylakoid grana|real-thylakoid]], splitting water like Bulbasaur’s Solar Beam to flood the stroma with ATP and NADPH.\n\nShoulder-to-shoulder in that courtyard, [[RuBisCO|rubisco-real]] welds air into sugars that sweeten the cytosol or stack into lembas-like [[starch|starch]] boulders—while Cells at Work! hazmat neighbors in a [[peroxisome|peroxisome]] rescue oxygen blunders.',
       blueprint:
         'Role: Mesophyll photosynthetic organelle (realistic cutaway) · From: Photons, [[water|water]], CO₂, and cytosol-imported polypeptides · Inside: ~40 [[grana stacks|real-thylakoid]] drive photophosphorylation; [[RuBisCO|rubisco-real]], [[70S ribosomes|ribosome-70s]], plastid [[DNA|dna]] & [[starch|starch]] fill the stroma · To: O₂ gas; triose-P to [[leaf cell|real-plant]] cytosol; glycolate to [[peroxisome|peroxisome]]',
       scientific:
@@ -451,9 +451,9 @@ export const PLANT_FUNGAL_NODE_LENSES: NodeLensMap = {
     },
     es: {
       simple:
-        'Un cloroplasto real abierto a lo largo que deja ver cuarenta pilas verdes de tilacoides, rocas de almidón diurno, su propio ADN y una ventana molecular a escala real.',
+        'La Fortaleza de la Soledad verde abierta en canal: cuarenta pilas solares, reservas de almidón, su propio ADN bacteriano y una ventana a escala atómica.',
       story:
-        'Apretado contra el techo soleado de la [[célula foliar|real-plant]] por el empuje de la vacuola, este horno verde en forma de lente aún conserva su propio [[ADN|dna]] circular y [[ribosomas 70S|ribosome-70s]] heredados de una antigua cianobacteria libre. La luz atraviesa su doble envoltura y enciende cuarenta [[pilas de grana|real-thylakoid]], partiendo agua para inundar el estroma de ATP y NADPH.\n\nEn ese estroma abarrotado, la [[RuBisCO|rubisco-real]] suelda el aire en azúcares que salen a alimentar el citosol o engordan in situ como granos blancos de [[almidón|starch]], mientras los errores con el oxígeno se despachan al [[peroxisoma|peroxisome]] pegado a su flanco.',
+        'Apretado contra el techo soleado de la [[célula foliar|real-plant]], este reactor estilo Rayo Solar de Bulbasaur aún guarda su propio [[ADN|dna]] circular y [[ribosomas 70S|ribosome-70s]] de su pasado libre. La luz enciende cuarenta [[pilas de grana|real-thylakoid]], partiendo agua como cristales de Superman para inundar el estroma de ATP y NADPH.\n\nEn ese patio abarrotado, la [[RuBisCO|rubisco-real]] suelda aire en azúcares o apila rocas diurnas de [[almidón|starch]] tipo pan lembas, mientras un [[peroxisoma|peroxisome]] vecino actúa como escuadrón de Cells at Work! rescatando sus tropiezos con el oxígeno.',
       blueprint:
         'Rol: Cloroplasto del mesófilo en corte realista · De: Fotones, [[agua|water]], CO₂ y polipéptidos nucleares · Dentro: ~40 [[pilas de grana|real-thylakoid]] generan ATP/NADPH; [[RuBisCO|rubisco-real]], [[ribosomas 70S|ribosome-70s]], [[ADN|dna]] y [[almidón|starch]] pueblan el estroma · Hacia: O₂ al aire; triosas-P al citosol de la [[célula foliar|real-plant]]; glicolato al [[peroxisoma|peroxisome]]',
       scientific:
@@ -464,9 +464,9 @@ export const PLANT_FUNGAL_NODE_LENSES: NodeLensMap = {
   'real-thylakoid': {
     en: {
       simple:
-        'A true-size molecular slice of twelve stacked green discs: flat solar collectors pack the tight inner gaps while tall energy turbines crowd the open outer edges.',
+        'A 1:1 atomic slice of twelve green discs with strict VIP bouncer rules: flat solar dishes squeeze inside tight gaps while tall turbines party on the roof.',
       story:
-        'Zoomed to true one-to-one atomic scale, a granum turns out to be a masterpiece of geometric sorting. Where two thylakoid discs press together, only 3.5 nanometers of space remain between them—just enough clearance for flat-topped [[PSII–LHCII supercomplexes|psii-real]] and [[cytochrome b₆f|b6f-real]] dimers to pack wall-to-wall, splitting water into a nine-nanometer lumen.\n\nBulky [[Photosystem I|psi-real]] complexes and tall spinning [[chloroplast ATP synthases|catp-real]] simply cannot fit into those tight crevices, so geometry banishes them to the unstacked outer rims and bridges—pouring fresh NADPH and ATP straight into a stroma jammed solid with [[RuBisCO|rubisco-real]].',
+        'Zoomed to 1:1 atomic scale, a granum enforces stricter clearance than the Millennium Falcon squeezing through a Death Star trench. Pressed discs leave just 3.5 nanometers between them—barely enough headroom for flat [[PSII–LHCII supercomplexes|psii-real]] and [[cytochrome b₆f|b6f-real]] relays to pack wall-to-wall, splitting water into a nine-nanometer pocket.\n\nTall [[Photosystem I|psi-real]] boosters and spinning [[chloroplast ATP synthases|catp-real]] get bounced by pure geometry to the open penthouse rims, blasting fresh NADPH and ATP straight into a mosh pit of [[RuBisCO|rubisco-real]].',
       blueprint:
         'Role: True-scale (1:1) thylakoid granum & stromal interface · From: Photons, luminal [[water|water]], stromal ADP + Pᵢ & NADP⁺ · Inside: Appressed 3.5 nm partitions pack [[PSII–LHCII|psii-real]], [[LHCII|lhcii-real]] & [[Cyt b₆f|b6f-real]]; non-appressed margins host [[PSI–LHCI|psi-real]] & [[CF₀CF₁ ATP synthase|catp-real]] · To: ATP & NADPH to dense stromal [[RuBisCO|rubisco-real]]; O₂ gas',
       scientific:
@@ -474,9 +474,9 @@ export const PLANT_FUNGAL_NODE_LENSES: NodeLensMap = {
     },
     es: {
       simple:
-        'Un corte a escala atómica real de doce discos tilacoidales: las placas solares planas ocupan las rendijas apretadas del centro y las turbinas altas se sitúan en los bordes abiertos.',
+        'Corte atómico 1:1 de doce discos verdes con portero estricto: las placas planas caben en las rendijas centrales y las turbinas altas pasan a la azotea.',
       story:
-        'Visto a tamaño atómico real, un granum revela un orden geométrico implacable. Donde dos discos tilacoidales se aprietan cara con cara apenas quedan 3.5 nanómetros de hueco, espacio exacto para que los [[supercomplejos PSII–LHCII|psii-real]] planos y el [[citocromo b₆f|b6f-real]] se empaqueten de pared a pared partiendo agua hacia un lumen de nueve nanómetros.\n\nEn cambio, el [[Fotosistema I|psi-real]] y los altos cabezales de la [[ATP sintasa cloroplástica|catp-real]] no caben en esas rendijas y quedan desterrados a las tapas libres y puentes laterales, desde donde inyectan NADPH y ATP directo a un estroma abarrotado de [[RuBisCO|rubisco-real]].',
+        'A escala atómica 1:1, un granum exige más puntería de gálibo que el Halcón Milenario dentro de la Estrella de la Muerte. Entre disco y disco apenas quedan 3.5 nanómetros: el hueco exacto para que los [[supercomplejos PSII–LHCII|psii-real]] planos y el [[citocromo b₆f|b6f-real]] partan agua hacia un bolsillo de nueve nanómetros.\n\nEn cambio, el [[Fotosistema I|psi-real]] y las altas turbinas de la [[ATP sintasa cloroplástica|catp-real]] no caben por altura y quedan en las terrazas exteriores, inyectando NADPH y ATP directo sobre una multitud de [[RuBisCO|rubisco-real]].',
       blueprint:
         'Rol: Granum tilacoidal e interfaz estromática a escala real 1:1 · De: Fotones, [[agua|water]] luminal, ADP + Pᵢ y NADP⁺ · Dentro: Huecos apilados de 3.5 nm alojan [[PSII–LHCII|psii-real]], [[LHCII|lhcii-real]] y [[Cit b₆f|b6f-real]]; márgenes alojan [[PSI–LHCI|psi-real]] y [[ATP sintasa|catp-real]] · Hacia: ATP y NADPH para la [[RuBisCO|rubisco-real]] del estroma; O₂',
       scientific:
@@ -487,9 +487,9 @@ export const PLANT_FUNGAL_NODE_LENSES: NodeLensMap = {
   'real-wall': {
     en: {
       simple:
-        'A true-size slice through the plant’s outer wall and membrane, showing spinning fiber machines, water gates, and acid pumps working together.',
+        'Attack on Titan’s Wall Maria zoomed to atomic scale, where Spider-Man fiber spinners, acid-spraying pumps, and waterbending gates work side by side.',
       story:
-        'At true molecular scale, the boundary of a plant cell is a living construction site under constant tension. Just inside the [[plasma membrane|plasma-membrane]], parallel [[microtubules|microtubule]] act as railroad tracks guiding six-lobed [[CESA rosettes|cesa-real]], which chew up cytoplasmic sugar to lay down fresh 3.6-nanometer [[cellulose microfibrils|cellulose-microfibril]] in neat hoops while older layers splay outward in a cross-ply mesh.\n\nRight beside those fiber-spinners, [[AHA2 proton pumps|aha-real]] burn ATP to spray acid into the pectin-and-hemicellulose mortar—loosening cross-links just enough for [[water|water]] rushing through [[PIP2 aquaporins|pip-real]] to stretch the growing wall without ever tearing it open.',
+        'At 1:1 molecular scale, the leaf’s Attack on Titan wall is a live construction zone under car-tire tension. Just beneath the [[plasma membrane|plasma-membrane]], [[microtubules|microtubule]] lay steel rail tracks steering six-lobed [[CESA rosettes|cesa-real]], which fire eighteen strands at once like Spider-Man web-shooters into 3.6-nanometer [[cellulose microfibrils|cellulose-microfibril]].\n\nBeside them, [[AHA2 proton pumps|aha-real]] burn ATP to mist acid into the pectin mortar—loosening ties just enough for [[water|water]] streaming through Avatar-style [[PIP2 aquaporins|pip-real]] to stretch the armor without ripping a seam.',
       blueprint:
         'Role: True-scale (1:1) primary cell wall & plasma membrane interface · From: Cytosolic UDP-glucose, ATP, [[Golgi|golgi]] matrix polysaccharides & extracellular [[water|water]] · Inside: [[Microtubule|microtubule]]-steered [[CESA rosettes|cesa-real]] spin [[cellulose microfibrils|cellulose-microfibril]]; [[AHA2|aha-real]] acidifies wall; [[PIP2|pip-real]] conducts water · To: Polylamellate load-bearing armor & acid-growth expansion',
       scientific:
@@ -497,9 +497,9 @@ export const PLANT_FUNGAL_NODE_LENSES: NodeLensMap = {
     },
     es: {
       simple:
-        'Un corte a tamaño real de la pared y la membrana vegetal donde conviven máquinas hiladoras de fibra, compuertas de agua y bombas de ácido.',
+        'El Muro María de Attack on Titan visto átomo a átomo: hiladoras estilo Spider-Man, bombas de ácido y compuertas de agua trabajan codo con codo.',
       story:
-        'A escala molecular verdadera, la frontera de la célula vegetal es una obra viva sometida a enorme tensión. Justo bajo la [[membrana plasmática|plasma-membrane]], los [[microtúbulos|microtubule]] tienden rieles paralelos que guían a las [[rosetas CESA|cesa-real]] mientras estas devoran azúcar para depositar cables frescos de [[microfibrillas de celulosa|cellulose-microfibril]] de 3.6 nanómetros bajo capas más viejas cruzadas en ángulo.\n\nA su lado, las [[bombas de protones AHA2|aha-real]] gastan ATP para inyectar ácido en el mortero de pectina y hemicelulosa, aflojando las ataduras lo justo para que el [[agua|water]] que entra a raudales por las [[acuaporinas PIP2|pip-real]] estire la pared sin desgarrarla.',
+        'A escala atómica real, la muralla estilo Attack on Titan de la hoja es una obra viva a máxima presión. Justo bajo la [[membrana plasmática|plasma-membrane]], los [[microtúbulos|microtubule]] tienden vías férreas que guían a las [[rosetas CESA|cesa-real]], capaces de disparar como Spider-Man cables de [[microfibrillas de celulosa|cellulose-microfibril]] de 3.6 nanómetros.\n\nA su lado, las [[bombas de protones AHA2|aha-real]] gastan ATP rociando ácido en el mortero de pectina para aflojar amarras lo justo mientras el [[agua|water]] que entra por las [[acuaporinas PIP2|pip-real]] estira la coraza sin desgarrarla.',
       blueprint:
         'Rol: Interfaz de pared celular primaria y membrana a escala real 1:1 · De: UDP-glucosa, ATP, matriz del [[Golgi|golgi]] y [[agua|water]] apoplástica · Dentro: [[Rosetas CESA|cesa-real]] guiadas por [[microtúbulos|microtubule]] hilan [[microfibrillas|cellulose-microfibril]]; [[AHA2|aha-real]] acidifica y [[PIP2|pip-real]] canaliza agua · Hacia: Coraza polilamelar y expansión por crecimiento ácido',
       scientific:
@@ -510,9 +510,9 @@ export const PLANT_FUNGAL_NODE_LENSES: NodeLensMap = {
   'psii-real': {
     en: {
       simple:
-        'The real atomic structure of spinach’s twin water-splitting machine, surrounded by green chlorophyll wings that funnel sunlight into its core.',
+        'Built atom-for-atom from spinach, this Mothra-shaped solar butterfly spreads green chlorophyll wings to crack water open and bubble pure oxygen.',
       story:
-        'Built atom-for-atom from spinach leaves, this thirty-nanometer butterfly spreads wings of [[LHCII antennae|lhcii-real]] studded with bright green [[chlorophyll|chlorophyll]] spheres across the stacked [[granum|real-thylakoid]] membrane. Photons striking anywhere along the wings race inward in picoseconds to twin reaction centers at the hub.\n\nEach flash yanks an electron out of [[water|water]] at a manganese-calcium cluster protruding into the lumen, releasing breathable O₂ while shipping energized plastoquinol through the lipid bilayer toward [[cytochrome b₆f|b6f-real]].',
+        'Mapped atom-for-atom from Popeye’s favorite spinach, this thirty-nanometer giant spreads emerald wings of [[LHCII antennae|lhcii-real]] studded with [[chlorophyll|chlorophyll]] across the [[granum|real-thylakoid]] like Mothra soaking up cosmic rays. Any photon hitting the wings zips inward in picoseconds to twin cores at the hub.\n\nEach flash mugs [[water|water]] at a manganese-calcium claw in the lumen, venting breathable O₂ to the sky while firing charged plastoquinol through the membrane toward [[cytochrome b₆f|b6f-real]].',
       blueprint:
         'Role: Atomic-resolution PSII–LHCII water-splitting supercomplex · From: Solar photons via [[LHCII|lhcii-real]] [[chlorophylls|chlorophyll]] & luminal [[water|water]] · Inside: Spinach C₂S₂M₂ supercomplex (PDB 3JCU) oxidizes 2 H₂O at Mn₄CaO₅ and reduces plastoquinone · To: PQH₂ to [[cytochrome b₆f|b6f-real]]; H⁺ & O₂ into [[thylakoid|real-thylakoid]] lumen',
       scientific:
@@ -520,9 +520,9 @@ export const PLANT_FUNGAL_NODE_LENSES: NodeLensMap = {
     },
     es: {
       simple:
-        'La estructura atómica real de la máquina doble de la espinaca que rompe agua, flanqueada por alas de clorofila que concentran la luz solar.',
+        'Reconstruida átomo a átomo desde la espinaca de Popeye, esta mariposa solar estilo Mothra abre alas de clorofila para partir agua y soltar oxígeno.',
       story:
-        'Reconstruida átomo a átomo a partir de hojas de espinaca, esta mariposa de treinta nanómetros despliega alas de [[antenas LHCII|lhcii-real]] cuajadas de esferas verdes de [[clorofila|chlorophyll]] en la membrana del [[granum|real-thylakoid]]. Cualquier fotón que golpee sus alas salta en picosegundos hasta los dos centros gemelos del núcleo.\n\nCada destello arranca electrones del [[agua|water]] en su racimo de manganeso y calcio asomado al lumen, soltando oxígeno puro mientras envía plastoquinol cargado de electrones nadando por la membrana hacia el [[citocromo b₆f|b6f-real]].',
+        'Trazada átomo a átomo en hojas de la espinaca de Popeye, esta mariposa de treinta nanómetros despliega alas de [[antenas LHCII|lhcii-real]] repletas de [[clorofila|chlorophyll]] sobre el [[granum|real-thylakoid]] como Mothra absorbiendo energía estelar. Cualquier fotón que roce sus alas salta en picosegundos al doble corazón central.\n\nCada destello le roba electrones al [[agua|water]] en su garra de manganeso y calcio, liberando oxígeno puro mientras lanza plastoquinol cargado nadando hacia el [[citocromo b₆f|b6f-real]].',
       blueprint:
         'Rol: Supercomplejo PSII–LHCII fotolítico a resolución atómica · De: Fotones captados por [[clorofilas|chlorophyll]] de [[LHCII|lhcii-real]] y [[agua|water]] luminal · Dentro: Supercomplejo C₂S₂M₂ de espinaca (PDB 3JCU) oxida 2 H₂O y reduce plastoquinona · Hacia: PQH₂ hacia [[citocromo b₆f|b6f-real]]; H⁺ y O₂ al lumen [[tilacoidal|real-thylakoid]]',
       scientific:
@@ -533,9 +533,9 @@ export const PLANT_FUNGAL_NODE_LENSES: NodeLensMap = {
   'lhcii-real': {
     en: {
       simple:
-        'A three-part light-catching dish packed with forty-two chlorophylls — the most abundant membrane protein on Earth — that balances light between the two photosystems.',
+        'A Spirit Bomb solar dish packed with forty-two chlorophylls—Earth’s #1 membrane protein—that skates between photosystems like a Transformer to balance glare.',
       story:
-        'Left on its own, a reaction center would miss most passing photons, so leaves carpet their [[thylakoid stacks|real-thylakoid]] wall-to-wall with these triangular green dishes. Each trimer cradles forty-two [[chlorophylls|chlorophyll]] and twelve protective carotenoids at hair-trigger distances, catching sunlight and passing the buzz straight into [[PSII–LHCII|psii-real]].\n\nWhen midday glare overwhelms PSII, a kinase tags a subset of these dishes with phosphate so they undock, skate out to the margins, and plug into [[Photosystem I|psi-real]] instead—rebalancing the whole solar grid on the fly.',
+        'A lone reaction center would miss most sunbeams, so leaves tile their [[thylakoid stacks|real-thylakoid]] wall-to-wall with these triangular Dragon Ball Spirit Bomb dishes. Each trimer holds forty-two [[chlorophylls|chlorophyll]] and sunscreen carotenoids at hair-trigger spacing, funneling photons straight into [[PSII–LHCII|psii-real]].\n\nWhen noon glare threatens to fry PSII, a kinase slaps a phosphate badge on outer dishes so they undock like Transformers modules, skate to the stack margins, and plug into [[Photosystem I|psi-real]] instead—rebalancing the grid live.',
       blueprint:
         'Role: Trimeric light-harvesting antenna & state-transition balancer · From: Red/blue solar photons absorbed by bound [[chlorophyll|chlorophyll]] a/b & carotenoids · Inside: Three transmembrane Lhcb1–3 polypeptides (PDB 1RWT) funnel excitons & quench triplet states · To: Excitation energy to [[PSII|psii-real]] (State 1) or [[PSI|psi-real]] (State 2) in [[granum|real-thylakoid]]',
       scientific:
@@ -543,9 +543,9 @@ export const PLANT_FUNGAL_NODE_LENSES: NodeLensMap = {
     },
     es: {
       simple:
-        'Un plato triangular con cuarenta y dos clorofilas —la proteína de membrana más abundante del planeta— que atrapa luz y la reparte entre los dos fotosistemas.',
+        'Una antena tipo Genkidama con cuarenta y dos clorofilas —la proteína de membrana más común del mundo— que patina entre fotosistemas para equilibrar la luz.',
       story:
-        'Un centro de reacción solitario dejaría escapar casi todos los rayos de sol, así que las hojas tapizan sus [[pilas tilacoidales|real-thylakoid]] con millones de estos platos triangulares. Cada trímero sujeta cuarenta y dos [[clorofilas|chlorophyll]] y doce carotenoides protectores a distancias milimétricas, atrapando fotones para canalizarlos directo hacia el [[PSII–LHCII|psii-real]].\n\nSi el sol del mediodía satura al Fotosistema II, una enzima les cuelga una etiqueta de fosfato para que se suelten, patinen hasta los bordes de la pila y se enchufen al [[Fotosistema I|psi-real]], equilibrando al vuelo toda la red eléctrica.',
+        'Un reactor solitario perdería casi todo el sol, así que la hoja tapiza sus [[pilas tilacoidales|real-thylakoid]] con estos platos triangulares dignos de una Genkidama. Cada trímero sujeta cuarenta y dos [[clorofilas|chlorophyll]] y carotenoides protectores para embudar fotones directo al [[PSII–LHCII|psii-real]].\n\nSi el sol del mediodía satura esa mitad, una quinasa les cuelga un pase de fosfato para que se desacoplen como módulos de Transformers, patinen hasta el borde y se enchufen al [[Fotosistema I|psi-real]], equilibrando la red al vuelo.',
       blueprint:
         'Rol: Antena captadora trimérica y reguladora de transiciones de estado · De: Fotones solares absorbidos por [[clorofilas|chlorophyll]] a/b y xantofilas · Dentro: Trímero transmembrana Lhcb (PDB 1RWT) transfiere excitones y disipa exceso térmico · Hacia: Energía de excitación hacia [[PSII|psii-real]] (Estado 1) o [[PSI|psi-real]] (Estado 2) en el [[granum|real-thylakoid]]',
       scientific:
@@ -556,9 +556,9 @@ export const PLANT_FUNGAL_NODE_LENSES: NodeLensMap = {
   'b6f-real': {
     en: {
       simple:
-        'The clever middle relay of the solar wire: as it hands electrons from Photosystem II toward Photosystem I, it doubles the protons pumped into the lumen.',
+        'A Doctor Strange time-loop relay in the solar wire: as it passes electrons toward Photosystem I, a clever detour doubles the protons pumped inside.',
       story:
-        'Greasy plastoquinol molecules arriving from [[PSII–LHCII|psii-real]] dock at this ten-nanometer twin tower in the [[granum|real-thylakoid]], carrying two electrons and two protons apiece. Instead of simply passing both electrons forward, cytochrome b₆f runs a clever detour called the Q-cycle: one electron hops onto a blue copper shuttle bound for [[Photosystem I|psi-real]], while the second loops back through the tower to drag extra stromal protons inside.\n\nThat proton-doubling trick supercharges the acid reservoir spinning [[chloroplast ATP synthase|catp-real]], turning every sunbeam into twice the turbine power.',
+        'Greasy plastoquinol couriers from [[PSII–LHCII|psii-real]] dock at this ten-nanometer twin tower in the [[granum|real-thylakoid]] carrying two electrons and two protons. Instead of waving both straight through, cytochrome b₆f pulls a Doctor Strange loop called the Q-cycle: one electron hops a blue copper shuttle to [[Photosystem I|psi-real]], while its twin loops back inside to smuggle bonus protons.\n\nThat sneaky double-dip packs twice the acid into the lumen, kicking [[chloroplast ATP synthase|catp-real]] into overdrive on every sunbeam.',
       blueprint:
         'Role: Plastoquinol–plastocyanin oxidoreductase & Q-cycle proton pump · From: Reduced plastoquinol (PQH₂) from [[PSII|psii-real]] & stromal H⁺ · Inside: Homodimer (PDB 6RQF) bifurcates electrons via Rieske [2Fe-2S], Cyt f, and hemes b_L/b_H/c_n · To: Reduced plastocyanin shuttling to [[PSI|psi-real]]; 4 H⁺ per 2 e⁻ into [[granum|real-thylakoid]] lumen for [[ATP synthase|catp-real]]',
       scientific:
@@ -566,9 +566,9 @@ export const PLANT_FUNGAL_NODE_LENSES: NodeLensMap = {
     },
     es: {
       simple:
-        'El puente central del cable solar: al pasar electrones del Fotosistema II hacia el Fotosistema I, duplica la cantidad de protones bombeados al interior.',
+        'Un puente con bucle temporal estilo Doctor Strange en el cable solar: pasa electrones al Fotosistema I mientras duplica los protones bombeados.',
       story:
-        'Las moléculas grasas de plastoquinol que salen cargadas del [[PSII–LHCII|psii-real]] atracan en esta torre gemela de diez nanómetros en pleno [[granum|real-thylakoid]]. En lugar de limitarse a pasar sus dos electrones hacia delante, el citocromo b₆f ejecuta un desvío brillante llamado ciclo Q: envía un electrón en una lanzadera azul de cobre rumbo al [[Fotosistema I|psi-real]] y hace dar una vuelta interna al segundo para arrastrar protones extra desde el estroma.\n\nEse truco duplica la presión ácida del lumen y multiplica el empuje con el que gira la [[ATP sintasa cloroplástica|catp-real]].',
+        'Los mensajeros grasos que salen del [[PSII–LHCII|psii-real]] atracan en esta torre gemela de diez nanómetros en pleno [[granum|real-thylakoid]]. En vez de dejar pasar sin más sus dos electrones, el citocromo b₆f abre un bucle digno de Doctor Strange llamado ciclo Q: uno salta en una lanzadera azul hacia el [[Fotosistema I|psi-real]] y su gemelo da una vuelta interna para colar protones extra.\n\nEse truco duplica la presión ácida del bolsillo y dispara las revoluciones de la [[ATP sintasa cloroplástica|catp-real]].',
       blueprint:
         'Rol: Plastoquinol-plastocianina oxidorreductasa y bomba de protones del ciclo Q · De: Plastoquinol (PQH₂) procedente de [[PSII|psii-real]] y H⁺ del estroma · Dentro: Dímero (PDB 6RQF) bifurca electrones por centro Rieske [2Fe-2S], Cit f y hemos b_L/b_H/c_n · Hacia: Plastocianina reducida hacia [[PSI|psi-real]]; 4 H⁺ por 2 e⁻ al lumen del [[granum|real-thylakoid]] para la [[ATP sintasa|catp-real]]',
       scientific:
@@ -579,9 +579,9 @@ export const PLANT_FUNGAL_NODE_LENSES: NodeLensMap = {
   'psi-real': {
     en: {
       simple:
-        'The second solar booster rocket on the outer edges of the thylakoid stack: it catches a fresh photon to hand high-energy electrons into NADPH batteries.',
+        'The Super Saiyan second-stage solar booster on the stack’s outer rim: it catches a fresh photon to launch tired electrons into NADPH batteries.',
       story:
-        'By the time electrons arrive from [[cytochrome b₆f|b6f-real]] aboard tiny copper-blue plastocyanin shuttles, they have spent most of their initial punch pumping protons. Waiting out on the unstacked rims of the [[granum|real-thylakoid]], this twenty-nanometer pea supercomplex wears a crescent belt of [[chlorophyll|chlorophyll]]-rich LHCI antennae to catch a second bolt of starlight.\n\nThat fresh photon launches the electron to an even higher voltage than before, firing it through three iron-sulfur stepping stones onto soluble ferredoxin on the stroma side—where an enzyme welds two electrons and a proton into NADPH for [[RuBisCO’s|rubisco-real]] sugar assembly line.',
+        'By the time electrons ride copper-blue shuttles in from [[cytochrome b₆f|b6f-real]], they are winded from pumping protons. Perched out on the open roof of the [[granum|real-thylakoid]], this twenty-nanometer pea supercomplex wears a crescent belt of [[chlorophyll|chlorophyll]] dishes to catch a second bolt of starlight like a Dragon Ball Z Super Saiyan power-up.\n\nThat fresh photon launches the electron to biology’s fiercest reducing voltage, firing it across three iron-sulfur stones onto ferredoxin to forge crisp NADPH batteries for [[RuBisCO’s|rubisco-real]] sugar forge.',
       blueprint:
         'Role: Plastocyanin–ferredoxin photo-oxidoreductase (real structure) · From: Far-red/red photons & luminal plastocyanin electrons arriving from [[cytochrome b₆f|b6f-real]] · Inside: Monomeric PSI core + 4 LHCI belt (PDB 4XK8) boosts P700 electrons through A₀ → A₁ → F_X/F_A/F_B · To: Stromal ferredoxin → FNR → NADPH fueling the [[RuBisCO|rubisco-real]] Calvin cycle in [[chloroplast|real-chloroplast]]',
       scientific:
@@ -589,9 +589,9 @@ export const PLANT_FUNGAL_NODE_LENSES: NodeLensMap = {
     },
     es: {
       simple:
-        'El segundo cohete impulsor solar en los bordes abiertos de la pila tilacoidal: usa otro fotón de luz para cargar electrones de alta energía en baterías de NADPH.',
+        'El segundo propulsor estilo Super Saiyajin en los bordes de la pila: caza un nuevo fotón para catapultar electrones cansados hacia baterías de NADPH.',
       story:
-        'Cuando los electrones llegan desde el [[citocromo b₆f|b6f-real]] a bordo de pequeñas lanzaderas azules de plastocianina, ya han gastado casi todo su empuje inicial bombeando protones. Apostado en los bordes despejados del [[granum|real-thylakoid]], este supercomplejo de guisante despliega un cinturón en medialuna de [[clorofilas|chlorophyll]] antena para cazar un segundo rayo de luz.\n\nEse nuevo chispazo catapulta al electrón a un voltaje altísimo y lo dispara por tres peldaños de hierro y azufre hasta la ferredoxina del estroma, que fabrica el NADPH indispensable para la cadena de azúcar de la [[RuBisCO|rubisco-real]].',
+        'Cuando los electrones llegan desde el [[citocromo b₆f|b6f-real]] en lanzaderas azules de cobre, vienen exhaustos tras bombear protones. Apostado en las terrazas despejadas del [[granum|real-thylakoid]], este supercomplejo despliega una medialuna de [[clorofila|chlorophyll]] para cazar un segundo rayo solar como una transformación Super Saiyajin de Dragon Ball Z.\n\nEse chispazo catapulta al electrón a un voltaje altísimo a través de tres peldaños de hierro y azufre para cargar el NADPH que exige el taller de la [[RuBisCO|rubisco-real]].',
       blueprint:
         'Rol: Plastocianina-ferredoxina foto-oxidorreductasa (estructura real) · De: Fotones y electrones de plastocianina procedentes de [[citocromo b₆f|b6f-real]] · Dentro: Núcleo monomérico PSI + cinturón de 4 LHCI (PDB 4XK8) impulsa electrones de P700 vía centros [4Fe-4S] · Hacia: Ferredoxina estromática → FNR → NADPH para el ciclo de la [[RuBisCO|rubisco-real]] en el [[cloroplasto|real-chloroplast]]',
       scientific:
@@ -602,9 +602,9 @@ export const PLANT_FUNGAL_NODE_LENSES: NodeLensMap = {
   'catp-real': {
     en: {
       simple:
-        'A real rotary waterwheel in the chloroplast membrane: acid protons rushing out of the thylakoid spin its fourteen-spoked rotor to mint three ATPs per turn.',
+        'A fourteen-spoked Beyblade turbine in the chloroplast: escaping acid protons spin its rotor to stamp out three ATPs per turn—with a built-in night brake.',
       story:
-        'Protons crammed into the narrow [[thylakoid|real-thylakoid]] lumen by [[PSII|psii-real]] and [[cytochrome b₆f|b6f-real]] have only one legal exit: a narrow chute at the base of this twenty-five-nanometer turbine perched on the unstacked rims. Every proton hopping in nudges a fourteen-subunit membrane carousel one notch forward, spinning a central axle inside the hanging stromal head.\n\nEach full rotation cams open three catalytic jaws in sequence to press ADP and [[phosphate|phosphate]] into fresh ATP for [[RuBisCO’s|rubisco-real]] neighborhood—and the moment night falls, a redox disulfide lock snaps shut on the axle so the turbine never runs backward in the dark.',
+        'Protons crammed into the tight [[thylakoid|real-thylakoid]] pocket by [[PSII|psii-real]] and [[cytochrome b₆f|b6f-real]] have just one legal exit: the chute beneath this twenty-five-nanometer Beyblade turbine on the open rims. Each escaping proton clicks a fourteen-spoke carousel one notch forward, spinning a bent axle inside the hanging stromal head.\n\nEvery spin cams three jaws open and shut to press ADP and [[phosphate|phosphate]] into fresh ATP for [[RuBisCO’s|rubisco-real]] crew—and the instant sunset hits, a chemical parking brake locks the axle so it never drains ATP in the dark.',
       blueprint:
         'Role: Rotary photophosphorylation nanomotor (chloroplast CF₀CF₁) · From: Luminal H⁺ gradient built by [[PSII|psii-real]] & [[Cyt b₆f|b6f-real]]; stromal ADP + [[Pᵢ|phosphate]] · Inside: 14-subunit c-ring (PDB 6FKF) rotates γ/ε central stalk inside α₃β₃ head · To: 3 ATP per 14 H⁺ delivered into stroma to power [[RuBisCO|rubisco-real]] Calvin cycle',
       scientific:
@@ -612,9 +612,9 @@ export const PLANT_FUNGAL_NODE_LENSES: NodeLensMap = {
     },
     es: {
       simple:
-        'Una turbina giratoria real en la membrana del cloroplasto: el chorro de protones que escapa del lumen hace girar su rueda de catorce radios para fabricar tres ATP por vuelta.',
+        'Una turbina estilo Beyblade de catorce radios en el cloroplasto: el escape de protones gira su rotor para acuñar tres ATP por vuelta, con freno nocturno.',
       story:
-        'Los protones apiñados en el estrecho lumen [[tilacoidal|real-thylakoid]] por el [[PSII|psii-real]] y el [[citocromo b₆f|b6f-real]] solo tienen una puerta de salida: el canal en la base de esta turbina de veinticinco nanómetros asomada a los bordes abiertos. Cada protón que cruza empuja un peldaño de un carrusel de catorce piezas y hace girar un eje asimétrico dentro del cabezal colgante.\n\nCada vuelta completa obliga a tres bolsillos catalíticos a prensar ADP y [[fosfato|phosphate]] en tres moléculas nuevas de ATP para el taller de la [[RuBisCO|rubisco-real]]; y en cuanto cae la noche, un cerrojo químico bloquea el eje para no malgastar ni un solo ATP a oscuras.',
+        'Los protones apiñados en el bolsillo [[tilacoidal|real-thylakoid]] por el [[PSII|psii-real]] y el [[citocromo b₆f|b6f-real]] solo tienen una salida: la tobera bajo esta turbina de veinticinco nanómetros que gira como un Beyblade. Cada protón empuja un carrusel de catorce piezas y rota el eje central dentro del cabezal colgante.\n\nCada vuelta prensa ADP y [[fosfato|phosphate]] en tres moléculas nuevas de ATP junto a la [[RuBisCO|rubisco-real]]; y apenas anochece, un freno de mano químico traba el eje en seco para no quemar reservas a oscuras.',
       blueprint:
         'Rol: Nanomotor rotatorio de fotofosforilación (CF₀CF₁ cloroplástica) · De: Gradiente luminal de H⁺ de [[PSII|psii-real]] y [[Cit b₆f|b6f-real]]; ADP + [[Pᵢ|phosphate]] del estroma · Dentro: Anillo c₁₄ (PDB 6FKF) rota el tallo γ/ε dentro del cabezal α₃β₃ · Hacia: 3 ATP por cada 14 H⁺ liberados al estroma hacia el ciclo de la [[RuBisCO|rubisco-real]]',
       scientific:
@@ -625,9 +625,9 @@ export const PLANT_FUNGAL_NODE_LENSES: NodeLensMap = {
   'rubisco-real': {
     en: {
       simple:
-        'The real atomic barrel of spinach RuBisCO — sixteen protein pieces packed shoulder-to-shoulder in the chloroplast to catch carbon dioxide and turn it into food.',
+        'Spinach’s real sixteen-piece Snorlax cube: packed so thick it makes up half of all leaf protein, wrestling air into food through sheer numbers.',
       story:
-        'Step out of the [[thylakoid stack|real-thylakoid]] into the stroma and you can barely move without bumping into this eleven-nanometer cube: leaves pack it so densely it accounts for half of all soluble leaf protein. Fed with ribulose bisphosphate regenerated by [[ATP synthase|catp-real]] and [[Photosystem I|psi-real]] outputs, its eight large plastid-built cores and eight small nuclear-built caps wrestle gaseous CO₂ into solid three-carbon sugars.\n\nBecause each active site ticks just three times a second—and still mistakes O₂ for CO₂ roughly one time in four—the [[chloroplast|real-chloroplast]] wins by sheer numbers while keeping a [[peroxisome|peroxisome]] parked outside to clean up its oxygen fumbles.',
+        'Step off the [[thylakoid stack|real-thylakoid]] into the stroma and you enter a wall-to-wall crowd of eleven-nanometer cubes: like a field of Pokémon Snorlaxes, RuBisCO accounts for half of all soluble protein in the leaf. Fueled by [[ATP synthase|catp-real]] and [[Photosystem I|psi-real]], its eight chloroplast-made cores and eight nucleus-made caps wrestle thin air into solid three-carbon sugars.\n\nBecause each mouth chews just three CO₂s a second—and grabs O₂ by mistake one try in four—the [[chloroplast|real-chloroplast]] wins by brute numbers while parking a Cells at Work! [[peroxisome|peroxisome]] outside to clean up fumbles.',
       blueprint:
         'Role: Atomic-structure stromal carbon-fixation complex · From: Atmospheric CO₂ (or O₂) + RuBP, driven by [[ATP synthase|catp-real]] ATP & [[PSI|psi-real]] NADPH · Inside: Spinach L₈S₈ hexadecamer (PDB 1RCX) carboxylates Mg²⁺-coordinated enediol intermediate · To: 3-PGA for Calvin sugar/[[starch|starch]] synthesis; 2-phosphoglycolate salvaged via [[peroxisome|peroxisome]]',
       scientific:
@@ -635,9 +635,9 @@ export const PLANT_FUNGAL_NODE_LENSES: NodeLensMap = {
     },
     es: {
       simple:
-        'El barril atómico real de la RuBisCO de espinaca: dieciséis piezas proteicas apretadas codo con codo en el cloroplasto para atrapar CO₂ y volverlo alimento.',
+        'El cubo atómico real de la RuBisCO de espinaca: un gigante lento tipo Snorlax tan numeroso que suma la mitad de toda la proteína soluble de la hoja.',
       story:
-        'Basta asomarse fuera de la [[pila tilacoidal|real-thylakoid]] para tropezar con una multitud compacta de estos cubos de once nanómetros: son tan numerosos que suman la mitad de toda la proteína soluble de la hoja. Alimentadas indirectamente por la [[ATP sintasa|catp-real]] y el [[Fotosistema I|psi-real]], sus ocho piezas grandes hechas en el plastidio y ocho tapas pequeñas traídas del núcleo atrapan gas CO₂ y lo forjan en azúcares de tres carbonos.\n\nComo apenas completa tres reacciones por segundo y encima confunde el O₂ con CO₂ una de cada cuatro veces, el [[cloroplasto|real-chloroplast]] compensa a fuerza de cantidad bruta mientras aparca un [[peroxisoma|peroxisome]] en la puerta para reciclar sus despistes.',
+        'Sal de la [[pila tilacoidal|real-thylakoid]] al estroma y chocarás con una marea de cubos de once nanómetros: como un escuadrón de Snorlax de Pokémon, suman la mitad de la proteína soluble foliar. Con el empuje de la [[ATP sintasa|catp-real]] y el [[Fotosistema I|psi-real]], sus dieciséis piezas atrapan CO₂ del aire para forjar azúcares de tres carbonos.\n\nComo apenas completa tres bocados por segundo y muerde oxígeno por error una de cada cuatro veces, el [[cloroplasto|real-chloroplast]] gana por pura multitud mientras aparca un [[peroxisoma|peroxisome]] estilo Cells at Work! en la puerta para reciclar sus despistes.',
       blueprint:
         'Rol: Complejo hexadecamérico de fijación de carbono a resolución atómica · De: CO₂ (u O₂) + RuBP, respaldado por ATP de [[ATP sintasa|catp-real]] y NADPH de [[PSI|psi-real]] · Dentro: Complejo L₈S₈ de espinaca (PDB 1RCX) carboxila el enodiol coordinado con Mg²⁺ · Hacia: 3-PGA hacia azúcares/[[almidón|starch]]; 2-fosfoglicolato reciclado vía [[peroxisoma|peroxisome]]',
       scientific:
@@ -648,9 +648,9 @@ export const PLANT_FUNGAL_NODE_LENSES: NodeLensMap = {
   'cesa-real': {
     en: {
       simple:
-        'Six three-part protein clusters arranged in a membrane ring, each spinning straight glucose threads that snap together into a single cell-wall cable.',
+        'Six poplar protein trios in a Spider-Man web-shooter ring, firing eighteen straight glucose threads that zip together into one steel-tough wall cable.',
       story:
-        'Sitting astride the [[plasma membrane|plasma-membrane]] inside the [[true-scale wall|real-wall]], six trimers of poplar CESA assemble into a thirty-five-nanometer flower with eighteen active tunnels pointing skyward. Cytosolic sucrose broken down into UDP-[[glucose|glucose]] feeds the base of each subunit, which stitches one flipped sugar onto the tail of a growing [[cellulose|cellulose]] strand and pushes it through its transmembrane channel.\n\nThe moment all eighteen strands exit into the apoplast side by side, they snap together into a 3.6-nanometer [[cellulose microfibril|cellulose-microfibril]], shoving the whole rosette forward along cortical [[microtubules|microtubule]] below.',
+        'Mounted across the [[plasma membrane|plasma-membrane]] inside the [[true-scale wall|real-wall]], six poplar CESA trios lock into a thirty-five-nanometer Spider-Man web-ring with eighteen barrels aimed skyward. Cytosolic UDP-[[glucose|glucose]] feeds the base of each barrel, stitching flipped sugars onto a growing [[cellulose|cellulose]] ribbon and shoving it outdoors.\n\nThe instant all eighteen ribbons exit side-by-side, they zip into a 3.6-nanometer [[cellulose microfibril|cellulose-microfibril]] whose crystallization push drives the whole flower along [[microtubules|microtubule]] like a railcar.',
       blueprint:
         'Role: Real-structure hexameric cellulose-extruding rosette · From: Cytosolic UDP-[[glucose|glucose]] derived from photosynthetic sucrose · Inside: Six CESA trimers (PDB 6WLB, 18 catalytic pores) polymerize & translocate [[cellulose|cellulose]] chains · To: 18-chain [[cellulose microfibril|cellulose-microfibril]] deposited into [[cell wall|real-wall]] along [[microtubule|microtubule]] tracks',
       scientific:
@@ -658,9 +658,9 @@ export const PLANT_FUNGAL_NODE_LENSES: NodeLensMap = {
     },
     es: {
       simple:
-        'Seis tríos de proteínas dispuestos en anillo sobre la membrana: cada pieza hila una hebra recta de glucosa y las dieciocho se funden al instante en un cable de pared.',
+        'Seis tríos proteicos de álamo formando un anillo lanzatelarañas tipo Spider-Man: disparan dieciocho hebras de glucosa que se funden en un solo cable.',
       story:
-        'Incrustados en la [[membrana plasmática|plasma-membrane]] dentro del [[corte real de la pared|real-wall]], seis trímeros de álamo se agrupan en una flor de treinta y cinco nanómetros con dieciocho túneles apuntando hacia fuera. La UDP-[[glucosa|glucose]] recién llegada del citosol alimenta por debajo cada boca catalítica, que añade un eslabón girado a una hebra de [[celulosa|cellulose]] y la empuja por su poro transmembrana.\n\nApenas las dieciocho hebras asoman juntas al exterior, cristalizan de golpe en una [[microfibrilla de celulosa|cellulose-microfibril]] de 3.6 nanómetros cuyo propio crecimiento empuja la roseta sobre los rieles de [[microtúbulos|microtubule]].',
+        'Engastados en la [[membrana plasmática|plasma-membrane]] dentro del [[corte real de la pared|real-wall]], seis trímeros de álamo arman un lanzatelarañas circular estilo Spider-Man con dieciocho cañones apuntando afuera. La UDP-[[glucosa|glucose]] del citosol alimenta cada boca por debajo, sumando eslabones girados a una cinta de [[celulosa|cellulose]] que sale por su túnel.\n\nNada más asomar juntas al exterior, las dieciocho cintas se abrochan en una [[microfibrilla de celulosa|cellulose-microfibril]] de 3.6 nanómetros cuyo empuje desliza la roseta sobre rieles de [[microtúbulos|microtubule]].',
       blueprint:
         'Rol: Roseta hexamérica extrusora de celulosa (estructura real) · De: UDP-[[glucosa|glucose]] citosólica derivada de la sacarosa fotosintética · Dentro: Seis trímeros CESA (PDB 6WLB, 18 canales) polimerizan y translocan cadenas de [[celulosa|cellulose]] · Hacia: [[Microfibrilla|cellulose-microfibril]] de 18 cadenas integrada en la [[pared celular|real-wall]] sobre [[microtúbulos|microtubule]]',
       scientific:
@@ -671,9 +671,9 @@ export const PLANT_FUNGAL_NODE_LENSES: NodeLensMap = {
   'aha-real': {
     en: {
       simple:
-        'The plant cell’s master proton pump: it burns ATP to shoot acid into the cell wall—softening the wall for growth while powering nutrient entry.',
+        'The leaf border’s Xenomorph-grade acid cannon: it burns ATP to mist acid into the wall—softening armor for growth while powering nutrient tractor beams.',
       story:
-        'Animal cells run their borders on sodium pumps, but a land plant runs its entire frontier on pure acid. Embedded in the [[plasma membrane|plasma-membrane]] beneath the [[cell wall|real-wall]], AHA2 burns ATP delivered from [[mitochondria|mitochondrion]] and chloroplasts to hurl protons out into the fibrous mortar outside.\n\nThat single stroke accomplishes two feats at once: a steep electrical and proton voltage pulls sucrose, nitrate, and potassium indoors through co-transporters, while the drop in wall pH wakes up expansin proteins that loosen ties around [[cellulose microfibrils|cellulose-microfibril]] so incoming water through [[PIP2 channels|pip-real]] can stretch the cell.',
+        'Animals run their borders on sodium, but land plants rule their frontier with pure acid. Anchored in the [[plasma membrane|plasma-membrane]] under the [[cell wall|real-wall]], AHA2 burns [[mitochondrial|mitochondrion]] ATP like an Alien acid sprayer, hurling protons straight into the pectin mortar outside.\n\nOne blast scores a double win: steep voltage acts like a Star Wars tractor beam hauling sugars and minerals indoors, while wall acid wakes expansin crews that loosen ties on [[cellulose microfibrils|cellulose-microfibril]] so [[PIP2|pip-real]] water stretches the cell.',
       blueprint:
         'Role: Electrogenic P3A-type plasma membrane H⁺-ATPase · From: Cytosolic H⁺ & ATP from [[mitochondria|mitochondrion]] / glycolysis · Inside: 10-helix transmembrane pump (PDB 5KSD) cycles E1/E2 aspartyl-phosphate states · To: Apoplastic acidification in [[cell wall|real-wall]] (acid growth) & Δμ_H⁺ driving symporters / [[PIP2|pip-real]] turgor uptake',
       scientific:
@@ -681,9 +681,9 @@ export const PLANT_FUNGAL_NODE_LENSES: NodeLensMap = {
     },
     es: {
       simple:
-        'La bomba maestra de protones de la membrana vegetal: gasta ATP para expulsar ácido hacia la pared, ablandándola para crecer e impulsando la entrada de nutrientes.',
+        'El cañón de ácido fronterizo de la planta: quema ATP para rociar protones en la pared, ablandando la armadura para crecer y atrayendo nutrientes.',
       story:
-        'Mientras las células animales gobiernan sus fronteras bombeando sodio, las plantas terrestres mueven toda su economía fronteriza a base de protones. Anclada en la [[membrana plasmática|plasma-membrane]] bajo la [[pared celular|real-wall]], la bomba AHA2 quema ATP procedente de las [[mitocondrias|mitochondrion]] para disparar iones hidrógeno hacia el entramado exterior.\n\nEse bombeo logra una doble jugada maestra: crea un voltaje potentísimo que arrastra azúcares y minerales hacia dentro, y al mismo tiempo acidifica el gel que rodea las [[microfibrillas de celulosa|cellulose-microfibril]], ablandando la pared para que el agua que entra por las [[acuaporinas PIP2|pip-real]] estire la célula.',
+        'Mientras los animales mueven sus fronteras con sodio, las plantas gobiernan la suya disparando ácido puro. Anclada en la [[membrana plasmática|plasma-membrane]] bajo la [[pared celular|real-wall]], la bomba AHA2 quema ATP de las [[mitocondrias|mitochondrion]] para lanzar protones al mortero exterior.\n\nEse disparo logra una jugada doble: carga un rayo tractor eléctrico digno de Star Wars que arrastra minerales y azúcares adentro, y a la vez acidifica el gel sobre las [[microfibrillas de celulosa|cellulose-microfibril]] para que el agua de las [[acuaporinas PIP2|pip-real]] estire la célula.',
       blueprint:
         'Rol: H⁺-ATPasa electrogénica tipo P3A de membrana plasmática · De: H⁺ citosólicos y ATP de [[mitocondrias|mitochondrion]] / glucólisis · Dentro: Bomba de 10 hélices transmembrana (PDB 5KSD) alterna estados aspartil-fosfato E1/E2 · Hacia: Acidificación apoplástica de la [[pared|real-wall]] (crecimiento ácido) y gradiente Δμ_H⁺ acoplado a [[PIP2|pip-real]]',
       scientific:
@@ -694,9 +694,9 @@ export const PLANT_FUNGAL_NODE_LENSES: NodeLensMap = {
   'pip-real': {
     en: {
       simple:
-        'A four-barreled water gate in the plant membrane that lets a billion water molecules per second slip through in single file—and slams shut during drought or flood.',
+        'An Avatar waterbending VIP turnstile in the membrane: a billion water molecules a second march through single-file—until flood or drought slams it shut.',
       story:
-        'Every molecule of [[water|water]] destined to be split in a [[chloroplast|real-chloroplast]] or pumped into the [[central vacuole|central-vacuole]] has to cross a greasy lipid membrane that naturally repels it. Spinach PIP2 solves that bottleneck with four hourglass pores grouped into a nine-nanometer square in the [[cell wall|real-wall]] frontier, marching water molecules through in a single-file line while flipping them halfway across so protons cannot sneak along as hitchhikers.\n\nIf roots flood and oxygen drops—or drought threatens—cytoplasmic protons and calcium release a hinged loop on the underside that snaps all four water gates shut in seconds.',
+        'Every drop of [[water|water]] bound for a [[chloroplast|real-chloroplast]] or the [[central vacuole|central-vacuole]] faces a greasy membrane that repels it. Spinach PIP2 opens four hourglass Avatar waterbending chutes across the [[cell wall|real-wall]] border, marching water through single-file at a billion per second while flipping each molecule halfway like a Matrix security check so proton crashers cannot sneak in.\n\nLet floodwaters choke root oxygen—or drought strike—and calcium plus protons trip an underside latch that slams all four blast doors shut in seconds.',
       blueprint:
         'Role: Gated plasma membrane water channel tetramer · From: Apoplastic xylem [[water|water]] arriving through the [[cell wall|real-wall]] · Inside: Four NPA-filter hourglass pores (PDB 1Z98) pass H₂O at ~10⁹ s⁻¹ while blocking H⁺ · To: [[Cytosol|cytosol]], [[central vacuole|central-vacuole]] turgor & [[chloroplast|real-chloroplast]] photolysis supply',
       scientific:
@@ -704,9 +704,9 @@ export const PLANT_FUNGAL_NODE_LENSES: NodeLensMap = {
     },
     es: {
       simple:
-        'Una compuerta cuádruple en la membrana vegetal que deja pasar mil millones de moléculas de agua por segundo en fila india y se cierra de golpe si falta oxígeno o hay sequía.',
+        'Un torniquete VIP de agua control estilo Avatar: deja pasar mil millones de moléculas de agua por segundo en fila india y se cierra si hay sequía o asfixia.',
       story:
-        'Cada gota de [[agua|water]] destinada a partirse en un [[cloroplasto|real-chloroplast]] o a hinchar la [[vacuola central|central-vacuole]] tiene que cruzar primero una membrana grasa que la repele. El tetrámero PIP2 de espinaca abre cuatro relojes de arena microscópicos en la frontera de la [[pared celular|real-wall]], haciendo desfilar las moléculas de agua de una en una y girándolas a mitad de camino para impedir que se cuelen protones polizones.\n\nSi una inundación asfixia la raíz o arrecia la sequía, un pestillo interno sensible al calcio y a la acidez abate un bucle sobre la boca inferior y sella los cuatro túneles en cuestión de segundos.',
+        'Cada gota de [[agua|water]] rumbo a un [[cloroplasto|real-chloroplast]] o a la [[vacuola central|central-vacuole]] choca primero con una frontera grasa que la repele. El cuarteto PIP2 de espinaca abre cuatro túneles de agua control dignos de Avatar bajo la [[pared celular|real-wall]], pasando moléculas en fila india y volteándolas a mitad de camino como un escáner de Matrix para frenar protones polizones.\n\nSi una inundación asfixia la raíz o aprieta la sequía, un pestillo sensible al calcio abate una compuerta inferior y sella los cuatro conductos en segundos.',
       blueprint:
         'Rol: Tetrámero regulable de canales de agua de membrana plasmática · De: [[Agua|water]] apoplástica procedente del xilema a través de la [[pared|real-wall]] · Dentro: Cuatro poros con filtro NPA (PDB 1Z98) conducen ~10⁹ H₂O·s⁻¹ bloqueando H⁺ · Hacia: [[Citosol|cytosol]], turgencia de la [[vacuola central|central-vacuole]] y fotólisis en el [[cloroplasto|real-chloroplast]]',
       scientific:
@@ -717,9 +717,9 @@ export const PLANT_FUNGAL_NODE_LENSES: NodeLensMap = {
   'real-fungal': {
     en: {
       simple:
-        'A true-to-life cutaway of budding yeast — a pressurized sugar alchemist armored in insect-tough chitin, brewing ethanol while inflating a daughter cell out of its side.',
+        'Meet Erebor’s dwarven pressure-brewer meets One Piece tavern: armored in beetle-tough chitin, yeast brews rival-stunning booze while budding a baby cell.',
       story:
-        'Meet the pressurized alchemist: sealed inside a three-layered [[chitin-glucan wall|real-fungal-wall]] inflated to bicycle-tire turgor pressure, budding yeast makes its living by out-drinking and out-poisoning every rival microbe in sight. Wall-to-wall [[Pma1 proton pumps|pma1-real]] burn a fifth of the cell’s ATP to haul floodwaters of sugar indoors, where cytosolic [[Pdc1|pdc1-real]] and [[Adh1|adh1-real]] crack pyruvate into fizzy CO₂ and rival-stunning ethanol.\n\nInstead of splitting down the middle or tearing open its nuclear membrane, the mother cell runs closed mitosis on twin [[spindle pole bodies|spindle-pole-body]] while firing cargo vesicles through a [[septin hourglass collar|septin-real]] to blow up a brand-new [[daughter bud|real-fungal-bud]]—collecting one permanent [[bud scar|bud-scar]] for every child she launches.',
+        'Meet biology’s rowdiest Fullmetal Alchemist brewer: pumped to bike-tire pressure inside a three-tier [[chitin-glucan hull|real-fungal-wall]], budding yeast wins every fruit-juice brawl by out-drinking and out-pickling its rivals. Crowded [[Pma1 proton cannons|pma1-real]] burn a fifth of all ATP to haul sugar indoors, where [[Pdc1|pdc1-real]] and [[Adh1|adh1-real]] roar like a One Piece tavern—cracking pyruvate into fizzy CO₂ and bacteria-stunning ethanol.\n\nNever taking off its nuclear helmet, Mom runs closed mitosis on twin [[spindle pole bodies|spindle-pole-body]] while firing cargo through a Doctor Strange [[septin portal|septin-real]] to inflate a [[daughter bud|real-fungal-bud]]—earning a permanent [[bud scar|bud-scar]] medal per child.',
       blueprint:
         'Role: Heterotrophic budding yeast cell (Saccharomyces cerevisiae 3D cutaway) · From: Extracellular [[glucose|glucose]], amino acids & O₂ imported across [[ergosterol|ergosterol]]-stiffened membrane · Inside: [[Pma1|pma1-real]] energizes uptake; [[Pdc1|pdc1-real]] → [[Adh1|adh1-real]] ferment sugar; [[SPB|spindle-pole-body]] runs closed mitosis into [[bud|real-fungal-bud]] · To: Ethanol & CO₂ exported; autonomous daughter cell & maternal [[bud scar|bud-scar]]',
       scientific:
@@ -727,9 +727,9 @@ export const PLANT_FUNGAL_NODE_LENSES: NodeLensMap = {
     },
     es: {
       simple:
-        'Una levadura real abierta en corte: un alquimista a presión blindado con quitina que fermenta azúcar en alcohol mientras infla una célula hija desde su costado.',
+        'Cruza una cervecería enana del Señor de los Anillos con una taberna de One Piece: blindada en quitina a presión, fermenta alcohol mientras infla una hija.',
       story:
-        'He aquí al alquimista presurizado: encerrada en una coraza triple de [[quitina y glucanos|real-fungal-wall]] hinchada a la presión de una rueda de bicicleta, la levadura sobrevive bebiendo más rápido que nadie el azúcar de la fruta caída. En su frontera, un ejército de [[bombas Pma1|pma1-real]] quema la quinta parte del ATP celular para arrastrar ríos de glucosa al interior, donde [[Pdc1|pdc1-real]] y [[Adh1|adh1-real]] la convierten en burbujas de CO₂ y etanol que deja fuera de combate a las bacterias vecinas.\n\nPara multiplicarse jamás rompe su envoltura nuclear: ejecuta una mitosis cerrada sobre [[cuerpos polares del huso|spindle-pole-body]] y dispara vesículas a través de un [[collar de septinas|septin-real]] para inflar una [[yema hija|real-fungal-bud]] nueva, guardando en su casco una [[cicatriz de gemación|bud-scar]] por cada parto.',
+        'Conoce al alquimista más fiestero al estilo Fullmetal Alchemist: hinchada a presión de neumático tras una triple coraza de [[quitina y glucanos|real-fungal-wall]], la levadura gana cada pelea bebiendo azúcar más rápido que nadie. Sus cañones [[Pma1|pma1-real]] gastan la quinta parte del ATP para meter glucosa a raudales, donde [[Pdc1|pdc1-real]] y [[Adh1|adh1-real]] rugen como una taberna de One Piece soltando espuma de CO₂ y etanol que noquea a las bacterias.\n\nSin quitarse jamás el casco nuclear, divide cromosomas sobre [[cuerpos polares del huso|spindle-pole-body]] y lanza suministros por un portal de [[septinas|septin-real]] digno de Doctor Strange para inflar su [[yema hija|real-fungal-bud]], sumando una [[cicatriz de gemación|bud-scar]] por parto.',
       blueprint:
         'Rol: Célula heterótrofa de levadura en gemación (corte 3D de S. cerevisiae) · De: [[Glucosa|glucose]], aminoácidos y O₂ a través de membrana rica en [[ergosterol|ergosterol]] · Dentro: [[Pma1|pma1-real]] impulsa el transporte; [[Pdc1|pdc1-real]] → [[Adh1|adh1-real]] fermentan; el [[SPB|spindle-pole-body]] dirige mitosis cerrada hacia la [[yema|real-fungal-bud]] · Hacia: Etanol y CO₂ al exterior; célula hija libre y [[cicatriz|bud-scar]] materna',
       scientific:
@@ -740,9 +740,9 @@ export const PLANT_FUNGAL_NODE_LENSES: NodeLensMap = {
   'real-fungal-nucleus': {
     en: {
       simple:
-        'A yeast nucleus that divides its chromosomes without ever dissolving its outer membrane, using a protein plug in its wall to pull one copy into the daughter bud.',
+        'A Mandalorian yeast nucleus that never takes its helmet off: it divides chromosomes inside an unbroken membrane and stretches half into the daughter bud.',
       story:
-        'While animal and plant cells blow their nuclear envelopes to smithereens every time they divide, this compact yeast nucleus refuses to drop its guard for a single second. Embedded straight into its intact [[nuclear envelope|nuclear-envelope]] like a steel grommet sits the [[spindle pole body|spindle-pole-body]], tethering all sixteen tiny [[chromosomes|chromosome]] by their centromeres on one side while the [[crescent nucleolus|real-fungal-nucleolus]] hugs the far wall.\n\nWhen division strikes, the duplicated grommet spins a mitotic spindle strictly indoors while outer cables reach into the cytoplasm and drag half the stretched, dumbbell-shaped nucleus right through the [[budding neck|real-fungal-bud]] before pinching cleanly in two.',
+        'Animal and plant cells blow their nuclear armor to bits every time they divide, but this yeast nucleus follows the Mandalorian creed: the helmet stays ON. Riveted straight through its unbroken [[nuclear envelope|nuclear-envelope]] sits the [[spindle pole body|spindle-pole-body]], leashing all sixteen tiny [[chromosomes|chromosome]] on one side while the [[crescent nucleolus|real-fungal-nucleolus]] glows opposite.\n\nAt division time, duplicated rivets spin a spindle strictly indoors while outer tow cables stretch the intact nucleus like Fantastic Four’s Mr. Fantastic right through the [[budding neck|real-fungal-bud]] before pinching cleanly in two.',
       blueprint:
         'Role: Closed-mitosis fungal genome & transcription hub · From: NTPs, histones & regulators imported via [[nuclear pores|nuclear-pore]] · Inside: Intact [[nuclear envelope|nuclear-envelope]] embeds [[spindle pole body|spindle-pole-body]] tethering 16 Rabl [[chromosomes|chromosome]] opposite [[crescent nucleolus|real-fungal-nucleolus]] · To: mRNAs & ribosome subunits to cytosol; segregated daughter nucleus pulled into [[bud|real-fungal-bud]]',
       scientific:
@@ -750,9 +750,9 @@ export const PLANT_FUNGAL_NODE_LENSES: NodeLensMap = {
     },
     es: {
       simple:
-        'Un núcleo fúngico que reparte sus cromosomas sin deshacer jamás su envoltura, usando un tapón proteico en su propia membrana para arrastrar la mitad hacia la yema.',
+        'Un núcleo fúngico fiel al credo de The Mandalorian: jamás se quita el casco al dividir cromosomas y se estira entero para pasar la mitad a la yema.',
       story:
-        'Mientras plantas y animales desmontan en pedazos su envoltura nuclear cada vez que se dividen, el núcleo de la levadura jamás baja la guardia. Incrustado en su [[envoltura nuclear|nuclear-envelope]] intacta como un remache de acero trabaja el [[cuerpo polar del huso|spindle-pole-body]], sujetando de cerca los centrómeros de los dieciséis [[cromosomas|chromosome]] mientras al fondo resplandece el [[nucléolo en medialuna|real-fungal-nucleolus]].\n\nLlegada la hora de dividirse, ese remache duplicado tiende el huso mitótico puertas adentro mientras sus cables exteriores tiran del núcleo entero como un reloj de arena elástico a través del [[cuello de la yema|real-fungal-bud]], partiéndolo en dos sin derramar su contenido.',
+        'Plantas y animales vuelan en pedazos su envoltura nuclear en cada división, pero el núcleo de la levadura sigue la regla de The Mandalorian: el casco nunca se quita. Remachado en su [[envoltura nuclear|nuclear-envelope]] intacta trabaja el [[cuerpo polar del huso|spindle-pole-body]], sujetando en corto los dieciséis [[cromosomas|chromosome]] frente al [[nucléolo en medialuna|real-fungal-nucleolus]].\n\nAl dividirse, ese doble remache tiende el huso puertas adentro mientras cabos externos estiran el núcleo entero como Mr. Fantástico a través del [[cuello de la yema|real-fungal-bud]] antes de partirlo limpiamente en dos.',
       blueprint:
         'Rol: Centro genómico fúngico de mitosis cerrada · De: Nucleótidos, histonas y factores vía [[poros nucleares|nuclear-pore]] · Dentro: [[Envoltura nuclear|nuclear-envelope]] intacta con [[cuerpo polar del huso|spindle-pole-body]], 16 [[cromosomas|chromosome]] en disposición Rabl y [[nucléolo en medialuna|real-fungal-nucleolus]] · Hacia: ARNm y prerribosomas al citosol; núcleo hijo arrastrado a la [[yema|real-fungal-bud]]',
       scientific:
@@ -763,9 +763,9 @@ export const PLANT_FUNGAL_NODE_LENSES: NodeLensMap = {
   'real-fungal-nucleolus': {
     en: {
       simple:
-        'A moon-shaped ribosome factory hugging one side of the yeast nucleus, working flat out so the cell can double itself every ninety minutes.',
+        'A Sailor Moon crescent foundry hugging one wall of the yeast nucleus, cranking out 2,000 ribosome factories a minute so the cell doubles in 90 minutes.',
       story:
-        'When a yeast cell hits a puddle of grape juice, its appetite for fresh [[ribosomes|ribosome]] explodes: to bud off a daughter in ninety minutes, it has to assemble two thousand new protein factories every single minute. Pressed like a thick cap against one hemisphere of the [[fungal nucleus|real-fungal-nucleus]] directly opposite the spindle pole, ~150 tandem repeats of ribosomal [[DNA|dna]] on Chromosome XII run non-stop.\n\nStreams of ribosomal [[proteins|protein]] arriving from the cytosol fold around freshly cut [[rRNA|rna]] transcripts inside this crescent workshop, pouring finished 40S and 60S subunits back out through nuclear pores to pack the cytoplasm.',
+        'Drop a yeast cell into sweet grape must and it goes full Naruto Shadow-Clone mode: to bud a daughter in ninety minutes, it must forge two thousand fresh [[ribosomes|ribosome]] every single minute. Shaped like a Sailor Moon crescent hugging one side of the [[fungal nucleus|real-fungal-nucleus]], 150 tandem repeats of ribosomal [[DNA|dna]] on Chromosome XII roar non-stop.\n\nStreams of ribosomal [[proteins|protein]] troop in like Spirited Away boiler workers to wrap freshly cut [[rRNA|rna]] scaffolds, pouring 40S and 60S halves out through nuclear pores at thirty-plus per second.',
       blueprint:
         'Role: Crescent-shaped fungal ribosome assembly factory · From: Chr XII rDNA repeats ([[DNA|dna]]), NTPs & imported ribosomal [[proteins|protein]] · Inside: Pol I & Pol III synthesize 35S/5S [[rRNA|rna]] at ~2,000 preribosomes·min⁻¹ · To: Pre-40S and pre-60S subunits exported from [[fungal nucleus|real-fungal-nucleus]] to cytosolic [[ribosomes|ribosome]]',
       scientific:
@@ -773,9 +773,9 @@ export const PLANT_FUNGAL_NODE_LENSES: NodeLensMap = {
     },
     es: {
       simple:
-        'Una fábrica de ribosomas con forma de medialuna pegada a un costado del núcleo, trabajando a toda máquina para que la levadura se duplique cada noventa minutos.',
+        'Una fundición con silueta de luna creciente al estilo Sailor Moon que ensambla dos mil ribosomas por minuto para duplicar la levadura en hora y media.',
       story:
-        'Cuando una levadura cae en mosto dulce, su hambre de [[ribosomas|ribosome]] nuevos se dispara: para alumbrar una hija cada noventa minutos necesita ensamblar dos mil fábricas de proteínas por minuto. Pegada como un casquete contra el polo del [[núcleo fúngico|real-fungal-nucleus]] opuesto al huso, una hilera de ciento cincuenta copias repetidas de [[ADN|dna]] ribosómico en el cromosoma XII trabaja sin tregua.\n\nLas [[proteínas|protein]] ribosómicas recién llegadas del citosol envuelven allí las cintas frescas de [[ARNr|rna]], despachando un torrente continuo de mitades 40S y 60S listas para inundar el citoplasma.',
+        'Suelta una levadura en mosto dulce y entrará en modo clones de sombra de Naruto: para alumbrar una hija en noventa minutos debe fabricar dos mil [[ribosomas|ribosome]] nuevos por minuto. Con silueta de luna creciente de Sailor Moon pegada a un polo del [[núcleo fúngico|real-fungal-nucleus]], ciento cincuenta copias en fila de [[ADN|dna]] ribosómico trabajan sin respiro.\n\nRíos de [[proteínas|protein]] entran como obreros de El viaje de Chihiro para abrazar hebras frescas de [[ARNr|rna]], despachando más de treinta subunidades 40S y 60S por segundo hacia el citoplasma.',
       blueprint:
         'Rol: Fábrica nucleolar en medialuna de subunidades ribosómicas · De: ~150 repeticiones de [[ADN|dna]] ribosómico (Chr XII), NTPs y [[proteínas|protein]] importadas · Dentro: Pol I y Pol III transcriben pre-[[ARNr|rna]] 35S/5S (~2,000 prerribosomas·min⁻¹) · Hacia: Subunidades pre-40S y pre-60S fuera del [[núcleo fúngico|real-fungal-nucleus]] hacia [[ribosomas|ribosome]]',
       scientific:
@@ -786,9 +786,9 @@ export const PLANT_FUNGAL_NODE_LENSES: NodeLensMap = {
   'real-fungal-dna': {
     en: {
       simple:
-        'A streamlined yeast gene being copied into mRNA: with almost no filler sequences to cut out, messages go straight from DNA to protein production at top speed.',
+        'An anime script with zero filler episodes: 95% of yeast genes skip introns completely, shooting mRNA recipes straight from DNA to protein vats.',
       story:
-        'Inside the [[fungal nucleus|real-fungal-nucleus]], yeast keeps its genome stripped for speed: fewer than five percent of its six thousand genes carry interrupting introns, so [[RNA polymerase II|pol-ii]] rarely wastes time on heavy splicing detours. Sliding between parted [[nucleosomes|nucleosome]], this twelve-subunit yeast machine unzips [[DNA|dna]] and stitches incoming [[nucleotides|nucleotide]] into crisp messenger [[RNA|rna]].\n\nWithin moments of rolling off the template, transcripts encoding [[Pdc1|pdc1-real]] and [[Adh1|adh1-real]] bolt through nearby nuclear pores to keep the fermentation vats roaring.',
+        'Inside the [[fungal nucleus|real-fungal-nucleus]], yeast edits its genome like an anime with zero filler arcs: fewer than 5% of its 6,000 genes bother with introns, so [[RNA polymerase II|pol-ii]] sprints like Sonic without splicing detours. Gliding between parted [[nucleosomes|nucleosome]], this twelve-piece reader unzips [[DNA|dna]] and weaves [[nucleotides|nucleotide]] into express messenger [[RNA|rna]].\n\nSeconds off the press, transcripts for [[Pdc1|pdc1-real]] and [[Adh1|adh1-real]] bolt out nuclear pores to keep the One Piece fermentation vats roaring.',
       blueprint:
         'Role: Compact intron-poor yeast gene transcription locus · From: Transcription activators, NTP [[nucleotides|nucleotide]] & ATP in [[fungal nucleus|real-fungal-nucleus]] · Inside: Native S. cerevisiae [[RNA Pol II|pol-ii]] (PDB 1I50) unwinds [[DNA|dna]] between [[nucleosomes|nucleosome]] · To: Mature [[mRNA|rna]] exported to cytosolic [[ribosomes|ribosome]] for enzyme synthesis',
       scientific:
@@ -796,9 +796,9 @@ export const PLANT_FUNGAL_NODE_LENSES: NodeLensMap = {
     },
     es: {
       simple:
-        'Un gen ultracompacto de levadura copiándose en ARNm: casi sin tramos sobrantes que recortar, las instrucciones pasan directo a fabricar proteínas a toda velocidad.',
+        'Un anime sin capítulos de relleno: el 95 % de los genes de levadura no tiene intrones, enviando recetas de ARNm directo a fabricar proteínas a tope.',
       story:
-        'Dentro del [[núcleo fúngico|real-fungal-nucleus]], la levadura mantiene su archivo genético ligero como un bólido: menos del cinco por ciento de sus seis mil genes tiene intrones, así que la [[ARN polimerasa II|pol-ii]] casi nunca pierde tiempo recortando relleno. Avanzando entre [[nucleosomas|nucleosome]] apartados, esta máquina nativa de doce piezas abre la hélice de [[ADN|dna]] y ensarta [[nucleótidos|nucleotide]] en un [[ARN|rna]] mensajero limpio y directo.\n\nApenas termina la copia, las recetas para fabricar [[Pdc1|pdc1-real]] y [[Adh1|adh1-real]] cruzan de inmediato los poros nucleares para mantener encendida la fermentación.',
+        'Dentro del [[núcleo fúngico|real-fungal-nucleus]], la levadura escribe su genoma como un anime sin episodios de relleno: menos del 5 % de sus genes lleva intrones, así que la [[ARN polimerasa II|pol-ii]] corre como Sonic sin detenerse a recortar sobrantes. Entre [[nucleosomas|nucleosome]] abiertos, desenrolla el [[ADN|dna]] y cose [[nucleótidos|nucleotide]] en un [[ARN|rna]] mensajero directo al grano.\n\nRecién salidas de imprenta, las recetas de [[Pdc1|pdc1-real]] y [[Adh1|adh1-real]] cruzan como balas los poros nucleares para avivar las cubas de la taberna.',
       blueprint:
         'Rol: Locus génico compacto de levadura en transcripción · De: Factores transcripcionales, [[nucleótidos|nucleotide]] y ATP en el [[núcleo fúngico|real-fungal-nucleus]] · Dentro: [[ARN Pol II|pol-ii]] nativa de levadura (PDB 1I50) copia [[ADN|dna]] entre [[nucleosomas|nucleosome]] · Hacia: [[ARNm|rna]] exportado directo a [[ribosomas|ribosome]] citosólicos',
       scientific:
@@ -809,9 +809,9 @@ export const PLANT_FUNGAL_NODE_LENSES: NodeLensMap = {
   'real-fungal-bud': {
     en: {
       simple:
-        'How yeast makes a baby cell: instead of splitting in half, the mother blows up a brand-new bubble through a narrow collar ring and packs it with fresh organelles.',
+        'Yeast childbirth via Doctor Strange portal: instead of splitting in two, Mom opens a ringed doorway in her armor and inflates a baby cell like Up’s balloon.',
       story:
-        'Locked inside rigid [[chitin-glucan armor|fungal-wall]], a mother yeast cannot simply pinch her middle in two—so she softens one tiny spot, snaps a double hourglass of [[septin rods|septin-real]] around the doorway, and inflates a daughter cell from scratch. Formin proteins at the growing tip spin polarized [[actin cables|actin-filament]] back into the mother like towropes, guiding myosin motors loaded with [[secretory vesicles|vesicle]], mitochondria, and fresh wall enzymes straight through the neck.\n\nMeanwhile, cytoplasmic microtubules reaching out from the [[spindle pole body|spindle-pole-body]] reel one half of the dividing nucleus across the threshold, right before an actomyosin noose and chitin synthase seal the doorway—leaving a crisp [[bud scar|bud-scar]] behind.',
+        'Sealed in rigid [[chitin-glucan armor|fungal-wall]], a mother yeast cannot pinch her waist in half—so she softens one tiny patch, spins a glowing Doctor Strange sling-ring of [[septin rods|septin-real]] around the doorway, and inflates a daughter cell like Up’s balloon house. Formins at the tip fire [[actin cables|actin-filament]] back into Mom as ziplines for myosins hauling [[secretory vesicles|vesicle]] and mitochondria.\n\nMeanwhile, cables from the [[spindle pole body|spindle-pole-body]] winch half the sealed nucleus through the portal right before a contractile ring and chitin plate slam the hatch—stamping a permanent [[bud scar|bud-scar]].',
       blueprint:
         'Role: Polarized daughter-cell morphogenesis & cytokinesis gateway · From: Secretory [[vesicles|vesicle]], organelles & mRNAs towed from mother on [[actin cables|actin-filament]]; nucleus pulled by [[SPB|spindle-pole-body]] MTs · Inside: [[Septin collar|septin-real]] scaffolds neck barrier while apical polarisome expands nascent [[fungal wall|fungal-wall]] · To: Independent daughter yeast cell + maternal [[bud scar|bud-scar]]',
       scientific:
@@ -819,9 +819,9 @@ export const PLANT_FUNGAL_NODE_LENSES: NodeLensMap = {
     },
     es: {
       simple:
-        'Así nace una levadura hija: en vez de partirse por la mitad, la madre infla una burbuja nueva a través de un collar estrecho y le envía dentro su equipaje celular.',
+        'Un parto fúngico por portal de Doctor Strange: en vez de partirse en dos, la madre abre un anillo en su armadura e infla una célula hija como un globo.',
       story:
-        'Encerrada en su rígida [[coraza de quitina y glucano|fungal-wall]], una levadura madre no puede estrangularse sin más por la cintura: ablanda un punto exacto del casco, monta alrededor un doble reloj de arena de [[bastones de septina|septin-real]] e infla desde cero una hija nueva. Desde la punta de la yema se tienden [[cables de actina|actin-filament]] hacia el vientre materno por los que trepan motores cargados de [[vesículas secretoras|vesicle]], mitocondrias y enzimas constructoras.\n\nAl mismo tiempo, los microtúbulos exteriores del [[cuerpo polar del huso|spindle-pole-body]] remolcan medio núcleo a través del cuello justo antes de que un lazo contráctil y un tabique de quitina cierren la escotilla, dejando grabada una [[cicatriz de gemación|bud-scar]] eterna.',
+        'Encerrada en su [[coraza de quitina y glucano|fungal-wall]], la levadura madre no puede estrangularse por la mitad: ablanda un punto del casco, traza un portal digno de Doctor Strange con [[bastones de septina|septin-real]] e infla una hija como los globos de Up. Desde la punta tienden tirolinas de [[cables de actina|actin-filament]] por donde cruzan motores cargados de [[vesículas secretoras|vesicle]] y mitocondrias.\n\nA la vez, cabos del [[cuerpo polar del huso|spindle-pole-body]] remolcan medio núcleo a través del portal justo antes de cerrar la escotilla de quitina y grabar una [[cicatriz de gemación|bud-scar]] eterna.',
       blueprint:
         'Rol: Portal de morfogénesis polarizada y citocinesis por gemación · De: [[Vesículas|vesicle]] y orgánulos sobre [[cables de actina|actin-filament]]; núcleo arrastrado por microtúbulos del [[SPB|spindle-pole-body]] · Dentro: El [[collar de septina|septin-real]] sostiene el cuello mientras el polarisoma expande la [[pared fúngica|fungal-wall]] · Hacia: Célula hija independiente y [[cicatriz de gemación|bud-scar]] en la madre',
       scientific:
@@ -832,9 +832,9 @@ export const PLANT_FUNGAL_NODE_LENSES: NodeLensMap = {
   'real-fungal-wall': {
     en: {
       simple:
-        'A true-size slice through the yeast cell’s three-layered armor, ergosterol membrane, proton pumps, and bubbling fermentation kitchen just underneath.',
+        'Like Shrek says, fungi have layers: a 1:1 atomic slice of chitin armor, ergosterol shield, acid cannons, and a roaring One Piece brewery underneath.',
       story:
-        'Zoomed to true atomic scale, the yeast cortex reveals how a tiny single cell withstands bicycle-tire pressure without exploding. Closest to the [[plasma membrane|plasma-membrane]] locked tight with [[ergosterol|ergosterol]] sits a load-bearing belt of crystalline [[chitin microfibrils|chitin-fibril]], topped by a thick, springy mattress of branched β-glucans snipped and reshaped by [[Exg1|exg1-real]] scissors, all shielded outside by a dense brush of mannoproteins.\n\nEmbedded across that sterol-stiffened membrane, [[Pma1 proton pumps|pma1-real]] roar alongside [[septin rods|septin-real]], while cortical ER sheets carrying [[Erg11|erg11-real]] hover just above a cytosolic soup packed with [[Pdc1|pdc1-real]] and [[Adh1|adh1-real]] brewing ethanol.',
+        'Like Shrek’s onions—and Attack on Titan’s triple walls—this 1:1 atomic slice shows how tiny yeast holds bike-tire pressure without popping. Above a [[plasma membrane|plasma-membrane]] stiffened with [[ergosterol|ergosterol]] runs a Kaiju-tough belt of [[chitin microfibrils|chitin-fibril]], a bouncy β-glucan mattress trimmed by Edward Scissorhands [[Exg1|exg1-real]], and an outer mannoprotein stealth cloak.\n\nAcross that armored border, [[Pma1 cannons|pma1-real]] roar beside [[septin rods|septin-real]], while ER sheets with [[Erg11|erg11-real]] hover above a One Piece tavern soup of [[Pdc1|pdc1-real]] and [[Adh1|adh1-real]] brewing booze.',
       blueprint:
         'Role: True-scale (1:1) fungal cell wall, plasma membrane & cortical interface · From: Cytosolic UDP-Glc / UDP-GlcNAc, ATP, [[Erg11|erg11-real]]-made [[ergosterol|ergosterol]] & secretory mannoproteins · Inside: 3-layer [[fungal wall|fungal-wall]] ([[chitin|chitin-fibril]] + [[Exg1|exg1-real]]-remodeled glucan + mannoprotein) over [[Pma1|pma1-real]] & [[septins|septin-real]] · To: ~0.8 MPa turgor containment above fermenting [[Pdc1|pdc1-real]]/[[Adh1|adh1-real]] cortex',
       scientific:
@@ -842,9 +842,9 @@ export const PLANT_FUNGAL_NODE_LENSES: NodeLensMap = {
     },
     es: {
       simple:
-        'Un corte a tamaño atómico real de la triple armadura fúngica, su membrana con ergosterol, sus bombas de ácido y la destilería de alcohol justo debajo.',
+        'Como las cebollas de Shrek, el blindaje fúngico tiene capas: quitina, ergosterol, cañones de ácido y una taberna estilo One Piece justo debajo.',
       story:
-        'A escala atómica verdadera se descubre cómo una diminuta levadura aguanta presiones de neumático sin estallar. Pegado a una [[membrana plasmática|plasma-membrane]] endurecida con [[ergosterol|ergosterol]] corre un cinturón de [[microfibrillas de quitina|chitin-fibril]], cubierto por un colchón elástico de β-glucanos que la tijera [[Exg1|exg1-real]] recorta para crecer y rematado por fuera con un cepillo tupido de manoproteínas.\n\nEn esa membrana blindada rugen codo con codo las [[bombas Pma1|pma1-real]] y los [[bastones de septina|septin-real]], mientras láminas corticales con [[Erg11|erg11-real]] flotan sobre un citosol abarrotado de [[Pdc1|pdc1-real]] y [[Adh1|adh1-real]] destilando etanol.',
+        'Como diría Shrek, los hongos tienen capas: este corte atómico 1:1 revela cómo aguanta la levadura presiones de neumático sin reventar. Sobre una [[membrana plasmática|plasma-membrane]] blindada con [[ergosterol|ergosterol]] se apilan [[microfibrillas de quitina|chitin-fibril]], un colchón elástico podado por las tijeras [[Exg1|exg1-real]] y un manto exterior de camuflaje.\n\nEn esa frontera rugen las [[bombas Pma1|pma1-real]] junto a [[bastones de septina|septin-real]], mientras láminas con [[Erg11|erg11-real]] sobrevuelan una taberna digna de One Piece donde [[Pdc1|pdc1-real]] y [[Adh1|adh1-real]] destilan etanol.',
       blueprint:
         'Rol: Interfaz de pared fúngica, membrana y córtex a escala real 1:1 · De: UDP-Glc / UDP-GlcNAc, ATP, [[ergosterol|ergosterol]] vía [[Erg11|erg11-real]] y manoproteínas · Dentro: [[Pared tricapa|fungal-wall]] ([[quitina|chitin-fibril]] + glucanos remodelados por [[Exg1|exg1-real]] + manoproteínas) sobre [[Pma1|pma1-real]] y [[septinas|septin-real]] · Hacia: Contención de ~0.8 MPa sobre córtex fermentativo [[Pdc1|pdc1-real]]/[[Adh1|adh1-real]]',
       scientific:
@@ -855,9 +855,9 @@ export const PLANT_FUNGAL_NODE_LENSES: NodeLensMap = {
   'fungal-wall': {
     en: {
       simple:
-        'A three-layered fungal suit of armor — tough insect-shell chitin inside, bouncy glucan springs in the middle, and a dense sugar-protein brush outside.',
+        'A three-layer Pacific Rim Kaiju shell—beetle-tough chitin inside, bouncy glucan springs in the middle, and a stealth protein cloak hiding from immune radar.',
       story:
-        'Neither plant cellulose nor bacterial peptidoglycan builds a mushroom or a yeast: fungi invented a three-tier composite shield all their own. Right above the [[plasma membrane|plasma-membrane]] powered by [[Pma1|pma1-real]], synthase complexes extrude an inner girdle of razor-tough [[chitin microfibrils|chitin-fibril]] tied covalently into a thick, shock-absorbing middle mattress of branched [[glucose|glucose]] polymers.\n\nAnchored into the outside of that mattress bristles a dense forest of mannose-coated [[proteins|protein]] that blocks foreign enzymes and hides inner sugars from host immune sensors—making the middle glucan weaver a prime bullseye for echinocandin antifungal medicines.',
+        'Mushrooms and yeast skip plant cellulose entirely for a three-tier Pacific Rim Kaiju hull all their own. Right above the [[plasma membrane|plasma-membrane]] energized by [[Pma1|pma1-real]], weavers lay an inner girdle of beetle-shell [[chitin microfibrils|chitin-fibril]] bolted into a thick, shock-absorbing middle mattress of branched [[glucose|glucose]] springs.\n\nOutside bristles a dense Harry Potter invisibility cloak of mannose-coated [[proteins|protein]] that blocks enemy enzymes and hides inner sugars from human immune scouts—making the middle glucan weaver a prime target for echinocandin drugs.',
       blueprint:
         'Role: Three-layered osmotic armor & immune-shielding envelope · From: Cytosolic UDP-[[glucose|glucose]] (Fks1), UDP-GlcNAc (Chs1–3), and secretory [[mannoproteins|protein]] · Inside: Inner [[chitin fibrils|chitin-fibril]] + middle β-1,3/β-1,6-glucan elastic mesh + outer mannoprotein brush above [[plasma membrane|plasma-membrane]] · To: Resists ~0.5–1.0 MPa turgor & blocks lytic enzymes (targeted by echinocandins)',
       scientific:
@@ -865,9 +865,9 @@ export const PLANT_FUNGAL_NODE_LENSES: NodeLensMap = {
     },
     es: {
       simple:
-        'Una armadura fúngica de tres pisos: quitina dura como caparazón de insecto por dentro, un colchón elástico de glucanos en medio y un cepillo protector por fuera.',
+        'Una coraza tricapa digna de un Kaiju de Pacific Rim: quitina de escarabajo adentro, muelles elásticos en medio y una capa de invisibilidad por fuera.',
       story:
-        'Ni celulosa de planta ni peptidoglicano de bacteria: el Reino Fungi inventó su propio blindaje laminado de tres pisos. Al ras de la [[membrana plasmática|plasma-membrane]] energizada por [[Pma1|pma1-real]], las sintasas tienden un cinturón interno de durísimas [[microfibrillas de quitina|chitin-fibril]] cosidas químicamente a un colchón central elástico de cadenas ramificadas de [[glucosa|glucose]].\n\nPor fuera de ese colchón asoma un tupido bosque de [[proteínas|protein]] recubiertas de manosa que frena enzimas digestivas ajenas y camufla al hongo ante el sistema inmunitario, razón por la cual los fármacos antifúngicos equinocandinas apuntan directo contra la tejedora del glucano central.',
+        'Ni celulosa vegetal ni pared bacteriana: el Reino Fungi diseñó su propio blindaje Kaiju de Pacific Rim en tres pisos. Sobre la [[membrana plasmática|plasma-membrane]] cargada por [[Pma1|pma1-real]], las sintasas tienden un cinturón de [[microfibrillas de quitina|chitin-fibril]] cosido a un grueso colchón amortiguador de cadenas ramificadas de [[glucosa|glucose]].\n\nPor fuera asoma una capa de invisibilidad al estilo Harry Potter hecha de [[proteínas|protein]] llenas de manosa que frena enzimas rivales y despista a nuestras defensas, convirtiendo al tejedor central en blanco de las equinocandinas.',
       blueprint:
         'Rol: Coraza osmótica tricapa y escudo frente al entorno · De: UDP-[[glucosa|glucose]] (Fks1), UDP-GlcNAc (Chs1–3) y [[manoproteínas|protein]] secretoras · Dentro: [[Quitina|chitin-fibril]] interna + malla elástica media de β-1,3/β-1,6-glucanos + cepillo externo sobre la [[membrana plasmática|plasma-membrane]] · Hacia: Sostiene ~0.5–1.0 MPa de turgencia y bloquea lisis (diana de equinocandinas)',
       scientific:
@@ -878,9 +878,9 @@ export const PLANT_FUNGAL_NODE_LENSES: NodeLensMap = {
   'chitin-fibril': {
     en: {
       simple:
-        'A microscopic crystal cable made of modified sugar rings — the exact same ultra-tough material that builds beetle shells, crab claws, and fungal walls.',
+        'Hollow Knight beetle-shell fiberglass: modified sugar chains bolted together into the exact crystal armor found in crab claws, bug wings, and fungi.',
       story:
-        'Start with a straight ribbon of [[cellulose|cellulose]]-style [[glucose|glucose]] rings, swap one hydroxyl hook on each ring for a [[nitrogen|atom-n]]-bearing acetyl badge, and you get nature’s favorite biological fiberglass. Extruded across the membrane from UDP-GlcNAc, adjacent chains line up head-to-tail in opposite directions so those extra amide groups clamp neighbor to neighbor with bonus hydrogen bonds.\n\nAnchored along the innermost rim of the [[fungal wall|fungal-wall]] and concentrated heavily into reinforced [[bud scars|bud-scar]], these three-nanometer rods keep high-pressure yeast cells from ballooning out of shape.',
+        'Start with a straight [[cellulose|cellulose]]-style ribbon of [[glucose|glucose]] rings, bolt a [[nitrogen|atom-n]]-bearing acetyl badge onto every ring, and you forge Hollow Knight carapace armor. Extruded head-to-tail in opposite directions, adjacent chains lock those extra badges together with bonus hydrogen bonds cotton could only dream of.\n\nWoven along the deepest rim of the [[fungal wall|fungal-wall]] and welded extra-thick around [[bud scars|bud-scar]], these three-nanometer crystal rods keep pressurized yeast hulls from ballooning apart.',
       blueprint:
         'Role: Antiparallel crystalline tensile microfibril of fungi & arthropods · From: Cytosolic UDP-N-acetylglucosamine derived from [[glucose|glucose]] + glutamine [[nitrogen|atom-n]] · Inside: β-1,4-linked GlcNAc chains H-bonded via C2 –NHCOCH₃ amide groups into α-chitin sheets · To: Inner load-bearing layer of [[fungal wall|fungal-wall]] & cytokinetic [[bud scars|bud-scar]]',
       scientific:
@@ -888,9 +888,9 @@ export const PLANT_FUNGAL_NODE_LENSES: NodeLensMap = {
     },
     es: {
       simple:
-        'Un cable cristalino microscópico hecho de azúcares con nitrógeno: exactamente el mismo material ultrarresistente del caparazón de los escarabajos, cangrejos y hongos.',
+        'Fibra de caparazón al estilo Hollow Knight: cadenas de azúcar con nitrógeno que forman el mismo blindaje cristalino de escarabajos, cangrejos y hongos.',
       story:
-        'Toma una cinta recta de anillos de [[glucosa|glucose]] y cambia en cada eslabón un simple grupo hidroxilo por una placa acetilo con [[nitrógeno|atom-n]]: acabas de inventar la fibra de vidrio favorita de la evolución. Al salir hiladas a través de la membrana en sentidos opuestos, esas placas extra abrochan cada cadena con su vecina mediante puentes de hidrógeno suplementarios imposibles en el algodón.\n\nTendidas en el piso más profundo de la [[pared fúngica|fungal-wall]] y concentradas como cemento armado en las [[cicatrices de gemación|bud-scar]], estas varillas de tres nanómetros impiden que la levadura reviente bajo su propia presión.',
+        'Toma una cinta recta de anillos de [[glucosa|glucose]] y clava en cada eslabón una insignia acetilo con [[nitrógeno|atom-n]]: acabas de forjar la armadura de Hollow Knight y Blue Beetle. Al hilarse en sentidos opuestos, esas placas extra abrochan cadena con cadena mediante puentes de hidrógeno suplementarios imposibles en el algodón.\n\nTendidas en la base de la [[pared fúngica|fungal-wall]] y concentradas a tope en las [[cicatrices de gemación|bud-scar]], estas varillas de tres nanómetros impiden que el casco reviente bajo presión.',
       blueprint:
         'Rol: Microfibrilla cristalina antiparalela de refuerzo estructural · De: UDP-N-acetilglucosamina sintetizada desde [[glucosa|glucose]] y [[nitrógeno|atom-n]] de glutamina · Dentro: Cadenas β-1,4-GlcNAc unidas por puentes de H entre grupos amida C2 (–NHCOCH₃) en α-quitina · Hacia: Estrato portante interno de la [[pared fúngica|fungal-wall]] y [[cicatrices de gemación|bud-scar]]',
       scientific:
@@ -901,9 +901,9 @@ export const PLANT_FUNGAL_NODE_LENSES: NodeLensMap = {
   'bud-scar': {
     en: {
       simple:
-        'A permanent crater-shaped ring of pure chitin left on a mother yeast’s shell every time a daughter cell buds off — counting them reveals how many children she has had.',
+        'A permanent Star Wars docking-ring crater of pure chitin stamped on a mother yeast’s hull after every birth—counting them reveals her exact child count.',
       story:
-        'Every birth in the yeast world leaves an indelible medal on the mother’s hull. As a mature [[daughter bud|real-fungal-bud]] prepares to cast off through the [[septin collar|septin-real]], chitin synthases lay down a raised outer rim and a solid disc of [[chitin microfibrils|chitin-fibril]] straight across the narrowing neck.\n\nMoments later, a specialized chitinase enzyme secreted ONLY from the daughter’s side dissolves the middle layer so the newborn floats free with a smooth birth mark, while the raised crater stays welded forever into the mother’s [[fungal wall|fungal-wall]]—never budding from the same spot twice across her twenty-five-child lifespan.',
+        'Every yeast birth stamps a permanent One Piece battle medal onto Mom’s hull. As a mature [[daughter bud|real-fungal-bud]] prepares to undock from the Doctor Strange [[septin collar|septin-real]], synthases pour a raised rim and solid blast door of [[chitin microfibrils|chitin-fibril]] straight across the neck.\n\nThen comes an asymmetric Star Wars airlock release: a chitinase enzyme secreted ONLY from the daughter’s side dissolves the middle seal so the smooth newborn floats free, leaving a raised crater welded forever into Mom’s [[fungal wall|fungal-wall]] across ~25 births.',
       blueprint:
         'Role: Permanent cytokinetic chitin ring & replicative age marker · From: UDP-GlcNAc polymerized by Chs3 (ring) & Chs2 (primary septum) at the [[septin|septin-real]]-scaffolded [[bud neck|real-fungal-bud]] · Inside: Raised ~1.1 µm crater of dense [[chitin fibrils|chitin-fibril]] left after Cts1 chitinase abscission · To: Reinforces severed [[fungal wall|fungal-wall]] & precludes repeat budding at used site',
       scientific:
@@ -911,9 +911,9 @@ export const PLANT_FUNGAL_NODE_LENSES: NodeLensMap = {
     },
     es: {
       simple:
-        'Un cráter anular permanente de quitina pura que queda grabado en la coraza de la levadura madre tras cada parto; contarlos revela cuántas hijas ha tenido.',
+        'Un cráter permanente estilo escotilla de Star Wars hecho de quitina pura en el casco materno tras cada parto; contarlos dice cuántas hijas tuvo.',
       story:
-        'Cada nacimiento en el mundo de las levaduras deja una medalla imborrable en el casco materno. Cuando una [[yema hija|real-fungal-bud]] madura está lista para soltar amarras en el [[collar de septinas|septin-real]], las quitina sintasas levantan un reborde circular y tienden un disco macizo de [[microfibrillas de quitina|chitin-fibril]] cerrando el cuello.\n\nActo seguido, una enzima quitinasa secretada exclusivamente desde el lado de la hija recorta el tabique central para soltarla al mundo, mientras el cráter elevado queda soldado de por vida en la [[pared fúngica|fungal-wall]] de la madre, que jamás vuelve a gemar dos veces por el mismo sitio en sus veinticinco divisiones de vida.',
+        'Cada parto deja en el casco de la levadura una medalla imborrable al estilo One Piece. Cuando la [[yema hija|real-fungal-bud]] está lista para soltar amarras en el [[collar de septinas|septin-real]], las sintasas levantan un reborde y una esclusa maciza de [[microfibrillas de quitina|chitin-fibril]] cerrando el cuello.\n\nComo al desacoplar una nave en Star Wars, una quitinasa secretada solo desde el lado de la hija corta la junta central para liberarla impecable, dejando el cráter soldado de por vida en la [[pared fúngica|fungal-wall]] materna hasta sumar unos veinticinco partos.',
       blueprint:
         'Rol: Anillo citocinético permanente de quitina y reloj de edad replicativa · De: Quitina tejida por Chs3 y Chs2 en el cuello del [[collar de septinas|septin-real]] de la [[yema|real-fungal-bud]] · Dentro: Cráter elevado de ~1.1 µm de [[fibrillas de quitina|chitin-fibril]] tras escisión por quitinasa Cts1 · Hacia: Sella la [[pared fúngica|fungal-wall]] materna e impide reutilizar el sitio de gemación',
       scientific:
@@ -924,9 +924,9 @@ export const PLANT_FUNGAL_NODE_LENSES: NodeLensMap = {
   'spindle-pole-body': {
     en: {
       simple:
-        'A three-layered protein plug set right into the yeast nuclear membrane like a two-sided button, growing spindle fibers inward and steering cables outward at the same time.',
+        'Darth Maul’s double-sided lightsaber button set right into the nuclear wall, firing spindle beams inward for chromosomes and tow cables outward to the bud.',
       story:
-        'Because the [[fungal nucleus|real-fungal-nucleus]] refuses to dissolve its [[nuclear envelope|nuclear-envelope]] during division, an ordinary floating centrosome outside in the cytosol could never reach the chromosomes inside. Fungi solved that puzzle with a double-faced rivet punched straight through the nuclear membrane itself.\n\nOnce duplicated via its side bridge, the inner face shoots [[microtubules|microtubule]] inward to grab and separate all sixteen chromosome pairs, while the outer face fires astral cables into the cytosol to haul one daughter pole right through the [[budding neck|real-fungal-bud]].',
+        'Because the Mandalorian [[fungal nucleus|real-fungal-nucleus]] refuses to take off its [[nuclear envelope|nuclear-envelope]], an outside centrosome could never grab the DNA inside. Yeast solved that puzzle by punching a double-faced rivet straight through the nuclear wall like Darth Maul’s twin-bladed hilt.\n\nOnce duplicated, its inner face fires [[microtubules|microtubule]] inward to sort all sixteen chromosome pairs, while its outer face shoots Spider-Man grapple lines into the cytosol to winch half the nucleus through the [[budding neck|real-fungal-bud]].',
       blueprint:
         'Role: Membrane-embedded bipolar fungal microtubule-organizing center · From: γ-tubulin small complexes (γ-TuSC) & GTP-tubulin dimers on both sides of [[nuclear envelope|nuclear-envelope]] · Inside: Tri-laminar Spc42/Spc110/Spc72 plaque (~120 × 150 nm) + half-bridge in [[fungal nucleus|real-fungal-nucleus]] · To: Intranuclear mitotic [[microtubules|microtubule]] + cytoplasmic astral MTs steering into [[daughter bud|real-fungal-bud]]',
       scientific:
@@ -934,9 +934,9 @@ export const PLANT_FUNGAL_NODE_LENSES: NodeLensMap = {
     },
     es: {
       simple:
-        'Un tapón proteico de tres discos engastado en la propia membrana nuclear de la levadura: lanza cables hacia dentro para repartir cromosomas y hacia fuera para remolcar el núcleo.',
+        'Un botón doble estilo sable de Darth Maul incrustado en la membrana nuclear: lanza haces adentro para cromosomas y cables afuera para remolcar el núcleo.',
       story:
-        'Como el [[núcleo fúngico|real-fungal-nucleus]] se niega a romper su [[envoltura nuclear|nuclear-envelope]] para dividirse, un centrosoma suelto en el citoplasma jamás alcanzaría los cromosomas encerrados dentro. Los hongos resolvieron el dilema engastando un remache de doble cara directamente en un ojal de la membrana nuclear.\n\nTras duplicarse mediante su puente lateral, su cara interna dispara [[microtúbulos|microtubule]] hacia dentro para separar las dieciséis parejas cromosómicas, mientras su cara externa lanza cabos al citoplasma que tiran de la mitad del núcleo hasta cruzar el [[cuello de gemación|real-fungal-bud]].',
+        'Como el [[núcleo fúngico|real-fungal-nucleus]] jamás se quita su [[envoltura nuclear|nuclear-envelope]], un centrosoma exterior nunca alcanzaría los cromosomas. La levadura resolvió el acertijo clavando un remache de doble cara en la propia muralla nuclear como la empuñadura doble de Darth Maul en Star Wars.\n\nTras duplicarse, su cara interna dispara [[microtúbulos|microtubule]] hacia dentro para repartir los dieciséis pares cromosómicos, mientras la externa lanza garfios tipo Spider-Man que arrastran medio núcleo por el [[cuello de gemación|real-fungal-bud]].',
       blueprint:
         'Rol: Centro organizador de microtúbulos fúngico incrustado en membrana · De: Complejos de γ-tubulina y dímeros GTP-tubulina a ambos lados de la [[envoltura nuclear|nuclear-envelope]] · Dentro: Tres placas proteicas apiladas (~120 × 150 nm) y semipuente en el [[núcleo fúngico|real-fungal-nucleus]] · Hacia: [[Microtúbulos|microtubule]] del huso intranuclear y astrales hacia la [[yema hija|real-fungal-bud]]',
       scientific:
@@ -947,9 +947,9 @@ export const PLANT_FUNGAL_NODE_LENSES: NodeLensMap = {
   'ergosterol': {
     en: {
       simple:
-        'The fungus-specific stiffening molecule tucked into yeast membranes instead of animal cholesterol — and the Achilles’ heel targeted by most antifungal medicines.',
+        'Yeast’s alcohol-proof armor plank—and its Superman Kryptonite: fungi pack membranes with ergosterol instead of cholesterol, giving doctors a clean bullseye.',
       story:
-        'Every ethanol-brewing yeast cell risks dissolving its own [[plasma membrane|plasma-membrane]] in the alcohol it makes unless flat, rigid sterol planks wedge neatly between the wiggling lipid tails. Tailored inside the ER by [[Erg11|erg11-real]] and stashed as backups in [[lipid droplets|lipid-droplet]], ergosterol stiffens the fungal border against both alcohol leaks and crushing turgor—and even turns into vitamin D₂ if struck by ultraviolet sunlight.\n\nBecause human cells build cholesterol instead, doctors exploit this single molecular swap ruthlessly: azole drugs starve the membrane by jamming Erg11, while amphotericin B grabs ergosterol directly to punch fatal holes through the [[fungal cortex|real-fungal-wall]].',
+        'Brewing tavern-grade booze inside your own belly would melt an ordinary [[plasma membrane|plasma-membrane]] into soup unless stiff sterol planks brace the lipid tails. Sculpted by [[Erg11|erg11-real]] and stockpiled in [[lipid droplets|lipid-droplet]], ergosterol armors yeast against its own ethanol and bike-tire turgor—even turning into vitamin D₂ under UV rays.\n\nBecause humans use cholesterol instead, this swap is yeast’s Superman Kryptonite: azole drugs starve Erg11, while amphotericin B latches onto ergosterol like a Star Wars boarding pod to punch fatal holes in the [[fungal cortex|real-fungal-wall]].',
       blueprint:
         'Role: Fungal-specific membrane sterol modulator & antifungal target · From: Lanosterol demethylated by [[Erg11|erg11-real]] in ER; buffered in [[lipid droplets|lipid-droplet]] · Inside: Rigid Δ5,7,22 ergostane 4-ring core (~1.9 nm) orders acyl chains in [[plasma membrane|plasma-membrane]] · To: Ethanol/osmotic barrier around [[Pma1|pma1-real]] microdomains (bound by polyenes; converted to vitamin D₂ by UV)',
       scientific:
@@ -957,9 +957,9 @@ export const PLANT_FUNGAL_NODE_LENSES: NodeLensMap = {
     },
     es: {
       simple:
-        'La molécula rigidizadora exclusiva de las membranas de los hongos —en lugar del colesterol humano— y el talón de Aquiles al que atacan la mayoría de los fármacos antifúngicos.',
+        'El tablón antialcohol de los hongos y a la vez su kriptonita: sustituye al colesterol humano en la membrana y ofrece un blanco perfecto a la medicina.',
       story:
-        'Una levadura que fabrica alcohol a destajo disolvería su propia [[membrana plasmática|plasma-membrane]] si no encajara tablones rígidos de esterol entre las colas flexibles de sus grasas. Esculpido en el retículo por [[Erg11|erg11-real]] y guardado como reserva en [[gotas lipídicas|lipid-droplet]], el ergosterol blinda la frontera fúngica frente al etanol y la presión osmótica, e incluso se transforma en vitamina D₂ bajo luz ultravioleta.\n\nComo nuestras células usan colesterol en su lugar, la medicina aprovecha esa diferencia sin piedad: los azoles bloquean su fábrica en Erg11 y la anfotericina B se aferra directo al ergosterol del [[córtex fúngico|real-fungal-wall]] para abrir poros letales.',
+        'Destilar alcohol de taberna dentro de tu propia barriga derretiría la [[membrana plasmática|plasma-membrane]] si no encajaras tablones rígidos entre las colas de grasa. Tallado por [[Erg11|erg11-real]] y almacenado en [[gotas lipídicas|lipid-droplet]], el ergosterol blinda a la levadura frente al etanol y la presión de neumático, e incluso se vuelve vitamina D₂ bajo rayos UV.\n\nComo nuestras células usan colesterol en su lugar, ese cambio es su kriptonita al estilo Superman: los azoles bloquean Erg11 y la anfotericina B aborda directo el ergosterol del [[córtex fúngico|real-fungal-wall]] para abrir poros letales.',
       blueprint:
         'Rol: Esterol estructural específico de membranas fúngicas y diana farmacológica · De: Lanosterol procesado por [[Erg11|erg11-real]] en el RE y almacenado en [[gotas lipídicas|lipid-droplet]] · Dentro: Núcleo esteroideo rígido Δ5,7,22 (~1.9 nm) ordena bicapas en la [[membrana plasmática|plasma-membrane]] · Hacia: Resistencia a etanol y soporte de dominios de [[Pma1|pma1-real]] (diana de polienos; precursor UV de vitamina D₂)',
       scientific:
@@ -970,9 +970,9 @@ export const PLANT_FUNGAL_NODE_LENSES: NodeLensMap = {
   'adh1-real': {
     en: {
       simple:
-        'The final enzyme of yeast fermentation: a four-part zinc machine that turns sharp acetaldehyde into ethanol so sugar breakdown never grinds to a halt.',
+        'The One Piece tavern bartender of yeast: a four-part zinc machine that pours acetaldehyde into ethanol just to hand clean NAD⁺ mugs back to glycolysis.',
       story:
-        'Why does yeast bother brewing ethanol just to dump it straight out through the [[plasma membrane|plasma-membrane]]? Because cytosolic glycolysis splitting [[glucose|glucose]] would choke to death in seconds if it ran out of empty NAD⁺ electron carriers. Right beside [[Pdc1|pdc1-real]] in the crowded [[cytosol|cytosol]], this four-subunit zinc enzyme grabs toxic acetaldehyde and dumps two spent electrons from NADH onto it.\n\nOut pours ethanol—stunning competing bacteria in rotting fruit while handing crisp, regenerated NAD⁺ straight back to glycolysis so the pressurized alchemist keeps minting fast ATP with or without oxygen.',
+        'Why brew barrels of booze only to dump them straight out the [[plasma membrane|plasma-membrane]]? Because cytosolic [[glucose|glucose]]-splitting would choke in seconds if the bar ran out of empty NAD⁺ mugs. Working elbow-to-elbow beside [[Pdc1|pdc1-real]] in the [[cytosol|cytosol]] like Sanji’s kitchen crew in One Piece, this zinc-armed quartet grabs toxic acetaldehyde and pours NADH’s spent electrons onto it.\n\nOut flows rival-stunning ethanol into rotting fruit, while sparkling-clean NAD⁺ mugs slide right back down the counter so fast ATP minting never stops.',
       blueprint:
         'Role: Fermentative NAD⁺-regenerating oxidoreductase (Adh1) · From: Acetaldehyde from [[Pdc1|pdc1-real]] + cytosolic NADH from [[glucose|glucose]] glycolysis · Inside: Homotetramer (PDB 4W6Z) coordinates catalytic Zn²⁺ & Rossmann-bound NADH · To: Ethanol diffusing across [[plasma membrane|plasma-membrane]]; recycled NAD⁺ returned to [[cytosol|cytosol]] glycolysis',
       scientific:
@@ -980,9 +980,9 @@ export const PLANT_FUNGAL_NODE_LENSES: NodeLensMap = {
     },
     es: {
       simple:
-        'La enzima final de la fermentación: una máquina cuádruple con zinc que convierte acetaldehído en etanol para que la quema de azúcar nunca se detenga.',
+        'El cantinero estilo One Piece de la fermentación: una máquina con zinc que vierte acetaldehído en etanol para devolver jarras limpias de NAD⁺.',
       story:
-        '¿Por qué se molesta la levadura en fabricar alcohol solo para arrojarlo fuera por la [[membrana plasmática|plasma-membrane]]? Porque la vía que rompe la [[glucosa|glucose]] en el [[citosol|cytosol]] se atascaría en pocos segundos si agotara sus cestas vacías de NAD⁺. Trabajando codo con codo junto a [[Pdc1|pdc1-real]], este tetrámero armado con átomos de zinc atrapa el acetaldehído tóxico y descarga sobre él los electrones del NADH.\n\nAsí nace el etanol —que de paso aturde a los microbios rivales en la fruta madura— mientras el NAD⁺ recién vaciado vuelve al instante a la glucólisis para seguir acuñando ATP rápido incluso sin oxígeno.',
+        '¿Por qué fabricar alcohol solo para tirarlo por la [[membrana plasmática|plasma-membrane]]? Porque la quema de [[glucosa|glucose]] en el [[citosol|cytosol]] se ahogaría en segundos si la barra se quedara sin jarras vacías de NAD⁺. Codo con codo junto a [[Pdc1|pdc1-real]] como en la cocina de One Piece, este cuarteto con átomos de zinc toma el acetaldehído tóxico y le vuelca los electrones del NADH.\n\nAsí sale etanol que deja groguis a las bacterias rivales mientras las jarras limpias de NAD⁺ regresan al instante para seguir cobrando ATP rápido.',
       blueprint:
         'Rol: Oxidorreductasa fermentativa regeneradora de NAD⁺ (Adh1) · De: Acetaldehído producido por [[Pdc1|pdc1-real]] + NADH de la glucólisis de [[glucosa|glucose]] · Dentro: Homotetrámero (PDB 4W6Z) con Zn²⁺ catalítico y plegamiento Rossmann · Hacia: Etanol exportado por la [[membrana plasmática|plasma-membrane]]; NAD⁺ reciclado al [[citosol|cytosol]]',
       scientific:
@@ -993,9 +993,9 @@ export const PLANT_FUNGAL_NODE_LENSES: NodeLensMap = {
   'pdc1-real': {
     en: {
       simple:
-        'The bubble-maker of bread and beer: a vitamin-B₁-powered yeast enzyme that snaps pyruvate apart into carbon dioxide fizz and acetaldehyde.',
+        'The Dr. Stone fizz-cannon of bread and beer: a vitamin-B₁ yeast enzyme that chops pyruvate into sparkling CO₂ bubbles and acetaldehyde.',
       story:
-        'Flood a yeast cell with [[glucose|glucose]] and it doesn’t wait politely for [[mitochondria|mitochondrion]] to burn every crumb—even in open air, it diverts torrents of three-carbon pyruvate straight into this ten-nanometer four-part splitter in the [[cytosol|cytosol]]. Armed with a vitamin B₁ cofactor and a magnesium pin, Pdc1 snaps one carbon cleanly off pyruvate.\n\nThat severed carbon fizzes away through the membrane as the CO₂ gas that leavens bread dough and puts the sparkle in champagne, while the two-carbon remainder is handed hot off the press to [[Adh1|adh1-real]] to become ethanol.',
+        'Drench yeast in [[glucose|glucose]] and it won’t wait politely for [[mitochondria|mitochondrion]]—even in open air, it hijacks torrents of pyruvate straight into this ten-nanometer quartet in the [[cytosol|cytosol]] like Senku’s Dr. Stone lab bench. Swinging a vitamin B₁ chisel pinned by magnesium, Pdc1 chops one carbon clean off pyruvate.\n\nThat carbon fizzes out as the CO₂ bubbles that puff pizza dough and carbonate dwarven ale, while the two-carbon piece passes hot to bartender [[Adh1|adh1-real]] to become ethanol.',
       blueprint:
         'Role: Thiamine-diphosphate pyruvate-cleaving fermentation gateway · From: Cytosolic pyruvate generated from [[glucose|glucose]] glycolysis (outcompeting [[mitochondria|mitochondrion]] at high sugar) · Inside: 240 kDa homotetramer (PDB 1PYD) uses ThDP + Mg²⁺ to decarboxylate pyruvate · To: CO₂ gas diffusing out of [[yeast cell|real-fungal]]; acetaldehyde fed directly to [[Adh1|adh1-real]]',
       scientific:
@@ -1003,9 +1003,9 @@ export const PLANT_FUNGAL_NODE_LENSES: NodeLensMap = {
     },
     es: {
       simple:
-        'La fábrica de burbujas del pan y la cerveza: una enzima de levadura con vitamina B₁ que parte el piruvato en gas dióxido de carbono y acetaldehído.',
+        'El cañón de burbujas estilo Dr. Stone del pan y la cerveza: usa vitamina B₁ para partir el piruvato en espuma de CO₂ y acetaldehído.',
       story:
-        'Baña una levadura en [[glucosa|glucose]] abundante y ni siquiera esperará a que sus [[mitocondrias|mitochondrion]] quemen todo el botín: a pleno aire desvía riadas de piruvato hacia este cuarteto proteico de diez nanómetros que flota en el [[citosol|cytosol]]. Armado con vitamina B₁ y magnesio como cincel químico, Pdc1 arranca de un tajo un carbono a cada piruvato.\n\nEse carbono escapa burbujeando como el gas CO₂ que esponja la masa del pan y da espuma a la cerveza, mientras el fragmento de dos carbonos pasa en caliente a manos de [[Adh1|adh1-real]] para convertirse en etanol.',
+        'Inunda de [[glucosa|glucose]] a una levadura y no esperará a sus [[mitocondrias|mitochondrion]]: incluso al aire libre desvía ríos de piruvato hacia este cuarteto del [[citosol|cytosol]] digno del laboratorio de Dr. Stone. Con un cincel de vitamina B₁ sujeto con magnesio, Pdc1 corta de un tajo un carbono a cada piruvato.\n\nEse carbono escapa como el gas CO₂ que infla el pan y corona la cerveza enana, mientras el fragmento restante pasa ardiendo al cantinero [[Adh1|adh1-real]] rumbo al etanol.',
       blueprint:
         'Rol: Descarboxilasa puerta de entrada a la fermentación alcohólica · De: Piruvato citosólico procedente de la [[glucosa|glucose]] (desviado frente a [[mitocondrias|mitochondrion]]) · Dentro: Homotetrámero de 240 kDa (PDB 1PYD) con ThDP (vitamina B₁) y Mg²⁺ · Hacia: Gas CO₂ fuera de la [[levadura|real-fungal]]; acetaldehído entregado a [[Adh1|adh1-real]]',
       scientific:
@@ -1016,9 +1016,9 @@ export const PLANT_FUNGAL_NODE_LENSES: NodeLensMap = {
   'erg11-real': {
     en: {
       simple:
-        'A membrane-anchored iron enzyme in the yeast ER that chisels away a stubborn methyl bump to tailor ergosterol — and the exact lock jammed by azole antifungal drugs.',
+        'The Death Star exhaust port of pathogenic fungi: an iron-armed ER tailor that shaves ergosterol flat—and the exact bullseye jammed by azole drugs.',
       story:
-        'Raw lanosterol fresh off the lipid assembly line has an awkward methyl bump sticking out of its belly that ruins tight packing in the [[plasma membrane|plasma-membrane]]. Anchored into [[rough and cortical ER|rough-er]] sheets by a single transmembrane stalk, this seven-nanometer cytochrome P450 enzyme cradles an iron-heme blowtorch that burns oxygen and NADPH three times in a row to shave that bump cleanly away on the road to [[ergosterol|ergosterol]].\n\nSlip fluconazole or voriconazole into a patient, however, and the drug’s nitrogen ring clicks straight onto Erg11’s heme iron—shutting down sterol tailoring and starving the [[fungal cortex|real-fungal-wall]] of its alcohol-proof armor.',
+        'Fresh lanosterol arrives with a clunky methyl bump on its belly that ruins tight armor packing in the [[plasma membrane|plasma-membrane]]. Stalked into [[rough and cortical ER|rough-er]] sheets, this cytochrome P450 tailor fires an iron-heme blowtorch three times on oxygen and NADPH to shave that bump smooth on the road to [[ergosterol|ergosterol]].\n\nEnter Luke Skywalker’s proton torpedo: azole drugs like fluconazole fly straight down Erg11’s tunnel and lock onto its heme iron—shutting down sterol tailoring and collapsing the [[fungal cortex|real-fungal-wall]] shield.',
       blueprint:
         'Role: ER cytochrome P450 sterol 14α-demethylase (CYP51) · From: Lanosterol, O₂ & NADPH/P450-reductase electrons at the [[ER membrane|rough-er]] · Inside: Single-pass TM helix + heme-thiolate catalytic domain (PDB 4LXJ) executes 3-step C14 demethylation · To: Demethylated sterol intermediates → [[ergosterol|ergosterol]] for [[plasma membrane|plasma-membrane]] & [[lipid droplets|lipid-droplet]]',
       scientific:
@@ -1026,9 +1026,9 @@ export const PLANT_FUNGAL_NODE_LENSES: NodeLensMap = {
     },
     es: {
       simple:
-        'Una enzima con hierro anclada en el retículo de la levadura que talla el ergosterol eliminando un saliente incómodo; es la cerradura exacta que bloquean los fármacos azoles.',
+        'El conducto de la Estrella de la Muerte de los hongos: un sastre con hierro en el retículo que pule el ergosterol y donde impactan de lleno los azoles.',
       story:
-        'El lanosterol recién salido de fábrica trae un estorboso bulto metilo en mitad del cuerpo que le impide encajar plano en la [[membrana plasmática|plasma-membrane]]. Anclada por un tallo en las láminas del [[retículo endoplasmático|rough-er]], esta monooxigenasa de siete nanómetros enciende su antorcha de hierro hemo con oxígeno y NADPH tres veces seguidas para cincelar ese saliente rumbo al [[ergosterol|ergosterol]].\n\nPero si entra en escena un antifúngico como el fluconazol, su anillo nitrogenado se clava directo en el hierro central de Erg11, paralizando la sastrería de esteroles y dejando desprotegido el [[córtex fúngico|real-fungal-wall]].',
+        'El lanosterol en bruto trae un bulto metilo en la barriga que impide encajarlo plano en la [[membrana plasmática|plasma-membrane]]. Anclada en el [[retículo endoplasmático|rough-er]], esta enzima enciende tres veces su soplete de hierro hemo con oxígeno y NADPH para limar ese saliente rumbo al [[ergosterol|ergosterol]].\n\nAhí entra el torpedo de protones de Star Wars: fármacos como el fluconazol vuelan directo al bolsillo de Erg11 y se clavan en su hierro central, apagando el escudo del [[córtex fúngico|real-fungal-wall]].',
       blueprint:
         'Rol: Citocromo P450 lanosterol 14α-desmetilasa del RE (CYP51) · De: Lanosterol, O₂ y electrones de NADPH en la membrana del [[RE|rough-er]] · Dentro: Hélice transmembrana única + dominio hemo-tiolato (PDB 4LXJ) ejecuta triple oxidación en C14 · Hacia: Precursores de [[ergosterol|ergosterol]] hacia [[membrana plasmática|plasma-membrane]] y [[gotas lipídicas|lipid-droplet]]',
       scientific:
@@ -1039,9 +1039,9 @@ export const PLANT_FUNGAL_NODE_LENSES: NodeLensMap = {
   'exg1-real': {
     en: {
       simple:
-        'A barrel-shaped molecular scissor secreted into the yeast cell wall that snips glucan springs just enough so the growing daughter bud can stretch.',
+        'Edward Scissorhands inside the yeast armor: a barrel-shaped enzyme that snips just enough glucan springs so the baby bud can stretch without popping.',
       story:
-        'Living inside a cross-linked [[fungal wall|fungal-wall]] poses a classic knight-in-armor dilemma: how do you grow a [[daughter bud|real-fungal-bud]] without either staying trapped forever or blowing up from internal pressure? Delivered outside by [[secretory vesicles|vesicle]] cruising off the [[Golgi|golgi]], this compact barrel enzyme slips into the middle glucan mattress with a deep groove lined by two glutamate blades.\n\nSnipping single [[glucose|glucose]] rings off β-1,3-glucan chains in controlled bursts, Exg1 loosens the mesh right at the growing tip while synthases weave fresh strands behind it—expanding the pressurized hull without a single leak.',
+        'Growing inside a pressurized [[fungal wall|fungal-wall]] is like outgrowing Iron Man’s armor mid-flight: how do you inflate a [[daughter bud|real-fungal-bud]] without staying trapped or exploding? Shipped outside in [[secretory vesicles|vesicle]] from the [[Golgi|golgi]], this barrel-shaped Edward Scissorhands slips into the middle glucan mattress with twin glutamate blades.\n\nSnipping single [[glucose|glucose]] rings in surgical bursts right at the tip while weavers lay fresh cables behind it, Exg1 lets the pressurized hull expand without a single leak.',
       blueprint:
         'Role: Secreted periplasmic cell-wall glucan-remodeling hydrolase · From: [[Golgi|golgi]]-derived [[secretory vesicles|vesicle]] exocytosed into the [[fungal wall|fungal-wall]] · Inside: (β/α)₈ TIM-barrel glycoside hydrolase (PDB 1EQC) cleaves terminal β-1,3-[[glucose|glucose]] linkages · To: Controlled wall plasticity for [[daughter bud|real-fungal-bud]] expansion & released glucose',
       scientific:
@@ -1049,9 +1049,9 @@ export const PLANT_FUNGAL_NODE_LENSES: NodeLensMap = {
     },
     es: {
       simple:
-        'Una tijera molecular en forma de barril enviada a la pared de la levadura para recortar con cuidado la malla de glucanos y permitir que la yema crezca sin reventar.',
+        'El Joven Manos de Tijera dentro de la armadura fúngica: recorta con pulso quirúrgico los muelles de glucano para que la yema crezca sin reventar.',
       story:
-        'Vivir dentro de una [[pared fúngica|fungal-wall]] rígida plantea el dilema clásico de la armadura medieval: ¿cómo haces crecer una [[yema hija|real-fungal-bud]] sin quedarte atrapado ni estallar por la presión interna? Desembarcada en el exterior por [[vesículas secretoras|vesicle]] salidas del [[Golgi|golgi]], esta compacta enzima en forma de barril se infiltra en el colchón central con dos cuchillas de glutamato en su surco.\n\nRecortando eslabones de [[glucosa|glucose]] de forma medida mientras las sintasas tienden hebras nuevas detrás, Exg1 afloja la malla justo en la punta de avance sin perder jamás la estanqueidad del casco.',
+        'Crecer dentro de una [[pared fúngica|fungal-wall]] presurizada es como estirar la armadura de Iron Man en pleno vuelo: ¿cómo inflas una [[yema hija|real-fungal-bud]] sin quedarte encerrado ni explotar? Enviada afuera en [[vesículas secretoras|vesicle]] desde el [[Golgi|golgi]], esta tijera estilo El Joven Manos de Tijera entra al colchón central con dos hojas de glutamato.\n\nPodando anillos sueltos de [[glucosa|glucose]] en la punta mientras detrás tejen malla nueva, Exg1 ensancha el casco a presión sin una sola fuga.',
       blueprint:
         'Rol: Hidrolasa periplásmica remodeladora de glucanos de la pared · De: [[Vesículas secretoras|vesicle]] procedentes del [[Golgi|golgi]] hacia la [[pared fúngica|fungal-wall]] · Dentro: Barril TIM (β/α)₈ (PDB 1EQC) escinde enlaces terminales β-1,3-[[glucosa|glucose]] · Hacia: Plasticidad controlada para expandir la [[yema hija|real-fungal-bud]]',
       scientific:
@@ -1062,9 +1062,9 @@ export const PLANT_FUNGAL_NODE_LENSES: NodeLensMap = {
   'pma1-real': {
     en: {
       simple:
-        'The powerhouse proton pump crowding the yeast membrane: it burns up to a fifth of all cell ATP to shoot acid outside and pull sugar and nutrients indoors.',
+        'Tony Stark’s Avengers Tower reactor on the yeast border: it guzzles 20% of all cell ATP to blast acid outside and power nutrient tractor beams.',
       story:
-        'Pack more copies of a single protein into the [[plasma membrane|plasma-membrane]] than anything else in the yeast cell, feed it a staggering twenty percent of all ATP minted by [[Adh1|adh1-real]]-backed glycolysis and [[mitochondria|mitochondrion]], and you get Pma1. Cradled in [[ergosterol|ergosterol]]-rich lipid rafts beneath the [[fungal wall|real-fungal-wall]], this twelve-nanometer pump hurls protons relentlessly into the surrounding liquid.\n\nThat acid barrage builds a fierce electrical voltage across the membrane—turning every incoming proton into a free locomotive that drags amino acids, phosphate, and nutrients indoors while keeping the cytoplasm comfortably neutral amidst fermentation.',
+        'Nothing crowds the yeast [[plasma membrane|plasma-membrane]] thicker—or spends energy harder—than Pma1: like an Avengers Tower reactor, it devours a full fifth of all ATP minted by [[Adh1|adh1-real]]-backed glycolysis and [[mitochondria|mitochondrion]]. Braced in [[ergosterol|ergosterol]] rafts beneath the [[fungal wall|real-fungal-wall]], this twelve-nanometer cannon blasts protons nonstop into the juice outside.\n\nThat acid barrage charges a −200 mV Star Wars tractor beam—turning returning protons into free locomotives that haul amino acids and nutrients indoors while keeping the brewer’s belly neutral.',
       blueprint:
         'Role: Master electrogenic fungal plasma membrane H⁺-ATPase · From: Cytosolic H⁺ & ~20% of cellular ATP from glycolysis / [[mitochondria|mitochondrion]] · Inside: P3A-type 10-TM pump (PDB 3B8C) assembled in [[ergosterol|ergosterol]] hexameric microdomains of [[plasma membrane|plasma-membrane]] · To: Steep Δμ_H⁺ (−150 to −200 mV) powering nutrient symporters & cytosolic pH homeostasis beneath [[fungal wall|real-fungal-wall]]',
       scientific:
@@ -1072,9 +1072,9 @@ export const PLANT_FUNGAL_NODE_LENSES: NodeLensMap = {
     },
     es: {
       simple:
-        'La superbomba de protones que abarrota la membrana de la levadura: consume hasta la quinta parte de todo el ATP celular para expulsar ácido y arrastrar nutrientes adentro.',
+        'El reactor de la Torre Avengers en la frontera de la levadura: traga el 20 % de todo el ATP celular para disparar ácido y activar rayos tractores.',
       story:
-        'Ninguna otra proteína ocupa tanto sitio en la [[membrana plasmática|plasma-membrane]] de la levadura ni devora tanto presupuesto: Pma1 se traga por sí sola hasta el veinte por ciento de todo el ATP que producen las [[mitocondrias|mitochondrion]] y la fermentación sostenida por [[Adh1|adh1-real]]. Rodeada de [[ergosterol|ergosterol]] bajo la [[pared fúngica|real-fungal-wall]], esta turbina lineal de doce nanómetros dispara protones sin descanso hacia el medio exterior.\n\nEsa descarga ácida carga la frontera como una batería de alto voltaje, de modo que los protones que regresan empujan consigo aminoácidos y nutrientes hacia dentro mientras el interior se mantiene a salvo de la acidez.',
+        'Ninguna otra máquina ocupa más sitio en la [[membrana plasmática|plasma-membrane]] ni devora tanto presupuesto como Pma1: igual que el reactor de la Torre Avengers, consume la quinta parte del ATP de las [[mitocondrias|mitochondrion]] y de la glucólisis sostenida por [[Adh1|adh1-real]]. Firme en balsas de [[ergosterol|ergosterol]] bajo la [[pared fúngica|real-fungal-wall]], este cañón de doce nanómetros dispara protones sin tregua al mosto exterior.\n\nEsa descarga carga un rayo tractor eléctrico de −200 mV digno de Star Wars: cada protón que regresa empuja aminoácidos y nutrientes adentro mientras el interior se mantiene neutro.',
       blueprint:
         'Rol: H⁺-ATPasa electrogénica maestra de la membrana fúngica · De: H⁺ citosólicos y ~20 % del ATP celular (glucólisis / [[mitocondrias|mitochondrion]]) · Dentro: Bomba tipo P3A de 10 hélices TM (PDB 3B8C) en microdominios de [[ergosterol|ergosterol]] de la [[membrana plasmática|plasma-membrane]] · Hacia: Potencial Δμ_H⁺ (−150 a −200 mV) para simportadores y control de pH bajo la [[pared|real-fungal-wall]]',
       scientific:
@@ -1085,9 +1085,9 @@ export const PLANT_FUNGAL_NODE_LENSES: NodeLensMap = {
   'septin-real': {
     en: {
       simple:
-        'A six-piece protein rod that clicks end-to-end into an hourglass collar around the yeast bud neck, fencing off the baby cell until it is ready to separate.',
+        'A six-piece GTP rod that clicks into a Doctor Strange sling-ring collar around the yeast bud neck, fencing off the baby cell until launch.',
       story:
-        'Before a mother yeast dares blow up a [[daughter bud|real-fungal-bud]], she snaps together hundreds of these twenty-five-nanometer GTP-binding rods flush against the inner face of her [[plasma membrane|plasma-membrane]]. Joining end-to-end into non-polar filaments and pairing into a woven hourglass collar at the neck, septins build a molecular picket fence that lets cargo riding [[actin cables|actin-filament]] pass through the middle while stopping daughter membrane proteins from drifting back into mom.\n\nOnce chromosomes clear the neck, the hourglass splits dramatically into two parallel rings, corralling the contractile noose and chitin weavers that seal off the newborn and stamp a fresh [[bud scar|bud-scar]].',
+        'Before Mom dares inflate a [[daughter bud|real-fungal-bud]], she snaps hundreds of these twenty-five-nanometer GTP rods against her inner [[plasma membrane|plasma-membrane]] like Doctor Strange conjuring a golden sling-ring portal. Woven into an hourglass collar at the neck, septins act as a VIP velvet rope—letting supplies zip through on [[actin cables|actin-filament]] while blocking daughter membrane proteins from sneaking back.\n\nOnce chromosomes clear the portal, the hourglass splits into twin rings that corral the drawstring noose and stamp a permanent [[bud scar|bud-scar]].',
       blueprint:
         'Role: Hetero-oligomeric GTP-binding bud-neck scaffold & diffusion barrier · From: Cytosolic GTP-bound Cdc3, Cdc10, Cdc12 & Cdc11 subunits recruited by Cdc42 to [[plasma membrane|plasma-membrane]] · Inside: Nonpolar hexameric/octameric rods (~25–32 nm, PDB 2QAG) polymerize into an hourglass collar at [[bud neck|real-fungal-bud]] · To: Compartmentalizes daughter cortex & templates actomyosin constriction / [[bud scar|bud-scar]] septum',
       scientific:
@@ -1095,9 +1095,9 @@ export const PLANT_FUNGAL_NODE_LENSES: NodeLensMap = {
     },
     es: {
       simple:
-        'Un bastón de seis piezas proteicas que se ensambla extremo con extremo para formar el collar en reloj de arena del cuello de la yema y separar a la hija.',
+        'Un bastón de seis piezas con GTP que traza un portal estilo Doctor Strange en el cuello de la yema, aislando a la célula hija hasta el despegue.',
       story:
-        'Antes de atreverse a inflar una [[yema hija|real-fungal-bud]], la levadura madre abrocha cientos de estos bastones de veinticinco nanómetros cargados con GTP contra la cara interna de su [[membrana plasmática|plasma-membrane]]. Al unirse punta con punta en un collar con forma de reloj de arena, las septinas levantan una valla fronteriza que deja cruzar suministros por el centro sobre [[cables de actina|actin-filament]], pero impide que las proteínas exclusivas de la hija se escurran de vuelta hacia la madre.\n\nEn cuanto el núcleo hijo cruza el umbral, el reloj de arena se parte en dos anillos gemelos que encajonan el lazo contráctil y el tabique de cierre, dejando grabada una nueva [[cicatriz de gemación|bud-scar]].',
+        'Antes de atreverse a inflar una [[yema hija|real-fungal-bud]], la madre abrocha cientos de estos bastones de veinticinco nanómetros con GTP bajo su [[membrana plasmática|plasma-membrane]] como Doctor Strange trazando un portal dorado. Tejidos en reloj de arena alrededor del cuello, dejan pasar suministros por el centro sobre [[cables de actina|actin-filament]], pero actúan como cordón VIP para que las proteínas exclusivas de la hija no se escurran hacia atrás.\n\nEn cuanto el núcleo hijo cruza el umbral, el portal se desdobla en dos anillos gemelos que encajonan el lazo contráctil y sellan una nueva [[cicatriz de gemación|bud-scar]].',
       blueprint:
         'Rol: Andamio filamentoso fijador de GTP y barrera de difusión del cuello · De: Subunidades citosólicas Cdc3, Cdc10, Cdc12 y Cdc11 unidas a GTP en la [[membrana plasmática|plasma-membrane]] · Dentro: Bastones apolares (~25–32 nm, PDB 2QAG) polimerizan en un reloj de arena en el [[cuello de la yema|real-fungal-bud]] · Hacia: Aísla la membrana hija y guía el anillo contráctil y la [[cicatriz de gemación|bud-scar]]',
       scientific:
@@ -1112,9 +1112,9 @@ export const PLANT_FUNGAL_PART_LENSES: PagePartLensMap = {
       en: {
         subtitle: 'Spun-Sugar Armor Against the Sky',
         simple:
-          'A criss-crossed corset of steel-tough cellulose cables and pectin jelly that holds back massive internal water pressure so the leaf stands crisp.',
+          'The leaf’s Attack on Titan Wall Maria: steel-tough cellulose cables set in pectin jelly to hold back massive water pressure so stems stay crisp.',
         story:
-          'Rooted in place with no skeleton of bone, the leaf cell weaves its own pressurized armor out of yesterday’s starlight. Right beneath your feet in the membrane, [[CESA rosettes|cesa-real]] spin fresh [[cellulose microfibrils|cellulose-microfibril]] into hoops while [[Golgi vesicles|vesicle]] dump sticky pectin and hemicellulose mortar over the rebar.\n\nWhen [[AHA2 proton pumps|aha-real]] spray acid into this mesh, cross-ties loosen just enough for turgor from the [[central vacuole|central-vacuole]] to stretch the young cell skyward—yet [[plasmodesmata|plasmodesma]] keep secret tunnels open to every neighbor.',
+          'Rooted in place without a single bone, this leaf cell weaves its own Attack on Titan armor out of yesterday’s starlight. Right beneath your feet, Spider-Man-style [[CESA rosettes|cesa-real]] spin fresh [[cellulose microfibrils|cellulose-microfibril]] into hoops while [[Golgi vesicles|vesicle]] pour sticky pectin mortar over the rebar.\n\nWhen [[AHA2 proton pumps|aha-real]] mist acid into the mesh, cross-ties loosen just enough for hydraulic push from the [[central vacuole|central-vacuole]] to stretch the young cell skyward—while Mario-style [[plasmodesmata|plasmodesma]] warp pipes keep every neighbor linked.',
         blueprint: {
           role: 'Load-bearing polylamellate extracellular fiber matrix',
           arrivesFrom: '[[Cellulose microfibrils|cellulose-microfibril]] from [[CESA|cesa-real]]; pectin & xyloglucan from [[Golgi vesicles|vesicle]]; H⁺ from [[AHA2|aha-real]]',
@@ -1137,9 +1137,9 @@ export const PLANT_FUNGAL_PART_LENSES: PagePartLensMap = {
       es: {
         subtitle: 'La coraza de azúcar hilado frente al cielo',
         simple:
-          'Un corsé entrecruzado de cables de celulosa y gel de pectina que frena la enorme presión del agua interna para mantener firme la hoja.',
+          'El Muro María estilo Attack on Titan de la hoja: cables de celulosa en gel de pectina que frenan la presión del agua para erguirla.',
         story:
-          'Inmóvil en su tallo y sin un solo hueso, la célula foliar teje su propia armadura presurizada con luz solar convertida en azúcar. Al ras de la membrana, las [[rosetas CESA|cesa-real]] tienden cables frescos de [[microfibrillas de celulosa|cellulose-microfibril]] mientras las [[vesículas del Golgi|vesicle]] vierten encima mortero de pectina y hemicelulosa.\n\nCuando las [[bombas AHA2|aha-real]] rocían ácido en el entramado, las ataduras ceden lo justo para que el empuje de la [[vacuola central|central-vacuole]] estire la célula joven sin desgarrarla, respetando los túneles abiertos de los [[plasmodesmos|plasmodesma]].',
+          'Quieta en su tallo y sin un solo hueso, la célula foliar teje su propia muralla de Attack on Titan con luz convertida en azúcar. Al ras de la membrana, las [[rosetas CESA|cesa-real]] tienden aros de [[microfibrillas de celulosa|cellulose-microfibril]] cual Spider-Man mientras las [[vesículas del Golgi|vesicle]] vierten mortero de pectina.\n\nCuando las [[bombas AHA2|aha-real]] rocían ácido en la malla, las ataduras ceden lo justo para que la [[vacuola central|central-vacuole]] estire la célula sin romperla, dejando abiertos túneles de [[plasmodesmos|plasmodesma]] tipo Mario.',
         blueprint: {
           role: 'Matriz extracelular polilamelar resistente a la tracción',
           arrivesFrom: '[[Microfibrillas|cellulose-microfibril]] de [[CESA|cesa-real]]; pectinas y xiloglucanos en [[vesículas|vesicle]]; H⁺ de [[AHA2|aha-real]]',
@@ -1165,9 +1165,9 @@ export const PLANT_FUNGAL_PART_LENSES: PagePartLensMap = {
       en: {
         subtitle: 'The Acid-Charged Customs Border',
         simple:
-          'A flexible lipid skin pressed tight against the cell wall, studded with water gates, acid pumps, and spinning fiber machines.',
+          'A Star Wars customs shield pressed tight against the wall, bristling with Avatar water gates, acid cannons, and Spider-Man fiber spinners.',
         story:
-          'Pressed flush against the [[cell wall|real-wall]] by hydraulic pressure from inside, this thin greasy barrier decides every molecule that enters or leaves the solar workshop. [[PIP2 aquaporins|pip-real]] march a billion [[water|water]] molecules a second indoors in single file to feed thirsty chloroplasts and swell the vacuole, while CO₂ and O₂ slip right across the lipid tails.\n\nMeanwhile, [[AHA2 proton pumps|aha-real]] burn mitochondrial ATP to hurl acid outside—charging an electrical battery that drags minerals indoors while [[CESA rosettes|cesa-real]] cruise the membrane spinning fresh wall cables.',
+          'Pinned flush against the [[cell wall|real-wall]] by hydraulic pressure inside, this thin greasy Star Wars border shield vets every molecule entering or leaving the solar base. Avatar-style [[PIP2 aquaporins|pip-real]] march a billion [[water|water]] molecules a second indoors single-file, while CO₂ and O₂ ghost straight through the lipids.\n\nBeside them, [[AHA2 proton pumps|aha-real]] blast acid outside to charge an electrical tractor beam that hauls minerals in, while [[CESA rosettes|cesa-real]] cruise the rim spinning fresh wall cables.',
         blueprint: {
           role: 'Selective permeability barrier & electrogenic H⁺ frontier',
           arrivesFrom: 'Xylem [[water|water]] & ions; cytosolic ATP from [[mitochondria|mitochondrion]]; lipids & [[vesicles|vesicle]] from ER/Golgi',
@@ -1191,9 +1191,9 @@ export const PLANT_FUNGAL_PART_LENSES: PagePartLensMap = {
       es: {
         subtitle: 'La aduana fronteriza cargada de ácido',
         simple:
-          'Una fina piel de grasa apretada contra la pared celular, repleta de compuertas de agua, bombas de ácido y máquinas tejedoras de fibra.',
+          'Un escudo fronterizo estilo Star Wars pegado a la pared, lleno de compuertas de agua control, cañones de ácido e hiladoras de fibra.',
         story:
-          'Estampada contra la [[pared celular|real-wall]] por el empuje hidráulico interior, esta frontera selectiva vigila cada molécula que entra o sale del taller solar. Sus [[acuaporinas PIP2|pip-real]] dejan desfilar en fila india mil millones de moléculas de [[agua|water]] por segundo para saciar cloroplastos e hinchar la vacuola, mientras el CO₂ y el O₂ cruzan libremente.\n\nAl mismo tiempo, las [[bombas AHA2|aha-real]] queman ATP de las [[mitocondrias|mitochondrion]] para expulsar protones, creando un voltaje que arrastra nutrientes hacia dentro mientras las [[rosetas CESA|cesa-real]] navegan la bicapa hilando celulosa.',
+          'Estampado contra la [[pared celular|real-wall]] por el empuje hidráulico interior, este escudo fronterizo digno de Star Wars vigila cada entrada y salida. Sus [[acuaporinas PIP2|pip-real]] hacen desfilar mil millones de moléculas de [[agua|water]] por segundo como agua control de Avatar, mientras CO₂ y O₂ cruzan sin peaje.\n\nA la vez, las [[bombas AHA2|aha-real]] queman ATP de las [[mitocondrias|mitochondrion]] para lanzar protones y activar un rayo tractor de nutrientes mientras las [[rosetas CESA|cesa-real]] navegan hilando celulosa.',
         blueprint: {
           role: 'Barrera selectiva y frontera electrogénica de protones',
           arrivesFrom: '[[Agua|water]] e iones apoplásticos; ATP de [[mitocondrias|mitochondrion]]; lípidos y [[vesículas|vesicle]] del RE/Golgi',
@@ -1220,9 +1220,9 @@ export const PLANT_FUNGAL_PART_LENSES: PagePartLensMap = {
       en: {
         subtitle: 'Secret Tunnels Through Solid Wall',
         simple:
-          'Membrane-lined bridges bored straight through the cell wall so neighboring leaf cells can pass fresh sugar and messages hand-to-hand.',
+          'Super Mario warp pipes bored straight through solid wall armor so neighboring leaf cells pass fresh sugar and gossip hand-to-hand.',
         story:
-          'Surrounded by rigid [[cell walls|real-wall]], leaf cells would starve the roots below if they couldn’t ship out their solar harvest. Threaded straight through the wall and cored by a slender tube of [[endoplasmic reticulum|rough-er]], these fifty-nanometer tunnels fuse the [[plasma membranes|plasma-membrane]] and cytoplasms of adjacent cells into one living network.\n\nSucrose brewed in the [[cytosol|cytosol]] from [[chloroplast|real-chloroplast]] sugars pours steadily through the narrow sleeve around that central rod, hopping cell-to-cell toward the phloem veins to feed stems, flowers, and buried roots.',
+          'Walled inside Attack on Titan [[cell walls|real-wall]], leaf cells would starve buried roots if they couldn’t ship out their solar loot. Bored straight through the wall like Avatar’s “Secret Tunnel!”—and cored by a skinny pipe of [[endoplasmic reticulum|rough-er]]—these fifty-nanometer Mario warp pipes fuse neighbor [[plasma membranes|plasma-membrane]] into one shared co-op.\n\nSucrose mixed in the [[cytosol|cytosol]] from [[chloroplast|real-chloroplast]] harvests streams through the liquid sleeve around that pipe, hopping cell-to-cell toward leaf veins to feed flowers and roots.',
         blueprint: {
           role: 'Symplastic intercellular transport & signaling bridge',
           arrivesFrom: 'Sucrose, [[water|water]], ions & signaling molecules from [[cytosol|cytosol]] (fed by [[chloroplasts|real-chloroplast]])',
@@ -1245,9 +1245,9 @@ export const PLANT_FUNGAL_PART_LENSES: PagePartLensMap = {
       es: {
         subtitle: 'Pasadizos secretos a través de la muralla',
         simple:
-          'Puentes recubiertos de membrana que atraviesan la pared celular para que las células vecinas se pasen azúcar recién hecho y mensajes químicos.',
+          'Tuberías verdes estilo Super Mario perforadas en la muralla celular para que las vecinas se pasen en mano azúcar recién hecho y avisos.',
         story:
-          'Aisladas tras su dura [[pared celular|real-wall]], las células de la hoja dejarían morir de hambre a las raíces si no pudieran exportar su cosecha solar. Perforados de lado a lado en la muralla y recorridos en el centro por un finísimo tubo de [[retículo endoplasmático|rough-er]], estos túneles de cincuenta nanómetros funden la [[membrana plasmática|plasma-membrane]] y el citoplasma de las vecinas en una sola red viva.\n\nLa sacarosa ensamblada en el [[citosol|cytosol]] con los azúcares del [[cloroplasto|real-chloroplast]] fluye por ese manguito líquido de célula en célula rumbo a las venas del floema.',
+          'Aisladas tras su dura [[pared celular|real-wall]], las células foliares matarían de hambre a la raíz sin «¡Túneles Secretos!» al estilo Avatar. Perforadas de lado a lado como tuberías de Super Mario y recorridas al centro por un fino tubo de [[retículo endoplasmático|rough-er]], estas galerías funden la [[membrana plasmática|plasma-membrane]] de las vecinas en una sola red viva.\n\nLa sacarosa preparada en el [[citosol|cytosol]] con la cosecha del [[cloroplasto|real-chloroplast]] fluye por ese manguito de célula en célula rumbo a las venas de la hoja.',
         blueprint: {
           role: 'Puente intercelular simplástico de exportación y señalización',
           arrivesFrom: 'Sacarosa, [[agua|water]], iones y señales desde el [[citosol|cytosol]] (nutrido por [[cloroplastos|real-chloroplast]])',
@@ -1273,9 +1273,9 @@ export const PLANT_FUNGAL_PART_LENSES: PagePartLensMap = {
       en: {
         subtitle: 'The Hydraulic Inner Tube',
         simple:
-          'A giant water-filled sac wrapped in its own membrane that inflates the cell from inside, pressing chloroplasts into the light while hoarding backup sugar.',
+          'A giant Pacific Rim hydraulic water sac wrapped in its own skin: it inflates the cell from inside, pins chloroplasts in the sun, and banks sugar.',
         story:
-          'Instead of wasting precious nitrogen to pack its whole interior with thick cytoplasm, the leaf cell blows up a massive inner water tank wrapped in the tonoplast membrane. Fueled by ATP from [[mitochondria|mitochondrion]], tonoplast proton pumps cram daytime sucrose, malate, and ions from the [[cytosol|cytosol]] into the tank, drawing [[water|water]] inward right behind them.\n\nSwelling to claim four-fifths of the room, this pressurized balloon shoves [[chloroplasts|real-chloroplast]] into prime sun-catching seats against the [[cell wall|real-wall]], holds the leaf blade stiff against gravity, and releases saved sugar back out after sunset.',
+          'Rather than blow its nitrogen budget packing the whole room with thick cytoplasm, the leaf cell inflates a colossal Pacific Rim hydraulic tank in the middle. Powered by [[mitochondrial|mitochondrion]] ATP, tonoplast pumps cram daytime sucrose and salts from the [[cytosol|cytosol]] inside, pulling [[water|water]] in right behind them like SpongeBob soaking up a tub.\n\nClaiming four-fifths of the cell, this pressurized balloon pins [[chloroplasts|real-chloroplast]] into VIP window seats against the [[cell wall|real-wall]], keeps leaves crisp, and pays saved sugar back out after dark.',
         blueprint: {
           role: 'Hydraulic turgor engine, nocturnal sugar bank & lytic vat',
           arrivesFrom: 'Sucrose, ions & ATP from [[cytosol|cytosol]] / [[mitochondria|mitochondrion]]; [[water|water]] via TIP aquaporins; proteins from [[Golgi|golgi]]',
@@ -1299,9 +1299,9 @@ export const PLANT_FUNGAL_PART_LENSES: PagePartLensMap = {
       es: {
         subtitle: 'La cámara hidráulica interior',
         simple:
-          'Una inmensa bolsa de agua envuelta en su propia membrana que infla la célula por dentro, pega los cloroplastos a la luz y guarda azúcar para la noche.',
+          'Un tanque hidráulico gigante estilo Pacific Rim: infla la célula desde dentro, pega los cloroplastos al sol y guarda azúcar para la noche.',
         story:
-          'En lugar de derrochar nitrógeno rellenando todo su volumen con citoplasma espeso, la célula foliar infla en el centro un gigantesco depósito hidráulico envuelto por el tonoplasto. Con ATP suministrado por las [[mitocondrias|mitochondrion]], sus bombas meten a presión sacarosa diurna, ácidos y sales desde el [[citosol|cytosol]], arrastrando detrás un torrente de [[agua|water]].\n\nAl ocupar cuatro quintas partes del salón, este globo presurizado aprieta los [[cloroplastos|real-chloroplast]] contra la ventana soleada de la [[pared celular|real-wall]], mantiene tensa la hoja y devuelve azúcar guardado cuando cae la oscuridad.',
+          'En vez de arruinarse llenando todo el salón de citoplasma espeso, la hoja infla en el centro un colosal depósito hidráulico digno de Pacific Rim. Con ATP de las [[mitocondrias|mitochondrion]], sus bombas meten sacarosa diurna y sales desde el [[citosol|cytosol]], absorbiendo [[agua|water]] detrás como Bob Esponja.\n\nOcupando cuatro quintas partes del volumen, este globo a presión pega los [[cloroplastos|real-chloroplast]] al ventanal soleado de la [[pared celular|real-wall]], mantiene tiesa la hoja y devuelve azúcar guardado al caer la noche.',
         blueprint: {
           role: 'Motor hidráulico de turgencia, reserva nocturna y compartimento lítico',
           arrivesFrom: 'Sacarosa, iones y ATP del [[citosol|cytosol]] / [[mitocondrias|mitochondrion]]; [[agua|water]] vía acuaporinas TIP; enzimas del [[Golgi|golgi]]',
@@ -1328,9 +1328,9 @@ export const PLANT_FUNGAL_PART_LENSES: PagePartLensMap = {
       en: {
         subtitle: 'Suspension Bridges Across the Water Tank',
         simple:
-          'Thin tunnels of cytoplasm slung straight through the giant vacuole so organelles and supplies can take shortcuts across the cell.',
+          'Monsters, Inc. overhead ziplines slung straight through the giant water tank so organelles and cargo can shortcut across the cell.',
         story:
-          'With the [[central vacuole|central-vacuole]] blocking ninety percent of the middle, taking the long road all the way around the cell rim would turn urgent deliveries into a cross-country hike. So the tonoplast folds inward around taut [[actin cables|actin-filament]], slinging living cytoplasmic suspension bridges right across the watery gulf.\n\nPowered by ATP from [[mitochondria|mitochondrion]], plant myosin-XI—the fastest molecular motor known in nature—sprints along those cables hauling [[Golgi stacks|golgi]], [[peroxisomes|peroxisome]], and mRNA parcels from the [[nucleus|real-plant-nucleus]] to the far wall in seconds.',
+          'With the [[central vacuole|central-vacuole]] hogging 80% of the middle, taking the rim road around the cell would turn urgent deliveries into a Lord of the Rings hike. Instead, the vacuole skin wraps around taut [[actin cables|actin-filament]], slinging living Monsters, Inc. zipline tunnels straight across the watery abyss.\n\nBurning [[mitochondrial|mitochondrion]] ATP, myosin-XI—biology’s fastest motor—sprints down those cables like Dash from The Incredibles, hauling [[Golgi stacks|golgi]], [[peroxisomes|peroxisome]], and mRNAs from the [[nucleus|real-plant-nucleus]] across town in seconds.',
         blueprint: {
           role: 'Transvacuolar cytoplasmic shortcut & organelle expressway',
           arrivesFrom: 'ATP from [[mitochondria|mitochondrion]]; vesicles, [[Golgi|golgi]] & metabolites entering from peripheral [[cytosol|cytosol]]',
@@ -1354,9 +1354,9 @@ export const PLANT_FUNGAL_PART_LENSES: PagePartLensMap = {
       es: {
         subtitle: 'Puentes colgantes sobre el gran lago interior',
         simple:
-          'Finos cordones de citoplasma que cruzan de lado a lado la gran vacuola para que los orgánulos y suministros tomen atajos rápidos.',
+          'Tirolinas colgantes estilo Monsters, Inc. que cruzan de lado a lado el gran tanque de agua para que los orgánulos tomen atajos veloces.',
         story:
-          'Con la [[vacuola central|central-vacuole]] ocupando casi todo el centro, rodear la célula entera por la orilla convertiría cualquier reparto urgente en una excursión interminable. Por eso el tonoplasto envuelve tensos [[cables de actina|actin-filament]] y tiende puentes colgantes de citoplasma vivo directamente a través del abismo acuoso.\n\nAlimentados con ATP de las [[mitocondrias|mitochondrion]], los motores de miosina XI —los más veloces de toda la biología— corren por esos cables arrastrando [[pilas de Golgi|golgi]], [[peroxisomas|peroxisome]] y recados del [[núcleo|real-plant-nucleus]] de punta a punta en segundos.',
+          'Con la [[vacuola central|central-vacuole]] ocupando casi todo el salón, rodearla por la orilla sería una caminata digna de El Señor de los Anillos. Por eso su membrana envuelve tensos [[cables de actina|actin-filament]] y tiende puentes colgantes estilo Monsters, Inc. directamente sobre el lago interior.\n\nCon ATP de las [[mitocondrias|mitochondrion]], motores de miosina XI corren como Dash de Los Increíbles arrastrando [[pilas de Golgi|golgi]], [[peroxisomas|peroxisome]] y recados del [[núcleo|real-plant-nucleus]] de punta a punta en segundos.',
         blueprint: {
           role: 'Atajo citoplasmático transvacuolar de alta velocidad',
           arrivesFrom: 'ATP de [[mitocondrias|mitochondrion]]; orgánulos y solutos desde el [[citosol|cytosol]] periférico',
@@ -1383,9 +1383,9 @@ export const PLANT_FUNGAL_PART_LENSES: PagePartLensMap = {
       en: {
         subtitle: 'The Double-Walled Solar Command Gate',
         simple:
-          'A double membrane studded with guarded pore doorways that protects the plant’s DNA while trading signals and mRNA blueprints with the rest of the cell.',
+          'An Avengers Helicarrier bridge wrapped in double armor, trading sunrise alerts and mRNA blueprints with the cell through guarded pore gates.',
         story:
-          'Even though [[chloroplasts|real-chloroplast]] do the actual sun-catching, ninety percent of their protein parts are now encoded inside this six-micrometer vault. Chemical reports on light intensity, sugar surpluses, and drought slip in from the [[cytosol|cytosol]] through octagonal [[nuclear pores|nuclear-pore]] punched across the double [[nuclear envelope|nuclear-envelope]].\n\nInside, genes wake up to answer those dispatches; moments later, capped messenger RNAs and fresh ribosome halves stream back out through the same guarded gates onto waiting [[rough ER|rough-er]] sheets and cytoplasmic ribosomes.',
+          'Even though [[chloroplasts|real-chloroplast]] catch the sunbeams, 90% of their protein parts have their master files locked inside this six-micrometer Avengers command vault. Live field reports on glare, sugar, and drought arrive from the [[cytosol|cytosol]] through octagonal [[nuclear pores|nuclear-pore]] guarding the double [[nuclear envelope|nuclear-envelope]].\n\nInside, solar genes wake on cue; seconds later, capped mRNA dispatches and fresh ribosome halves stream back out the same guarded airlocks onto waiting [[rough ER|rough-er]] sheets.',
         blueprint: {
           role: 'Selective nuclear boundary & nucleocytoplasmic transport gate',
           arrivesFrom: 'Nucleotides, histones, transcription factors & plastid signals from [[cytosol|cytosol]]',
@@ -1407,9 +1407,9 @@ export const PLANT_FUNGAL_PART_LENSES: PagePartLensMap = {
       es: {
         subtitle: 'La muralla doble del centro de mando solar',
         simple:
-          'Una doble membrana salpicada de poros vigilados que protege el ADN vegetal mientras intercambia señales y planos de proteínas con el citoplasma.',
+          'El puente de mando blindado estilo Helicarrier de Avengers: protege el ADN mientras cruza avisos solares y planos proteicos por poros vigilados.',
         story:
-          'Aunque los [[cloroplastos|real-chloroplast]] son quienes atrapan la luz, nueve de cada diez piezas proteicas que usan tienen hoy sus planos guardados dentro de esta cámara acorazada de seis micrómetros. Informes químicos sobre el brillo solar, el nivel de azúcar o la sequía entran desde el [[citosol|cytosol]] cruzando los [[poros nucleares|nuclear-pore]] de la [[envoltura nuclear|nuclear-envelope]].\n\nTras leer los genes oportunos, los mismos poros despachan un flujo constante de ARNm y subunidades ribosómicas hacia las láminas contiguas del [[retículo endoplasmático|rough-er]] y el citoplasma.',
+          'Aunque los [[cloroplastos|real-chloroplast]] cazan el sol, nueve de cada diez piezas que usan guardan hoy sus planos maestros en esta bóveda de seis micrómetros digna de Avengers. Avisos sobre luz, azúcar o sequía entran desde el [[citosol|cytosol]] por los [[poros nucleares|nuclear-pore]] de la doble [[envoltura nuclear|nuclear-envelope]].\n\nTras leer los genes oportunos, esas mismas esclusas despachan sin pausa ARNm y mitades ribosómicas hacia las láminas vecinas del [[retículo endoplasmático|rough-er]].',
         blueprint: {
           role: 'Frontera nuclear selectiva y compuerta de tráfico nucleocitoplasmático',
           arrivesFrom: 'Nucleótidos, histonas, factores reguladores y señales plastidiales desde el [[citosol|cytosol]]',
@@ -1434,9 +1434,9 @@ export const PLANT_FUNGAL_PART_LENSES: PagePartLensMap = {
       en: {
         subtitle: 'Ten Chromosomes Anchored in Rosettes',
         simple:
-          'Two meters of plant DNA neatly spooled around histone proteins into ten chromosome territories, with silent knots tucked at the rim and active loops open in the middle.',
+          'Two meters of plant DNA folded with Doctor Strange precision onto histone spools: silent knots park at the wall while active gene loops open inside.',
         story:
-          'Stuffing tens of thousands of plant genes into a tiny [[nucleus|real-plant-nucleus]] without tangling a single thread takes serious origami. Each of the ten [[chromosomes|chromosome]] winds its [[DNA|dna]] around [[histone|histone]] spools and parks its dense, repetitive centromere knot—drawn darker here—right against the nuclear edge as a chromocenter.\n\nFrom those quiet peripheral anchors, loose euchromatin loops unfurl toward the center whenever ATP-powered remodelers slide spools aside, exposing solar and wall-building genes to [[RNA polymerase II|pol-ii]].',
+          'Packing 27,000 plant genes into a tiny [[nucleus|real-plant-nucleus]] without tangling a thread takes Doctor Strange Mirror-Dimension origami. Each of the ten [[chromosomes|chromosome]] spools its [[DNA|dna]] around [[histone|histone]] reels and clamps its dark centromere knot right against the outer wall as a chromocenter.\n\nFrom those quiet peripheral anchors, active gene loops unfurl inward like unsealed Naruto scrolls whenever remodelers slide spools aside for [[RNA polymerase II|pol-ii]].',
         blueprint: {
           role: 'Organized genomic storage & epigenetic gene-access switchboard',
           arrivesFrom: 'ATP, acetyl/methyl donors & light-signaling factors via [[nuclear pores|nuclear-pore]]',
@@ -1458,9 +1458,9 @@ export const PLANT_FUNGAL_PART_LENSES: PagePartLensMap = {
       es: {
         subtitle: 'Diez cromosomas anclados en roseta',
         simple:
-          'El ADN vegetal enrollado con orden sobre carretes de histonas en diez territorios cromosómicos, con nudos compactos en el borde y lazos abiertos en el centro.',
+          'ADN vegetal plegado con precisión de Doctor Strange sobre carretes de histonas: nudos mudos en el borde y bucles génicos abiertos al centro.',
         story:
-          'Guardar decenas de miles de genes vegetales dentro de un diminuto [[núcleo|real-plant-nucleus]] sin enredar un solo hilo exige papiroflexia de precisión. Cada uno de los diez [[cromosomas|chromosome]] enrolla su [[ADN|dna]] en carretes de [[histonas|histone]] y aparca su centrómero compacto —dibujado aquí más oscuro— pegado al borde nuclear formando un cromocentro.\n\nDesde esos anclajes periféricos se despliegan hacia el interior bucles sueltos y abiertos cada vez que remodeladores con gasto de ATP apartan carretes para dejar trabajar a la [[ARN polimerasa II|pol-ii]].',
+          'Meter 27,000 genes vegetales en un diminuto [[núcleo|real-plant-nucleus]] sin un solo nudo ciego exige papiroflexia digna de Doctor Strange. Cada uno de los diez [[cromosomas|chromosome]] enrolla su [[ADN|dna]] en carretes de [[histonas|histone]] y aparca su centrómero oscuro pegado al muro exterior como un cromocentro.\n\nDesde esos amarres periféricos se despliegan hacia el centro bucles abiertos como pergaminos de Naruto cada vez que toca dar paso a la [[ARN polimerasa II|pol-ii]].',
         blueprint: {
           role: 'Archivo genómico territorial y conmutador epigenético',
           arrivesFrom: 'ATP, histonas y señales luminosas entrantes por los [[poros nucleares|nuclear-pore]]',
@@ -1485,9 +1485,9 @@ export const PLANT_FUNGAL_PART_LENSES: PagePartLensMap = {
       en: {
         subtitle: 'Fresh Blueprints Off the Press',
         simple:
-          'RNA polymerase II glides along open plant genes, copying DNA recipes into messenger RNA strands that head out to direct protein building.',
+          'Cells at Work! courier scrolls hot off the press: RNA polymerase II copies open plant genes into mRNA strands rushing out to build proteins.',
         story:
-          'Whenever blazing sunlight fries D1 subunits inside [[Photosystem II|psii-real]] or growing walls demand more synthases, [[RNA polymerase II|pol-ii]] clamps onto parted [[chromatin|chromosome]] loops and races to the rescue. Feeding on [[nucleotide|nucleotide]] triphosphates, it unzips the helix and reels out a folding ribbon of messenger [[RNA|rna]] hairpin by hairpin.\n\nCapped at the front and poly-tailed at the back while still warm, each finished dispatch threads a [[nuclear pore|nuclear-pore]] to brief [[ribosomes|ribosome]] in the cytosol and on the ER.',
+          'Whenever noon glare fries D1 parts inside [[Photosystem II|psii-real]] or growing walls call for backup, [[RNA polymerase II|pol-ii]] clamps onto open [[chromatin|chromosome]] loops like J. Jonah Jameson’s Daily Bugle press roaring to life. Chewing [[nucleotide|nucleotide]] fuel, it unzips the helix and prints a folding ribbon of messenger [[RNA|rna]].\n\nSlapped with a front helmet cap and protective tail while still warm, each Cells at Work! scroll zips out a [[nuclear pore|nuclear-pore]] to brief waiting [[ribosomes|ribosome]].',
         blueprint: {
           role: 'Protein-coding gene transcription & mRNA maturation',
           arrivesFrom: 'Open [[DNA|real-plant-dna]] templates and ribonucleotide triphosphates ([[NTPs|nucleotide]])',
@@ -1510,9 +1510,9 @@ export const PLANT_FUNGAL_PART_LENSES: PagePartLensMap = {
       es: {
         subtitle: 'Planos recién salidos de imprenta',
         simple:
-          'La ARN polimerasa II recorre los genes abiertos copiando recetas del ADN en cintas de ARN mensajero que salen a dirigir la fabricación de proteínas.',
+          'Recados urgentes estilo Cells at Work! recién impresos: la ARN polimerasa II copia genes abiertos en cintas de ARNm rumbo a las fábricas.',
         story:
-          'Cada vez que el sol del mediodía desgasta piezas del [[Fotosistema II|psii-real]] o la pared exige más sintasas, la [[ARN polimerasa II|pol-ii]] se aferra a los bucles abiertos de [[cromatina|chromosome]] y entra en acción. Devorando [[nucleótidos|nucleotide]], abre la doble hélice y teje una cinta naciente de [[ARN|rna]] mensajero que se pliega en pequeñas horquillas al salir.\n\nCon su caperuza delantera y su cola protectora recién puestas, el mensaje cruza un [[poro nuclear|nuclear-pore]] directo hacia los [[ribosomas|ribosome]] del citosol y del retículo.',
+          'Cada vez que el sol del mediodía quema piezas del [[Fotosistema II|psii-real]] o la muralla pide refuerzos, la [[ARN polimerasa II|pol-ii]] se aferra a la [[cromatina|chromosome]] abierta como la rotativa del Daily Bugle a toda máquina. Consumiendo [[nucleótidos|nucleotide]], abre la hélice e imprime una cinta plegada de [[ARN|rna]] mensajero.\n\nCon casco delantero y cola protectora recién puestos, cada pergamino estilo Cells at Work! cruza un [[poro nuclear|nuclear-pore]] directo a los [[ribosomas|ribosome]].',
         blueprint: {
           role: 'Transcripción de genes codificantes y maduración de ARNm',
           arrivesFrom: 'Moldes abiertos de [[ADN|real-plant-dna]] y trifosfatos de [[nucleótido|nucleotide]] (NTPs)',
@@ -1538,9 +1538,9 @@ export const PLANT_FUNGAL_PART_LENSES: PagePartLensMap = {
       en: {
         subtitle: 'The Ribosome Assembly Droplet',
         simple:
-          'A dense, membrane-free sphere inside the nucleus where ribosomal RNA and imported proteins snap together into two-part ribosome machines.',
+          'Kamaji’s Spirited Away boiler droplet inside the nucleus, where rRNA ribbons and imported proteins snap into two-part ribosome factories.',
         story:
-          'Maintaining a leaf packed wall-to-wall with enzymes demands millions of working [[ribosomes|ribosome]], and this two-micrometer workshop inside the [[nucleus|real-plant-nucleus]] builds every cytoplasmic one of them. Dozens of ribosomal [[proteins|protein]] freshly translated outside march inward through [[nuclear pores|nuclear-pore]] to converge on pale fibrillar loops of ribosomal [[DNA|dna]].\n\nThere they wrap around newly spun rRNA scaffolds, snapping together into pre-40S and pre-60S ribosome halves that stream back out to keep the whole solar cell supplied.',
+          'Keeping a sunlit leaf stocked with millions of enzymes takes a Clone Wars army of [[ribosomes|ribosome]], and this two-micrometer droplet inside the [[nucleus|real-plant-nucleus]] builds every cytoplasmic one. Eighty families of ribosomal [[proteins|protein]] march in through [[nuclear pores|nuclear-pore]] like Spirited Away soot sprites converging on pale loops of ribosomal [[DNA|dna]].\n\nWrapping around fresh rRNA frames, they click into pre-40S and pre-60S halves that stream back out to keep the solar factory humming.',
         blueprint: {
           role: 'Phase-separated 80S ribosome subunit factory',
           arrivesFrom: 'Ribosomal [[proteins|protein]] & NTPs imported via [[nuclear pores|nuclear-pore]]; rDNA loops on Chr 2 & 4',
@@ -1562,9 +1562,9 @@ export const PLANT_FUNGAL_PART_LENSES: PagePartLensMap = {
       es: {
         subtitle: 'La gota ensambladora de ribosomas',
         simple:
-          'Una esfera densa y sin membrana dentro del núcleo donde se unen hebras de ARN y proteínas para fabricar las dos mitades de cada ribosoma.',
+          'La sala de calderas estilo El viaje de Chihiro dentro del núcleo, donde ARN y proteínas se abrochan para armar las dos mitades del ribosoma.',
         story:
-          'Mantener una hoja rebosante de enzimas fotosintéticas exige millones de [[ribosomas|ribosome]] activos, y este taller de dos micrómetros en pleno [[núcleo|real-plant-nucleus]] ensambla todos los del citoplasma. Ochenta familias de [[proteínas|protein]] ribosómicas recién fabricadas afuera entran en fila por los [[poros nucleares|nuclear-pore]] hasta los bucles claros de [[ADN|dna]] ribosómico.\n\nAllí se abrochan sobre armazones frescos de ARNr, formando mitades 40S y 60S que salen de vuelta al citosol listas para traducir.',
+          'Sostener una hoja repleta de enzimas exige un ejército digno de La guerra de los clones de [[ribosomas|ribosome]], y esta gota de dos micrómetros en el [[núcleo|real-plant-nucleus]] fabrica todos los del citoplasma. Ochenta tipos de [[proteínas|protein]] entran en fila por los [[poros nucleares|nuclear-pore]] como duendecillos de El viaje de Chihiro hacia los bucles de [[ADN|dna]].\n\nAllí se abrochan sobre armazones frescos de ARNr en mitades 40S y 60S listas para salir a traducir.',
         blueprint: {
           role: 'Condensado subnuclear de ensamblaje de ribosomas 80S',
           arrivesFrom: '[[Proteínas|protein]] ribosómicas y NTPs vía [[poros nucleares|nuclear-pore]]; bucles NOR2 y NOR4',
@@ -1589,9 +1589,9 @@ export const PLANT_FUNGAL_PART_LENSES: PagePartLensMap = {
       en: {
         subtitle: 'The Catalytic Spine of Every Ribosome',
         simple:
-          'Long RNA strands spun off tandem genes inside the nucleolus that fold up to form the working heart of the cell’s protein factories.',
+          'Biology’s greatest plot twist: folded RNA chains spun inside the nucleolus—not proteins—form the actual peptide-welding engine of every ribosome.',
         story:
-          'Here is biology’s oldest plot twist: inside every [[ribosome|ribosome]], it is folded [[RNA|rna]]—not protein—that actually stitches amino acids together. Packed nose-to-tail along ribosomal [[DNA|dna]] loops inside the [[nucleolus|real-plant-nucleolus]], convoys of RNA polymerase I read each gene simultaneously like ‘Christmas trees’ of ever-longer branches.\n\nMolecular chemical guides snip each long 45S precursor into three precise pieces and fold them with incoming [[proteins|protein]], building the catalytic core that will forge every enzyme in the leaf.',
+          'Cue the M. Night Shyamalan plot twist: inside every [[ribosome|ribosome]], folded [[RNA|rna]]—not protein—is the real blacksmith welding amino acids together! Nose-to-tail along ribosomal [[DNA|dna]] inside the [[nucleolus|real-plant-nucleolus]], convoys of Pol I read each gene at once like glowing Whoville Christmas trees.\n\nPrecision snips carve each 45S strand into three exact pieces and brace them with [[proteins|protein]], forging the catalytic anvil that builds every enzyme in the leaf.',
         blueprint: {
           role: 'Structural scaffold & peptidyl-transferase ribozyme core of 80S ribosomes',
           arrivesFrom: 'Tandem rDNA repeats ([[DNA|dna]]) + [[nucleotides|nucleotide]] transcribed by RNA Pol I in [[nucleolus|real-plant-nucleolus]]',
@@ -1613,9 +1613,9 @@ export const PLANT_FUNGAL_PART_LENSES: PagePartLensMap = {
       es: {
         subtitle: 'El corazón catalítico de cada ribosoma',
         simple:
-          'Largas hebras de ARN fabricadas en serie dentro del nucléolo que se pliegan para formar el motor interno de todas las fábricas de proteínas.',
+          'El mayor giro de guion de la biología: hebras plegadas de ARN nacidas en el nucléolo —y no proteínas— son el verdadero motor de cada ribosoma.',
         story:
-          'He aquí una de las mayores sorpresas de la biología: dentro de cada [[ribosoma|ribosome]], quien suelda realmente un aminoácido con otro no es una proteína, sino [[ARN|rna]] plegado. En los bucles de [[ADN|dna]] del [[nucléolo|real-plant-nucleolus]], filas apretadas de ARN polimerasas I avanzan una tras otra desplegando ramas de pre-ARNr cada vez más largas.\n\nEnzimas guía recortan cada hebra madre 45S en tres piezas exactas y las envuelven con [[proteínas|protein]] de soporte, forjando el yunque catalítico donde nacerán todas las enzimas de la hoja.',
+          'He aquí un giro de película: dentro de cada [[ribosoma|ribosome]], quien suelda de verdad los aminoácidos no es una proteína, ¡sino [[ARN|rna]] plegado! A lo largo del [[ADN|dna]] en el [[nucléolo|real-plant-nucleolus]], trenes apretados de Pol I avanzan juntos dibujando siluetas de abetos navideños de ramas crecientes.\n\nTijeras guía dividen cada hebra 45S en tres piezas exactas arropadas con [[proteínas|protein]], forjando el yunque donde nacerán todas las enzimas foliares.',
         blueprint: {
           role: 'Armazón estructural y centro ribozímico peptidil-transferasa',
           arrivesFrom: 'Repeticiones de ADNr ([[ADN|dna]]) y [[nucleótidos|nucleotide]] transcritos por Pol I en el [[nucléolo|real-plant-nucleolus]]',
@@ -1640,9 +1640,9 @@ export const PLANT_FUNGAL_PART_LENSES: PagePartLensMap = {
       en: {
         subtitle: 'Clamps, Tags & Repair Crews of the Vault',
         simple:
-          'The busy fluid inside the nucleus crowded with ring-shaped DNA clamps, ubiquitin recycle tags, and repair proteins keeping the genome spotless.',
+          'The vault’s Ghostbusters & WALL-E maintenance crew: ring-shaped DNA clamps patch UV sunburn while ubiquitin tags feed spent switches to shredders.',
         story:
-          'Standing all day in unfiltered sunlight exposes a leaf cell not just to photosynthetic glory, but to ultraviolet nicks in its [[DNA|real-plant-dna]]. Floating through the clear fluid between [[chromatin|chromosome]] loops, three-part [[PCNA sliding clamps|pcna]] snap around damaged helices like safety harnesses so repair polymerases can patch lesions without falling off.\n\nMeanwhile, tiny [[ubiquitin|ubiquitin]] tags mark spent light-signaling switches for disposal by nuclear [[proteasomes|proteasome]]—clearing yesterday’s orders so the nucleus stays sharp for changing skies.',
+          'Sunbathing all day scores free starlight, but UV rays also nick leaf [[DNA|real-plant-dna]] like laser grazes. Cruising the clear sap between [[chromatin|chromosome]] loops, three-piece [[PCNA sliding clamps|pcna]] snap around wounded helices like Iron Man collar locks so repair crews patch sunburn without slipping off.\n\nMeanwhile, tiny [[ubiquitin|ubiquitin]] “recycle me” stickers tag yesterday’s light switches for WALL-E-style nuclear [[proteasomes|proteasome]]—keeping the command deck sharp when clouds roll in.',
         blueprint: {
           role: 'Nuclear genome maintenance, replication support & protein-turnover matrix',
           arrivesFrom: 'Imported enzymes, ATP & regulatory factors via [[nuclear pores|nuclear-pore]]',
@@ -1664,9 +1664,9 @@ export const PLANT_FUNGAL_PART_LENSES: PagePartLensMap = {
       es: {
         subtitle: 'Abrazaderas, etiquetas y cuadrillas de rescate nuclear',
         simple:
-          'El líquido activo que rellena el núcleo, repleto de anillos deslizantes de reparación y etiquetas de reciclaje que mantienen impecable el ADN.',
+          'La brigada de mantenimiento estilo WALL-E del núcleo: anillos deslizantes reparan quemaduras UV en el ADN y etiquetas reciclan interruptores viejos.',
         story:
-          'Pasarse el día entero expuesta al sol directo no solo regala energía a la hoja: también provoca muescas ultravioletas en su [[ADN|real-plant-dna]]. Flotando entre los bucles de [[cromatina|chromosome]], las abrazaderas anulares [[PCNA|pcna]] se cierran alrededor de la doble hélice como arneses de seguridad para que las enzimas reparadoras parchen cada herida sin soltarse.\n\nAl mismo tiempo, pequeñas etiquetas de [[ubiquitina|ubiquitin]] marcan a los interruptores luminosos ya caducados para que los [[proteasomas|proteasome]] nucleares los reciclen y despejen la sala de mando.',
+          'Tomar el sol todo el día regala energía, pero los rayos UV dejan muescas en el [[ADN|real-plant-dna]]. Flotando entre los lazos de [[cromatina|chromosome]], los anillos [[PCNA|pcna]] se cierran sobre la hélice como abrazaderas de Iron Man para que las cuadrillas reparen cada herida sin soltarse.\n\nA la vez, pegatinas de [[ubiquitina|ubiquitin]] marcan los interruptores diurnos ya caducados para que trituradoras nucleares de [[proteasomas|proteasome]] tipo WALL-E despejen la sala de mando.',
         blueprint: {
           role: 'Matriz nuclear de reparación del ADN y control de calidad proteico',
           arrivesFrom: 'Enzimas reparadoras, ATP y factores importados por [[poros nucleares|nuclear-pore]]',
@@ -1691,9 +1691,9 @@ export const PLANT_FUNGAL_PART_LENSES: PagePartLensMap = {
       en: {
         subtitle: 'The Sun-Eating Endosymbiont',
         simple:
-          'Green lens-shaped solar kitchens lined up along the cell’s sunny edge to split water, release oxygen, and forge air into sugar.',
+          'Bulbasaur-style solar fortresses lined along the sunny wall to split water, vent oxygen, and weld thin air into sugar.',
         story:
-          'Pressed against the sunlit ceiling by the giant vacuole below, each chloroplast is a domesticated cyanobacterium still carrying its own DNA and [[70S ribosomes|ribosome-70s]]. Water piped in through [[PIP2 aquaporins|pip-real]] meets photons inside forty [[grana stacks|real-thylakoid]], filling the stroma with fresh ATP and NADPH so [[RuBisCO|rubisco-real]] can weld atmospheric CO₂ into sweet triose phosphates for the [[cytosol|cytosol]] or daytime [[starch|starch]] boulders.\n\nWhenever RuBisCO slips up and grabs O₂ instead, the chloroplast immediately hands toxic glycolate out its side door to an attached [[peroxisome|peroxisome]], launching a three-organelle rescue mission.',
+          'Pinned against the sunny ceiling like Superman’s yellow-sun crystals, each chloroplast is a tamed cyanobacterium still packing its own DNA and bacterial [[70S ribosomes|ribosome-70s]]. Water arriving via [[PIP2 aquaporins|pip-real]] meets starlight in forty [[grana stacks|real-thylakoid]], charging Bulbasaur-grade ATP and NADPH so [[RuBisCO|rubisco-real]] welds thin air into sugars for the [[cytosol|cytosol]] or [[starch|starch]] rations.\n\nWhenever nearsighted RuBisCO grabs O₂ by mistake, the chloroplast passes toxic glycolate straight to a docked [[peroxisome|peroxisome]] hazmat partner.',
         blueprint: {
           role: 'Primary photosynthetic carbon-fixing & O₂-evolving organelle',
           arrivesFrom: 'Solar photons, [[water|water]] via [[PIP2|pip-real]], atmospheric CO₂, and cytosolic Pᵢ + nuclear-encoded proteins',
@@ -1717,9 +1717,9 @@ export const PLANT_FUNGAL_PART_LENSES: PagePartLensMap = {
       es: {
         subtitle: 'El endosimbionte comedor de estrellas',
         simple:
-          'Hornos solares verdes alineados junto al borde iluminado de la célula para partir agua, soltar oxígeno y forjar azúcar a partir del aire.',
+          'Fortalezas solares de Superman al estilo Bulbasaur: antiguos microbios alineados al sol para partir agua, dar oxígeno y cocinar aire en azúcar.',
         story:
-          'Empujado contra el techo soleado por la gran vacuola, cada cloroplasto es una antigua cianobacteria domesticada que aún guarda su propio ADN y [[ribosomas 70S|ribosome-70s]]. El agua traída por las [[acuaporinas PIP2|pip-real]] se cruza con fotones en cuarenta [[pilas de grana|real-thylakoid]], cargando el estroma de ATP y NADPH para que la [[RuBisCO|rubisco-real]] suelde CO₂ en triosas dulces rumbo al [[citosol|cytosol]] o en reservas diurnas de [[almidón|starch]].\n\nCada vez que la RuBisCO tropieza y atrapa oxígeno por error, el cloroplasto pasa de inmediato el glicolato resultante al [[peroxisoma|peroxisome]] pegado a su costado para iniciar el rescate a tres bandas.',
+          'Pegado al techo soleado como los cristales solares de Superman, cada cloroplasto es una antigua bacteria domesticada con su propio ADN y [[ribosomas 70S|ribosome-70s]]. El agua traída por [[acuaporinas PIP2|pip-real]] choca con fotones en cuarenta [[pilas de grana|real-thylakoid]], cargando un Rayo Solar químico para que la [[RuBisCO|rubisco-real]] suelde aire en azúcares hacia el [[citosol|cytosol]] o en [[almidón|starch]].\n\nCada vez que la RuBisCO muerde oxígeno por error, pasa al instante el glicolato defectuoso al [[peroxisoma|peroxisome]] vecino para rescatarlo.',
         blueprint: {
           role: 'Orgánulo fotosintético primario fijador de carbono y productor de O₂',
           arrivesFrom: 'Fotones solares, [[agua|water]] vía [[PIP2|pip-real]], CO₂, fosfato inorgánico y proteínas nucleares',
@@ -1746,9 +1746,9 @@ export const PLANT_FUNGAL_PART_LENSES: PagePartLensMap = {
       en: {
         subtitle: 'Emerald Coin Stacks at True Atomic Scale',
         simple:
-          'Stacks of flat green membrane discs inside the chloroplast where sunlight splits water and pumps up the proton pressure that makes ATP.',
+          'Super Mario emerald coin stacks at 1:1 scale, where sunlight splits water inside tight gaps and proton pressure spins rooftop ATP turbines.',
         story:
-          'Sliced open to true atomic scale inside the [[chloroplast|real-chloroplast]], twelve flattened membrane sacs pile up with barely 3.5 nanometers between neighbors. Flat [[PSII–LHCII|psii-real]] collectors and [[cytochrome b₆f|b6f-real]] towers crowd those tight inner faces, splitting water and packing protons into each nine-nanometer lumen until it sours to pH 5.5.\n\nOut on the roomy end caps and connecting bridges sit tall [[Photosystem I|psi-real]] complexes and spinning [[chloroplast ATP synthases|catp-real]], pouring fresh NADPH and ATP straight into the [[RuBisCO|rubisco-real]] crowd next door.',
+          'Sliced to 1:1 atomic scale inside the [[chloroplast|real-chloroplast]], twelve green Super Mario coin sacs stack with a tighter gap than a Star Wars trench—just 3.5 nanometers. Flat [[PSII–LHCII|psii-real]] dishes and [[cytochrome b₆f|b6f-real]] relays pack those inner slots, cracking water and souring each nine-nanometer pocket to pH 5.5.\n\nBounced to the roomy penthouse caps sit tall [[Photosystem I|psi-real]] boosters and Beyblade-like [[chloroplast ATP synthases|catp-real]], showering NADPH and ATP onto [[RuBisCO|rubisco-real]].',
         blueprint: {
           role: 'Stacked thylakoid photophosphorylation & Z-scheme membrane network',
           arrivesFrom: 'Solar photons, luminal [[water|water]], and stromal ADP + Pᵢ + NADP⁺',
@@ -1771,9 +1771,9 @@ export const PLANT_FUNGAL_PART_LENSES: PagePartLensMap = {
       es: {
         subtitle: 'Pilas de monedas esmeralda a escala atómica',
         simple:
-          'Pilas de discos verdes dentro del cloroplasto donde la luz solar rompe agua y acumula la presión de protones que fabrica ATP.',
+          'Pilas de monedas verdes estilo Super Mario a escala 1:1: el sol parte agua en las rendijas y la presión de protones gira turbinas de ATP.',
         story:
-          'Abierta a escala atómica real dentro del [[cloroplasto|real-chloroplast]], esta columna apila doce discos de membrana dejando apenas 3.5 nanómetros de rendija entre vecinos. Allí dentro se aprietan los colectores planos de [[PSII–LHCII|psii-real]] y el [[citocromo b₆f|b6f-real]], partiendo agua y llenando de protones cada bolsillo de nueve nanómetros hasta acidificarlo.\n\nEn las tapas despejadas y puentes laterales aguardan los complejos altos del [[Fotosistema I|psi-real]] y la [[ATP sintasa cloroplástica|catp-real]], que escupen NADPH y ATP directo sobre el enjambre vecino de [[RuBisCO|rubisco-real]].',
+          'Abierta a escala 1:1 dentro del [[cloroplasto|real-chloroplast]], esta torre apila doce monedas verdes tipo Super Mario dejando apenas 3.5 nanómetros de hueco. Allí caben justos los platos planos de [[PSII–LHCII|psii-real]] y el [[citocromo b₆f|b6f-real]], partiendo agua y cargando de ácido cada bolsillo de nueve nanómetros.\n\nEn las terrazas despejadas aguardan el alto [[Fotosistema I|psi-real]] y las turbinas tipo Beyblade de la [[ATP sintasa cloroplástica|catp-real]], regando de NADPH y ATP a la [[RuBisCO|rubisco-real]].',
         blueprint: {
           role: 'Red tilacoidal apilada de transporte electrónico y fotofosforilación',
           arrivesFrom: 'Fotones solares, [[agua|water]] luminal y ADP + Pᵢ + NADP⁺ del estroma',
@@ -1799,9 +1799,9 @@ export const PLANT_FUNGAL_PART_LENSES: PagePartLensMap = {
       en: {
         subtitle: 'The Nighttime Sugar Ration',
         simple:
-          'Solid white pebbles of packed glucose built up inside chloroplasts during sunny hours and nibbled back down at night so the plant never goes hungry in the dark.',
+          'Elven lembas wafers packed inside chloroplasts on sunny afternoons, then rationed out all night on a clock so the plant never starves before dawn.',
         story:
-          'On a bright summer afternoon, [[RuBisCO|rubisco-real]] fixes carbon faster than [[plasmodesmata|plasmodesma]] and phloem veins can haul sucrose away. Rather than letting loose [[glucose|glucose]] clog the stroma, the [[chloroplast|real-chloroplast]] winds surplus sugars into dense, dry grains of amylose and branched amylopectin right between the thylakoid stacks.\n\nSeconds after sunset extinguishes the light reactions, nocturnal enzymes pace the breakdown like a sandglass—dripping maltose and glucose steadily into the [[cytosol|cytosol]] so [[mitochondria|mitochondrion]] keep humming until the very moment dawn returns.',
+          'On blazing afternoons, [[RuBisCO|rubisco-real]] bakes sugar faster than [[plasmodesmata|plasmodesma]] warp pipes can ship it away. Rather than let loose [[glucose|glucose]] burst the [[chloroplast|real-chloroplast]], enzymes wind extras into dry, zero-pressure Lord of the Rings lembas boulders right between the green stacks.\n\nThe second sunset cuts solar power, an internal clock paces breakdown like Doctor Strange’s Time Stone—dripping maltose into the [[cytosol|cytosol]] so [[mitochondria|mitochondrion]] hit 95% empty right at sunrise.',
         blueprint: {
           role: 'Transitory diurnal carbohydrate buffer inside the chloroplast stroma',
           arrivesFrom: 'Fructose-6-phosphate / ADP-[[glucose|glucose]] from the daytime [[RuBisCO|rubisco-real]] Calvin cycle',
@@ -1823,9 +1823,9 @@ export const PLANT_FUNGAL_PART_LENSES: PagePartLensMap = {
       es: {
         subtitle: 'La ración nocturna de azúcar solar',
         simple:
-          'Piedrecitas blancas de glucosa compacta que el cloroplasto acumula bajo el sol del día y va desgranando de noche para no pasar hambre a oscuras.',
+          'Raciones de pan élfico lembas guardadas de día en el cloroplasto y dosificadas con reloj toda la noche para no pasar hambre a oscuras.',
         story:
-          'En una tarde radiante, la [[RuBisCO|rubisco-real]] fija carbono más deprisa de lo que el citosol y los [[plasmodesmos|plasmodesma]] alcanzan a despachar. Para no saturar el estroma de [[glucosa|glucose]] suelta, el [[cloroplasto|real-chloroplast]] trenza el excedente en granos secos y compactos de amilosa y amilopectina justo entre las pilas verdes.\n\nEn cuanto se pone el sol, un reloj interno dosifica su desmontaje grano a grano como un reloj de arena, soltando maltosa y glucosa al [[citosol|cytosol]] al ritmo exacto para alimentar a las [[mitocondrias|mitochondrion]] hasta el último minuto antes del alba.',
+          'En tardes radiantes, la [[RuBisCO|rubisco-real]] hornea azúcar más rápido de lo que dan abasto los [[plasmodesmos|plasmodesma]]. Para que la [[glucosa|glucose]] suelta no reviente el [[cloroplasto|real-chloroplast]], el sobrante se enrolla en rocas secas estilo pan lembas de El Señor de los Anillos entre las pilas verdes.\n\nAl caer el sol, un reloj biológico raciona la despensa con precisión milimétrica, goteando azúcar al [[citosol|cytosol]] para que las [[mitocondrias|mitochondrion]] lleguen sin hambre justo al amanecer.',
         blueprint: {
           role: 'Amortiguador glucídico diurno-nocturno del estroma cloroplástico',
           arrivesFrom: 'Hexosas fosfato / ADP-[[glucosa|glucose]] excedentes del ciclo diurno de la [[RuBisCO|rubisco-real]]',
@@ -1850,9 +1850,9 @@ export const PLANT_FUNGAL_PART_LENSES: PagePartLensMap = {
       en: {
         subtitle: 'The Starlight Water-Cracker',
         simple:
-          'Green antenna dishes surrounding a twin reaction core that uses sunlight to crack water molecules open, releasing oxygen and firing electrons down the solar wire.',
+          'Spirit Bomb antenna wings around a twin heist core that cracks water with sunlight, venting Earth’s oxygen while firing electrons down the wire.',
         story:
-          'Every breath of oxygen in Earth’s sky begins right here on the stacked faces of the [[granum|real-thylakoid]]. Surrounding [[LHCII antennae|lhcii-real]] packed with [[chlorophyll|chlorophyll]] catch photons arriving from 150 million kilometers away and funnel that energy into the twin cores of [[Photosystem II|psii-real]].\n\nEach strike fires an electron into mobile plastoquinone bound for [[cytochrome b₆f|b6f-real]], leaving behind an oxidant fierce enough to rip replacement electrons straight off [[water|water]]—dumping protons into the lumen for [[ATP synthase|catp-real]] while pure O₂ fizzes free.',
+          'Every breath of oxygen in our sky starts right here on stacked [[granum|real-thylakoid]] faces. Surrounding [[LHCII antennae|lhcii-real]] studded with [[chlorophyll|chlorophyll]] gather photons like Goku’s Spirit Bomb and slam that jolt into the twin cores of [[Photosystem II|psii-real]].\n\nEach blast fires electrons toward [[cytochrome b₆f|b6f-real]] and leaves behind chemistry’s fiercest mugger—ripping replacement electrons straight off [[water|water]] to pack luminal protons for [[ATP synthase|catp-real]] as pure O₂ fizzes free.',
         blueprint: {
           role: 'Light-harvesting & water–plastoquinone photo-oxidoreductase',
           arrivesFrom: 'Solar photons caught by [[chlorophyll|chlorophyll]] in [[LHCII|lhcii-real]] + luminal [[water|water]]',
@@ -1874,9 +1874,9 @@ export const PLANT_FUNGAL_PART_LENSES: PagePartLensMap = {
       es: {
         subtitle: 'El rompedor solar de moléculas de agua',
         simple:
-          'Platos antena llenos de clorofila alrededor de un motor gemelo que usa luz solar para partir agua, liberar oxígeno y disparar electrones por la membrana.',
+          'Antenas tipo Genkidama alrededor de un reactor doble que parte agua con sol, suelta el oxígeno del planeta y dispara electrones por el cable.',
         story:
-          'Cada bocanada de oxígeno de la atmósfera terrestre nace en estas caras apretadas del [[granum|real-thylakoid]]. Las [[antenas LHCII|lhcii-real]] cuajadas de [[clorofila|chlorophyll]] cazan fotones recién llegados de 150 millones de kilómetros y concentran el impacto en el corazón doble del [[Fotosistema II|psii-real]].\n\nEl chispazo lanza electrones en plastoquinona hacia el [[citocromo b₆f|b6f-real]] y deja atrás un imán químico tan feroz que arranca electrones de repuesto directamente del [[agua|water]], cargando de protones el lumen para la [[ATP sintasa|catp-real]] mientras escapa O₂ puro.',
+          'Cada bocanada de oxígeno de nuestro cielo nace en estas caras del [[granum|real-thylakoid]]. Las [[antenas LHCII|lhcii-real]] llenas de [[clorofila|chlorophyll]] reúnen fotones como una Genkidama de Goku y descargan el golpe en el doble núcleo del [[Fotosistema II|psii-real]].\n\nEl disparo envía electrones hacia el [[citocromo b₆f|b6f-real]] y deja un imán químico tan feroz que le roba electrones de repuesto al [[agua|water]], cargando protones para la [[ATP sintasa|catp-real]] mientras escapa O₂ puro.',
         blueprint: {
           role: 'Supercomplejo antena y agua-plastoquinona foto-oxidorreductasa',
           arrivesFrom: 'Fotones solares vía [[clorofilas|chlorophyll]] de [[LHCII|lhcii-real]] y [[agua|water]] del lumen',
@@ -1901,9 +1901,9 @@ export const PLANT_FUNGAL_PART_LENSES: PagePartLensMap = {
       en: {
         subtitle: 'The Second Starlight Booster',
         simple:
-          'Perched on the open outer edges of the thylakoid stack, Photosystem I catches a fresh photon to launch tired electrons into high-energy NADPH batteries.',
+          'The Kamehameha second-stage booster on the stack’s open rim, catching a fresh photon to launch winded electrons into high-voltage NADPH batteries.',
         story:
-          'Electrons arriving from [[cytochrome b₆f|b6f-real]] aboard little copper-blue plastocyanin shuttles have spent their first burst of solar energy pumping protons. Out on the roomy unstacked rims of the [[granum|real-thylakoid]], [[Photosystem I|psi-real]] wears a crescent belt of [[chlorophyll|chlorophyll]] antennae to catch a second photon and fire those electrons to biology’s highest reducing voltage.\n\nLeaping out the stroma side onto ferredoxin, two boosted electrons weld a proton onto NADP⁺ to mint fresh NADPH—delivering the exact reducing power [[RuBisCO’s|rubisco-real]] assembly line needs to turn air into sugar.',
+          'Electrons arriving from [[cytochrome b₆f|b6f-real]] on blue copper shuttles have spent their first solar punch pumping acid. Perched on open rims of the [[granum|real-thylakoid]], [[Photosystem I|psi-real]] spreads a crescent belt of [[chlorophyll|chlorophyll]] to catch a second sunbeam and fire a Dragon Ball Kamehameha to biology’s highest reducing voltage.\n\nVaulting onto ferredoxin, two supercharged electrons snap a proton onto NADP⁺—handing [[RuBisCO’s|rubisco-real]] crew fresh NADPH batteries to weld air into food.',
         blueprint: {
           role: 'Plastocyanin–ferredoxin photo-oxidoreductase & NADPH generator',
           arrivesFrom: 'Solar photons + luminal plastocyanin electrons arriving from [[cytochrome b₆f|b6f-real]]',
@@ -1925,9 +1925,9 @@ export const PLANT_FUNGAL_PART_LENSES: PagePartLensMap = {
       es: {
         subtitle: 'El segundo cohete impulsor estelar',
         simple:
-          'Apostado en los bordes despejados de la pila tilacoidal, el Fotosistema I caza un nuevo fotón para cargar electrones en baterías de NADPH.',
+          'El propulsor estilo Kamehameha en el borde abierto de la pila: caza un segundo fotón para cargar electrones en baterías de NADPH.',
         story:
-          'Los electrones que llegan desde el [[citocromo b₆f|b6f-real]] a bordo de lanzaderas azules de plastocianina ya han gastado su primer impulso bombeando protones. En los márgenes abiertos del [[granum|real-thylakoid]], el [[Fotosistema I|psi-real]] despliega su medialuna de [[clorofilas|chlorophyll]] para atrapar un segundo fotón y catapultar esos electrones al voltaje reductor más alto de la célula.\n\nAl saltar hacia el estroma vía ferredoxina, cargan el NADPH recién hecho que la cadena de la [[RuBisCO|rubisco-real]] reclama para soldar el CO₂ del aire en azúcar.',
+          'Los electrones que llegan desde el [[citocromo b₆f|b6f-real]] en lanzaderas azules ya gastaron su primer empuje bombeando ácido. En los bordes despejados del [[granum|real-thylakoid]], el [[Fotosistema I|psi-real]] abre su medialuna de [[clorofila|chlorophyll]] y lanza un Kamehameha solar que eleva esos electrones al voltaje reductor más alto de la biología.\n\nAl saltar hacia la ferredoxina, cargan las baterías de NADPH que exige la [[RuBisCO|rubisco-real]] para convertir aire en azúcar.',
         blueprint: {
           role: 'Plastocianina-ferredoxina foto-oxidorreductasa generadora de NADPH',
           arrivesFrom: 'Fotones solares y electrones de plastocianina procedentes de [[citocromo b₆f|b6f-real]]',
@@ -1952,9 +1952,9 @@ export const PLANT_FUNGAL_PART_LENSES: PagePartLensMap = {
       en: {
         subtitle: 'The Proton-Doubling Relay Tower',
         simple:
-          'Standing halfway along the thylakoid electron chain, cytochrome b6f hands electrons toward Photosystem I while pumping bonus protons into the lumen.',
+          'A Doctor Strange Q-cycle relay halfway down the solar wire: it passes electrons to Photosystem I while looping twins back to double the protons.',
         story:
-          'Plastoquinol shuttles swimming through the greasy core of the [[thylakoid|real-thylakoid]] arrive from [[Photosystem II|psii-real]] carrying two electrons and two protons. Docking at [[cytochrome b₆f|b6f-real]], one electron hops straight onto copper plastocyanin bound for [[Photosystem I|psi-real]], while the second takes a sneaky internal loop that drags two extra protons in from the stroma.\n\nDoubling the proton haul per electron pair turns the nine-nanometer lumen fiercely acidic, supercharging the spin of [[chloroplast ATP synthase|catp-real]].',
+          'Plastoquinol shuttles swim through the greasy [[thylakoid|real-thylakoid]] core from [[Photosystem II|psii-real]] carrying two electrons and two protons. Docking at [[cytochrome b₆f|b6f-real]], one electron rides copper plastocyanin to [[Photosystem I|psi-real]], while its partner enters a Doctor Strange internal loop that drags two bonus protons in from the stroma.\n\nDoubling the acid haul per electron pair turns the lumen lemon-sour, kicking [[chloroplast ATP synthase|catp-real]] into high gear.',
         blueprint: {
           role: 'Central Z-scheme electron relay & Q-cycle proton translocator',
           arrivesFrom: 'Plastoquinol (PQH₂) from [[PSII|psii-real]] (plus cyclic electrons from [[PSI|psi-real]]) & stromal H⁺',
@@ -1976,9 +1976,9 @@ export const PLANT_FUNGAL_PART_LENSES: PagePartLensMap = {
       es: {
         subtitle: 'La torre central duplicadora de protones',
         simple:
-          'Situado a mitad de la cadena solar, el citocromo b6f pasa electrones hacia el Fotosistema I mientras bombea una tanda doble de protones al interior.',
+          'Una torre con bucle estilo Doctor Strange a mitad del cable solar: pasa electrones al Fotosistema I mientras duplica la cosecha de protones.',
         story:
-          'Las lanzaderas grasas de plastoquinol llegan nadando desde el [[Fotosistema II|psii-real]] por el corazón de la membrana [[tilacoidal|real-thylakoid]] con dos electrones y dos protones a cuestas. Al atracar en el [[citocromo b₆f|b6f-real]], un electrón salta hacia la plastocianina rumbo al [[Fotosistema I|psi-real]], mientras su compañero da una vuelta interna que arrastra protones extra desde el estroma.\n\nEsa jugada maestra duplica la cosecha ácida del lumen y pone a girar a toda potencia las turbinas de la [[ATP sintasa cloroplástica|catp-real]].',
+          'Las lanzaderas desde el [[Fotosistema II|psii-real]] cruzan la membrana [[tilacoidal|real-thylakoid]] con dos electrones y dos protones hasta el [[citocromo b₆f|b6f-real]]. Allí un electrón salta rumbo al [[Fotosistema I|psi-real]], pero su compañero entra en un bucle estilo Doctor Strange que arrastra dos protones extra desde el estroma.\n\nDuplicar la carga ácida por jugada acelera a tope los giros de la [[ATP sintasa cloroplástica|catp-real]].',
         blueprint: {
           role: 'Relevo electrónico central y bomba de protones del ciclo Q',
           arrivesFrom: 'Plastoquinol (PQH₂) desde [[PSII|psii-real]] (más retorno cíclico de [[PSI|psi-real]]) y H⁺ estromáticos',
@@ -2003,9 +2003,9 @@ export const PLANT_FUNGAL_PART_LENSES: PagePartLensMap = {
       en: {
         subtitle: 'The Fourteen-Spoked Solar Turbine',
         simple:
-          'A spinning molecular turbine on the open edges of the thylakoid stack that uses escaping protons to press ADP and phosphate into fresh ATP.',
+          'A fourteen-spoked Beyblade turbine on the stack’s outer edge that spins escaping protons into three fresh ATPs per turn—and locks shut at dusk.',
         story:
-          'Crammed into the nine-nanometer [[thylakoid|real-thylakoid]] lumen by [[Photosystem II|psii-real]] and [[cytochrome b₆f|b6f-real]], trapped protons surge out through the base of [[chloroplast ATP synthase|catp-real]] like water through a dam spillway. Fourteen membrane spokes click around in a blur, spinning an off-center cam shaft inside the bulbous head hanging into the stroma.\n\nEvery full spin stamps out three crisp ATP molecules right into [[RuBisCO’s|rubisco-real]] lap—and when night falls, a built-in redox latch locks the rotor cold so it never burns through cellular ATP in the dark.',
+          'Packed into the narrow [[thylakoid|real-thylakoid]] pocket by [[Photosystem II|psii-real]] and [[cytochrome b₆f|b6f-real]], acid protons blast out the base of [[chloroplast ATP synthase|catp-real]] like a hydro-dam spinning a Beyblade. Fourteen membrane spokes blur around, turning a cam shaft inside the stromal head.\n\nEvery full spin stamps three crisp ATPs straight into [[RuBisCO’s|rubisco-real]] lap—and at sunset, a redox boot clamps the axle cold so it never burns ATP backward at night.',
         blueprint: {
           role: 'Rotary photophosphorylation synthase (CF₀CF₁)',
           arrivesFrom: 'Luminal H⁺ gradient from [[PSII|psii-real]] & [[Cyt b₆f|b6f-real]]; stromal ADP + [[Pᵢ|phosphate]]',
@@ -2028,9 +2028,9 @@ export const PLANT_FUNGAL_PART_LENSES: PagePartLensMap = {
       es: {
         subtitle: 'La turbina solar de catorce radios',
         simple:
-          'Un molino molecular giratorio en los bordes abiertos de la pila tilacoidal que aprovecha el escape de protones para prensar ADP y fosfato en ATP.',
+          'Un molino estilo Beyblade de catorce radios en el borde tilacoidal: usa el chorro de protones para prensar tres ATP por giro y se frena de noche.',
         story:
-          'Acorralados en el estrecho lumen [[tilacoidal|real-thylakoid]] por el [[Fotosistema II|psii-real]] y el [[citocromo b₆f|b6f-real]], los protones escapan en tromba por la base de la [[ATP sintasa cloroplástica|catp-real]] como el agua por la presa de una central eléctrica. Su rueda de catorce radios gira a toda velocidad y arrastra un eje asimétrico dentro del cabezal que cuelga hacia el estroma.\n\nCada giro completo acuña tres moléculas nuevas de ATP justo al lado de la [[RuBisCO|rubisco-real]], y al caer la noche un pestillo químico traba el eje en seco para no gastar reservas a oscuras.',
+          'Acorralados en el estrecho bolsillo [[tilacoidal|real-thylakoid]] por el [[Fotosistema II|psii-real]] y el [[citocromo b₆f|b6f-real]], los protones escapan en tromba haciendo rugir la [[ATP sintasa cloroplástica|catp-real]] como un Beyblade hidráulico. Su rueda de catorce radios gira a toda mecha y arrastra un eje asimétrico dentro del cabezal que cuelga hacia el estroma.\n\nCada giro completo acuña tres moléculas nuevas de ATP justo al lado de la [[RuBisCO|rubisco-real]], y apenas cae la noche un cepo químico bloquea el rotor en seco para no gastar reservas a oscuras.',
         blueprint: {
           role: 'Turbina rotatoria de fotofosforilación (CF₀CF₁)',
           arrivesFrom: 'Gradiente luminal de H⁺ desde [[PSII|psii-real]] y [[Cit b₆f|b6f-real]]; ADP + [[Pᵢ|phosphate]] del estroma',
@@ -2056,9 +2056,9 @@ export const PLANT_FUNGAL_PART_LENSES: PagePartLensMap = {
       en: {
         subtitle: 'The Clumsiest Giant on Earth',
         simple:
-          'Packed wall-to-wall in the chloroplast fluid, RuBisCO grabs carbon dioxide from thin air to build sugar—though when it grabs oxygen by mistake, neighbors have to rescue the piece.',
+          'Earth’s lovable Psyduck giant: jammed wall-to-wall in the chloroplast, it turns air into sugar—though neighbors must rescue its frequent oxygen fumbles.',
         story:
-          'Crowded so thick into the [[chloroplast|real-chloroplast]] stroma that it makes up half of all protein in the leaf, sixteen-subunit [[RuBisCO|rubisco-real]] is the bottleneck through which nearly all sunlight enters the living world. Backed by fresh ATP from [[chloroplast ATP synthase|catp-real]] and NADPH from [[Photosystem I|psi-real]], it welds gaseous CO₂ onto five-carbon catchers to build daytime [[starch|starch]] and sweet triose exports.\n\nYet roughly one catch in four goes sideways: fooled by O₂, clumsy RuBisCO spits out toxic two-carbon glycolate, kicking off a high-stakes relay race across the [[peroxisome|peroxisome]] and [[mitochondrion|mitochondrion]] to salvage three-quarters of the fumbled carbon.',
+          'Packed so thick into the [[chloroplast|real-chloroplast]] that it makes up half of all leaf protein, sixteen-piece [[RuBisCO|rubisco-real]] is the Kung Fu Panda Po of the biosphere—slow, clumsy, yet saving the world daily. Fueled by [[chloroplast ATP synthase|catp-real]] and [[Photosystem I|psi-real]], it welds CO₂ into [[starch|starch]] and sweet exports.\n\nStill, one grab in four goes full Psyduck: tricked by O₂, it spits out toxic glycolate, scrambling a Cells at Work! relay across [[peroxisome|peroxisome]] and [[mitochondrion|mitochondrion]] to save 75% of the fumbled carbon.',
         blueprint: {
           role: 'Calvin-cycle CO₂ carboxylase & photorespiratory O₂ oxygenase',
           arrivesFrom: 'CO₂ (or O₂) + RuBP regenerated using [[ATP synthase|catp-real]] ATP & [[PSI|psi-real]] NADPH',
@@ -2082,9 +2082,9 @@ export const PLANT_FUNGAL_PART_LENSES: PagePartLensMap = {
       es: {
         subtitle: 'El gigante torpe que alimenta al planeta',
         simple:
-          'Apretada por millones en el líquido del cloroplasto, la RuBisCO atrapa CO₂ del aire para hacer azúcar, aunque cuando atrapa oxígeno por error obliga a sus vecinos a rescatar la pieza.',
+          'El gigante tipo Psyduck que alimenta al planeta: abarrota el cloroplasto atrapando CO₂, aunque sus vecinos deben rescatar sus despistes con el oxígeno.',
         story:
-          'Tan abarrotada en el estroma del [[cloroplasto|real-chloroplast]] que suma la mitad de toda la proteína de la hoja, la [[RuBisCO|rubisco-real]] de dieciséis piezas es el embudo por el que la luz estelar entra en la cadena alimentaria. Con el ATP de la [[ATP sintasa|catp-real]] y el NADPH del [[Fotosistema I|psi-real]], suelda gas CO₂ sobre moldes de cinco carbonos para fabricar [[almidón|starch]] y azúcares de exportación.\n\nPero una de cada cuatro veces se deja engañar por el oxígeno y escupe glicolato defectuoso, desatando una frenética carrera de rescate a través del [[peroxisoma|peroxisome]] y la [[mitocondria|mitochondrion]] para recuperar tres cuartas partes del carbono perdido.',
+          'Tan apretada en el [[cloroplasto|real-chloroplast]] que suma la mitad de la proteína foliar, la [[RuBisCO|rubisco-real]] es como Po de Kung Fu Panda: lenta y torpe, pero sostiene toda la biosfera. Con el ATP de la [[ATP sintasa|catp-real]] y el NADPH del [[Fotosistema I|psi-real]], suelda aire en [[almidón|starch]] y azúcares.\n\nPero una de cada cuatro veces le da un lapsus a lo Psyduck con el O₂ y escupe glicolato tóxico, lanzando un relevo estilo Cells at Work! por el [[peroxisoma|peroxisome]] y la [[mitocondria|mitochondrion]] para salvar tres cuartos del carbono.',
         blueprint: {
           role: 'Carboxilasa principal del ciclo de Calvin e iniciadora de la fotorrespiración',
           arrivesFrom: 'CO₂ (u O₂) + RuBP regenerada con ATP de [[ATP sintasa|catp-real]] y NADPH de [[PSI|psi-real]]',
@@ -2111,9 +2111,9 @@ export const PLANT_FUNGAL_PART_LENSES: PagePartLensMap = {
       en: {
         subtitle: 'Nighttime Furnace & Photorespiration Partner',
         simple:
-          'Even solar-powered plant cells need mitochondria: they burn sugar for ATP in the dark and team up with peroxisomes by day to rescue RuBisCO’s oxygen mistakes.',
+          'Calcifer’s night-shift furnace from Howl’s Moving Castle: plant mitochondria burn sugar in the dark and team up by day to rescue RuBisCO’s mistakes.',
         story:
-          'Chloroplasts go dark at sunset and roots never see light at all, so plant [[mitochondria|mitochondrion]] burn pyruvate arriving from the [[cytosol|cytosol]] around the clock to keep [[AHA2 proton pumps|aha-real]] and [[vacuole|central-vacuole]] transporters humming. Yet in sunlit leaves they pull a vital daytime shift right beside [[chloroplasts|real-chloroplast]] and [[peroxisomes|peroxisome]].\n\nFlooded with two-carbon glycine from RuBisCO’s oxygen blunders, massive glycine decarboxylase complexes inside the matrix stitch two glycines into one three-carbon serine—releasing a puff of CO₂ and NH₃ while shipping serine right back to the peroxisome to finish the rescue.',
+          'Solar panels go dark at dusk and roots live underground forever, so plant [[mitochondria|mitochondrion]] burn [[cytosolic|cytosol]] pyruvate 24/7 like Calcifer in Howl’s Moving Castle to keep [[AHA2 cannons|aha-real]] and the [[vacuole|central-vacuole]] running. Yet in sunny leaves they pull a huge daytime rescue shift huddled against [[chloroplasts|real-chloroplast]] and [[peroxisomes|peroxisome]].\n\nFlooded with two-carbon glycine from RuBisCO’s oxygen blunders, matrix crews fuse two glycines into one three-carbon serine—puffing out CO₂ while shipping serine back to the peroxisome.',
         blueprint: {
           role: 'Aerobic ATP powerhouse & C₂ photorespiratory glycine-to-serine converter',
           arrivesFrom: 'Cytosolic pyruvate + ADP + O₂; photorespiratory glycine arriving from [[peroxisomes|peroxisome]]',
@@ -2136,9 +2136,9 @@ export const PLANT_FUNGAL_PART_LENSES: PagePartLensMap = {
       es: {
         subtitle: 'Caldera nocturna y socio del rescate diurno',
         simple:
-          'Incluso una célula con paneles solares necesita mitocondrias: queman azúcar para dar ATP de noche y de día ayudan a rescatar los tropiezos de la RuBisCO.',
+          'El fogón nocturno estilo Calcifer de la hoja: quema azúcar para dar ATP a oscuras y de día rescata los errores de la RuBisCO con el oxígeno.',
         story:
-          'Los cloroplastos se apagan al ponerse el sol, así que las [[mitocondrias|mitochondrion]] vegetales queman piruvato del [[citosol|cytosol]] día y noche para mantener encendidas las [[bombas AHA2|aha-real]] y la [[vacuola|central-vacuole]]. Pero a pleno sol cumplen además una guardia crucial pegadas a [[cloroplastos|real-chloroplast]] y [[peroxisomas|peroxisome]].\n\nReciben oleadas de glicina nacida de los errores de la RuBisCO con el oxígeno, unen dos piezas de dos carbonos en una serina de tres —soltando una bocanada de CO₂— y devuelven esa serina al peroxisoma para culminar el rescate.',
+          'Los paneles solares se apagan de noche, así que las [[mitocondrias|mitochondrion]] queman piruvato del [[citosol|cytosol]] sin pausa como Calcifer en El castillo vagabundo para alimentar a [[AHA2|aha-real]] y la [[vacuola|central-vacuole]]. Además, al sol hacen guardia pegadas a [[cloroplastos|real-chloroplast]] y [[peroxisomas|peroxisome]].\n\nAllí reciben la glicina nacida de los despistes de la RuBisCO, funden dos piezas en una serina de tres carbonos y la devuelven al peroxisoma para cerrar el rescate.',
         blueprint: {
           role: 'Central aerobia de ATP y conversor fotorrespiratorio de glicina en serina',
           arrivesFrom: 'Piruvato citosólico + ADP + O₂; glicina fotorrespiratoria desde [[peroxisomas|peroxisome]]',
@@ -2164,9 +2164,9 @@ export const PLANT_FUNGAL_PART_LENSES: PagePartLensMap = {
       en: {
         subtitle: 'The Toxic-Bleach Detox & Salvage Hub',
         simple:
-          'Snuggled right between chloroplasts and mitochondria, leaf peroxisomes clean up RuBisCO’s oxygen mistakes while neutralizing dangerous hydrogen peroxide.',
+          'A Ghostbusters containment unit snuggled between chloroplasts and mitochondria, rescuing stray carbon while shattering toxic peroxide bleach.',
         story:
-          'Watch a living leaf cell and you will see [[peroxisomes|peroxisome]] physically hugging [[chloroplasts|real-chloroplast]] and [[mitochondria|mitochondrion]] in a tight three-way embrace. Every time [[RuBisCO|rubisco-real]] grabs O₂ by mistake, glycolate pours into the peroxisome, where glycolate oxidase converts it toward glycine for the mitochondrion—generating lethal hydrogen peroxide bleach as a side product.\n\nPacked almost to crystal density inside, catalase enzymes instantly shatter millions of H₂O₂ molecules a second into harmless [[water|water]] and oxygen, while incoming mitochondrial serine gets reshaped into glycerate and handed straight back to the chloroplast.',
+          'Peer into a live leaf and [[peroxisomes|peroxisome]] physically hug [[chloroplasts|real-chloroplast]] and [[mitochondria|mitochondrion]] like a tight Avengers trio. Whenever [[RuBisCO|rubisco-real]] grabs O₂ by mistake, stray glycolate pours in here to become glycine—brewing lethal hydrogen peroxide bleach on the side.\n\nLike a Ghostbusters containment trap packed to crystal density, catalase enzymes shatter millions of H₂O₂ molecules a second into harmless [[water|water]] and O₂, while reshaping returning serine into clean glycerate for the chloroplast.',
         blueprint: {
           role: 'Leaf C₂ photorespiratory relay & H₂O₂ detoxification chamber',
           arrivesFrom: 'Glycolate + O₂ from [[chloroplasts|real-chloroplast]]; salvaged serine returning from [[mitochondria|mitochondrion]]',
@@ -2188,9 +2188,9 @@ export const PLANT_FUNGAL_PART_LENSES: PagePartLensMap = {
       es: {
         subtitle: 'El taller de rescate y doma del agua oxigenada',
         simple:
-          'Acurrucados entre cloroplastos y mitocondrias, los peroxisomas de la hoja reciclan los errores de la RuBisCO y destruyen al vuelo el peróxido de hidrógeno tóxico.',
+          'Una unidad de contención estilo Cazafantasmas entre cloroplastos y mitocondrias: recicla fallos de la RuBisCO y pulveriza el agua oxigenada.',
         story:
-          'En una hoja viva, los [[peroxisomas|peroxisome]] se aprietan físicamente contra [[cloroplastos|real-chloroplast]] y [[mitocondrias|mitochondrion]] formando un trío inseparable. Cada vez que la [[RuBisCO|rubisco-real]] confunde oxígeno con CO₂, el glicolato entra al peroxisoma para transformarse en glicina rumbo a la mitocondria, liberando por el camino agua oxigenada corrosiva.\n\nAntes de que ese veneno escape, cristales densísimos de catalasa destrozan millones de moléculas de H₂O₂ por segundo en [[agua|water]] inocua, mientras convierten la serina devuelta por la mitocondria en glicerato limpio que regresa directo al cloroplasto.',
+          'En una hoja viva, los [[peroxisomas|peroxisome]] se abrazan a [[cloroplastos|real-chloroplast]] y [[mitocondrias|mitochondrion]] como un trío de Avengers. Cuando la [[RuBisCO|rubisco-real]] muerde oxígeno por error, el glicolato entra aquí rumbo a glicina, soltando por el camino agua oxigenada corrosiva.\n\nComo una trampa de Los Cazafantasmas llena de cristales de catalasa, este taller destroza millones de moléculas de H₂O₂ por segundo en [[agua|water]] inocua mientras devuelve glicerato limpio al cloroplasto.',
         blueprint: {
           role: 'Estación intermedia del rescate fotorrespiratorio y cámara de destoxificación',
           arrivesFrom: 'Glicolato + O₂ de los [[cloroplastos|real-chloroplast]]; serina procedente de las [[mitocondrias|mitochondrion]]',
@@ -2215,9 +2215,9 @@ export const PLANT_FUNGAL_PART_LENSES: PagePartLensMap = {
       en: {
         subtitle: 'Mobile Mortar Factories on Actin Tracks',
         simple:
-          'Unlike stationary animal Golgi, hundreds of individual plant Golgi stacks skate around on actin cables, brewing sticky pectin and hemicellulose for the cell wall.',
+          'Hundreds of miniature Howl’s Moving Castles skating along actin cables—unlike stationary animal Golgi—cooking sticky pectin mortar on the move.',
         story:
-          'Whereas cellulose cables are spun right at the outer membrane, all the jelly-like mortar of the [[cell wall|real-wall]] is cooked indoors inside hundreds of roving mini-factories. Scooping up fresh proteins and [[CESA rosettes|cesa-real]] budding off the [[endoplasmic reticulum|rough-er]] as they glide past on [[actin cables|actin-filament]], each plant Golgi stack stitches sugars into branched hemicelluloses and methylesterified pectins.\n\nAt the trans-Golgi hub on top, finished mortar and newly assembled rosettes get sorted into [[vesicles|vesicle]] bound either outward to pave the wall or inward to stock the [[central vacuole|central-vacuole]].',
+          'While cellulose rebar is spun outside, all the jelly mortar of the [[cell wall|real-wall]] is cooked inside hundreds of roving Howl’s Moving Castles. Scooping up proteins and [[CESA rosettes|cesa-real]] from the [[endoplasmic reticulum|rough-er]] while skating along [[actin cables|actin-filament]], each plant Golgi stack brews branched hemicelluloses and pectins on the fly.\n\nUp in its rooftop sorting dome, finished mortar and fresh rosettes board courier [[vesicles|vesicle]] bound either to pave the wall or stock the [[central vacuole|central-vacuole]].',
         blueprint: {
           role: 'Motile polysaccharide matrix factory & secretory sorting hub',
           arrivesFrom: 'COPII protein/lipid cargo from [[ER|rough-er]] & nucleotide-sugars imported from [[cytosol|cytosol]]',
@@ -2241,9 +2241,9 @@ export const PLANT_FUNGAL_PART_LENSES: PagePartLensMap = {
       es: {
         subtitle: 'Fábricas móviles de mortero sobre rieles de actina',
         simple:
-          'A diferencia del Golgi fijo de los animales, cientos de pilas vegetales independientes patinan sobre cables de actina fabricando pectina y hemicelulosa para la pared.',
+          'Cientos de pequeños Castillos Vagabundos de Howl patinando sobre cables de actina mientras cocinan en marcha el gel de pectina de la pared.',
         story:
-          'Mientras los cables de celulosa se hilan al aire libre en la membrana, todo el mortero gelatinoso de la [[pared celular|real-wall]] se cocina a cubierto en cientos de minifábricas ambulantes. Recogiendo al vuelo proteínas y [[rosetas CESA|cesa-real]] recién salidas del [[retículo endoplasmático|rough-er]] mientras patinan sobre [[cables de actina|actin-filament]], estas pilas ensamblan azúcares en pectinas y hemicelulosas ramificadas.\n\nEn su piso superior empaquetan tanto el mortero como las rosetas nuevas dentro de [[vesículas|vesicle]] dirigidas a pavimentar la pared o a surtir la [[vacuola central|central-vacuole]].',
+          'Mientras los cables se hilan afuera, el mortero gelatinoso de la [[pared celular|real-wall]] se cocina en cientos de minifábricas móviles dignas de El castillo vagabundo. Recogiendo al vuelo piezas y [[rosetas CESA|cesa-real]] del [[retículo endoplasmático|rough-er]] mientras patinan por [[cables de actina|actin-filament]], tejen pectinas y hemicelulosas sin frenar.\n\nEn su cúpula superior cargan mortero y rosetas en [[vesículas|vesicle]] rumbo a la muralla exterior o a la [[vacuola central|central-vacuole]].',
         blueprint: {
           role: 'Fábrica móvil de polisacáridos matriciales y estación clasificadora',
           arrivesFrom: 'Carga proteica COPII del [[RE|rough-er]] y azúcares-nucleótido del [[citosol|cytosol]]',
@@ -2270,9 +2270,9 @@ export const PLANT_FUNGAL_PART_LENSES: PagePartLensMap = {
       en: {
         subtitle: 'Pressurized Delivery Bubbles',
         simple:
-          'Tiny membrane bubbles pinching off the ER and Golgi to ferry fresh pectin, hemicellulose, and fiber-spinning rosettes out to the cell wall.',
+          'Cells at Work! delivery pods pinching off roving Golgi stacks to rush sticky pectin, mortar ties, and fresh fiber-rosettes out to the wall.',
         story:
-          'Every patch of expanding [[cell wall|real-wall]] depends on a non-stop courier fleet of sixty-to-hundred-nanometer lipid bubbles. Pinched off the trans-[[Golgi|golgi]] network stuffed with soft methylesterified pectin, xyloglucan tethers, and pre-assembled [[CESA rosettes|cesa-real]], secretory vesicles ride [[actin cables|actin-filament]] and dock beside cortical [[microtubules|microtubule]].\n\nSNARE zippers fuse bubble skin seamlessly into the [[plasma membrane|plasma-membrane]]—expanding membrane surface area while pouring fresh mortar straight onto newly spun cellulose rebar.',
+          'Expanding an Attack on Titan [[cell wall|real-wall]] takes a non-stop Planet Express courier fleet of tiny lipid bubbles. Pinched off the [[Golgi|golgi]] stuffed with soft pectin, xyloglucan cross-ties, and pre-built [[CESA rosettes|cesa-real]], vesicles surf [[actin cables|actin-filament]] and park right beside cortical [[microtubules|microtubule]].\n\nSNARE zippers fuse each pod into the [[plasma membrane|plasma-membrane]] against high turgor—dumping wet mortar straight onto newly spun cellulose rebar.',
         blueprint: {
           role: 'Membrane-bounded exocytic, endocytic & inter-organelle courier',
           arrivesFrom: 'Budding from [[ER|rough-er]] (COPII) and [[Golgi|golgi]] / TGN-EE sorting hubs',
@@ -2295,9 +2295,9 @@ export const PLANT_FUNGAL_PART_LENSES: PagePartLensMap = {
       es: {
         subtitle: 'Burbujas mensajeras bajo presión',
         simple:
-          'Diminutas esferas de membrana que brotan del retículo y del Golgi para llevar pectina, hemicelulosa y rosetas nuevas hasta la pared celular.',
+          'Cápsulas de reparto estilo Cells at Work! que brotan del Golgi para llevar pectina fresca, lazos y rosetas nuevas hasta la muralla.',
         story:
-          'Cada rincón en crecimiento de la [[pared celular|real-wall]] depende de una flota incesante de burbujas lipídicas de menos de cien nanómetros. Desprendidas de la red del [[Golgi|golgi]] repletas de pectina blanda, lazos de xiloglucano y [[rosetas CESA|cesa-real]] recién montadas, viajan sobre [[cables de actina|actin-filament]] y atracan junto a los [[microtúbulos|microtubule]] corticales.\n\nAllí cremalleras SNARE funden su envoltura con la [[membrana plasmática|plasma-membrane]], ampliando la frontera celular en el mismo gesto en que vierten mortero fresco sobre las vigas de celulosa.',
+          'Ampliar la [[pared celular|real-wall]] exige una flota continua de cápsulas mensajeras al estilo Planet Express y Cells at Work!. Salidas del [[Golgi|golgi]] repletas de pectina tierna, xiloglucanos y [[rosetas CESA|cesa-real]] listas para estrenar, viajan por [[cables de actina|actin-filament]] y aparcan junto a los [[microtúbulos|microtubule]].\n\nCremalleras SNARE funden su piel con la [[membrana plasmática|plasma-membrane]], vertiendo mortero fresco directo sobre los cables de celulosa.',
         blueprint: {
           role: 'Mensajero vesicular exocítico, endocítico e interorganular',
           arrivesFrom: 'Gemación desde el [[RE|rough-er]] (COPII) y las pilas del [[Golgi|golgi]] / TGN-EE',
@@ -2323,9 +2323,9 @@ export const PLANT_FUNGAL_PART_LENSES: PagePartLensMap = {
       en: {
         subtitle: 'The Cell-Wide Web & Desmotubule Thread',
         simple:
-          'A lacy web of membrane sheets and tubes stretching from the nuclear envelope to the cell edge—and even threading right through plasmodesmata into neighboring cells.',
+          'A Spider-Verse web of membrane sheets and tubes stretching from the nucleus to the border—even diving through warp pipes into neighbor cells.',
         story:
-          'Flowing straight out of the outer [[nuclear envelope|nuclear-envelope]], the plant endoplasmic reticulum weaves a dynamic polygonal net pinned right beneath the [[plasma membrane|plasma-membrane]] and pulled along by streaming [[actin cables|actin-filament]]. Studded with [[ribosomes|ribosome]] reading fresh mRNAs, its rough sheets fold [[PIP2 aquaporins|pip-real]], [[AHA2 pumps|aha-real]], and [[CESA subunits|cesa-real]] while smooth tubules stitch membrane lipids and wax precursors.\n\nMost remarkably, slender ER tubules called desmotubules dive straight through [[plasmodesmata|plasmodesma]], linking the ER lumen of an entire leaf into one continuous super-organelle.',
+          'Flowing straight out of the [[nuclear envelope|nuclear-envelope]], the plant ER spins a Spider-Verse web pinned under the [[plasma membrane|plasma-membrane]] and stirred by [[actin cables|actin-filament]]. Studded with [[ribosomes|ribosome]], its rough sheets fold [[PIP2 gates|pip-real]], [[AHA2 cannons|aha-real]], and [[CESA spinners|cesa-real]] while smooth tubes stitch lipids and leaf wax.\n\nWildest of all, skinny ER threads dive straight through [[plasmodesmata|plasmodesma]] Mario pipes—wiring an entire leaf’s ER into one giant shared super-organelle.',
         blueprint: {
           role: 'Membrane protein/lipid factory & intercellular ER continuum',
           arrivesFrom: 'mRNAs & ribosome subunits from [[nucleus|real-plant-nucleus]]; [[amino acids|amino-acid]], fatty acids & ATP from [[cytosol|cytosol]]',
@@ -2349,9 +2349,9 @@ export const PLANT_FUNGAL_PART_LENSES: PagePartLensMap = {
       es: {
         subtitle: 'La red celular continua de láminas y túneles',
         simple:
-          'Una encajería de láminas y tubos de membrana que nace en el núcleo, recorre toda la corteza e incluso cruza por los plasmodesmos hasta las células vecinas.',
+          'Una telaraña estilo Spider-Verse de láminas y tubos que nace en el núcleo, tapiza el borde e incluso cruza tuberías hacia las vecinas.',
         story:
-          'Brotando directamente de la [[envoltura nuclear|nuclear-envelope]] externa, el retículo endoplasmático vegetal teje una red poligonal pegada bajo la [[membrana plasmática|plasma-membrane]] y arrastrada por [[cables de actina|actin-filament]]. En sus láminas rugosas cubiertas de [[ribosomas|ribosome]] se pliegan [[acuaporinas PIP2|pip-real]], [[bombas AHA2|aha-real]] y piezas de [[CESA|cesa-real]], mientras sus tubos lisos ensamblan lípidos con ácidos grasos recién salidos del cloroplasto.\n\nComo remate prodigioso, finos tubos suyos se enhebran por el centro de los [[plasmodesmos|plasmodesma]], uniendo el retículo de toda la hoja en una sola red continua.',
+          'Brotando directamente de la [[envoltura nuclear|nuclear-envelope]], el retículo vegetal teje una red digna del Spider-Verse clavada bajo la [[membrana plasmática|plasma-membrane]] y agitada por [[cables de actina|actin-filament]]. En sus láminas cubiertas de [[ribosomas|ribosome]] se pliegan [[compuertas PIP2|pip-real]], [[bombas AHA2|aha-real]] y [[rosetas CESA|cesa-real]], mientras sus tubos lisos ensamblan grasas y ceras protectoras.\n\nComo remate prodigioso, finos tubos suyos se enhebran por el centro de los [[plasmodesmos|plasmodesma]] tipo Mario, conectando el retículo de toda la hoja en un superorgánulo continuo.',
         blueprint: {
           role: 'Fábrica de proteínas de membrana, lípidos y continuo intercelular',
           arrivesFrom: 'ARNm y subunidades del [[núcleo|real-plant-nucleus]]; [[aminoácidos|amino-acid]], ATP y ácidos grasos del [[cloroplasto|real-chloroplast]]',
@@ -2378,9 +2378,9 @@ export const PLANT_FUNGAL_PART_LENSES: PagePartLensMap = {
       en: {
         subtitle: 'Two Kingdoms of Protein Forges Under One Roof',
         simple:
-          'A plant cell runs two kinds of ribosomes at once: large eukaryotic ones in the cytoplasm and smaller bacterial-style ones inside chloroplasts and mitochondria.',
+          'An Avengers crossover under one roof: big eukaryotic ribosomes outside team up with bacterial-style 70S ones inside chloroplasts to build solar gear.',
         story:
-          'Building [[RuBisCO|rubisco-real]] takes cross-kingdom teamwork between two distinct ribosome families living inside the same leaf cell. Out in the [[cytosol|cytosol]] and along the [[rough ER|rough-er]], large 80S [[ribosomes|ribosome]] minted by the [[nucleolus|real-plant-nucleolus]] read nuclear mRNAs to stitch together RuBisCO’s eight small caps and thousands of transit-tagged chloroplast proteins.\n\nMeanwhile, tucked inside every [[chloroplast|real-chloroplast]], ancestral [[70S ribosomes|ribosome-70s]] read circular plastid DNA to forge RuBisCO’s eight large catalytic cores and sun-scorched [[Photosystem II|psii-real]] D1 replacements right on site.',
+          'Forging [[RuBisCO|rubisco-real]] takes an Avengers-level crossover between two ribosome kingdoms sharing one cell. Out in the [[cytosol|cytosol]] and on [[rough ER|rough-er]], big 80S [[ribosomes|ribosome]] from the [[nucleolus|real-plant-nucleolus]] read nuclear mRNAs to build RuBisCO’s eight small caps plus thousands of tagged chloroplast parts.\n\nInside every [[chloroplast|real-chloroplast]], ancient bacterial [[70S ribosomes|ribosome-70s]] read local ring DNA to forge RuBisCO’s eight big cores and emergency [[Photosystem II|psii-real]] D1 spares on the spot.',
         blueprint: {
           role: 'Dual-compartment mRNA translation machinery (80S cytosolic + 70S organellar)',
           arrivesFrom: '[[mRNAs|rna]] & 40S/60S subunits from [[nucleus|real-plant-nucleus]]; [[amino acids|amino-acid]] + ATP/GTP; plastome mRNAs inside [[chloroplasts|real-chloroplast]]',
@@ -2404,9 +2404,9 @@ export const PLANT_FUNGAL_PART_LENSES: PagePartLensMap = {
       es: {
         subtitle: 'Dos linajes de fraguas proteicas bajo un mismo techo',
         simple:
-          'La célula vegetal opera dos clases de ribosomas a la vez: unos grandes en el citoplasma y otros más pequeños de estilo bacteriano dentro de cloroplastos y mitocondrias.',
+          'Un crossover estilo Avengers bajo un mismo techo: grandes ribosomas 80S afuera se alían con ribosomas bacterianos 70S dentro del cloroplasto.',
         story:
-          'Levantar un solo barril de [[RuBisCO|rubisco-real]] exige trabajo en equipo entre dos dinastías evolutivas de ribosomas. En el [[citosol|cytosol]] y sobre el [[RE rugoso|rough-er]], los grandes [[ribosomas|ribosome]] 80S salidos del [[nucléolo|real-plant-nucleolus]] leen mensajes nucleares para tejer las ocho piezas pequeñas de la RuBisCO y miles de proteínas con billete de entrada al plastidio.\n\nAl mismo tiempo, dentro de cada [[cloroplasto|real-chloroplast]], sus propios [[ribosomas 70S|ribosome-70s]] ancestrales leen el ADN circular interno para forjar in situ las ocho subunidades grandes y los recambios urgentes del [[Fotosistema II|psii-real]].',
+          'Armar un barril de [[RuBisCO|rubisco-real]] exige una alianza digna de Avengers entre dos reinos distintos. En el [[citosol|cytosol]] y sobre el [[RE rugoso|rough-er]], grandes [[ribosomas|ribosome]] 80S nacidos en el [[nucléolo|real-plant-nucleolus]] fabrican las ocho tapas pequeñas de la RuBisCO y miles de piezas con pase de entrada.\n\nDentro de cada [[cloroplasto|real-chloroplast]], sus ancestrales [[ribosomas 70S|ribosome-70s]] leen el ADN circular propio para forjar in situ los ocho núcleos grandes y repuestos urgentes del [[Fotosistema II|psii-real]].',
         blueprint: {
           role: 'Maquinaria dual de traducción proteica (80S citosólica + 70S plastidial/mitocondrial)',
           arrivesFrom: '[[ARNm|rna]] y subunidades 40S/60S del [[núcleo|real-plant-nucleus]]; [[aminoácidos|amino-acid]], ATP/GTP y ARNm plastidial',
@@ -2433,9 +2433,9 @@ export const PLANT_FUNGAL_PART_LENSES: PagePartLensMap = {
       en: {
         subtitle: 'Acentriolar Railroad Tracks Under the Membrane',
         simple:
-          'With no centrosome in the middle, plant cells line up hollow tubulin tubes right underneath the plasma membrane to steer cellulose-spinning rosettes.',
+          'Tron light-cycle rails right under the membrane: with no centrosome hub, hollow tubulin hoops steer fiber-spinners and pivot 90° to bend stems.',
         story:
-          'Look for a centriole hub in a flowering plant cell and you will come up empty—plants threw that anchor away and moved their [[microtubules|microtubule]] straight to the outer rim. Assembled from GTP-charged [[tubulin|tubulin]] right beneath the [[plasma membrane|plasma-membrane]], parallel hoops hug the cortex like steel railway tracks.\n\nClipped onto those tracks by adapter proteins, [[CESA rosettes|cesa-real]] glide overhead spinning parallel [[cellulose microfibrils|cellulose-microfibril]] into the [[cell wall|real-wall]]—and when blue light or mechanical stress strikes, severing enzymes reorient the whole rail yard by ninety degrees to steer stem bending.',
+          'Hunt for an animal-style centrosome in a flowering plant and you’ll find nothing—plants tossed that hub and laid [[microtubules|microtubule]] straight along the outer wall like Tron light-cycle tracks. Built from GTP-[[tubulin|tubulin]] beneath the [[plasma membrane|plasma-membrane]], parallel hoops wrap the cell like steel barrel rings.\n\nClipped onto those rails, [[CESA rosettes|cesa-real]] lay aligned [[cellulose microfibrils|cellulose-microfibril]] into the [[cell wall|real-wall]]—until blue light triggers katanin blades to flip the whole rail yard 90° like Inception’s folding city.',
         blueprint: {
           role: 'Cortical guidance railway for oriented cell-wall deposition',
           arrivesFrom: 'Cytosolic α/β-[[tubulin|tubulin]] dimers + GTP nucleated by dispersed cortical γ-TuRC complexes',
@@ -2457,9 +2457,9 @@ export const PLANT_FUNGAL_PART_LENSES: PagePartLensMap = {
       es: {
         subtitle: 'Rieles corticales sin centrosoma',
         simple:
-          'Sin centrosoma central, la célula vegetal tiende tubos huecos de tubulina justo bajo la membrana para guiar el rumbo de las máquinas tejedoras de celulosa.',
+          'Pistas de Tron bajo la membrana: sin centrosoma central, aros huecos de tubulina guían a las hiladoras de pared y giran 90° hacia la luz.',
         story:
-          'Si buscas centriolos en una planta con flores no encontrarás ninguno: las plantas prescindieron de ese ancla central y mudaron sus [[microtúbulos|microtubule]] directamente a la periferia. Ensamblados con dímeros de [[tubulina|tubulin]] y GTP justo debajo de la [[membrana plasmática|plasma-membrane]], forman aros paralelos como una vía férrea circular.\n\nEnganchadas a esos rieles mediante proteínas puente, las [[rosetas CESA|cesa-real]] avanzan por encima depositando [[microfibrillas de celulosa|cellulose-microfibril]] alineadas en la [[pared celular|real-wall]], listas para girar noventa grados cuando la luz azul ordena doblar el tallo.',
+          'No busques centriolos en una planta con flores: mudaron sus [[microtúbulos|microtubule]] directo a la periferia como carriles de motos de luz de Tron. Armados con [[tubulina|tubulin]] y GTP bajo la [[membrana plasmática|plasma-membrane]], abrazan la corteza en aros paralelos.\n\nEnganchadas a esos rieles, las [[rosetas CESA|cesa-real]] tienden [[microfibrillas de celulosa|cellulose-microfibril]] en la [[pared celular|real-wall]], hasta que la luz azul activa tijeras katanina y gira toda la vía 90° como una ciudad de Inception.',
         blueprint: {
           role: 'Vía férrea cortical que orienta la deposición de celulosa',
           arrivesFrom: 'Dímeros citosólicos de α/β-[[tubulina|tubulin]] + GTP nucleados por complejos γ-TuRC corticales',
@@ -2484,9 +2484,9 @@ export const PLANT_FUNGAL_PART_LENSES: PagePartLensMap = {
       en: {
         subtitle: 'The Cytoplasmic Streaming Superhighway',
         simple:
-          'Bundles of twisted protein cables along which ultra-fast plant myosin motors haul Golgi stacks, mitochondria, and chloroplasts around the cell.',
+          'A Sonic-speed Autobahn of twisted cables where ultra-fast plant myosins race Golgi stacks around—and chloroplasts dodge scorching noon glare.',
         story:
-          'While cortical microtubules steer slow-moving wall builders, [[actin cables|actin-filament]] run the cell’s high-speed expressways—looping around the sunny cortex and shooting straight across [[transvacuolar strands|central-vacuole]]. Burning ATP from [[mitochondria|mitochondrion]], long-legged myosin-XI motors sprint down these helical filaments dragging [[Golgi stacks|golgi]], [[vesicles|vesicle]], and ER membranes in a sweeping river called cytoplasmic streaming.\n\nEven heavy [[chloroplasts|real-chloroplast]] use short chloroplast-actin anchors to shuffle sideways—spreading out in dim forest shade to catch every photon, or ducking single-file behind side walls when midday sun turns scorching.',
+          'While microtubules guide slow wall pavers, [[actin cables|actin-filament]] run a Fast & Furious superhighway around the rim and across [[transvacuolar bridges|central-vacuole]]. Burning [[mitochondrial|mitochondrion]] ATP, long-legged myosin-XI motors sprint at Sonic speed hauling [[Golgi castles|golgi]] and [[vesicles|vesicle]] in a nonstop river called cytoplasmic streaming.\n\nEven hefty [[chloroplasts|real-chloroplast]] grab short actin ropes to reposition like tactical shields—fanning out in forest shade or ducking single-file behind side walls under scorching noon sun.',
         blueprint: {
           role: 'Long-range organelle streaming & chloroplast-positioning tracks',
           arrivesFrom: 'Globular [[G-actin|g-actin]] monomers + ATP from [[mitochondria|mitochondrion]] / [[cytosol|cytosol]]',
@@ -2509,9 +2509,9 @@ export const PLANT_FUNGAL_PART_LENSES: PagePartLensMap = {
       es: {
         subtitle: 'La autopista de la ciclosis vegetal',
         simple:
-          'Haces de cables proteicos trenzados por los que corren motores ultrarrápidos de miosina arrastrando pilas de Golgi, vesículas y cloroplastos.',
+          'Una autopista a velocidad Sonic de cables trenzados por donde miosinas ultrarrápidas remolcan el Golgi y los cloroplastos esquivan el solazo.',
         story:
-          'Mientras los microtúbulos guían despacio la obra de la pared, los [[cables de actina|actin-filament]] tienden las autopistas de alta velocidad que rodean el córtex y cruzan sobre la [[vacuola central|central-vacuole]]. Quemando ATP de las [[mitocondrias|mitochondrion]], motores zancudos de miosina XI corren por estas hélices remolcando [[pilas de Golgi|golgi]] y [[vesículas|vesicle]] en un río circular llamado ciclosis.\n\nIncluso los pesados [[cloroplastos|real-chloroplast]] se aferran a cortos filamentos de actina para cambiar de sitio: se despliegan cara al cielo en la penumbra del bosque o se esconden en fila tras las paredes laterales si el sol del mediodía amenaza quemarlos.',
+          'Mientras los microtúbulos guían la obra lenta, los [[cables de actina|actin-filament]] tienden una autopista digna de Fast & Furious por el borde y sobre la [[vacuola central|central-vacuole]]. Con ATP de las [[mitocondrias|mitochondrion]], motores de miosina XI corren a ritmo de Sonic arrastrando [[pilas de Golgi|golgi]] y [[vesículas|vesicle]] en un río circular.\n\nHasta los pesados [[cloroplastos|real-chloroplast]] usan cabos cortos de actina para moverse con táctica: se abren al cielo en la sombra o se esconden en fila india tras las paredes laterales si el sol quema.',
         blueprint: {
           role: 'Autopista de ciclosis citoplasmática y posicionamiento de cloroplastos',
           arrivesFrom: 'Monómeros de [[actina G|g-actin]] y ATP procedentes de [[mitocondrias|mitochondrion]] / [[citosol|cytosol]]',
@@ -2537,9 +2537,9 @@ export const PLANT_FUNGAL_PART_LENSES: PagePartLensMap = {
       en: {
         subtitle: 'The Self-Propelled Fiber Rosette',
         simple:
-          'Six three-part protein clusters in the membrane that grab indoor sugar and extrude eighteen chains at once into a crystalline cell-wall cable.',
+          'Spider-Man’s self-propelled six-petal web-paver: six membrane trios spin indoor sugar into eighteen threads that lock into a crystal wall cable.',
         story:
-          'Delivered to the [[plasma membrane|plasma-membrane]] aboard [[Golgi vesicles|vesicle]], this thirty-five-nanometer rosette immediately gets to work turning photosynthetic sucrose into permanent architecture. Membrane-associated sucrose synthase splits incoming [[cytosol|cytosol]] sucrose into UDP-[[glucose|glucose]] right under its eighteen catalytic mouths, each stitching flipped sugars onto a growing strand.\n\nAs eighteen strands shoot out together and snap into a rigid [[cellulose microfibril|cellulose-microfibril]] inside the [[cell wall|real-wall]], crystallization force pushes the rosette steadily along underlying [[cortical microtubules|microtubule]].',
+          'Dropped into the [[plasma membrane|plasma-membrane]] by [[Golgi vesicles|vesicle]], this thirty-five-nanometer rosette turns solar sugar into fortress rebar like Spider-Man’s web-gear on autopilot. Right beneath its eighteen mouths, [[cytosol|cytosol]] sucrose splits into UDP-[[glucose|glucose]] to feed flipped bricks onto eighteen growing strands.\n\nAs all eighteen shoot outside and zip into a crystal [[cellulose microfibril|cellulose-microfibril]] in the [[cell wall|real-wall]], sheer crystallization force pushes the flower along [[cortical microtubules|microtubule]].',
         blueprint: {
           role: 'Plasma-membrane 18-chain cellulose extrusion nanomachine',
           arrivesFrom: 'Cytosolic sucrose → UDP-[[glucose|glucose]]; assembled rosettes trafficked via [[Golgi|golgi]] [[vesicles|vesicle]]',
@@ -2562,9 +2562,9 @@ export const PLANT_FUNGAL_PART_LENSES: PagePartLensMap = {
       es: {
         subtitle: 'La roseta autopropulsada hiladora de cables',
         simple:
-          'Seis tríos de proteínas en la membrana que toman azúcar del interior y extruyen dieciocho hebras simultáneas que cristalizan en un cable de la pared.',
+          'La pavimentadora arácnida autopropulsada estilo Spider-Man: seis tríos en membrana hilan dieciocho hebras que cristalizan en un cable de pared.',
         story:
-          'Desembarcada en la [[membrana plasmática|plasma-membrane]] por [[vesículas del Golgi|vesicle]], esta flor de treinta y cinco nanómetros convierte el azúcar solar en arquitectura duradera. Justo debajo de sus dieciocho bocas, la sacarosa llegada del [[citosol|cytosol]] se transforma en UDP-[[glucosa|glucose]] para añadir eslabones girados a dieciocho hebras crecientes.\n\nAl salir juntas al exterior y abrocharse en una [[microfibrilla de celulosa|cellulose-microfibril]] dentro de la [[pared celular|real-wall]], el propio empuje del cristal hace avanzar la roseta sobre los rieles de [[microtúbulos corticales|microtubule]].',
+          'Instalada en la [[membrana plasmática|plasma-membrane]] por [[vesículas del Golgi|vesicle]], esta flor de treinta y cinco nanómetros convierte azúcar solar en blindaje como un lanzatelarañas de Spider-Man automático. Bajo sus dieciocho bocas, la sacarosa del [[citosol|cytosol]] pasa a UDP-[[glucosa|glucose]] para alargar dieciocho hebras a la vez.\n\nAl salir juntas y cerrarse en una [[microfibrilla de celulosa|cellulose-microfibril]] dentro de la [[pared celular|real-wall]], el empuje del cristal propulsa la roseta sobre los [[microtúbulos corticales|microtubule]].',
         blueprint: {
           role: 'Nanomáquina de membrana extrusora de microfibrillas de 18 cadenas',
           arrivesFrom: 'Sacarosa del [[citosol|cytosol]] → UDP-[[glucosa|glucose]]; complejos entregados por [[vesículas|vesicle]] del [[Golgi|golgi]]',
@@ -2590,9 +2590,9 @@ export const PLANT_FUNGAL_PART_LENSES: PagePartLensMap = {
       en: {
         subtitle: 'The Sunlit Trading Floor',
         simple:
-          'Pressed into a thin bustling layer between the vacuole and the wall, the cytosol turns chloroplast sugars into sucrose and splits glucose for fuel.',
+          'A sunlit Mos Eisley bazaar squeezed between vacuole and wall, welding chloroplast sugars into sucrose while splitting glucose to fuel the cell.',
         story:
-          'Squeezed into a thin peripheral ribbon by the giant [[central vacuole|central-vacuole]] and stirred constantly by [[actin cables|actin-filament]], the plant cytosol is a crowded molecular marketplace. Triose phosphates pouring out of [[chloroplasts|real-chloroplast]] get welded here into soluble sucrose—ready to cruise out through [[plasmodesmata|plasmodesma]], feed [[CESA rosettes|cesa-real]], or bank inside the vacuole.\n\nAt the same time, glycolytic enzymes crack hexose sugars into pyruvate and quick ATP, keeping [[mitochondria|mitochondrion]] fed both day and night.',
+          'Pressed into a thin sunny gallery by the giant [[central vacuole|central-vacuole]] and stirred nonstop by [[actin cables|actin-filament]], the plant cytosol buzzes like Spirited Away’s night market. Triose sugars pouring out of [[chloroplasts|real-chloroplast]] get welded here into sucrose—ready to warp through [[plasmodesmata|plasmodesma]] pipes, feed [[CESA spinners|cesa-real]], or bank in the vacuole.\n\nMeanwhile, glycolysis cracks hexoses into pyruvate and quick ATP, keeping [[mitochondria|mitochondrion]] stoked day and night.',
         blueprint: {
           role: 'Sucrose synthesis hub, glycolytic corridor & inter-organelle exchange medium',
           arrivesFrom: 'Daytime triose-P from [[chloroplasts|real-chloroplast]]; nighttime sugars from [[starch|starch]] & [[vacuole|central-vacuole]]',
@@ -2616,9 +2616,9 @@ export const PLANT_FUNGAL_PART_LENSES: PagePartLensMap = {
       es: {
         subtitle: 'El mercado periférico bañado de sol',
         simple:
-          'Comprimido en una fina franja viva entre la vacuola y la pared, el citosol fabrica sacarosa con la cosecha del cloroplasto y prepara combustible celular.',
+          'Un bullicioso mercado estilo El viaje de Chihiro entre la vacuola y la pared: une la cosecha solar en sacarosa y prepara combustible celular.',
         story:
-          'Apretado en una lámina delgada por la inmensa [[vacuola central|central-vacuole]] y agitado sin pausa por los [[cables de actina|actin-filament]], el citosol vegetal bulle como una lonja abarrotada. Las triosas recién salidas de los [[cloroplastos|real-chloroplast]] se ensamblan aquí en sacarosa lista para viajar por los [[plasmodesmos|plasmodesma]], alimentar a las [[rosetas CESA|cesa-real]] o guardarse en la vacuola.\n\nAl mismo tiempo, las enzimas de la glucólisis parten azúcares en piruvato y ATP rápido, abasteciendo sin descanso a las [[mitocondrias|mitochondrion]].',
+          'Comprimido en una galería soleada por la gran [[vacuola central|central-vacuole]] y agitado por [[cables de actina|actin-filament]], el citosol hierve como el mercado nocturno de El viaje de Chihiro. Las triosas salidas de los [[cloroplastos|real-chloroplast]] se sueldan aquí en sacarosa lista para cruzar los [[plasmodesmos|plasmodesma]], nutrir las [[rosetas CESA|cesa-real]] o guardarse.\n\nAl mismo tiempo, la glucólisis parte azúcares en piruvato y ATP rápido para mantener encendidas las [[mitocondrias|mitochondrion]] día y noche.',
         blueprint: {
           role: 'Centro de síntesis de sacarosa, corredor glucolítico y medio de intercambio',
           arrivesFrom: 'Triosas-P diurnas de [[cloroplastos|real-chloroplast]]; maltosa nocturna del [[almidón|starch]] y sacarosa de la [[vacuola|central-vacuole]]',
@@ -2647,9 +2647,9 @@ export const PLANT_FUNGAL_PART_LENSES: PagePartLensMap = {
       en: {
         subtitle: 'Three-Layered Armor of the Pressurized Alchemist',
         simple:
-          'A tough three-story shell of insect-grade chitin, springy glucan chains, and an outer protein brush that keeps the high-pressure yeast cell from bursting.',
+          'A three-story Pacific Rim Kaiju shell—beetle chitin inside, bouncy glucan springs, and a stealth protein coat—keeping pressurized yeast from popping.',
         story:
-          'Pumped to bicycle-tire turgor pressure inside sugary fruit juice, our pressurized alchemist would pop in a millisecond without its custom three-layered hull. Right above the [[plasma membrane|plasma-membrane]], membrane synthases weave a load-bearing inner belt of [[chitin microfibrils|chitin-fibril]] locked into a thick, bouncy middle mattress of β-glucans, while [[secretory vesicles|vesicle]] coat the outside with a dense brush of mannoproteins.\n\nWhenever a [[daughter bud|real-fungal-bud]] needs room to inflate, secreted [[Exg1|exg1-real]] scissors snip just enough glucan cross-ties at the tip so internal pressure stretches the armor smoothly without springing a leak.',
+          'Pumped to bike-tire pressure in sweet grape juice, our rowdy brewer would pop in a flash without its custom three-layer Pacific Rim hull. Above the [[plasma membrane|plasma-membrane]], weavers lay a beetle-tough belt of [[chitin microfibrils|chitin-fibril]] bolted into a bouncy β-glucan mattress, while [[secretory vesicles|vesicle]] plant an outer stealth cloak of mannoproteins.\n\nWhenever a [[daughter bud|real-fungal-bud]] inflates, Edward Scissorhands [[Exg1|exg1-real]] snips just enough glucan ties at the tip so internal pressure stretches the armor leak-free.',
         blueprint: {
           role: 'Stratified osmotic containment hull & extracellular shield',
           arrivesFrom: 'UDP-[[glucose|glucose]] (Fks1) & UDP-GlcNAc (Chs1–3) at membrane; mannoproteins & [[Exg1|exg1-real]] via [[vesicles|vesicle]]',
@@ -2671,9 +2671,9 @@ export const PLANT_FUNGAL_PART_LENSES: PagePartLensMap = {
       es: {
         subtitle: 'La coraza triple del alquimista a presión',
         simple:
-          'Un blindaje de tres capas —quitina dura por dentro, glucanos elásticos en medio y un cepillo proteico por fuera— que impide que la levadura estalle.',
+          'Un blindaje tricapa digno de un Kaiju de Pacific Rim —quitina dura, muelles de glucano y manto proteico— que impide que la levadura estalle.',
         story:
-          'Sometida a la presión interna de un neumático de bicicleta en mitad del mosto dulce, nuestro alquimista reventaría al instante sin su coraza laminada. Al ras de la [[membrana plasmática|plasma-membrane]], las sintasas tienden un cinturón profundo de [[microfibrillas de quitina|chitin-fibril]] cosido a un colchón elástico de β-glucanos, mientras las [[vesículas secretoras|vesicle]] plantan por fuera un tupido cepillo de manoproteínas.\n\nCuando toca inflar una [[yema hija|real-fungal-bud]], las tijeras [[Exg1|exg1-real]] recortan con precisión milimétrica las mallas de la punta para que el casco ceda y se estire sin una sola fuga.',
+          'Hinchada a presión de neumático en pleno mosto dulce, nuestra cervecera reventaría al instante sin su casco laminado estilo Pacific Rim. Sobre la [[membrana plasmática|plasma-membrane]], las sintasas tienden un cinturón de [[microfibrillas de quitina|chitin-fibril]] cosido a un colchón elástico de β-glucanos, mientras las [[vesículas secretoras|vesicle]] plantan por fuera un manto de camuflaje.\n\nAl inflar una [[yema hija|real-fungal-bud]], las tijeras [[Exg1|exg1-real]] tipo El Joven Manos de Tijera podan la punta lo justo para estirar la coraza sin fugas.',
         blueprint: {
           role: 'Casco estratificado de contención osmótica y escudo protector',
           arrivesFrom: 'UDP-[[glucosa|glucose]] (Fks1) y UDP-GlcNAc (Chs1–3); manoproteínas y [[Exg1|exg1-real]] desde [[vesículas|vesicle]]',
@@ -2698,9 +2698,9 @@ export const PLANT_FUNGAL_PART_LENSES: PagePartLensMap = {
       en: {
         subtitle: 'Craters of Maternal Memory',
         simple:
-          'Raised rings of pure chitin stamped permanently onto the mother cell’s wall every time a daughter yeast pinches off and floats free.',
+          'Permanent Star Wars docking-ring craters of pure chitin stamped onto Mom’s hull every time a daughter yeast undocks and floats free.',
         story:
-          'Count the raised craters on a yeast hull and you can read her exact life story: each ring marks one child launched into the world. When mitosis wraps up inside the [[budding neck|real-fungal-bud]] framed by its [[septin collar|septin-real]], chitin synthases lay down a solid primary wall of [[chitin microfibrils|chitin-fibril]] straight across the doorway.\n\nA daughter-only chitinase enzyme then dissolves the middle glue from her side alone—freeing the smooth newborn while leaving a stiff crater welded forever into the mother’s [[fungal wall|fungal-wall]].',
+          'Count the raised craters on a yeast hull to read her life log like One Piece battle scars: each ring marks one child launched. When mitosis wraps inside the [[budding neck|real-fungal-bud]] framed by its Doctor Strange [[septin collar|septin-real]], weavers seal a solid blast door of [[chitin microfibrils|chitin-fibril]] across the hatch.\n\nA daughter-only chitinase then cuts the middle glue from her side alone—releasing the smooth newborn like a Star Wars pod while welding a permanent crater into Mom’s [[fungal wall|fungal-wall]].',
         blueprint: {
           role: 'Permanent cytokinetic chitin seal & replicative lifespan record',
           arrivesFrom: 'UDP-GlcNAc polymerized by Chs3 & Chs2 inside the [[septin|septin-real]]-lined [[bud neck|real-fungal-bud]]',
@@ -2722,9 +2722,9 @@ export const PLANT_FUNGAL_PART_LENSES: PagePartLensMap = {
       es: {
         subtitle: 'Cráteres de la memoria materna',
         simple:
-          'Anillos elevados de quitina pura que quedan grabados de por vida en el casco de la levadura madre cada vez que se independiza una hija.',
+          'Cráteres permanentes estilo escotilla de Star Wars hechos de quitina pura en el casco materno tras cada parto; contarlos revela su historial.',
         story:
-          'Basta contar los cráteres del casco de una levadura para leer su biografía exacta: cada anillo conmemora una hija lanzada al mundo. Al cerrarse la división en el [[cuello de gemación|real-fungal-bud]] sujeto por el [[collar de septinas|septin-real]], las sintasas tienden un disco macizo de [[microfibrillas de quitina|chitin-fibril]] sellando la escotilla.\n\nEnseguida, una quitinasa secretada únicamente desde el lado de la recién nacida disuelve la costura central para soltar amarras, dejando el reborde crateriforme soldado para siempre en la [[pared fúngica|fungal-wall]] materna.',
+          'Cuenta los cráteres del casco de una levadura y leerás sus medallas al estilo One Piece: cada anillo celebra una hija lanzada al mundo. Al cerrarse el [[cuello de gemación|real-fungal-bud]] enmarcado por el [[collar de septinas|septin-real]], las sintasas tienden una esclusa maciza de [[microfibrillas de quitina|chitin-fibril]].\n\nComo al desacoplar una cápsula en Star Wars, una quitinasa exclusiva de la hija disuelve la junta central desde su lado, dejándole a mamá el cráter soldado de por vida en su [[pared fúngica|fungal-wall]].',
         blueprint: {
           role: 'Sello citocinético permanente de quitina y registro de edad replicativa',
           arrivesFrom: 'UDP-GlcNAc polimerizada por Chs3 y Chs2 en el [[cuello|real-fungal-bud]] del [[collar de septinas|septin-real]]',
@@ -2749,9 +2749,9 @@ export const PLANT_FUNGAL_PART_LENSES: PagePartLensMap = {
       en: {
         subtitle: 'The Alcohol-Proof Ergosterol Frontier',
         simple:
-          'Stiffened with fungus-only ergosterol instead of cholesterol, this membrane hauls in sugar while letting brewed ethanol and fizz escape without dissolving itself.',
+          'Braced with fungus-only ergosterol planks instead of cholesterol, this tavern-proof border gulps sugar while venting booze and fizz without melting.',
         story:
-          'Brewing high-proof ethanol inside your own belly would melt an ordinary membrane into leaky mush, so the pressurized alchemist wedges rigid [[ergosterol|ergosterol]] planks tailored by [[Erg11|erg11-real]] between its phospholipids. Crowded hexose transporters gulp down external [[glucose|glucose]] at breakneck speed to feed [[cytosolic|cytosol]] fermentation, while [[Pma1 proton pumps|pma1-real]] charge the whole border to −180 millivolts.\n\nOut through that sterol-stiffened skin diffuse sparkling CO₂ and ethanol—poisoning rival microbes outside while the yeast hull stays tight as a drum.',
+          'Brewing high-proof spirits in your own belly would melt an ordinary membrane into mush, so this One Piece tavern master wedges stiff [[ergosterol|ergosterol]] planks tailored by [[Erg11|erg11-real]] between its lipids. Hexose gates chug external [[glucose|glucose]] at breakneck speed to feed [[cytosolic|cytosol]] vats, while [[Pma1 cannons|pma1-real]] charge the border to −180 mV.\n\nOut through that alcohol-proof hull diffuse fizzy CO₂ and ethanol—pickling rival bacteria outside while the yeast skin stays drum-tight.',
         blueprint: {
           role: 'Ethanol-tolerant selective barrier & nutrient-import frontier',
           arrivesFrom: 'Extracellular [[glucose|glucose]] & nutrients; [[ergosterol|ergosterol]] from [[Erg11|erg11-real]] / ER; [[vesicles|vesicle]]',
@@ -2774,9 +2774,9 @@ export const PLANT_FUNGAL_PART_LENSES: PagePartLensMap = {
       es: {
         subtitle: 'La frontera de ergosterol a prueba de alcohol',
         simple:
-          'Endurecida con ergosterol exclusivo de los hongos en lugar de colesterol, esta membrana traga azúcar a raudales mientras expulsa alcohol y gas sin disolverse.',
+          'Blindada con ergosterol fúngico en vez de colesterol, esta frontera de taberna traga azúcar a raudales y expulsa alcohol sin derretirse.',
         story:
-          'Destilar etanol concentrado dentro del propio cuerpo derretiría una membrana corriente, así que el alquimista encaja tablones rígidos de [[ergosterol|ergosterol]] —tallados por [[Erg11|erg11-real]]— entre sus grasas. Sus transportadores engullen [[glucosa|glucose]] exterior a toda máquina rumbo al [[citosol|cytosol]], mientras las [[bombas Pma1|pma1-real]] cargan la frontera hasta −180 milivoltios.\n\nA través de esa piel blindada escapan burbujas de CO₂ y etanol que dejan fuera de juego a los microbios competidores sin abrir una sola grieta en casa.',
+          'Destilar licor fuerte en tu propia barriga fundiría una membrana normal, así que esta tabernera digna de One Piece encaja tablones rígidos de [[ergosterol|ergosterol]] —tallados por [[Erg11|erg11-real]]— entre sus grasas. Sus compuertas engullen [[glucosa|glucose]] hacia el [[citosol|cytosol]] mientras las [[bombas Pma1|pma1-real]] cargan la muralla a −180 milivoltios.\n\nPor esa piel antialcohol escapan espuma de CO₂ y etanol que dejan fuera de combate a los microbios rivales sin abrir ni una grieta.',
         blueprint: {
           role: 'Barrera selectiva resistente al etanol y puerto de entrada de azúcares',
           arrivesFrom: '[[Glucosa|glucose]] y nutrientes externos; [[ergosterol|ergosterol]] desde [[Erg11|erg11-real]]; [[vesículas|vesicle]]',
@@ -2802,9 +2802,9 @@ export const PLANT_FUNGAL_PART_LENSES: PagePartLensMap = {
       en: {
         subtitle: 'Proton Cannons & Glucan Looms',
         simple:
-          'Side-by-side in the membrane, Pma1 pumps burn ATP to fire acid outside while Fks1 weavers spin fresh glucan springs straight into the wall.',
+          'Twin frontier titans: Avengers-grade Pma1 cannons burn ATP to blast acid out while Fks1 looms weave bouncy glucan springs into the wall.',
         story:
-          'Look closely at the [[plasma membrane|plasma-membrane]] and two titan machines dominate the skyline. [[Pma1|pma1-real]]—the single most abundant membrane protein in yeast—devours a fifth of all ATP minted by fermentation and [[mitochondria|mitochondrion]] to blast protons outside, charging the electrical battery that pulls nutrients indoors.\n\nRight beside those proton cannons sit Fks1 glucan synthases chewing cytosolic UDP-[[glucose|glucose]] to extrude springy β-1,3-glucan threads straight into the [[fungal wall|fungal-wall]]—the exact looms targeted by clinical echinocandin drugs.',
+          'Zoom into the [[plasma membrane|plasma-membrane]] and two powerhouse machines rule the border. [[Pma1|pma1-real]]—yeast’s #1 membrane protein—guzzles a fifth of all ATP from glycolysis and [[mitochondria|mitochondrion]] like Tony Stark’s Avengers Tower reactor, blasting protons out to power nutrient tractor beams.\n\nRight beside those cannons sit Fks1 looms spinning cytosolic UDP-[[glucose|glucose]] into bouncy β-1,3-glucan springs for the [[fungal wall|fungal-wall]]—the exact bullseye hit by echinocandin drugs.',
         blueprint: {
           role: 'Electrogenic H⁺ energization & transmembrane β-glucan extrusion',
           arrivesFrom: 'Cytosolic ATP (from glycolysis / [[mitochondria|mitochondrion]]) & UDP-[[glucose|glucose]]',
@@ -2826,9 +2826,9 @@ export const PLANT_FUNGAL_PART_LENSES: PagePartLensMap = {
       es: {
         subtitle: 'Cañones de protones y telares de glucano',
         simple:
-          'Codo con codo en la membrana, las bombas Pma1 queman ATP para lanzar ácido fuera mientras las sintasas Fks1 tejen muelles de glucano hacia la pared.',
+          'Dos colosos en la frontera: los cañones Pma1 queman ATP lanzando ácido afuera mientras los telares Fks1 tejen muelles de glucano en la pared.',
         story:
-          'Al acercarse a la [[membrana plasmática|plasma-membrane]] destacan dos colosos trabajando hombro con hombro. [[Pma1|pma1-real]] —la proteína de membrana más abundante de la levadura— consume la quinta parte de todo el ATP producido por la fermentación y las [[mitocondrias|mitochondrion]] para disparar protones afuera y cargar la batería que arrastra nutrientes hacia dentro.\n\nA su lado, los telares Fks1 atrapan UDP-[[glucosa|glucose]] del interior y extruyen hebras elásticas de β-1,3-glucano directo hacia la [[pared fúngica|fungal-wall]], siendo la diana exacta de los antifúngicos equinocandinas.',
+          'Acércate a la [[membrana plasmática|plasma-membrane]] y verás dos titanes hombro con hombro. [[Pma1|pma1-real]] —la proteína más abundante de la frontera— traga como la Torre Avengers la quinta parte del ATP de las [[mitocondrias|mitochondrion]] y la glucólisis para disparar protones y activar rayos tractores de nutrientes.\n\nA su lado, los telares Fks1 hilan UDP-[[glucosa|glucose]] en muelles elásticos hacia la [[pared fúngica|fungal-wall]], siendo el blanco exacto de los fármacos equinocandinas.',
         blueprint: {
           role: 'Energización electrogénica de H⁺ y extrusión transmembrana de β-glucano',
           arrivesFrom: 'ATP citosólico (glucólisis / [[mitocondrias|mitochondrion]]) y UDP-[[glucosa|glucose]]',
@@ -2853,9 +2853,9 @@ export const PLANT_FUNGAL_PART_LENSES: PagePartLensMap = {
       en: {
         subtitle: 'Inflating a Daughter Cell Under Pressure',
         simple:
-          'Focused delivery of vesicles along actin cables softens and expands one chosen spot on the mother cell, blowing up a brand-new daughter yeast.',
+          'Up-style balloon inflation through a Doctor Strange portal: vesicles racing down actin cables soften one chosen spot to blow up a baby yeast.',
         story:
-          'Unable to stretch her whole seasoned hull, the mother yeast picks a fresh spot beside an old [[bud scar|bud-scar]] and plants a protein beacon called the polarisome at the tip. Formins there spin long [[actin cables|actin-filament]] backward into the mother’s belly, guiding myosin motors stacked with [[secretory vesicles|vesicle]] straight through the [[septin collar|septin-real]].\n\nFusing right at the apex, those bubbles pour out [[Exg1|exg1-real]] wall-softeners alongside fresh synthases so internal turgor blows up a spherical baby cell—ready to inherit organelles, vacuoles, and half the dividing nucleus.',
+          'Unable to stretch her battle-hardened hull, Mom picks a fresh patch beside an old [[bud scar|bud-scar]] and lights a polarisome beacon at the tip. Formins fire [[actin cables|actin-filament]] back into Mom’s belly as ziplines for myosins rushing [[secretory vesicles|vesicle]] straight through the Doctor Strange [[septin portal|septin-real]].\n\nPopping open at the apex, those pods release Edward Scissorhands [[Exg1|exg1-real]] alongside fresh weavers so internal pressure inflates a round baby cell like Up’s balloon house.',
         blueprint: {
           role: 'Apical polarized growth zone & nascent daughter cell',
           arrivesFrom: 'Post-Golgi [[vesicles|vesicle]], mitochondria, cortical ER & mRNAs towed on [[actin cables|actin-filament]]',
@@ -2878,9 +2878,9 @@ export const PLANT_FUNGAL_PART_LENSES: PagePartLensMap = {
       es: {
         subtitle: 'Inflando una hija nueva bajo presión',
         simple:
-          'Un bombardeo preciso de vesículas sobre cables de actina ablanda y estira un punto elegido del casco materno para inflar desde cero una levadura hija.',
+          'Inflado tipo globos de Up a través de un portal de Doctor Strange: vesículas sobre cables de actina ablandan un punto para soplar una hija.',
         story:
-          'Incapaz de estirar por igual su curtida coraza, la madre elige un punto virgen junto a una antigua [[cicatriz de gemación|bud-scar]] y clava en la cúspide el faro proteico del polarisoma. Desde allí se tienden largos [[cables de actina|actin-filament]] hacia el vientre materno por donde suben motores cargados de [[vesículas secretoras|vesicle]] cruzando el [[collar de septinas|septin-real]].\n\nAl fundirse en la punta, esas burbujas descargan tijeras [[Exg1|exg1-real]] y sintasas frescas para que la presión interna infle una hija esférica lista para recibir mitocondrias, vacuolas y medio núcleo.',
+          'Incapaz de estirar su curtido casco, mamá elige un rincón virgen junto a una [[cicatriz de gemación|bud-scar]] y enciende en la punta el faro del polarisoma. Desde allí salen tirolinas de [[cables de actina|actin-filament]] por donde suben motores con [[vesículas secretoras|vesicle]] cruzando el portal de [[septinas|septin-real]] digno de Doctor Strange.\n\nAl fundirse en la cúspide, sueltan tijeras [[Exg1|exg1-real]] y sintasas para que la presión interna infle una hija redonda como la casa de globos de Up.',
         blueprint: {
           role: 'Zona de crecimiento polarizado apical y célula hija emergente',
           arrivesFrom: '[[Vesículas|vesicle]], mitocondrias, RE y ARNm remolcados sobre [[cables de actina|actin-filament]]',
@@ -2906,9 +2906,9 @@ export const PLANT_FUNGAL_PART_LENSES: PagePartLensMap = {
       en: {
         subtitle: 'The Hourglass Gatekeeper & Noose',
         simple:
-          'A woven hourglass collar of GTP-binding septin rods braces the narrow doorway between mother and bud, then splits in two to guide the final pinch-off.',
+          'A Doctor Strange sling-ring hourglass collar bracing the mother-bud doorway, then splitting into twin rings to guide the final pinch-off.',
         story:
-          'Right where mother meets [[daughter bud|real-fungal-bud]], hundreds of six-subunit [[septin rods|septin-real]] snap onto the curved [[plasma membrane|plasma-membrane]] into a tight hourglass corset. This collar acts as both customs fence and construction scaffold: daughter membrane proteins cannot slip backward across it, and mitotic checkpoints wait here until the dividing nucleus clears the doorway.\n\nAt the finale of division, the hourglass rotates ninety degrees and splits into twin rings sandwiching a myosin-actin drawstring—cinching the membrane shut while chitin weavers stamp a permanent [[bud scar|bud-scar]].',
+          'Right where Mom meets [[daughter bud|real-fungal-bud]], hundreds of six-piece [[septin rods|septin-real]] click onto the curved [[plasma membrane|plasma-membrane]] like Doctor Strange’s sparkling sling-ring portal. This hourglass acts as both VIP bouncer and safety inspector: daughter proteins cannot sneak back, and mitosis waits until the nucleus clears the gate.\n\nFor the finale, the collar rotates 90° and splits into twin rings framing an actomyosin drawstring—cinching the hatch while chitin weavers stamp a [[bud scar|bud-scar]].',
         blueprint: {
           role: 'Bud-neck diffusion barrier, morphogenesis checkpoint & cytokinetic scaffold',
           arrivesFrom: 'Cytosolic GTP-bound septin rods ([[Cdc3/10/12/11|septin-real]]) + ATP-powered Myo1/[[actin|actin-filament]] ring',
@@ -2930,9 +2930,9 @@ export const PLANT_FUNGAL_PART_LENSES: PagePartLensMap = {
       es: {
         subtitle: 'El reloj de arena guardián y su lazo de cierre',
         simple:
-          'Un collar en reloj de arena tejido con bastones de septina sostiene el cuello entre madre e hija y luego se abre en dos anillos para guiar el corte final.',
+          'Un portal en reloj de arena estilo Doctor Strange hecho de septinas que sostiene el cuello madre-hija y se divide en dos para el cierre final.',
         story:
-          'Justo en la cintura que une a la madre con su [[yema hija|real-fungal-bud]], cientos de [[bastones de septina|septin-real]] se abrochan bajo la curva de la [[membrana plasmática|plasma-membrane]] tejiendo un corsé en reloj de arena. Ese collar hace a la vez de valla aduanera y de puesto de vigilancia: impide que las proteínas de la hija se escapen hacia atrás y retiene el cierre hasta comprobar que medio núcleo ya cruzó el umbral.\n\nLlegado el desenlace, el reloj de arena gira noventa grados y se desdobla en dos anillos gemelos que enmarcan un lazo contráctil de actina y miosina, cerrando el cuello mientras se fragua una nueva [[cicatriz de gemación|bud-scar]].',
+          'En la cintura exacta que une a la madre con su [[yema hija|real-fungal-bud]], cientos de [[bastones de septina|septin-real]] se abrochan bajo la [[membrana plasmática|plasma-membrane]] como un portal dorado de Doctor Strange. Ese reloj de arena ejerce a la vez de cordón VIP aduanero y juez de seguridad: impide que las proteínas exclusivas de la hija regresen hacia atrás y retiene el corte hasta comprobar que medio núcleo ya cruzó el umbral.\n\nAl final gira noventa grados y se desdobla en dos anillos gemelos que encajonan el lazo contráctil, sellando el cuello con una [[cicatriz de gemación|bud-scar]].',
         blueprint: {
           role: 'Barrera de difusión del cuello, sensor mitótico y guía de citocinesis',
           arrivesFrom: 'Bastones citosólicos con GTP ([[Cdc3/10/12/11|septin-real]]) y anillo contráctil Myo1/[[actina|actin-filament]] con ATP',
@@ -2957,9 +2957,9 @@ export const PLANT_FUNGAL_PART_LENSES: PagePartLensMap = {
       en: {
         subtitle: 'Acid Recycling Vat & Polyphosphate Treasury',
         simple:
-          'Doing the job of an animal lysosome and storage vault in one, the acidic yeast vacuole recycles old parts and hoards long chains of phosphate and amino acids.',
+          'Smaug’s treasury meets WALL-E’s recycler: this acidic yeast sphere shreds worn-out parts while hoarding giant chains of phosphate and amino acids.',
         story:
-          'In the bustling economy of the pressurized alchemist, this single acidic sphere serves simultaneously as recycling smelter, osmotic ballast, and emergency bank vault. Rotary V-ATPase pumps in its tonoplast skin burn [[cytosolic|cytosol]] ATP to sour the interior, activating proteases that chew worn-out proteins delivered via [[Golgi|golgi]] and autophagy back into fresh [[amino acids|amino-acid]].\n\nFloating inside that sour sap sit long negatively charged chains of inorganic [[phosphate|phosphate]]—polyphosphate reserves up to ten percent of the cell’s dry weight—paired with basic arginine and lysine, while myosin motors tow a piece of the mother vacuole along [[actin cables|actin-filament]] so every newborn bud starts life stocked.',
+          'Inside our dwarven brewer, one sour sphere works simultaneously as WALL-E scrap smelter, osmotic ballast, and Smaug’s glittering treasure vault from The Hobbit. Rotary V-ATPase pumps in its tonoplast skin burn [[cytosolic|cytosol]] ATP to sour the interior, waking proteases that chop worn-out [[Golgi|golgi]] and autophagy cargo back into fresh [[amino acids|amino-acid]].\n\nFloating in that acid vault sit long negatively charged chains of [[phosphate|phosphate]]—polyphosphate reserves up to 10% of cell dry weight—paired with arginine and lysine, while myosins tow a starter chest along [[actin cables|actin-filament]] so every newborn bud starts life rich.',
         blueprint: {
           role: 'Lytic recycling compartment, amino-acid bank & polyphosphate reservoir',
           arrivesFrom: 'ATP, basic [[amino acids|amino-acid]] & [[Pᵢ|phosphate]] from [[cytosol|cytosol]]; hydrolases from [[Golgi|golgi]]',
@@ -2981,9 +2981,9 @@ export const PLANT_FUNGAL_PART_LENSES: PagePartLensMap = {
       es: {
         subtitle: 'Cuba ácida de reciclaje y tesoro de polifosfato',
         simple:
-          'Cumpliendo a la vez como lisosoma y caja fuerte, la vacuola ácida de la levadura recicla piezas viejas y guarda largas cadenas de fosfato y aminoácidos.',
+          'El tesoro de Smaug unido al reciclador WALL-E: esta esfera ácida desmonta piezas viejas y atesora largas cadenas de fosfato y aminoácidos.',
         story:
-          'En la apretada economía del alquimista presurizado, esta gran esfera ácida hace a la vez de planta recicladora, lastre osmótico y cámara del tesoro. Las bombas V-ATPasa de su membrana gastan ATP del [[citosol|cytosol]] para volver agrio el interior, despertando tijeras que desmontan las proteínas viejas enviadas por autofagia o desde el [[Golgi|golgi]] en [[aminoácidos|amino-acid]] nuevos.\n\nDentro flotan además larguísimas cadenas de [[fosfato|phosphate]] —reservas de polifosfato que llegan al diez por ciento del peso seco celular— junto con arginina y lisina, mientras motores sobre [[cables de actina|actin-filament]] remolcan un gajo vacuolar hacia la yema para que la hija nazca con despensa propia.',
+          'En la apretada economía de nuestra cervecera enana, esta gran esfera ácida hace a la vez de planta recicladora WALL-E, lastre osmótico y cámara del tesoro de Smaug en El Hobbit. Las bombas V-ATPasa de su membrana gastan ATP del [[citosol|cytosol]] para agriar la savia, despertando tijeras que convierten desechos celulares y envíos del [[Golgi|golgi]] en [[aminoácidos|amino-acid]] frescos.\n\nDentro brillan además larguísimas cadenas de [[fosfato|phosphate]] —reservas que suman hasta el 10 % del peso seco— junto con arginina, mientras motores por [[cables de actina|actin-filament]] remolcan un cofre inicial hacia cada nueva yema.',
         blueprint: {
           role: 'Compartimento lítico, reserva de aminoácidos y almacén de polifosfato',
           arrivesFrom: 'ATP, [[aminoácidos|amino-acid]] básicos y [[fosfato|phosphate]] del [[citosol|cytosol]]; hidrolasas desde el [[Golgi|golgi]]',
@@ -3008,9 +3008,9 @@ export const PLANT_FUNGAL_PART_LENSES: PagePartLensMap = {
       en: {
         subtitle: 'The Unbroken Vault of Closed Mitosis',
         simple:
-          'A compact double-membrane nucleus studded with pores that exports mRNAs and ribosomes—and divides into the daughter bud without ever dissolving its wall.',
+          'A Mandalorian vault that never takes its helmet off: this double-membrane nucleus exports mRNAs and divides into the bud without breaking its wall.',
         story:
-          'Unlike plant and animal nuclei that shatter their membranes at every cell division, the yeast [[nuclear envelope|nuclear-envelope]] stays sealed tight from generation to generation. Octagonal [[nuclear pores|nuclear-pore]] keep full customs control even at the height of mitosis, welcoming nucleotides and regulators in from the [[cytosol|cytosol]] while firing fresh mRNAs and ribosome halves out to fuel fermentation.\n\nAnchored right into this unbroken double skin sits the [[spindle pole body|spindle-pole-body]], stretching the entire intact vault like pulled taffy through the [[budding neck|real-fungal-bud]] until it pinches cleanly into mother and daughter halves.',
+          'Plant and animal nuclei blow their walls apart every division, but yeast’s [[nuclear envelope|nuclear-envelope]] lives by The Mandalorian code: the helmet stays sealed. Guarded [[nuclear pores|nuclear-pore]] keep customs open mid-mitosis, pulling supplies from the [[cytosol|cytosol]] while firing mRNAs and ribosome halves out to stoke the brewery.\n\nRiveted right into that unbroken armor sits the [[spindle pole body|spindle-pole-body]], stretching the whole intact vault like Luffy’s rubber arms in One Piece through the [[budding neck|real-fungal-bud]] until it pinches cleanly in two.',
         blueprint: {
           role: 'Persistent double-membrane nuclear barrier & closed-mitosis envelope',
           arrivesFrom: 'NTPs, histones & regulatory proteins imported via [[nuclear pores|nuclear-pore]] from [[cytosol|cytosol]]',
@@ -3032,9 +3032,9 @@ export const PLANT_FUNGAL_PART_LENSES: PagePartLensMap = {
       es: {
         subtitle: 'La cámara sellada de la mitosis cerrada',
         simple:
-          'Un núcleo compacto de doble membrana que despacha ARNm y ribosomas, y se reparte hacia la yema hija sin desmontar jamás su envoltura.',
+          'Una bóveda fiel a The Mandalorian que jamás se quita el casco: despacha ARNm y se reparte hacia la yema sin romper su doble membrana.',
         story:
-          'Mientras las células animales y vegetales deshacen su membrana nuclear en cada división, la [[envoltura nuclear|nuclear-envelope]] de la levadura permanece cerrada a cal y canto de generación en generación. Sus [[poros nucleares|nuclear-pore]] mantienen abierta la aduana incluso en plena mitosis, recibiendo suministros del [[citosol|cytosol]] y despachando ARNm y mitades ribosómicas sin interrupción.\n\nEngastado en esa doble membrana intacta trabaja el [[cuerpo polar del huso|spindle-pole-body]], que estira la cámara entera como vidrio soplado a través del [[cuello de la yema|real-fungal-bud]] hasta partirla limpiamente en dos núcleos.',
+          'Mientras animales y plantas rompen su núcleo en cada división, la [[envoltura nuclear|nuclear-envelope]] de la levadura cumple el código de The Mandalorian: el casco sigue puesto. Sus [[poros nucleares|nuclear-pore]] mantienen abierta la aduana en plena mitosis, tomando recursos del [[citosol|cytosol]] y lanzando ARNm sin parar.\n\nClavado en esa coraza intacta, el [[cuerpo polar del huso|spindle-pole-body]] estira la bóveda entera como la goma de Luffy en One Piece por el [[cuello de la yema|real-fungal-bud]] hasta partirla en dos.',
         blueprint: {
           role: 'Barrera nuclear persistente de doble membrana para mitosis cerrada',
           arrivesFrom: 'Nucleótidos, histonas y reguladores importados desde el [[citosol|cytosol]] vía [[poros nucleares|nuclear-pore]]',
@@ -3059,9 +3059,9 @@ export const PLANT_FUNGAL_PART_LENSES: PagePartLensMap = {
       en: {
         subtitle: 'The Two-Faced Nuclear Grommet',
         simple:
-          'Plugged straight into the nuclear membrane like a double-sided button, the spindle pole body builds chromosome-pulling fibers inside and steering cables outside.',
+          'Darth Maul’s double-bladed rivet set straight into the nuclear membrane, firing chromosome cables inward and towlines outward to the bud.',
         story:
-          'With no centrioles anywhere in sight and an unbroken [[nuclear envelope|nuclear-envelope]] blocking the way, budding yeast anchors its microtubule hub right inside a dedicated hole in the nuclear membrane. Fed [[tubulin|tubulin]] dimers on both sides, the inner plaque of the [[spindle pole body|spindle-pole-body]] reaches inward to tether all sixteen [[chromosomes|chromosome]] and push duplicated poles apart during closed mitosis.\n\nSimultaneously, its outer plaque shoots long cytoplasmic [[microtubules|microtubule]] out into the cytosol—catching rides on bud-tip motors to reel one end of the dividing nucleus straight through the [[budding neck|real-fungal-bud]].',
+          'With zero centrioles and an unbroken Mandalorian [[nuclear envelope|nuclear-envelope]] in the way, yeast mounts its cable hub straight inside a dedicated hole in the nuclear wall like Darth Maul’s twin-bladed lightsaber. Fed [[tubulin|tubulin]] on both faces, the inner side of the [[spindle pole body|spindle-pole-body]] leashes all sixteen [[chromosomes|chromosome]] and pushes poles apart indoors.\n\nMeanwhile, its outer face fires Spider-Man grapple [[microtubules|microtubule]] into the cytosol to winch half the nucleus straight through the [[budding neck|real-fungal-bud]].',
         blueprint: {
           role: 'Bipolar membrane-embedded microtubule-organizing center (MTOC)',
           arrivesFrom: 'GTP-[[tubulin|tubulin]] dimers & γ-tubulin complexes on both faces of [[nuclear envelope|nuclear-envelope]]',
@@ -3083,9 +3083,9 @@ export const PLANT_FUNGAL_PART_LENSES: PagePartLensMap = {
       es: {
         subtitle: 'El ojal proteico de doble cara',
         simple:
-          'Incrustado en la propia membrana nuclear como un botón de dos caras, este centro lanza microtúbulos hacia dentro para separar cromosomas y hacia fuera para remolcar el núcleo.',
+          'Un remache doble estilo sable de Darth Maul en la propia membrana nuclear: lanza cables adentro para cromosomas y garfios afuera hacia la yema.',
         story:
-          'Sin un solo centriolo y con la [[envoltura nuclear|nuclear-envelope]] siempre cerrada, la levadura engasta su organizador de cables directamente en un ojal de la membrana del núcleo. Alimentado con dímeros de [[tubulina|tubulin]] por ambos lados, el plato interno del [[cuerpo polar del huso|spindle-pole-body]] sujeta los dieciséis [[cromosomas|chromosome]] y separa los polos puertas adentro.\n\nAl mismo tiempo, su plato externo lanza largos [[microtúbulos|microtubule]] al citoplasma que se enganchan a motores en la corteza hija para remolcar medio núcleo a través del [[cuello de la yema|real-fungal-bud]].',
+          'Sin centriolos y con la [[envoltura nuclear|nuclear-envelope]] siempre sellada, la levadura encaja su lanzador de cables en un ojal de la muralla como el sable doble de Darth Maul en Star Wars. Nutriendo ambos lados con [[tubulina|tubulin]], la cara interna del [[cuerpo polar del huso|spindle-pole-body]] ata los dieciséis [[cromosomas|chromosome]] y separa los polos puertas adentro.\n\nA la vez, su cara externa dispara [[microtúbulos|microtubule]] como garfios de Spider-Man para remolcar medio núcleo por el [[cuello de la yema|real-fungal-bud]].',
         blueprint: {
           role: 'Centro organizador bipolar de microtúbulos incrustado en la envoltura nuclear',
           arrivesFrom: 'Dímeros GTP-[[tubulina|tubulin]] y complejos γ-TuSC a ambos lados de la [[envoltura nuclear|nuclear-envelope]]',
@@ -3110,9 +3110,9 @@ export const PLANT_FUNGAL_PART_LENSES: PagePartLensMap = {
       en: {
         subtitle: 'Sixteen Tethered Chromosomes Packed Without Waste',
         simple:
-          'Yeast packs ~6,000 genes onto sixteen tiny chromosomes tethered by their centers to the spindle pole, with almost no wasted DNA in between.',
+          'Sixteen ultra-lean chromosomes leashed to the spindle pole like Attack on Titan grapple lines, packing ~6,000 genes with almost zero junk DNA.',
         story:
-          'Compared to sprawling plant or human genomes, yeast [[chromatin|chromosome]] inside the [[fungal nucleus|real-fungal-nucleus]] is a model of ruthless economy: seventy percent of its twelve million letters code directly for working tools. Even between divisions, all sixteen chromosomes stay leashed by tiny 125-base centromeres to short microtubules sprouting from the [[spindle pole body|spindle-pole-body]] while their telomere tips moor along the nuclear rim.\n\nWound around [[histone|histone]] spools that part smoothly at nucleosome-free promoters, genes encoding fermentation and budding gear stand permanently ready for [[RNA polymerase II|pol-ii]].',
+          'Next to sprawling human genomes, yeast [[chromatin|chromosome]] inside the [[fungal nucleus|real-fungal-nucleus]] is Marie Kondo’s dream: 70% of its twelve million letters code directly for working gear. Even between divisions, all sixteen chromosomes stay leashed by tiny 125-base centromeres to the [[spindle pole body|spindle-pole-body]] like Attack on Titan grapple hooks while telomeres moor along the rim.\n\nWrapped on [[histone|histone]] spools with pre-cleared landing pads at promoters, brewery genes stand ready 24/7 for [[RNA polymerase II|pol-ii]].',
         blueprint: {
           role: 'Compact Rabl-organized haploid genome (~6,000 genes on 16 chromosomes)',
           arrivesFrom: 'ATP, [[histones|histone]] & nutrient-responsive transcription factors via [[nuclear pores|nuclear-pore]]',
@@ -3134,9 +3134,9 @@ export const PLANT_FUNGAL_PART_LENSES: PagePartLensMap = {
       es: {
         subtitle: 'Dieciséis cromosomas anclados sin un hueco de sobra',
         simple:
-          'La levadura concentra unos 6,000 genes en dieciséis cromosomas diminutos sujetos por el centro al polo del huso y casi sin tramos vacíos.',
+          'Dieciséis cromosomas ultracompactos sujetos al polo como garfios de Attack on Titan, con 6,000 genes y casi nada de ADN de relleno.',
         story:
-          'Comparada con los inmensos archivos de plantas o animales, la [[cromatina|chromosome]] del [[núcleo fúngico|real-fungal-nucleus]] es un prodigio de ahorro: siete de cada diez letras de su ADN codifican directamente piezas útiles. Incluso fuera de la división, los dieciséis cromosomas permanecen atados por sus diminutos centrómeros al [[cuerpo polar del huso|spindle-pole-body]], mientras sus extremos amarran en la orilla nuclear.\n\nEnrollados en carretes de [[histonas|histone]] con claros despejados justo al inicio de cada gen, los planos de fermentación y gemación aguardan listos para la [[ARN polimerasa II|pol-ii]].',
+          'Frente a los gigantescos genomas animales, la [[cromatina|chromosome]] del [[núcleo fúngico|real-fungal-nucleus]] no guarda ni un gramo de grasa: el 70 % de sus letras codifica herramientas útiles. Incluso en reposo, los dieciséis cromosomas siguen atados por el centro al [[cuerpo polar del huso|spindle-pole-body]] como cables de Attack on Titan mientras sus puntas amarran en el borde.\n\nEnrollados en [[histonas|histone]] con pistas de aterrizaje despejadas, los genes cerveceros esperan siempre listos a la [[ARN polimerasa II|pol-ii]].',
         blueprint: {
           role: 'Genoma haploide ultracompacto en configuración de Rabl (16 cromosomas)',
           arrivesFrom: 'ATP, [[histonas|histone]] y señales nutricionales entrantes por [[poros nucleares|nuclear-pore]]',
@@ -3161,9 +3161,9 @@ export const PLANT_FUNGAL_PART_LENSES: PagePartLensMap = {
       en: {
         subtitle: 'Express Recipes Straight to the Vats',
         simple:
-          'Native yeast RNA polymerase II copies compact intron-free genes into mRNA messages that shoot straight out to cytosolic ribosomes with minimal editing.',
+          'Sonic-speed anime scripts with zero filler: yeast RNA polymerase II zips across intron-free genes to rush mRNA straight to brewery ribosomes.',
         story:
-          'When sugar floods in across the membrane, the pressurized alchemist cannot wait around for slow transcript tailoring. Native twelve-subunit yeast [[RNA polymerase II|pol-ii]] clamps onto open [[yeast genes|real-fungal-dna]] and zips from start to finish across intron-free coding stretches, weaving incoming [[nucleotides|nucleotide]] into crisp messenger [[RNA|rna]].\n\nCapped and poly-tailed on the fly, heavy waves of PDC1, ADH1, and PMA1 messages bolt through [[nuclear pores|nuclear-pore]] to pack cytosolic [[ribosomes|ribosome]] within minutes.',
+          'When grape sugar floods the gates, our tavern brewer has zero patience for filler arcs. Native twelve-piece [[RNA polymerase II|pol-ii]] clamps onto open [[yeast genes|real-fungal-dna]] and sprints like Sonic start-to-finish across intron-free tracks, stitching [[nucleotides|nucleotide]] into express messenger [[RNA|rna]].\n\nCapped and tailed on the run, waves of PDC1, ADH1, and PMA1 scrolls bolt out [[nuclear pores|nuclear-pore]] to pack [[ribosomes|ribosome]] in minutes.',
         blueprint: {
           role: 'High-speed intron-minimal transcription & mRNP export',
           arrivesFrom: 'Unwound [[yeast DNA|real-fungal-dna]] templates & ribonucleotide triphosphates ([[NTPs|nucleotide]])',
@@ -3185,9 +3185,9 @@ export const PLANT_FUNGAL_PART_LENSES: PagePartLensMap = {
       es: {
         subtitle: 'Recetas exprés directas a la cuba',
         simple:
-          'La ARN polimerasa II nativa de la levadura copia genes compactos sin intrones en mensajes de ARNm que salen casi sin recortes hacia los ribosomas.',
+          'Guiones a velocidad Sonic sin relleno: la ARN polimerasa II recorre genes sin intrones y lanza ARNm directo a los ribosomas cerveceros.',
         story:
-          'Cuando entra una avalancha de azúcar, el alquimista presurizado no pierde ni un segundo en trámites burocráticos. Su [[ARN polimerasa II|pol-ii]] de doce piezas se engancha a los [[genes abiertos|real-fungal-dna]] y los recorre de un tirón —casi sin intrones que recortar—, cosiendo [[nucleótidos|nucleotide]] en hebras limpias de [[ARN|rna]] mensajero.\n\nCon caperuza y cola puestas sobre la marcha, oleadas de recetas para fabricar Pdc1, Adh1 y Pma1 cruzan los [[poros nucleares|nuclear-pore]] y ponen a hervir los [[ribosomas|ribosome]] en cuestión de minutos.',
+          'Cuando irrumpe una riada de azúcar, esta tabernera no pierde tiempo con episodios de relleno. Su [[ARN polimerasa II|pol-ii]] se engancha a los [[genes abiertos|real-fungal-dna]] y corre como Sonic de principio a fin sin intrones que recortar, cosiendo [[nucleótidos|nucleotide]] en [[ARN|rna]] mensajero exprés.\n\nCon casco y cola puestos en marcha, oleadas de recetas para Pdc1, Adh1 y Pma1 cruzan los [[poros nucleares|nuclear-pore]] y ponen a hervir los [[ribosomas|ribosome]] en minutos.',
         blueprint: {
           role: 'Transcripción ultrarrápida casi sin intrones y exportación de ARNm',
           arrivesFrom: 'Moldes de [[ADN de levadura|real-fungal-dna]] y trifosfatos de [[nucleótido|nucleotide]] (NTPs)',
@@ -3212,9 +3212,9 @@ export const PLANT_FUNGAL_PART_LENSES: PagePartLensMap = {
       en: {
         subtitle: 'The Crescent Ribosome Foundry',
         simple:
-          'Shaped like a thick crescent moon opposite the spindle pole, this single nucleolus cranks out two thousand ribosome halves a minute in rich sugar.',
+          'A Sailor Moon crescent foundry claiming a third of the nucleus, cranking out 2,000 ribosome halves a minute like Star Wars clone vats.',
         story:
-          'Doubling an entire cell every ninety minutes takes heroic ribosome production, so budding yeast dedicates a whole third of its [[nucleus|real-fungal-nucleus]] to one crescent-shaped foundry on the wall opposite the [[spindle pole body|spindle-pole-body]]. Anchored around 150 tandem rDNA repeats on Chromosome XII, it drinks in [[nucleotides|nucleotide]] and imported ribosomal [[proteins|protein]] non-stop.\n\nOut pour pre-40S and pre-60S subunits at thirty-plus per second, streaming through [[nuclear pores|nuclear-pore]] to pack the mother and growing bud with fresh [[80S ribosomes|ribosome]].',
+          'Doubling an entire cell every ninety minutes demands Star Wars Kamino-scale clone production, so yeast hands a full third of its [[nucleus|real-fungal-nucleus]] to one Sailor Moon crescent foundry opposite the [[spindle pole body|spindle-pole-body]]. Built on 150 tandem rDNA repeats on Chromosome XII, it chugs [[nucleotides|nucleotide]] and imported [[proteins|protein]] nonstop.\n\nOut pour pre-40S and pre-60S halves at thirty-plus per second, racing through [[nuclear pores|nuclear-pore]] to pack Mom and bud with [[80S ribosomes|ribosome]].',
         blueprint: {
           role: 'Polarized crescent ribosome-biogenesis compartment',
           arrivesFrom: 'Chr XII rDNA array, [[NTPs|nucleotide]], and ~79 ribosomal [[proteins|protein]] imported via [[nuclear pores|nuclear-pore]]',
@@ -3236,9 +3236,9 @@ export const PLANT_FUNGAL_PART_LENSES: PagePartLensMap = {
       es: {
         subtitle: 'La fundición en medialuna de ribosomas',
         simple:
-          'Con forma de gruesa luna creciente frente al polo del huso, este único nucléolo despacha dos mil mitades de ribosoma por minuto cuando abunda el azúcar.',
+          'Una fundición en luna creciente estilo Sailor Moon que ocupa un tercio del núcleo y lanza dos mil mitades de ribosoma por minuto.',
         story:
-          'Duplicar una célula entera cada hora y media exige una fabricación descomunal de maquinaria, así que la levadura reserva un tercio de su [[núcleo|real-fungal-nucleus]] a esta fundición en medialuna situada justo frente al [[cuerpo polar del huso|spindle-pole-body]]. Organizada sobre ciento cincuenta copias repetidas del cromosoma XII, devora sin pausa [[nucleótidos|nucleotide]] y [[proteínas|protein]] ribosómicas recién llegadas.\n\nDe su interior manan más de treinta subunidades 40S y 60S por segundo, cruzando los [[poros nucleares|nuclear-pore]] para llenar madre e hija de [[ribosomas 80S|ribosome]] nuevos.',
+          'Duplicar toda una célula en noventa minutos exige una fábrica digna de Kamino en Star Wars, así que la levadura entrega un tercio de su [[núcleo|real-fungal-nucleus]] a esta medialuna estilo Sailor Moon frente al [[cuerpo polar del huso|spindle-pole-body]]. Sobre ciento cincuenta copias repetidas del cromosoma XII, engulle [[nucleótidos|nucleotide]] y [[proteínas|protein]] sin pausa.\n\nDe allí salen más de treinta mitades 40S y 60S por segundo por los [[poros nucleares|nuclear-pore]] para abarrotar de [[ribosomas 80S|ribosome]] a madre e hija.',
         blueprint: {
           role: 'Compartimento polarizado en medialuna de biogénesis ribosómica',
           arrivesFrom: 'Tándem RDN1 del Chr XII, [[NTPs|nucleotide]] y ~79 [[proteínas|protein]] ribosómicas vía [[poros nucleares|nuclear-pore]]',
@@ -3263,9 +3263,9 @@ export const PLANT_FUNGAL_PART_LENSES: PagePartLensMap = {
       en: {
         subtitle: 'Ribozymes Born From Chromosome XII',
         simple:
-          'Transcribed nonstop inside the crescent nucleolus, these folded RNA chains form both the frame and the peptide-welding heart of every yeast ribosome.',
+          'Spun nonstop inside the crescent foundry, these folded RNA chains become the actual Fullmetal Alchemist anvil welding proteins inside every ribosome.',
         story:
-          'Along the giant tandem repeat array of Chromosome XII inside the [[crescent nucleolus|real-fungal-nucleolus]], convoys of RNA polymerase I spin out 35S precursor [[RNA|rna]] strands shoulder-to-shoulder while RNA polymerase III adds tiny 5S partners right next door. Before the strands even finish rolling off the [[DNA|dna]], a giant molecular scissor complex called the SSU processome latches on to snip and fold them.\n\nWrapped with incoming ribosomal [[proteins|protein]], those folded RNAs become the actual ribozyme anvils inside [[80S ribosomes|ribosome]] that weld together every fermentation enzyme in the cell.',
+          'Along Chromosome XII’s 150-repeat assembly line inside the [[crescent nucleolus|real-fungal-nucleolus]], Pol I convoys spin out 35S [[RNA|rna]] ribbons bumper-to-bumper while Pol III adds tiny 5S clips next door. Before a strand even leaves the [[DNA|dna]], a giant Edward Scissorhands rig called the SSU processome latches on to snip and fold it mid-flight.\n\nBraced with incoming [[proteins|protein]], those folded RNAs become the Fullmetal Alchemist ribozyme anvils inside [[80S ribosomes|ribosome]] that forge every tavern enzyme.',
         blueprint: {
           role: 'Catalytic ribozyme & structural core of yeast 40S/60S subunits',
           arrivesFrom: '150 tandem rDNA repeats ([[DNA|dna]]) + [[nucleotides|nucleotide]] inside [[crescent nucleolus|real-fungal-nucleolus]]',
@@ -3287,9 +3287,9 @@ export const PLANT_FUNGAL_PART_LENSES: PagePartLensMap = {
       es: {
         subtitle: 'Ribozimas nacidas en el cromosoma XII',
         simple:
-          'Copiadas sin descanso dentro del nucléolo en medialuna, estas hebras plegadas de ARN forman tanto el chasis como el motor soldador de cada ribosoma.',
+          'Tejidas sin tregua en la medialuna nuclear, estas hebras plegadas de ARN son el verdadero yunque alquímico que suelda proteínas en cada ribosoma.',
         story:
-          'A lo largo de la gran hilera repetida del cromosoma XII dentro del [[nucléolo en medialuna|real-fungal-nucleolus]], trenes de ARN polimerasa I tejen hebras precursoras 35S de [[ARN|rna]] mientras justo al lado la polimerasa III aporta piezas cortas 5S. Antes siquiera de soltarse del [[ADN|dna]], un complejo gigante de tijeras y guías recorta y pliega cada hebra sobre la marcha.\n\nAbrigado con [[proteínas|protein]] de soporte, ese ARN plegado se convierte en el yunque ribozímico de los [[ribosomas 80S|ribosome]] que forjará todas las enzimas del alquimista.',
+          'En la cadena de ciento cincuenta copias del cromosoma XII dentro del [[nucléolo en medialuna|real-fungal-nucleolus]], convoyes de Pol I hilan cintas 35S de [[ARN|rna]] mientras Pol III suma clips 5S al lado. Antes siquiera de soltarse del [[ADN|dna]], un escuadrón gigante de tijeras las recorta y pliega en pleno vuelo.\n\nArmado con [[proteínas|protein]], ese ARN plegado forma el yunque digno de Fullmetal Alchemist dentro de los [[ribosomas 80S|ribosome]] donde nacen todas las enzimas.',
         blueprint: {
           role: 'Núcleo catalítico ribozímico y armazón de las subunidades 40S y 60S',
           arrivesFrom: '150 repeticiones RDN1 ([[ADN|dna]]) y [[nucleótidos|nucleotide]] en el [[nucléolo en medialuna|real-fungal-nucleolus]]',
@@ -3314,9 +3314,9 @@ export const PLANT_FUNGAL_PART_LENSES: PagePartLensMap = {
       en: {
         subtitle: 'Sliding Clamps & Cell-Cycle Timers',
         simple:
-          'Inside the sealed yeast nucleus, ring-shaped PCNA clamps guide fast DNA copying while ubiquitin tags keep closed mitosis running right on schedule.',
+          'Formula-1 pit crews inside a sealed Mandalorian dome: ring clamps guide sub-30-minute DNA copying while ubiquitin timers cue closed mitosis.',
         story:
-          'Copying twelve million letters of yeast DNA in under half an hour so a [[daughter bud|real-fungal-bud]] gets a flawless genome takes relentless coordination inside the [[fungal nucleus|real-fungal-nucleus]]. Hundreds of replication origins fire across the sixteen [[chromosomes|chromosome]], each snapping a three-part [[PCNA sliding clamp|pcna]] around the duplex so polymerases sprint without slipping.\n\nBecause the nuclear envelope never opens during division, [[ubiquitin|ubiquitin]] ligases and nuclear [[proteasomes|proteasome]] have to work right inside the nucleoplasm—chewing up securin and mitotic cyclins at the exact moment chromosomes clear the neck.',
+          'Copying twelve million DNA letters in under thirty minutes so a [[daughter bud|real-fungal-bud]] gets a spotless genome takes Formula-1 pit-crew speed inside the [[fungal nucleus|real-fungal-nucleus]]. Four hundred starting guns fire across sixteen [[chromosomes|chromosome]], snapping three-piece [[PCNA sliding clamps|pcna]] onto the helix like Tron rail locks so polymerases never slip.\n\nBecause the Mandalorian helmet never opens, [[ubiquitin|ubiquitin]] tags and 80% of the cell’s [[proteasomes|proteasome]] live right indoors—shredding mitotic brakes on the exact beat chromosomes clear the neck.',
         blueprint: {
           role: 'Intranuclear DNA replication support & closed-mitosis proteolysis',
           arrivesFrom: 'Imported polymerases, cyclins, [[PCNA|pcna]], [[ubiquitin|ubiquitin]] & ATP via [[nuclear pores|nuclear-pore]]',
@@ -3338,9 +3338,9 @@ export const PLANT_FUNGAL_PART_LENSES: PagePartLensMap = {
       es: {
         subtitle: 'Anillos deslizantes y cronómetros del ciclo celular',
         simple:
-          'Dentro del núcleo cerrado de la levadura, abrazaderas anulares PCNA guían la copia veloz del ADN mientras etiquetas de ubiquitina marcan el compás de la mitosis.',
+          'Boxes de Fórmula 1 dentro del casco cerrado: abrazaderas anulares guían la copia exprés del ADN y etiquetas de ubiquitina marcan el reloj mitótico.',
         story:
-          'Duplicar doce millones de letras genéticas en menos de media hora para entregar una copia impecable a la [[yema hija|real-fungal-bud]] exige precisión relojera en el [[núcleo fúngico|real-fungal-nucleus]]. Cuatrocientos puntos de arranque se encienden por los dieciséis [[cromosomas|chromosome]], cerrando anillos [[PCNA|pcna]] alrededor de la hélice para que las polimerasas corran sin soltarse.\n\nY como la envoltura nuclear jamás se abre al dividir, las etiquetas de [[ubiquitina|ubiquitin]] y la mayoría de los [[proteasomas|proteasome]] trabajan directamente puertas adentro, destruyendo los frenos mitóticos en el segundo exacto en que los cromosomas cruzan el cuello.',
+          'Copiar doce millones de letras en menos de media hora para la [[yema hija|real-fungal-bud]] exige reflejos de Fórmula 1 dentro del [[núcleo fúngico|real-fungal-nucleus]]. Cuatrocientos disparos de salida en los dieciséis [[cromosomas|chromosome]] abrochan anillos [[PCNA|pcna]] como seguros de Tron para que las polimerasas vuelen sin soltarse.\n\nComo el casco estilo Mandalorian nunca se abre, las etiquetas de [[ubiquitina|ubiquitin]] y casi todos los [[proteasomas|proteasome]] operan puertas adentro, triturando los frenos mitóticos justo cuando el núcleo cruza el cuello.',
         blueprint: {
           role: 'Soporte de replicación del ADN y control proteolítico intranuclear',
           arrivesFrom: 'Polimerasas, ciclinas, [[PCNA|pcna]], [[ubiquitina|ubiquitin]] y ATP vía [[poros nucleares|nuclear-pore]]',
@@ -3365,9 +3365,9 @@ export const PLANT_FUNGAL_PART_LENSES: PagePartLensMap = {
       en: {
         subtitle: 'Two-Ringed Workshop Wrapping Nucleus & Cortex',
         simple:
-          'Yeast organizes its endoplasmic reticulum into two linked rings: one wrapping the nucleus and another pinned right underneath the plasma membrane.',
+          'Lord of the Rings twin-ringed forge: yeast builds one ER ring hugging its nucleus and a second pinned tight beneath the outer membrane.',
         story:
-          'Cut open a yeast cell and its [[endoplasmic reticulum|rough-er]] frames the scene in two striking concentric rings: a perinuclear sheet wrapping the unbroken [[nucleus|real-fungal-nucleus]], connected by slender tubules to fenestrated cortical sheets pinned tight against the inner face of the [[plasma membrane|plasma-membrane]]. Studded with [[80S ribosomes|ribosome]], it threads wall mannoproteins and [[Pma1 pumps|pma1-real]] into membrane while [[Erg11|erg11-real]] chisels [[ergosterol|ergosterol]] right in its lipid bilayer.\n\nEarly in budding, myosin motors grab cortical ER tubules along [[actin cables|actin-filament]] and tow them across the septin barrier so the daughter bud inherits its own cortical workshop.',
+          'Slice a yeast cell open and its [[endoplasmic reticulum|rough-er]] gleams like two concentric rings from Lord of the Rings: an inner sheet wrapping the sealed [[nucleus|real-fungal-nucleus]], linked by bridges to outer sheets pinned right under the [[plasma membrane|plasma-membrane]]. Studded with [[80S ribosomes|ribosome]], it weaves wall mannoproteins and [[Pma1 cannons|pma1-real]] while [[Erg11|erg11-real]] chisels alcohol-proof [[ergosterol|ergosterol]] in its lipids.\n\nEarly in budding, myosins tow ER tubes along [[actin cables|actin-filament]] across the portal so the baby cell inherits its own forge.',
         blueprint: {
           role: 'Secretory protein translocator, sterol/lipid foundry & cortical contact network',
           arrivesFrom: '[[mRNAs|rna]] from [[nucleus|real-fungal-nucleus]]; [[amino acids|amino-acid]], acetyl-CoA & ATP from [[cytosol|cytosol]]',
@@ -3391,9 +3391,9 @@ export const PLANT_FUNGAL_PART_LENSES: PagePartLensMap = {
       es: {
         subtitle: 'El taller de doble anillo entre el núcleo y la corteza',
         simple:
-          'La levadura organiza su retículo endoplasmático en dos anillos conectados: uno que abraza el núcleo y otro clavado justo debajo de la membrana plasmática.',
+          'Una forja de doble anillo al estilo El Señor de los Anillos: un anillo abraza el núcleo y el otro tapiza por dentro la membrana exterior.',
         story:
-          'Al abrir en corte una levadura, su [[retículo endoplasmático|rough-er]] dibuja dos anillos concéntricos inconfundibles: una envoltura alrededor del [[núcleo|real-fungal-nucleus]] unida por finos tubos a láminas perforadas sujetas justo bajo la [[membrana plasmática|plasma-membrane]]. Tapizado de [[ribosomas 80S|ribosome]], ensambla manoproteínas y [[bombas Pma1|pma1-real]] mientras [[Erg11|erg11-real]] esculpe allí mismo el [[ergosterol|ergosterol]] protector.\n\nApenas asoma una yema nueva, motores sobre [[cables de actina|actin-filament]] arrastran tubos corticales a través del cuello para que la hija estrene taller propio.',
+          'Abre en canal una levadura y su [[retículo endoplasmático|rough-er]] dibuja dos anillos concéntricos dignos de El Señor de los Anillos: uno envuelve el [[núcleo|real-fungal-nucleus]] y el otro se clava justo bajo la [[membrana plasmática|plasma-membrane]]. Lleno de [[ribosomas 80S|ribosome]], teje [[bombas Pma1|pma1-real]] mientras [[Erg11|erg11-real]] talla allí mismo el [[ergosterol|ergosterol]] antialcohol.\n\nApenas brota la yema, motores sobre [[cables de actina|actin-filament]] remolcan tubos del retículo por el portal para que la hija estrene fragua propia.',
         blueprint: {
           role: 'Fábrica de proteínas secretoras, lípidos y red cortical de contacto',
           arrivesFrom: '[[ARNm|rna]] del [[núcleo|real-fungal-nucleus]]; [[aminoácidos|amino-acid]], acetil-CoA y ATP del [[citosol|cytosol]]',
@@ -3420,9 +3420,9 @@ export const PLANT_FUNGAL_PART_LENSES: PagePartLensMap = {
       en: {
         subtitle: 'The Sterol Tailor & Azole Bullseye',
         simple:
-          'Anchored in the ER membrane, this iron-heme enzyme shaves a methyl bump off lanosterol to build ergosterol—making it the #1 target of azole antifungal drugs.',
+          'Yeast’s Star Wars Death Star exhaust port: an iron-armed ER tailor shaving lanosterol into ergosterol—and the #1 bullseye of azole drugs.',
         story:
-          'Every alcohol-proof plank of [[ergosterol|ergosterol]] in the yeast border owes its flat shape to [[Erg11|erg11-real]] standing watch in the [[perinuclear and cortical ER|rough-er]]. Burning oxygen and cytosolic NADPH at its buried iron-heme center, this cytochrome P450 monooxygenase blasts away a bulky 14α-methyl group sticking out of raw lanosterol.\n\nBecause human cells run a slightly different version to make cholesterol, antifungal medicines like fluconazole slip selectively into Erg11’s pocket and clamp onto its iron atom—choking off ergosterol delivery to the [[plasma membrane|plasma-membrane]] and [[lipid droplets|lipid-droplet]].',
+          'Every booze-proof plank of [[ergosterol|ergosterol]] in the yeast border owes its flat fit to [[Erg11|erg11-real]] on watch in the [[perinuclear and cortical ER|rough-er]]. Firing its buried iron-heme blowtorch on oxygen and NADPH, this P450 tailor blasts a clunky methyl bump off raw lanosterol.\n\nBecause human cholesterol tailors differ just enough, azole drugs like fluconazole fly down Erg11’s chute like Luke’s Star Wars torpedo and clamp onto its iron atom—starving the [[plasma membrane|plasma-membrane]] and [[lipid droplets|lipid-droplet]] of armor.',
         blueprint: {
           role: 'Rate-critical ER sterol 14α-demethylase & clinical azole target',
           arrivesFrom: 'Squalene-derived lanosterol in [[ER membrane|rough-er]] + O₂ + NADPH electrons via Ncp1 reductase',
@@ -3445,9 +3445,9 @@ export const PLANT_FUNGAL_PART_LENSES: PagePartLensMap = {
       es: {
         subtitle: 'El sastre del ergosterol y diana de los azoles',
         simple:
-          'Anclada en el retículo, esta enzima con hierro recorta un bulto del lanosterol para fabricar ergosterol, siendo el blanco principal de los fármacos antifúngicos azoles.',
+          'El conducto de la Estrella de la Muerte fúngica: esta enzima con hierro talla el ergosterol en el retículo y es el blanco #1 de los azoles.',
         story:
-          'Cada tablón impermeable de [[ergosterol|ergosterol]] que blinda la frontera de la levadura le debe su perfil plano a [[Erg11|erg11-real]], apostada en las láminas del [[retículo endoplasmático|rough-er]]. Consumiendo oxígeno y NADPH en su fragua interna de hierro hemo, esta enzima aplica tres golpes oxidativos seguidos para limar el saliente metilo del lanosterol en bruto.\n\nLos medicamentos antifúngicos como el fluconazol aprovechan el diseño exclusivo de este bolsillo fúngico para encajarse sobre su átomo de hierro, cortando en seco el suministro de ergosterol hacia la [[membrana plasmática|plasma-membrane]] y las [[gotas lipídicas|lipid-droplet]].',
+          'Cada tablón antialcohol de [[ergosterol|ergosterol]] le debe su ajuste perfecto a [[Erg11|erg11-real]] en las láminas del [[retículo endoplasmático|rough-er]]. Con su soplete interno de hierro hemo alimentado por oxígeno y NADPH, lima de tres disparos el estorboso bulto metilo del lanosterol.\n\nComo nuestras células usan otro molde, fármacos como el fluconazol entran como el torpedo de Luke en Star Wars y bloquean su hierro central, dejando sin blindaje a la [[membrana plasmática|plasma-membrane]] y a las [[gotas lipídicas|lipid-droplet]].',
         blueprint: {
           role: 'Lanosterol 14α-desmetilasa del RE y diana clínica de antifúngicos azoles',
           arrivesFrom: 'Lanosterol sintetizado en el [[RE|rough-er]] + O₂ + electrones de NADPH vía reductasa Ncp1',
@@ -3473,9 +3473,9 @@ export const PLANT_FUNGAL_PART_LENSES: PagePartLensMap = {
       en: {
         subtitle: 'Free-Floating Cisternae That Grow Up in Place',
         simple:
-          'Instead of neat pancake stacks, S. cerevisiae scatters single Golgi discs through its cytoplasm, each maturing on the spot while coating wall proteins with mannose sugars.',
+          'Pokémon evolution in midair: instead of pancake stacks, yeast scatters solo Golgi discs that evolve on the spot while coating armor proteins.',
         story:
-          'Look around Saccharomyces cerevisiae for a classic stacked Golgi pile and you won’t find one: budding yeast scatters individual curved discs throughout the [[cytosol|cytosol]] so you can literally watch each cisterna grow up in real time. Fresh COPII bubbles from the [[endoplasmic reticulum|rough-er]] fuse into an early cis disc, which steadily swaps its own enzyme crew to mature into a late trans disc right before your eyes.\n\nAlong the way, mannosyltransferases graft lush trees of up to two hundred mannose sugars onto nascent wall proteins and [[Exg1|exg1-real]], before the entire trans disc dissolves into [[secretory vesicles|vesicle]] bound for the [[growing bud|real-fungal-bud]] or [[acidic vacuole|central-vacuole]].',
+          'Hunt for an animal-style Golgi pancake stack in budding yeast and you’ll come up empty: yeast scatters solo curved discs across the [[cytosol|cytosol]] that evolve in place like Pokémon leveling up live! Fresh bubbles from the [[endoplasmic reticulum|rough-er]] fuse into a starter cis disc, which swaps its enzyme crew to evolve into a final trans disc right before your eyes.\n\nAlong the way it grafts 200-sugar mannose trees onto wall proteins and [[Exg1|exg1-real]], before bursting into [[secretory vesicles|vesicle]] bound for the [[growing bud|real-fungal-bud]] or [[acidic vacuole|central-vacuole]].',
         blueprint: {
           role: 'Unstacked cisternal-maturation glycosylation & sorting factories',
           arrivesFrom: 'COPII vesicles from [[perinuclear/cortical ER|rough-er]] + GDP-mannose imported from [[cytosol|cytosol]]',
@@ -3497,9 +3497,9 @@ export const PLANT_FUNGAL_PART_LENSES: PagePartLensMap = {
       es: {
         subtitle: 'Cisternas sueltas que maduran ante tus ojos',
         simple:
-          'En lugar de apilar platos, esta levadura reparte discos sueltos de Golgi por el citoplasma: cada uno va cambiando de oficio sobre la marcha mientras recubre proteínas con manosa.',
+          'Evolución Pokémon en vivo: en vez de apilar platos, la levadura suelta discos de Golgi que evolucionan en el sitio cubriendo proteínas de azúcar.',
         story:
-          'Si buscas en Saccharomyces cerevisiae una pila clásica de Golgi no la encontrarás: esta levadura reparte cisternas individuales sueltas por el [[citosol|cytosol]], permitiendo ver en directo cómo cada disco madura con la edad. Las burbujas recién salidas del [[retículo endoplasmático|rough-er]] fundan un disco temprano que va cambiando su equipo de enzimas hasta transformarse él mismo en un disco tardío de despacho.\n\nDurante esa metamorfosis injerta frondosos árboles de hasta doscientas manosas sobre las futuras manoproteínas y sobre [[Exg1|exg1-real]], hasta que el disco entero se deshace en [[vesículas secretoras|vesicle]] rumbo a la [[yema en crecimiento|real-fungal-bud]] o a la [[vacuola ácida|central-vacuole]].',
+          'Si buscas aquí una pila clásica de Golgi no verás ni una: esta levadura reparte discos curvos sueltos por el [[citosol|cytosol]] que evolucionan en directo ante tus ojos como un Pokémon subiendo de nivel. Las burbujas recién salidas del [[retículo endoplasmático|rough-er]] fundan un disco inicial que va cambiando su equipo de enzimas hasta transformarse él mismo en un disco final de despacho.\n\nEn esa metamorfosis injerta árboles frondosos de hasta doscientas manosas sobre las futuras manoproteínas y sobre [[Exg1|exg1-real]], antes de deshacerse en [[vesículas secretoras|vesicle]] rumbo a la [[yema en crecimiento|real-fungal-bud]] o la [[vacuola ácida|central-vacuole]].',
         blueprint: {
           role: 'Cisternas dispersas no apiladas de hipermanosilación y clasificación',
           arrivesFrom: 'Vesículas COPII del [[RE|rough-er]] y dadores de GDP-manosa desde el [[citosol|cytosol]]',
@@ -3524,9 +3524,9 @@ export const PLANT_FUNGAL_PART_LENSES: PagePartLensMap = {
       en: {
         subtitle: 'Tubular Power Ribbons Waiting for the Diauxic Shift',
         simple:
-          'Snaking under the cell cortex as branched tubes, yeast mitochondria forge essential building blocks in rich sugar—then roar to full power to burn ethanol once sugar runs out.',
+          'Dragon Ball second-phase power-up tubes: yeast mitochondria forge vital cofactors during sugar feasts, then triple up to burn ethanol afterward.',
         story:
-          'While [[glucose|glucose]] is plentiful, our pressurized alchemist lets cytosolic [[Pdc1|pdc1-real]] and [[Adh1|adh1-real]] hog most of the sugar, keeping its branched tubular [[mitochondria|mitochondrion]] busy forging iron-sulfur clusters, heme for [[Erg11|erg11-real]], and amino acid skeletons. Yet the moment the last drop of grape sugar vanishes, yeast pulls off a famous metabolic plot twist called the diauxic shift.\n\nRe-importing the very ethanol it dumped outside earlier, the cell expands its mitochondrial network and fires up rotary [[ATP synthases|atp-synthase]] to burn all that hoarded alcohol cleanly with oxygen—while myosin motors tow fresh mitochondrial ribbons along [[actin cables|actin-filament]] into every newborn bud.',
+          'While [[glucose|glucose]] flows freely, our brewer lets cytosolic [[Pdc1|pdc1-real]] and [[Adh1|adh1-real]] hog the tavern party, keeping its branched [[mitochondria|mitochondrion]] busy forging iron-sulfur clusters and heme for [[Erg11|erg11-real]]. Yet the second grape sugar runs dry, yeast pulls a classic Dragon Ball Z second-form power-up called the diauxic shift.\n\nSlurping back the very ethanol it dumped outside earlier, it triples its mitochondrial web and spins [[ATP synthases|atp-synthase]] at full roar to burn that booze with oxygen—towing fresh ribbons on [[actin cables|actin-filament]] into every bud.',
         blueprint: {
           role: 'Branched cortical respiratory network & biosynthetic iron-sulfur/heme forge',
           arrivesFrom: 'Pyruvate, ADP, O₂ & post-glucose re-imported ethanol from [[cytosol|cytosol]]',
@@ -3549,9 +3549,9 @@ export const PLANT_FUNGAL_PART_LENSES: PagePartLensMap = {
       es: {
         subtitle: 'Cintas tubulares listas para el segundo asalto',
         simple:
-          'Serpenteando bajo la corteza como tubos ramificados, las mitocondrias fabrican piezas esenciales mientras sobra azúcar y luego entran a toda potencia para quemar el alcohol acumulado.',
+          'Tubos con segunda transformación estilo Dragon Ball Z: forjan piezas esenciales mientras sobra azúcar y luego triplican su tamaño para quemar el alcohol.',
         story:
-          'Mientras sobra [[glucosa|glucose]], nuestro alquimista deja que [[Pdc1|pdc1-real]] y [[Adh1|adh1-real]] acaparen el festín en el citosol y mantiene sus [[mitocondrias|mitochondrion]] tubulares ocupadas forjando centros hierro-azufre, esqueletos de aminoácidos y el grupo hemo que necesita [[Erg11|erg11-real]]. Pero en cuanto se agota la última pizca de azúcar ocurre un giro maestro llamado cambio diáuxico.\n\nLa levadura vuelve a tragar el mismo etanol que antes arrojó fuera para espantar rivales y enciende a toda máquina sus [[ATP sintasas|atp-synthase]] mitocondriales para quemarlo con oxígeno, sin olvidar remolcar cintas mitocondriales frescas sobre [[cables de actina|actin-filament]] hacia cada nueva yema.',
+          'Mientras sobra [[glucosa|glucose]], nuestra tabernera deja que [[Pdc1|pdc1-real]] y [[Adh1|adh1-real]] monopolicen el festín y mantiene sus [[mitocondrias|mitochondrion]] tubulares ocupadas forjando centros hierro-azufre, aminoácidos y el hemo de [[Erg11|erg11-real]]. Pero en cuanto cae la última gota de azúcar llega una transformación digna de Dragon Ball Z: el famoso cambio diáuxico.\n\nLa levadura vuelve a tragar el mismo etanol que arrojó fuera para espantar rivales, triplica su red mitocondrial y pone a rugir sus [[ATP sintasas|atp-synthase]] con oxígeno, remolcando cintas frescas sobre [[cables de actina|actin-filament]] hacia cada hija.',
         blueprint: {
           role: 'Red respiratoria tubular cortical y fragua esencial de hemo y centros Fe-S',
           arrivesFrom: 'Piruvato, ADP, O₂ y etanol reabsorbido tras agotarse el azúcar desde el [[citosol|cytosol]]',
@@ -3577,9 +3577,9 @@ export const PLANT_FUNGAL_PART_LENSES: PagePartLensMap = {
       en: {
         subtitle: 'The Sole Fat-Burning Furnace of Fungi',
         simple:
-          'Unlike human cells, yeast breaks down fatty acids exclusively inside peroxisomes, chopping lipids from nearby droplets into acetyl fuel while neutralizing peroxide.',
+          'Calcifer’s sole fat-burner meets Ghostbusters trap: unlike humans, yeast burns 100% of its fatty acids inside peroxisomes while neutralizing bleach.',
         story:
-          'Animals split fat-burning duty between mitochondria and peroxisomes, but fungi handed one hundred percent of the job to [[peroxisomes|peroxisome]] alone. Whenever sugar runs dry and the cell taps its [[ergosterol lipid droplets|lipid-droplet]], released fatty acids feed straight into these compact single-membrane spheres, where acyl-CoA oxidase chops two-carbon acetyl units off the chain.\n\nEach cut generates corrosive hydrogen peroxide that resident catalase A immediately cracks into harmless [[water|water]] and oxygen, while freshly minted acetyl-CoA heads out through the glyoxylate shunt and toward [[mitochondria|mitochondrion]] to power survival.',
+          'Humans split fat-burning duty with mitochondria, but fungi hand 100% of the job to [[peroxisomes|peroxisome]] like Calcifer guarding the sole hearth in Howl’s Moving Castle. When sugar vanishes and the cell taps [[ergosterol lipid droplets|lipid-droplet]], fatty acids pour into these compact spheres to get chopped two carbons at a time.\n\nEach chop sparks corrosive peroxide bleach that resident catalase shatters like a Ghostbusters trap into harmless [[water|water]] and O₂, shipping fresh acetyl fuel out toward [[mitochondria|mitochondrion]].',
         blueprint: {
           role: 'Exclusive fungal fatty-acid β-oxidation & H₂O₂-scavenging organelle',
           arrivesFrom: 'Free fatty acids mobilized from [[lipid droplets|lipid-droplet]] + O₂ + ATP from [[cytosol|cytosol]]',
@@ -3601,9 +3601,9 @@ export const PLANT_FUNGAL_PART_LENSES: PagePartLensMap = {
       es: {
         subtitle: 'El único horno quemagrasas de la levadura',
         simple:
-          'A diferencia de nuestras células, la levadura quema ácidos grasos exclusivamente dentro de sus peroxisomas, troceando reservas lipídicas y neutralizando el agua oxigenada.',
+          'El fogón exclusivo de Calcifer unido a una trampa Cazafantasmas: la levadura quema todas sus grasas aquí dentro y desarma el agua oxigenada.',
         story:
-          'Los animales reparten la quema de grasas entre mitocondrias y peroxisomas, pero los hongos confiaron el cien por cien de esa tarea a sus [[peroxisomas|peroxisome]]. Cuando escasea el azúcar y toca tirar de las [[gotas lipídicas|lipid-droplet]], los ácidos grasos liberados entran directos en estas pequeñas esferas de membrana simple para ser troceados de dos en dos carbonos.\n\nCada tajo desprende agua oxigenada corrosiva que la catalasa interna desarma al instante en [[agua|water]] limpia y oxígeno, mientras las piezas de acetilo salen hacia el ciclo del glioxilato y las [[mitocondrias|mitochondrion]] para sostener viva la célula.',
+          'Nosotros repartimos la quema de grasas con las mitocondrias, pero los hongos confían el 100 % del trabajo a sus [[peroxisomas|peroxisome]] como el fogón único de Calcifer en El castillo vagabundo. Cuando falta azúcar y se abren las [[gotas lipídicas|lipid-droplet]], los ácidos grasos entran aquí para trocearse de dos en dos carbonos.\n\nCada corte suelta agua oxigenada corrosiva que la catalasa pulveriza al estilo Cazafantasmas en [[agua|water]] inocua, enviando combustible limpio hacia las [[mitocondrias|mitochondrion]].',
         blueprint: {
           role: 'Único orgánulo fúngico de β-oxidación de ácidos grasos y destoxificación de H₂O₂',
           arrivesFrom: 'Ácidos grasos liberados de [[gotas lipídicas|lipid-droplet]] + O₂ y ATP del [[citosol|cytosol]]',
@@ -3628,9 +3628,9 @@ export const PLANT_FUNGAL_PART_LENSES: PagePartLensMap = {
       en: {
         subtitle: 'Golden Vaults of Spare Ergosterol',
         simple:
-          'Tiny oil droplets wrapped in a single half-membrane that safely stockpile backup ergosterol and fatty acids for rapid bud growth.',
+          'Golden Dragon Ball Senzu pods wrapped in a half-membrane, safely stashing spare ergosterol and fats for explosive bud growth.',
         story:
-          'Too much loose [[ergosterol|ergosterol]] or free fatty acid floating in membranes turns toxic, so the [[endoplasmic reticulum|rough-er]] stitches surplus sterols and fats into neutral esters and packs them between its two membrane leaflets until a golden oil lens bulges out. Wrapped in a single phospholipid monolayer, these [[lipid droplets|lipid-droplet]] cruise near the ER and vacuole like portable fuel-and-armor depots.\n\nThe moment a [[daughter bud|real-fungal-bud]] needs rapid membrane expansion—or starvation calls [[peroxisomes|peroxisome]] into action—resident lipases unzip those esters and hand ready-made sterols straight to the growing border.',
+          'Loose [[ergosterol|ergosterol]] or free fatty acids floating wild would poison membranes, so the [[endoplasmic reticulum|rough-er]] zips extras into neutral esters between its two lipid sheets until a golden oil pod pops free. Wrapped in a single half-membrane, [[lipid droplets|lipid-droplet]] bob beside the ER like portable Dragon Ball Senzu capsules.\n\nThe instant a [[daughter bud|real-fungal-bud]] demands rapid armor—or famine wakes [[peroxisomes|peroxisome]]—surface lipases pop the pod open and deal out ready-made sterols.',
         blueprint: {
           role: 'Neutral sterol-ester & triacylglycerol buffer for membrane biogenesis',
           arrivesFrom: '[[Ergosterol|ergosterol]] (via [[Erg11|erg11-real]]) & fatty acyl-CoAs esterified by Are1/Are2 & Dga1/Lro1 in [[ER|rough-er]]',
@@ -3652,9 +3652,9 @@ export const PLANT_FUNGAL_PART_LENSES: PagePartLensMap = {
       es: {
         subtitle: 'Cápsulas doradas de ergosterol de reserva',
         simple:
-          'Pequeñas gotas de aceite envueltas en media membrana que guardan sin peligro reservas de ergosterol y ácidos grasos listas para inflar la yema.',
+          'Cápsulas doradas estilo Semillas del Ermitaño envueltas en media membrana, repletas de ergosterol y grasas listas para inflar la yema.',
         story:
-          'Acumular [[ergosterol|ergosterol]] o ácidos grasos sueltos de más dañaría las membranas, así que el [[retículo endoplasmático|rough-er]] los empaqueta en ésteres neutros y los concentra entre sus dos hojas lipídicas hasta que brota una lente dorada de aceite. Envueltas por una sola capa de fosfolípidos, estas [[gotas lipídicas|lipid-droplet]] aguardan junto al retículo y la vacuola como bidones portátiles de blindaje.\n\nEn cuanto una [[yema hija|real-fungal-bud]] reclama membrana urgente —o el hambre enciende los [[peroxisomas|peroxisome]]—, lipasas de superficie abren el bidón y sueltan esteroles listos para ensamblar.',
+          'Dejar [[ergosterol|ergosterol]] o grasas sueltas de más dañaría las membranas, así que el [[retículo endoplasmático|rough-er]] los guarda como ésteres neutros entre sus dos capas hasta que brota una perla dorada de aceite. Envueltas en media membrana, estas [[gotas lipídicas|lipid-droplet]] flotan como cápsulas Capsule Corp de Dragon Ball.\n\nEn cuanto una [[yema hija|real-fungal-bud]] pide blindaje urgente —o el ayuno enciende los [[peroxisomas|peroxisome]]—, lipasas de superficie abren la cápsula y entregan esteroles listos.',
         blueprint: {
           role: 'Depósito neutro de ésteres de ergosterol y triacilgliceroles',
           arrivesFrom: '[[Ergosterol|ergosterol]] (de [[Erg11|erg11-real]]) y acil-CoA esterificados por Are1/2 y Dga1/Lro1 en el [[RE|rough-er]]',
@@ -3679,9 +3679,9 @@ export const PLANT_FUNGAL_PART_LENSES: PagePartLensMap = {
       en: {
         subtitle: 'Polarized Express Parcels to the Bud Tip',
         simple:
-          'Post-Golgi bubbles hauled along actin cables at top speed to deliver new membrane, mannoproteins, and wall-building enzymes right to the growing daughter bud.',
+          'Cells at Work! express parcels riding actin ziplines at top speed to deliver fresh membrane, stealth coat, and wall weavers to the bud tip.',
         story:
-          'Because the mother cell’s hull stopped growing long ago, nearly every secretory [[vesicle|vesicle]] budding off dispersed [[Golgi|golgi]] discs has a single destination stamped on its Rab-GTPase address tag: the [[daughter bud|real-fungal-bud]]. Grabbed by Myo2 myosin motors, these eighty-to-hundred-nanometer parcels race down [[actin cables|actin-filament]] through the septin neck at three micrometers a second.\n\nTethered by the eight-part exocyst complex at the polarisome tip, they fuse into the [[plasma membrane|plasma-membrane]]—installing fresh Fks1/Chs3 synthases while pouring mannoproteins and [[Exg1|exg1-real]] straight into the expanding [[fungal wall|fungal-wall]].',
+          'Because Mom’s seasoned hull quit growing ages ago, nearly every secretory [[vesicle|vesicle]] pinching off dispersed [[Golgi|golgi]] discs wears one VIP address tag: the [[daughter bud|real-fungal-bud]]. Hooked onto Myo2 motors like Cells at Work! couriers on ziplines, these parcels rocket down [[actin cables|actin-filament]] through the neck at three micrometers a second.\n\nCaught at the tip by the eight-arm exocyst crew, they fuse into the [[plasma membrane|plasma-membrane]]—installing fresh weavers while pouring [[Exg1|exg1-real]] and stealth coat into the [[fungal wall|fungal-wall]].',
         blueprint: {
           role: 'Polarized exocytic courier driving bud membrane & wall expansion',
           arrivesFrom: 'Maturing trans-[[Golgi|golgi]] cisternae loaded with glycoproteins, lipids & wall synthases',
@@ -3704,9 +3704,9 @@ export const PLANT_FUNGAL_PART_LENSES: PagePartLensMap = {
       es: {
         subtitle: 'Paquetes exprés rumbo a la punta de la yema',
         simple:
-          'Burbujas salidas del Golgi que viajan a toda velocidad sobre cables de actina para entregar membrana nueva, manoproteínas y sintasas justo en la yema hija.',
+          'Paquetes exprés estilo Cells at Work! sobre tirolinas de actina que entregan membrana nueva, escudo y sintasas justo en la punta de la yema.',
         story:
-          'Como el casco de la madre ya dejó de crecer, casi todas las [[vesículas|vesicle]] que nacen de las cisternas dispersas del [[Golgi|golgi]] llevan escrita una única dirección postal: la [[yema hija|real-fungal-bud]]. Enganchadas a motores Myo2, estas cápsulas de cien nanómetros corren por los [[cables de actina|actin-filament]] cruzando el cuello a tres micrómetros por segundo.\n\nAmarradas en la cúspide por el complejo exocisto, funden su piel con la [[membrana plasmática|plasma-membrane]] para instalar nuevas sintasas mientras vierten manoproteínas y tijeras [[Exg1|exg1-real]] en la [[pared fúngica|fungal-wall]] naciente.',
+          'Como el casco materno ya no crece, casi cada [[vesícula|vesicle]] nacida del [[Golgi|golgi]] disperso lleva escrito un único destino postal: la [[yema hija|real-fungal-bud]]. Enganchadas a motores Myo2 como repartidores de Cells at Work! en tirolina, corren por [[cables de actina|actin-filament]] a tres micrómetros por segundo.\n\nAtrapadas en la cúspide por el complejo exocisto, se funden con la [[membrana plasmática|plasma-membrane]] instalando sintasas y vertiendo tijeras [[Exg1|exg1-real]] en la [[pared fúngica|fungal-wall]].',
         blueprint: {
           role: 'Mensajero exocítico polarizado para la expansión de membrana y pared hija',
           arrivesFrom: 'Cisternas trans-[[Golgi|golgi]] cargadas con manoproteínas, lípidos y sintasas de pared',
@@ -3732,9 +3732,9 @@ export const PLANT_FUNGAL_PART_LENSES: PagePartLensMap = {
       en: {
         subtitle: 'Towropes to the Bud & Endocytic Patches',
         simple:
-          'Yeast builds two actin tools at once: long cables stretching from the bud tip to tow supplies forward, and tiny cortical patches that pull membrane pockets inward.',
+          'Attack on Titan grapple cables plus Hulkbuster winch patches: long cables tow bud cargo forward while patches yank membrane inward against pressure.',
         story:
-          'Whereas animal cells use microtubules for long-haul freight, budding yeast runs almost its entire delivery empire on [[actin|actin-filament]]. Formin proteins stationed at the [[bud tip|real-fungal-bud]] and [[septin neck|septin-real]] spin polarized actin cables backward into the mother, creating one-way towropes up which myosin-V motors haul [[secretory vesicles|vesicle]], mitochondria, vacuoles, and even spindle-guiding microtubule tips.\n\nMeanwhile, speckled cortical actin patches powered by Arp2/3 burst into life along the [[plasma membrane|plasma-membrane]]—generating massive pulling force to pinch endocytic vesicles inward against bicycle-tire turgor pressure.',
+          'Animals haul long freight on microtubules, but yeast runs its whole empire on [[actin|actin-filament]] like Attack on Titan’s Scout Regiment. Formins at the [[bud tip|real-fungal-bud]] and [[septin portal|septin-real]] fire polarized grapple cables back into Mom, creating one-way towlines for myosins hauling [[secretory vesicles|vesicle]], mitochondria, and vacuoles.\n\nMeanwhile, branched Arp2/3 actin patches erupt along the [[plasma membrane|plasma-membrane]] like Hulkbuster winches—pulling endocytic bubbles inward against crushing bike-tire pressure.',
         blueprint: {
           role: 'Polarized mother-to-bud cargo railway & turgor-overcoming endocytic force generator',
           arrivesFrom: 'Cytosolic ATP-[[G-actin|g-actin]] nucleated by Bni1/Bnr1 formins (cables) & Arp2/3 complex (patches)',
@@ -3757,9 +3757,9 @@ export const PLANT_FUNGAL_PART_LENSES: PagePartLensMap = {
       es: {
         subtitle: 'Cabos de remolque hacia la yema y parches de agarre',
         simple:
-          'La levadura arma dos herramientas de actina a la vez: cables largos tendidos desde la yema para arrastrar suministros y pequeños parches que tiran de la membrana hacia dentro.',
+          'Cables de maniobras estilo Attack on Titan más cabrestantes Hulkbuster: tirolinas hacia la yema y parches que meten membrana contra presión.',
         story:
-          'Mientras las células animales usan microtúbulos para el transporte lejano, la levadura mueve casi todo su imperio logístico sobre [[actina|actin-filament]]. Las forminas apostadas en la punta de la [[yema hija|real-fungal-bud]] y en el [[cuello de septinas|septin-real]] hilan largos cables polarizados hacia el vientre materno, tendiendo cabos de sentido único por donde trepan motores cargados de [[vesículas|vesicle]], mitocondrias y vacuolas.\n\nAl mismo tiempo, densos parches ramificados de actina estallan junto a la [[membrana plasmática|plasma-membrane]], ejerciendo una tracción brutal para meter burbujas endocíticas hacia dentro venciendo la presión de neumático del interior.',
+          'Mientras las células animales usan microtúbulos para el transporte lejano, la levadura mueve todo su imperio con [[actina|actin-filament]] cual Cuerpo de Exploración de Attack on Titan. Desde la punta de la [[yema hija|real-fungal-bud]] y el [[cuello de septinas|septin-real]] salen largos cabos de sentido único por donde trepan motores cargados de [[vesículas|vesicle]], mitocondrias y vacuolas.\n\nA la vez, densos parches ramificados estallan junto a la [[membrana plasmática|plasma-membrane]] como cabrestantes Hulkbuster, tirando con fuerza para meter burbujas endocíticas hacia dentro venciendo la presión de neumático.',
         blueprint: {
           role: 'Ferrocarril polarizado madre-hija y motor endocítico contra la turgencia',
           arrivesFrom: 'Monómeros de [[actina G|g-actin]] con ATP nucleados por forminas Bni1/Bnr1 (cables) y Arp2/3 (parches)',
@@ -3785,9 +3785,9 @@ export const PLANT_FUNGAL_PART_LENSES: PagePartLensMap = {
       en: {
         subtitle: 'Two Hundred Thousand Engines of the Alchemist',
         simple:
-          'Packing the yeast cytoplasm wall-to-wall, ~200,000 ribosomes read gene messages in convoys to flood the cell with fermentation and wall-building enzymes.',
+          'Two hundred thousand Naruto Shadow-Clone forges packing yeast wall-to-wall, reading mRNA in convoys to flood the tavern with brewery enzymes.',
         story:
-          'Pouring out of the [[crescent nucleolus|real-fungal-nucleolus]] at two thousand subunits a minute, [[80S ribosomes|ribosome]] crowd the yeast [[cytosol|cytosol]] so densely they account for a third of the cell’s dry protein mass. Stringing up like beads into polysome convoys along fresh mRNAs from the [[nucleus|real-fungal-nucleus]], cytosolic ribosomes crank out massive quantities of [[Pdc1|pdc1-real]], [[Adh1|adh1-real]], and glycolytic enzymes.\n\nMeanwhile, sister ribosomes docked on the [[ER|rough-er]] weave transmembrane [[Pma1 pumps|pma1-real]] and mannoproteins destined for the [[fungal wall|fungal-wall]]—powering a complete cell doubling in ninety minutes flat.',
+          'Streaming out of the [[crescent nucleolus|real-fungal-nucleolus]] at two thousand halves a minute, [[80S ribosomes|ribosome]] pack the [[cytosol|cytosol]] like 200,000 Naruto Shadow Clones—claiming a full third of yeast’s dry protein weight. Lined up in convoys along fresh mRNAs from the [[nucleus|real-fungal-nucleus]], they crank out tidal waves of [[Pdc1|pdc1-real]] and [[Adh1|adh1-real]].\n\nMeanwhile, ribosomes docked on the [[ER|rough-er]] forge [[Pma1 cannons|pma1-real]] and armor proteins for the [[fungal wall|fungal-wall]]—doubling the whole brewery in ninety minutes flat.',
         blueprint: {
           role: 'High-density cytoplasmic & ER-bound protein translation machinery',
           arrivesFrom: '40S/60S subunits from [[crescent nucleolus|real-fungal-nucleolus]], [[mRNAs|rna]] from [[nucleus|real-fungal-nucleus]], & [[amino acids|amino-acid]] + GTP/ATP',
@@ -3810,9 +3810,9 @@ export const PLANT_FUNGAL_PART_LENSES: PagePartLensMap = {
       es: {
         subtitle: 'Doscientos mil motores del alquimista',
         simple:
-          'Abarrotando el citoplasma de pared a pared, unos 200,000 ribosomas leen mensajes en fila para inundar la célula de enzimas fermentativas y constructoras.',
+          'Doscientos mil clones de sombra estilo Naruto abarrotando el citoplasma: leen ARNm en fila para inundar la levadura de enzimas cerveceras.',
         story:
-          'Manando desde el [[nucléolo en medialuna|real-fungal-nucleolus]] a razón de dos mil piezas por minuto, los [[ribosomas 80S|ribosome]] llenan tan tupidamente el [[citosol|cytosol]] que suman una tercera parte de toda la masa proteica de la levadura. Ensartados en trenes de polisomas sobre los ARNm recién salidos del [[núcleo|real-fungal-nucleus]], fabrican a destajo toneladas de [[Pdc1|pdc1-real]], [[Adh1|adh1-real]] y enzimas glucolíticas.\n\nA la vez, sus compañeros anclados al [[RE|rough-er]] tejen [[bombas Pma1|pma1-real]] y manoproteínas para la [[pared fúngica|fungal-wall]], logrando duplicar una célula entera en apenas noventa minutos.',
+          'Manando del [[nucléolo en medialuna|real-fungal-nucleolus]] a dos mil piezas por minuto, los [[ribosomas 80S|ribosome]] llenan el [[citosol|cytosol]] como 200,000 clones de sombra de Naruto, sumando un tercio de toda la proteína celular. En fila sobre los ARNm del [[núcleo|real-fungal-nucleus]], fabrican toneladas de [[Pdc1|pdc1-real]] y [[Adh1|adh1-real]].\n\nA la vez, sus compañeros del [[RE|rough-er]] tejen [[cañones Pma1|pma1-real]] y escudos para la [[pared fúngica|fungal-wall]], duplicando toda la taberna en noventa minutos.',
         blueprint: {
           role: 'Maquinaria masiva de traducción proteica citosólica y asociada al RE',
           arrivesFrom: 'Subunidades 40S/60S del [[nucléolo|real-fungal-nucleolus]], [[ARNm|rna]] del [[núcleo|real-fungal-nucleus]] y [[aminoácidos|amino-acid]] + GTP/ATP',
@@ -3838,9 +3838,9 @@ export const PLANT_FUNGAL_PART_LENSES: PagePartLensMap = {
       en: {
         subtitle: 'The Twin Alchemists of Fizz & Spirits',
         simple:
-          'Working back-to-back in the cytoplasm, Pdc1 snaps pyruvate into carbon dioxide bubbles and Adh1 turns the rest into ethanol—keeping ATP flowing with or without oxygen.',
+          'The One Piece & Erebor brewery duo in the cytoplasm: Pdc1 pops pyruvate into CO₂ fizz and Adh1 pours the rest into ethanol so ATP never stalls.',
         story:
-          'Here sits the signature two-step engine that baked humanity’s bread and brewed its wine for ten thousand years—invented by yeast as chemical warfare in rotting fruit. Even when plenty of oxygen is around, flooded glycolysis pours pyruvate and NADH from the [[cytosol|cytosol]] straight into tetrameric [[Pdc1|pdc1-real]], whose vitamin-B₁ chisel snaps off sparkling CO₂ gas and hands sharp acetaldehyde to waiting [[Adh1|adh1-real]].\n\nUsing its catalytic zinc atom, Adh1 dumps NADH’s electrons onto acetaldehyde to pour ethanol out through the [[ergosterol membrane|plasma-membrane]]—stunning rival bacteria outside while handing empty NAD⁺ right back to glycolysis so fast ATP never stops.',
+          'Meet the tag-team tavern engine behind ten thousand years of pizza dough and dwarven ale—invented by yeast for chemical bar-brawls in rotting fruit. Even in open air, flooded [[cytosolic|cytosol]] glycolysis dumps pyruvate into [[Pdc1|pdc1-real]], whose vitamin-B₁ chisel pops off sparkling CO₂ and slides acetaldehyde down the One Piece bar to [[Adh1|adh1-real]].\n\nWith its zinc atom, Adh1 pours NADH’s electrons onto acetaldehyde to ship rival-stunning ethanol out the [[ergosterol membrane|plasma-membrane]]—handing clean NAD⁺ mugs right back so ATP keeps flowing.',
         blueprint: {
           role: 'Two-step alcoholic fermentation & cytosolic NAD⁺ regeneration circuit',
           arrivesFrom: 'Pyruvate & NADH generated from [[glucose|glucose]] glycolysis in the [[cytosol|cytosol]]',
@@ -3862,9 +3862,9 @@ export const PLANT_FUNGAL_PART_LENSES: PagePartLensMap = {
       es: {
         subtitle: 'El dúo alquimista de la espuma y el alcohol',
         simple:
-          'Trabajando en tándem en el citoplasma, Pdc1 parte el piruvato soltando burbujas de CO₂ y Adh1 convierte el resto en etanol para que nunca se detenga la producción de ATP.',
+          'El dúo cervecero digno de Erebor y One Piece en el citoplasma: Pdc1 suelta espuma de CO₂ y Adh1 sirve etanol para que nunca se frene el ATP.',
         story:
-          'Aquí late la destilería de dos pasos que lleva diez mil años leudando nuestro pan y fermentando el vino, inventada por la levadura como arma química en la fruta madura. Incluso a pleno aire, el torrente glucolítico del [[citosol|cytosol]] vuelca piruvato y NADH sobre [[Pdc1|pdc1-real]], cuyo cincel de vitamina B₁ arranca burbujas de CO₂ y pasa en caliente el acetaldehído a [[Adh1|adh1-real]].\n\nCon su átomo de zinc catalítico, Adh1 descarga electrones sobre ese acetaldehído y arroja etanol fuera por la [[membrana de ergosterol|plasma-membrane]], dejando aturdidas a las bacterias rivales mientras devuelve NAD⁺ limpio a la glucólisis para seguir fabricando ATP a toda velocidad.',
+          'Aquí ruge la destilería de dos pasos detrás de diez mil años de masa de pan y cerveza enana, creada por la levadura como arma química en la fruta madura. Incluso a pleno aire, el torrente glucolítico del [[citosol|cytosol]] vuelca piruvato sobre [[Pdc1|pdc1-real]], cuyo cincel de vitamina B₁ arranca burbujas de CO₂ y desliza el acetaldehído por la barra de One Piece hasta [[Adh1|adh1-real]].\n\nCon su átomo de zinc catalítico, Adh1 arroja etanol fuera por la [[membrana de ergosterol|plasma-membrane]] dejando aturdidas a las bacterias rivales mientras devuelve jarras limpias de NAD⁺ a la glucólisis.',
         blueprint: {
           role: 'Circuito citosólico de fermentación alcohólica y regeneración de NAD⁺',
           arrivesFrom: 'Piruvato y NADH producidos al romper [[glucosa|glucose]] en el [[citosol|cytosol]]',
@@ -3889,9 +3889,9 @@ export const PLANT_FUNGAL_PART_LENSES: PagePartLensMap = {
       en: {
         subtitle: 'The High-Pressure Glycolytic Cauldron',
         simple:
-          'Packed thick with enzymes and osmolyte sugars, the yeast cytosol rips incoming glucose into pyruvate and fast ATP while feeding every workshop in the cell.',
+          'A pressurized Fullmetal Alchemist cauldron packed thick with enzymes, ripping incoming glucose into fast ATP while brewing glycerol shock-pads.',
         story:
-          'Step into the liquid core of our pressurized alchemist and you are wading through a thick, fizzing stew packed to ~250 milligrams of protein per milliliter. Floodwaters of [[glucose|glucose]] hauled across the [[plasma membrane|plasma-membrane]] run a ten-step glycolytic sprint right here, stamping out two quick ATPs per glucose to feed greedy [[Pma1 proton pumps|pma1-real]] while funneling pyruvate straight into [[Pdc1|pdc1-real]] and [[Adh1|adh1-real]].\n\nWhenever heat or osmotic shock strikes, cytosolic synthases stitch spare glucose into protective glycerol and trehalose cushions—stabilizing proteins and tuning the exact turgor pressure pushing out against the [[chitin-glucan wall|fungal-wall]].',
+          'Dive into our brewer’s liquid core and you wade through a fizzy Fullmetal Alchemist cauldron packed to ~250 mg of protein per milliliter. Torrents of [[glucose|glucose]] crossing the [[plasma membrane|plasma-membrane]] run a ten-step glycolytic sprint right here—stamping quick ATP for [[Pma1 cannons|pma1-real]] while pouring pyruvate into [[Pdc1|pdc1-real]] and [[Adh1|adh1-real]] tavern vats.\n\nIf heat or thick syrup strikes, cytosolic weavers stitch spare sugar into glycerol and trehalose airbags—tuning exact bike-tire pressure against the [[chitin-glucan wall|fungal-wall]].',
         blueprint: {
           role: 'High-flux glycolytic engine, UDP-sugar forge & osmoregulatory matrix',
           arrivesFrom: 'Imported [[glucose|glucose]] across [[plasma membrane|plasma-membrane]]; recycled NAD⁺ from [[Adh1|adh1-real]] & monomers from [[vacuole|central-vacuole]]',
@@ -3915,9 +3915,9 @@ export const PLANT_FUNGAL_PART_LENSES: PagePartLensMap = {
       es: {
         subtitle: 'El caldero glucolítico de alta presión',
         simple:
-          'Espeso y repleto de enzimas, el citosol de la levadura tritura la glucosa recién entrada para obtener piruvato y ATP rápido mientras abastece a toda la célula.',
+          'Un caldero alquímico a presión estilo Fullmetal Alchemist: tritura glucosa para cobrar ATP rápido y teje escudos de glicerol contra el choque.',
         story:
-          'Entrar en el corazón líquido del alquimista presurizado es sumergirse en un caldo denso y burbujeante con casi trescientos miligramos de proteína por mililitro. Los ríos de [[glucosa|glucose]] que cruzan la [[membrana plasmática|plasma-membrane]] recorren aquí mismo las diez etapas de la glucólisis a ritmo vertiginoso, acuñando ATP rápido para saciar a las [[bombas Pma1|pma1-real]] y volcando piruvato directo en las cubas de [[Pdc1|pdc1-real]] y [[Adh1|adh1-real]].\n\nSi arrecia el calor o sube la concentración de azúcar exterior, el citosol cose glucosa sobrante en escudos de glicerol y trehalosa que protegen las proteínas y ajustan al milímetro la presión contra la [[pared fúngica|fungal-wall]].',
+          'Sumergirse en el corazón líquido de esta cervecera es nadar en un espeso caldero burbujeante de Fullmetal Alchemist con casi trescientos miligramos de proteína por mililitro. Ríos de [[glucosa|glucose]] cruzan la [[membrana plasmática|plasma-membrane]] y esprintan aquí las diez etapas de la glucólisis, acuñando ATP rápido para saciar a [[Pma1|pma1-real]] y volcando piruvato directo en las cubas de [[Pdc1|pdc1-real]] y [[Adh1|adh1-real]].\n\nSi arrecia el calor o espesa el almíbar exterior, el citosol cose azúcar extra en airbags de glicerol y trehalosa que ajustan al milímetro la presión contra la [[pared fúngica|fungal-wall]].',
         blueprint: {
           role: 'Motor glucolítico de alto flujo, fábrica de azúcares-nucleótido y colchón osmótico',
           arrivesFrom: '[[Glucosa|glucose]] importada por la [[membrana plasmática|plasma-membrane]]; NAD⁺ de [[Adh1|adh1-real]] y aminoácidos de la [[vacuola|central-vacuole]]',

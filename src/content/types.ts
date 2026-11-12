@@ -8,10 +8,35 @@ export const EXPLANATION_MODES: readonly ExplanationMode[] = [
 ] as const;
 
 /**
+ * Three audience-tailored Guided Tour content personas:
+ * - `pop`: Pop-Culture & Storyteller (`simple` & `story` modes; anime, cartoon & movie analogies)
+ * - `blueprint`: Systems Engineer (`blueprint` mode; I/O ports, rotary turbines, buses, state machines)
+ * - `scientific`: Molecular Biologist (`scientific` mode; quantitative nm/µm, stoichiometry, Δp, PDB IDs)
+ */
+export type TourPersona = 'pop' | 'blueprint' | 'scientific';
+
+export const TOUR_PERSONAS: readonly TourPersona[] = ['pop', 'blueprint', 'scientific'] as const;
+
+export const MODE_TO_TOUR_PERSONA: Readonly<Record<ExplanationMode, TourPersona>> = {
+  simple: 'pop',
+  story: 'pop',
+  blueprint: 'blueprint',
+  scientific: 'scientific'
+};
+
+export function isValidTourPersona(val: unknown): val is TourPersona {
+  return val === 'pop' || val === 'blueprint' || val === 'scientific';
+}
+
+export function resolveTourPersona(mode: ExplanationMode): TourPersona {
+  return MODE_TO_TOUR_PERSONA[mode];
+}
+
+/**
  * Three Public-Domain (CC0 / LibriVox) English narrator voices:
- * - `v1`: Voice 1 — Preset for `scientific` mode (scientists & biologists inspecting specifics)
- * - `v2`: Voice 2 — Preset for `blueprint` mode (engineers & systems thinkers)
- * - `v3`: Voice 3 — Preset for `simple` & `story` modes (kids, newcomers & curious learners)
+ * - `v1`: Voice 1 — Molecular Biologist preset (`scientific` mode)
+ * - `v2`: Voice 2 — Systems Engineer preset (`blueprint` mode)
+ * - `v3`: Voice 3 — Pop-Culture Guide preset (`simple` & `story` modes)
  */
 export type EnglishVoiceId = 'v1' | 'v2' | 'v3';
 
@@ -28,6 +53,12 @@ export const PRESET_VOICE_BY_MODE: Readonly<Record<ExplanationMode, EnglishVoice
   scientific: 'v1'
 };
 
+export const DEFAULT_MODE_BY_ENGLISH_VOICE: Readonly<Record<EnglishVoiceId, ExplanationMode>> = {
+  v1: 'scientific',
+  v2: 'blueprint',
+  v3: 'story'
+};
+
 export function isValidEnglishVoiceId(val: unknown): val is EnglishVoiceId {
   return val === 'v1' || val === 'v2' || val === 'v3';
 }
@@ -42,8 +73,8 @@ export function resolveEnglishVoice(mode: ExplanationMode, pref: VoicePreference
 
 /**
  * Two Public-Domain (CC0) Spanish narrator voices:
- * - `latam`: Latinoamérica — Warm Mexican/Latin American studio narrator (Common Voice CC0; preset for `simple` & `story`)
- * - `spain`: España — Castilian deep baritone (Common Voice CC0; preset for `blueprint` & `scientific`)
+ * - `latam`: Latinoamérica — Guía Pop & Historia (Common Voice CC0; preset for `simple` & `story`)
+ * - `spain`: España — Ingeniero & Científico (Common Voice CC0; preset for `blueprint` & `scientific`)
  */
 export type SpanishVoiceId = 'latam' | 'spain';
 
@@ -62,6 +93,11 @@ export const PRESET_SPANISH_VOICE_BY_MODE: Readonly<Record<ExplanationMode, Span
   story: 'latam',
   blueprint: 'spain',
   scientific: 'spain'
+};
+
+export const DEFAULT_MODE_BY_SPANISH_VOICE: Readonly<Record<SpanishVoiceId, ExplanationMode>> = {
+  latam: 'story',
+  spain: 'scientific'
 };
 
 export function isValidSpanishVoiceId(val: unknown): val is SpanishVoiceId {

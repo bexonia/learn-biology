@@ -3,7 +3,8 @@
 **Iteration:** `05` (Reactive 4-Mode Reading Lenses, End-to-End Supply-Chain Storytelling & Public-Domain Multi-Voice Narration in `EN` & `ES`)  
 **Status:** ✅ **Completed & Verified**  
 **Parent Index:** [`roadmap/README.md`](./README.md)  
-**Previous Step:** [`04-optional-user-accounts-and-course-progress-sync.md`](./04-optional-user-accounts-and-course-progress-sync.md)
+**Previous Step:** [`04-optional-user-accounts-and-course-progress-sync.md`](./04-optional-user-accounts-and-course-progress-sync.md)  
+**Next Step:** [`06-adaptive-narrator-personas-and-pop-culture-analogies.md`](./06-adaptive-narrator-personas-and-pop-culture-analogies.md)
 
 ---
 

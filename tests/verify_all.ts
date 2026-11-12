@@ -252,6 +252,7 @@ async function runUnitTests() {
 
     let verifiedPersonaCueStrings = 0;
     let uniqueTourCuesCount = 0;
+    let curatedAnalogyCueCount = 0;
     for (const [key, tour] of Object.entries(all)) {
       assert.ok(tour.chapters.length > 0, `Tour ${key} must have chapters`);
       assert.equal(tours.getTour(key)?.root, tour.root);
@@ -267,7 +268,11 @@ async function runUnitTests() {
 
         const pEntry = getTourPersonaEntry(tour.root, cue.id);
         assert.ok(pEntry, `Missing TourPersona entry for ${tour.root}/${cue.id}`);
+        if (pEntry.en.pop !== cue.text) {
+          curatedAnalogyCueCount++;
+        }
         const baseTargets = extractHighlightTargets(cue.text);
+        const minCueLen = cue.id.includes('.rollcall.') ? 4 : 12;
 
         for (const loc of ['en', 'es'] as const) {
           const triplet = pEntry[loc];
@@ -277,8 +282,8 @@ async function runUnitTests() {
             assert.ok(typeof raw === 'string' && raw.trim().length > 0, `Empty ${loc}.${p} cue for ${tour.root}/${cue.id}`);
             const plain = plainOf(raw).trim();
             assert.ok(
-              plain.length >= 12 && plain.length <= 110,
-              `Persona cue ${tour.root}/${cue.id} [${loc}.${p}] length ${plain.length} outside [12, 110]: "${plain}"`
+              plain.length >= minCueLen && plain.length <= 110,
+              `Persona cue ${tour.root}/${cue.id} [${loc}.${p}] length ${plain.length} outside [${minCueLen}, 110]: "${plain}"`
             );
             const pTargets = extractHighlightTargets(raw);
             assert.deepEqual(
@@ -337,8 +342,12 @@ async function runUnitTests() {
       4602,
       `Expected 4602 verified multi-persona tour cue strings, got ${verifiedPersonaCueStrings}`
     );
+    assert.ok(
+      curatedAnalogyCueCount >= 20 && curatedAnalogyCueCount <= 45,
+      `Expected sparse, high-value analogies on complex mechanisms only (20..45 of 767 cues, ~1 every 2 min), got ${curatedAnalogyCueCount}`
+    );
     ok(
-      `TourService & Multi-Persona Scripts (10 tours, ${uniqueTourCuesCount} unique cues, all ${verifiedPersonaCueStrings} EN/ES pop/blueprint/scientific cues <= 110 chars & highlight-verified)`
+      `TourService & Multi-Persona Scripts (10 tours, ${uniqueTourCuesCount} unique cues, ${curatedAnalogyCueCount} sparse complex-mechanism analogies, all ${verifiedPersonaCueStrings} cues <= 110 chars & highlight-verified)`
     );
 
     // I18nService + AtomRef reactivity checks

@@ -4,9 +4,9 @@ export const ENVELOPED_VIRUS_NODE_LENSES: NodeLensMap = {
   'real-coronavirus': {
     en: {
       simple:
-        'Like X-Men’s Mystique wrapped in a stolen fat bubble, SARS-CoV-2 hides its club-shaped spikes under sugar camouflage to pick airway-cell locks and slip a 30,000-letter RNA scroll inside.',
+        'SARS-CoV-2 is a microscopic fat bubble studded with sugar-disguised protein clubs that pick the locks on human airway cells and slip a giant 30,000-letter genetic instruction scroll inside.',
       story:
-        'Meet virology’s ultimate Mystique: a 92-nanometer lipid bubble stolen from its last victim and bristling with sugar-cloaked [[Spike trimers|cov-spike-real]] that fool patrolling antibodies like Predator camouflage. Drifting down a human airway, one Spike flips up a single lockpick finger to grab [[ACE2|ace2-real]], cons host TMPRSS2 surface scissors into snipping its S2′ pin, and fires a fusion harpoon that merges virus and cell into one open doorway. In slides a colossal 30,000-letter [[RNA scroll|rna]] disguised as VIP cellular mail, duping host [[ribosomes|ribosome]] into building [[RdRp copy presses|cov-rdrp-real]] that turn the cell into a nonstop virus factory.',
+        'Meet the Sugar-Cloaked Shapeshifter: a stolen 92-nanometer lipid bubble bristling with glycan-camouflaged [[Spike trimers|cov-spike-real]] fresh from the previous victim’s secretory membranes. Drifting down a human airway, one Spike flips up a single receptor-binding finger to latch onto [[ACE2|ace2-real]], tricks the cell’s own TMPRSS2 surface scissors into snipping its S2′ spring, and harpoons the airway membrane to fuse both bubbles into one seamless doorway. Through that breach slides a colossal 30,000-letter [[RNA scroll|rna]] dressed as ordinary cellular mail, duping host [[ribosomes|ribosome]] into immediately building [[RdRp copying factories|cov-rdrp-real]] that turn the cell into a round-the-clock virus foundry.',
       blueprint:
         'Role: Enveloped (+)ssRNA respiratory virion (~120 nm) executing receptor-primed membrane fusion and cytosolic replication · From: Budding off host [[ER–Golgi membranes|golgi]] · Inside: 48 [[Spike trimers|cov-spike-real]], M-dimer matrix, 14 [[E viroporins|cov-e-real]], and 29.9 kb [[(+)ssRNA|rna]] wound around 40 [[N oligomers|cov-n-real]] · To: Docks on [[ACE2|ace2-real]] and delivers genome to host [[ribosomes|ribosome]] and [[RdRp|cov-rdrp-real]]',
       scientific:
@@ -14,9 +14,9 @@ export const ENVELOPED_VIRUS_NODE_LENSES: NodeLensMap = {
     },
     es: {
       simple:
-        'Como Mystique de X-Men envuelta en una burbuja de grasa robada, el SARS-CoV-2 oculta sus mazas bajo un disfraz de azúcar para forzar células respiratorias y colar un pergamino de ARN de 30.000 letras.',
+        'El SARS-CoV-2 es una diminuta burbuja de grasa erizada de mazas proteicas disfrazadas con azúcares que fuerzan la cerradura de nuestras células respiratorias e introducen un enorme pergamino genético de 30.000 letras.',
       story:
-        'Conoce al gran cambiaformas digno de Mystique: una burbuja lipídica de 92 nanómetros robada a su víctima anterior y erizada de [[trímeros de Espiga|cov-spike-real]] camuflados con azúcares al estilo Depredador para burlar anticuerpos. Al bajar por las vías respiratorias, una Espiga alza un dedo ganzúa para aferrar el receptor [[ACE2|ace2-real]], engaña a las tijeras celulares TMPRSS2 para cortar su seguro S2′ y clava un arpón que funde ambas membranas en un solo portal. Por ahí entra un colosal [[pergamino de ARN|rna]] de 30.000 letras disfrazado de correo oficial, haciendo que los [[ribosomas|ribosome]] armen [[imprentas copiadoras RdRp|cov-rdrp-real]] sin descanso.',
+        'Conoce al Cambiaformas bajo Manto de Azúcar: una burbuja lipídica robada de 92 nanómetros erizada de [[trímeros de Espiga|cov-spike-real]] camuflados con glicanos tras escapar de las membranas secretoras de su víctima anterior. Al descender por las vías respiratorias, una Espiga levanta un único dedo buscador para aferrarse al receptor humano [[ACE2|ace2-real]], engaña a las tijeras celulares TMPRSS2 para que corten su resorte S2′ y arponea la membrana epitelial hasta fundir ambas burbujas en una sola puerta. Por esa brecha se desliza un colosal [[pergamino de ARN|rna]] de 30.000 letras disfrazado de correo legítimo, haciendo que los [[ribosomas|ribosome]] construyan al instante [[fábricas copiadoras RdRp|cov-rdrp-real]] que convierten la célula en una imprenta viral incesante.',
       blueprint:
         'Rol: Virión respiratorio envuelto de ARNmc(+) (~120 nm) especializado en fusión de membranas y replicación citosólica · Origen: Gemación desde [[membranas RE–Golgi|golgi]] del huésped · Interior: 48 [[trímeros S|cov-spike-real]], red dimérica M, 14 [[viroporinas E|cov-e-real]] y [[ARNmc(+)|rna]] de 29,9 kb enrollado en 40 [[oligómeros N|cov-n-real]] · Destino: Se acopla a [[ACE2|ace2-real]] y entrega el genoma a los [[ribosomas|ribosome]] y a la [[RdRp|cov-rdrp-real]]',
       scientific:
@@ -26,9 +26,9 @@ export const ENVELOPED_VIRUS_NODE_LENSES: NodeLensMap = {
   'real-cov-spike': {
     en: {
       simple:
-        'Caught mid-heist like a Predator dropping its cloak to fire a grappling hook, the viral Spike flips up one molecular finger to grab ACE2 and cock its membrane-fusing harpoon.',
+        'This close-up catches the exact moment a viral Spike protein flips up one molecular finger to grab a human cell receptor, cocking a spring-loaded harpoon that merges virus and cell.',
       story:
-        'Beneath a swaying Predator cloak of stolen sugar chains that makes antibodies skate right past, the [[Spike trimer|cov-spike-real]] keeps all three receptor-binding fingers tucked down until it brushes an airway cell. Instantly, one finger flips up like a Mission: Impossible lockpick to clamp onto human [[ACE2|ace2-real]]—an innocent blood-pressure enzyme drafted as a doorknob. That grip exposes a secret loop, tricking TMPRSS2 scissors in the [[plasma membrane|plasma-membrane]] into cutting the S2′ latch: the outer cap drops away, a hydrophobic harpoon stabs the [[lipid bilayer|phospholipid]], and the stalk jackknifes shut to fuse two bubbles into one tunnel.',
+        'Hidden beneath a swaying forest of stolen sugar chains so antibodies glide right past, the [[Spike trimer|cov-spike-real]] keeps its three receptor-binding fingers tucked down until it brushes an airway cell’s surface. Suddenly one finger hinges upward into the attack position and clamps onto the outer helix of human [[ACE2|ace2-real]]—a blood-pressure enzyme unwittingly drafted as a front-door handle. That handshake exposes a buried cleavage loop, duping host TMPRSS2 scissors anchored in the [[plasma membrane|plasma-membrane]] into snipping the S2′ latch; the S1 cap falls away, a hydrophobic harpoon shoots into the cell’s [[lipid bilayer|phospholipid]], and the stalk jackknifes to fuse two separate membranes into one open tunnel.',
       blueprint:
         'Role: Conformational receptor-recognition and class I membrane-fusion contact zone (~25 nm) · From: Glycosylated [[Spike homotrimers|cov-spike-real]] scanning the airway glycocalyx · Inside: Up-state S1 RBD clasping the α1 helix of [[ACE2|ace2-real]] alongside TMPRSS2 S2′ cleavage · To: Harpoons the host [[plasma membrane|plasma-membrane]] to open a fusion pore for the [[vRNP core|real-cov-rnp]]',
       scientific:
@@ -36,9 +36,9 @@ export const ENVELOPED_VIRUS_NODE_LENSES: NodeLensMap = {
     },
     es: {
       simple:
-        'Capturada en pleno asalto como Depredador soltando su camuflaje para lanzar un garfio, la Espiga viral levanta un dedo molecular, atrapa ACE2 y dispara su arpón fusionador.',
+        'Este primer plano captura el instante exacto en que una proteína Espiga levanta un dedo molecular para agarrar un receptor humano, activando un arpón con resorte que funde al virus con la célula.',
       story:
-        'Oculto bajo un manto digno de Depredador hecho de azúcares robados que despistan a los anticuerpos, el [[trímero de la Espiga|cov-spike-real]] guarda sus tres dedos buscadores plegados hasta rozar una célula respiratoria. De golpe, un dedo salta como ganzúa de Misión Imposible y sujeta la hélice externa de [[ACE2|ace2-real]], una pacífica enzima de la presión arterial usada como picaporte. Ese apretón destapa un bucle oculto para que las tijeras TMPRSS2 de la [[membrana plasmática|plasma-membrane]] corten el seguro S2′: cae la capucha, un arpón perfora la [[bicapa lipídica|phospholipid]] y el tallo se pliega fundiendo ambas burbujas en un túnel.',
+        'Oculto bajo un bosque oscilante de cadenas de azúcar robadas que despistan a los anticuerpos, el [[trímero de la Espiga|cov-spike-real]] mantiene sus tres dedos buscadores plegados hasta rozar una célula respiratoria. De pronto, un dedo se alza como una ganzúa y se aferra a la hélice externa de [[ACE2|ace2-real]], una enzima reguladora de la presión arterial convertida sin quererlo en picaporte. Ese apretón deja al descubierto un bucle secreto, engañando a las tijeras celulares TMPRSS2 ancladas en la [[membrana plasmática|plasma-membrane]] para que corten el seguro S2′: el cabezal S1 cae, un arpón hidrofóbico perfora la [[bicapa lipídica|phospholipid]] humana y el tallo se pliega de golpe para fundir ambas membranas en un túnel abierto.',
       blueprint:
         'Rol: Zona de contacto conformacional (~25 nm) para reconocimiento de receptor y fusión de membranas de clase I · Origen: [[Homotrímeros de Espiga|cov-spike-real]] glicosilados explorando la superficie epitelial · Interior: Dominio RBD en estado «up» sujetando la hélice α1 de [[ACE2|ace2-real]] junto al corte S2′ por TMPRSS2 · Destino: Arponea la [[membrana plasmática|plasma-membrane]] huésped para inyectar el [[núcleo vRNP|real-cov-rnp]]',
       scientific:
@@ -48,9 +48,9 @@ export const ENVELOPED_VIRUS_NODE_LENSES: NodeLensMap = {
   'real-cov-rnp': {
     en: {
       simple:
-        'Coiled inside the fat bubble like Dragon Ball’s Shenron curled around forty glowing orbs, the giant viral RNA wraps around shock-absorbing protein spools instead of a stiff shell.',
+        'Instead of a stiff geometric shell, the coronavirus wraps its unusually long RNA thread around dozens of protein spools like a flexible pearl necklace cushioned inside the fat bubble.',
       story:
-        'Stuffing nearly 30,000 letters of fragile [[viral RNA|rna]] into a 65-nanometer bubble without snapping it takes Dragon Ball-worthy Shenron coils rather than a brittle crystal box. The virus threads its marathon strand around forty positively charged [[Nucleocapsid spools|cov-n-real]] like shock-absorbing beads on a springy necklace, moored gently to M-protein tails lining the [[lipid envelope|phospholipid]]. The instant Spike fuses the outer membranes, this coiled dragon unspools smoothly into the host [[cytosol|cytosol]], handing an unbroken, ready-to-run scroll straight to waiting [[ribosomes|ribosome]].',
+        'Packing nearly 30,000 letters of fragile [[viral RNA|rna]] into a tight 65-nanometer space without tangling or snapping it takes a masterclass in origami. Rather than locking its blueprint inside a rigid crystal box, the virus threads the long strand through forty positively charged [[Nucleocapsid spools|cov-n-real]] arranged like beads on a coiled necklace, tethered gently to Membrane protein tails lining the [[lipid envelope|phospholipid]]. The moment Spike fuses the outer bubbles, this springy necklace unspools cleanly into the host [[cytosol|cytosol]], handing an intact, ready-to-read genetic scroll straight to waiting [[ribosomes|ribosome]].',
       blueprint:
         'Role: Flexible helical ribonucleoprotein lumen (~65 nm) compacting and shielding the giant viral genome · From: Cytoplasmic phase-separated assembly of [[N oligomers|cov-n-real]] around newly copied [[(+)ssRNA|rna]] · Inside: ~35–40 beads-on-a-string vRNP complexes anchored to inner M-dimer C-terminal tails · To: Releases intact capped mRNA genome into host [[cytosol|cytosol]] for [[ribosomal|ribosome]] translation',
       scientific:
@@ -58,9 +58,9 @@ export const ENVELOPED_VIRUS_NODE_LENSES: NodeLensMap = {
     },
     es: {
       simple:
-        'Enrollado dentro de la burbuja grasa como el dragón Shenron de Dragon Ball en torno a cuarenta esferas amortiguadoras, el enorme ARN viral viaja sobre carretes flexibles en vez de una caja rígida.',
+        'En lugar de una caja rígida, el coronavirus enrolla su larguísimo hilo de ARN alrededor de decenas de carretes proteicos como un collar de perlas flexible acolchado dentro de la burbuja de grasa.',
       story:
-        'Guardar casi 30.000 letras de frágil [[ARN viral|rna]] en apenas 65 nanómetros sin quebrarlo pide las espirales flexibles de Shenron en lugar de un cofre rígido. El virus enhebra su larguísima cinta por cuarenta [[carretes de Nucleocápside|cov-n-real]] de carga positiva como cuentas amortiguadoras de un collar elástico, amarradas a la cara interna de la [[envoltura lipídica|phospholipid]]. Apenas la Espiga funde las membranas, este dragón enroscado se despliega intacto en el [[citosol|cytosol]] humano y entrega su pergamino listo para leer directo a los [[ribosomas|ribosome]].',
+        'Empaquetar casi 30.000 letras de frágil [[ARN viral|rna]] en una cavidad de apenas 65 nanómetros sin enredarlo ni romperlo exige papiroflexia molecular de primer nivel. En vez de encerrar sus planos en un cofre rígido, el virus enhebra la larga hebra por cuarenta [[carretes de Nucleocápside|cov-n-real]] con carga positiva dispuestos como cuentas de un collar flexible, sujetos a las colas internas de la [[envoltura lipídica|phospholipid]]. En cuanto la Espiga funde las burbujas exteriores, este collar elástico se desenrolla limpiamente en el [[citosol|cytosol]] humano y tiende un pergamino intacto y listo para leer directamente a los [[ribosomas|ribosome]].',
       blueprint:
         'Rol: Lumen helicoidal flexible de ribonucleoproteína (~65 nm) que compacta y protege el genoma gigante · Origen: Ensamblaje citoplasmático de [[oligómeros N|cov-n-real]] sobre [[ARNmc(+)|rna]] recién sintetizado · Interior: ~35–40 complejos vRNP tipo collar anclados a los extremos C-terminales de dímeros M · Destino: Libera el genoma íntegro con caperuza 5′ al [[citosol|cytosol]] para su traducción en [[ribosomas|ribosome]]',
       scientific:
@@ -70,9 +70,9 @@ export const ENVELOPED_VIRUS_NODE_LENSES: NodeLensMap = {
   'real-cov-replication': {
     en: {
       simple:
-        'Inside secret Batcave bunkers carved from host membranes, the virus runs a turbo RNA copy-press with twin tightrope poles and a built-in Backspace key to clone its 30,000-letter code.',
+        'Once inside the cell, the virus builds its own high-speed molecular printing press—stabilized by twin guide rails—to copy its massive RNA scroll thousands of times over.',
       story:
-        'Minutes after the viral [[RNA scroll|rna]] slips indoors, hijacked host [[ribosomes|ribosome]] forge sixteen viral tools that remodel [[ER membranes|rough-er]] into hidden Batcave bunker vesicles invisible to cellular patrols. Inside sits the [[RdRp copying engine|cov-rdrp-real]]: a rapid-fire printing press braced by two α-helical tightrope poles so it never slips off a 30,000-letter track, teamed up with an ExoN proofreader acting as a live Backspace key to delete typos—and block decoy drugs! At full throttle, it prints both new genomes and short orders for fresh [[Spike clubs|cov-spike-real]].',
+        'As soon as the viral [[RNA scroll|rna]] slips indoors, unsuspecting host [[ribosomes|ribosome]] read its opening half and forge sixteen viral workhorse proteins that remodel nearby [[ER membranes|rough-er]] into hidden bunker vesicles. At the center of that bunker assembles the [[RdRp copying engine|cov-rdrp-real]]: a catalytic core braced by two long α-helical "sliding poles" that keep the machine from falling off a marathon 30,000-letter track, paired with a dedicated proofreading partner that snips out typos on the fly. Churning at breakneck speed, it prints both full-length genomes for new virions and shorter sub-scrolls ordering fresh [[Spike clubs|cov-spike-real]].',
       blueprint:
         'Role: Cytoplasmic viral replication–transcription complex (~16 nm) synthesizing genomic and subgenomic RNAs · From: Host [[ribosome|ribosome]] translation and proteolytic cleavage of incoming [[ORF1ab (+)ssRNA|rna]] · Inside: Catalytic [[nsp12–nsp7–2×nsp8 holoenzyme|cov-rdrp-real]] operating inside [[ER-derived|rough-er]] double-membrane vesicles · To: Outputs full-length (+)ssRNA for [[N packaging|cov-n-real]] and nested mRNAs for structural proteins',
       scientific:
@@ -80,9 +80,9 @@ export const ENVELOPED_VIRUS_NODE_LENSES: NodeLensMap = {
     },
     es: {
       simple:
-        'Dentro de búnkeres secretos estilo Baticueva tallados en membranas celulares, el virus monta una imprenta turbo con pértigas guía y tecla «Retroceso» para clonar sus 30.000 letras.',
+        'Ya dentro de la célula, el virus construye su propia imprenta molecular de alta velocidad —equipada con dos rieles guía— para copiar miles de veces su gigantesco pergamino de ARN.',
       story:
-        'Minutos después de colarse el [[pergamino de ARN|rna]], los [[ribosomas|ribosome]] engañados fabrican dieciséis herramientas virales que transforman el [[retículo endoplasmático|rough-er]] en búnkeres secretos tipo Baticueva ocultos a los sensores inmunes. En su centro ruge el [[motor copiador RdRp|cov-rdrp-real]]: una imprenta de alta velocidad sujeta por dos largas pértigas de equilibrista para no descarrilar en 30.000 letras, escoltada por la enzima ExoN que pulsa «Retroceso» borrando erratas al vuelo. A pleno gas, estampa genomas enteros y pedidos cortos de nuevas [[mazas de Espiga|cov-spike-real]].',
+        'Apenas el [[pergamino de ARN|rna]] se cuela en el interior, los confiados [[ribosomas|ribosome]] humanos leen su primera mitad y forjan dieciséis herramientas virales que remodelan las membranas del [[retículo endoplasmático|rough-er]] en búnkeres ocultos de doble pared. En el corazón de ese refugio se ensambla el [[motor copiador RdRp|cov-rdrp-real]], afianzado por dos largas «pértigas deslizantes» helicoidales que impiden que descarrile a lo largo de una pista maratoniana de 30.000 letras, asistido además por un corrector ortográfico que recorta errores al vuelo. Trabajando a toda máquina, imprime tanto genomas completos como mensajes cortos que encargan nuevas [[mazas de Espiga|cov-spike-real]].',
       blueprint:
         'Rol: Complejo citoplasmático de replicación y transcripción (~16 nm) que sintetiza ARN genómico y subgenómico · Origen: Traducción en [[ribosomas|ribosome]] y procesamiento proteolítico del [[ARNmc(+) ORF1ab|rna]] entrante · Interior: [[Holoenzima nsp12–nsp7–2×nsp8|cov-rdrp-real]] alojada en vesículas de doble membrana derivadas del [[RE|rough-er]] · Destino: Produce ARNmc(+) completo para [[empaquetamiento N|cov-n-real]] y ARNm anidados estructurales',
       scientific:
@@ -92,9 +92,9 @@ export const ENVELOPED_VIRUS_NODE_LENSES: NodeLensMap = {
   'real-hiv': {
     en: {
       simple:
-        'HIV-1 pulls off a Trojan Horse plus Matrix Agent Smith takeover: it sneaks a stealth cone into immune T-cells, rewrites RNA backward into DNA, and overwrites the cell’s own chromosomes forever.',
+        'HIV-1 is a stealthy virus that sneaks a cone-shaped protein vault into human immune cells, converts its RNA code backward into DNA, and splices itself permanently into the cell’s own genes.',
       story:
-        'Imagine a Trojan Horse crewed by Agent Smith from The Matrix: cloaked in a stolen T-cell membrane, HIV-1 plants barely fourteen sugar-masked [[Env spikes|hiv-env-real]]—spaced too wide apart for two-armed antibodies to grab two at once. Once Env picks a helper T-cell’s two-factor lock, fusion slips an armored fullerene stealth pod of [[p24 hexamers|hiv-ca-hex-real]] indoors. Hiding twin RNA scrolls all the way through a [[nuclear pore|nuclear-pore]], [[Reverse Transcriptase|hiv-rt-real]] rewrites RNA backward into DNA inside the closed vault so [[Integrase|hiv-in-real]] can splice Agent Smith permanently into the host’s own genome.',
+        'Enter the Double-Agent Inside the Vault: wrapped in a cholesterol-rich membrane stolen from an immune T-cell, HIV-1 displays suspiciously few sugar-armored [[Env spikes|hiv-env-real]]—spaced too far apart for two-armed antibodies to grab two at once. Once an Env spike picks the two-factor lock on a helper T-cell, membrane fusion slips an extraordinary geometric stealth cone of [[p24 hexamers|hiv-ca-hex-real]] indoors. Shielding twin RNA scrolls from cytosolic alarms all the way through a [[nuclear pore|nuclear-pore]], [[Reverse Transcriptase|hiv-rt-real]] rewrites viral RNA backward into DNA inside the closed vault so [[Integrase|hiv-in-real]] can splice it forever into the host’s own chromosomes.',
       blueprint:
         'Role: Enveloped lentiviral retrovirus (~120 nm) targeting CD4+ immune cells for permanent chromosomal integration · From: Plasma-membrane lipid-raft budding lined by [[p17 Matrix|hiv-ma-real]] · Inside: ~14–16 [[Env trimers|hiv-env-real]], fullerene cone of ~216 [[CA hexamers|hiv-ca-hex-real]] + 12 [[pentamers|hiv-ca-pent-real]], diploid 9.7 kb [[(+)ssRNA|rna]], [[RT|hiv-rt-real]], and [[Integrase|hiv-in-real]] · To: Fuses with CD4+/CCR5+ T-cells and integrates proviral [[DNA|dna]] inside the [[nucleus|nucleus]]',
       scientific:
@@ -102,9 +102,9 @@ export const ENVELOPED_VIRUS_NODE_LENSES: NodeLensMap = {
     },
     es: {
       simple:
-        'El VIH-1 combina el Caballo de Troya con el Agente Smith de Matrix: infiltra un cono furtivo en linfocitos T, reescribe su ARN hacia atrás en ADN y se graba para siempre en nuestros cromosomas.',
+        'El VIH-1 es un virus sigiloso que introduce una bóveda cónica de proteína en las células inmunitarias humanas, reescribe su ARN hacia atrás en ADN y se inserta para siempre en nuestros propios genes.',
       story:
-        'Imagina un Caballo de Troya tripulado por el Agente Smith de Matrix: envuelto en membrana robada a un linfocito T, el VIH-1 luce apenas catorce [[espigas Env|hiv-env-real]] cubiertas de azúcar, tan separadas que los anticuerpos no logran atrapar dos a la vez. Cuando Env abre la cerradura doble de un linfocito T colaborador, la fusión cuela un cono furtivo de [[hexámeros p24|hiv-ca-hex-real]]. Ocultando sus pergaminos hasta cruzar un [[poro nuclear|nuclear-pore]], la [[Transcriptasa Inversa|hiv-rt-real]] reescribe ARN hacia atrás en ADN dentro del búnker para que la [[Integrasa|hiv-in-real]] suelde al Agente Smith de por vida en los cromosomas humanos.',
+        'Entra en escena el Doble Agente dentro de la Bóveda: envuelto en una membrana rica en colesterol robada a un linfocito T, el VIH-1 exhibe muy pocas [[espigas Env|hiv-env-real]] blindadas con azúcares, separadas a propósito para que los anticuerpos de dos brazos no logren sujetar dos a la vez. Cuando una espiga abre la cerradura de doble factor de un linfocito T colaborador, la fusión desliza hacia dentro un prodigioso cono furtivo de [[hexámeros p24|hiv-ca-hex-real]]. Ocultando dos pergaminos gemelos de ARN frente a los sensores inmunes hasta cruzar un [[poro nuclear|nuclear-pore]], la [[Transcriptasa Inversa|hiv-rt-real]] reescribe el ARN hacia atrás en ADN para que la [[Integrasa|hiv-in-real]] lo empalme de por vida en los cromosomas humanos.',
       blueprint:
         'Rol: Retrovirus lentiviral envuelto (~120 nm) que infiltra linfocitos T CD4+ para integrarse permanentemente en sus cromosomas · Origen: Gemación en balsas lipídicas revestidas por [[Matriz p17|hiv-ma-real]] · Interior: ~14–16 [[trímeros Env|hiv-env-real]], cono de fullereno de ~216 [[hexámeros CA|hiv-ca-hex-real]] + 12 [[pentámeros|hiv-ca-pent-real]], [[ARNmc(+)|rna]] diploide de 9,7 kb, [[TI|hiv-rt-real]] e [[Integrasa|hiv-in-real]] · Destino: Se fusiona con células T CD4+/CCR5+ e integra [[ADN|dna]] proviral en el [[núcleo|nucleus]]',
       scientific:
@@ -114,9 +114,9 @@ export const ENVELOPED_VIRUS_NODE_LENSES: NodeLensMap = {
   'real-hiv-cone': {
     en: {
       simple:
-        'Like a Star Wars smuggling pod plated in hexamer armor, this asymmetric fullerene cone hides HIV’s cargo from immune tripwires all the way into the nucleus while sucking in DNA bricks.',
+        'Shaped like an asymmetrical soccer-ball cone, this armor-plated capsule hides HIV’s genetic cargo from the cell’s security alarms while vacuuming in building blocks through tiny pores.',
       story:
-        'Dropping naked viral genes into a T-cell [[cytosol|cytosol]] would trip every security laser in seconds, so HIV-1 smuggles its entire forgery lab inside a Millennium Falcon-style fullerene stealth pod. Obeying Euler’s geometric law, ~216 [[p24 hexamer tiles|hiv-ca-hex-real]] curve into a sealed 60-nanometer vault only when twelve [[five-sided pentamers|hiv-ca-pent-real]]—five at the narrow nose, seven at the wide tail—lock the corners shut. Surfing [[microtubules|microtubule]] and squeezing nose-first through a [[nuclear pore|nuclear-pore]], tiny hexamer iris valves vacuum host DNA letters in while keeping alarms locked out.',
+        'Dumping raw viral nucleic acids into a T-cell’s [[cytosol|cytosol]] would trip every innate tripwire in seconds, so HIV-1 smuggles its entire copying operation inside an armored fullerene stealth cone. Following the strict geometry of Euler’s law, roughly two hundred [[p24 hexamer tiles|hiv-ca-hex-real]] curve smoothly into a 60-nanometer vault only when exactly twelve [[five-sided pentamers|hiv-ca-pent-real]]—five at the narrow nose, seven across the wide cap—snap the angles shut. Hitching a ride along [[microtubules|microtubule]] and squeezing narrow-end-first right through a [[nuclear pore|nuclear-pore]], its microscopic hexamer iris pores suck host DNA letters inside while keeping immune sensors locked out.',
       blueprint:
         'Role: Closed fullerene stealth capsid (~60 × 32 nm) shielding reverse transcription and mediating intact nuclear import · From: Proteolytic maturation of Gag polyproteins after virion budding · Inside: ~216 [[p24 hexamers|hiv-ca-hex-real]] with electropositive dNTP pores closed by 12 [[p24 pentamers|hiv-ca-pent-real]] around [[RT|hiv-rt-real]] and [[RNA|rna]] · To: Transits host [[microtubules|microtubule]] and squeezes through the [[nuclear pore|nuclear-pore]] to uncoat near chromatin',
       scientific:
@@ -124,9 +124,9 @@ export const ENVELOPED_VIRUS_NODE_LENSES: NodeLensMap = {
     },
     es: {
       simple:
-        'Como una cápsula contrabandista de Star Wars blindada con placas hexagonales, este cono asimétrico oculta la carga del VIH frente a las alarmas celulares hasta el núcleo mientras aspira ladrillos de ADN.',
+        'Con la geometría asimétrica de un cono de placas hexagonales y pentagonales, esta cápsula blindada oculta el material del VIH frente a las alarmas celulares mientras aspira ladrillos de ADN por poros diminutos.',
       story:
-        'Soltar genes desnudos en el [[citosol|cytosol]] de un linfocito T activaría cada láser de seguridad en segundos, así que el VIH-1 esconde su taller dentro de una cápsula furtiva de fullereno digna del Halcón Milenario. Cumpliendo la ley geométrica de Euler, unas 216 [[losetas hexaméricas p24|hiv-ca-hex-real]] cierran una bóveda de 60 nanómetros gracias a doce [[pentámeros de cinco lados|hiv-ca-pent-real]]: cinco en la proa fina y siete en la popa ancha. Surfeando [[microtúbulos|microtubule]] hasta colarse de punta por un [[poro nuclear|nuclear-pore]], sus microválvulas aspiran letras de ADN sin alertar a ningún guardia.',
+        'Soltar ácidos nucleicos desnudos en el [[citosol|cytosol]] de un linfocito T dispararía todas las alarmas inmunitarias en segundos, así que el VIH-1 introduce su taller clandestino dentro de un cono furtivo de fullereno. Obedeciendo la implacable geometría de Euler, unas doscientas [[losetas hexaméricas p24|hiv-ca-hex-real]] se curvan en una bóveda de 60 nanómetros gracias a exactamente doce [[pentámeros de cinco lados|hiv-ca-pent-real]] —cinco en la nariz estrecha y siete en la cúpula ancha— que sellan cada esquina. Viajando sobre [[microtúbulos|microtubule]] hasta colarse de punta por un [[poro nuclear|nuclear-pore]], los diminutos poros de cada hexámero aspiran letras de ADN celular sin dejar asomarse a ningún sensor.',
       blueprint:
         'Rol: Cápside furtiva cerrada de fullereno (~60 × 32 nm) que blinda la retrotranscripción y cruza intacta hacia el núcleo · Origen: Maduración proteolítica de Gag tras la gemación · Interior: ~216 [[hexámeros p24|hiv-ca-hex-real]] con poros importadores de dNTP cerrados por 12 [[pentámeros p24|hiv-ca-pent-real]] en torno a la [[TI|hiv-rt-real]] y el [[ARN|rna]] · Destino: Recorre [[microtúbulos|microtubule]] y atraviesa el [[poro nuclear|nuclear-pore]] hasta la cromatina',
       scientific:
@@ -136,9 +136,9 @@ export const ENVELOPED_VIRUS_NODE_LENSES: NodeLensMap = {
   'real-hiv-rt': {
     en: {
       simple:
-        'Inside HIV’s sealed vault, a Tenet-style enzyme runs genetics backward from RNA into DNA, and an Agent Smith partner splices that forged code straight into human chromosomes.',
+        'Deep inside the viral vault, one enzyme rewrites fragile RNA backward into sturdy double-stranded DNA, and a second enzyme splices that forged DNA straight into the cell’s own chromosomes.',
       story:
-        'As host nucleotides pour through the [[capsid hexamer pores|hiv-ca-hex-real]], a Christopher Nolan-worthy time-inverter goes to work in the dark. Gripping twin [[RNA scrolls|rna]], [[Reverse Transcriptase|hiv-rt-real]] runs biology’s central rulebook backward like Tenet—writing sturdy DNA with its front hand while its rear RNase H shredder chews up the original RNA evidence, hopping between scrolls to shuffle drug-dodging mutations. Once the pod bursts inside the [[nucleus|nucleus]], Agent Smith surgeon [[Integrase|hiv-in-real]] snips a busy human chromosome and welds the viral code in for life.',
+        'Once host building blocks stream through the [[capsid hexamer pores|hiv-ca-hex-real]], the heist’s master forger gets to work in the dark. Clamped onto twin [[RNA scrolls|rna]], [[Reverse Transcriptase|hiv-rt-real]] runs biology’s central rulebook backward—copying RNA into DNA with its front hand while its rear RNase H blade shreds the original RNA evidence behind it, leaping between both scrolls to shuffle mutations that help future viruses dodge drugs. As the vault cracks open inside the [[nucleus|nucleus]], [[Integrase|hiv-in-real]] seizes the freshly minted double-stranded DNA, snips open a busy human chromosome, and welds the viral code in for life.',
       blueprint:
         'Role: Intraluminal reverse-transcription and chromosomal strand-transfer engine (~25 nm core) · From: Packaged diploid [[(+)ssRNA|rna]] primed by host tRNA^Lys3 plus imported cytosolic [[nucleotides|nucleotide]] · Inside: [[RT heterodimer|hiv-rt-real]] synthesizes linear viral dsDNA while degrading RNA; [[Integrase|hiv-in-real]] assembles the intasome · To: Splices permanent proviral [[DNA|dna]] into active host [[chromosomes|chromosome]]',
       scientific:
@@ -146,9 +146,9 @@ export const ENVELOPED_VIRUS_NODE_LENSES: NodeLensMap = {
     },
     es: {
       simple:
-        'Dentro de la bóveda sellada del VIH, una enzima al estilo Tenet invierte la genética pasando ARN a ADN, y una socia digna del Agente Smith suelda ese código en los cromosomas humanos.',
+        'En lo profundo de la bóveda viral, una enzima reescribe el frágil ARN hacia atrás hasta volverlo ADN resistente, y una segunda enzima cose ese ADN falsificado directamente en los cromosomas humanos.',
       story:
-        'Mientras entran ladrillos celulares por los [[hexámeros de la cápside|hiv-ca-hex-real]], un falsificador digno de Tenet trabaja a oscuras. Aferrada a dos [[pergaminos gemelos de ARN|rna]], la [[Transcriptasa Inversa|hiv-rt-real]] rebobina la ley central de la biología: escribe ADN resistente con su mano delantera mientras su trituradora RNasa H borra el molde de ARN, saltando entre ambas copias para barajar mutaciones esquiva-fármacos. Al abrirse la cápsula en el [[núcleo|nucleus]], el cirujano Agente Smith —la [[Integrasa|hiv-in-real]]— taja un cromosoma activo y suelda el virus a perpetuidad.',
+        'En cuanto los ladrillos celulares entran por los poros de los [[hexámeros de la cápside|hiv-ca-hex-real]], el maestro falsificador del golpe entra en acción a oscuras. Abrazada a los dos [[pergaminos gemelos de ARN|rna]], la [[Transcriptasa Inversa|hiv-rt-real]] invierte la ley central de la biología: copia ARN en ADN con su mano delantera mientras su cuchilla trasera RNasa H tritura el molde original para borrar pruebas, saltando entre ambas copias para barajar mutaciones que burlarán futuros fármacos. Cuando la bóveda se abre dentro del [[núcleo|nucleus]], la [[Integrasa|hiv-in-real]] toma ese ADN recién forjado, corta un cromosoma humano activo y suelda el código viral de por vida.',
       blueprint:
         'Rol: Motor intraluminal de transcripción inversa y transferencia de hebra cromosómica (núcleo de ~25 nm) · Origen: [[ARNmc(+)|rna]] diploide cebado por tRNA^Lys3 más [[nucleótidos|nucleotide]] importados · Interior: El [[heterodímero TI|hiv-rt-real]] sintetiza ADNbc lineal degradando el ARN; la [[Integrasa|hiv-in-real]] ensambla el intasoma · Destino: Empalma [[ADN|dna]] proviral permanente en [[cromosomas|chromosome]] activos del huésped',
       scientific:
@@ -158,9 +158,9 @@ export const ENVELOPED_VIRUS_NODE_LENSES: NodeLensMap = {
   'real-hiv-entry': {
     en: {
       simple:
-        'HIV cracks helper T-cells like an Ocean’s Eleven two-key bank vault—turning receptor one to expose keyhole two—before fusing membranes to install an Agent Smith sleeper gene.',
+        'HIV unlocks immune T-cells using a strict two-step handshake—grabbing one surface receptor to reveal a hidden second latch—before fusing membranes and rewriting the cell’s DNA.',
       story:
-        'A lone [[Env spike|hiv-env-real]] brushing a helper T-cell never fires early—popping its harpoon in open blood would hand patrolling antibodies an easy target. Instead it pulls an Ocean’s Eleven two-factor heist on the [[plasma membrane|plasma-membrane]]: outer gp120 clicks onto CD4 first, twisting like a combination dial to pop out a hidden V3 loop that snags a [[CCR5 or CXCR4 coreceptor|gpcr]]. Only when both keys turn together does gp41 snap into a six-helix winch, fusing membranes so [[Reverse Transcriptase|hiv-rt-real]] and [[Integrase|hiv-in-real]] can overwrite the T-cell like Matrix’s Agent Smith.',
+        'A lone [[Env spike|hiv-env-real]] drifting against a helper T-cell refuses to fire its harpoon prematurely—doing so in open bloodstream would expose its machinery to patrolling antibodies. Instead it runs a two-factor heist on the T-cell’s [[plasma membrane|plasma-membrane]]: first its outer gp120 crown clicks onto CD4, twisting open like a combination safe to pop out a hidden V3 loop that immediately grabs a seven-helix [[CCR5 or CXCR4 coreceptor|gpcr]]. Only when both locks turn together does the inner gp41 stalk snap into a six-helix bundle, fusing the lipid bubbles so [[Reverse Transcriptase|hiv-rt-real]] and [[Integrase|hiv-in-real]] can plant a permanent provirus deep inside.',
       blueprint:
         'Role: Sequential two-receptor T-cell fusion synapse and downstream proviral establishment (~40 nm zone) · From: Mature [[Env gp120/gp41 trimer|hiv-env-real]] contacting a CD4+ T-lymphocyte [[plasma membrane|plasma-membrane]] · Inside: CD4 binding shifts gp120 to engage [[CCR5/CXCR4|gpcr]], triggering gp41 six-helix bundle membrane fusion · To: Delivers capsid core so [[RT|hiv-rt-real]] and [[Integrase|hiv-in-real]] establish chromosomal proviral [[DNA|dna]]',
       scientific:
@@ -168,9 +168,9 @@ export const ENVELOPED_VIRUS_NODE_LENSES: NodeLensMap = {
     },
     es: {
       simple:
-        'El VIH abre los linfocitos T como una bóveda de doble llave en Ocean’s Eleven —girando un primer receptor para revelar el segundo— antes de fundir membranas e instalar su gen durmiente.',
+        'El VIH abre los linfocitos T mediante un estricto apretón de manos en dos pasos —sujetando un primer receptor para destapar un segundo pestillo oculto— antes de fundir membranas y reescribir el ADN celular.',
       story:
-        'Una solitaria [[espiga Env|hiv-env-real]] jamás dispara su arpón antes de tiempo: abrirse en plena sangre la delataría ante los anticuerpos. En su lugar ejecuta un golpe de doble llave estilo Ocean’s Eleven sobre la [[membrana plasmática|plasma-membrane]]: primero su corona gp120 encaja en CD4, girando como una rueda de combinación para sacar el bucle V3 y atrapar un [[correceptor CCR5 o CXCR4|gpcr]]. Solo con ambas llaves giradas salta el cabrestante gp41 de seis hélices, fundiendo membranas para que la [[Transcriptasa Inversa|hiv-rt-real]] y la [[Integrasa|hiv-in-real]] reprogramen la célula al estilo Agente Smith.',
+        'Una solitaria [[espiga Env|hiv-env-real]] frente a un linfocito T colaborador jamás dispara su arpón antes de tiempo: hacerlo en plena sangre descubriría su mecanismo ante los anticuerpos. En cambio, ejecuta una apertura de doble factor sobre la [[membrana plasmática|plasma-membrane]] inmunitaria: primero su corona gp120 encaja en CD4, girando como una caja fuerte para desplegar el bucle oculto V3 y atrapar al instante un [[correceptor CCR5 o CXCR4|gpcr]]. Solo cuando giran ambas llaves a la vez, el tallo gp41 se pliega en un haz de seis hélices que funde ambas burbujas, permitiendo que la [[Transcriptasa Inversa|hiv-rt-real]] y la [[Integrasa|hiv-in-real]] siembren un provirus perpetuo.',
       blueprint:
         'Rol: Sinapsis secuencial de fusión de doble receptor en células T e implantación proviral (~40 nm) · Origen: [[Trímero Env gp120/gp41|hiv-env-real]] en contacto con la [[membrana plasmática|plasma-membrane]] de un linfocito T CD4+ · Interior: La unión a CD4 reconfigura gp120 para fijar [[CCR5/CXCR4|gpcr]], disparando el haz de seis hélices de gp41 · Destino: Introduce la cápside para que la [[TI|hiv-rt-real]] y la [[Integrasa|hiv-in-real]] integren [[ADN|dna]] proviral',
       scientific:
@@ -180,9 +180,9 @@ export const ENVELOPED_VIRUS_NODE_LENSES: NodeLensMap = {
   coronavirus: {
     en: {
       simple:
-        'In clean cutaway view, the coronavirus looks like Mystique’s stolen getaway bubble—studded with sugar-disguised Spike clubs and coiled inside with a giant 30,000-letter RNA scroll.',
+        'Seen in clean architectural cutaway, the coronavirus is a stolen fat-membrane sphere crowned with club-shaped spikes and stuffed with a coiled 30,000-letter RNA ribbon.',
       story:
-        'X-rayed down to pure heist blueprint, this 120-nanometer shapeshifter is built entirely for disguise and speed. Its phospholipid hull—pilfered from host ER–Golgi membranes—flies sugar-cloaked [[Spike trimers|cov-spike-real]] hunting [[ACE2|ace2-real]], stitched tight by M-protein hull rivets and vented by five-sided [[E ion channels|cov-e-real]]. Coiled like a pocket Shenron inside rides the longest RNA genome of any virus, cushioned on [[Nucleocapsid oligomers|cov-n-real]] and ready to summon [[RdRp replicases|cov-rdrp-real]] the instant the bubble fuses open.',
+        'Stripped down to its pure heist architecture, this 120-nanometer courier is a masterwork of stolen parts and compact storage. Its outer phospholipid shell—pilfered from a host cell’s internal ER–Golgi membranes—is studded with club-headed [[Spike trimers|cov-spike-real]] waiting to spot [[ACE2|ace2-real]], stitched tight by dimeric M girders, and vented by tiny five-sided [[E ion channels|cov-e-real]]. Curled safely inside that oily bubble rides the largest RNA genome known in any virus, wrapped around [[Nucleocapsid oligomers|cov-n-real]] so it can hit the ground running and summon [[RdRp replicases|cov-rdrp-real]] the instant the bubble bursts open.',
       blueprint:
         'Role: Schematic betacoronavirus virion cutaway (~120 nm) illustrating envelope and luminal vRNP organization · From: Intracellular budding at the host ER–Golgi intermediate compartment ([[Golgi|golgi]]) · Inside: [[Phospholipid|phospholipid]] bilayer with [[Spike|cov-spike-real]], M, and [[E viroporin|cov-e-real]] surrounding [[N-packaged|cov-n-real]] 29.9 kb [[(+)ssRNA|rna]] · To: Binds [[ACE2|ace2-real]] on airway cells to launch [[RdRp|cov-rdrp-real]] replication',
       scientific:
@@ -190,9 +190,9 @@ export const ENVELOPED_VIRUS_NODE_LENSES: NodeLensMap = {
     },
     es: {
       simple:
-        'En corte arquitectónico limpio, el coronavirus muestra su burbuja de huida digna de Mystique: coronada por mazas de Espiga camufladas y rellena con un pergamino de ARN de 30.000 letras.',
+        'Visto en un corte arquitectónico limpio, el coronavirus es una esfera de grasa robada coronada por espigas en forma de maza y rellena con una cinta enrollada de ARN de 30.000 letras.',
       story:
-        'Radiografiado en puro plano de asalto, este infiltrado de 120 nanómetros combina piezas robadas y velocidad. Su casco de fosfolípidos —sustraído de membranas internas RE–Golgi— porta [[Espigas|cov-spike-real]] camufladas listas para cazar [[ACE2|ace2-real]], remachado por dímeros M y ventilado por [[canales iónicos E|cov-e-real]] pentagonales. Enroscado dentro como un pequeño Shenron viaja el mayor genoma de ARN del mundo viral, acolchado en [[oligómeros de Nucleocápside|cov-n-real]] para invocar [[replicasas RdRp|cov-rdrp-real]] apenas se abra la compuerta.',
+        'Reducido a su pura arquitectura de asalto, este mensajero de 120 nanómetros combina piezas robadas con un embalaje impecable. Su cubierta de fosfolípidos —sustraída de las membranas internas RE–Golgi de una célula anterior— luce mazas de [[Espiga|cov-spike-real]] listas para cazar receptores [[ACE2|ace2-real]], reforzada por vigas diméricas M y diminutos [[canales iónicos E|cov-e-real]] de cinco lados. Acurrucado dentro de esa burbuja viaja el mayor genoma de ARN conocido en el mundo viral, devanado sobre [[oligómeros de Nucleocápside|cov-n-real]] para entrar en acción al instante y convocar [[replicasas RdRp|cov-rdrp-real]] apenas se abra la puerta.',
       blueprint:
         'Rol: Corte esquemático del virión de betacoronavirus (~120 nm) mostrando envoltura y organización vRNP · Origen: Gemación intracelular en el compartimento intermedio RE–[[Golgi|golgi]] · Interior: Bicapa de [[fosfolípidos|phospholipid]] con [[Espiga|cov-spike-real]], M y [[viroporina E|cov-e-real]] rodeando [[ARNmc(+)|rna]] de 29,9 kb empaquetado con [[proteína N|cov-n-real]] · Destino: Se une a [[ACE2|ace2-real]] respiratorio para activar la [[RdRp|cov-rdrp-real]]',
       scientific:
@@ -202,9 +202,9 @@ export const ENVELOPED_VIRUS_NODE_LENSES: NodeLensMap = {
   hiv: {
     en: {
       simple:
-        'Cut open like a spy gadget diagram, HIV-1 hides an armored fullerene cone—carrying twin RNA scrolls and Agent Smith-style gene-splicing tools—inside a stolen immune-cell cloak.',
+        'Cut open to show its layered blueprint, HIV-1 hides a cone-shaped protein safe—packed with twin RNA strands and two molecular enzymes—inside a stolen cell-membrane cloak.',
       story:
-        'Slice open HIV-1’s stolen T-cell cloak and you reveal a Trojan Horse nested like a Russian spy doll. Barely fourteen sugar-frosted [[Env spikes|hiv-env-real]] dot the exterior while [[p17 Matrix trimers|hiv-ma-real]] plate the inner wall like submarine bulkheads. Dead center floats the armored fullerene stealth cone—tiled from [[p24 hexamers|hiv-ca-hex-real]] and twelve corner pentamers—smuggling twin backup RNAs plus [[Reverse Transcriptase|hiv-rt-real]] and [[Integrase|hiv-in-real]] to turn a defender T-cell into a permanent Agent Smith clone.',
+        'Peel back HIV-1’s stolen outer lipid cloak and you find a Russian-doll infiltration kit engineered for immune cells. Sparse, sugar-frosted [[Env spikes|hiv-env-real]] poke outside while a lining of [[p17 Matrix trimers|hiv-ma-real]] braces the inner wall like rivets inside a submarine hull. Floating at the center sits the unmistakable fullerene stealth cone—tiled from [[p24 hexamers|hiv-ca-hex-real]] and twelve corner pentamers—carrying two backup copies of viral RNA alongside [[Reverse Transcriptase|hiv-rt-real]] and [[Integrase|hiv-in-real]], everything required to turn a defender T-cell into a lifelong viral sleeper agent.',
       blueprint:
         'Role: Schematic mature HIV-1 virion cutaway (~120 nm) showing concentric envelope, matrix, and fullerene core layers · From: Protease-matured Gag-Pol virion budded from a T-cell [[plasma membrane|plasma-membrane]] · Inside: [[Env spikes|hiv-env-real]], [[p17 MA|hiv-ma-real]] shell, [[p24 hexamer|hiv-ca-hex-real]]/[[pentamer|hiv-ca-pent-real]] cone, diploid [[(+)ssRNA|rna]], [[RT|hiv-rt-real]], and [[Integrase|hiv-in-real]] · To: Infects CD4+ T-cells and integrates into host [[DNA|dna]]',
       scientific:
@@ -212,9 +212,9 @@ export const ENVELOPED_VIRUS_NODE_LENSES: NodeLensMap = {
     },
     es: {
       simple:
-        'Abierto como el plano de un artefacto espía, el VIH-1 esconde un cono blindado —con doble copia de ARN y herramientas estilo Agente Smith— bajo un manto robado a un linfocito.',
+        'Abierto en corte para mostrar sus capas, el VIH-1 esconde una caja fuerte cónica —cargada con dos hebras de ARN y dos enzimas clave— bajo un manto robado de membrana celular.',
       story:
-        'Al abrir el manto lipídico robado del VIH-1 aparece un Caballo de Troya en capas digno de una muñeca rusa de espionaje. Unas contadas [[espigas Env|hiv-env-real]] glaseadas asoman fuera mientras [[trímeros de Matriz p17|hiv-ma-real]] acorazan la pared interna como mamparos de submarino. En el centro flota el icónico cono furtivo de fullereno —hecho de [[hexámeros p24|hiv-ca-hex-real]] y doce pentámeros— contrabandeando doble ARN junto a la [[Transcriptasa Inversa|hiv-rt-real]] y la [[Integrasa|hiv-in-real]] para transformar al linfocito en clon perpetuo del Agente Smith.',
+        'Si retiras el manto lipídico robado del VIH-1 descubrirás un equipo de infiltración en capas digno de una muñeca rusa. Unas pocas [[espigas Env|hiv-env-real]] glaseadas de azúcar asoman al exterior mientras un forro de [[trímeros de Matriz p17|hiv-ma-real]] remacha la pared interna como el casco de un submarino. En pleno centro flota el inconfundible cono furtivo de fullereno —ensamblado con [[hexámeros p24|hiv-ca-hex-real]] y doce pentámeros en los vértices— custodiando dos copias de respaldo de ARN junto a la [[Transcriptasa Inversa|hiv-rt-real]] y la [[Integrasa|hiv-in-real]], listas para convertir un linfocito defensor en agente durmiente de por vida.',
       blueprint:
         'Rol: Corte esquemático del virión maduro de VIH-1 (~120 nm) mostrando envoltura, matriz y cono de fullereno · Origen: Virión Gag-Pol madurado por proteasa tras gemar de la [[membrana plasmática|plasma-membrane]] de un linfocito T · Interior: [[Espigas Env|hiv-env-real]], corteza [[MA p17|hiv-ma-real]], cono de [[hexámeros|hiv-ca-hex-real]]/[[pentámeros p24|hiv-ca-pent-real]], [[ARNmc(+)|rna]] diploide, [[TI|hiv-rt-real]] e [[Integrasa|hiv-in-real]] · Destino: Infecta células T CD4+ e integra su genoma en el [[ADN|dna]] huésped',
       scientific:
@@ -224,9 +224,9 @@ export const ENVELOPED_VIRUS_NODE_LENSES: NodeLensMap = {
   'cov-spike-real': {
     en: {
       simple:
-        'Braided from three identical chains, the Spike club wears Mystique-style sugar camouflage over a Scorpion-style spring harpoon that reels human airway cells in.',
+        'Built from three identical protein chains braided together, the Spike club wears a thick coat of stolen sugars while hiding a coiled spring that harpoons human airway cells.',
       story:
-        'Forged on the host’s [[rough ER|rough-er]] and glazed with sixty-six sugar trees in the [[Golgi|golgi]], this triple-[[polypeptide|polypeptide]] club is half Mystique disguise, half Mortal Kombat Scorpion harpoon. Its S1 crown plays peekaboo—flipping up just one finger at a time to test for human [[ACE2|ace2-real]] while hiding the other two from antibodies—while its S2 stalk waits cocked below. One snip from host TMPRSS2 scissors at S2′ and its [[alpha-helical|alpha-helix]] springs snap shut, winching virus and cell into one fused doorway.',
+        'Forged inside the host’s [[rough ER|rough-er]] and frosted with sixty-six sugar chains in the [[Golgi|golgi]], this three-part [[polypeptide|polypeptide]] club is both velvet disguise and spring-loaded harpoon. While its bulbous S1 crown plays peekaboo—flipping one receptor-binding finger up to test for human [[ACE2|ace2-real]] while keeping the other two tucked away from antibodies—its coiled S2 stalk waits under hair-trigger tension. One snip from host TMPRSS2 scissors at the S2′ latch and its [[alpha-helical|alpha-helix]] coils snap shut like a mousetrap, winching viral and airway membranes into a single fused opening.',
       blueprint:
         'Role: Homotrimeric class I viral fusion glycoprotein (~16 × 13 nm) mediating receptor attachment and bilayer merger · From: Cotranslational synthesis on [[rough ER|rough-er]] and furin cleavage/N-glycosylation in [[Golgi|golgi]] · Inside: Three 1,273-aa [[polypeptide|polypeptide]] chains with S1 RBD heads and [[alpha-helical|alpha-helix]] S2 fusion stalks · To: Engages [[ACE2|ace2-real]] and fuses viral envelope with host [[plasma membrane|plasma-membrane]]',
       scientific:
@@ -234,9 +234,9 @@ export const ENVELOPED_VIRUS_NODE_LENSES: NodeLensMap = {
     },
     es: {
       simple:
-        'Trenzada con tres cadenas idénticas, la maza de la Espiga viste un disfraz de azúcares digno de Mystique sobre un arpón con resorte al estilo Scorpion que atrapa células respiratorias.',
+        'Formada por tres cadenas proteicas idénticas trenzadas entre sí, la maza de la Espiga viste un espeso abrigo de azúcares robados mientras esconde un resorte que arponea las células respiratorias.',
       story:
-        'Forjada en el [[retículo endoplasmático rugoso|rough-er]] y glaseada con sesenta y seis árboles de azúcar en el [[Golgi|golgi]], esta maza de tres [[polipéptidos|polypeptide]] es mitad disfraz de Mystique y mitad arpón de Scorpion en Mortal Kombat. Su corona S1 juega al escondite —alzando un solo dedo para tantear [[ACE2|ace2-real]] mientras oculta los otros dos de los anticuerpos— sobre un tallo S2 tensado al límite. Basta un corte celular en S2′ para que sus resortes de [[hélice alfa|alpha-helix]] salten de golpe y fundan ambas membranas.',
+        'Forjada en el [[retículo endoplasmático rugoso|rough-er]] y glaseada con sesenta y seis cadenas de azúcar en el [[Golgi|golgi]], esta maza de tres [[polipéptidos|polypeptide]] es a la vez disfraz de terciopelo y arpón comprimido. Mientras su corona bulbosa S1 juega al escondite —levantando un solo dedo buscador para tantear receptores [[ACE2|ace2-real]] mientras guarda los otros dos lejos de los anticuerpos—, su tallo S2 aguarda bajo tensión máxima. Basta un tijeretazo celular en el seguro S2′ para que sus resortes de [[hélice alfa|alpha-helix]] salten como una trampa y fundan ambas membranas en un único portal.',
       blueprint:
         'Rol: Glicoproteína homotrimérica de fusión viral de clase I (~16 × 13 nm) que media adhesión y fusión de bicapas · Origen: Síntesis en el [[RE rugoso|rough-er]] y corte por furina/N-glicosilación en el [[Golgi|golgi]] · Interior: Tres cadenas [[polipeptídicas|polypeptide]] de 1.273 aa con cabezales S1 RBD y tallos S2 en [[hélice alfa|alpha-helix]] · Destino: Se une a [[ACE2|ace2-real]] y funde la envoltura con la [[membrana plasmática|plasma-membrane]] huésped',
       scientific:
@@ -246,9 +246,9 @@ export const ENVELOPED_VIRUS_NODE_LENSES: NodeLensMap = {
   'cov-e-real': {
     en: {
       simple:
-        'Like R2-D2 venting a Death Star airlock before a trap springs shut, five tiny E-protein helices bleed acid out of host shipping lanes so new viruses escape intact.',
+        'Five tiny protein helices bundle together like barrel staves to punch a microscopic ion leak into the host cell’s internal membranes, helping new viruses pinch off cleanly.',
       story:
-        'Before a newly built [[coronavirus|real-coronavirus]] can sneak out of the cell, it faces a Star Wars trash-compactor trap: the host’s [[Golgi|golgi]] exit lanes are acidic enough to trip hair-trigger [[Spike harpoons|cov-spike-real]] prematurely indoors! So five short hydrophobic [[alpha-helices|alpha-helix]] team up like R2-D2 hacking an airlock vent, bleeding protons and calcium out of the compartment to neutralize the acid bath and pinch brand-new virions cleanly free.',
+        'Before a freshly assembled [[coronavirus|real-coronavirus]] can sneak out of its host cell intact, it has to solve a deadly chemical trap: the cell’s [[Golgi|golgi]] shipping lanes are normally acidic enough to trip [[Spike harpoons|cov-spike-real]] prematurely while still indoors. So five short hydrophobic [[alpha-helices|alpha-helix]] team up into this miniature pentamer tunnel, bleeding protons and calcium out of the secretory compartments to neutralize the acid bath and bend the lipid membrane until brand-new virions pinch free without a scratch.',
       blueprint:
         'Role: Pentameric transmembrane viroporin cation channel (~5.5 nm across) regulating luminal pH and virion scission · From: Subgenomic mRNA translation into host [[rough ER|rough-er]] and ERGIC/[[Golgi|golgi]] bilayers · Inside: Five 75-aa [[alpha-helical|alpha-helix]] transmembrane staves surrounding a ~2–4 Å hydrophobic/polar pore · To: De-acidifies secretory [[vesicles|vesicle]] to protect [[Spike|cov-spike-real]] during virion budding',
       scientific:
@@ -256,9 +256,9 @@ export const ENVELOPED_VIRUS_NODE_LENSES: NodeLensMap = {
     },
     es: {
       simple:
-        'Como R2-D2 saboteando una esclusa imperial antes de que salte la trampa, cinco hélices diminutas de proteína E evacúan el ácido de las vías de salida para que los nuevos virus escapen intactos.',
+        'Cinco pequeñas hélices proteicas se agrupan como las duelas de un barril para abrir un poro microscópico en las membranas internas de la célula, ayudando a que los nuevos virus broten intactos.',
       story:
-        'Antes de que un [[coronavirus|real-coronavirus]] recién montado escape a la calle, debe burlar una trampa digna del compactador de Star Wars: los conductos del [[Golgi|golgi]] son tan ácidos que dispararían los arpones de la [[Espiga|cov-spike-real]] dentro de casa. Por eso cinco cortas [[hélices alfa|alpha-helix]] hidrofóbicas se unen como R2-D2 abriendo una válvula de escape, drenando protones y calcio para neutralizar el ácido y soltar viriones impecables.',
+        'Antes de que un [[coronavirus|real-coronavirus]] recién ensamblado pueda escapar de la célula sin daños, debe desactivar una trampa química: los pasillos de salida del [[Golgi|golgi]] son tan ácidos que dispararían los arpones de la [[Espiga|cov-spike-real]] antes de salir a la calle. Por eso cinco cortas [[hélices alfa|alpha-helix]] hidrofóbicas se reúnen formando este diminuto túnel de cinco lados, dejando escapar protones y calcio para neutralizar la acidez del compartimento y curvar la membrana hasta que los nuevos viriones se desprenden impecables.',
       blueprint:
         'Rol: Canal catiónico transmembrana pentamérico de viroporina (~5,5 nm) que regula el pH luminal y la escisión viral · Origen: Traducción de ARNm subgenómico en bicapas del [[RE rugoso|rough-er]] y ERGIC/[[Golgi|golgi]] · Interior: Cinco duelas transmembrana de 75 aa en [[hélice alfa|alpha-helix]] rodeando un poro de ~2–4 Å · Destino: Desacidifica [[vesículas|vesicle]] secretoras para proteger la [[Espiga|cov-spike-real]] durante la gemación',
       scientific:
@@ -268,9 +268,9 @@ export const ENVELOPED_VIRUS_NODE_LENSES: NodeLensMap = {
   'cov-n-real': {
     en: {
       simple:
-        'Acting like padded Baymax mittens with positive charge, Nucleocapsid proteins hug the giant RNA scroll into cushioned spools so it never snaps or trips cellular alarms.',
+        'Shaped like positively charged molecular mittens, Nucleocapsid proteins catch the negatively charged viral RNA ribbon and wind it into tidy, protective spools.',
       story:
-        'Left bare in a human [[cytosol|cytosol]], a 30,000-letter [[RNA scroll|rna]] would tear like tissue paper or trip every tripwire alarm before the heist began. Enter the Baymax of viral packaging: using positively charged fingers folded from nimble [[polypeptide|polypeptide]] chains, Nucleocapsid oligomers hug the negatively charged RNA into soft liquid-like beads—then flash a secret handshake to Membrane proteins at the [[Golgi|golgi]] dock so only genuine viral scrolls board departing bubbles.',
+        'Left naked inside a human [[cytosol|cytosol]], a 30,000-letter [[RNA scroll|rna]] would snap like wet tissue paper or set off antiviral sensors before the heist even warmed up. Enter the Nucleocapsid spool: armed with positively charged β-hairpin fingers made of precisely folded [[polypeptide|polypeptide]] chains, oligomers of N protein scoop up the negatively charged RNA backbone and condense it into liquid-like droplets. Better still, their trailing tails shake hands with Membrane proteins at the [[Golgi|golgi]] border so only genuine viral scrolls—never random cellular mail—get packed into departing virions.',
       blueprint:
         'Role: Positively charged RNA-binding oligomer (~7.5 nm) condensing genomic RNA into helical vRNP beads · From: High-abundance cytosolic translation on host [[ribosomes|ribosome]] · Inside: N-terminal β-hairpin RNA-binding palms and C-terminal dimerization [[polypeptide|polypeptide]] domains · To: Cradles 29.9 kb [[(+)ssRNA|rna]] inside the [[vRNP core|real-cov-rnp]] and docks onto M tails for budding',
       scientific:
@@ -278,9 +278,9 @@ export const ENVELOPED_VIRUS_NODE_LENSES: NodeLensMap = {
     },
     es: {
       simple:
-        'Como manoplas acolchadas de Baymax con carga positiva, las proteínas de Nucleocápside abrazan el enorme pergamino de ARN en carretes seguros para que no se rompa ni dispare alarmas.',
+        'Con la forma de manoplas moleculares cargadas positivamente, las proteínas de Nucleocápside atrapan la cinta negativa de ARN viral y la enrollan en carretes ordenados y seguros.',
       story:
-        'Suelto en el [[citosol|cytosol]] humano, un [[pergamino de ARN|rna]] de 30.000 letras se rasgaría al instante o encendería todas las sirenas antivirales. Ahí entra el Baymax del embalaje viral: con dedos positivos tallados en cadenas de [[polipéptidos|polypeptide]], los oligómeros de Nucleocápside acunan el ARN negativo en gotas amortiguadas y dan la contraseña a las proteínas M en el [[Golgi|golgi]] para que solo los planos virales auténticos suban a bordo.',
+        'Suelto y desnudo en el [[citosol|cytosol]] humano, un [[pergamino de ARN|rna]] de 30.000 letras se rompería al menor tirón o activaría las alarmas antivirales antes de empezar el golpe. Ahí entran los carretes de Nucleocápside: con dedos en horquilla cargados positivamente y tallados en cadenas de [[polipéptidos|polypeptide]], estos oligómeros abrazan el esqueleto negativo del ARN y lo condensan en gotas flexibles. Además, sus colas estrechan la mano de las proteínas de membrana cerca del [[Golgi|golgi]] para garantizar que solo los planos virales auténticos suban a bordo de los nuevos viriones.',
       blueprint:
         'Rol: Oligómero electropositivo de unión a ARN (~7,5 nm) que condensa el genoma en cuentas vRNP · Origen: Traducción masiva de ARNm subgenómico en [[ribosomas|ribosome]] citosólicos · Interior: Palmas N-terminales de horquilla β y dominios [[polipeptídicos|polypeptide]] C-terminales de dimerización · Destino: Protege el [[ARNmc(+)|rna]] de 29,9 kb en el [[núcleo vRNP|real-cov-rnp]] y se acopla a dímeros M',
       scientific:
@@ -290,9 +290,9 @@ export const ENVELOPED_VIRUS_NODE_LENSES: NodeLensMap = {
   'cov-rdrp-real': {
     en: {
       simple:
-        'Shaped like a turbo copy-hand gripping twin tightrope poles—and paired with an ExoN Backspace key—this viral press prints thousands of 30,000-letter RNA scrolls without derailing.',
+        'Shaped like a cupped right hand flanked by two long stabilizer poles, this viral copying machine reads the 30,000-letter RNA strand and prints thousands of fresh copies.',
       story:
-        'Because no human enzyme copies long [[RNA|rna]] into new RNA, the coronavirus brings blueprints for its own high-speed Xerox machine. Translated fresh by host [[ribosomes|ribosome]], catalytic nsp12 cups the template like a right hand while two [[alpha-helical|alpha-helix]] nsp8 rails clamp on like a tightrope walker’s balancing poles. Racing inside Batcave-like [[ER vesicles|rough-er]], it gulps host [[nucleotides|nucleotide]] while its ExoN proofreader hits Backspace on typos—keeping a giant genome mutation-proof and shrugging off decoy pills.',
+        'Human cells own plenty of DNA-reading polymerases, yet none of them will copy a long [[RNA|rna]] scroll into new RNA—so the coronavirus packs instructions to build its own custom printing press. Once host [[ribosomes|ribosome]] translate the opening polyprotein, catalytic nsp12 folds into a cupped right hand while two rod-like [[alpha-helical|alpha-helix]] nsp8 partners clamp on like balancing poles on a tightrope walker. Gliding along the 30-kilobase template inside sheltered [[ER vesicles|rough-er]], it gulps host [[nucleotides|nucleotide]] to print both full viral genomes and short sub-recipes at blistering speed.',
       blueprint:
         'Role: Core viral RNA-dependent RNA polymerase holoenzyme (~13 nm tall) catalyzing genome replication and transcription · From: Autoproteolytic cleavage of ORF1ab [[polypeptides|polypeptide]] by viral Mpro (nsp5) · Inside: Cupped nsp12 catalytic subunit braced by nsp7 and twin [[alpha-helical|alpha-helix]] nsp8 sliding poles · To: Polymerizes host [[nucleotides|nucleotide]] into genomic and subgenomic [[RNAs|rna]]',
       scientific:
@@ -300,9 +300,9 @@ export const ENVELOPED_VIRUS_NODE_LENSES: NodeLensMap = {
     },
     es: {
       simple:
-        'Con forma de mano copiadora sujeta a dos pértigas de equilibrista —y aliada a una tecla «Retroceso» ExoN—, esta imprenta viral clona miles de veces el ARN de 30.000 letras sin descarrilar.',
+        'Con forma de mano derecha ahuecada y flanqueada por dos largos bastones estabilizadores, esta máquina copiadora viral lee el hilo de 30.000 letras de ARN e imprime miles de copias nuevas.',
       story:
-        'Como ninguna enzima humana copia un largo [[ARN|rna]] en más ARN, el coronavirus trae planos de su propia fotocopiadora turbo. Traducida por [[ribosomas|ribosome]] cautivos, la subunidad nsp12 abraza el molde mientras dos largas [[hélices alfa|alpha-helix]] nsp8 actúan como pértigas de equilibrista sobre un cable de 30 kilobases. Oculta en [[vesículas del RE|rough-er]] tipo Baticueva, devora [[nucleótidos|nucleotide]] celulares mientras su socia ExoN pulsa «Retroceso» para borrar erratas y esquivar fármacos trampa.',
+        'Las células humanas poseen muchas polimerasas lectoras de ADN, pero ninguna sabe copiar un largo pergamino de [[ARN|rna]] en más ARN, de modo que el coronavirus trae planos para fabricar su propia imprenta. Cuando los [[ribosomas|ribosome]] traducen la poliproteína inicial, la subunidad nsp12 se pliega como una mano ahuecada mientras dos largas [[hélices alfa|alpha-helix]] de nsp8 se acoplan como las pértigas de un equilibrista. Deslizándose sin caerse por la pista de 30 kilobases dentro de [[vesículas del RE|rough-er]], devora [[nucleótidos|nucleotide]] celulares para imprimir genomas íntegros y recetas cortas a velocidad de vértigo.',
       blueprint:
         'Rol: Holoenzima central ARN polimerasa dependiente de ARN (~13 nm de alto) para replicación y transcripción viral · Origen: Corte autoproteolítico de [[polipéptidos|polypeptide]] ORF1ab por la proteasa viral Mpro (nsp5) · Interior: Subunidad catalítica nsp12 reforzada por nsp7 y dos pértigas deslizantes nsp8 en [[hélice alfa|alpha-helix]] · Destino: Polimeriza [[nucleótidos|nucleotide]] celulares en [[ARN|rna]] genómico y subgenómico',
       scientific:
@@ -312,9 +312,9 @@ export const ENVELOPED_VIRUS_NODE_LENSES: NodeLensMap = {
   'ace2-real': {
     en: {
       simple:
-        'A peacekeeper enzyme straight out of Cells at Work! that normally calms blood pressure, ACE2 carries an outer ridge that Mystique-like Spike picks like a custom keyhole.',
+        'Normally a helpful human enzyme that trims blood-pressure hormones on airway and blood-vessel cells, ACE2 has an outer ridge that accidentally fits the coronavirus Spike like a custom keyhole.',
       story:
-        'In a peaceful Cells at Work! shift on the [[plasma membrane|plasma-membrane]] of nose and lung cells, zinc-powered ACE2 quietly trims hormone peptides to relax blood vessels and shield alveoli from swelling. Bad luck for us: its outer [[alpha-helix|alpha-helix]] ridge fits the shapeshifting [[Spike trimer|cov-spike-real]] like a custom lockpick slot. When [[coronavirus|real-coronavirus]] clamps onto ACE2, it not only opens a doorway indoors—it tackles the very peacekeeper enzyme meant to protect delicate lung tissue.',
+        'On an ordinary Tuesday, this zinc-powered human enzyme stands quietly on the [[plasma membrane|plasma-membrane]] of nose, lung, and blood-vessel cells, snipping hormone peptides to calm inflammation and lower blood pressure. Unfortunately for us, its exposed N-terminal [[alpha-helix|alpha-helix]] presents a curved molecular ridge that the shapeshifting [[Spike trimer|cov-spike-real]] evolved to grip like a rock climber’s jug hold. By latching onto ACE2, the [[coronavirus|real-coronavirus]] not only unlocks a doorway into the cell—it also sideline-tackles the very protector enzyme that normally shields delicate lung tissue from fluid buildup.',
       blueprint:
         'Role: Host cell-surface zinc metallopeptidase ectodomain (~9.5 nm tall) exploited as the primary SARS-CoV-2 entry receptor · From: Host gene transcription in the [[nucleus|nucleus]] and secretory trafficking to the [[plasma membrane|plasma-membrane]] · Inside: Claw-like peptidase [[polypeptide|polypeptide]] lobes with an exposed N-terminal α1 [[alpha-helix|alpha-helix]] · To: Gripped by the up-state RBD of [[Spike|cov-spike-real]] to position virions for membrane fusion',
       scientific:
@@ -322,9 +322,9 @@ export const ENVELOPED_VIRUS_NODE_LENSES: NodeLensMap = {
     },
     es: {
       simple:
-        'Guardiana pacífica al estilo Cells at Work! que regula la presión arterial, la enzima ACE2 tiene una cornisa externa donde la Espiga camuflada encaja como una ganzúa a medida.',
+        'Normalmente una beneficiosa enzima humana que regula la presión arterial en pulmones y vasos sanguíneos, ACE2 posee un borde externo donde la Espiga del coronavirus encaja por accidente como una llave maestra.',
       story:
-        'En un turno tranquilo digno de Cells at Work! sobre la [[membrana plasmática|plasma-membrane]] nasal y pulmonar, la enzima ACE2 recorta hormonas con su centro de zinc para calmar vasos sanguíneos y proteger los alvéolos. Por mala fortuna, su [[hélice alfa|alpha-helix]] exterior encaja al milímetro en el dedo ganzúa del [[trímero de la Espiga|cov-spike-real]]. Al aferrar ACE2, el [[coronavirus|real-coronavirus]] no solo fuerza la entrada: deja fuera de combate a la guardiana que frena la inflamación pulmonar.',
+        'En un día cualquiera, esta enzima humana impulsada por zinc vigila tranquila desde la [[membrana plasmática|plasma-membrane]] de células nasales, pulmonares y vasculares, recortando hormonas para calmar la inflamación y bajar la tensión arterial. Por desgracia, su [[hélice alfa|alpha-helix]] externa presenta una cornisa molecular donde el [[trímero de la Espiga|cov-spike-real]] aprendió a aferrarse como un escalador a una presa perfecta. Al engancharse a ACE2, el [[coronavirus|real-coronavirus]] no solo abre una puerta de entrada: también neutraliza en el acto a la enzima guardiana que protege a los pulmones frente al daño inflamatorio.',
       blueprint:
         'Rol: Ectodominio metalopeptidasa de zinc humano (~9,5 nm de alto) explotado como receptor primario de entrada del SARS-CoV-2 · Origen: Transcripción génica en el [[núcleo|nucleus]] y transporte secretor hasta la [[membrana plasmática|plasma-membrane]] · Interior: Lóbulos [[polipeptídicos|polypeptide]] peptidasa en forma de pinza con una [[hélice alfa|alpha-helix]] α1 N-terminal expuesta · Destino: Sujetado por el dominio RBD de la [[Espiga|cov-spike-real]] para iniciar la fusión de membranas',
       scientific:
@@ -334,9 +334,9 @@ export const ENVELOPED_VIRUS_NODE_LENSES: NodeLensMap = {
   'hiv-env-real': {
     en: {
       simple:
-        'Cloaked like the Predator under nearly ninety stolen sugar trees, HIV’s mushroom-shaped Env spike unlocks two T-cell receptors in sequence before firing its fusion harpoon.',
+        'Smothered under a dense forest of stolen host sugars so the immune system sees "self" instead of "intruder," HIV’s mushroom-shaped Env spike unlocks two T-cell receptors in sequence to fuse membranes.',
       story:
-        'Fully half of this mushroom spike’s mass is a Predator-grade invisibility cloak—nearly ninety host [[sugar|sugar]] trees grafted on inside the [[Golgi|golgi]] so immune patrols see "self" instead of "invader." Scarcely fourteen copies dot an [[HIV-1 virion|real-hiv]], spaced too far apart for Y-shaped antibodies to bridge two at once. Yet touch CD4 on a T-cell [[plasma membrane|plasma-membrane]] and the cloak parts, a hidden V3 loop snags a [[chemokine coreceptor|gpcr]], and gp41 fires its fusion harpoon!',
+        'Half of this mushroom-shaped spike’s weight isn’t viral protein at all—it’s nearly ninety stolen [[sugar|sugar]] trees grafted on inside the host [[Golgi|golgi]] to form an almost impenetrable glycan invisibility cloak. Only ~14 copies dot an entire [[HIV-1 virion|real-hiv]], spaced wide apart so patrolling antibodies can’t bridge two spikes at once. Yet the instant its outer gp120 cap bumps CD4 on a T-cell [[plasma membrane|plasma-membrane]], the cloak parts, a hidden V3 loop snaps onto a [[chemokine coreceptor|gpcr]], and the coiled gp41 stalk fires a fusion harpoon straight into the immune cell.',
       blueprint:
         'Role: Heavily glycosylated heterotrimeric class I fusion spike (~13 × 12 nm) executing two-step CD4 + coreceptor T-cell entry · From: Furin cleavage of gp160 precursor and dense N-glycosylation inside the host [[Golgi|golgi]] · Inside: Three surface gp120 receptor-binding caps noncovalently atop three [[alpha-helical|alpha-helix]] gp41 fusion stalks · To: Unlocks CD4 and [[CCR5/CXCR4|gpcr]] on the T-cell [[plasma membrane|plasma-membrane]] to deliver the [[capsid cone|real-hiv-cone]]',
       scientific:
@@ -344,9 +344,9 @@ export const ENVELOPED_VIRUS_NODE_LENSES: NodeLensMap = {
     },
     es: {
       simple:
-        'Camuflada como Depredador bajo casi noventa árboles de azúcar robados, la espiga Env del VIH abre en orden dos cerraduras del linfocito T antes de clavar su arpón.',
+        'Cubierta por un denso bosque de azúcares robados para que nuestras defensas vean «propio» donde hay «intruso», la espiga Env del VIH abre en serie dos cerraduras de los linfocitos T para fundir membranas.',
       story:
-        'La mitad del peso de esta espiga fungiforme es un manto de invisibilidad digno de Depredador: casi noventa árboles de [[azúcar|sugar]] injertados en el [[Golgi|golgi]] para que las defensas lean «aliado» donde hay «intruso». Apenas catorce copias salpican un [[virión de VIH-1|real-hiv]], demasiado lejos para que un anticuerpo agarre dos juntas. Pero apenas roza CD4 en la [[membrana plasmática|plasma-membrane]] del linfocito T, el manto se abre, el bucle V3 atrapa un [[correceptor de quimiocinas|gpcr]] y gp41 dispara su arpón.',
+        'La mitad del peso de esta espiga en forma de hongo ni siquiera es proteína viral: son casi noventa árboles de [[azúcar|sugar]] injertados en el [[Golgi|golgi]] humano para tejer un manto de invisibilidad casi impenetrable. Apenas unas catorce espigas salpican todo un [[virión de VIH-1|real-hiv]], tan distanciadas que los anticuerpos no alcanzan a sujetar dos a la vez. Pero apenas su sombrero gp120 roza el receptor CD4 en la [[membrana plasmática|plasma-membrane]] de un linfocito T, el manto se abre, el bucle V3 engancha un [[correceptor de quimiocinas|gpcr]] y el tallo gp41 clava su arpón de fusión.',
       blueprint:
         'Rol: Espiga heterotrimérica hiper-glicosilada de fusión de clase I (~13 × 12 nm) para entrada secuencial CD4 + correceptor · Origen: Corte por furina del precursor gp160 y densa N-glicosilación en el [[Golgi|golgi]] · Interior: Tres cabezales superficiales gp120 unidos no covalentemente sobre tres tallos gp41 en [[hélice alfa|alpha-helix]] · Destino: Abre CD4 y [[CCR5/CXCR4|gpcr]] en la [[membrana plasmática|plasma-membrane]] T para infiltrar el [[cono capsídico|real-hiv-cone]]',
       scientific:
@@ -356,9 +356,9 @@ export const ENVELOPED_VIRUS_NODE_LENSES: NodeLensMap = {
   'hiv-ma-real': {
     en: {
       simple:
-        'Like an Ocean’s Eleven getaway driver picking the exact armoured raft to steal, three-part Matrix tiles pop out greasy switchblade anchors under the T-cell membrane and haul Env spikes aboard.',
+        'Equipped with greasy molecular anchors on top, three Matrix proteins lock together under HIV’s stolen fat membrane to steer new viruses to the cell’s exit and snag Env spikes aboard.',
       story:
-        'Before a newly minted [[HIV-1|real-hiv]] crew buds off a T-cell, it needs a getaway quartermaster to pick the toughest patch of [[plasma membrane|plasma-membrane]] in town. Touching PI(4,5)P₂ [[phospholipids|phospholipid]] inside cholesterol-rich lipid rafts, this triangular Matrix trimer pops out a hidden myristoyl grease-anchor like a switchblade—bolting the inner hull together while corralling the long indoor tails of [[Env spikes|hiv-env-real]] so the stolen pod never launches without its lockpicks.',
+        'When a newly built [[HIV-1|real-hiv]] getaway car is ready to assemble at a T-cell’s outer border, it needs a coordinator that knows exactly which patch of [[plasma membrane|plasma-membrane]] to steal. This three-cornered Matrix tile snaps open a greasy myristoyl fatty-acid switch whenever it touches special PI(4,5)P₂ [[phospholipids|phospholipid]] enriched in cholesterol rafts, anchoring the viral hull from underneath while corralling the long indoor tails of [[Env spikes|hiv-env-real]] so the departing bubble doesn’t leave its lockpicks behind.',
       blueprint:
         'Role: Myristoylated inner-envelope trimeric scaffold (~6.5 nm across) targeting Gag assembly and recruiting Env spikes · From: N-terminal domain of Gag [[polypeptide|polypeptide]] cleaved during viral protease maturation · Inside: Three globular [[alpha-helical|alpha-helix]] p17 subunits with N-terminal myristoyl anchors and basic PI(4,5)P₂-binding patches · To: Lines the viral [[phospholipid|phospholipid]] bilayer and captures cytoplasmic tails of [[Env gp41|hiv-env-real]]',
       scientific:
@@ -366,9 +366,9 @@ export const ENVELOPED_VIRUS_NODE_LENSES: NodeLensMap = {
     },
     es: {
       simple:
-        'Como el conductor de huida en Ocean’s Eleven eligiendo el blindado exacto que robar, las placas triangulares de Matriz sacan anclas grasas bajo la membrana celular y embarcan las espigas Env.',
+        'Equipadas con anclas grasientas en su cara superior, tres proteínas de Matriz se ensamblan bajo la membrana robada del VIH para guiar la salida del virus y embarcar las espigas Env.',
       story:
-        'Antes de que un nuevo [[VIH-1|real-hiv]] zarpe de un linfocito T, necesita un jefe de huida que elija el parche más blindado de la [[membrana plasmática|plasma-membrane]]. Al tocar [[fosfolípidos|phospholipid]] PI(4,5)P₂ en balsas de colesterol, este trímero triangular de Matriz desenvaina un ancla grasa de miristoílo como una navaja automática, remachando el casco por dentro mientras sujeta las colas internas de las [[espigas Env|hiv-env-real]] para no despegar sin sus ganzúas.',
+        'Cuando un nuevo [[VIH-1|real-hiv]] está listo para escapar desde la frontera de un linfocito T, necesita un capataz que elija exactamente qué trozo de [[membrana plasmática|plasma-membrane]] robar. Esta loseta triangular de Matriz despliega un interruptor graso de miristoílo en cuanto detecta [[fosfolípidos|phospholipid]] especiales PI(4,5)P₂ en balsas ricas en colesterol, remachando el casco viral desde dentro mientras atrapa las largas colas internas de las [[espigas Env|hiv-env-real]] para que el vehículo de huida no zarpe sin sus ganzúas.',
       blueprint:
         'Rol: Andamio trimérico miristoilado de la cara interna de la envoltura (~6,5 nm) que dirige la gemación y recluta espigas Env · Origen: Extremo N-terminal del [[polipéptido|polypeptide]] Gag liberado durante la maduración por proteasa viral · Interior: Tres subunidades globulares p17 en [[hélice alfa|alpha-helix]] con anclas de miristoílo y parches básicos de unión a PI(4,5)P₂ · Destino: Tapiza la bicapa de [[fosfolípidos|phospholipid]] viral y retiene las colas de [[Env gp41|hiv-env-real]]',
       scientific:
@@ -378,9 +378,9 @@ export const ENVELOPED_VIRUS_NODE_LENSES: NodeLensMap = {
   'hiv-ca-hex-real': {
     en: {
       simple:
-        'Six p24 proteins form a Beskar-tough hexagonal armor plate with an Iron Man iris pinhole in the middle—hiding HIV’s genome while vacuuming host DNA letters inside.',
+        'Six p24 proteins lock into a flat hexagon ring with a positively charged pinhole at the middle—forming the main armor plates of HIV’s stealth cone while sucking DNA building blocks inside.',
       story:
-        'Over two hundred of these six-sided plates armor HIV’s [[fullerene stealth cone|real-hiv-cone]] like Mandalorian Beskar with built-in spy gadgets. Outside, surface pockets hitch rides on motor proteins and sweet-talk [[nuclear pore|nuclear-pore]] bouncers into waving the entire pod through intact; dead center, six positively charged arginines form an Iron Man-style micro-iris that sucks negatively charged host [[nucleotides|nucleotide]] inside to feed [[Reverse Transcriptase|hiv-rt-real]] with the vault doors shut.',
+        'Over two hundred of these six-sided plates tile the curved walls of HIV’s [[fullerene stealth cone|real-hiv-cone]], acting simultaneously as riot shield, train ticket, and one-way fuel valve. Outside, flexible pockets grab host transport proteins to surf microtubules and charm [[nuclear pore|nuclear-pore]] guards into waving the whole cone indoors; dead center, a ring of six positively charged arginine side chains forms a microscopic iris that vacuums negatively charged host [[nucleotides|nucleotide]] inside to feed [[Reverse Transcriptase|hiv-rt-real]] without ever cracking the safe open.',
       blueprint:
         'Role: Planar six-subunit capsid building tile (~9.5 nm across) forming the curved body and dNTP-import pores of the HIV-1 cone · From: Viral protease cleavage of Gag releasing 231-aa p24 CA subunits · Inside: Six N-terminal [[alpha-helical|alpha-helix]] rings framing a central Arg18 pore, linked outwardly by C-terminal dimerization domains · To: Pairs with [[CA pentamers|hiv-ca-pent-real]] to shield [[RT|hiv-rt-real]] while importing cytosolic [[nucleotides|nucleotide]]',
       scientific:
@@ -388,9 +388,9 @@ export const ENVELOPED_VIRUS_NODE_LENSES: NodeLensMap = {
     },
     es: {
       simple:
-        'Seis proteínas p24 forman una placa hexagonal dura como el beskar con un microiris estilo Iron Man en el centro: blindan el cono del VIH mientras aspiran letras de ADN celular.',
+        'Seis proteínas p24 encajan en un anillo hexagonal plano con un diminuto poro positivo en el centro: son las placas principales del cono furtivo del VIH y aspiran ladrillos de ADN hacia su interior.',
       story:
-        'Más de doscientas de estas losetas de seis lados blindan el [[cono furtivo de fullereno|real-hiv-cone]] del VIH como placas de beskar mandaloriano llenas de trucos espía. Por fuera, sus bolsillos engañan a los porteros del [[poro nuclear|nuclear-pore]] para colar el cono entero sin abrirlo; justo en el centro, seis argininas positivas forman un iris estilo Iron Man que aspira [[nucleótidos|nucleotide]] negativos de la célula para cebar a la [[Transcriptasa Inversa|hiv-rt-real]] a puerta cerrada.',
+        'Más de doscientas de estas placas de seis lados revisten las paredes curvas del [[cono furtivo de fullereno|real-hiv-cone]] del VIH, actuando a la vez como escudo blindado, salvoconducto y válvula de combustible. Por fuera, sus bolsillos enganchan proteínas de transporte celular para deslizarse hasta el [[poro nuclear|nuclear-pore]] y cruzarlo sin levantar sospechas; justo en el centro, un anillo de seis argininas positivas abre un iris microscópico que aspira [[nucleótidos|nucleotide]] negativos de la célula para alimentar a la [[Transcriptasa Inversa|hiv-rt-real]] sin entreabrir jamás la caja fuerte.',
       blueprint:
         'Rol: Loseta hexamérica plana de cápside (~9,5 nm) que forma el cuerpo curvo y los poros importadores de dNTP del cono viral · Origen: Corte proteolítico de Gag que libera subunidades p24 CA de 231 aa · Interior: Anillo interno de seis dominios N-terminales en [[hélice alfa|alpha-helix]] con poro central Arg18 y dominios C-terminales de enlace · Destino: Se combina con [[pentámeros CA|hiv-ca-pent-real]] para blindar la [[TI|hiv-rt-real]] mientras importa [[nucleótidos|nucleotide]]',
       scientific:
@@ -400,9 +400,9 @@ export const ENVELOPED_VIRUS_NODE_LENSES: NodeLensMap = {
   'hiv-ca-pent-real': {
     en: {
       simple:
-        'Just as a soccer ball needs twelve pentagons to curve shut, HIV places five p24 pentamers at its narrow nose and seven at its tail to seal its smuggling pod airtight.',
+        'Because flat hexagons alone can never close into a sealed container, HIV places exactly twelve of these five-sided corner pieces—five at the narrow tip and seven at the wide cap—to lock its cone shut.',
       story:
-        'Roll a sheet of pure [[six-sided hexamers|hiv-ca-hex-real]] and you only get an open pipe—Euler’s geometry proves you need exactly twelve pentagons to seal a vault shut. By clustering five pentamers up front to sharpen a 16-nanometer nosecone that dives cleanly into a [[nuclear pore|nuclear-pore]], and seven across the rear dome, HIV locks its [[fullerene stealth cone|real-hiv-cone]] airtight around [[Reverse Transcriptase|hiv-rt-real]] like a custom Millennium Falcon smuggling pod.',
+        'Tile a floor with pure [[six-sided hexamers|hiv-ca-hex-real]] and you can roll it into an open pipe, yet geometry forbids you from ever sealing both ends shut—a law proved centuries ago by Leonhard Euler and exploited ruthlessly by HIV-1. By swapping just twelve rings into tighter five-sided pentamers—clustering five up front to sharpen a narrow nose that wedges neatly into a [[nuclear pore|nuclear-pore]], and spacing seven across the wide rear dome—the [[fullerene stealth cone|real-hiv-cone]] snaps completely airtight around its [[Reverse Transcriptase|hiv-rt-real]] cargo.',
       blueprint:
         'Role: Five-fold vertex declination cap (~8.5 nm across) required topologically to close the hexagonal fullerene cone · From: Alternative quasi-equivalent oligomerization of p24 CA [[alpha-helical|alpha-helix]] subunits · Inside: Five tightly packed N-terminal CA domains creating sharp 5-fold polyhedral curvature · To: Seals the narrow tip (5 copies) and wide dome (7 copies) of the [[HIV-1 cone|real-hiv-cone]] alongside ~216 [[CA hexamers|hiv-ca-hex-real]]',
       scientific:
@@ -410,9 +410,9 @@ export const ENVELOPED_VIRUS_NODE_LENSES: NodeLensMap = {
     },
     es: {
       simple:
-        'Igual que un balón de fútbol necesita doce pentágonos para cerrarse, el VIH coloca cinco pentámeros p24 en la proa estrecha y siete en la popa para sellar su cápsula contrabandista.',
+        'Como los hexágonos planos por sí solos jamás pueden cerrarse en una cápsula sellada, el VIH coloca exactamente doce de estas piezas de cinco lados —cinco en la punta estrecha y siete en la cúpula ancha— para cerrar su bóveda.',
       story:
-        'Con puros [[hexágonos de seis lados|hiv-ca-hex-real]] solo obtendrías un tubo abierto: el teorema de Euler exige doce pentágonos exactos para cerrar una bóveda. Agrupando cinco pentámeros delante para afilar un morro de 16 nanómetros que encaja de punta en el [[poro nuclear|nuclear-pore]], y siete en la cúpula trasera, el VIH sella su [[cono furtivo de fullereno|real-hiv-cone]] en torno a la [[Transcriptasa Inversa|hiv-rt-real]] como una cápsula de contrabando espacial.',
+        'Si intentas cubrir una superficie solo con [[hexágonos de seis lados|hiv-ca-hex-real]], podrás enrollarlos en un tubo abierto, pero la geometría prohíbe cerrar ambos extremos: una ley demostrada hace siglos por Euler que el VIH-1 aplica con precisión quirúrgica. Al sustituir apenas doce piezas por pentámeros más cerrados de cinco lados —cinco delante para afilar una proa capaz de encajar en un [[poro nuclear|nuclear-pore]] y siete detrás para abovedar la popa—, el [[cono furtivo de fullereno|real-hiv-cone]] queda herméticamente sellado alrededor de su [[Transcriptasa Inversa|hiv-rt-real]].',
       blueprint:
         'Rol: Vértice pentagonal de declinación (~8,5 nm) exigido topológicamente para cerrar el cono hexagonal de fullereno · Origen: Oligomerización cuasi-equivalente alternativa de subunidades p24 CA en [[hélice alfa|alpha-helix]] · Interior: Cinco dominios N-terminales CA compactados que imprimen curvatura poliédrica aguda · Destino: Sella el ápice estrecho (5 copias) y el domo ancho (7 copias) del [[cono de VIH-1|real-hiv-cone]] junto a ~216 [[hexámeros CA|hiv-ca-hex-real]]',
       scientific:
@@ -422,9 +422,9 @@ export const ENVELOPED_VIRUS_NODE_LENSES: NodeLensMap = {
   'hiv-rt-real': {
     en: {
       simple:
-        'Running genetics in reverse like Christopher Nolan’s Tenet, this two-part viral forger rewrites fragile RNA backward into DNA—with zero Backspace key, breeding drug-dodging mutants.',
+        'Built from two uneven twin subunits shaped like a molecular hand and clamp, Reverse Transcriptase reads fragile viral RNA and writes a durable double-stranded DNA copy—with zero spell-checking.',
       story:
-        'Human cells assume genetic ink flows strictly from [[DNA|dna]] to [[RNA|rna]]—until this lopsided Tenet-style counterfeiter clocks in inside the [[stealth cone|real-hiv-cone]]. Its p66 hand writes minus-strand DNA from stolen host [[nucleotides|nucleotide]] while a wrist-mounted RNase H shredder eats the RNA original behind it and p51 braces the clamp. With zero proofreading Backspace key, roughly one typo slips into every genome, spawning a shape-shifting mutant swarm that outruns drugs and antibodies.',
+        'Every human cell assumes genetic traffic flows one way—from [[DNA|dna]] to [[RNA|rna]]—until this lopsided two-subunit forger goes to work inside the [[stealth cone|real-hiv-cone]]. Its larger p66 subunit grips the viral RNA strand like a right hand writing minus-strand DNA from stolen host [[nucleotides|nucleotide]], while a built-in RNase H paper-shredder at its wrist chews away the RNA original and a trimmed p51 partner braces the clamp. Because it completely lacks a spell-checker, roughly one letter per copy slips in wrong, spawning a swarm of mutant disguises that help HIV outrun drugs and antibodies.',
       blueprint:
         'Role: Asymmetric heterodimeric RNA/DNA-dependent DNA polymerase and RNase H (~11 nm across) · From: Viral protease processing of the Gag-Pol polyprotein inside maturing virions · Inside: Catalytic 560-aa p66 subunit (fingers, palm, thumb, connection, RNase H) braced by structural 440-aa p51 clamped around [[DNA|dna]]/[[RNA|rna]] · To: Converts diploid viral RNA into linear dsDNA ready for [[Integrase|hiv-in-real]]',
       scientific:
@@ -432,9 +432,9 @@ export const ENVELOPED_VIRUS_NODE_LENSES: NodeLensMap = {
     },
     es: {
       simple:
-        'Rebobinando la genética como en Tenet de Nolan, este falsificador viral de dos piezas reescribe ARN hacia atrás en ADN sin tecla «Retroceso», creando mutantes que burlan fármacos.',
+        'Formada por dos subunidades desiguales que actúan como mano escritora y mordaza de sujeción, la Transcriptasa Inversa lee el frágil ARN viral y escribe una copia resistente de ADN sin revisor ortográfico.',
       story:
-        'Toda célula humana asume que el código viaja solo de [[ADN|dna]] a [[ARN|rna]], hasta que este falsificador asimétrico digno de Tenet entra en acción dentro del [[cono furtivo|real-hiv-cone]]. Su mano p66 escribe ADN con [[nucleótidos|nucleotide]] robados mientras su cuchilla trasera RNasa H tritura el molde de ARN y p51 sujeta la pinza. Al no tener tecla «Retroceso» correctora, cuela una errata casi por copia, engendrando un enjambre mutante que esquiva medicinas y anticuerpos.',
+        'Toda célula humana da por sentado que la información fluye en un solo sentido —de [[ADN|dna]] a [[ARN|rna]]— hasta que este falsificador asimétrico empieza a trabajar dentro del [[cono furtivo|real-hiv-cone]]. Su subunidad mayor p66 sujeta la hebra de ARN como una mano derecha que escribe ADN con [[nucleótidos|nucleotide]] robados, mientras una trituradora RNasa H en su muñeca destruye el molde original y su compañera recortada p51 afianza la pinza. Al carecer por completo de corrector ortográfico, introduce un error casi en cada copia, generando un enjambre de mutantes que ayuda al VIH a esquivar fármacos y defensas.',
       blueprint:
         'Rol: ADN polimerasa dependiente de ARN/ADN y RNasa H heterodimérica asimétrica (~11 nm) · Origen: Procesamiento del polipéptido Gag-Pol por la proteasa viral durante la maduración · Interior: Subunidad catalítica p66 de 560 aa (dedos, palma, pulgar, conexión y RNasa H) sostenida por p51 de 440 aa sobre el dúplex [[ADN|dna]]/[[ARN|rna]] · Destino: Transforma el ARN viral diploide en ADNbc lineal listo para la [[Integrasa|hiv-in-real]]',
       scientific:
@@ -444,9 +444,9 @@ export const ENVELOPED_VIRUS_NODE_LENSES: NodeLensMap = {
   'hiv-in-real': {
     en: {
       simple:
-        'Acting like Matrix’s Agent Smith overwriting a citizen’s code, Integrase snips open a busy human chromosome and welds HIV’s newly forged DNA into the T-cell forever.',
+        'Integrase is HIV’s molecular cut-and-paste surgeon: it trims the ends of freshly made viral DNA, snips open a human chromosome, and welds the virus permanently into the cell’s own genetic book.',
       story:
-        'Writing viral [[DNA|dna]] via [[Reverse Transcriptase|hiv-rt-real]] is only half the takeover—loose DNA in the [[nucleus|nucleus]] would get left behind when the T-cell divides. Enter Agent Smith: four Integrase subunits clamp both tips of the viral DNA, pare two letters off each 3′ end to bare chemical hooks, and ride host guide LEDGF/p75 straight to busy human [[chromatin|chromatin-fiber]]. One snip-and-weld later, HIV is permanently written into the cell’s own heredity.',
+        'Forging a double-stranded [[DNA|dna]] copy via [[Reverse Transcriptase|hiv-rt-real]] is only half the betrayal—loose DNA floating in the [[nucleus|nucleus]] would eventually fade away when the T-cell divides. So four Integrase subunits clamp onto both ends of the new viral DNA, trim two letters off each 3′ tip to bare reactive chemical hooks, and hitch a ride on host factor LEDGF/p75 straight to a busy stretch of human [[chromatin|chromatin-fiber]]. With one surgical snip-and-weld, viral DNA becomes an inseparable chapter of the cell’s own chromosome.',
       blueprint:
         'Role: Viral polynucleotidyl transferase (~8.5 nm dimer; tetrameric intasome in action) splicing viral cDNA into host chromosomes · From: C-terminal cleavage product of Gag-Pol imported inside the [[capsid cone|real-hiv-cone]] · Inside: Zn²⁺-binding NTD, catalytic DDE core, and SH3-like [[DNA|dna]]-binding [[polypeptide|polypeptide]] domains · To: Welds reverse-transcribed viral DNA into active host [[chromosomes|chromosome]] inside the [[nucleus|nucleus]]',
       scientific:
@@ -454,9 +454,9 @@ export const ENVELOPED_VIRUS_NODE_LENSES: NodeLensMap = {
     },
     es: {
       simple:
-        'Actuando como el Agente Smith de Matrix al sobrescribir a un ciudadano, la Integrasa corta un cromosoma humano activo y suelda el ADN del VIH para siempre en el linfocito.',
+        'La Integrasa es el cirujano molecular de cortar y pegar del VIH: prepara las puntas del ADN viral recién escrito, abre un cromosoma humano y suelda el virus para siempre en el libro genético de la célula.',
       story:
-        'Fabricar [[ADN|dna]] viral con la [[Transcriptasa Inversa|hiv-rt-real]] es solo medio golpe: suelto en el [[núcleo|nucleus]], se perdería al dividirse la célula. Ahí entra el Agente Smith molecular: cuatro subunidades de Integrasa aferran ambos cabos del ADN viral, afilan sus puntas 3′ y viajan con el guía humano LEDGF/p75 hasta la [[cromatina|chromatin-fiber]] más activa. Con un corte y soldadura, el virus queda inscrito de por vida en la herencia celular.',
+        'Falsificar una copia de [[ADN|dna]] mediante la [[Transcriptasa Inversa|hiv-rt-real]] es solo la mitad de la traición: un ADN suelto en el [[núcleo|nucleus]] acabaría perdiéndose cuando el linfocito se dividiera. Por eso cuatro subunidades de Integrasa aferran ambos extremos del nuevo ADN viral, recortan dos letras de cada punta 3′ para dejar ganchos químicos al descubierto y viajan de la mano del factor celular LEDGF/p75 hasta una zona activa de [[cromatina|chromatin-fiber]] humana. Con un corte y empalme quirúrgico, el virus queda escrito para siempre como un capítulo más del cromosoma.',
       blueprint:
         'Rol: Polinucleotidil transferasa viral (dímero de ~8,5 nm; intasoma funcional tetramérico) que integra el ADNc viral en cromosomas humanos · Origen: Producto C-terminal del precursor Gag-Pol transportado dentro del [[cono capsídico|real-hiv-cone]] · Interior: Dominio NTD con Zn²⁺, núcleo catalítico DDE y dominios [[polipeptídicos|polypeptide]] tipo SH3 de unión a [[ADN|dna]] · Destino: Empalma el ADN viral en [[cromosomas|chromosome]] activos dentro del [[núcleo|nucleus]]',
       scientific:
@@ -471,9 +471,9 @@ export const ENVELOPED_VIRUS_PART_LENSES: PagePartLensMap = {
       en: {
         subtitle: 'The Glycan-Cloaked Lockpick & Harpoon',
         simple:
-          'Cloaked in stolen sugars like X-Men’s Mystique, each club-shaped Spike flips up one lockpick finger to grab ACE2 and fire a Scorpion-style harpoon that fuses virus and cell.',
+          'Dressed in stolen sugar chains to fool patrolling antibodies, each club-shaped Spike flips up one molecular finger to grab a human airway receptor and fires a spring-loaded harpoon that fuses virus and cell.',
         story:
-          'Fresh from the last victim’s [[Golgi|golgi]], forty-eight [[Spike trimers|cov-spike-real]] wear sixty-six sugar trees apiece like Predator camouflage. The instant one flips an S1 finger up to clasp human [[ACE2|ace2-real]], it baits TMPRSS2 scissors in the airway [[plasma membrane|plasma-membrane]] into cutting its S2′ pin—firing a spring-loaded harpoon that winches both bubbles open for the [[vRNP cargo|real-cov-rnp]].',
+          'Fresh from the previous host’s [[Golgi|golgi]], forty-eight [[Spike trimers|cov-spike-real]] bristle across the virion under a swaying camouflage cloak of sixty-six sugar trees apiece. The instant one flips an S1 receptor-binding finger upward to clasp human [[ACE2|ace2-real]], it exposes a hidden loop that tricks TMPRSS2 scissors in the airway [[plasma membrane|plasma-membrane]] into snipping its S2′ pin—firing a hydrophobic harpoon that winches both lipid bubbles into one open doorway for the [[vRNP cargo|real-cov-rnp]].',
         blueprint: {
           role: 'Homotrimeric class I receptor-binding and membrane-fusion machine',
           arrivesFrom: 'Translated on [[rough ER|rough-er]] and furin-primed/glycosylated in host [[Golgi|golgi]]',
@@ -495,9 +495,9 @@ export const ENVELOPED_VIRUS_PART_LENSES: PagePartLensMap = {
       es: {
         subtitle: 'La ganzúa y el arpón bajo manto de azúcar',
         simple:
-          'Disfrazada con azúcares robados al estilo Mystique, cada maza de Espiga alza un dedo ganzúa para atrapar ACE2 y lanzar un arpón estilo Scorpion que funde virus y célula.',
+          'Camuflada bajo cadenas de azúcar robadas para despistar anticuerpos, cada maza de Espiga levanta un dedo molecular para aferrar el receptor humano y dispara un arpón con resorte que funde al virus con la célula.',
         story:
-          'Recién salidas del [[Golgi|golgi]] de su víctima previa, cuarenta y ocho [[mazas de Espiga|cov-spike-real]] visten sesenta y seis árboles de azúcar cada una como camuflaje de Depredador. Apenas una levanta su dedo S1 para enganchar [[ACE2|ace2-real]], tienta a las tijeras TMPRSS2 de la [[membrana plasmática|plasma-membrane]] a cortar el seguro S2′, disparando un arpón que funde ambas burbujas para colar el [[collar vRNP|real-cov-rnp]].',
+          'Recién salidas del [[Golgi|golgi]] de su víctima anterior, cuarenta y ocho [[mazas de Espiga|cov-spike-real]] coronan el virión ocultas tras un espeso disfraz de sesenta y seis árboles de azúcar cada una. En cuanto una levanta su dedo buscador S1 para engancharse a [[ACE2|ace2-real]], destapa un bucle secreto que engaña a las tijeras TMPRSS2 de la [[membrana plasmática|plasma-membrane]] respiratoria para cortar el seguro S2′: un arpón hidrofóbico salta al instante y funde ambas burbujas para dar paso al [[collar vRNP|real-cov-rnp]].',
         blueprint: {
           role: 'Maquinaria homotrimérica de clase I para reconocimiento de receptor y fusión de bicapas',
           arrivesFrom: 'Traducida en el [[RE rugoso|rough-er]] y procesada por furina/glicosilación en el [[Golgi|golgi]]',
@@ -521,9 +521,9 @@ export const ENVELOPED_VIRUS_PART_LENSES: PagePartLensMap = {
       en: {
         subtitle: 'The Stolen Getaway Bubble',
         simple:
-          'Like a Mission: Impossible mask peeled straight off the last hijacked cell, this stolen fat bubble has zero self-made lipids—which is why plain soap pops it on contact.',
+          'The virus makes zero fat molecules of its own—instead it pinches off a spherical bubble of internal membrane from the last cell it hijacked, dissolving instantly if soap wedges into its oily wall.',
         story:
-          'Instead of forging its own hull, a budding coronavirus steals a 92-nanometer [[phospholipid|phospholipid]] bubble straight from the host’s indoor [[ER–Golgi crossroads|golgi]]. Armed outside with [[Spike clubs|cov-spike-real]] and acid-venting [[E ion channels|cov-e-real]], this hijacked getaway pod rides respiratory droplets until Spike winches it seamlessly into the next victim’s [[plasma membrane|plasma-membrane]]—unless soap wedges its oily cloak apart first!',
+          'Rather than bursting out through the cell’s outer skin, budding coronaviruses heist a bespoke 92-nanometer patch of [[phospholipid|phospholipid]] bilayer straight from the host’s indoor [[ER–Golgi crossroads|golgi]]. Studded outside with [[Spike clubs|cov-spike-real]] and vented by [[E ion channels|cov-e-real]], this stolen bubble shields the fragile RNA cargo through airborne droplets until Spike winches it flush against a new airway [[plasma membrane|plasma-membrane]]—merging two separate soap bubbles into one continuous sheet.',
         blueprint: {
           role: 'Host-derived 92 nm spherical phospholipid bilayer sealing the virion and enabling fusion entry',
           arrivesFrom: 'Pinched off from intracellular ERGIC membranes between [[rough ER|rough-er]] and [[Golgi|golgi]]',
@@ -545,9 +545,9 @@ export const ENVELOPED_VIRUS_PART_LENSES: PagePartLensMap = {
       es: {
         subtitle: 'La burbuja de huida robada',
         simple:
-          'Como una máscara de Misión Imposible arrancada a la última célula asaltada, esta burbuja robada no fabrica ni una gota de grasa propia; por eso el jabón la revienta al instante.',
+          'El virus no fabrica ni una sola molécula de grasa: recorta una burbuja esférica de las membranas internas de la última célula que asaltó, razón por la cual el jabón la deshace al instante.',
         story:
-          'En vez de fabricar su propio casco, el coronavirus roba un parche esférico de 92 nanómetros de [[fosfolípidos|phospholipid]] en el cruce interno hacia el [[Golgi|golgi]]. Artillada con [[mazas de Espiga|cov-spike-real]] y [[canales E|cov-e-real]], esta cápsula robada viaja en gotículas aéreas hasta fundirse sin costuras con otra [[membrana plasmática|plasma-membrane]] respiratoria, salvo que el agua con jabón desarme antes su disfraz.',
+          'En lugar de arrancar su disfraz de la fachada exterior, los nuevos coronavirus roban un parche esférico de 92 nanómetros de [[fosfolípidos|phospholipid]] directamente en el cruce interno entre el retículo y el [[Golgi|golgi]]. Tachonada por fuera con [[mazas de Espiga|cov-spike-real]] y ventilada por [[canales E|cov-e-real]], esta burbuja furtiva protege el delicado cargamento durante el viaje aéreo hasta fundirse sin costuras con una nueva [[membrana plasmática|plasma-membrane]] respiratoria como dos pompas que se vuelven una sola.',
         blueprint: {
           role: 'Bicapa fosfolipídica esférica de 92 nm derivada del huésped que sella el virión y permite la fusión',
           arrivesFrom: 'Escindida de membranas intracelulares ERGIC entre el [[RE rugoso|rough-er]] y el [[Golgi|golgi]]',
@@ -571,9 +571,9 @@ export const ENVELOPED_VIRUS_PART_LENSES: PagePartLensMap = {
       en: {
         subtitle: 'The Master Hull-Bender & Cargo Clasp',
         simple:
-          'Outnumbering Spikes twenty to one like tiny Franky shipwrights from One Piece, twin Membrane proteins rivet the stolen fat sheet into a tight sphere while hooking the RNA cargo inside.',
+          'Thousands of twin Membrane proteins tile the viral bubble from wall to wall like curved rivets, bending the fat layer into a sphere while hooking the RNA necklace safely underneath.',
         story:
-          'Crowding the hull twenty-to-one over every other part, dimeric M proteins are the master One Piece shipwrights of the [[Golgi|golgi]] dockyard. Stitching each [[polypeptide|polypeptide]] three times across the stolen [[lipid bilayer|phospholipid]], these wedge-shaped twins bend flat host membrane into a crisp 92-nanometer sphere while clasping [[Nucleocapsid spools|cov-n-real]] below and locking [[Spike trimers|cov-spike-real]] into place.',
+          'Outnumbering every other viral surface part by twenty to one, dimeric M proteins act as the master shipwrights of the heist inside the [[Golgi|golgi]] assembly dock. Threading each [[polypeptide|polypeptide]] chain three times across the stolen [[lipid bilayer|phospholipid]], these wedge-shaped twins link arms to bend flat host sheets into a tight 92-nanometer sphere, while their indoor tails reach down to clasp [[Nucleocapsid spools|cov-n-real]] and lock [[Spike trimers|cov-spike-real]] into position.',
         blueprint: {
           role: 'Abundant triple-spanning dimeric scaffold driving envelope curvature and vRNP recruitment',
           arrivesFrom: 'Cotranslational insertion into [[rough ER|rough-er]] and oligomerization at [[Golgi|golgi]]/ERGIC',
@@ -595,9 +595,9 @@ export const ENVELOPED_VIRUS_PART_LENSES: PagePartLensMap = {
       es: {
         subtitle: 'El maestro curvador del casco y broche de carga',
         simple:
-          'Superando veinte a uno a las Espigas como diminutos carpinteros estilo Franky de One Piece, las proteínas M gemelas curvan la grasa robada en una esfera y amarran dentro el ARN.',
+          'Miles de proteínas gemelas de Membrana tapizan la burbuja viral de lado a lado como remaches curvos, doblando la capa de grasa en una esfera mientras enganchan por debajo el collar de ARN.',
         story:
-          'Superando veinte a uno al resto de piezas, los dímeros de proteína M son los carpinteros navales estilo One Piece del astillero en el [[Golgi|golgi]]. Cruzando tres veces cada [[polipéptido|polypeptide]] por la [[bicapa lipídica|phospholipid]] robada, estas cuñas gemelas curvan láminas planas hasta cerrar una esfera de 92 nanómetros mientras sujetan abajo los [[carretes de Nucleocápside|cov-n-real]] y fijan arriba las [[mazas de Espiga|cov-spike-real]].',
+          'Superando en veinte a uno a cualquier otra pieza superficial, los dímeros de proteína M son los maestros carpinteros de ribera en el astillero del [[Golgi|golgi]]. Enhebrando tres veces cada cadena de [[polipéptidos|polypeptide]] a través de la [[bicapa lipídica|phospholipid]] robada, estas cuñas gemelas se enlazan para curvar láminas planas hasta cerrar una esfera de 92 nanómetros, mientras sus colas internas sujetan los [[carretes de Nucleocápside|cov-n-real]] y fijan en su sitio las [[mazas de Espiga|cov-spike-real]].',
         blueprint: {
           role: 'Andamio dimérico mayoritario de triple paso transmembrana que curva la envoltura y ancla el vRNP',
           arrivesFrom: 'Inserción cotraduccional en el [[RE rugoso|rough-er]] y oligomerización en [[Golgi|golgi]]/ERGIC',
@@ -621,9 +621,9 @@ export const ENVELOPED_VIRUS_PART_LENSES: PagePartLensMap = {
       en: {
         subtitle: 'The Five-Stave Acid-Venting Viroporin',
         simple:
-          'Like R2-D2 hacking an exhaust vent to disarm a trap, fewer than twenty of these five-sided pores bleed acid out of host shipping lanes so new Spikes don’t misfire indoors.',
+          'Though fewer than twenty copies ride aboard each virus, these tiny five-sided ion pores vent acid out of the host’s shipping compartments so brand-new Spikes don’t misfire before launch.',
         story:
-          'Riding outbound [[vesicles|vesicle]] through the host [[Golgi|golgi]], baby virions face rising acid that could trip their hair-trigger [[Spike harpoons|cov-spike-real]] before they ever get outside! Five short helices bundle into an R2-D2-style [[Envelope viroporin|cov-e-real]] vent, draining protons and calcium to defuse the acid trap, pinch the bud neck free, and accidentally trip fierce lung-inflammation alarms.',
+          'As newly assembled virions ride secretory [[vesicles|vesicle]] out through the host [[Golgi|golgi]], rising acidity threatens to trip their hair-trigger [[Spike harpoons|cov-spike-real]] while still trapped indoors. By bundling five short hydrophobic helices into a cation-leaking [[Envelope viroporin|cov-e-real]], the virus bleeds protons and calcium across the membrane—neutralizing the acid trap, pinching the bud neck free, and accidentally tripping inflammatory alarms in human lungs.',
         blueprint: {
           role: 'Pentameric transmembrane viroporin cation channel neutralizing secretory pH and scissioning buds',
           arrivesFrom: 'Subgenomic E mRNA translated on [[rough ER|rough-er]] and oligomerized in [[Golgi|golgi]] membranes',
@@ -645,9 +645,9 @@ export const ENVELOPED_VIRUS_PART_LENSES: PagePartLensMap = {
       es: {
         subtitle: 'La viroporina de cinco duelas que purga el ácido',
         simple:
-          'Como R2-D2 abriendo una compuerta de ventilación para desactivar una trampa, menos de veinte de estos poros pentagonales drenan ácido celular para que las Espigas no se disparen dentro.',
+          'Aunque viajan menos de veinte copias en cada virus, estos diminutos poros de cinco lados evacúan el ácido de los conductos celulares para que las nuevas Espigas no se disparen antes de salir.',
         story:
-          'Al salir en [[vesículas|vesicle]] a través del [[Golgi|golgi]], los nuevos viriones enfrentan una acidez creciente capaz de disparar en falso los arpones de la [[Espiga|cov-spike-real]] antes de despegar. Cinco hélices cortas forman el respiradero estilo R2-D2 de la [[viroporina pentamérica E|cov-e-real]], evacuando protones y calcio para neutralizar la trampa ácida, soltar la burbuja y encender de paso alarmas inflamatorias en el pulmón.',
+          'Mientras los viriones recién montados viajan en [[vesículas|vesicle]] de salida a través del [[Golgi|golgi]], la acidez creciente amenaza con disparar a destiempo los sensibles arpones de la [[Espiga|cov-spike-real]] dentro de casa. Agrupando cinco cortas hélices hidrofóbicas en una [[viroporina pentamérica E|cov-e-real]], el virus drena protones y calcio a través de la membrana: desactiva la trampa ácida, estrangula el cuello de la burbuja para soltarla y desata de paso una fuerte alarma inflamatoria en el pulmón.',
         blueprint: {
           role: 'Canal catiónico pentamérico de viroporina que neutraliza el pH secretor y escinde la yema viral',
           arrivesFrom: 'ARNm subgenómico E traducido en el [[RE rugoso|rough-er]] y ensamblado en el [[Golgi|golgi]]',
@@ -671,9 +671,9 @@ export const ENVELOPED_VIRUS_PART_LENSES: PagePartLensMap = {
       en: {
         subtitle: 'The Pearl-Necklace Spools of the Giant Scroll',
         simple:
-          'Forty Baymax-soft Nucleocapsid clusters coil the giant 30,000-letter RNA like Shenron’s body inside a Dragon Ball capsule—cushioning shocks and muffling cellular alarms.',
+          'Forty clusters of Nucleocapsid protein cradle the delicate 30,000-letter viral RNA like shock-absorbing beads on a flexible necklace, hiding it from cellular alarms until ribosomes grab hold.',
         story:
-          'Packing nearly 30,000 letters of [[viral RNA|rna]] into a 65-nanometer capsule without snapping a bond calls for Baymax-soft electrostatic gloves. Forty oligomers of [[Nucleocapsid protein|cov-n-real]] wind the negative backbone into a springy [[vRNP bead necklace|real-cov-rnp]], unspooling cleanly into the [[cytosol|cytosol]] at fusion while jamming antiviral alarms so host [[ribosomes|ribosome]] read undisturbed.',
+          'Cramming ten meters’ worth of scaled-up thread—nearly 30,000 letters of [[viral RNA|rna]]—inside a 65-nanometer bubble without snapping a single bond demands positively charged velvet gloves. Forty oligomers of [[Nucleocapsid protein|cov-n-real]] clamp onto the RNA’s negative backbone to wind a springy [[vRNP bead necklace|real-cov-rnp]], then unclip cleanly into the [[cytosol|cytosol]] upon fusion while dulling antiviral alarms so host [[ribosomes|ribosome]] start reading undisturbed.',
         blueprint: {
           role: 'Helical/beaded RNA-packaging phosphoprotein shielding and unspooling the 29.9 kb genome',
           arrivesFrom: 'Translated in vast quantities by cytosolic [[ribosomes|ribosome]] from subgenomic N mRNA',
@@ -695,9 +695,9 @@ export const ENVELOPED_VIRUS_PART_LENSES: PagePartLensMap = {
       es: {
         subtitle: 'Los carretes de perlas del pergamino gigante',
         simple:
-          'Cuarenta grupos acolchados de Nucleocápside tipo Baymax enroscan las 30.000 letras de ARN como a Shenron dentro de una cápsula Hoi-Poi, amortiguando golpes y silenciando alarmas.',
+          'Cuarenta grupos de proteína de Nucleocápside acunan el delicado ARN viral de 30.000 letras como cuentas amortiguadoras de un collar flexible, ocultándolo de las alarmas hasta que lo leen los ribosomas.',
         story:
-          'Empaquetar casi 30.000 letras de [[ARN viral|rna]] en 65 nanómetros sin partir un enlace pide guantes acolchados al estilo Baymax. Cuarenta oligómeros de [[proteína de Nucleocápside|cov-n-real]] devanan la hebra en un elástico [[collar de cuentas vRNP|real-cov-rnp]] que, tras la fusión, se despliega en el [[citosol|cytosol]] apagando sensores inmunes para que los [[ribosomas|ribosome]] trabajen sin sospechar.',
+          'Guardar casi 30.000 letras de [[ARN viral|rna]] en una cavidad de 65 nanómetros sin romper un solo enlace exige guantes de terciopelo con carga positiva. Cuarenta oligómeros de [[proteína de Nucleocápside|cov-n-real]] abrazan el esqueleto negativo del ARN formando un elástico [[collar de cuentas vRNP|real-cov-rnp]], que tras la fusión se desenrolla suavemente en el [[citosol|cytosol]] mientras silencia sensores inmunes para que los [[ribosomas|ribosome]] empiecen a leer sin interrupciones.',
         blueprint: {
           role: 'Fosfoproteína empaquetadora en collar que blinda y desenrolla el genoma de 29,9 kb',
           arrivesFrom: 'Traducida masivamente por [[ribosomas|ribosome]] citosólicos a partir del ARNm subgenómico N',
@@ -721,9 +721,9 @@ export const ENVELOPED_VIRUS_PART_LENSES: PagePartLensMap = {
       en: {
         subtitle: 'The Counterfeit 30,000-Letter Master Scroll',
         simple:
-          'Flashing a forged VIP pass like Catch Me If You Can, this giant 30,000-letter RNA wears fake "official cell mail" tags so human ribosomes read it on sight.',
+          'Wearing a fake "approved cellular mail" header and tail, this giant single-stranded RNA genome tricks human ribosomes into reading it on sight—building viral copying factories within minutes of entry.',
         story:
-          'At 29,903 letters long, this [[(+)ssRNA scroll|rna]] pulls a Frank Abagnale con right out of the gate: pre-stamped with a counterfeit 5′ cap and 3′ poly-A tail identical to human mRNA. Uncoiling off [[Nucleocapsid beads|cov-n-real]] into the [[cytosol|cytosol]] without ever visiting the nucleus, it dupes host [[ribosomes|ribosome]] into immediately building sixteen viral tools—headlined by the [[RdRp printing press|cov-rdrp-real]].',
+          'At 29,903 nucleotides long, this [[(+)ssRNA scroll|rna]] is a heavyweight champion among RNA viruses, and it arrives pre-forged with a 5′ methylated cap and 3′ poly-A tail indistinguishable from genuine human mRNA. Unspooling off [[Nucleocapsid beads|cov-n-real]] straight into the airway [[cytosol|cytosol]], it bypasses the nucleus entirely and cons host [[ribosomes|ribosome]] into immediately translating sixteen nonstructural tools—including the [[RdRp printing press|cov-rdrp-real]] that will clone it thousands of times.',
         blueprint: {
           role: '29,903-nt infectious (+)ssRNA genome acting directly as viral mRNA and replication template',
           arrivesFrom: 'Cloned inside previous host [[RdRp|cov-rdrp-real]] vesicles and spooled onto [[N oligomers|cov-n-real]]',
@@ -745,9 +745,9 @@ export const ENVELOPED_VIRUS_PART_LENSES: PagePartLensMap = {
       es: {
         subtitle: 'El pergamino maestro falsificado de 30.000 letras',
         simple:
-          'Mostrando un pase VIP falsificado digno de Atrápame si puedes, este ARN gigante de 30.000 letras lleva sellos idénticos al correo humano para que los ribosomas lo lean en el acto.',
+          'Provisto de un sello inicial y una cola idénticos a los del correo celular legítimo, este gigantesco hilo de ARN engaña a los ribosomas humanos para que lo lean al instante y fabriquen copiadoras virales en minutos.',
         story:
-          'Con 29.903 letras, este [[pergamino de ARNmc(+)|rna]] ejecuta una estafa maestra nada más entrar: trae de fábrica caperuza 5′ y cola poli-A 3′ idénticas a un ARNm humano. Al soltarse de las [[cuentas de Nucleocápside|cov-n-real]] en pleno [[citosol|cytosol]] sin pisar el núcleo, embauca a los [[ribosomas|ribosome]] para que fabriquen al instante dieciséis herramientas virales lideradas por la [[imprenta RdRp|cov-rdrp-real]].',
+          'Con 29.903 nucleótidos de longitud, este [[pergamino de ARNmc(+)|rna]] es un peso pesado entre los virus de ARN y llega falsificado de fábrica con caperuza 5′ metilada y cola poli-A 3′ idénticas a un ARNm humano. Al desenrollarse de las [[cuentas de Nucleocápside|cov-n-real]] en pleno [[citosol|cytosol]] sin pisar jamás el núcleo, engaña a los [[ribosomas|ribosome]] para que traduzcan en el acto dieciséis herramientas virales, incluida la [[imprenta RdRp|cov-rdrp-real]] que lo clonará por miles.',
         blueprint: {
           role: 'Genoma infeccioso de ARNmc(+) de 29.903 nt que funciona directamente como ARNm y molde replicativo',
           arrivesFrom: 'Clonado por la [[RdRp|cov-rdrp-real]] en la célula previa y devanado sobre [[oligómeros N|cov-n-real]]',
@@ -771,9 +771,9 @@ export const ENVELOPED_VIRUS_PART_LENSES: PagePartLensMap = {
       en: {
         subtitle: 'The Unwitting Front-Door Handle',
         simple:
-          'Normally a friendly Cells at Work! blood-pressure peacekeeper on nose and lung cells, ACE2 gets hijacked as a docking post when Mystique-like Spike grabs its outer ridge.',
+          'Meant to regulate blood pressure and protect lung tissue, this human cell-surface enzyme gets hijacked as an anchor post when the coronavirus Spike clamps onto its outer ridge.',
         story:
-          'Standing amidst beating [[cilia|cilium]] on the airway [[plasma membrane|plasma-membrane]], peacekeeper enzyme [[ACE2|ace2-real]] normally snips vasoconstrictor hormones to keep lungs calm. Unfortunately, its exposed outer [[alpha-helix|alpha-helix]] matches the up-flipped lockpick finger of the [[Spike trimer|cov-spike-real]] with nanomolar grip—holding the shapeshifter steady just long enough for nearby TMPRSS2 scissors to fire the fusion harpoon.',
+          'Projecting above the airway [[plasma membrane|plasma-membrane]] alongside beating [[cilia|cilium]], human [[ACE2|ace2-real]] normally spends its life snipping vasoconstrictor hormones to keep lungs calm and vessels relaxed. Yet its exposed outer [[alpha-helix|alpha-helix]] happens to match the up-flipped finger of the [[Spike trimer|cov-spike-real]] with nanomolar precision—holding the shapeshifter steady at arm’s length just long enough for neighboring TMPRSS2 scissors to trip the fusion harpoon.',
         blueprint: {
           role: 'Host zinc carboxypeptidase ectodomain unwittingly serving as high-affinity viral docking post',
           arrivesFrom: 'Host chromosomal transcription in [[nucleus|nucleus]] and secretory export via [[Golgi|golgi]]',
@@ -795,9 +795,9 @@ export const ENVELOPED_VIRUS_PART_LENSES: PagePartLensMap = {
       es: {
         subtitle: 'El picaporte involuntario de la puerta principal',
         simple:
-          'Normalmente una pacífica guardiana estilo Cells at Work! que regula la tensión en nariz y pulmones, ACE2 acaba usada como poste de amarre por la Espiga viral.',
+          'Diseñada para regular la presión arterial y proteger el tejido pulmonar, esta enzima superficial humana acaba secuestrada como punto de amarre cuando la Espiga viral se aferra a su borde externo.',
         story:
-          'Erguida junto a los [[cilios|cilium]] sobre la [[membrana plasmática|plasma-membrane]] respiratoria, la guardiana [[ACE2|ace2-real]] pasa sus días recortando hormonas para relajar vasos y proteger los pulmones. Por desgracia, su [[hélice alfa|alpha-helix]] exterior encaja con precisión nanomolar en el dedo ganzúa del [[trímero de la Espiga|cov-spike-real]], sujetando al intruso el segundo justo para que las tijeras TMPRSS2 disparen el arpón.',
+          'Asomada sobre la [[membrana plasmática|plasma-membrane]] respiratoria junto a los [[cilios|cilium]] batientes, la enzima humana [[ACE2|ace2-real]] dedica su vida normal a recortar hormonas vasoconstrictoras para proteger pulmones y arterias. Pero su [[hélice alfa|alpha-helix]] exterior encaja con precisión nanomolar en el dedo levantado del [[trímero de la Espiga|cov-spike-real]], sujetando firme al intruso el tiempo justo para que las tijeras vecinas TMPRSS2 disparen el arpón de fusión.',
         blueprint: {
           role: 'Ectodominio carboxipeptidasa de zinc humano explotado como anclaje viral de alta afinidad',
           arrivesFrom: 'Transcripción cromosómica en el [[núcleo|nucleus]] y exportación secretora vía [[Golgi|golgi]]',
@@ -821,9 +821,9 @@ export const ENVELOPED_VIRUS_PART_LENSES: PagePartLensMap = {
       en: {
         subtitle: 'The Breached Airway Border Wall',
         simple:
-          'Like a fortress wall unwittingly mounting both the keyhole and the bolt-cutters outside, this human airway membrane holds ACE2 and TMPRSS2 scissors side by side.',
+          'This protective outer fat layer of a human nose or lung cell carries both the receptor latch and the molecular scissors that the coronavirus tricks into opening a direct tunnel indoors.',
         story:
-          'Guarding a ciliated airway cell, this [[plasma membrane|plasma-membrane]] of [[phospholipids|phospholipid]] and cholesterol accidentally stations both inside-job accomplices right at the front gate: [[ACE2|ace2-real]] handles and TMPRSS2 scissors. The instant TMPRSS2 snips a docked [[Spike|cov-spike-real]], S2’s harpoon stabs these lipids and winches both bubbles open into an express chute to the [[cytosol|cytosol]].',
+          'Guarding the frontier of a ciliated respiratory cell, this [[plasma membrane|plasma-membrane]] woven from [[phospholipids|phospholipid]] and cholesterol unknowingly hosts both accomplices of its own break-in: [[ACE2|ace2-real]] receptors and adjacent TMPRSS2 protease scissors. Once TMPRSS2 snips the docked [[Spike|cov-spike-real]], S2’s harpoon plunges straight into these outer lipids and winches the viral envelope flush until both membranes pop open into a direct chute to the [[cytosol|cytosol]].',
         blueprint: {
           role: 'Apical respiratory epithelial lipid bilayer hosting ACE2/TMPRSS2 and undergoing fusion-pore opening',
           arrivesFrom: 'Host lipid biosynthesis in [[smooth ER|smooth-er]] and vesicular delivery from [[Golgi|golgi]]',
@@ -845,9 +845,9 @@ export const ENVELOPED_VIRUS_PART_LENSES: PagePartLensMap = {
       es: {
         subtitle: 'La muralla fronteriza respiratoria vulnerada',
         simple:
-          'Como una muralla que deja fuera tanto la cerradura como la cizalla, esta membrana respiratoria humana reúne juntos el receptor ACE2 y las tijeras TMPRSS2.',
+          'Esta capa grasa externa de una célula nasal o pulmonar aloja tanto el picaporte como las tijeras moleculares que el coronavirus engaña para abrir un túnel directo hacia el interior.',
         story:
-          'Defendiendo la frontera epitelial, esta [[membrana plasmática|plasma-membrane]] de [[fosfolípidos|phospholipid]] y colesterol coloca sin querer en la misma puerta a los dos cómplices del golpe: el picaporte [[ACE2|ace2-real]] y las tijeras TMPRSS2. Apenas TMPRSS2 corta la [[Espiga|cov-spike-real]] anclada, el arpón S2 perfora estos lípidos y funde ambas burbujas abriendo un tobogán directo al [[citosol|cytosol]].',
+          'Custodiando la frontera de una célula epitelial respiratoria, esta [[membrana plasmática|plasma-membrane]] tejida con [[fosfolípidos|phospholipid]] y colesterol alberga sin saberlo a los dos cómplices de su propio asalto: los receptores [[ACE2|ace2-real]] y las tijeras vecinas TMPRSS2. Apenas TMPRSS2 corta la [[Espiga|cov-spike-real]] acoplada, el arpón S2 se clava en estos lípidos y tracciona la burbuja viral hasta abrir un tobogán directo hacia el [[citosol|cytosol]].',
         blueprint: {
           role: 'Bicapa lipídica epitelial respiratoria apical que aloja ACE2/TMPRSS2 y sufre apertura de poro de fusión',
           arrivesFrom: 'Biosíntesis lipídica en el [[RE liso|smooth-er]] y tráfico vesicular desde el [[Golgi|golgi]]',
@@ -871,9 +871,9 @@ export const ENVELOPED_VIRUS_PART_LENSES: PagePartLensMap = {
       en: {
         subtitle: 'The Twin-Pole Viral Printing Press',
         simple:
-          'Built on the spot inside secret Batcave vesicles, this viral Xerox machine grips two tightrope guide poles—and pairs with a Backspace proofreader—to clone 30,000 letters fast.',
+          'Built on the spot from the virus’s own instructions, this rapid-fire RNA copying machine uses two long protein guide rails to duplicate the 30,000-letter genome without losing its grip.',
         story:
-          'Zero copies of this press ride inside the incoming virion—duped host [[ribosomes|ribosome]] build it from scratch minutes after [[viral RNA|rna]] arrives! Tucked inside Batcave-style [[rough ER|rough-er]] bunkers, nsp12 grips twin nsp8 tightrope poles ([[RdRp complex|cov-rdrp-real]]) and teams with ExoN’s Backspace proofreader to print full genomes plus short orders for new [[Spike clubs|cov-spike-real]].',
+          'Not a single copy of this printing press rides inside the incoming virion—host [[ribosomes|ribosome]] get duped into building it fresh minutes after the [[viral RNA|rna]] lands indoors. Sheltered inside double-walled [[rough ER|rough-er]] bunkers, catalytic nsp12 clamps onto twin α-helical nsp8 sliding poles ([[RdRp complex|cov-rdrp-real]]) and guzzles cellular nucleotides, churning out full-length genomes alongside short mRNA orders for fresh [[Spike clubs|cov-spike-real]].',
         blueprint: {
           role: 'High-processivity RNA-dependent RNA polymerase holoenzyme driving replication and transcription',
           arrivesFrom: 'Translated de novo by host [[ribosomes|ribosome]] from ORF1ab and cleaved by viral Mpro',
@@ -895,9 +895,9 @@ export const ENVELOPED_VIRUS_PART_LENSES: PagePartLensMap = {
       es: {
         subtitle: 'La imprenta viral de doble pértiga',
         simple:
-          'Armada en el acto dentro de búnkeres tipo Baticueva, esta fotocopiadora viral usa dos pértigas guía y un corrector «Retroceso» para clonar 30.000 letras sin fallar.',
+          'Construida en el acto siguiendo las propias instrucciones del virus, esta veloz copiadora de ARN usa dos largos rieles proteicos para duplicar el genoma de 30.000 letras sin soltar la pista.',
         story:
-          'Ni una copia de esta imprenta viaja en el virión: los [[ribosomas|ribosome]] engañados la construyen desde cero minutos después de entrar el [[ARN viral|rna]]. Escondida en búnkeres tipo Baticueva del [[RE rugoso|rough-er]], la polimerasa sujeta dos pértigas nsp8 ([[complejo RdRp|cov-rdrp-real]]) junto al corrector ExoN para estampar genomas íntegros y encargos de nuevas [[mazas de Espiga|cov-spike-real]].',
+          'Ni una sola copia de esta imprenta viaja dentro del virión entrante: los propios [[ribosomas|ribosome]] humanos son engañados para fabricarla minutos después de que aterrice el [[ARN viral|rna]]. Oculta en búnkeres de doble membrana tallados en el [[RE rugoso|rough-er]], la polimerasa nsp12 sujeta dos largas pértigas deslizantes nsp8 ([[complejo RdRp|cov-rdrp-real]]) y devora nucleótidos celulares para imprimir genomas completos y recetas cortas de nuevas [[mazas de Espiga|cov-spike-real]].',
         blueprint: {
           role: 'Holoenzima ARN polimerasa dependiente de ARN de alta procesividad para replicación y transcripción',
           arrivesFrom: 'Traducida de novo por [[ribosomas|ribosome]] humanos desde ORF1ab y liberada por Mpro viral',
@@ -923,9 +923,9 @@ export const ENVELOPED_VIRUS_PART_LENSES: PagePartLensMap = {
       en: {
         subtitle: 'The Sparse Sugar-Armored Two-Factor Lockpick',
         simple:
-          'Barely fourteen Predator-cloaked Env spikes dot the whole HIV sphere—dodging two-armed antibodies until each unlocks a two-key Ocean’s Eleven latch on a helper T-cell.',
+          'Only about fourteen of these sugar-coated spikes dot the entire HIV surface—spaced wide apart to dodge antibodies—and each one must unlock two separate T-cell receptors in order before fusing membranes.',
         story:
-          'Half of every [[Env trimer|hiv-env-real]] is [[Golgi|golgi]]-forged Predator sugar camouflage, and HIV spaces barely fourteen copies wide apart so two-armed antibodies can’t grab a pair. Brushing a T-cell [[plasma membrane|plasma-membrane]], gp120 turns key one (CD4) to expose a hidden loop for key two ([[CCR5 or CXCR4 coreceptor|gpcr]]), firing gp41’s harpoon to slip the [[stealth cone|real-hiv-cone]] indoors.',
+          'Half of each mushroom-shaped [[Env trimer|hiv-env-real]] is pure [[Golgi|golgi]]-grafted sugar camouflage, and HIV plants scarcely fourteen copies per virion so two-armed antibodies almost never snag two at once. Touching a helper T-cell’s [[plasma membrane|plasma-membrane]], outer gp120 clicks onto CD4 first, popping out a hidden V3 loop to grab a [[CCR5 or CXCR4 coreceptor|gpcr]] second—cocking gp41 to snap into a six-helix bundle that fuses both membranes and slips the [[stealth cone|real-hiv-cone]] indoors.',
         blueprint: {
           role: 'Sparse glycan-shielded (gp120)₃(gp41)₃ heterotrimer executing two-factor T-cell membrane fusion',
           arrivesFrom: 'gp160 cleaved by furin and armored with ~88 glycans in host [[Golgi|golgi]], captured by [[Matrix|hiv-ma-real]]',
@@ -947,9 +947,9 @@ export const ENVELOPED_VIRUS_PART_LENSES: PagePartLensMap = {
       es: {
         subtitle: 'La ganzúa escasa de doble factor blindada con azúcar',
         simple:
-          'Apenas catorce espigas Env con camuflaje estilo Depredador salpican todo el VIH, burlando anticuerpos hasta abrir en dos pasos tipo Ocean’s Eleven la cerradura del linfocito T.',
+          'Apenas unas catorce de estas espigas cubiertas de azúcar salpican todo el VIH —muy separadas para burlar anticuerpos— y cada una debe abrir en orden dos cerraduras del linfocito T antes de fundir membranas.',
         story:
-          'La mitad de cada [[trímero Env|hiv-env-real]] es camuflaje de azúcares del [[Golgi|golgi]] digno de Depredador, con apenas catorce copias muy separadas para que ningún anticuerpo atrape dos juntas. Al tocar la [[membrana plasmática|plasma-membrane]] T, gp120 gira la primera llave (CD4), saca el bucle V3 hacia el [[correceptor CCR5 o CXCR4|gpcr]] y dispara gp41 para infiltrar el [[cono furtivo|real-hiv-cone]].',
+          'La mitad de cada [[trímero Env|hiv-env-real]] es puro camuflaje de azúcares injertados en el [[Golgi|golgi]], y el VIH planta apenas catorce copias por virión para que los anticuerpos de dos brazos casi nunca atrapen dos a la vez. Al rozar la [[membrana plasmática|plasma-membrane]] de un linfocito T, su corona gp120 abre primero CD4 y despliega el bucle oculto V3 para enganchar un [[correceptor CCR5 o CXCR4|gpcr]], disparando el resorte gp41 que funde ambas burbujas e infiltra el [[cono furtivo|real-hiv-cone]].',
         blueprint: {
           role: 'Heterotrímero disperso (gp120)₃(gp41)₃ blindado con glicanos para fusión de doble factor en células T',
           arrivesFrom: 'Precursor gp160 escindido por furina con ~88 glicanos en el [[Golgi|golgi]], capturado por [[Matriz|hiv-ma-real]]',
@@ -973,9 +973,9 @@ export const ENVELOPED_VIRUS_PART_LENSES: PagePartLensMap = {
       en: {
         subtitle: 'The Stiff Cholesterol-Raft Cloak',
         simple:
-          'Stolen straight off a helper T-cell like a Stormtrooper disguise in Star Wars, this cholesterol-stiffened fat cloak wears genuine human "don’t-shoot-me" badges.',
+          'Pinched straight off the outer surface of a dying immune cell, this stiff, cholesterol-packed fat bubble disguises HIV as native human tissue while anchoring its sparse fusion spikes.',
         story:
-          'Unlike indoor-budding coronaviruses, HIV lifts its [[lipid cloak|phospholipid]] straight off armored [[cholesterol|cholesterol]] rafts on the T-cell [[plasma membrane|plasma-membrane]], hand-picked from below by [[p17 Matrix|hiv-ma-real]]. Wearing stolen human ID badges alongside sparse [[Env spikes|hiv-env-real]], the virion strolls past immune patrols like Han and Luke in Stormtrooper armor until it fuses into its next T-cell.',
+          'Unlike coronaviruses that bud from indoor compartments, HIV steals its outer [[lipid cloak|phospholipid]] straight from armored [[cholesterol|cholesterol]] rafts on the T-cell [[plasma membrane|plasma-membrane]]—selected from underneath by greasy fingers on [[p17 Matrix|hiv-ma-real]]. Because the stolen membrane carries genuine host "don’t-attack-me" surface badges alongside sparse [[Env spikes|hiv-env-real]], the virion drifts past complement patrols like a wolf wearing an immune officer’s uniform until it fuses seamlessly into its next T-cell target.',
         blueprint: {
           role: 'Cholesterol- and sphingolipid-enriched host raft envelope cloaking the core and mediating neutral-pH fusion',
           arrivesFrom: 'ESCRT-scissioned lipid-raft microdomains of an infected T-cell [[plasma membrane|plasma-membrane]]',
@@ -997,9 +997,9 @@ export const ENVELOPED_VIRUS_PART_LENSES: PagePartLensMap = {
       es: {
         subtitle: 'El rígido manto de balsa de colesterol',
         simple:
-          'Robada directamente de un linfocito T como un disfraz de soldado imperial en Star Wars, esta burbuja rica en colesterol luce credenciales humanas reales de «no disparar».',
+          'Recortada directamente de la superficie externa de un linfocito infectado, esta burbuja grasa rica en colesterol disfraza al VIH de tejido humano propio mientras sostiene sus escasas espigas.',
         story:
-          'A diferencia de los coronavirus internos, el VIH recorta su [[manto de fosfolípidos|phospholipid]] de balsas blindadas de [[colesterol|cholesterol]] en la [[membrana plasmática|plasma-membrane]] del linfocito, elegidas abajo por la [[Matriz p17|hiv-ma-real]]. Con insignias humanas robadas y contadas [[espigas Env|hiv-env-real]], desfila ante las patrullas como Han y Luke disfrazados de soldados imperiales hasta asaltar otra célula T.',
+          'A diferencia de los coronavirus que brotan de compartimentos internos, el VIH roba su [[manto de fosfolípidos|phospholipid]] directamente de balsas acorazadas de [[colesterol|cholesterol]] en la [[membrana plasmática|plasma-membrane]] del linfocito T, elegidas desde abajo por los dedos grasos de la [[Matriz p17|hiv-ma-real]]. Como ese abrigo arrastra credenciales humanas legítimas junto a sus contadas [[espigas Env|hiv-env-real]], el virión cruza la sangre como un infiltrado con uniforme oficial hasta fundirse con su siguiente víctima.',
         blueprint: {
           role: 'Envoltura de balsa lipídica rica en colesterol y esfingolípidos que camufla el núcleo y funde a pH neutro',
           arrivesFrom: 'Microdominios de balsa escindidos por ESCRT de la [[membrana plasmática|plasma-membrane]] de una célula T',
@@ -1023,9 +1023,9 @@ export const ENVELOPED_VIRUS_PART_LENSES: PagePartLensMap = {
       en: {
         subtitle: 'The Myristoyl-Anchored Hull Lining',
         simple:
-          'Plating the inside of HIV’s bubble like triangular Millennium Falcon hull panels, Matrix trimers pop out greasy anchors to pick the getaway raft and pull Env spikes aboard.',
+          'Lining the inner wall of HIV’s fat bubble like triangular hull plates, Matrix proteins use flip-out greasy anchors to pick the right exit patch on the host membrane and pull Env spikes aboard.',
         story:
-          'While HIV is still assembling inside an infected T-cell, [[p17 Matrix|hiv-ma-real]] steers the getaway. Sensing PI(4,5)P₂ [[phospholipids|phospholipid]] under the [[plasma membrane|plasma-membrane]], each triangular trimer snaps out a greasy myristoyl switchblade into the lipid raft while corralling the indoor tails of [[Env spikes|hiv-env-real]]—then steps aside at fusion so the [[stealth cone|real-hiv-cone]] flies free.',
+          'While HIV is still an unfinished polyprotein inside an infected cell, the [[p17 Matrix|hiv-ma-real]] domain acts as its getaway navigator. Touching PI(4,5)P₂ [[phospholipids|phospholipid]] on the inner face of the [[plasma membrane|plasma-membrane]], each triangular trimer pops out a greasy myristoyl claw that locks into the lipid raft while framing hexagonal openings that corral the long indoor tails of [[Env spikes|hiv-env-real]]—then steps aside at fusion so the [[stealth cone|real-hiv-cone]] sails free.',
         blueprint: {
           role: 'Myristoylated inner-leaflet trimer shell directing raft assembly and gp41 tail incorporation',
           arrivesFrom: 'Translated as the N-terminal domain of Gag on cytosolic [[ribosomes|ribosome]], cleaved by viral protease',
@@ -1047,9 +1047,9 @@ export const ENVELOPED_VIRUS_PART_LENSES: PagePartLensMap = {
       es: {
         subtitle: 'El forro del casco con anclas de miristoílo',
         simple:
-          'Forrando la burbuja del VIH como paneles triangulares del Halcón Milenario, la Matriz saca garras grasas para elegir la balsa de escape y embarcar las espigas Env.',
+          'Tapizando por dentro la burbuja del VIH como placas triangulares de un casco, las proteínas de Matriz usan anclas grasas desplegables para elegir el punto exacto de salida y embarcar las espigas Env.',
         story:
-          'Cuando el nuevo VIH aún se ensambla dentro de la célula, la [[Matriz p17|hiv-ma-real]] dirige la fuga. Al detectar [[fosfolípidos|phospholipid]] PI(4,5)P₂ bajo la [[membrana plasmática|plasma-membrane]], cada trímero triangular saca una garra grasa de miristoílo en la balsa lipídica y atrapa las colas internas de las [[espigas Env|hiv-env-real]], apartándose tras la fusión para soltar el [[cono furtivo|real-hiv-cone]].',
+          'Cuando el VIH aún es una cadena sin cortar dentro de la célula infectada, el dominio de [[Matriz p17|hiv-ma-real]] ejerce de navegante de huida. Al tocar [[fosfolípidos|phospholipid]] PI(4,5)P₂ bajo la [[membrana plasmática|plasma-membrane]], cada trímero triangular despliega una garra grasa de miristoílo que se clava en la balsa lipídica mientras forma aros que atrapan las largas colas internas de las [[espigas Env|hiv-env-real]], apartándose luego tras la fusión para soltar el [[cono furtivo|real-hiv-cone]].',
         blueprint: {
           role: 'Corteza trimérica miristoilada de la hoja interna que guía la gemación y captura colas gp41',
           arrivesFrom: 'Extremo N-terminal de Gag traducido en [[ribosomas|ribosome]] citosólicos y escindido por proteasa viral',
@@ -1073,9 +1073,9 @@ export const ENVELOPED_VIRUS_PART_LENSES: PagePartLensMap = {
       en: {
         subtitle: 'The Armored Hexamer Vault & Fuel Valve',
         simple:
-          'Over two hundred Beskar-like p24 hexamers build HIV’s smuggling pod—hiding viral genes from cytosolic alarms all the way into the nucleus while sucking in DNA bricks through micro-irises.',
+          'Over two hundred six-sided p24 plates build the curved body of HIV’s stealth cone—hiding the viral genome from cytosolic alarms all the way into the nucleus while vacuuming DNA letters through central pinholes.',
         story:
-          'Dropped into a T-cell cytosol bristling with DNA tripwires, ~216 [[p24 hexamers|hiv-ca-hex-real]] keep the Trojan Horse completely dark. Surfing [[microtubules|microtubule]] and charming [[nuclear pore|nuclear-pore]] guards into waving the whole pod inside intact, each plate’s Iron Man micro-iris vacuums host [[nucleotides|nucleotide]] inward to feed [[Reverse Transcriptase|hiv-rt-real]] behind locked doors.',
+          'Once membrane fusion drops the core into a hostile T-cell cytosol crawling with DNA-sensing alarms, ~216 [[p24 hexamers|hiv-ca-hex-real]] keep the heist completely dark. Surfing [[microtubules|microtubule]] and charming [[nuclear pore|nuclear-pore]] gatekeepers into letting the entire cone squeeze indoors intact, each hexamer’s positively charged central iris sucks host [[nucleotides|nucleotide]] inside to feed [[Reverse Transcriptase|hiv-rt-real]] without ever opening the safe.',
         blueprint: {
           role: 'Curved hexagonal fullerene armor (~216 hexamers) cloaking reverse transcription and transiting the NPC',
           arrivesFrom: 'Self-assembled inside maturing virions after viral protease liberates p24 CA from Gag',
@@ -1097,9 +1097,9 @@ export const ENVELOPED_VIRUS_PART_LENSES: PagePartLensMap = {
       es: {
         subtitle: 'La bóveda hexamérica blindada y válvula de combustible',
         simple:
-          'Más de doscientos hexámeros p24 tipo beskar arman la cápsula contrabandista del VIH: ocultan el genoma hasta cruzar al núcleo mientras aspiran letras de ADN por microiris.',
+          'Más de doscientas placas hexagonales p24 forman el cuerpo curvo del cono furtivo del VIH, ocultando el genoma frente a las alarmas celulares hasta entrar al núcleo mientras aspiran letras de ADN por poros centrales.',
         story:
-          'Al caer en un citosol lleno de sensores láser, ~216 [[hexámeros p24|hiv-ca-hex-real]] mantienen el Caballo de Troya en sigilo total. Viajando por [[microtúbulos|microtubule]] y embaucando a los guardias del [[poro nuclear|nuclear-pore]] para entrar sin abrirse, el microiris estilo Iron Man de cada placa aspira [[nucleótidos|nucleotide]] celulares para cebar a la [[Transcriptasa Inversa|hiv-rt-real]] bajo llave.',
+          'En cuanto la fusión deposita el núcleo viral en un citosol plagado de sensores inmunes, ~216 [[hexámeros p24|hiv-ca-hex-real]] mantienen el golpe en secreto absoluto. Deslizándose por [[microtúbulos|microtubule]] y persuadiendo a los guardianes del [[poro nuclear|nuclear-pore]] para dejar pasar el cono entero sin desmontar, el iris positivo en el centro de cada hexámero aspira [[nucleótidos|nucleotide]] celulares para alimentar a la [[Transcriptasa Inversa|hiv-rt-real]] a puerta cerrada.',
         blueprint: {
           role: 'Blindaje hexagonal curvo de fullereno (~216 hexámeros) que oculta la retrotranscripción y cruza el poro nuclear',
           arrivesFrom: 'Autoensamblado dentro del virión en maduración cuando la proteasa viral libera p24 CA de Gag',
@@ -1123,9 +1123,9 @@ export const ENVELOPED_VIRUS_PART_LENSES: PagePartLensMap = {
       en: {
         subtitle: 'Euler’s Twelve Cornerstones of the Cone',
         simple:
-          'Like the twelve pentagons that curve a soccer ball shut, five p24 pentamers sharpen HIV’s narrow nosecone for nuclear-pore entry while seven seal its wide rear dome.',
+          'Pure hexagons can roll into a tube but can never seal into a closed capsule; HIV places five of these pentagons at the narrow nose and seven at the wide rear to lock its stealth cone shut.',
         story:
-          'Euler’s geometry binds every vault builder: closing a mesh of [[six-sided hexamers|hiv-ca-hex-real]] takes exactly twelve pentagons. Placing five [[p24 pentamers|hiv-ca-pent-real]] up front sculpts a 16-nanometer Starfighter nosecone that slots straight into a [[nuclear pore|nuclear-pore]], popping its seams only after fresh DNA pressure bursts the pod inside the [[nucleus|nucleus]].',
+          'Geometry sets an unbreakable rule for every polyhedral safe-maker: closing a sheet of [[six-sided hexamers|hiv-ca-hex-real]] requires exactly twelve five-sided corners. By clustering five [[p24 pentamers|hiv-ca-pent-real]] at one end and seven at the other, HIV sculpts a tapered nose narrow enough (~16 nm) to nose-dive straight into the central channel of a [[nuclear pore|nuclear-pore]], bursting open only after internal DNA pressure pops its seams inside the [[nucleus|nucleus]].',
         blueprint: {
           role: 'Twelve five-fold vertex disclinations sealing the fullerene cone and shaping its tapered nuclear-entry tip',
           arrivesFrom: 'Quasi-equivalent five-fold switching of identical 231-aa p24 CA subunits during core condensation',
@@ -1147,9 +1147,9 @@ export const ENVELOPED_VIRUS_PART_LENSES: PagePartLensMap = {
       es: {
         subtitle: 'Las doce piedras angulares de Euler',
         simple:
-          'Igual que los doce pentágonos de un balón de fútbol, cinco pentámeros p24 afilan el morro del cono para cruzar el poro nuclear mientras siete cierran su popa ancha.',
+          'Los hexágonos puros pueden enrollarse en un tubo pero jamás cerrar una cápsula: el VIH coloca cinco de estos pentágonos en la punta estrecha y siete en la cúpula ancha para sellar su cono furtivo.',
         story:
-          'La ley de Euler manda en toda cámara acorazada: cerrar una red de [[hexágonos de seis lados|hiv-ca-hex-real]] exige doce pentágonos exactos. Con cinco [[pentámeros p24|hiv-ca-pent-real]] delante, el VIH afila un morro de caza estelar (~16 nm) que entra de punta por el [[poro nuclear|nuclear-pore]], reventando sus costuras recién cuando el nuevo ADN empuja dentro del [[núcleo|nucleus]].',
+          'La geometría dicta una ley inquebrantable a todo fabricante de cajas fuertes: cerrar una malla de [[hexámeros de seis lados|hiv-ca-hex-real]] exige exactamente doce esquinas de cinco lados. Agrupando cinco [[pentámeros p24|hiv-ca-pent-real]] en un extremo y siete en el opuesto, el VIH esculpe una proa afilada (~16 nm) que encaja de punta en el canal central del [[poro nuclear|nuclear-pore]], abriéndose por sus costuras recién cuando la presión del ADN terminado la rompe dentro del [[núcleo|nucleus]].',
         blueprint: {
           role: 'Doce vértices pentagonales que cierran el cono de fullereno y afilan su proa de entrada nuclear',
           arrivesFrom: 'Conmutación cuasi-equivalente pentagonal de las mismas subunidades p24 CA durante la maduración',
@@ -1173,9 +1173,9 @@ export const ENVELOPED_VIRUS_PART_LENSES: PagePartLensMap = {
       en: {
         subtitle: 'The Twin Backup Scrolls Inside the Safe',
         simple:
-          'Like carrying two backup hard drives linked by a secret handshake, HIV packs twin RNA scrolls so its copying enzyme can jump tracks around damage and remix mutations on the fly.',
+          'Uniquely among viruses, HIV packs two complete copies of its RNA code kissed together at one end—letting its copying enzyme jump tracks if one strand breaks while shuffling mutations on the fly.',
         story:
-          'Every [[HIV-1 stealth cone|real-hiv-cone]] packs RAID-1 redundancy: twin 9,719-letter [[(+)ssRNA scrolls|rna]] joined by a kissing-loop clasp and primed with a stolen human [[tRNA|trna]]. As [[Reverse Transcriptase|hiv-rt-real]] rewrites them backward into [[DNA|dna]], it leaps freely between both tracks like a stunt train—dodging breaks and blending two parent strains into drug-resistant hybrids.',
+          'Every [[HIV-1 stealth cone|real-hiv-cone]] is pseudodiploid: inside ride two 9,719-letter [[(+)ssRNA scrolls|rna]] linked by a "kissing-loop" handshake, draped in zinc-knuckle NCp7 chaperones, and pre-primed with a stolen human [[tRNA|trna]] starter tab. As [[Reverse Transcriptase|hiv-rt-real]] copies them backward into [[DNA|dna]] and shreds the RNA behind itself, it hops freely between the twin scrolls—patching nicked templates and blending two parent viruses into brand-new drug-resistant hybrids.',
         blueprint: {
           role: 'Dimeric 9.7 kb (+)ssRNA genome complexed with NCp7 and tRNA^Lys3 primer for recombinogenic RT synthesis',
           arrivesFrom: 'Transcribed by host [[RNA Polymerase II|pol-ii]] from integrated provirus and selected via Ψ packaging hairpins',
@@ -1197,9 +1197,9 @@ export const ENVELOPED_VIRUS_PART_LENSES: PagePartLensMap = {
       es: {
         subtitle: 'Los dos pergaminos gemelos dentro de la caja fuerte',
         simple:
-          'Como llevar dos discos duros de respaldo unidos de la mano, el VIH guarda dos pergaminos gemelos de ARN para saltar de vía si uno se rompe y mezclar mutaciones en marcha.',
+          'Caso único entre los virus, el VIH guarda dos copias completas de su ARN unidas por un extremo, permitiendo que su enzima copiadora salte de vía si una hebra se rompe y mezcle mutaciones sobre la marcha.',
         story:
-          'Cada [[cono furtivo del VIH-1|real-hiv-cone]] viaja con respaldo doble: dos [[pergaminos de ARNmc(+)|rna]] de 9.719 letras unidos por un «bucle de beso» y cebados con un [[ARNt|trna]] humano robado. Mientras la [[Transcriptasa Inversa|hiv-rt-real]] los pasa hacia atrás a [[ADN|dna]], salta de una vía a otra como en una persecución de cine, salvando cortes y mezclando linajes en híbridos resistentes.',
+          'Cada [[cono furtivo del VIH-1|real-hiv-cone]] viaja con respaldo doble: dentro van dos [[pergaminos de ARNmc(+)|rna]] de 9.719 letras enlazados por un «bucle de beso», arropados por proteínas NCp7 con dedos de zinc y cebados con un [[ARNt|trna]] humano robado como pestaña de arranque. Mientras la [[Transcriptasa Inversa|hiv-rt-real]] los copia hacia atrás en [[ADN|dna]] y destruye el ARN leído, salta de un pergamino al otro reparando roturas y combinando dos linajes en híbridos resistentes.',
         blueprint: {
           role: 'Genoma dimérico de ARNmc(+) de 9,7 kb recubierto por NCp7 y cebado por tRNA^Lys3 para retrotranscripción',
           arrivesFrom: 'Transcrito por la [[ARN Polimerasa II|pol-ii]] humana desde el provirus y seleccionado por señales Ψ',
@@ -1223,9 +1223,9 @@ export const ENVELOPED_VIRUS_PART_LENSES: PagePartLensMap = {
       en: {
         subtitle: 'The Backward-Writing Master Forger',
         simple:
-          'Locked inside the traveling stealth cone, this Tenet-style backward scribe turns viral RNA into DNA while shredding the RNA original—with sloppy typos that help HIV dodge drugs.',
+          'Sealed inside the traveling cone, Reverse Transcriptase reads viral RNA backward into double-stranded DNA while shredding the RNA original—making sloppy typos that help HIV outsmart medicines.',
         story:
-          'Fed by nucleotides sucked through [[capsid hexamer pores|hiv-ca-hex-real]], Tenet-like [[Reverse Transcriptase|hiv-rt-real]] runs genetics backward en route to the nucleus. Its p66 hand copies twin [[RNA scrolls|rna]] into double-stranded [[DNA|dna]] while its RNase H blade shreds the RNA trail—and with zero Backspace spellcheck, constant typos spawn fresh disguises before handoff to [[Integrase|hiv-in-real]].',
+          'Fed by host nucleotides streaming through the [[capsid hexamer pores|hiv-ca-hex-real]], asymmetric [[Reverse Transcriptase|hiv-rt-real]] rewrites the rules of molecular biology in transit toward the nucleus. Its p66 polymerase hand copies the twin [[RNA scrolls|rna]] into sturdy double-stranded [[DNA|dna]] while its built-in RNase H blade mulches the RNA template behind it—and because it carries zero proofreading brakes, every slight typo breeds fresh viral disguises before handing the finished DNA off to [[Integrase|hiv-in-real]].',
         blueprint: {
           role: 'p66/p51 heterodimeric polymerase + RNase H converting single-stranded viral RNA into linear dsDNA',
           arrivesFrom: 'Cleaved from Gag-Pol (~50–100 copies/virion) inside the sealed [[fullerene cone|real-hiv-cone]]',
@@ -1247,9 +1247,9 @@ export const ENVELOPED_VIRUS_PART_LENSES: PagePartLensMap = {
       es: {
         subtitle: 'El maestro falsificador que escribe hacia atrás',
         simple:
-          'Encerrada en el cono viajero, esta escriba inversa estilo Tenet convierte el ARN viral en ADN mientras tritura el original, dejando erratas que ayudan al VIH a burlar fármacos.',
+          'Encerrada en el cono viajero, la Transcriptasa Inversa reescribe el ARN viral hacia atrás en ADN de doble hebra mientras tritura el ARN original, cometiendo erratas que ayudan al VIH a burlar medicamentos.',
         story:
-          'Cebada con nucleótidos que entran por los [[hexámeros p24|hiv-ca-hex-real]], la [[Transcriptasa Inversa|hiv-rt-real]] rebobina el dogma central al estilo Tenet rumbo al núcleo. Su mano p66 convierte los [[pergaminos de ARN|rna]] en [[ADN|dna]] firme mientras su cuchilla RNasa H borra el molde; sin tecla «Retroceso», cada errata crea nuevos disfraces antes de pasar el relevo a la [[Integrasa|hiv-in-real]].',
+          'Alimentada por nucleótidos celulares que entran por los poros de los [[hexámeros p24|hiv-ca-hex-real]], la [[Transcriptasa Inversa|hiv-rt-real]] invierte el dogma central mientras viaja rumbo al núcleo. Su mano polimerasa p66 copia los [[pergaminos de ARN|rna]] en [[ADN|dna]] resistente mientras su cuchilla trasera RNasa H destruye el molde leído; y como carece de corrector ortográfico, cada errata engendra nuevos disfraces antes de entregar el ADN terminado a la [[Integrasa|hiv-in-real]].',
         blueprint: {
           role: 'Polimerasa + RNasa H heterodimérica p66/p51 que convierte el ARN viral monocatenario en ADNbc lineal',
           arrivesFrom: 'Escindida de Gag-Pol (~50–100 copias/virión) dentro del [[cono cerrado de fullereno|real-hiv-cone]]',
@@ -1273,9 +1273,9 @@ export const ENVELOPED_VIRUS_PART_LENSES: PagePartLensMap = {
       en: {
         subtitle: 'The Permanent Chromosomal Welder',
         simple:
-          'Once the cone reaches the nucleus, Integrase pulls the ultimate Matrix Agent Smith move—snipping open a human chromosome and welding HIV’s DNA permanently into the cell’s own code.',
+          'Once HIV’s stealth cone reaches the cell nucleus, Integrase snips open a busy human chromosome and splices the newly forged viral DNA permanently into the cell’s own genetic blueprint.',
         story:
-          'Slipping through the [[nuclear pore|nuclear-pore]] into the [[nucleus|nucleus]], the heist hits its Matrix Agent Smith finale. Gripping both tips of the newly forged viral [[DNA|dna]], [[Integrase|hiv-in-real]] bares reactive hooks, rides host factor LEDGF/p75 to busy [[chromosomes|chromosome]], and splices the virus in—conning the cell’s own repair crew into sealing HIV into human heredity forever.',
+          'Crossing the [[nuclear pore|nuclear-pore]] and shedding its capsid shell inside the [[nucleus|nucleus]], the heist reaches the point of no return. Clamped onto both ends of the newly written viral [[DNA|dna]], [[Integrase|hiv-in-real]] trims two letters off each 3′ tip, grabs host chromatin reader LEDGF/p75 as a local guide to busy [[chromosomes|chromosome]], and executes a surgical cut-and-weld—tricking the T-cell’s own DNA-repair crew into sealing the virus into human heredity forever.',
         blueprint: {
           role: 'Multimeric DDE polynucleotidyl transferase splicing reverse-transcribed viral DNA into host chromatin',
           arrivesFrom: 'Packaged from Gag-Pol C-terminus and carried through the [[nuclear pore|nuclear-pore]] inside the cone',
@@ -1297,9 +1297,9 @@ export const ENVELOPED_VIRUS_PART_LENSES: PagePartLensMap = {
       es: {
         subtitle: 'El soldador cromosómico permanente',
         simple:
-          'Al llegar al núcleo, la Integrasa ejecuta la jugada definitiva del Agente Smith en Matrix: corta un cromosoma humano y suelda el ADN del VIH para siempre en el código celular.',
+          'Cuando el cono furtivo del VIH llega al núcleo celular, la Integrasa corta un cromosoma humano activo y suelda el ADN viral recién escrito de forma permanente en el libro genético de la célula.',
         story:
-          'Tras cruzar el [[poro nuclear|nuclear-pore]] hacia el [[núcleo|nucleus]], llega el clímax digno del Agente Smith. Aferrada a ambos cabos del nuevo [[ADN|dna]], la [[Integrasa|hiv-in-real]] prepara sus ganchos, sigue al guía humano LEDGF/p75 hasta los [[cromosomas|chromosome]] activos y empalma el código viral, engañando al propio taller reparador humano para sellar la traición de por vida.',
+          'Tras cruzar el [[poro nuclear|nuclear-pore]] y abrir su coraza en pleno [[núcleo|nucleus]], el golpe alcanza el punto sin retorno. Aferrada a los dos extremos del [[ADN|dna]] recién forjado, la [[Integrasa|hiv-in-real]] recorta dos letras de cada punta 3′, toma como guía al factor humano LEDGF/p75 hasta los [[cromosomas|chromosome]] más activos y ejecuta un corte y empalme quirúrgico, engañando al propio equipo reparador de la célula para que selle al virus en la herencia humana de por vida.',
         blueprint: {
           role: 'Polinucleotidil transferasa multimérica DDE que empalma el ADN viral retrotranscrito en la cromatina humana',
           arrivesFrom: 'Liberada del extremo C-terminal de Gag-Pol y transportada por el [[poro nuclear|nuclear-pore]] en el cono',
@@ -1323,9 +1323,9 @@ export const ENVELOPED_VIRUS_PART_LENSES: PagePartLensMap = {
       en: {
         subtitle: 'The Hijacked Immune Commander Turned Sleeper Agent',
         simple:
-          'Like Cells at Work!’s Helper T-Cell Commander getting overwritten by Matrix’s Agent Smith, CD4+ immune generals have their own ID badges used to turn them into lifelong virus factories.',
+          'Helper CD4+ T-cells are the generals of the human immune system—yet HIV uses their signature surface badges to break inside and turn their own chromosomes into permanent virus-printing factories.',
         story:
-          'Imagine the Helper T-Cell Commander from Cells at Work! getting assimilated by Agent Smith: surface CD4 and [[CCR5/CXCR4 coreceptors|gpcr]] unwittingly unlock the door for [[Env spikes|hiv-env-real]], and once [[Integrase|hiv-in-real]] welds proviral [[DNA|dna]] into a chromosome, the general becomes a sleeper agent—hiding silent for years or ordering [[RNA Polymerase II|pol-ii]] to print HIV armies.',
+          'By targeting the very helper T-cell generals meant to coordinate antiviral defense, HIV pulls off biology’s ultimate inside job. Surface CD4 and [[CCR5/CXCR4 coreceptors|gpcr]] in the T-cell plasma membrane unwillingly unlock the front door for [[Env spikes|hiv-env-real]], and once [[Integrase|hiv-in-real]] splices proviral [[DNA|dna]] into a host chromosome, the cell becomes a silent double-agent—lying dormant in memory reservoirs for years or waking its own [[RNA Polymerase II|pol-ii]] to print fresh armies of HIV.',
         blueprint: {
           role: 'Target helper T-lymphocyte entry receptors (CD4 + CCR5/CXCR4) and chromosomal proviral reservoir',
           arrivesFrom: 'Host immune maturation displaying CD4 and [[GPCR coreceptors|gpcr]] on the [[plasma membrane|plasma-membrane]]',
@@ -1347,9 +1347,9 @@ export const ENVELOPED_VIRUS_PART_LENSES: PagePartLensMap = {
       es: {
         subtitle: 'El comandante inmunitario convertido en agente durmiente',
         simple:
-          'Como el Comandante Linfocito T de Cells at Work! sobrescrito por el Agente Smith de Matrix, los generales CD4+ ven sus propias insignias usadas para volverlos fábricas perpetuas de VIH.',
+          'Los linfocitos T CD4+ son los generales de nuestras defensas, pero el VIH usa sus propias insignias superficiales para infiltrarse y convertir sus cromosomas en fábricas permanentes de nuevos virus.',
         story:
-          'Imagina al Comandante T Colaborador de Cells at Work! asimilado por el Agente Smith: sus insignias CD4 y [[CCR5/CXCR4|gpcr]] abren sin querer la puerta a las [[espigas Env|hiv-env-real]], y cuando la [[Integrasa|hiv-in-real]] suelda el [[ADN|dna]] proviral en un cromosoma, el general queda convertido en agente durmiente años enteros o pone a su [[ARN Polimerasa II|pol-ii]] a imprimir ejércitos de VIH.',
+          'Al atacar precisamente a los generales encargados de coordinar la defensa antiviral, el VIH consuma el golpe interno definitivo. Los receptores CD4 y [[CCR5/CXCR4|gpcr]] de la membrana plasmática abren sin querer la puerta a las [[espigas Env|hiv-env-real]], y en cuanto la [[Integrasa|hiv-in-real]] suelda el [[ADN|dna]] proviral en un cromosoma, el linfocito queda convertido en doble agente: puede ocultarse silencioso durante años como célula de memoria o despertar a su propia [[ARN Polimerasa II|pol-ii]] para imprimir ejércitos enteros de VIH.',
         blueprint: {
           role: 'Receptores de entrada del linfocito T colaborador (CD4 + CCR5/CXCR4) y reservorio cromosómico proviral',
           arrivesFrom: 'Maduración inmunitaria que exhibe CD4 y [[correceptores GPCR|gpcr]] en la [[membrana plasmática|plasma-membrane]]',

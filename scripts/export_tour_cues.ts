@@ -71,7 +71,11 @@ function main() {
               fallbackText
             );
             const plainText = stripTourMarkup(rawPersonaText);
-            const speechText = normalizeSpeechText(rawPersonaText, speechLang);
+            const speechSource =
+              lang === 'en' && persona === 'pop' && rawPersonaText === cue.text && cue.say
+                ? cue.say
+                : rawPersonaText;
+            const speechText = normalizeSpeechText(speechSource, speechLang);
 
             let targets: Record<string, string>;
             if (lang === 'en') {

@@ -5,6 +5,7 @@ import {
 } from '../content/types.js';
 import { EUKARYOTE_TOUR_PERSONAS } from './personas_eukaryote.js';
 import { INTRO_TOUR_PERSONAS } from './personas_intro.js';
+import { PERSONAS_PARASITIC_CELLS } from './personas_parasitic_cells.js';
 import { PROKARYOTE_PHAGE_TOUR_PERSONAS } from './personas_prokaryote_phage.js';
 import { VIRUS_TOUR_PERSONAS } from './personas_viruses.js';
 
@@ -29,6 +30,7 @@ export const TOUR_PERSONA_REGISTRY: TourPersonaMap = {
   ...INTRO_TOUR_PERSONAS,
   ...EUKARYOTE_TOUR_PERSONAS,
   ...PROKARYOTE_PHAGE_TOUR_PERSONAS,
+  ...PERSONAS_PARASITIC_CELLS,
   ...VIRUS_TOUR_PERSONAS
 };
 
@@ -61,5 +63,6 @@ export {
   INTRO_TOUR_PERSONAS,
   EUKARYOTE_TOUR_PERSONAS,
   PROKARYOTE_PHAGE_TOUR_PERSONAS,
+  PERSONAS_PARASITIC_CELLS,
   VIRUS_TOUR_PERSONAS
 };

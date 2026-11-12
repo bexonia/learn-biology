@@ -25,6 +25,9 @@ COPY cell_explorer.html \
      plant_cell_realistic.html \
      fungal_cell_realistic.html \
      prokaryote_cell_realistic.html \
+     mycoplasma_realistic.html \
+     chlamydia_realistic.html \
+     rickettsia_realistic.html \
      molecules_preview.html \
      bacteriophage_realistic.html \
      hiv_realistic.html \
@@ -54,6 +57,8 @@ ADD audio.tar.gz \
     audio_lenses_es_spain_sci.tar.gz \
     audio_stage0_en.tar.gz \
     audio_stage0_es.tar.gz \
+    audio_stage3_en.tar.gz \
+    audio_stage3_es.tar.gz \
     /usr/share/nginx/html/
 COPY --from=builder /app/dist/ /usr/share/nginx/html/dist/
 COPY --from=builder /app/dist/server.js /app/server.js

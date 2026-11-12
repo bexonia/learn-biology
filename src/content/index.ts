@@ -11,6 +11,10 @@ import {
   ENVELOPED_VIRUS_NODE_LENSES,
   ENVELOPED_VIRUS_PART_LENSES
 } from './lenses_enveloped_viruses.js';
+import {
+  PARASITIC_CELLS_NODE_LENSES,
+  PARASITIC_CELLS_PART_LENSES
+} from './lenses_parasitic_cells.js';
 
 registerNodeLenses(INTRO_NODE_LENSES);
 registerNodeLenses(ANIMAL_NODE_LENSES);
@@ -18,12 +22,14 @@ registerNodeLenses(PLANT_FUNGAL_NODE_LENSES);
 registerNodeLenses(PROKARYOTE_NODE_LENSES);
 registerNodeLenses(PHAGE_DNA_VIRUS_NODE_LENSES);
 registerNodeLenses(ENVELOPED_VIRUS_NODE_LENSES);
+registerNodeLenses(PARASITIC_CELLS_NODE_LENSES);
 
 registerPartLenses(ANIMAL_PART_LENSES);
 registerPartLenses(PLANT_FUNGAL_PART_LENSES);
 registerPartLenses(PROKARYOTE_PART_LENSES);
 registerPartLenses(PHAGE_DNA_VIRUS_PART_LENSES);
 registerPartLenses(ENVELOPED_VIRUS_PART_LENSES);
+registerPartLenses(PARASITIC_CELLS_PART_LENSES);
 
 export * from './types.js';
 export * from './parser.js';
@@ -39,5 +45,7 @@ export {
   PHAGE_DNA_VIRUS_NODE_LENSES,
   PHAGE_DNA_VIRUS_PART_LENSES,
   ENVELOPED_VIRUS_NODE_LENSES,
-  ENVELOPED_VIRUS_PART_LENSES
+  ENVELOPED_VIRUS_PART_LENSES,
+  PARASITIC_CELLS_NODE_LENSES,
+  PARASITIC_CELLS_PART_LENSES
 };

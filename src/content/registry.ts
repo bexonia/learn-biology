@@ -22,6 +22,11 @@ export const STANDALONE_PAGE_PART_KEYS: Record<string, readonly string[]> = {
     'capsid', 'soc', 'vertex', 'dna', 'core', 'portal', 'collar', 'sheath', 'tube',
     'baseplate', 'stf', 'needle', 'ltf', 'om', 'porin', 'pg', 'im', 'rnap', 'ribosome'
   ],
+  'chlamydia_realistic.html': [
+    'inclusion', 'inc', 'golgi_lip', 'host_cyto', 'eb_om', 'momp', 'eb_dna', 't3ss',
+    'tarP', 'rb_om', 'rb_im', 'septum', 'mreb', 'npt1', 'npt2', 'rb_dna', 'rnap',
+    'mrna', 'ribosome', 'glycogen'
+  ],
   'coronavirus_realistic.html': [
     'spike', 'membrane', 'mprot', 'echan', 'ncap', 'rna', 'ace2', 'hostmem', 'rdrp'
   ],
@@ -33,6 +38,10 @@ export const STANDALONE_PAGE_PART_KEYS: Record<string, readonly string[]> = {
   'hiv_realistic.html': [
     'env', 'membrane', 'ma', 'capsid', 'pentamer', 'rna', 'rt', 'int', 'cd4'
   ],
+  'mycoplasma_realistic.html': [
+    'membrane', 'sterol', 'lipo', 'nap', 'sialo', 'cilium', 'button', 'rod', 'wheel',
+    'gliding', 'dna', 'hu', 'fork', 'rnap', 'mrna', 'ribosome', 'import', 'glycolysis'
+  ],
   'plant_cell_realistic.html': [
     'wall', 'membrane', 'pd', 'vacuole', 'strand', 'nucleus', 'chromatin', 'mrna',
     'nucleolus', 'rrna', 'nucleoplasm', 'chloro', 'thyl', 'starch', 'psii', 'psi',
@@ -42,6 +51,10 @@ export const STANDALONE_PAGE_PART_KEYS: Record<string, readonly string[]> = {
   'prokaryote_cell_realistic.html': [
     'om', 'porin', 'pump', 'pg', 'im', 'etc', 'atps', 'transport', 'flag', 'pili',
     'chemo', 'mreb', 'dna', 'hu', 'fork', 'rnap', 'mrna', 'ribosome', 'trna', 'cyto', 'glycogen'
+  ],
+  'rickettsia_realistic.html': [
+    'slime', 'om', 'omp', 'pg', 'im', 'tlc1', 'etc', 'atps', 't4ss', 'pld', 'dna',
+    'rnap', 'ribosome', 'sca2', 'comet', 'g_actin', 'host_mito', 'host_mem'
   ],
   'tmv_realistic.html': ['coat', 'disc', 'rna', 'channel', 'ribo', 'mp']
 };

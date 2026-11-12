@@ -3522,7 +3522,7 @@ function buildParasiticPreview() {
     mycoDna.userData.part = 'dna'; myco.add(mycoDna);
     add70SRibosomePairs(myco, 30, () => V(rr(-.85, .85), rr(-1.25, .35), rr(-.65, .45)), 1.05);
 
-    mk = tagFrom(g, mk, 'phospholipid');
+    mk = tagFrom(g, mk, 'real-mycoplasma');
   }
 
   // 2. Center (x = 0): Chlamydia trachomatis (EB & RB inside host inclusion vacuole stealing ATP)
@@ -3597,7 +3597,7 @@ function buildParasiticPreview() {
     };
     chlam.userData.tick(0);
 
-    mk = tagFrom(g, mk, 'atp-synthase');
+    mk = tagFrom(g, mk, 'real-chlamydia');
   }
 
   // 3. Right (x = +10.5): Rickettsia prowazekii (cytosolic ATP thief + actin comet tail) beside Host Mitochondrion
@@ -3668,15 +3668,15 @@ function buildParasiticPreview() {
     mitoBuilt.group.rotation.set(.18, -.25, .28);
     rickWrap.add(mitoBuilt.group);
 
-    mk = tagFrom(g, mk, 'mitochondrion');
+    mk = tagFrom(g, mk, 'real-rickettsia');
   }
 
   an.push(
-    A(V(-10.5, 3.8, 1.2), 'Mycoplasma genitalium (~300 nm wall-less minimal cell, 580 kbp dsDNA)', 'phospholipid'),
+    A(V(-10.5, 3.8, 1.2), 'Mycoplasma genitalium (~300 nm wall-less minimal cell, 580 kbp dsDNA)', 'real-mycoplasma'),
     A(V(-10.5, -3.7, 1.2), 'Circular double-stranded DNA genome (0.58–1.11 Mbp)', 'dna'),
-    A(V(0, 4.1, 1.4), 'Chlamydia trachomatis (EB & RB inside host inclusion stealing ATP)', 'atp-synthase'),
+    A(V(0, 4.1, 1.4), 'Chlamydia trachomatis (EB & RB inside host inclusion stealing ATP)', 'real-chlamydia'),
     A(V(0, -3.9, 1.4), '70S bacterial ribosomes (builds its own proteins, unlike viruses)', 'ribosome-70s'),
-    A(V(10.5, 3.8, 1.2), 'Rickettsia prowazekii (cytosolic ATP thief & cousin of mitochondria)', 'mitochondrion'),
+    A(V(10.5, 3.8, 1.2), 'Rickettsia prowazekii (cytosolic ATP thief & cousin of mitochondria)', 'real-rickettsia'),
     A(V(10.5, -3.7, 1.2), 'Compare with autonomous free-living E. coli', 'real-bacterium'),
   );
   return finalize(g, an, 16.5);
@@ -4482,8 +4482,142 @@ const NODES = {
   'atom-o': { name: 'Oxygen atom', scale: '~0.15 nm', b: () => buildAtom('O'), children: [], desc: '8 protons, 8 neutrons, 8 electrons (2 + 6). It pulls electrons strongly, which makes water and many biomolecules polar.' },
   'atom-p': { name: 'Phosphorus atom', scale: '~0.2 nm', b: () => buildAtom('P'), children: [], desc: '15 protons, 16 neutrons, 15 electrons (2 + 8 + 5). The centre of phosphate groups in DNA, RNA, ATP and membrane lipids.' },
   'parasitic-cells-overview': { name: 'Parasitic & minimal cells (comparative preview)', scale: '300 nm – 1.1 µm', b: buildParasiticPreview,
-    children: ['real-bacterium', 'mitochondrion', 'ribosome-70s', 'atp-synthase', 'dna', 'nucleotide', 'phospholipid', 'peptidoglycan'],
+    children: ['real-mycoplasma', 'real-chlamydia', 'real-rickettsia', 'real-bacterium', 'mitochondrion', 'ribosome-70s', 'atp-synthase', 'dna', 'nucleotide', 'phospholipid', 'peptidoglycan'],
     desc: 'Between autonomous free-living bacteria (like E. coli) and non-living viruses sits a crucial biological tier: minimal and obligate intracellular bacteria — Mycoplasma genitalium, Chlamydia trachomatis and Rickettsia prowazekii. Unlike viruses, every one of these organisms is a true living cell enclosed by a lipid membrane with its own double-stranded DNA chromosome (0.58–1.11 Mbp) and its own 70S ribosomes that translate mRNA into protein. Yet evolution inside nutrient-rich hosts stripped away their biosynthetic and energy pathways: Mycoplasma shed its peptidoglycan wall and shrank to ~482 genes, while Chlamydia and Rickettsia use Npt1/Tlc1 ATP/ADP translocases to steal ready-made ATP directly from the host cell.' },
+  // Stage 3.1: Realistic Mycoplasma genitalium (mycoplasma_realistic.html)
+  'real-mycoplasma': { name: 'Mycoplasma genitalium (realistic)', scale: '~300 × 600 nm wall-less flask', real: 'cell', page: 'mycoplasma_realistic.html',
+    children: ['real-myco-nap', 'real-myco-rod', 'real-myco-nucleoid', 'ribosome-70s', 'dna', 'rna', 'phospholipid', 'cholesterol', 'cilium'],
+    tags: [
+      ['membrane', 'Cholesterol-stiffened single lipid bilayer (no cell wall)', 'phospholipid', 'membrane'],
+      ['sterol', 'Scavenged host cholesterol stiffening the bilayer', 'cholesterol', 'sterol'],
+      ['nap', 'Terminal Nap adhesin crown (P140 / P110, PDB 6RUT)', 'real-myco-nap', 'nap'],
+      ['cilium', 'Host airway epithelial cilium (9+2 axoneme)', 'cilium', 'cilium'],
+      ['rod', 'Segmented cytoskeletal core rod & terminal button', 'real-myco-rod', 'rod'],
+      ['gliding', 'Gliding motility lever motor', 'real-myco-rod', 'gliding'],
+      ['dna', 'Minimal 580 kbp circular dsDNA (~482 genes)', 'real-myco-nucleoid', 'dna'],
+      ['ribosome', '70S bacterial ribosomes (~150 copies)', 'ribosome-70s', 'ribosome'],
+      ['import', 'ABC nucleoside & lipid scavenger importers', 'phospholipid', 'import'],
+    ],
+    desc: 'A realistic Mycoplasma genitalium cell gripping a human airway cilium, cut open at molecular scale. With just 580,076 base pairs (~482 protein-coding genes), M. genitalium is the smallest known self-replicating organism — smaller than some giant viruses, yet unambiguously alive because it encloses its own cytoplasm, copies its own dsDNA chromosome, translates its own proteins on ~150 70S ribosomes, and generates ATP by glycolysis. Having shed every peptidoglycan wall gene, it stiffens its single bilayer with scavenged host cholesterol and glides along mucosal cilia using a polarized terminal attachment organelle.' },
+  'real-myco-nap': { name: 'Terminal Nap adhesin & cilium synapse (realistic)', scale: '~45 nm attachment tip', real: 'nap', page: 'mycoplasma_realistic.html', hi: 'nap',
+    children: ['cilium', 'phospholipid', 'cholesterol', 'protein'],
+    tags: [
+      ['nap', 'P140 / P110 Nap heterodimer crown (PDB 6RUT)', 'protein', 'nap'],
+      ['sialo', 'Host sialylated glycoprotein receptors', 'cilium', 'sialo'],
+      ['cilium', 'Host respiratory epithelial cilium', 'cilium', 'cilium'],
+      ['lipo', 'Phase-variable MgPa / MgpB surface lipoproteins', 'phospholipid', 'lipo'],
+    ],
+    desc: 'At the narrow neck of the piriform flask, heterodimers of P140 and P110 assemble into four-fold "Nap" adhesin crowns (PDB 6RUT) that catch sialylated oligosaccharides on human airway and urogenital cilia in a catch-and-release cycle driven by ATP.' },
+  'real-myco-rod': { name: 'Internal terminal rod & gliding motor (realistic)', scale: '~250 nm cytoskeletal core', real: 'rod', page: 'mycoplasma_realistic.html', hi: 'rod',
+    children: ['protein', 'atp-synthase', 'dna'],
+    tags: [
+      ['button', 'Distal terminal button (HMW3 / P65 cap)', 'protein', 'button'],
+      ['rod', 'Segmented electron-dense HMW1 / HMW2 core rod', 'protein', 'rod'],
+      ['wheel', 'Basal bowl / wheel complex anchored to nucleoid', 'dna', 'wheel'],
+      ['gliding', 'ATP-driven gliding force-transmission lever', 'protein', 'gliding'],
+    ],
+    desc: 'Even without a cell wall, M. genitalium builds an intricate internal bacterial cytoskeleton: a distal terminal button (HMW3/P65), a segmented electron-dense core rod (HMW1/HMW2) and a proximal wheel/bowl complex that transmits ATP-driven conformational strokes to pull the cell along host surfaces at ~0.1 µm/s and segregate daughter chromosomes.' },
+  'real-myco-nucleoid': { legend: LEG_REAL, name: 'Minimal 580 kbp genome & 70S translation (realistic)', scale: '~220 nm cytoplasmic core', real: 'nucleoid', page: 'mycoplasma_realistic.html', hi: 'dna',
+    children: ['dna', 'rna', 'ribosome-70s', 'rna-polymerase', 'nucleotide'],
+    tags: [
+      ['dna', '580,076 bp circular dsDNA chromosome (~482 genes)', 'dna', 'dna'],
+      ['fork', 'Minimal DNA Pol III replisome', 'dna', 'fork'],
+      ['rnap', 'Bacterial RNA polymerase transcribing mRNA', 'rna-polymerase', 'rnap'],
+      ['ribosome', '70S bacterial ribosomes translating in situ', 'ribosome-70s', 'ribosome'],
+      ['glycolysis', 'Cytosolic glycolytic enzymes (sole ATP source)', 'protein', 'glycolysis'],
+    ],
+    desc: 'The benchmark for minimal cellular life (the template for synthetic JCVI-syn3.0): 580 kbp of circular dsDNA encoding core replication, transcription, ~150 70S ribosomes and glycolysis, while outsourcing amino-acid, nucleotide and lipid de novo synthesis to ABC membrane importers.' },
+  // Stage 3.2: Realistic Chlamydia trachomatis (chlamydia_realistic.html)
+  'real-chlamydia': { name: 'Chlamydia trachomatis inclusion (realistic)', scale: '300 nm EB · 1.0 µm RB inside inclusion', real: 'inclusion', page: 'chlamydia_realistic.html',
+    children: ['real-chlam-eb', 'real-chlam-rb', 'real-chlam-npt1', 'ribosome-70s', 'dna', 'rna', 'phospholipid', 'mitochondrion', 'golgi'],
+    tags: [
+      ['inclusion', 'Host-derived chlamydial inclusion vacuole membrane', 'phospholipid', 'inclusion'],
+      ['inc', 'Chlamydial Inc shield proteins blocking lysosomes', 'protein', 'inc'],
+      ['eb_om', '300 nm Elementary Body (EB) spore coat (OmcB / MOMP)', 'real-chlam-eb', 'eb_om'],
+      ['t3ss', 'Type III Secretion System (T3SS) injectisome needles', 'real-chlam-eb', 't3ss'],
+      ['rb_om', '1.0 µm dividing Reticulate Body (RB)', 'real-chlam-rb', 'rb_om'],
+      ['mreb', 'MreB & minimal septal peptidoglycan division ring', 'real-chlam-rb', 'mreb'],
+      ['npt1', 'Npt1 ATP/ADP translocase stealing host ATP', 'real-chlam-npt1', 'npt1'],
+      ['rb_dna', '1.04 Mbp circular dsDNA chromosome', 'dna', 'rb_dna'],
+      ['ribosome', '70S bacterial ribosomes & polysomes', 'ribosome-70s', 'ribosome'],
+    ],
+    desc: 'A realistic Chlamydia trachomatis inclusion inside a human epithelial cell, cut open to reveal its biphasic developmental cycle and obligate energy parasitism. Infectious 300 nm Elementary Bodies (EBs) toughened by disulfide-crosslinked OmcB/MOMP armor fire Type III Secretion (T3SS) needles across the vacuole membrane to install Inc proteins that block lysosomal destruction and reroute host Golgi lipids. Inside the safe inclusion lumen, EBs decondense into 1 µm Reticulate Bodies (RBs) that import host ATP in exchange for spent ADP through Npt1 translocases while replicating their 1.04 Mbp dsDNA genome and translating proteins on 70S ribosomes.' },
+  'real-chlam-eb': { name: 'Elementary Body (EB) & T3SS injectisome (realistic)', scale: '~300 nm infectious spore-like cell', real: 'eb', page: 'chlamydia_realistic.html', hi: 't3ss',
+    children: ['dna', 'protein', 'phospholipid'],
+    tags: [
+      ['eb_om', 'Disulfide-crosslinked OmcB / OmcA outer armor', 'protein', 'eb_om'],
+      ['momp', 'Major Outer Membrane Protein (MOMP) beta-barrels', 'protein', 'momp'],
+      ['eb_dna', 'Hc1 / Hc2 histone-condensed dsDNA nucleoid', 'dna', 'eb_dna'],
+      ['t3ss', 'Polar T3SS injectisome needles piercing vacuole', 'protein', 't3ss'],
+      ['tarP', 'Injected TARP & Inc effectors remodeling host actin', 'protein', 'tarP'],
+    ],
+    desc: 'The extracellular survival stage of Chlamydia: a metabolically quiescent 300 nm sphere whose outer membrane proteins (MOMP, OmcB, OmcA) are locked into a rigid disulfide-bonded cage and whose 1.04 Mbp chromosome is compacted by eukaryotic-like Hc1/Hc2 histone homologs until T3SS needles trigger entry into a new host cell.' },
+  'real-chlam-rb': { legend: LEG_REAL, name: 'Reticulate Body (RB) & MreB division ring (realistic)', scale: '~1.0 µm replicating intracellular cell', real: 'rb', page: 'chlamydia_realistic.html', hi: 'mreb',
+    children: ['dna', 'rna', 'ribosome-70s', 'peptidoglycan', 'protein'],
+    tags: [
+      ['rb_om', 'Reduced, flexible RB outer & inner membranes', 'phospholipid', 'rb_om'],
+      ['septum', 'Transient septal peptidoglycan ring (chlamydial anomaly)', 'peptidoglycan', 'septum'],
+      ['mreb', 'Actin-like MreB filament scaffold driving fission', 'protein', 'mreb'],
+      ['rb_dna', 'Relaxed 1.04 Mbp dsDNA chromosome', 'dna', 'rb_dna'],
+      ['ribosome', '70S bacterial polysomes translating chlamydial mRNA', 'ribosome-70s', 'ribosome'],
+    ],
+    desc: 'Once inside the inclusion, disulfide bonds reduce and Hc1 releases the DNA, expanding the EB into a 1 µm Reticulate Body. RBs lack FtsZ and build peptidoglycan exclusively as a transient division ring guided by MreB filaments while 70S ribosomes synthesize hundreds of bacterial proteins.' },
+  'real-chlam-npt1': { name: 'Npt1 ATP/ADP translocase energy theft (realistic)', scale: '~8 nm antiporter barrels', real: 'npt1', page: 'chlamydia_realistic.html', hi: 'npt1',
+    children: ['mitochondrion', 'atp-synthase', 'nucleotide', 'phospholipid'],
+    tags: [
+      ['npt1', 'Npt1 ATP/ADP antiporter (1 host ATP in : 1 ADP + Pi out)', 'protein', 'npt1'],
+      ['npt2', 'Npt2 proton-coupled GTP / CTP / UTP importer', 'nucleotide', 'npt2'],
+      ['inclusion', 'Inclusion membrane recruited next to host mitochondria', 'phospholipid', 'inclusion'],
+      ['host_cyto', 'Host cytosolic ATP pool & nearby mitochondrion', 'mitochondrion', 'host_cyto'],
+    ],
+    desc: 'Why early microbiologists mistook Chlamydia for a giant "energy-parasite virus": 12-transmembrane-helix Npt1 antiporters exchange one spent bacterial ADP + Pi outward for one charged host ATP inward, while Npt2 imports ribonucleotides (GTP, CTP, UTP) for RNA and protein synthesis.' },
+  // Stage 3.3: Realistic Rickettsia prowazekii (rickettsia_realistic.html)
+  'real-rickettsia': { name: 'Rickettsia prowazekii in host cytosol (realistic)', scale: '~350 × 1,100 nm cytosolic bacterium', real: 'cytosol', page: 'rickettsia_realistic.html',
+    children: ['real-rick-envelope', 'real-rick-comet', 'real-rick-mito', 'mitochondrion', 'ribosome-70s', 'atp-synthase', 'electron-transport-chain', 'dna', 'actin-filament'],
+    tags: [
+      ['om', 'Gram-negative outer membrane, LPS & slime layer', 'real-rick-envelope', 'om'],
+      ['pld', 'Phagosome-escape phospholipase D (Pld / TlyC)', 'real-rick-envelope', 'pld'],
+      ['tlc1', 'Tlc1 ATP/ADP translocase importing host cytosolic ATP', 'real-rick-envelope', 'tlc1'],
+      ['t4ss', 'Rvh Type IV Secretion System (T4SS)', 'real-rick-envelope', 't4ss'],
+      ['etc', 'Alphaproteobacterial respiratory chain (Complexes I–IV)', 'real-rick-mito', 'etc'],
+      ['atps', 'Rotary F1Fo ATP synthase', 'real-rick-mito', 'atps'],
+      ['dna', 'Reductive 1.11 Mbp dsDNA (~24% pseudogene fossils)', 'dna', 'dna'],
+      ['ribosome', '70S bacterial ribosomes', 'ribosome-70s', 'ribosome'],
+      ['sca2', 'Polar Sca2 formin-like actin polymerase', 'real-rick-comet', 'sca2'],
+      ['comet', 'Polymerizing host F-actin comet tail', 'real-rick-comet', 'comet'],
+      ['host_mito', 'Adjacent host mitochondrion (endosymbiotic cousin)', 'real-rick-mito', 'host_mito'],
+    ],
+    desc: 'A realistic Rickettsia prowazekii coccobacillus living naked inside human endothelial cytosol right beside its closest evolutionary relative — a eukaryotic Mitochondrion. Unlike Chlamydia, Rickettsia lyses its entry vacuole within minutes via phospholipase D (Pld) and TlyC to swim free in the nutrient-rich cytosol: early in infection it imports host ATP via Tlc1 translocases, later respires pyruvate/glutamate with its own mitochondrial-like ETC and F1Fo ATP synthase, and polymerizes host actin at one pole via Sca2 to rocket directly into neighboring cells.' },
+  'real-rick-envelope': { name: 'Vacuole escape, T4SS & Tlc1 ATP import (realistic)', scale: '~40 nm Gram-negative envelope', real: 'envelope', page: 'rickettsia_realistic.html', hi: 'tlc1',
+    children: ['peptidoglycan', 'phospholipid', 'lps', 'protein'],
+    tags: [
+      ['slime', 'Microcapsular polysaccharide slime coat', 'lps', 'slime'],
+      ['om', 'Gram-negative outer membrane & OmpA/OmpB adhesins', 'lps', 'om'],
+      ['pg', 'Thin periplasmic peptidoglycan layer', 'peptidoglycan', 'pg'],
+      ['pld', 'Phospholipase D & TlyC lysing phagosomal membrane', 'protein', 'pld'],
+      ['tlc1', 'Tlc1 12-TMH obligate ATP/ADP antiporter', 'protein', 'tlc1'],
+      ['t4ss', 'Rvh Type IV Secretion System spanning both membranes', 'protein', 't4ss'],
+    ],
+    desc: 'Across its two Gram-negative membranes and thin peptidoglycan sacculus, Rickettsia deploys Pld/TlyC phospholipases to dissolve the host phagosome, Rvh Type IV Secretion channels to modulate host apoptosis, and Tlc1 ATP/ADP translocases to tap directly into the host cytosolic ATP pool.' },
+  'real-rick-comet': { name: 'Sca2 polar F-actin comet tail (realistic)', scale: '~2.5 µm propulsive actin bundle', real: 'comet', page: 'rickettsia_realistic.html', hi: 'comet',
+    children: ['actin-filament', 'phospholipid', 'protein'],
+    tags: [
+      ['sca2', 'Polar Sca2 formin-like autotransporter & RickA', 'protein', 'sca2'],
+      ['g_actin', 'Recruited host profilin–G-actin monomers', 'actin-filament', 'g_actin'],
+      ['comet', 'Long unbranched F-actin comet tail', 'actin-filament', 'comet'],
+      ['host_mem', 'Filopodial protrusion into neighboring host cell', 'phospholipid', 'host_mem'],
+    ],
+    desc: 'At a single bacterial pole, the autotransporter Sca2 mimics eukaryotic formins to nucleate and elongate long, parallel bundles of host F-actin. Continuous monomer insertion pushes Rickettsia at ~10 µm/min through the cytoplasm and rams it into the plasma membrane to invade adjacent cells without ever facing extracellular antibodies.' },
+  'real-rick-mito': { name: 'Rickettsia & Mitochondrion endosymbiotic link (realistic)', scale: '~1.1 µm side-by-side comparison', real: 'mito_link', page: 'rickettsia_realistic.html', hi: 'host_mito',
+    children: ['mitochondrion', 'electron-transport-chain', 'atp-synthase', 'ribosome-70s', 'dna'],
+    tags: [
+      ['etc', 'Rickettsial respiratory chain (Complexes I, II, III, IV)', 'electron-transport-chain', 'etc'],
+      ['atps', 'Rickettsial F1Fo ATP synthase', 'atp-synthase', 'atps'],
+      ['tlc1', 'Parasitic Tlc1 importer (opposite direction to mito ANT!)', 'protein', 'tlc1'],
+      ['dna', '1.11 Mbp genome undergoing active reductive evolution', 'dna', 'dna'],
+      ['host_mito', 'Host Mitochondrion (exports ATP via ANT instead of stealing it)', 'mitochondrion', 'host_mito'],
+    ],
+    desc: 'Nearly two billion years ago, an alphaproteobacterium closely related to Rickettsiales entered an archaeal host. Modern Rickettsia and Mitochondria still share homologous respiratory Complexes I–IV, rotary F1Fo ATP synthases, circular dsDNA and 70S-type ribosomes — with one decisive reversal: parasitic Rickettsia uses Tlc1 to pull host ATP IN, whereas domesticated Mitochondria evolved the Adenine Nucleotide Translocator (ANT) to pump ATP OUT to power all complex eukaryotic life.' },
   'life-overview': { name: 'Introduction to biology: cells, parasitic cells & viruses', scale: '18 nm – 100 µm', b: buildBiologyIntro,
     children: ['real-bacterium', 'real-fungal', 'real-cell', 'real-plant', 'parasitic-cells-overview', 'viruses', 'prokaryote', 'cell', 'plant-cell', 'bacteriophage', 'coronavirus', 'hiv'],
     desc: 'Four tiers of biological organization side by side, judged by the four pillars of cellular life — a lipid membrane, a double-stranded DNA genome, protein-building ribosomes, and self-made ATP energy: (1) Simple Prokaryotes like E. coli run all four pillars in one open room; (2) Complex Eukaryotes (yeast, animal and plant cells) divide work across a nucleus and endosymbiotic mitochondria and chloroplasts; (3) Parasitic and minimal bacteria (Mycoplasma, Chlamydia, Rickettsia) remain true cells with DNA and 70S ribosomes yet depend on host cells for ATP and nutrients; and (4) Viruses carry genetic code in a protein coat with zero ribosomes and zero ATP metabolism, remaining inert outside a living host.' },
@@ -4596,6 +4730,9 @@ const MENU_GROUPS = [
   ] },
   { id: 'stage-3', label: '3 · Parasitic & Minimal Cells', sub: 'Has DNA + Ribosomes · Steals Host ATP', items: [
     ['parasitic-cells-overview', '3.0 · Incomplete & intracellular bacteria'],
+    ['real-mycoplasma', '3.1 · Mycoplasma genitalium'],
+    ['real-chlamydia', '3.2 · Chlamydia trachomatis'],
+    ['real-rickettsia', '3.3 · Rickettsia prowazekii'],
   ] },
   { id: 'stage-4', label: '4 · Viruses — Code Without Cells', sub: '0 Ribosomes · 0 ATP · Hijacks Host', items: [
     ['viruses', '4.1 · All virus architectures (3D)'],
@@ -4613,6 +4750,9 @@ const TOUR_BY_ROOT = {
   'real-fungal': window.TOURS?.fungal ?? null,
   'real-cell': window.TOURS?.eukaryotic ?? null,
   'real-plant': window.TOURS?.plant ?? null,
+  'real-mycoplasma': window.TOURS?.mycoplasma ?? null,
+  'real-chlamydia': window.TOURS?.chlamydia ?? null,
+  'real-rickettsia': window.TOURS?.rickettsia ?? null,
   'viruses': window.TOURS?.viruses ?? null,
   'real-phage': window.TOURS?.bacteriophage ?? null,
   'real-tmv': window.TOURS?.tmv ?? null,
@@ -4660,6 +4800,9 @@ const PAGES = {
   'hiv_realistic.html': { title: 'Realistic HIV-1', look: 'Capsid' },
   'adenovirus_realistic.html': { title: 'Realistic adenovirus', look: 'Capsid' },
   'tmv_realistic.html': { title: 'Realistic TMV', look: 'Capsid' },
+  'mycoplasma_realistic.html': { title: 'Realistic Mycoplasma', look: 'Envelope' },
+  'chlamydia_realistic.html': { title: 'Realistic Chlamydia', look: 'Inclusion' },
+  'rickettsia_realistic.html': { title: 'Realistic Rickettsia', look: 'Envelope' },
 };   // each also gets: el (its iframe), ready, data (symbols, recipes, parts), state (button states), pending (the view to show once ready)
 let page = null, realPts = [], viewSeq = 0;   // the page in the stage
 const pageOf = id => NODES[id].page ?? 'animal_cell_realistic.html';
@@ -4686,6 +4829,9 @@ const RECIPE = {
   'hiv_realistic.html': { 'real-hiv-entry': 'env', 'hiv-env-real': 'env', 'hiv-ma-real': 'ma', 'real-hiv-cone': 'capsid', 'hiv-ca-hex-real': 'capsid', 'hiv-ca-pent-real': 'pentamer', 'real-hiv-rt': 'rt', 'hiv-rt-real': 'rt', 'hiv-in-real': 'int', rna: 'rna', dna: 'cd4', phospholipid: 'membrane' },
   'adenovirus_realistic.html': { 'adv-hexon-real': 'hexon', 'real-adv-vertex': 'penton', 'adv-penton-real': 'penton', 'adv-fiber-real': 'fiber', 'real-adv-core': 'core', 'real-adv-entry': 'car', dna: 'dna', phospholipid: 'host' },
   'tmv_realistic.html': { 'real-tmv-helix': 'coat', 'tmv-turn-real': 'coat', 'tmv-sub-real': 'coat', 'real-tmv-channel': 'channel', 'real-tmv-assembly': 'disc', rna: 'rna', ribosome: 'ribo', plasmodesma: 'mp' },
+  'mycoplasma_realistic.html': { 'real-myco-nap': 'nap', 'real-myco-rod': 'rod', 'real-myco-nucleoid': 'dna', 'ribosome-70s': 'ribosome', dna: 'dna', rna: 'mrna', 'rna-polymerase': 'rnap', phospholipid: 'membrane', cholesterol: 'sterol', cilium: 'cilium' },
+  'chlamydia_realistic.html': { 'real-chlam-eb': 't3ss', 'real-chlam-rb': 'mreb', 'real-chlam-npt1': 'npt1', 'ribosome-70s': 'ribosome', dna: 'rb_dna', rna: 'mrna', phospholipid: 'inclusion', peptidoglycan: 'septum', mitochondrion: 'host_cyto', golgi: 'golgi_lip' },
+  'rickettsia_realistic.html': { 'real-rick-envelope': 'tlc1', 'real-rick-comet': 'comet', 'real-rick-mito': 'host_mito', mitochondrion: 'host_mito', 'ribosome-70s': 'ribosome', 'atp-synthase': 'atps', 'electron-transport-chain': 'etc', dna: 'dna', 'actin-filament': 'comet', peptidoglycan: 'pg', lps: 'om', phospholipid: 'im' },
 };
 const nName = id => i18n.nodeName(id, NODES[id]?.name ?? id);
 const nScale = id => i18n.nodeScale(id, NODES[id]?.scale ?? '');
@@ -5203,6 +5349,18 @@ const AUTONOMY_PROFILES = {
     pills: [['ok', 'pillarMembrane'], ['ok', 'pillarDna'], ['ok', 'pillarRibosomes80S'], ['ok', 'pillarOrganelleAtp']],
   },
   'parasitic-cells-overview': {
+    statusKey: 'statusHostDependent',
+    pills: [['ok', 'pillarMembrane'], ['ok', 'pillarDna'], ['ok', 'pillarRibosomes70S'], ['no', 'pillarStealsAtp']],
+  },
+  'real-mycoplasma': {
+    statusKey: 'statusMinimalCell',
+    pills: [['ok', 'pillarSterolMembrane'], ['ok', 'pillarDna'], ['ok', 'pillarRibosomes70S'], ['warn', 'pillarGlycolyticAtp']],
+  },
+  'real-chlamydia': {
+    statusKey: 'statusHostDependent',
+    pills: [['ok', 'pillarMembrane'], ['ok', 'pillarDna'], ['ok', 'pillarRibosomes70S'], ['no', 'pillarStealsAtp']],
+  },
+  'real-rickettsia': {
     statusKey: 'statusHostDependent',
     pills: [['ok', 'pillarMembrane'], ['ok', 'pillarDna'], ['ok', 'pillarRibosomes70S'], ['no', 'pillarStealsAtp']],
   },

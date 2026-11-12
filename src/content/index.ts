@@ -1,4 +1,5 @@
 import { registerNodeLenses, registerPartLenses } from './registry.js';
+import { INTRO_NODE_LENSES } from './lenses_intro.js';
 import { ANIMAL_NODE_LENSES, ANIMAL_PART_LENSES } from './lenses_animal.js';
 import { PLANT_FUNGAL_NODE_LENSES, PLANT_FUNGAL_PART_LENSES } from './lenses_plant_fungal.js';
 import { PROKARYOTE_NODE_LENSES, PROKARYOTE_PART_LENSES } from './lenses_prokaryote.js';
@@ -11,6 +12,7 @@ import {
   ENVELOPED_VIRUS_PART_LENSES
 } from './lenses_enveloped_viruses.js';
 
+registerNodeLenses(INTRO_NODE_LENSES);
 registerNodeLenses(ANIMAL_NODE_LENSES);
 registerNodeLenses(PLANT_FUNGAL_NODE_LENSES);
 registerNodeLenses(PROKARYOTE_NODE_LENSES);
@@ -27,6 +29,7 @@ export * from './types.js';
 export * from './parser.js';
 export * from './registry.js';
 export {
+  INTRO_NODE_LENSES,
   ANIMAL_NODE_LENSES,
   ANIMAL_PART_LENSES,
   PLANT_FUNGAL_NODE_LENSES,

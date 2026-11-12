@@ -3373,6 +3373,482 @@ function buildSeptinReal() {
     A(outmost(all), 'Amino acid (one bead each)', 'amino-acid')]);
 }
 
+function buildATP() {
+  // Adenosine triphosphate: adenine purine + ribose sugar + alpha/beta/gamma triphosphate chain chelated to Mg2+
+  const atoms = [
+    ['O', 0, 1.15, 0], ['C', 1.12, .36, 0], ['C', .70, -.98, .15], ['C', -.72, -.98, -.15], ['C', -1.12, .36, 0],
+    ['O', 1.38, -2.05, .55], ['O', -1.38, -2.05, -.55], ['C', -2.45, .85, .25], ['O', -3.48, .02, .10],
+    ['P', -4.95, .42, 0], ['O', -5.15, 1.75, .65], ['O', -5.25, .35, -1.42], ['O', -5.88, -.68, .65],
+    ['P', -7.42, -.52, .38], ['O', -7.75, .82, -.18], ['O', -7.82, -1.68, -.48], ['O', -8.15, -.68, 1.78],
+    ['P', -9.70, -.40, 1.95], ['O', -10.02, .96, 1.42], ['O', -10.45, -1.48, 1.22], ['O', -10.08, -.48, 3.40],
+    ['N', 2.35, .98, 0], ['C', 2.68, 2.30, 0], ['N', 4.00, 2.52, 0], ['C', 4.52, 1.25, 0], ['C', 3.48, .30, 0],
+    ['C', 5.86, .85, 0], ['N', 6.92, 1.68, 0], ['N', 6.12, -.48, 0], ['C', 5.08, -1.35, 0], ['N', 3.76, -1.02, 0],
+    ['Mg', -8.95, 2.35, .62],
+  ];
+  const m = molecule(atoms), P = m.userData.P, mg = P[31], mgMat = std(EL.Mg.c, { glow: .35 }), oMat = std(EL.O.c, { glow: .15 });
+  for (const oi of [14, 18]) {
+    const mid = mg.clone().lerp(P[oi], .5);
+    m.add(stick(mg, mid, .08, mgMat), stick(mid, P[oi], .08, oMat));
+  }
+  return finalize(m, [
+    A(P[17], 'γ-phosphate (terminal high-energy phosphoanhydride bond)', 'phosphate'),
+    A(P[13], 'β-phosphate', 'phosphate'),
+    A(P[9], 'α-phosphate', 'phosphate'),
+    A(mg, 'Chelated Mg²⁺ cofactor (stabilizes negative charges)', 'atom-mg'),
+    A(V(0, -.2, 0), 'Ribose sugar (2′-OH & 3′-OH)', 'nucleotide'),
+    A(P[26], 'Adenine purine base', 'atom-n'),
+  ]);
+}
+
+function makeStagePedestal(x, y, r, hex) {
+  const g = new THREE.Group(); g.position.set(x, y, 0);
+  const ring = new THREE.Mesh(new THREE.TorusGeometry(r, .085, 16, 72), std(hex, { glow: .55 }));
+  ring.rotation.x = Math.PI / 2;
+  const inner = new THREE.Mesh(new THREE.TorusGeometry(r * .74, .035, 12, 64), std(hex, { glow: .35 }));
+  inner.rotation.x = Math.PI / 2; inner.position.y = .02;
+  const disc = new THREE.Mesh(new THREE.CircleGeometry(r * .98, 64), new THREE.MeshBasicMaterial({
+    color: hex, transparent: true, opacity: .09, side: THREE.DoubleSide, depthWrite: false, toneMapped: false,
+  }));
+  disc.rotation.x = -Math.PI / 2; disc.position.y = -.02;
+  g.add(ring, inner, disc);
+  return g;
+}
+
+function makePedestalBadge(lines, accentHex) {
+  const c = document.createElement('canvas'); c.width = 512; c.height = 160;
+  const ctx = c.getContext('2d');
+  ctx.fillStyle = 'rgba(6, 11, 20, 0.9)';
+  ctx.strokeStyle = accentHex;
+  ctx.lineWidth = 3.5;
+  ctx.beginPath();
+  if (ctx.roundRect) ctx.roundRect(6, 6, 500, 148, 22);
+  else ctx.rect(6, 6, 500, 148);
+  ctx.fill(); ctx.stroke();
+  ctx.fillStyle = accentHex;
+  ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+  ctx.font = '700 24px system-ui, -apple-system, sans-serif';
+  ctx.fillText(lines[0] ?? '', 256, 38);
+  ctx.strokeStyle = 'rgba(255,255,255,0.12)'; ctx.lineWidth = 1.5;
+  ctx.beginPath(); ctx.moveTo(28, 62); ctx.lineTo(484, 62); ctx.stroke();
+  const drawPillarLine = (txt, y) => {
+    if (!txt) return;
+    const parts = txt.trim().split(/\s{2,}/);
+    ctx.font = '600 20px system-ui, -apple-system, sans-serif';
+    const gap = 24, widths = parts.map(p => ctx.measureText(p).width);
+    const totalW = widths.reduce((a, b) => a + b, 0) + gap * Math.max(0, parts.length - 1);
+    let curX = 256 - totalW / 2;
+    ctx.textAlign = 'left';
+    parts.forEach((seg, idx) => {
+      ctx.fillStyle = seg.startsWith('✓') ? '#5cff9d' : seg.startsWith('△') ? '#ffd26a' : seg.startsWith('✗') ? '#ff6f7a' : '#dce7f5';
+      ctx.fillText(seg, curX, y);
+      curX += widths[idx] + gap;
+    });
+  };
+  drawPillarLine(lines[1], 92);
+  drawPillarLine(lines[2], 128);
+  const tex = new THREE.CanvasTexture(c); tex.colorSpace = THREE.SRGBColorSpace;
+  const mesh = new THREE.Mesh(new THREE.PlaneGeometry(6.8, 2.1), new THREE.MeshBasicMaterial({
+    map: tex, transparent: true, depthWrite: false, side: THREE.DoubleSide, toneMapped: false,
+  }));
+  mesh.renderOrder = 6;
+  mesh.rotation.x = -0.22;
+  return mesh;
+}
+
+function add70SRibosomePairs(parent, count, sampler, scale = 1) {
+  const m50 = [], m30 = [], q = new THREE.Quaternion();
+  for (let i = 0; i < count; i++) {
+    const p = sampler(i);
+    m50.push(M4(p.clone().add(V(0, .055 * scale, 0)), q, .075 * scale));
+    m30.push(M4(p.clone().add(V(.03 * scale, -.05 * scale, .02 * scale)), q, .055 * scale));
+  }
+  const g = new THREE.Group();
+  g.add(instanced(sphGeo, std('#8fb8ff', { glow: .3 }), m50), instanced(sphGeo, std('#ffd37a', { glow: .3 }), m30));
+  parent.add(g);
+  return g;
+}
+
+function buildParasiticPreview() {
+  const g = new THREE.Group(), an = [];
+  let mk = 0;
+
+  // 1. Left (x = -10.5): Mycoplasma genitalium (~300 nm wall-less minimal cell, 580 kbp dsDNA)
+  {
+    const cx = -10.5;
+    g.add(makeStagePedestal(cx, -2.35, 3.2, '#7fd8ff'));
+    const badge1 = makePedestalBadge(['MYCOPLASMA GENITALIUM', '✓ Sterol Membrane  ✗ No Wall', '✓ 580 kbp DNA  ✓ 70S Ribo'], '#7fd8ff');
+    badge1.position.set(cx, -3.05, 2.1); g.add(badge1);
+
+    // Curved host respiratory epithelial cilium shaft gripped by the polarized Nap tip
+    const cilPts = [V(cx - 2.4, -1.95, -.25), V(cx - 2.05, -.75, .05), V(cx - 1.55, .55, .25), V(cx - 1.05, 1.85, .35)];
+    g.add(tube(cilPts, .26, xray('#a9c8ff', .68, 1.9, .02), 14, 48));
+
+    // Piriform flask-shaped single cholesterol-stiffened bilayer (cut open facing +z)
+    const myco = new THREE.Group(); myco.position.set(cx + .35, .25, .05); myco.rotation.z = .42; g.add(myco);
+    const prof = [];
+    for (let i = 0; i <= 28; i++) {
+      const t = i / 28, y = -1.75 + t * 3.55;
+      // Bulbous cell body below tapering into a narrow terminal attachment neck at top (+y rotated toward host cilium)
+      const cleanR = t < .55 ? Math.max(.05, 1.42 * Math.sin(Math.PI * (.08 + .78 * (t / .55)))) : Math.max(.05, .32 + .68 * Math.max(0, 1 - (t - .55) / .45) ** 1.45 * (t > .94 ? (1 - t) * 14 : 1));
+      prof.push(new THREE.Vector2(cleanR, y));
+    }
+    myco.add(new THREE.Mesh(new THREE.LatheGeometry(prof, 72, Math.PI * .68, Math.PI * 1.48), xray('#7fd8ff', .85, 2.1, .02)));
+    myco.add(new THREE.Mesh(new THREE.LatheGeometry(prof.map(v => new THREE.Vector2(Math.max(.02, v.x * .93), v.y)), 64, Math.PI * .68, Math.PI * 1.48), xray('#bfefff', .42, 1.8, .01)));
+
+    // Golden host-derived cholesterol/sterol flecks stiffening the wall-less bilayer
+    const sterM = [], q0 = new THREE.Quaternion();
+    for (let i = 0; i < 68; i++) {
+      const idx = 2 + Math.floor(rand() * 24), pv = prof[idx], ph = Math.PI * (.72 + rand() * 1.4);
+      sterM.push(M4(V(-pv.x * Math.cos(ph), pv.y, pv.x * Math.sin(ph)), q0, .055));
+    }
+    myco.add(instanced(sphGeo, std('#ffd24f', { glow: .4 }), sterM));
+
+    // Terminal Nap (P1/P140) adhesin spikes & internal electron-dense core rod cytoskeleton
+    const napMat = std('#ff9ad5', { glow: .4 });
+    myco.add(stick(V(0, .15, 0), V(0, 1.62, 0), .085, napMat));
+    const termBtn = sphere(.16, std('#ffd26a', { glow: .45 }), 16); termBtn.position.set(0, 1.66, 0); myco.add(termBtn);
+    for (let k = 0; k < 7; k++) {
+      const a = (k / 7) * Math.PI * 2, base = V(.26 * Math.cos(a), 1.55, .26 * Math.sin(a));
+      myco.add(stick(base, base.clone().add(V(.12 * Math.cos(a), .34, .12 * Math.sin(a))), .032, napMat));
+    }
+
+    // Compact 580 kbp circular dsDNA chromosome + 70S ribosomes
+    const dnaPts = [];
+    for (let i = 0; i < 20; i++) {
+      const a = (i / 20) * Math.PI * 2;
+      dnaPts.push(V(.68 * Math.cos(a) + .14 * Math.sin(3 * a), -.52 + .52 * Math.sin(2 * a), .45 * Math.sin(a)));
+    }
+    const mycoDna = dnaAlong(new THREE.CatmullRomCurve3(dnaPts, true), 12, .11, .03);
+    mycoDna.userData.part = 'dna'; myco.add(mycoDna);
+    add70SRibosomePairs(myco, 30, () => V(rr(-.85, .85), rr(-1.25, .35), rr(-.65, .45)), 1.05);
+
+    mk = tagFrom(g, mk, 'phospholipid');
+  }
+
+  // 2. Center (x = 0): Chlamydia trachomatis (EB & RB inside host inclusion vacuole stealing ATP)
+  {
+    g.add(makeStagePedestal(0, -2.35, 3.35, '#c07cff'));
+    const badge2 = makePedestalBadge(['CHLAMYDIA TRACHOMATIS', '✓ Inclusion + Membrane  ✓ 1.04 Mbp DNA', '✓ 70S Ribo  ✗ Npt1 Steals Host ATP'], '#c07cff');
+    badge2.position.set(0, -3.05, 2.1); g.add(badge2);
+
+    const chlam = new THREE.Group(); chlam.position.set(0, .35, 0); g.add(chlam);
+    const incR = 2.45;
+    // Cutaway translucent host inclusion vacuole studded with Inc transmembrane barrels
+    chlam.add(new THREE.Mesh(displace(new THREE.SphereGeometry(incR, 84, 64, CUT[0], CUT[1]), .02, .6, 4.1), xray('#c07cff', .55, 2.0, .015)));
+    const incM = [];
+    for (let i = 0; i < 26; i++) {
+      const d = fibDir(i, 26); if (inCut(d)) continue;
+      incM.push(M4(d.clone().multiplyScalar(incR), qFromTo(UP, d), V(.11, .28, .11)));
+    }
+    chlam.add(instanced(unitCyl, std('#e09eff', { glow: .3 }), incM));
+
+    // Compact 300 nm Elementary Body (EB) docking outside top-left & firing needle-like T3SS rods across vacuole wall
+    const ebPos = V(-2.25, 1.85, .45), eb = new THREE.Group(); eb.position.copy(ebPos); chlam.add(eb);
+    eb.add(sphere(.56, xray('#ff8fa8', 1.15, 1.9, .03), 32), sphere(.32, std('#ffd26a', { glow: .35 }), 20));
+    const t3Mat = std('#ffd24f', { glow: .55 });
+    for (const off of [V(.14, -.08, .08), V(-.08, .14, -.06), V(.04, .05, .16)]) {
+      const dir = ebPos.clone().negate().normalize();
+      chlam.add(stick(ebPos.clone().add(off).addScaledVector(dir, .42), ebPos.clone().add(off).addScaledVector(dir, 1.28), .032, t3Mat));
+    }
+
+    // Dividing 1 um Reticulate Body (RB) inside inclusion lumen with dsDNA, 70S ribosomes & green Npt1 antiporters
+    const rb = new THREE.Group(); rb.position.set(.18, -.18, .08); chlam.add(rb);
+    const rbGeo = displace(new THREE.SphereGeometry(1.38, 72, 56, CUT[0], CUT[1]), .03, .9, 2.7);
+    rbGeo.scale(1.18, .92, .96);
+    rb.add(new THREE.Mesh(rbGeo, xray('#6be8b8', .85, 2.0, .02)));
+    const rbDnaPts = [];
+    for (let i = 0; i < 24; i++) {
+      const a = (i / 24) * Math.PI * 2;
+      rbDnaPts.push(V(.78 * Math.cos(a), .42 * Math.sin(2 * a), .46 * Math.sin(a) + .12 * Math.cos(3 * a)));
+    }
+    rb.add(dnaAlong(new THREE.CatmullRomCurve3(rbDnaPts, true), 14, .11, .03));
+    const rbRibos = add70SRibosomePairs(rb, 38, () => V(rr(-.95, .95), rr(-.62, .62), rr(-.62, .45)), 1.1);
+    rbRibos.userData.part = 'ribosome-70s';
+
+    // Green Npt1 ATP/ADP antiporter barrels spanning RB & inclusion membranes + animated ATP in / ADP out streams
+    const nptMat = std('#4dff9a', { glow: .55 }), gates = [V(1.35, .52, .45), V(1.42, -.38, .42), V(-.15, -1.08, .52)];
+    gates.forEach(gp => {
+      const m = new THREE.Mesh(new THREE.CylinderGeometry(.13, .13, .38, 14), nptMat);
+      m.position.copy(gp); m.quaternion.copy(qFromTo(UP, gp.clone().normalize())); rb.add(m);
+    });
+    const atpSpheres = [], adpSpheres = [], atpMat = std('#ffe042', { glow: .95 }), adpMat = std('#4fa8ff', { glow: .65 });
+    const streamCurves = gates.map(gp => {
+      const dir = gp.clone().normalize();
+      return new THREE.CatmullRomCurve3([
+        dir.clone().multiplyScalar(3.15).add(V(.2, .12, .25)),
+        dir.clone().multiplyScalar(2.25),
+        gp.clone().add(V(.18, -.18, .08)),
+        gp.clone().multiplyScalar(.38).add(V(.18, -.18, .08)),
+      ]);
+    });
+    for (let i = 0; i < 9; i++) {
+      const s = sphere(.105, atpMat, 14); chlam.add(s);
+      atpSpheres.push({ s, c: streamCurves[i % streamCurves.length], ph: i / 9 });
+    }
+    for (let i = 0; i < 6; i++) {
+      const s = sphere(.085, adpMat, 12); chlam.add(s);
+      adpSpheres.push({ s, c: streamCurves[i % streamCurves.length], ph: (i + .5) / 6 });
+    }
+    let chlamT = 0;
+    chlam.userData.tick = dt => {
+      chlamT = (chlamT + dt * .44) % 1;
+      atpSpheres.forEach(({ s, c, ph }) => { const u = (chlamT + ph) % 1; s.position.copy(c.getPointAt(u)); });
+      adpSpheres.forEach(({ s, c, ph }) => { const u = 1 - ((chlamT + ph) % 1); s.position.copy(c.getPointAt(u)).add(V(0, .14, -.12)); });
+    };
+    chlam.userData.tick(0);
+
+    mk = tagFrom(g, mk, 'atp-synthase');
+  }
+
+  // 3. Right (x = +10.5): Rickettsia prowazekii (cytosolic ATP thief + actin comet tail) beside Host Mitochondrion
+  {
+    const cx = 10.5;
+    g.add(makeStagePedestal(cx, -2.35, 3.35, '#ffb35c'));
+    const badge3 = makePedestalBadge(['RICKETTSIA & MITOCHONDRION', '✓ Free in Cytosol  ✓ 1.11 Mbp DNA', '✓ 70S Ribo  ✗ Tlc1 Steals Host ATP'], '#ffb35c');
+    badge3.position.set(cx, -3.05, 2.1); g.add(badge3);
+
+    const rickWrap = new THREE.Group(); g.add(rickWrap);
+    // Coccobacillus Rickettsia free in host cytosol (no vacuole)
+    const rick = new THREE.Group(); rick.position.set(cx - .95, .55, .25); rick.rotation.z = -.38; rickWrap.add(rick);
+    const rProf = [];
+    for (let i = 0; i <= 24; i++) {
+      const a = -Math.PI / 2 + (i / 24) * Math.PI;
+      rProf.push(new THREE.Vector2(Math.max(.03, .92 * Math.cos(a)), .72 * Math.sin(a) + (a > 0 ? .62 : -.62)));
+    }
+    rick.add(new THREE.Mesh(new THREE.LatheGeometry(rProf, 64, CUT[0], CUT[1]), xray('#ffb35c', .82, 2.1, .02)));
+    rick.add(new THREE.Mesh(new THREE.LatheGeometry(rProf.map(v => new THREE.Vector2(Math.max(.02, v.x * .9), v.y * .95)), 56, CUT[0], CUT[1]), xray('#ffd99a', .48, 1.8, .012)));
+
+    // Circular 1.11 Mbp dsDNA + 70S ribosomes + Tlc1 ATP translocases + inner-membrane ETC / F1Fo knobs
+    const rDnaPts = [];
+    for (let i = 0; i < 20; i++) {
+      const a = (i / 20) * Math.PI * 2;
+      rDnaPts.push(V(.46 * Math.cos(a), .68 * Math.sin(a), .34 * Math.sin(2 * a)));
+    }
+    rick.add(dnaAlong(new THREE.CatmullRomCurve3(rDnaPts, true), 12, .095, .026));
+    add70SRibosomePairs(rick, 26, () => V(rr(-.55, .55), rr(-.85, .85), rr(-.45, .35)), .95);
+    const tlcMat = std('#4dff9a', { glow: .5 }), etcMat = std('#ff6b6b', { glow: .45 });
+    for (const y of [-.55, 0, .55]) {
+      const tlc = new THREE.Mesh(new THREE.CylinderGeometry(.1, .1, .28, 12), tlcMat);
+      tlc.position.set(.86, y, .18); tlc.rotation.z = Math.PI / 2; rick.add(tlc);
+      const knob = sphere(.085, etcMat, 12); knob.position.set(-.72, y * .9, -.15); rick.add(knob);
+    }
+
+    // Glowing polar F-actin comet tail streaming behind the lower-left pole with animated actin monomer flow
+    const cometCurves = [], tailBase = V(cx - 1.45, -.55, .15), tailDir = V(-.76, -.58, -.28).normalize();
+    for (let f = 0; f < 5; f++) {
+      const pts = [], ph0 = (f / 5) * Math.PI * 2;
+      for (let s = 0; s <= 18; s++) {
+        const u = s / 18, rad = .14 + u * .34, ang = ph0 + u * 5.2;
+        pts.push(tailBase.clone().addScaledVector(tailDir, u * 2.55).add(V(rad * Math.cos(ang) * .35, rad * Math.sin(ang), rad * Math.cos(ang))));
+      }
+      const cv = new THREE.CatmullRomCurve3(pts); cometCurves.push(cv);
+      rickWrap.add(new THREE.Mesh(new THREE.TubeGeometry(cv, 48, .042, 6), std(f % 2 ? '#ff7ad9' : '#7fd8ff', { glow: .55 })));
+    }
+    const actinBeads = [], actMat = std('#ffdef6', { glow: .85 }), rAtpMat = std('#ffe042', { glow: .9 });
+    for (let i = 0; i < 15; i++) {
+      const b = sphere(.068, actMat, 10); rickWrap.add(b);
+      actinBeads.push({ b, c: cometCurves[i % cometCurves.length], ph: i / 15 });
+    }
+    const rAtp = [0, 1, 2].map(k => { const s = sphere(.095, rAtpMat, 12); rickWrap.add(s); return { s, ph: k / 3 }; });
+    let rickT = 0;
+    rickWrap.userData.tick = dt => {
+      rickT = (rickT + dt * .52) % 1;
+      actinBeads.forEach(({ b, c, ph }) => { const u = (rickT + ph) % 1; b.position.copy(c.getPointAt(u)); b.scale.setScalar(1 - .45 * u); });
+      rAtp.forEach(({ s, ph }, idx) => {
+        const u = (rickT + ph) % 1;
+        s.position.lerpVectors(V(cx + .85, .95 - idx * .45, .95), V(cx - .35, .65 - idx * .35, .35), u);
+      });
+    };
+    rickWrap.userData.tick(0);
+
+    // Miniature cutaway host mitochondrion right beside Rickettsia showing shared alphaproteobacterial ancestry
+    const mitoBuilt = partModel('mitochondrion');
+    mitoBuilt.group.scale.setScalar(1.85 / mitoBuilt.radius);
+    mitoBuilt.group.position.set(cx + 1.75, .25, .15);
+    mitoBuilt.group.rotation.set(.18, -.25, .28);
+    rickWrap.add(mitoBuilt.group);
+
+    mk = tagFrom(g, mk, 'mitochondrion');
+  }
+
+  an.push(
+    A(V(-10.5, 3.8, 1.2), 'Mycoplasma genitalium (~300 nm wall-less minimal cell, 580 kbp dsDNA)', 'phospholipid'),
+    A(V(-10.5, -3.7, 1.2), 'Circular double-stranded DNA genome (0.58–1.11 Mbp)', 'dna'),
+    A(V(0, 4.1, 1.4), 'Chlamydia trachomatis (EB & RB inside host inclusion stealing ATP)', 'atp-synthase'),
+    A(V(0, -3.9, 1.4), '70S bacterial ribosomes (builds its own proteins, unlike viruses)', 'ribosome-70s'),
+    A(V(10.5, 3.8, 1.2), 'Rickettsia prowazekii (cytosolic ATP thief & cousin of mitochondria)', 'mitochondrion'),
+    A(V(10.5, -3.7, 1.2), 'Compare with autonomous free-living E. coli', 'real-bacterium'),
+  );
+  return finalize(g, an, 16.5);
+}
+
+function buildBiologyIntro() {
+  const g = new THREE.Group(), an = [];
+  let mk = 0, prokBuilt = null;
+
+  // Pedestal 1 (x = -14.4, partKey = 'real-bacterium'): Simple Cell — Prokaryote (E. coli)
+  {
+    const cx = -14.4;
+    g.add(makeStagePedestal(cx, -1.65, 3.35, '#5cff9d'));
+    const prokWrap = new THREE.Group(); g.add(prokWrap);
+    prokBuilt = partModel('prokaryote');
+    prokBuilt.group.scale.setScalar(.44);
+    prokBuilt.group.position.set(cx + .55, .65, .15);
+    prokBuilt.group.userData.part = 'prokaryote';
+    prokWrap.add(prokBuilt.group);
+    const b1 = makePedestalBadge(['① PROKARYOTE (E. coli)', '✓ Membrane  ✓ dsDNA', '✓ 70S Ribo  ✓ Own ATP'], '#5cff9d');
+    b1.position.set(cx, -2.85, 2.1); g.add(b1);
+    mk = tagFrom(g, mk, 'real-bacterium');
+  }
+
+  // Pedestal 2 (x = -4.8, partKey = 'real-cell'): Complex Cells — Eukaryotes (Yeast, Animal, Plant)
+  {
+    const cx = -4.8;
+    g.add(makeStagePedestal(cx, -1.65, 3.85, '#7fd8ff'));
+    const euk = new THREE.Group(); g.add(euk);
+
+    // Central cutaway Animal Cell
+    const animBuilt = partModel('cell');
+    animBuilt.group.scale.setScalar(1.85 / animBuilt.radius);
+    animBuilt.group.position.set(cx, .25, .65);
+    animBuilt.group.userData.part = 'cell';
+    euk.add(animBuilt.group);
+
+    // Upper-right Plant Cell
+    const plantWrap = new THREE.Group(); plantWrap.userData.part = 'real-plant'; euk.add(plantWrap);
+    const plantBuilt = partModel('plant-cell');
+    plantBuilt.group.scale.setScalar(1.55 / plantBuilt.radius);
+    plantBuilt.group.position.set(cx + 1.95, 1.55, -.45);
+    plantBuilt.group.userData.part = 'plant-cell';
+    plantWrap.add(plantBuilt.group);
+
+    // Upper-left budding Yeast miniature (translucent chitin/glucan cell wall + mother/bud + nucleus + vacuole + mitochondria)
+    const yeast = new THREE.Group(); yeast.position.set(cx - 2.05, 1.45, -.35); yeast.userData.part = 'real-fungal'; euk.add(yeast);
+    const motherWall = new THREE.Mesh(new THREE.SphereGeometry(.98, 48, 36, CUT[0], CUT[1]), xray('#e8c87a', .85, 2.0, .02));
+    motherWall.scale.set(1, 1.15, 1);
+    const motherMem = new THREE.Mesh(new THREE.SphereGeometry(.88, 40, 30, CUT[0], CUT[1]), xray('#ffc08a', .55, 1.8, .015));
+    motherMem.scale.set(1, 1.15, 1);
+    const budWall = new THREE.Mesh(new THREE.SphereGeometry(.52, 36, 28, CUT[0], CUT[1]), xray('#e8c87a', .85, 2.0, .02));
+    budWall.position.set(.58, .92, .08);
+    const septin = new THREE.Mesh(new THREE.TorusGeometry(.32, .065, 12, 36), std('#4fd8ff', { glow: .45 }));
+    septin.position.set(.38, .62, .05); septin.rotation.set(1.1, .5, 0);
+    const yNuc = sphere(.34, xray(C.nuc, 1.2, 1.8, .03), 24); yNuc.position.set(-.12, .18, .08);
+    const yVac = sphere(.38, xray(C.vac, .95, 1.8, .02), 24); yVac.position.set(.15, -.35, -.08);
+    const yMito = tube([V(-.45, -.45, .15), V(-.32, .05, .28), V(-.05, .48, .2)], .075, std(C.mito, { glow: .35 }), 8, 24);
+    yeast.add(motherWall, motherMem, budWall, septin, yNuc, yVac, yMito);
+
+    const b2 = makePedestalBadge(['② EUKARYOTES (Yeast·Animal·Plant)', '✓ Membrane  ✓ Nuclear DNA', '✓ 80S Ribo  ✓ Organelle ATP'], '#7fd8ff');
+    b2.position.set(cx, -2.85, 2.1); g.add(b2);
+    mk = tagFrom(g, mk, 'real-cell');
+  }
+
+  // Pedestal 3 (x = +4.8, partKey = 'parasitic-cells-overview'): Parasitic & Minimal Cells
+  {
+    const cx = 4.8;
+    g.add(makeStagePedestal(cx, -1.65, 3.45, '#ffd26a'));
+    const para = new THREE.Group(); g.add(para);
+
+    // Cutaway translucent Host Inclusion Vacuole with intracellular Chlamydia/Rickettsia rods + animated ATP import
+    const inc = new THREE.Group(); inc.position.set(cx - .55, .55, .05); para.add(inc);
+    inc.add(new THREE.Mesh(displace(new THREE.SphereGeometry(1.88, 64, 48, CUT[0], CUT[1]), .02, .7, 3.3), xray('#c07cff', .56, 2.0, .015)));
+    const makeIntraRod = (pos, rotZ, col) => {
+      const rg = new THREE.Group(); rg.position.copy(pos); rg.rotation.z = rotZ;
+      const rp = [];
+      for (let i = 0; i <= 18; i++) {
+        const a = -Math.PI / 2 + (i / 18) * Math.PI;
+        rp.push(new THREE.Vector2(Math.max(.02, .52 * Math.cos(a)), .38 * Math.sin(a) + (a > 0 ? .28 : -.28)));
+      }
+      rg.add(new THREE.Mesh(new THREE.LatheGeometry(rp, 40, CUT[0], CUT[1]), xray(col, .88, 2.0, .02)));
+      const dp = [];
+      for (let i = 0; i < 16; i++) { const a = (i / 16) * Math.PI * 2; dp.push(V(.26 * Math.cos(a), .34 * Math.sin(a), .18 * Math.sin(2 * a))); }
+      rg.add(dnaAlong(new THREE.CatmullRomCurve3(dp, true), 9, .065, .02));
+      add70SRibosomePairs(rg, 16, () => V(rr(-.3, .3), rr(-.42, .42), rr(-.25, .25)), .72);
+      return rg;
+    };
+    inc.add(makeIntraRod(V(-.38, -.15, .08), .28, '#6be8b8'), makeIntraRod(V(.55, .22, -.05), -.35, '#ffb35c'));
+
+    // Green Npt1/Tlc1 antiporters in inclusion membrane + animated glowing yellow host ATP spheres streaming inward
+    const antiMat = std('#4dff9a', { glow: .55 }), gates = [V(1.55, .75, .72), V(-1.45, .85, .78), V(.15, 1.68, .75)];
+    gates.forEach(gp => {
+      const bar = new THREE.Mesh(new THREE.CylinderGeometry(.11, .11, .34, 12), antiMat);
+      bar.position.copy(gp); bar.quaternion.copy(qFromTo(UP, gp.clone().normalize())); inc.add(bar);
+    });
+    const atpDots = [], atpGlow = std('#ffe042', { glow: .95 });
+    for (let i = 0; i < 9; i++) {
+      const s = sphere(.095, atpGlow, 12); inc.add(s);
+      const gp = gates[i % gates.length], outP = gp.clone().multiplyScalar(1.48), inP = gp.clone().multiplyScalar(.32);
+      atpDots.push({ s, outP, inP, ph: i / 9 });
+    }
+    let pTick = 0;
+    inc.userData.tick = dt => {
+      pTick = (pTick + dt * .48) % 1;
+      atpDots.forEach(({ s, outP, inP, ph }) => { s.position.lerpVectors(outP, inP, (pTick + ph) % 1); });
+    };
+    inc.userData.tick(0);
+
+    // Small wall-less Mycoplasma flask alongside the inclusion
+    const mycoMini = new THREE.Group(); mycoMini.position.set(cx + 2.05, -.05, .35); mycoMini.rotation.z = .35; para.add(mycoMini);
+    const mp = [];
+    for (let i = 0; i <= 18; i++) {
+      const t = i / 18, y = -.82 + t * 1.65;
+      const r = t < .58 ? Math.max(.03, .68 * Math.sin(Math.PI * (.1 + .78 * (t / .58)))) : Math.max(.03, .16 + .32 * Math.max(0, 1 - (t - .58) / .42) ** 1.4);
+      mp.push(new THREE.Vector2(r, y));
+    }
+    mycoMini.add(new THREE.Mesh(new THREE.LatheGeometry(mp, 40, CUT[0], CUT[1]), xray('#7fd8ff', .88, 2.0, .02)));
+    const mdp = [];
+    for (let i = 0; i < 12; i++) { const a = (i / 12) * Math.PI * 2; mdp.push(V(.32 * Math.cos(a), -.24 + .24 * Math.sin(a), .2 * Math.cos(2 * a))); }
+    mycoMini.add(dnaAlong(new THREE.CatmullRomCurve3(mdp, true), 7, .055, .018));
+    add70SRibosomePairs(mycoMini, 12, () => V(rr(-.35, .35), rr(-.55, .1), rr(-.25, .25)), .65);
+    const tip = sphere(.09, std('#ffd26a', { glow: .45 }), 12); tip.position.set(0, .86, 0); mycoMini.add(tip);
+
+    const b3 = makePedestalBadge(['③ PARASITIC CELLS (Chlamydia)', '✓ Membrane  ✓ dsDNA', '✓ 70S Ribo  ✗ Steals Host ATP'], '#ffd26a');
+    b3.position.set(cx, -2.85, 2.1); g.add(b3);
+    mk = tagFrom(g, mk, 'parasitic-cells-overview');
+  }
+
+  // Pedestal 4 (x = +14.4, partKey = 'viruses'): Viruses — Acellular Hijackers
+  {
+    const cx = 14.4;
+    g.add(makeStagePedestal(cx, -1.65, 3.45, '#ff6f7a'));
+    const vir = new THREE.Group(); g.add(vir);
+
+    const phg = partModel('bacteriophage');
+    phg.group.scale.setScalar(2.15 / phg.radius);
+    phg.group.position.set(cx, .95, .35);
+    phg.group.userData.part = 'bacteriophage';
+    vir.add(phg.group);
+
+    const cov = partModel('coronavirus');
+    cov.group.scale.setScalar(1.32 / cov.radius);
+    cov.group.position.set(cx - 1.85, .05, -.25);
+    cov.group.userData.part = 'coronavirus';
+    vir.add(cov.group);
+
+    const hiv = partModel('hiv');
+    hiv.group.scale.setScalar(1.32 / hiv.radius);
+    hiv.group.position.set(cx + 1.85, .05, -.25);
+    hiv.group.userData.part = 'hiv';
+    vir.add(hiv.group);
+
+    const b4 = makePedestalBadge(['④ VIRUSES (Acellular)', '△ Capsid/Coat  △ DNA or RNA', '✗ 0 Ribosomes  ✗ 0 ATP'], '#ff6f7a');
+    b4.position.set(cx, -2.85, 2.1); g.add(b4);
+    mk = tagFrom(g, mk, 'viruses');
+  }
+
+  an.push(
+    A(V(-14.4, 3.9, 1.2), '1. Simple Cell — Prokaryote (E. coli): all 4 pillars in 1 open room', 'real-bacterium'),
+    A(V(-14.4, -4.3, 1.2), 'Prokaryotic cell schematic (nucleoid + 70S ribosomes)', 'prokaryote'),
+    A(V(-4.8, 4.1, 1.2), '2. Complex Cells — Eukaryotes (yeast, animal, plant): nucleus + organelles', 'real-cell'),
+    A(V(-6.8, -4.3, 1.2), 'Fungal cell (budding yeast)', 'real-fungal'),
+    A(V(-2.8, -4.3, 1.2), 'Plant cell (chloroplasts + cell wall)', 'real-plant'),
+    A(V(4.8, 4.0, 1.2), '3. Parasitic & Minimal Cells (Mycoplasma, Chlamydia, Rickettsia): steals host ATP', 'parasitic-cells-overview'),
+    A(V(14.4, 3.9, 1.2), '4. Viruses — Acellular hijackers (0 ribosomes, 0 ATP, not alive)', 'viruses'),
+  );
+  const out = finalize(g, an, 19.5);
+  out.onFrame = () => { out.group.updateMatrixWorld(true); prokBuilt?.onFrame?.(); };
+  return out;
+}
+
 // =====================================================================
 // The structure tree: biggest (cell) to smallest (atoms)
 // =====================================================================
@@ -4005,6 +4481,12 @@ const NODES = {
   'atom-n': { name: 'Nitrogen atom', scale: '~0.15 nm', b: () => buildAtom('N'), children: [], desc: '7 protons, 7 neutrons, 7 electrons (2 + 5). Found in every amino acid and every DNA and RNA base.' },
   'atom-o': { name: 'Oxygen atom', scale: '~0.15 nm', b: () => buildAtom('O'), children: [], desc: '8 protons, 8 neutrons, 8 electrons (2 + 6). It pulls electrons strongly, which makes water and many biomolecules polar.' },
   'atom-p': { name: 'Phosphorus atom', scale: '~0.2 nm', b: () => buildAtom('P'), children: [], desc: '15 protons, 16 neutrons, 15 electrons (2 + 8 + 5). The centre of phosphate groups in DNA, RNA, ATP and membrane lipids.' },
+  'parasitic-cells-overview': { name: 'Parasitic & minimal cells (comparative preview)', scale: '300 nm – 1.1 µm', b: buildParasiticPreview,
+    children: ['real-bacterium', 'mitochondrion', 'ribosome-70s', 'atp-synthase', 'dna', 'nucleotide', 'phospholipid', 'peptidoglycan'],
+    desc: 'Between autonomous free-living bacteria (like E. coli) and non-living viruses sits a crucial biological tier: minimal and obligate intracellular bacteria — Mycoplasma genitalium, Chlamydia trachomatis and Rickettsia prowazekii. Unlike viruses, every one of these organisms is a true living cell enclosed by a lipid membrane with its own double-stranded DNA chromosome (0.58–1.11 Mbp) and its own 70S ribosomes that translate mRNA into protein. Yet evolution inside nutrient-rich hosts stripped away their biosynthetic and energy pathways: Mycoplasma shed its peptidoglycan wall and shrank to ~482 genes, while Chlamydia and Rickettsia use Npt1/Tlc1 ATP/ADP translocases to steal ready-made ATP directly from the host cell.' },
+  'life-overview': { name: 'Introduction to biology: cells, parasitic cells & viruses', scale: '18 nm – 100 µm', b: buildBiologyIntro,
+    children: ['real-bacterium', 'real-fungal', 'real-cell', 'real-plant', 'parasitic-cells-overview', 'viruses', 'prokaryote', 'cell', 'plant-cell', 'bacteriophage', 'coronavirus', 'hiv'],
+    desc: 'Four tiers of biological organization side by side, judged by the four pillars of cellular life — a lipid membrane, a double-stranded DNA genome, protein-building ribosomes, and self-made ATP energy: (1) Simple Prokaryotes like E. coli run all four pillars in one open room; (2) Complex Eukaryotes (yeast, animal and plant cells) divide work across a nucleus and endosymbiotic mitochondria and chloroplasts; (3) Parasitic and minimal bacteria (Mycoplasma, Chlamydia, Rickettsia) remain true cells with DNA and 70S ribosomes yet depend on host cells for ATP and nutrients; and (4) Viruses carry genetic code in a protein coat with zero ribosomes and zero ATP metabolism, remaining inert outside a living host.' },
 };
 
 // =====================================================================
@@ -4101,25 +4583,46 @@ function setLook(real) {
 const $ = id => document.getElementById(id);
 const labelsEl = $('labels'), svg = $('lines'), NS = 'http://www.w3.org/2000/svg';
 const MENU_GROUPS = [
-  { id: 'cells', label: 'Cells', items: [
-    ['real-cell', 'Animal cell'],
-    ['real-plant', 'Plant cell'],
-    ['real-fungal', 'Fungal cell (yeast)'],
-    ['real-bacterium', 'Bacterium (E. coli)'],
+  { id: 'stage-0', label: '0 · Introduction to Biology', sub: 'Start Here · The Rules of Life', items: [
+    ['life-overview', '0.1 · Cells, parasitic cells & viruses'],
   ] },
-  { id: 'viruses', label: 'Viruses', items: [
-    ['real-phage', 'Bacteriophage T4'],
-    ['real-coronavirus', 'Coronavirus'],
-    ['real-hiv', 'HIV-1 retrovirus'],
-    ['real-adenovirus', 'Adenovirus'],
-    ['real-tmv', 'Tobacco mosaic (TMV)'],
-    ['viruses', 'All virus types (3D)'],
+  { id: 'stage-1', label: '1 · Simple Cells — Prokaryotes', sub: '1 Open Room · Fully Autonomous', items: [
+    ['real-bacterium', '1.1 · Bacterium (E. coli)'],
+  ] },
+  { id: 'stage-2', label: '2 · Complex Cells — Eukaryotes', sub: 'Internal Organelles & Symbionts', items: [
+    ['real-fungal', '2.1 · Fungal cell (yeast)'],
+    ['real-cell', '2.2 · Animal cell'],
+    ['real-plant', '2.3 · Plant cell'],
+  ] },
+  { id: 'stage-3', label: '3 · Parasitic & Minimal Cells', sub: 'Has DNA + Ribosomes · Steals Host ATP', items: [
+    ['parasitic-cells-overview', '3.0 · Incomplete & intracellular bacteria'],
+  ] },
+  { id: 'stage-4', label: '4 · Viruses — Code Without Cells', sub: '0 Ribosomes · 0 ATP · Hijacks Host', items: [
+    ['viruses', '4.1 · All virus architectures (3D)'],
+    ['real-phage', '4.2 · Bacteriophage T4'],
+    ['real-tmv', '4.3 · Tobacco mosaic (TMV)'],
+    ['real-adenovirus', '4.4 · Human adenovirus'],
+    ['real-coronavirus', '4.5 · SARS-CoV-2 coronavirus'],
+    ['real-hiv', '4.6 · HIV-1 retrovirus'],
   ] },
 ];
 const ROOTS = MENU_GROUPS.flatMap(g => g.items), EXTRA_ROOTS = new Set(['cell', 'plant-cell', 'prokaryote']), isRoot = id => ROOTS.some(r => r[0] === id) || EXTRA_ROOTS.has(id);
+const TOUR_BY_ROOT = {
+  'life-overview': window.TOURS?.biology_intro ?? null,
+  'real-bacterium': window.TOURS?.bacterium ?? null,
+  'real-fungal': window.TOURS?.fungal ?? null,
+  'real-cell': window.TOURS?.eukaryotic ?? null,
+  'real-plant': window.TOURS?.plant ?? null,
+  'viruses': window.TOURS?.viruses ?? null,
+  'real-phage': window.TOURS?.bacteriophage ?? null,
+  'real-tmv': window.TOURS?.tmv ?? null,
+  'real-adenovirus': window.TOURS?.adenovirus ?? null,
+  'real-coronavirus': window.TOURS?.coronavirus ?? null,
+  'real-hiv': window.TOURS?.hiv ?? null,
+};
 const collapsedMenus = new Set();
 const cache = new Map(), expanded = new Set(ROOTS.map(r => r[0]));
-let curPath = ['real-cell'], cur = null, labelEls = [], showTags = true, enterT = 0, goToken = 0;
+let curPath = ['life-overview'], cur = null, labelEls = [], showTags = true, enterT = 0, goToken = 0;
 
 function build(id) {
   if (cache.has(id)) return cache.get(id);
@@ -4189,7 +4692,12 @@ const nScale = id => i18n.nodeScale(id, NODES[id]?.scale ?? '');
 const nDesc = id => i18n.nodeDesc(id, NODES[id]?.desc ?? '');
 function setStageMode(real) {
   renderer.domElement.style.visibility = real ? 'hidden' : '';
-  Object.values(PAGES).forEach(P => { if (P.el) P.el.style.display = real && P === page ? '' : 'none'; });
+  Object.values(PAGES).forEach(P => {
+    if (!P.el) return;
+    const on = real && P === page;
+    P.el.style.visibility = on ? '' : 'hidden';
+    P.el.style.pointerEvents = on ? '' : 'none';
+  });
   $('cut').hidden = !real; $('hint').textContent = real ? i18n.t('hintReal') : i18n.t('hintDefault');
 }
 function showReal(id) {
@@ -4380,15 +4888,17 @@ accountBtn.id = 'accountBtn';
 accountBtn.type = 'button';
 let authTabMode = 'login';
 function updateAccountBtnLabel() {
-  const trackedCount = ROOTS.filter(([rid]) => {
+  const guidedRoots = ROOTS.filter(([rid]) => rid in TOUR_BY_ROOT);
+  const totalCourses = guidedRoots.length;
+  const trackedCount = guidedRoots.filter(([rid]) => {
     const cp = progressMgr.getCheckpoint(rid);
     return cp && (cp.stepIdx > 0 || cp.isCompleted || cp.stepId);
   }).length;
   if (progressMgr.authenticated && progressMgr.user) {
     const displayName = progressMgr.user.fullName || progressMgr.user.email.split('@')[0];
-    accountBtn.textContent = i18n.t('accountStatusBtn', { name: displayName, n: trackedCount });
+    accountBtn.textContent = i18n.t('accountStatusBtn', { name: displayName, n: trackedCount, total: totalCourses });
   } else {
-    accountBtn.textContent = trackedCount > 0 ? `${i18n.t('trackProgressBtn')} (${trackedCount}/10)` : i18n.t('trackProgressBtn');
+    accountBtn.textContent = trackedCount > 0 ? `${i18n.t('trackProgressBtn')} (${trackedCount}/${totalCourses})` : i18n.t('trackProgressBtn');
   }
 }
 updateAccountBtnLabel();
@@ -4418,6 +4928,16 @@ addEventListener('message', e => {
     if (here) { $('busy').style.display = 'none'; renderMols(); }
     renderInfo();
     if (T.waitReady !== null && P === PAGES[TOUR_PAGE]) startTour(T.waitReady);
+    else if (T.waitSync && P === PAGES[TOUR_PAGE] && T.on && T.mode === 'tour') {
+      T.waitSync = false;
+      const s = stepNow();
+      if (s) {
+        tp({ cmd: 'set', look: s.look ?? 'gel', cut: s.cut ?? true, flow: s.flow ?? false, motion: s.motion ?? true });
+        showStepTags(s);
+        tp({ cmd: 'fly', ...s.camera, dur: 0, orbit: T.reduce ? 0 : s.camera.orbit ?? 0 });
+        if (T.hiKey) tp({ cmd: 'blink', key: T.hiKey, n: 0 });
+      }
+    }
   }
 });
 // what a part of the realistic cell takes in and gives out (from the realistic page), or the default note on how the flows work
@@ -4489,7 +5009,7 @@ function updateRings(now) {
 // hovering works only for parts that appear in the current model
 const hoverable = el => { el.onmouseenter = () => { const id = el.dataset.id; if (cur && (cur.anchors.some(a => a.id === id) || partsOf(id).length)) setHover(id); }; el.onmouseleave = () => setHover(null); };
 function go(path) {
-  if (!path.length || !isRoot(path[0])) path = ['real-cell'];
+  if (!path.length || !isRoot(path[0])) path = ['life-overview'];
   const prevLeaf = curPath.at(-1);
   curPath = path; syncTourRoot(curPath[0]);
   if (prevLeaf && prevLeaf !== curPath.at(-1) && T.narrator?.isSpeakingLens?.()) {
@@ -4532,6 +5052,12 @@ function renderTree() {
     car.className = 'm-car';
     car.textContent = collapsed ? '▸' : '▾';
     hd.append(titleSpan, car);
+    if (grp.sub) {
+      const subSpan = document.createElement('span');
+      subSpan.className = 'm-sub';
+      subSpan.textContent = i18n.tr(grp.sub);
+      hd.append(subSpan);
+    }
     hd.onclick = () => {
       collapsed ? collapsedMenus.delete(grp.id) : collapsedMenus.add(grp.id);
       renderTree();
@@ -4540,7 +5066,16 @@ function renderTree() {
     grid.className = 'menu-grid';
     grp.items.forEach(([id, label]) => {
       const b = document.createElement('button');
-      b.textContent = i18n.tr(label);
+      b.dataset.root = id;
+      const lblSpan = document.createElement('span');
+      lblSpan.textContent = i18n.tr(label);
+      b.append(lblSpan);
+      if (progressMgr.isTourCompleted(id)) {
+        const done = document.createElement('span');
+        done.className = 'm-done';
+        done.textContent = '✓';
+        b.append(done);
+      }
       b.className = curPath[0] === id ? 'on' : '';
       b.onclick = () => go([id]);
       grid.append(b);
@@ -4646,9 +5181,96 @@ function renderRichParagraphs(parent, raw) {
     parent.append(p);
   }
 }
+const AUTONOMY_PROFILES = {
+  'life-overview': {
+    statusKey: 'statusOverview',
+    pills: [['ok', 'pillarMembrane'], ['ok', 'pillarDna'], ['ok', 'pillarRibosomes70S'], ['ok', 'pillarOwnAtp']],
+  },
+  'real-bacterium': {
+    statusKey: 'statusAutonomous',
+    pills: [['ok', 'pillarMembrane'], ['ok', 'pillarDna'], ['ok', 'pillarRibosomes70S'], ['ok', 'pillarOwnAtp']],
+  },
+  'real-fungal': {
+    statusKey: 'statusCompartmentalized',
+    pills: [['ok', 'pillarMembrane'], ['ok', 'pillarDna'], ['ok', 'pillarRibosomes80S'], ['ok', 'pillarOrganelleAtp']],
+  },
+  'real-cell': {
+    statusKey: 'statusCompartmentalized',
+    pills: [['ok', 'pillarMembrane'], ['ok', 'pillarDna'], ['ok', 'pillarRibosomes80S'], ['ok', 'pillarOrganelleAtp']],
+  },
+  'real-plant': {
+    statusKey: 'statusCompartmentalized',
+    pills: [['ok', 'pillarMembrane'], ['ok', 'pillarDna'], ['ok', 'pillarRibosomes80S'], ['ok', 'pillarOrganelleAtp']],
+  },
+  'parasitic-cells-overview': {
+    statusKey: 'statusHostDependent',
+    pills: [['ok', 'pillarMembrane'], ['ok', 'pillarDna'], ['ok', 'pillarRibosomes70S'], ['no', 'pillarStealsAtp']],
+  },
+  'viruses': {
+    statusKey: 'statusNotAlive',
+    pills: [['warn', 'pillarCapsid'], ['warn', 'pillarViralGenome'], ['no', 'pillarNoRibosomes'], ['no', 'pillarNoAtp']],
+  },
+  'real-phage': {
+    statusKey: 'statusNotAlive',
+    pills: [['warn', 'pillarCapsid'], ['warn', 'pillarViralGenome'], ['no', 'pillarNoRibosomes'], ['no', 'pillarNoAtp']],
+  },
+  'real-tmv': {
+    statusKey: 'statusNotAlive',
+    pills: [['warn', 'pillarCapsid'], ['warn', 'pillarViralGenome'], ['no', 'pillarNoRibosomes'], ['no', 'pillarNoAtp']],
+  },
+  'real-adenovirus': {
+    statusKey: 'statusNotAlive',
+    pills: [['warn', 'pillarCapsid'], ['warn', 'pillarViralGenome'], ['no', 'pillarNoRibosomes'], ['no', 'pillarNoAtp']],
+  },
+  'real-coronavirus': {
+    statusKey: 'statusNotAlive',
+    pills: [['warn', 'pillarCapsid'], ['warn', 'pillarViralGenome'], ['no', 'pillarNoRibosomes'], ['no', 'pillarNoAtp']],
+  },
+  'real-hiv': {
+    statusKey: 'statusNotAlive',
+    pills: [['warn', 'pillarCapsid'], ['warn', 'pillarViralGenome'], ['no', 'pillarNoRibosomes'], ['no', 'pillarNoAtp']],
+  },
+};
 function renderInfo() {
   const id = curPath.at(-1), n = NODES[id];
   $('lvl').textContent = i18n.t('level', { n: curPath.length }); $('title').textContent = nName(id); $('scale').textContent = nScale(id);
+  const autoEl = $('autonomyBar');
+  const autoProf = curPath.length === 1 ? AUTONOMY_PROFILES[id] : null;
+  if (autoEl) {
+    autoEl.replaceChildren();
+    autoEl.hidden = !autoProf;
+    if (autoProf) {
+      const hd = document.createElement('div');
+      hd.className = 'auto-hd';
+      const kicker = document.createElement('span');
+      kicker.className = 'auto-kicker';
+      kicker.textContent = i18n.t('autonomyHeader');
+      const status = document.createElement('span');
+      status.className = 'auto-status';
+      status.textContent = i18n.t(autoProf.statusKey);
+      hd.append(kicker, status);
+      const pillsWrap = document.createElement('div');
+      pillsWrap.className = 'auto-pills';
+      for (const [state, labelKey] of autoProf.pills) {
+        const chip = document.createElement('span');
+        chip.className = `auto-pill ${state}`;
+        const sym = state === 'ok' ? '✓ ' : state === 'warn' ? '△ ' : '✗ ';
+        chip.textContent = sym + i18n.t(labelKey);
+        pillsWrap.append(chip);
+      }
+      autoEl.append(hd, pillsWrap);
+      if (id === 'parasitic-cells-overview') {
+        const nextRoot = progressMgr.getNextCourseRoot(id) ?? 'viruses';
+        const nextLabel = ROOTS.find(([rid]) => rid === nextRoot)?.[1] ?? nName(nextRoot);
+        const nextBtn = document.createElement('button');
+        nextBtn.id = 'infoNextCourse';
+        nextBtn.type = 'button';
+        nextBtn.textContent = i18n.t('nextInCourseBtn', { name: i18n.tr(nextLabel) });
+        nextBtn.onclick = () => go([nextRoot]);
+        autoEl.append(nextBtn);
+      }
+    }
+  }
   if ($('lensVoiceBar')) $('lensVoiceBar').hidden = !NODE_LENS_REGISTRY[id];
   syncVoiceUI();
   renderRichParagraphs($('desc'), nDesc(id));
@@ -4816,27 +5438,36 @@ const wasd = e => { const k = e.key.toLowerCase(); return k.length === 1 && 'was
 addEventListener('keydown', e => { const k = wasd(e); if (k && cur?.real && !tourHolds()) toReal({ cmd: 'key', key: k, down: true }); });
 addEventListener('keyup', e => { const k = wasd(e); if (k) toReal({ cmd: 'key', key: k, down: false }); });
 addEventListener('blur', () => 'wasd'.split('').forEach(k => toReal({ cmd: 'key', key: k, down: false })));
-addEventListener('hashchange', () => { const t = location.hash.match(TOUR_HASH); if (t) return startTour(t[1] ?? true); const p = location.hash.slice(1).split('/').filter(Boolean); if (p.join('/') !== curPath.join('/')) go(validPath(p)); });
-function validPath(p) { const out = []; for (const id of p) { if (!NODES[id] || (out.length && !NODES[out.at(-1)].children.includes(id))) break; out.push(id); } return isRoot(out[0]) ? out : ['real-cell']; }
+function tourHasTarget(tr, target) {
+  if (!tr || !target) return false;
+  return tr.chapters?.some(ch => ch.id === target || ch.steps?.some(s => s.id === target || s.cues?.some(c => c.id === target)));
+}
+function resolveTourRootForTarget(target, fallbackRoot = 'life-overview') {
+  if (!target || typeof target !== 'string') return fallbackRoot;
+  if (tourHasTarget(TOUR_BY_ROOT[fallbackRoot], target)) return fallbackRoot;
+  for (const [rootId, tr] of Object.entries(TOUR_BY_ROOT)) {
+    if (tourHasTarget(tr, target)) return rootId;
+  }
+  return fallbackRoot;
+}
+addEventListener('hashchange', () => {
+  const t = location.hash.match(TOUR_HASH);
+  if (t) {
+    const targetRoot = t[1] ? resolveTourRootForTarget(t[1], curPath[0]) : curPath[0];
+    if (curPath[0] !== targetRoot || curPath.length > 1) go([targetRoot]);
+    return startTour(t[1] ?? true);
+  }
+  const p = location.hash.slice(1).split('/').filter(Boolean);
+  if (p.join('/') !== curPath.join('/')) go(validPath(p));
+});
+function validPath(p) { const out = []; for (const id of p) { if (!NODES[id] || (out.length && !NODES[out.at(-1)].children.includes(id))) break; out.push(id); } return isRoot(out[0]) ? out : ['life-overview']; }
 
 // ---------------------------------------------------------------------
 // The guided tour (docs/tutorial_mode_spec.md): scripts of chapters, steps and subtitle cues (tours/*.js) played over
-// the realistic cell, the five realistic virus pages, the comparative virus gallery, and any child detail level.
+// the Introduction to Biology 3D stage, realistic cells, realistic virus pages, comparative virus gallery, and detail levels.
 // ---------------------------------------------------------------------
-const TOUR_BY_ROOT = {
-  'real-cell': window.TOURS?.eukaryotic ?? null,
-  'real-plant': window.TOURS?.plant ?? null,
-  'real-fungal': window.TOURS?.fungal ?? null,
-  'real-bacterium': window.TOURS?.bacterium ?? null,
-  'real-phage': window.TOURS?.bacteriophage ?? null,
-  'real-coronavirus': window.TOURS?.coronavirus ?? null,
-  'real-hiv': window.TOURS?.hiv ?? null,
-  'real-adenovirus': window.TOURS?.adenovirus ?? null,
-  'real-tmv': window.TOURS?.tmv ?? null,
-  'viruses': window.TOURS?.viruses ?? null,
-};
 const DEFAULT_VIEWS = { cell: 'real-cell', focus: 'real-cell', nucleus: 'real-nucleus', nucleolus: 'real-nucleolus', DNA: 'real-dna' };
-let TOUR = TOUR_BY_ROOT['real-cell'], TOUR_PAGE = 'animal_cell_realistic.html', STEPS = [], VIEW_NODE = DEFAULT_VIEWS;
+let TOUR = TOUR_BY_ROOT['life-overview'], TOUR_PAGE = null, STEPS = [], VIEW_NODE = DEFAULT_VIEWS;
 const TOUR_HASH = /^#tour(?:=([\w.-]+))?$/;
 const rootView = () => TOUR?.view ?? 'cell';
 const store = { get(k, d) { try { const v = localStorage.getItem(k); return v === null ? d : JSON.parse(v); } catch { return d; } }, set(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); } catch { /* storage may be blocked */ } } };
@@ -4844,7 +5475,7 @@ const store = { get(k, d) { try { const v = localStorage.getItem(k); return v ==
 // on its way), lead (the part blinks before the words), cue, gap (between two cues), wait (the step's words are done)
 const T = { on: false, mode: 'off', phase: 'idle', i: 0, cue: -1, pending: 0, list: [], seq: 0, until: 0, left: 0, paused: false, voice: 0, speaking: false,
   narrator: null, narr: true, subs: true, size: 1, pace: 1, auto: store.get('tourAuto', true), reduce: matchMedia('(prefers-reduced-motion: reduce)').matches, alone: false,
-  hiKey: null, links: -1, more: false, esc: 0, user: null, waitReady: null, seen: new Set(store.get('tourSeen', [])) };
+  hiKey: null, links: -1, more: false, esc: 0, user: null, waitReady: null, waitSync: false, seen: new Set(store.get('tourSeen', [])) };
 let localFly = null, ghostedMats = [];
 function clearLocalGhost() {
   ghostedMats.forEach(([o, origMat, origVis]) => { o.material = origMat; o.visible = origVis; });
@@ -4919,7 +5550,7 @@ function syncTourRoot(root = curPath[0]) {
   STEPS = TOUR ? TOUR.chapters.flatMap((c, ci) => c.steps.map((s, si) => ({ ...s, ch: c, ci, si }))) : [];
   VIEW_NODE = TOUR?.views ?? (TOUR ? { [TOUR.view ?? 'cell']: TOUR.root, focus: TOUR.root } : DEFAULT_VIEWS);
 }
-syncTourRoot('real-cell');
+syncTourRoot('life-overview');
 const tp = m => (TOUR_PAGE ? toReal(m, PAGES[TOUR_PAGE]) : localTourCmd(m));
 const stepNow = () => STEPS[T.i];
 const tourHolds = () => T.on && T.mode !== 'explore' && T.mode !== 'detail';
@@ -4948,7 +5579,7 @@ const cueInfo = (c, s = stepNow()) => {
 };
 function emit(type, detail = {}) { dispatchEvent(new CustomEvent('tour:' + type, { detail })); if (parent !== window) parent.postMessage({ from: 'cell-tour', type, ...detail }, '*'); }
 // the shortest way down the tree from the root to a node, so a part opened from the tour has its real path
-function pathTo(id, from = TOUR?.root ?? 'real-cell') {
+function pathTo(id, from = TOUR?.root ?? 'life-overview') {
   const seen = new Set([from]), q = [[from]];
   while (q.length) { const p = q.shift(); if (p.at(-1) === id) return p; for (const c of NODES[p.at(-1)].children) if (!seen.has(c)) { seen.add(c); q.push(p.concat(c)); } }
   return null;
@@ -5158,6 +5789,13 @@ function enterRoot() {
   if (TOUR_PAGE) showReal(TOUR.root); else setModel(build(TOUR.root));
 }
 function startTour(at = true) {
+  if (typeof at === 'string') {
+    const resolvedRoot = resolveTourRootForTarget(at, curPath[0]);
+    if (resolvedRoot !== curPath[0] || curPath.length > 1) {
+      curPath = [resolvedRoot];
+      history.replaceState(null, '', '#' + resolvedRoot);
+    }
+  }
   syncTourRoot(curPath[0]);
   if (!TOUR) return;
   const P = TOUR_PAGE ? PAGES[TOUR_PAGE] : { ready: true, state: { motion: controls.autoRotate } };
@@ -5169,12 +5807,23 @@ function startTour(at = true) {
     T.mode = 'detail'; T.paused = false; T.more = false; setLayout(); detailLevel(id);
     return;
   }
-  if (TOUR_PAGE && !P.ready) { T.waitReady = at; enterRoot(); $('busy').style.display = 'flex'; return; }   // the realistic page is still being built
-  T.waitReady = null;
+  const i = typeof at === 'number' ? at : typeof at === 'string' ? STEPS.findIndex(s => s.id === at || s.cues?.some(c => c.id === at)) : -1;
+  const cueIdx = typeof at === 'string' && i >= 0 ? Math.max(0, STEPS[i].cues?.findIndex(c => c.id === at) ?? 0) : 0;
+  if (TOUR_PAGE && !P.ready) {   // the realistic page is still being built
+    enterRoot(); $('busy').style.display = 'flex';
+    if (i >= 0) {
+      T.waitReady = null; T.waitSync = true;
+      if (!T.on) { T.on = true; T.user = settings(P.state); }
+      $('tMenu').hidden = true; T.mode = 'tour'; setLayout(); playStep(i, cueIdx);
+    } else {
+      T.waitReady = at;
+    }
+    return;
+  }
+  T.waitReady = null; T.waitSync = false;
   if (!T.on) { T.on = true; T.user = settings(P.state); }
   $('tMenu').hidden = true; enterRoot();
-  const i = typeof at === 'number' ? at : typeof at === 'string' ? STEPS.findIndex(s => s.id === at) : -1;
-  if (i >= 0) { T.mode = 'tour'; setLayout(); return playStep(i); }
+  if (i >= 0) { T.mode = 'tour'; setLayout(); return playStep(i, cueIdx); }
   T.mode = 'intro'; T.phase = 'idle'; calm(); showCard(); setLayout();
   tp({ cmd: 'set', look: 'gel', cut: true, flow: true, motion: true }); showStepTags({});
   tp({ cmd: 'fly', view: rootView(), dur: T.reduce ? 0 : 2, orbit: T.reduce ? 0 : 3, seq: ++T.seq });
@@ -5193,6 +5842,7 @@ function finish() {
       lastNodeId: TOUR.root,
     });
     updateAccountBtnLabel();
+    renderTree();
   }
   T.mode = 'finished'; T.phase = 'idle'; showCard(); setLayout(); renderCue(null);
   tp({ cmd: 'set', flow: true }); tp({ cmd: 'fly', view: rootView(), dur: T.reduce ? 0 : 2, orbit: T.reduce ? 0 : 3, seq: ++T.seq });
@@ -5202,6 +5852,7 @@ function resetTourToBeginning() {
   if (!TOUR) return;
   progressMgr.resetCourse(TOUR.root);
   updateAccountBtnLabel();
+  renderTree();
   if ($('accountModal') && !$('accountModal').hidden) renderAccountModal();
   $('tMenu').hidden = true;
   $('tCard').hidden = true;
@@ -5217,7 +5868,7 @@ function explore() {
 function backToTour() { toStep(T.i, Math.max(0, T.cue)); }
 function exitTour() {
   stopVoice(); calm(); tp({ cmd: 'free' }); if (T.user) tp({ cmd: 'set', ...T.user });
-  Object.assign(T, { on: false, mode: 'off', phase: 'idle', paused: false, more: false, waitReady: null });
+  Object.assign(T, { on: false, mode: 'off', phase: 'idle', paused: false, more: false, waitReady: null, waitSync: false });
   $('tMenu').hidden = true; setLayout(); restoreRootTags(); renderInfo(); syncToolbar();
 }
 // ---- "more detail": the part's own explorer level, with its description as subtitles (or a short script of its own)
@@ -5298,7 +5949,21 @@ function showCard() {
   const btn = (text, fn, main) => { const b = document.createElement('button'); b.textContent = text; b.onclick = fn; if (main) b.className = 'main'; acts.append(b); };
   if (fin) {
     h.textContent = i18n.t('tourComplete'); p.textContent = i18n.t('tourCompleteDesc');
-    btn(i18n.t('exploreBtn'), explore, true); btn(i18n.t('startFromBeginning'), resetTourToBeginning); btn(i18n.t('replayChapter'), toggleMenu); btn(i18n.t('leaveTour'), exitTour);
+    const nextRoot = TOUR ? progressMgr.getNextCourseRoot(TOUR.root) : null;
+    if (nextRoot) {
+      const nextLabel = ROOTS.find(([rid]) => rid === nextRoot)?.[1] ?? nName(nextRoot);
+      const nb = document.createElement('button');
+      nb.id = 'tNextCourse';
+      nb.className = 'main next-course';
+      nb.textContent = i18n.t('nextInCourseBtn', { name: i18n.tr(nextLabel) });
+      nb.onclick = () => {
+        exitTour();
+        go([nextRoot]);
+        if (TOUR_BY_ROOT[nextRoot]) startTour();
+      };
+      acts.append(nb);
+    }
+    btn(i18n.t('exploreBtn'), explore, !nextRoot); btn(i18n.t('startFromBeginning'), resetTourToBeginning); btn(i18n.t('replayChapter'), toggleMenu); btn(i18n.t('leaveTour'), exitTour);
   } else {
     h.textContent = i18n.tr(TOUR.title); p.textContent = i18n.tr(TOUR.summary ?? 'From the whole cell down to a gene being read: each part lights up, the camera flies to it, and subtitles explain it. About eight minutes.');
     k.textContent = i18n.t('tourKeysHint');
@@ -5602,7 +6267,7 @@ function renderAccountModal() {
 
   const courseList = document.createElement('div');
   courseList.className = 'course-list';
-  ROOTS.forEach(([rootId, rawLabel]) => {
+  ROOTS.filter(([rootId]) => rootId in TOUR_BY_ROOT).forEach(([rootId, rawLabel]) => {
     const tourObj = TOUR_BY_ROOT[rootId];
     const flatSteps = tourObj ? tourObj.chapters.flatMap(ch => ch.steps) : [];
     const cp = progressMgr.getCheckpoint(rootId);
@@ -5618,7 +6283,7 @@ function renderAccountModal() {
     info.className = 'c-info';
     const nm = document.createElement('div');
     nm.className = 'c-name';
-    nm.textContent = i18n.tr(rawLabel);
+    nm.textContent = (cp?.isCompleted ? '✓ ' : '') + i18n.tr(rawLabel);
     const st = document.createElement('span');
     st.className = 'c-step';
     if (stepIndex >= 0 && flatSteps[stepIndex]) {
@@ -5654,6 +6319,7 @@ function renderAccountModal() {
           toStep(0, 0);
         }
         updateAccountBtnLabel();
+        renderTree();
         renderAccountModal();
       };
       btns.append(resetCourseBtn);
@@ -5667,13 +6333,26 @@ function renderAccountModal() {
 }
 progressMgr.onChange(() => {
   updateAccountBtnLabel();
+  renderTree();
 });
 progressMgr.hydrateFromServer();
 
 window.__tour = {
   start: at => startTour(at), exit: exitTour, reset: resetTourToBeginning, play: () => T.paused && togglePause(), pause: () => !T.paused && togglePause(),
   next: nextCue, prev: prevCue, nextStep, prevStep, explore, back: backToTour,
-  goto(id) { syncTourRoot(curPath[0]); const i = STEPS.findIndex(s => s.id === id || s.cues.some(c => c.id === id)); if (i < 0) return false; if (!T.on) startTour(STEPS[i].id); else toStep(i, Math.max(0, STEPS[i].cues.findIndex(c => c.id === id))); return true; },
+  goto(id) {
+    const resolvedRoot = resolveTourRootForTarget(id, curPath[0]);
+    if (resolvedRoot !== curPath[0] || curPath.length > 1) {
+      curPath = [resolvedRoot];
+      history.replaceState(null, '', '#' + resolvedRoot);
+    }
+    syncTourRoot(curPath[0]);
+    const i = STEPS.findIndex(s => s.id === id || s.cues.some(c => c.id === id));
+    if (i < 0) return false;
+    if (!T.on) startTour(id);
+    else toStep(i, Math.max(0, STEPS[i].cues.findIndex(c => c.id === id)));
+    return true;
+  },
   get state() { return { on: T.on, root: TOUR?.root ?? null, mode: T.mode, phase: T.phase, step: stepNow()?.id ?? null, cue: T.list[T.cue]?.id ?? null, paused: T.paused }; },
   cues: () => STEPS.flatMap(s => s.cues.map(c => cueInfo(c, s))),
   setNarrator(n) { T.narrator = n; $('tNarr').hidden = !n; if (!n) stopVoice(); },
@@ -5715,7 +6394,8 @@ renderer.setAnimationLoop(now => {
 });
 try { if (localStorage.getItem('cellLook') === 'real') setLook(true); } catch { /* storage may be blocked */ }
 const tourAt = location.hash.match(TOUR_HASH);   // #tour, or #tour=<step id>: start the guided tour
-go(validPath(tourAt ? [] : location.hash.slice(1).split('/').filter(Boolean)));
+const initPath = tourAt ? [resolveTourRootForTarget(tourAt[1], 'life-overview')] : validPath(location.hash.slice(1).split('/').filter(Boolean));
+go(initPath);
 if (tourAt) startTour(tourAt[1] ?? true);
 // synchronous view switch + single frame; used for scripted checks when animation frames are throttled
 const showNow = path => {

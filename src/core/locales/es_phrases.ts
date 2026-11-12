@@ -1492,4 +1492,55 @@ export const ES_EXTRA_PHRASES: Record<string, string> = {
   'Assembly: on': 'Ensamblaje: activo',
   'Assembly: off': 'Ensamblaje: inactivo',
   'Cylinder': 'Cilindro',
+
+  // ─── Phase 07: Curriculum Tree Labels, Subtitles & Stage 0 / 3.0 Anchors ──
+  '0 · Introduction to Biology': '0 · Introducción a la biología',
+  'Start Here · The Rules of Life': 'Empieza aquí · Las reglas de la vida',
+  '0.1 · Cells, parasitic cells & viruses': '0.1 · Células, células parásitas y virus',
+  '1 · Simple Cells — Prokaryotes': '1 · Células simples — Procariotas',
+  '1 Open Room · Fully Autonomous': '1 compartimento · Totalmente autónoma',
+  '1.1 · Bacterium (E. coli)': '1.1 · Bacteria (E. coli)',
+  '2 · Complex Cells — Eukaryotes': '2 · Células complejas — Eucariotas',
+  'Internal Organelles & Symbionts': 'Orgánulos internos y simbiontes',
+  '2.1 · Fungal cell (yeast)': '2.1 · Célula fúngica (levadura)',
+  '2.2 · Animal cell': '2.2 · Célula animal',
+  '2.3 · Plant cell': '2.3 · Célula vegetal',
+  '3 · Parasitic & Minimal Cells': '3 · Células parásitas y mínimas',
+  'Has DNA + Ribosomes · Steals Host ATP': 'Con ADN + ribosomas · Roba ATP',
+  '3.0 · Incomplete & intracellular bacteria': '3.0 · Bacterias incompletas e intracelulares',
+  '4 · Viruses — Code Without Cells': '4 · Virus — Código sin célula',
+  '0 Ribosomes · 0 ATP · Hijacks Host': '0 ribosomas · 0 ATP · Secuestra al huésped',
+  '4.1 · All virus architectures (3D)': '4.1 · Arquitecturas virales (3D)',
+  '4.2 · Bacteriophage T4': '4.2 · Bacteriófago T4',
+  '4.3 · Tobacco mosaic (TMV)': '4.3 · Mosaico del tabaco (VMT)',
+  '4.4 · Human adenovirus': '4.4 · Adenovirus humano',
+  '4.5 · SARS-CoV-2 coronavirus': '4.5 · Coronavirus SARS-CoV-2',
+  '4.6 · HIV-1 retrovirus': '4.6 · Retrovirus VIH-1',
+  'Simple Cell — Prokaryote (E. coli)': 'Célula simple — Procariota (E. coli)',
+  'Complex Cells — Eukaryotes': 'Células complejas — Eucariotas',
+  'Parasitic & Minimal Cells': 'Células parásitas y mínimas',
+  'Viruses — Acellular Hijackers': 'Virus — Secuestradores acelulares',
+  '1. Simple Cell — Prokaryote (E. coli): all 4 pillars in 1 open room':
+    '1. Célula simple — Procariota (E. coli): los 4 pilares en 1 sala abierta',
+  'Prokaryotic cell schematic (nucleoid + 70S ribosomes)':
+    'Esquema de célula procariota (nucleoide + ribosomas 70S)',
+  '2. Complex Cells — Eukaryotes (yeast, animal, plant): nucleus + organelles':
+    '2. Células complejas — Eucariotas (levadura, animal, vegetal): núcleo + orgánulos',
+  'Plant cell (chloroplasts + cell wall)': 'Célula vegetal (cloroplastos + pared celular)',
+  '3. Parasitic & Minimal Cells (Mycoplasma, Chlamydia, Rickettsia): steals host ATP':
+    '3. Células parásitas y mínimas (Mycoplasma, Chlamydia, Rickettsia): roban ATP del huésped',
+  '4. Viruses — Acellular hijackers (0 ribosomes, 0 ATP, not alive)':
+    '4. Virus — Secuestradores acelulares (0 ribosomas, 0 ATP, sin vida propia)',
+  'Mycoplasma genitalium (~300 nm wall-less minimal cell, 580 kbp dsDNA)':
+    'Mycoplasma genitalium (~300 nm, célula mínima sin pared, ADNbc de 580 kpb)',
+  'Chlamydia trachomatis (EB & RB inside host inclusion stealing ATP)':
+    'Chlamydia trachomatis (CE y CR dentro de inclusión huésped robando ATP)',
+  '70S bacterial ribosomes (builds its own proteins, unlike viruses)':
+    'Ribosomas bacterianos 70S (fabrica sus propias proteínas, a diferencia de los virus)',
+  'Circular double-stranded DNA genome (0.58–1.11 Mbp)':
+    'Genoma circular de ADN bicatenario (0,58–1,11 Mpb)',
+  'Rickettsia prowazekii (cytosolic ATP thief & cousin of mitochondria)':
+    'Rickettsia prowazekii (ladrona citosólica de ATP y pariente de la mitocondria)',
+  'Compare with autonomous free-living E. coli':
+    'Comparar con E. coli autónoma de vida libre',
 };

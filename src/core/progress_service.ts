@@ -38,10 +38,25 @@ export const CLIENT_SPANISH_VOICE_PREF_KEY = 'learnBioVoiceEs';
 export const CLIENT_VOICE_LOCKED_KEY = 'learnBioVoiceLocked';
 export const COOKIE_MAX_AGE_SECONDS = 30 * 24 * 60 * 60; // 30 days
 
+export const COURSE_SEQUENCE = [
+  'life-overview',
+  'real-bacterium',
+  'real-fungal',
+  'real-cell',
+  'real-plant',
+  'parasitic-cells-overview',
+  'viruses',
+  'real-phage',
+  'real-tmv',
+  'real-adenovirus',
+  'real-coronavirus',
+  'real-hiv'
+] as const;
+
 const VALID_MODES = new Set<ExplanationMode>(['simple', 'story', 'blueprint', 'scientific']);
 
 export class CourseProgressManager {
-  /** Primary in-memory store for all 10 cell/virus courses */
+  /** Primary in-memory store for all guided biology courses */
   readonly memoryStore = new Map<string, ClientCourseCheckpoint>();
   explanationMode: ExplanationMode = 'story';
   voicePreference: VoicePreference = 'auto';
@@ -339,6 +354,30 @@ export class CourseProgressManager {
         });
     }
     return cp;
+  }
+
+  isTourCompleted(tourKey: string): boolean {
+    return Boolean(this.memoryStore.get(tourKey)?.isCompleted);
+  }
+
+  markTourCompleted(tourKey: string): ClientCourseCheckpoint {
+    const prev = this.memoryStore.get(tourKey);
+    return this.saveStep({
+      tourKey,
+      stepId: prev?.stepId ?? null,
+      chapterIdx: prev?.chapterIdx ?? 0,
+      stepIdx: prev?.stepIdx ?? 0,
+      cueIdx: prev?.cueIdx ?? 0,
+      completedMask: prev?.completedMask ?? 0,
+      isCompleted: true,
+      lastNodeId: prev?.lastNodeId ?? tourKey,
+    });
+  }
+
+  getNextCourseRoot(currentRoot: string): string | null {
+    const idx = (COURSE_SEQUENCE as readonly string[]).indexOf(currentRoot);
+    if (idx < 0) return 'real-bacterium';
+    return idx + 1 < COURSE_SEQUENCE.length ? COURSE_SEQUENCE[idx + 1] : null;
   }
 
   async resetCourse(tourKey: string): Promise<void> {

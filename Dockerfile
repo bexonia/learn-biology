@@ -52,6 +52,8 @@ ADD audio.tar.gz \
     audio_lenses_es_spain_a.tar.gz \
     audio_lenses_es_spain_bp.tar.gz \
     audio_lenses_es_spain_sci.tar.gz \
+    audio_stage0_en.tar.gz \
+    audio_stage0_es.tar.gz \
     /usr/share/nginx/html/
 COPY --from=builder /app/dist/ /usr/share/nginx/html/dist/
 COPY --from=builder /app/dist/server.js /app/server.js

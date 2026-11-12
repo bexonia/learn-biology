@@ -48,10 +48,13 @@ AUDIO_ARCHIVES := \
 	audio_lenses_v2_a.tar.gz audio_lenses_v2_b.tar.gz \
 	audio_lenses_v3_a.tar.gz audio_lenses_v3_b.tar.gz \
 	audio_lenses_es_latam_a.tar.gz audio_lenses_es_latam_bp.tar.gz audio_lenses_es_latam_sci.tar.gz \
-	audio_lenses_es_spain_a.tar.gz audio_lenses_es_spain_bp.tar.gz audio_lenses_es_spain_sci.tar.gz
+	audio_lenses_es_spain_a.tar.gz audio_lenses_es_spain_bp.tar.gz audio_lenses_es_spain_sci.tar.gz \
+	audio_stage0_en.tar.gz audio_stage0_es.tar.gz
+
+STAGE0_EXCLUDE := --exclude='*/life-overview' --exclude='*/life-overview.opus' --exclude='*/parasitic-cells-overview.opus'
 
 unpack-audio:
-	@if [ ! -d audio/en/v1 ] || [ ! -d audio/es/latam ] || [ ! -d audio/es/spain/blueprint ] || [ ! -d audio/es/spain/scientific ] || [ ! -d audio/lenses/en/v1/scientific ] || [ ! -d audio/lenses/es/latam/scientific ] || [ ! -d audio/lenses/es/spain/scientific ]; then \
+	@if [ ! -d audio/en/v1 ] || [ ! -d audio/en/v1/life-overview ] || [ ! -d audio/es/latam/life-overview ] || [ ! -d audio/es/spain/blueprint ] || [ ! -d audio/es/spain/scientific ] || [ ! -d audio/lenses/en/v1/scientific ] || [ ! -d audio/lenses/es/latam/scientific ] || [ ! -d audio/lenses/es/spain/scientific ]; then \
 		for f in $(AUDIO_ARCHIVES); do \
 			if [ -f "$$f" ]; then \
 				echo "==> Extracting $$f into audio/ ..."; \
@@ -62,21 +65,23 @@ unpack-audio:
 
 pack-audio:
 	@echo "==> Archiving multi-persona tour & lens narration into sharded <48MB tarballs ..."
-	tar -czf audio.tar.gz audio/en
-	tar -czf audio_tours_es_pop.tar.gz audio/es/latam
-	tar -czf audio_tours_es_tech.tar.gz audio/es/spain/blueprint audio/es/spain/scientific
-	tar -czf audio_lenses_v1_a.tar.gz audio/lenses/en/v1/simple audio/lenses/en/v1/story
-	tar -czf audio_lenses_v1_b.tar.gz audio/lenses/en/v1/blueprint audio/lenses/en/v1/scientific
-	tar -czf audio_lenses_v2_a.tar.gz audio/lenses/en/v2/simple audio/lenses/en/v2/story
-	tar -czf audio_lenses_v2_b.tar.gz audio/lenses/en/v2/blueprint audio/lenses/en/v2/scientific
-	tar -czf audio_lenses_v3_a.tar.gz audio/lenses/en/v3/simple audio/lenses/en/v3/story
-	tar -czf audio_lenses_v3_b.tar.gz audio/lenses/en/v3/blueprint audio/lenses/en/v3/scientific
-	tar -czf audio_lenses_es_latam_a.tar.gz audio/lenses/es/latam/simple audio/lenses/es/latam/story
-	tar -czf audio_lenses_es_latam_bp.tar.gz audio/lenses/es/latam/blueprint
-	tar -czf audio_lenses_es_latam_sci.tar.gz audio/lenses/es/latam/scientific
-	tar -czf audio_lenses_es_spain_a.tar.gz audio/lenses/es/spain/simple audio/lenses/es/spain/story
-	tar -czf audio_lenses_es_spain_bp.tar.gz audio/lenses/es/spain/blueprint
-	tar -czf audio_lenses_es_spain_sci.tar.gz audio/lenses/es/spain/scientific
+	tar $(STAGE0_EXCLUDE) -czf audio.tar.gz audio/en
+	tar $(STAGE0_EXCLUDE) -czf audio_tours_es_pop.tar.gz audio/es/latam
+	tar $(STAGE0_EXCLUDE) -czf audio_tours_es_tech.tar.gz audio/es/spain/blueprint audio/es/spain/scientific
+	tar $(STAGE0_EXCLUDE) -czf audio_lenses_v1_a.tar.gz audio/lenses/en/v1/simple audio/lenses/en/v1/story
+	tar $(STAGE0_EXCLUDE) -czf audio_lenses_v1_b.tar.gz audio/lenses/en/v1/blueprint audio/lenses/en/v1/scientific
+	tar $(STAGE0_EXCLUDE) -czf audio_lenses_v2_a.tar.gz audio/lenses/en/v2/simple audio/lenses/en/v2/story
+	tar $(STAGE0_EXCLUDE) -czf audio_lenses_v2_b.tar.gz audio/lenses/en/v2/blueprint audio/lenses/en/v2/scientific
+	tar $(STAGE0_EXCLUDE) -czf audio_lenses_v3_a.tar.gz audio/lenses/en/v3/simple audio/lenses/en/v3/story
+	tar $(STAGE0_EXCLUDE) -czf audio_lenses_v3_b.tar.gz audio/lenses/en/v3/blueprint audio/lenses/en/v3/scientific
+	tar $(STAGE0_EXCLUDE) -czf audio_lenses_es_latam_a.tar.gz audio/lenses/es/latam/simple audio/lenses/es/latam/story
+	tar $(STAGE0_EXCLUDE) -czf audio_lenses_es_latam_bp.tar.gz audio/lenses/es/latam/blueprint
+	tar $(STAGE0_EXCLUDE) -czf audio_lenses_es_latam_sci.tar.gz audio/lenses/es/latam/scientific
+	tar $(STAGE0_EXCLUDE) -czf audio_lenses_es_spain_a.tar.gz audio/lenses/es/spain/simple audio/lenses/es/spain/story
+	tar $(STAGE0_EXCLUDE) -czf audio_lenses_es_spain_bp.tar.gz audio/lenses/es/spain/blueprint
+	tar $(STAGE0_EXCLUDE) -czf audio_lenses_es_spain_sci.tar.gz audio/lenses/es/spain/scientific
+	tar -czf audio_stage0_en.tar.gz audio/en/v1/life-overview audio/en/v2/life-overview audio/en/v3/life-overview audio/lenses/en/*/*/life-overview.opus audio/lenses/en/*/*/parasitic-cells-overview.opus
+	tar -czf audio_stage0_es.tar.gz audio/es/latam/life-overview audio/es/spain/blueprint/life-overview audio/es/spain/scientific/life-overview audio/lenses/es/*/*/life-overview.opus audio/lenses/es/*/*/parasitic-cells-overview.opus
 
 typecheck:
 	npm run typecheck

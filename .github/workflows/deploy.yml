@@ -112,6 +112,10 @@ jobs:
           curl -sf -r 0-3 "http://127.0.0.1:8080/audio/lenses/es/spain/story/mitochondrion.opus" | grep -q "OggS"
           curl -sf -r 0-3 "http://127.0.0.1:8080/audio/lenses/es/spain/blueprint/mitochondrion.opus" | grep -q "OggS"
           curl -sf -r 0-3 "http://127.0.0.1:8080/audio/lenses/es/spain/scientific/mitochondrion.opus" | grep -q "OggS"
+          curl -sf -r 0-3 "http://127.0.0.1:8080/audio/en/v3/life-overview/intro.ch0.pillars.01.opus" | grep -q "OggS"
+          curl -sf -r 0-3 "http://127.0.0.1:8080/audio/es/latam/life-overview/intro.ch0.pillars.01.opus" | grep -q "OggS"
+          curl -sf -r 0-3 "http://127.0.0.1:8080/audio/lenses/en/v3/story/life-overview.opus" | grep -q "OggS"
+          curl -sf -r 0-3 "http://127.0.0.1:8080/audio/lenses/es/latam/story/life-overview.opus" | grep -q "OggS"
           echo "Smoke test passed (/api/health, /, /dist/pages/cell_explorer.js, /audio/*.opus, /robots.txt, /sitemap.xml)."
 
   publish:

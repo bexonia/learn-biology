@@ -4,11 +4,12 @@ import {
   type TourPersona
 } from '../content/types.js';
 import { EUKARYOTE_TOUR_PERSONAS } from './personas_eukaryote.js';
+import { INTRO_TOUR_PERSONAS } from './personas_intro.js';
 import { PROKARYOTE_PHAGE_TOUR_PERSONAS } from './personas_prokaryote_phage.js';
 import { VIRUS_TOUR_PERSONAS } from './personas_viruses.js';
 
 export interface PersonaCueTriplet {
-  /** Witty newcomer script with anime, cartoon & movie analogies (active in `simple` & `story` modes) */
+  /** Everyday newcomer script (active in `simple` & `story` modes; sparse analogies on complex mechanisms only) */
   readonly pop: string;
   /** Systems-engineering script: I/O ports, rotary turbines, buses, state machines (active in `blueprint` mode) */
   readonly blueprint: string;
@@ -25,6 +26,7 @@ export interface BilingualCuePersonas {
 export type TourPersonaMap = Record<string, Record<string, BilingualCuePersonas>>;
 
 export const TOUR_PERSONA_REGISTRY: TourPersonaMap = {
+  ...INTRO_TOUR_PERSONAS,
   ...EUKARYOTE_TOUR_PERSONAS,
   ...PROKARYOTE_PHAGE_TOUR_PERSONAS,
   ...VIRUS_TOUR_PERSONAS
@@ -56,6 +58,7 @@ export function getTourPersonaCueText(
 }
 
 export {
+  INTRO_TOUR_PERSONAS,
   EUKARYOTE_TOUR_PERSONAS,
   PROKARYOTE_PHAGE_TOUR_PERSONAS,
   VIRUS_TOUR_PERSONAS

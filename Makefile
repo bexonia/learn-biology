@@ -42,7 +42,8 @@ bootstrap:
 
 AUDIO_ARCHIVES := \
 	audio.tar.gz \
-	audio_tours_es.tar.gz \
+	audio_tours_es_pop.tar.gz \
+	audio_tours_es_tech.tar.gz \
 	audio_lenses_v1_a.tar.gz audio_lenses_v1_b.tar.gz \
 	audio_lenses_v2_a.tar.gz audio_lenses_v2_b.tar.gz \
 	audio_lenses_v3_a.tar.gz audio_lenses_v3_b.tar.gz \
@@ -50,7 +51,7 @@ AUDIO_ARCHIVES := \
 	audio_lenses_es_spain_a.tar.gz audio_lenses_es_spain_bp.tar.gz audio_lenses_es_spain_sci.tar.gz
 
 unpack-audio:
-	@if [ ! -d audio/en/v1 ] || [ ! -d audio/es/latam ] || [ ! -d audio/es/spain ] || [ ! -d audio/lenses/en/v1/scientific ] || [ ! -d audio/lenses/es/latam/scientific ] || [ ! -d audio/lenses/es/spain/scientific ]; then \
+	@if [ ! -d audio/en/v1 ] || [ ! -d audio/es/latam ] || [ ! -d audio/es/spain/blueprint ] || [ ! -d audio/es/spain/scientific ] || [ ! -d audio/lenses/en/v1/scientific ] || [ ! -d audio/lenses/es/latam/scientific ] || [ ! -d audio/lenses/es/spain/scientific ]; then \
 		for f in $(AUDIO_ARCHIVES); do \
 			if [ -f "$$f" ]; then \
 				echo "==> Extracting $$f into audio/ ..."; \
@@ -60,9 +61,10 @@ unpack-audio:
 	fi
 
 pack-audio:
-	@echo "==> Archiving multi-voice tour & lens narration into sharded <45MB tarballs ..."
+	@echo "==> Archiving multi-persona tour & lens narration into sharded <48MB tarballs ..."
 	tar -czf audio.tar.gz audio/en
-	tar -czf audio_tours_es.tar.gz audio/es/latam audio/es/spain
+	tar -czf audio_tours_es_pop.tar.gz audio/es/latam
+	tar -czf audio_tours_es_tech.tar.gz audio/es/spain/blueprint audio/es/spain/scientific
 	tar -czf audio_lenses_v1_a.tar.gz audio/lenses/en/v1/simple audio/lenses/en/v1/story
 	tar -czf audio_lenses_v1_b.tar.gz audio/lenses/en/v1/blueprint audio/lenses/en/v1/scientific
 	tar -czf audio_lenses_v2_a.tar.gz audio/lenses/en/v2/simple audio/lenses/en/v2/story

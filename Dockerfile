@@ -38,7 +38,8 @@ COPY cell_explorer.html \
 COPY screenshots/ /usr/share/nginx/html/screenshots/
 # Extract pre-generated multi-voice tour & lens narration archives into /usr/share/nginx/html/audio/
 ADD audio.tar.gz \
-    audio_tours_es.tar.gz \
+    audio_tours_es_pop.tar.gz \
+    audio_tours_es_tech.tar.gz \
     audio_lenses_v1_a.tar.gz \
     audio_lenses_v1_b.tar.gz \
     audio_lenses_v2_a.tar.gz \

@@ -26,3 +26,4 @@ export const ALL_TOURS: Record<string, TourDefinition> = {
 
 export const TourLive: Layer.Layer<TourService> = makeTourLayer(ALL_TOURS);
 export { TourService, type TourShape, type TourDefinition };
+export * from "./tour_personas.js";

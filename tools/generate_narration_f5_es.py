@@ -342,8 +342,19 @@ def load_voice_samples(voice_dir: Path, device: str, target_rms: float = 0.1) ->
 
 
 def select_sample_for_entry(samples: List[Dict[str, Any]], entry: Dict[str, Any], idx: int) -> int:
-    desired_role = "tour" if entry["kind"] == "tour" else (entry.get("mode") or "story")
+    if entry["kind"] == "tour":
+        persona = entry.get("persona")
+        if persona == "blueprint":
+            desired_role = "blueprint"
+        elif persona == "scientific":
+            desired_role = "scientific"
+        else:
+            desired_role = "tour"
+    else:
+        desired_role = entry.get("mode") or "story"
     matching = [i for i, s in enumerate(samples) if s["role"] == desired_role]
+    if not matching and desired_role == "tour":
+        matching = [i for i, s in enumerate(samples) if s["role"] == "story"]
     if matching:
         return matching[idx % len(matching)]
     return idx % len(samples)
@@ -381,7 +392,7 @@ def crossfade_chunks(waves: List[np.ndarray], sr: int = TARGET_SR, fade_sec: flo
     return np.concatenate([out, pad])
 
 
-def encode_wav_to_opus(wav: np.ndarray, out_opus: Path, ffmpeg_bin: str) -> None:
+def encode_wav_to_opus(wav: np.ndarray, out_opus: Path, ffmpeg_bin: str, bitrate: str = "30k") -> None:
     out_opus.parent.mkdir(parents=True, exist_ok=True)
     pcm16 = np.clip(wav * 32767.0, -32768.0, 32767.0).astype(np.int16).tobytes()
     tmp_opus = out_opus.with_suffix(".tmp.opus")
@@ -400,9 +411,11 @@ def encode_wav_to_opus(wav: np.ndarray, out_opus: Path, ffmpeg_bin: str) -> None
             "-c:a",
             "libopus",
             "-b:a",
-            "38k",
+            bitrate,
             "-vbr",
             "on",
+            "-compression_level",
+            "10",
             "-application",
             "audio",
             str(tmp_opus),
@@ -425,6 +438,7 @@ def synthesize_voice_pass(
     batch_size: int = 10,
     nfe_step: int = 24,
     speed: float = 1.02,
+    bitrate: str = "30k",
     force: bool = False,
 ) -> int:
     device = "cuda" if torch.cuda.is_available() else "cpu"
@@ -566,13 +580,13 @@ def synthesize_voice_pass(
                     flush=True,
                 )
 
-    print(f"==> [{voice_id.upper()}] Encoding {len(pending_entries)} stitched clips to 38kbps .opus...")
+    print(f"==> [{voice_id.upper()}] Encoding {len(pending_entries)} stitched clips to {bitrate} .opus...")
     with ThreadPoolExecutor(max_workers=min(12, (os.cpu_count() or 8))) as pool:
         futs = []
         for p_idx, (_, _, out_path, _, _) in enumerate(pending_entries):
             chunk_list = [w for w in entry_chunk_waves[p_idx] if w is not None]
             full_wav = crossfade_chunks(chunk_list, sr=TARGET_SR)
-            futs.append(pool.submit(encode_wav_to_opus, full_wav, out_path, ffmpeg_bin))
+            futs.append(pool.submit(encode_wav_to_opus, full_wav, out_path, ffmpeg_bin, bitrate))
         for fut in as_completed(futs):
             fut.result()
 
@@ -599,12 +613,14 @@ def main() -> None:
     parser.add_argument("--finetune-work-dir", type=Path, default=Path("/tmp/latam_f5_ft"))
     parser.add_argument("--finetune-epochs", type=int, default=12)
     parser.add_argument("--voices", nargs="+", choices=["latam", "spain"], default=["latam", "spain"])
+    parser.add_argument("--kinds", nargs="+", choices=["tour", "lens"], default=["tour", "lens"])
     parser.add_argument("--batch-size", type=int, default=1)
     parser.add_argument("--nfe-step", type=int, default=28)
+    parser.add_argument("--bitrate", type=str, default="30k", help="Opus target VBR bitrate (default: 30k)")
     parser.add_argument("--shard-idx", type=int, default=0, help="Zero-based shard index for multi-process GPU parallelism")
     parser.add_argument("--num-shards", type=int, default=1, help="Total shards for multi-process GPU parallelism")
     parser.add_argument("--force", action="store_true")
-    parser.add_argument("--smoke-test", action="store_true", help="Synthesize & Whisper-verify 2 sample entries per voice")
+    parser.add_argument("--smoke-test", action="store_true", help="Synthesize & Whisper-verify sample entries per voice")
     args = parser.parse_args()
 
     ffmpeg_bin = shutil.which("ffmpeg") or "/nix/store/8280gf6l76z9gqb1hwk3c29ivskspjl2-ffmpeg-9.0.2-bin/bin/ffmpeg"
@@ -620,15 +636,23 @@ def main() -> None:
         )
 
     manifest_data = json.loads(args.manifest.read_text(encoding="utf-8"))
-    es_entries = [e for e in manifest_data["entries"] if e["lang"] == "es"]
+    allowed_kinds = set(args.kinds)
+    es_entries = [
+        e for e in manifest_data["entries"] if e["lang"] == "es" and e.get("kind", "tour") in allowed_kinds
+    ]
 
     if args.smoke_test:
-        # Pick 1 tour cue + 1 mitochondrion story lens
-        tour_sample = next(e for e in es_entries if e["kind"] == "tour" and e["tourRoot"] == "real-cell")
+        # Pick 1 pop tour cue + 1 scientific tour cue + 1 mitochondrion story lens
+        tour_pop_sample = next(
+            e for e in es_entries if e["kind"] == "tour" and e["tourRoot"] == "real-cell" and e.get("persona") == "pop"
+        )
+        tour_sci_sample = next(
+            e for e in es_entries if e["kind"] == "tour" and e["tourRoot"] == "real-cell" and e.get("persona") == "scientific"
+        )
         lens_sample = next(
             e for e in es_entries if e["kind"] == "lens" and e["nodeId"] == "mitochondrion" and e["mode"] == "story"
         )
-        es_entries = [tour_sample, lens_sample]
+        es_entries = [tour_pop_sample, tour_sci_sample, lens_sample]
         args.force = True
     elif args.num_shards > 1:
         es_entries = es_entries[args.shard_idx :: args.num_shards]
@@ -648,6 +672,7 @@ def main() -> None:
             ffmpeg_bin=ffmpeg_bin,
             batch_size=args.batch_size,
             nfe_step=args.nfe_step,
+            bitrate=args.bitrate,
             force=args.force,
         )
 
@@ -663,6 +688,8 @@ def main() -> None:
         print("\n=== WHISPER SMOKE-TEST QUALITY VERIFICATION ===")
         for v in args.voices:
             for e in es_entries:
+                if v not in e["targets"]:
+                    continue
                 opus_p = REPO_ROOT / e["targets"][v]
                 tmp_w = Path(f"/tmp/_verify_{v}_{opus_p.stem}.wav")
                 subprocess.run(

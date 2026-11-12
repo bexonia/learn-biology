@@ -47,7 +47,10 @@ import {
   TourService,
   type TourShape,
   TourLive,
-  ALL_TOURS
+  ALL_TOURS,
+  TOUR_PERSONA_REGISTRY,
+  getTourPersonaEntry,
+  getTourPersonaCueText
 } from './tours/index.js';
 import {
   I18nService,
@@ -151,6 +154,9 @@ export {
   EN_LOCALE,
   ES_LOCALE,
   ALL_TOURS,
+  TOUR_PERSONA_REGISTRY,
+  getTourPersonaEntry,
+  getTourPersonaCueText,
   BASE,
   PAIR,
   RPAIR,

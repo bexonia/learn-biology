@@ -12,6 +12,8 @@ import {
   RandomService,
   type MolecularEmitter,
   ALL_TOURS,
+  TOUR_PERSONA_REGISTRY,
+  getTourPersonaEntry,
   BASE,
   PAIR,
   RPAIR,
@@ -30,20 +32,26 @@ import {
   normalizeSpeechText
 } from '../src/core/narrator_service.js';
 import {
+  DEFAULT_MODE_BY_ENGLISH_VOICE,
+  DEFAULT_MODE_BY_SPANISH_VOICE,
   ENGLISH_VOICE_IDS,
   EXPLANATION_MODES,
+  MODE_TO_TOUR_PERSONA,
   NODE_LENS_REGISTRY,
   PART_LENS_REGISTRY,
   PRESET_SPANISH_VOICE_BY_MODE,
   PRESET_VOICE_BY_MODE,
   SPANISH_VOICE_IDS,
   STANDALONE_PAGE_PART_KEYS,
+  TOUR_PERSONAS,
   parseRichInline,
   resolveEnglishVoice,
   resolveSpanishVoice,
+  resolveTourPersona,
   stripRichLinks,
   type EnglishVoiceId,
-  type SpanishVoiceId
+  type SpanishVoiceId,
+  type TourPersona
 } from '../src/content/index.js';
 
 const ROOT_DIR = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
@@ -233,24 +241,105 @@ async function runUnitTests() {
     assert.equal(pdbEmitter.beads.length, 1, 'PdbService.placeProtein should decode and emit PDB spheres');
     ok('RibosomeService & PdbService (80S rough ER, free 80S, polysome rosettes, PDB decoder, OccupancyGrid)');
 
-    // TourService checks
+    // TourService + Multi-Persona Guided Tour Scripts (4,602 cues across 10 tours × EN/ES × pop/blueprint/scientific)
     const all = tours.tours;
     assert.equal(Object.keys(all).length, 10, 'TourService must provide all 10 guided tours');
     const plainOf = (s: string) => s.replace(/\[\[([^\]|]+)(?:\|[^\]]+)?\]\]/g, '$1');
+    const extractHighlightTargets = (s: string): string[] =>
+      [...s.matchAll(/\[\[([^|\]]+)(?:\|([^\]]+))?\]\]/g)].map((m) =>
+        m[2] ? m[2].trim() : '__STEP_BLINK__'
+      );
+
+    let verifiedPersonaCueStrings = 0;
+    let uniqueTourCuesCount = 0;
     for (const [key, tour] of Object.entries(all)) {
       assert.ok(tour.chapters.length > 0, `Tour ${key} must have chapters`);
       assert.equal(tours.getTour(key)?.root, tour.root);
+      assert.ok(TOUR_PERSONA_REGISTRY[tour.root], `Missing TOUR_PERSONA_REGISTRY entry for root ${tour.root}`);
+
+      const seenRootCues = new Set<string>();
+      const verifyTourCuePersonas = (cue: { readonly id: string; readonly text: string }) => {
+        const len = plainOf(cue.text).length;
+        assert.ok(len <= 110, `Tour ${key} base cue ${cue.id} exceeds 110 chars (${len})`);
+        if (seenRootCues.has(cue.id)) return;
+        seenRootCues.add(cue.id);
+        uniqueTourCuesCount++;
+
+        const pEntry = getTourPersonaEntry(tour.root, cue.id);
+        assert.ok(pEntry, `Missing TourPersona entry for ${tour.root}/${cue.id}`);
+        const baseTargets = extractHighlightTargets(cue.text);
+
+        for (const loc of ['en', 'es'] as const) {
+          const triplet = pEntry[loc];
+          assert.ok(triplet, `Missing ${loc} persona triplet for ${tour.root}/${cue.id}`);
+          for (const p of TOUR_PERSONAS) {
+            const raw = triplet[p];
+            assert.ok(typeof raw === 'string' && raw.trim().length > 0, `Empty ${loc}.${p} cue for ${tour.root}/${cue.id}`);
+            const plain = plainOf(raw).trim();
+            assert.ok(
+              plain.length >= 12 && plain.length <= 110,
+              `Persona cue ${tour.root}/${cue.id} [${loc}.${p}] length ${plain.length} outside [12, 110]: "${plain}"`
+            );
+            const pTargets = extractHighlightTargets(raw);
+            assert.deepEqual(
+              pTargets,
+              baseTargets,
+              `Persona cue ${tour.root}/${cue.id} [${loc}.${p}] must preserve exact [[...|part]] highlight targets`
+            );
+            verifiedPersonaCueStrings++;
+          }
+          assert.notEqual(
+            plainOf(triplet.pop),
+            plainOf(triplet.blueprint),
+            `Persona cue ${tour.root}/${cue.id} [${loc}] pop === blueprint`
+          );
+          assert.notEqual(
+            plainOf(triplet.pop),
+            plainOf(triplet.scientific),
+            `Persona cue ${tour.root}/${cue.id} [${loc}] pop === scientific`
+          );
+          assert.notEqual(
+            plainOf(triplet.blueprint),
+            plainOf(triplet.scientific),
+            `Persona cue ${tour.root}/${cue.id} [${loc}] blueprint === scientific`
+          );
+        }
+        assert.notEqual(plainOf(pEntry.en.pop), plainOf(pEntry.es.pop), `${tour.root}/${cue.id} en.pop === es.pop`);
+        assert.notEqual(
+          plainOf(pEntry.en.blueprint),
+          plainOf(pEntry.es.blueprint),
+          `${tour.root}/${cue.id} en.blueprint === es.blueprint`
+        );
+        assert.notEqual(
+          plainOf(pEntry.en.scientific),
+          plainOf(pEntry.es.scientific),
+          `${tour.root}/${cue.id} en.scientific === es.scientific`
+        );
+      };
+
       for (const ch of tour.chapters) {
         for (const step of ch.steps) {
           for (const cue of step.cues) {
-            const len = plainOf(cue.text).length;
-            assert.ok(len <= 84, `Tour ${key} cue ${cue.id} exceeds 84 chars (${len})`);
+            verifyTourCuePersonas(cue);
           }
+        }
+      }
+      for (const det of Object.values(tour.details ?? {})) {
+        for (const cue of det.cues ?? []) {
+          verifyTourCuePersonas(cue);
         }
       }
     }
     assert.equal(Object.keys(ALL_TOURS).length, 10);
-    ok('TourService (all 10 cell & virus tours validated, all cues <= 84 chars)');
+    assert.equal(uniqueTourCuesCount, 767, `Expected 767 unique tour cues across 10 tours, got ${uniqueTourCuesCount}`);
+    assert.equal(
+      verifiedPersonaCueStrings,
+      4602,
+      `Expected 4602 verified multi-persona tour cue strings, got ${verifiedPersonaCueStrings}`
+    );
+    ok(
+      `TourService & Multi-Persona Scripts (10 tours, ${uniqueTourCuesCount} unique cues, all ${verifiedPersonaCueStrings} EN/ES pop/blueprint/scientific cues <= 110 chars & highlight-verified)`
+    );
 
     // I18nService + AtomRef reactivity checks
     assert.ok(i18n.supportedLocales.length >= 2, 'I18nService must register at least EN and ES locales');
@@ -339,8 +428,13 @@ async function runUnitTests() {
           verifyInlineTokens(`node:${nodeId}.${loc}.${m}`, entry[m]);
         }
         assert.notEqual(stripRichLinks(entry.simple), stripRichLinks(entry.story), `Node ${nodeId} [${loc}] simple === story`);
+        assert.notEqual(stripRichLinks(entry.simple), stripRichLinks(entry.blueprint), `Node ${nodeId} [${loc}] simple === blueprint`);
+        assert.notEqual(stripRichLinks(entry.simple), stripRichLinks(entry.scientific), `Node ${nodeId} [${loc}] simple === scientific`);
+        assert.notEqual(stripRichLinks(entry.story), stripRichLinks(entry.blueprint), `Node ${nodeId} [${loc}] story === blueprint`);
         assert.notEqual(stripRichLinks(entry.story), stripRichLinks(entry.scientific), `Node ${nodeId} [${loc}] story === scientific`);
+        assert.notEqual(stripRichLinks(entry.blueprint), stripRichLinks(entry.scientific), `Node ${nodeId} [${loc}] blueprint === scientific`);
       }
+      assert.notEqual(stripRichLinks(rec.en.simple), stripRichLinks(rec.es.simple), `Node ${nodeId} en.simple === es.simple`);
       assert.notEqual(stripRichLinks(rec.en.story), stripRichLinks(rec.es.story), `Node ${nodeId} en.story === es.story`);
     }
 
@@ -358,6 +452,8 @@ async function runUnitTests() {
             assert.ok(e[m] && e[m].trim().length >= 20, `Part ${pageName}:${pk} [${loc}.${m}] too short`);
             verifyInlineTokens(`part:${pageName}:${pk}.${loc}.${m}`, e[m]);
           }
+          assert.notEqual(stripRichLinks(e.simple), stripRichLinks(e.story), `Part ${pageName}:${pk} [${loc}] simple === story`);
+          assert.notEqual(stripRichLinks(e.story), stripRichLinks(e.scientific), `Part ${pageName}:${pk} [${loc}] story === scientific`);
           for (const bf of ['role', 'arrivesFrom', 'inside', 'deliversTo'] as const) {
             assert.ok(e.blueprint[bf] && e.blueprint[bf].trim().length >= 5, `Part ${pageName}:${pk} [${loc}.blueprint.${bf}] missing`);
             verifyInlineTokens(`part:${pageName}:${pk}.${loc}.blueprint.${bf}`, e.blueprint[bf]);
@@ -460,7 +556,71 @@ async function runUnitTests() {
     assert.equal(i18n.activeSpanishVoice, 'latam', 'Auto preset in Story mode must restore LatAm voice');
     unsubEsVoice();
     assert.ok(observedEsTransitions.length >= 4, 'onSpanishVoiceChange must emit on preset redirects and manual locks');
-    ok('Multi-Voice Preset & Custom Selector reactivity (EN v1/v2/v3 + ES LatAm/Spain & Preset lock/unlock)');
+
+    // Bidirectional Narrator <-> Content Persona coupling + voiceLocked checks
+    assert.deepEqual(MODE_TO_TOUR_PERSONA, {
+      simple: 'pop',
+      story: 'pop',
+      blueprint: 'blueprint',
+      scientific: 'scientific'
+    });
+    assert.deepEqual(DEFAULT_MODE_BY_ENGLISH_VOICE, {
+      v1: 'scientific',
+      v2: 'blueprint',
+      v3: 'story'
+    });
+    assert.deepEqual(DEFAULT_MODE_BY_SPANISH_VOICE, {
+      latam: 'story',
+      spain: 'scientific'
+    });
+    assert.equal(resolveTourPersona('simple'), 'pop');
+    assert.equal(resolveTourPersona('story'), 'pop');
+    assert.equal(resolveTourPersona('blueprint'), 'blueprint');
+    assert.equal(resolveTourPersona('scientific'), 'scientific');
+
+    assert.equal(i18n.voiceLocked, false, 'voiceLocked must default to false when preset is active');
+    i18n.selectNarrator('v1');
+    assert.equal(i18n.mode, 'scientific');
+    assert.equal(i18n.tourPersona, 'scientific');
+    assert.equal(i18n.activeEnglishVoice, 'v1');
+    assert.equal(i18n.voicePreference, 'auto');
+
+    i18n.selectNarrator('v2');
+    assert.equal(i18n.mode, 'blueprint');
+    assert.equal(i18n.tourPersona, 'blueprint');
+    assert.equal(i18n.activeEnglishVoice, 'v2');
+
+    i18n.selectNarrator('v3');
+    assert.equal(i18n.mode, 'story');
+    assert.equal(i18n.tourPersona, 'pop');
+    assert.equal(i18n.activeEnglishVoice, 'v3');
+
+    i18n.selectSpanishNarrator('spain');
+    assert.equal(i18n.mode, 'scientific');
+    assert.equal(i18n.tourPersona, 'scientific');
+    assert.equal(i18n.activeSpanishVoice, 'spain');
+
+    i18n.setMode('blueprint');
+    i18n.selectSpanishNarrator('spain');
+    assert.equal(i18n.mode, 'blueprint', 'Selecting Spain narrator while in Blueprint must stay in Blueprint');
+    assert.equal(i18n.activeSpanishVoice, 'spain');
+
+    i18n.selectSpanishNarrator('latam');
+    assert.equal(i18n.mode, 'story');
+    assert.equal(i18n.tourPersona, 'pop');
+    assert.equal(i18n.activeSpanishVoice, 'latam');
+
+    // Lock voice explicitly and verify narrator selection does not overwrite mode
+    i18n.setVoiceLocked(true);
+    assert.equal(i18n.voiceLocked, true);
+    i18n.selectNarrator('v2');
+    assert.equal(i18n.mode, 'story', 'Locked voice selection must keep Story mode');
+    assert.equal(i18n.activeEnglishVoice, 'v2', 'Locked voice selection must override English voice to v2');
+    i18n.resetVoiceToPreset();
+    i18n.resetSpanishVoiceToPreset();
+    assert.equal(i18n.voiceLocked, false, 'Resetting preset must unlock voiceLocked');
+    assert.equal(i18n.activeEnglishVoice, 'v3');
+    ok('Bidirectional Narrator <-> Persona Sync & Voice Lock/Preset reactivity (EN v1/v2/v3 + ES LatAm/Spain)');
   });
 
   // Test 3: LearnAuthProgressStore (optional user registration, in-memory session & progress cache, cookie renewal, per-course reset)
@@ -575,6 +735,7 @@ async function runUnitTests() {
   let mockRuntimePace = 1.25;
   let mockActiveVoice: EnglishVoiceId = 'v3';
   let mockActiveEsVoice: SpanishVoiceId = 'latam';
+  let mockTourPersona: TourPersona = 'pop';
   const mockNarrator = createStaticTourNarrator({
     audioBaseUrl: 'audio',
     storage: null,
@@ -582,6 +743,7 @@ async function runUnitTests() {
     initialRate: 1.0,
     getVoice: () => mockActiveVoice,
     getSpanishVoice: () => mockActiveEsVoice,
+    getTourPersona: () => mockTourPersona,
     getTourRuntime: () => ({
       state: { root: 'real-cell' },
       T: {
@@ -623,6 +785,7 @@ async function runUnitTests() {
   assert.deepEqual(prefetchedAudioUrls, ['audio/en/v3/real-cell/ch1.membrane.02.opus']);
 
   mockActiveVoice = 'v1';
+  mockTourPersona = 'scientific';
   await mockNarrator.speak({
     id: 'ch1.membrane.01',
     lang: 'en-US'
@@ -631,6 +794,7 @@ async function runUnitTests() {
   assert.equal(prefetchedAudioUrls[1], 'audio/en/v1/real-cell/ch1.membrane.02.opus');
 
   mockRuntimePace = 1.0;
+  mockTourPersona = 'pop';
   await mockNarrator.speak({
     id: 'ch1.membrane.01',
     lang: 'es-ES'
@@ -638,11 +802,19 @@ async function runUnitTests() {
   assert.equal(playedAudioUrls[2]?.src, 'audio/es/latam/real-cell/ch1.membrane.01.opus');
 
   mockActiveEsVoice = 'spain';
+  mockTourPersona = 'blueprint';
   await mockNarrator.speak({
     id: 'ch1.membrane.01',
     lang: 'es-ES'
   });
-  assert.equal(playedAudioUrls[3]?.src, 'audio/es/spain/real-cell/ch1.membrane.01.opus');
+  assert.equal(playedAudioUrls[3]?.src, 'audio/es/spain/blueprint/real-cell/ch1.membrane.01.opus');
+
+  mockTourPersona = 'scientific';
+  await mockNarrator.speak({
+    id: 'ch1.membrane.01',
+    lang: 'es-ES'
+  });
+  assert.equal(playedAudioUrls[4]?.src, 'audio/es/spain/scientific/real-cell/ch1.membrane.01.opus');
 
   await mockNarrator.speakLens({
     nodeId: 'mitochondrion',
@@ -650,7 +822,7 @@ async function runUnitTests() {
     lang: 'en-US',
     voice: 'v2'
   });
-  assert.equal(playedAudioUrls[4]?.src, 'audio/lenses/en/v2/blueprint/mitochondrion.opus');
+  assert.equal(playedAudioUrls[5]?.src, 'audio/lenses/en/v2/blueprint/mitochondrion.opus');
 
   await mockNarrator.speakLens({
     nodeId: 'mitochondrion',
@@ -658,7 +830,7 @@ async function runUnitTests() {
     lang: 'es-ES',
     esVoice: 'latam'
   });
-  assert.equal(playedAudioUrls[5]?.src, 'audio/lenses/es/latam/story/mitochondrion.opus');
+  assert.equal(playedAudioUrls[6]?.src, 'audio/lenses/es/latam/story/mitochondrion.opus');
 
   await mockNarrator.speakLens({
     nodeId: 'mitochondrion',
@@ -666,13 +838,13 @@ async function runUnitTests() {
     lang: 'es-ES',
     esVoice: 'spain'
   });
-  assert.equal(playedAudioUrls[6]?.src, 'audio/lenses/es/spain/scientific/mitochondrion.opus');
+  assert.equal(playedAudioUrls[7]?.src, 'audio/lenses/es/spain/scientific/mitochondrion.opus');
 
   // Unscripted node detail fallback cues (detail.*) must skip network fetch cleanly
   assert.equal(mockNarrator.resolveAudioUrl({ id: 'detail.mitochondrion.1', lang: 'en-US', root: 'real-cell' }), null);
   await mockNarrator.speak({ id: 'detail.mitochondrion.1', lang: 'en-US' });
-  assert.equal(playedAudioUrls.length, 7);
-  ok('StaticTourNarrator (multi-voice EN v1/v2/v3 + ES latam/spain .opus resolution, node lens read-aloud, prefetching, & scientific symbol normalization)');
+  assert.equal(playedAudioUrls.length, 8);
+  ok('StaticTourNarrator (multi-persona EN v1/v2/v3 + ES latam & spain/blueprint+scientific .opus resolution, node lens read-aloud, & prefetching)');
 }
 
 function runStaticChecks() {
@@ -744,7 +916,8 @@ function runStaticChecks() {
 
   const AUDIO_ARCHIVES = [
     'audio.tar.gz',
-    'audio_tours_es.tar.gz',
+    'audio_tours_es_pop.tar.gz',
+    'audio_tours_es_tech.tar.gz',
     'audio_lenses_v1_a.tar.gz',
     'audio_lenses_v1_b.tar.gz',
     'audio_lenses_v2_a.tar.gz',
@@ -758,13 +931,17 @@ function runStaticChecks() {
     'audio_lenses_es_spain_bp.tar.gz',
     'audio_lenses_es_spain_sci.tar.gz'
   ];
+  assert.ok(
+    !fs.existsSync(path.join(ROOT_DIR, 'audio_tours_es.tar.gz')),
+    'Obsolete unsharded audio_tours_es.tar.gz must be removed'
+  );
   for (const archiveName of AUDIO_ARCHIVES) {
     const archivePath = path.join(ROOT_DIR, archiveName);
     assert.ok(fs.existsSync(archivePath), `Missing sharded narration archive ${archiveName} at repository root`);
     const sizeBytes = fs.statSync(archivePath).size;
     assert.ok(
       sizeBytes > 100_000 && sizeBytes < 48 * 1024 * 1024,
-      `Archive ${archiveName} (${(sizeBytes / (1024 * 1024)).toFixed(2)} MB) must stay under 48 MB for GitHub compatibility`
+      `Archive ${archiveName} (${(sizeBytes / (1024 * 1024)).toFixed(2)} MB) must stay strictly under 48 MB for GitHub compatibility`
     );
   }
   const trackedAudioFiles = execSync('git ls-files "audio/*"', { cwd: ROOT_DIR, encoding: 'utf8' }).trim();
@@ -772,7 +949,8 @@ function runStaticChecks() {
   if (
     !fs.existsSync(path.join(ROOT_DIR, 'audio', 'en', 'v1')) ||
     !fs.existsSync(path.join(ROOT_DIR, 'audio', 'es', 'latam')) ||
-    !fs.existsSync(path.join(ROOT_DIR, 'audio', 'es', 'spain')) ||
+    !fs.existsSync(path.join(ROOT_DIR, 'audio', 'es', 'spain', 'blueprint')) ||
+    !fs.existsSync(path.join(ROOT_DIR, 'audio', 'es', 'spain', 'scientific')) ||
     !fs.existsSync(path.join(ROOT_DIR, 'audio', 'lenses', 'en', 'v1', 'scientific')) ||
     !fs.existsSync(path.join(ROOT_DIR, 'audio', 'lenses', 'es', 'latam', 'scientific')) ||
     !fs.existsSync(path.join(ROOT_DIR, 'audio', 'lenses', 'es', 'spain', 'scientific'))
@@ -797,14 +975,17 @@ function runStaticChecks() {
       const collectCue = (cueId: string) => {
         if (seen.has(cueId)) return;
         seen.add(cueId);
+        const encId = `${encodeURIComponent(cueId)}.opus`;
         for (const vid of ENGLISH_VOICE_IDS) {
-          verifyOpusFile(path.join('audio', 'en', vid, tour.root, `${encodeURIComponent(cueId)}.opus`));
+          verifyOpusFile(path.join('audio', 'en', vid, tour.root, encId));
           verifiedTourOpusCount++;
         }
-        for (const esVid of SPANISH_VOICE_IDS) {
-          verifyOpusFile(path.join('audio', 'es', esVid, tour.root, `${encodeURIComponent(cueId)}.opus`));
-          verifiedTourOpusCount++;
-        }
+        verifyOpusFile(path.join('audio', 'es', 'latam', tour.root, encId));
+        verifiedTourOpusCount++;
+        verifyOpusFile(path.join('audio', 'es', 'spain', 'blueprint', tour.root, encId));
+        verifiedTourOpusCount++;
+        verifyOpusFile(path.join('audio', 'es', 'spain', 'scientific', tour.root, encId));
+        verifiedTourOpusCount++;
       };
       for (const ch of tour.chapters) {
         for (const step of ch.steps) {
@@ -816,7 +997,7 @@ function runStaticChecks() {
       }
     }
   });
-  assert.equal(verifiedTourOpusCount, 3835, `Expected 3835 verified multi-voice tour .opus files, got ${verifiedTourOpusCount}`);
+  assert.equal(verifiedTourOpusCount, 4602, `Expected 4602 verified multi-persona tour .opus files, got ${verifiedTourOpusCount}`);
 
   let verifiedLensOpusCount = 0;
   for (const nodeId of Object.keys(NODE_LENS_REGISTRY)) {
@@ -834,9 +1015,9 @@ function runStaticChecks() {
   }
   assert.equal(verifiedLensOpusCount, 4160, `Expected 4160 verified multi-voice node lens .opus files, got ${verifiedLensOpusCount}`);
   const totalOpusCount = verifiedTourOpusCount + verifiedLensOpusCount;
-  assert.equal(totalOpusCount, 7995, `Expected 7995 total verified .opus files, got ${totalOpusCount}`);
+  assert.equal(totalOpusCount, 8762, `Expected 8762 total verified .opus files, got ${totalOpusCount}`);
   ok(
-    `All ${totalOpusCount} pre-generated Public Domain narration (.opus) files verified (${verifiedTourOpusCount} tour cues + ${verifiedLensOpusCount} 4-mode lenses across EN v1/v2/v3 & ES latam/spain, all 14 archives < 48 MB)`
+    `All ${totalOpusCount} pre-generated Public Domain narration (.opus) files verified (${verifiedTourOpusCount} multi-persona tour cues + ${verifiedLensOpusCount} 4-mode lenses across EN v1/v2/v3 & ES latam/spain, all 15 archives < 48 MB)`
   );
 }
 
@@ -1131,7 +1312,7 @@ async function runBrowserE2ETests() {
         assert.equal(explorerCheck.tourRoots.length, 10);
         assert.equal(explorerCheck.langSwitchOk, true);
 
-        // Verify 4-Mode Explanation Selector (#lensBar), Preset/Custom Voice Selector (#lensVoiceBar), Connected Supply-Chain Cards (#io), and Inline Links in Browser
+        // Verify 4-Mode Explanation Selector (#lensBar), Bidirectional Narrator <-> Persona Sync, Voice Lock (#voiceLockBtn), Connected Supply-Chain Cards (#io), and Inline Links in Browser
         const lensE2E = await cdp.eval<{
           modeButtonsCount: number;
           storyHasIoCard: boolean;
@@ -1141,6 +1322,7 @@ async function runBrowserE2ETests() {
           esStoryDistinct: boolean;
           cookieSavedMode: boolean;
           presetVoiceByModeOk: boolean;
+          bidirectionalNarratorSyncOk: boolean;
           customVoiceLockOk: boolean;
           presetResetButtonOk: boolean;
           esVoiceBadgeOk: boolean;
@@ -1155,15 +1337,16 @@ async function runBrowserE2ETests() {
 
             const voiceBar = document.getElementById('lensVoiceBar');
             const voiceSelect = document.getElementById('voiceSelect');
+            const voiceLockBtn = document.getElementById('voiceLockBtn');
             const presetBtn = document.getElementById('voicePresetBtn');
             const esTag = document.getElementById('voiceEsTag');
             const speakBtn = document.getElementById('lensSpeakBtn');
-            if (!voiceBar || !voiceSelect || !presetBtn || !esTag || !speakBtn) {
+            if (!voiceBar || !voiceSelect || !voiceLockBtn || !presetBtn || !esTag || !speakBtn) {
               throw new Error('Missing #lensVoiceBar voice controls');
             }
 
             const storyVoice = voiceBar.dataset.activeVoice;
-            const initialPresetOn = presetBtn.classList.contains('on');
+            const initialPresetOn = presetBtn.classList.contains('on') && !exp.i18n.voiceLocked;
 
             const lensBtns = document.querySelectorAll('#lensBar button[data-mode]');
             const modeButtonsCount = lensBtns.length;
@@ -1193,22 +1376,39 @@ async function runBrowserE2ETests() {
               sciVoice === 'v1' &&
               simVoice === 'v3';
 
-            // Lock custom Voice 2 (Engineers) via selector and confirm Scientific mode does NOT override it
+            // Default unlocked bidirectional sync: choosing Systems Engineer (v2) switches mode -> blueprint, v1 -> scientific, v3 -> story
+            voiceSelect.value = 'v2';
+            voiceSelect.dispatchEvent(new Event('change'));
+            const v2SyncedBp = exp.i18n.mode === 'blueprint' && voiceBar.dataset.activeVoice === 'v2' && !exp.i18n.voiceLocked;
+            voiceSelect.value = 'v1';
+            voiceSelect.dispatchEvent(new Event('change'));
+            const v1SyncedSci = exp.i18n.mode === 'scientific' && voiceBar.dataset.activeVoice === 'v1' && !exp.i18n.voiceLocked;
+            voiceSelect.value = 'v3';
+            voiceSelect.dispatchEvent(new Event('change'));
+            const v3SyncedStory = exp.i18n.mode === 'story' && voiceBar.dataset.activeVoice === 'v3' && !exp.i18n.voiceLocked;
+            const bidirectionalNarratorSyncOk = v2SyncedBp && v1SyncedSci && v3SyncedStory;
+
+            // Lock custom Voice 2 (Systems Engineer) via #voiceLockBtn + selector and confirm Scientific mode does NOT override it
+            voiceLockBtn.click();
             voiceSelect.value = 'v2';
             voiceSelect.dispatchEvent(new Event('change'));
             document.querySelector('#lensBar button[data-mode="scientific"]')?.click();
             const customVoiceLockOk =
+              voiceLockBtn.classList.contains('on') &&
               !presetBtn.classList.contains('on') &&
+              window.__progress.voiceLocked === true &&
               window.__progress.voicePreference === 'v2' &&
               voiceBar.dataset.activeVoice === 'v2';
 
-            // Click Preset button to restore automatic mode-based voice redirection
+            // Click Preset button to restore automatic mode-based voice redirection and unlock voice
             presetBtn.click();
             const restoredSciVoice = voiceBar.dataset.activeVoice;
             document.querySelector('#lensBar button[data-mode="story"]')?.click();
             const restoredStoryVoice = voiceBar.dataset.activeVoice;
             const presetResetButtonOk =
               presetBtn.classList.contains('on') &&
+              !voiceLockBtn.classList.contains('on') &&
+              window.__progress.voiceLocked === false &&
               window.__progress.voicePreference === 'auto' &&
               restoredSciVoice === 'v1' &&
               restoredStoryVoice === 'v3';
@@ -1219,24 +1419,28 @@ async function runBrowserE2ETests() {
             const esStoryDesc = document.getElementById('desc')?.textContent ?? '';
             const esInitialVoice = voiceBar.dataset.activeVoice;
             const esOptionsOk = !voiceSelect.hidden && !presetBtn.hidden && esTag.hidden && voiceSelect.options.length === 3;
-            document.querySelector('#lensBar button[data-mode="scientific"]')?.click();
-            const esSciVoice = voiceBar.dataset.activeVoice;
+            voiceSelect.value = 'spain';
+            voiceSelect.dispatchEvent(new Event('change'));
+            const esSpainSyncedSci = exp.i18n.mode === 'scientific' && voiceBar.dataset.activeVoice === 'spain';
+            voiceLockBtn.click();
             voiceSelect.value = 'latam';
             voiceSelect.dispatchEvent(new Event('change'));
             const esLockedLatamInSci =
+              voiceLockBtn.classList.contains('on') &&
               !presetBtn.classList.contains('on') &&
               window.__progress.spanishVoicePreference === 'latam' &&
               voiceBar.dataset.activeVoice === 'latam';
             presetBtn.click();
             const esRestoredPreset =
               presetBtn.classList.contains('on') &&
+              !voiceLockBtn.classList.contains('on') &&
               window.__progress.spanishVoicePreference === 'auto' &&
               voiceBar.dataset.activeVoice === 'spain';
             exp.i18n.setMode('story');
             const esVoiceBadgeOk =
               esOptionsOk &&
               esInitialVoice === 'latam' &&
-              esSciVoice === 'spain' &&
+              esSpainSyncedSci &&
               esLockedLatamInSci &&
               esRestoredPreset;
             exp.i18n.setLocale('en');
@@ -1259,6 +1463,7 @@ async function runBrowserE2ETests() {
               esStoryDistinct: esStoryDesc !== storyDesc && esStoryDesc.length > 40,
               cookieSavedMode,
               presetVoiceByModeOk,
+              bidirectionalNarratorSyncOk,
               customVoiceLockOk,
               presetResetButtonOk,
               esVoiceBadgeOk,
@@ -1274,9 +1479,10 @@ async function runBrowserE2ETests() {
         assert.equal(lensE2E.esStoryDistinct, true, 'Spanish Story mode must render translated narrative');
         assert.equal(lensE2E.cookieSavedMode, true, 'Selected explanation mode must persist in CourseProgressManager & cookie');
         assert.equal(lensE2E.presetVoiceByModeOk, true, 'Preset mode must auto-redirect voices (Simple/Story -> v3, Blueprint -> v2, Scientific -> v1)');
-        assert.equal(lensE2E.customVoiceLockOk, true, 'Selecting custom voice from #voiceSelect must lock across mode switches & persist in cookie');
-        assert.equal(lensE2E.presetResetButtonOk, true, 'Clicking #voicePresetBtn must restore automatic per-mode preset voice redirection');
-        assert.equal(lensE2E.esVoiceBadgeOk, true, 'Spanish locale must expose dual LatAm/Spain voice selector + Preajuste lock/unlock');
+        assert.equal(lensE2E.bidirectionalNarratorSyncOk, true, 'Unlocked narrator selector must switch both voice and explanation mode bidirectionally');
+        assert.equal(lensE2E.customVoiceLockOk, true, 'Toggling #voiceLockBtn + #voiceSelect must lock custom voice across mode switches & persist in cookie');
+        assert.equal(lensE2E.presetResetButtonOk, true, 'Clicking #voicePresetBtn must unlock voiceLocked and restore automatic per-mode voice sync');
+        assert.equal(lensE2E.esVoiceBadgeOk, true, 'Spanish locale must expose dual LatAm/Spain narrator sync + Preajuste lock/unlock');
         assert.ok(lensE2E.chipNavigatedPath.startsWith('#'), 'Clicking a supply-chain .io-chip must navigate in Explorer');
 
         // Verify in-browser CourseProgressManager, cookies, #tReset (Start from beginning), and optional account sync
@@ -1353,29 +1559,46 @@ async function runBrowserE2ETests() {
         assert.equal(progressE2E.renewedOk, true, 'Cookie & session auto-renewal must succeed');
         assert.equal(progressE2E.hivStepIdxAfterSync, 2, 'Per-virus course progress (real-hiv) must sync with server');
 
-        // Verify pre-generated GPT-SoVITS multi-voice .opus Narrator UI & HTTP audio streaming (#tNarr, #tVoiceSelect, #tVoicePreset, tour + lens streams)
+        // Verify live mid-Tour persona switching (#tourLensBar, #tVoiceSelect, #tVoiceLock, #tVoicePreset, #subs subtitles, & HTTP .opus streams)
         const narratorE2E = await cdp.eval<{
           hasGlobalNarrator: boolean;
           narrHiddenDuringTour: boolean;
           hasTourVoiceControls: boolean;
+          hasTourLensPills: boolean;
           initialNarrOn: boolean;
           updatedVolume: number;
+          liveEnPersonaSwitchOk: boolean;
+          liveEsPersonaSwitchOk: boolean;
+          tourVoiceLockOk: boolean;
           allStreamsOk: boolean;
         }>(`
           (async () => {
+            const exp = window.__explorer;
             const nar = window.__narrator;
             if (!nar) throw new Error('Missing window.__narrator');
+            exp.i18n.setLocale('en');
+            exp.i18n.resetVoiceToPreset();
+            exp.i18n.setMode('story');
+
             const eukSteps = window.TOURS.eukaryotic.chapters.flatMap(c => c.steps);
             const firstCueId = eukSteps[0].cues[0].id;
             window.__tour.start(eukSteps[0].id);
+            window.__tour.next();
+
             const narrWrap = document.getElementById('tNarr');
             const narrBtn = document.getElementById('tNarrBtn');
             const volInput = document.getElementById('tVol');
             const tVoiceSel = document.getElementById('tVoiceSelect');
+            const tVoiceLock = document.getElementById('tVoiceLock');
             const tVoicePre = document.getElementById('tVoicePreset');
-            if (!narrWrap || !narrBtn || !volInput || !tVoiceSel || !tVoicePre) throw new Error('Missing #tNarr controls');
+            const tourLensBar = document.getElementById('tourLensBar');
+            const subsEl = document.getElementById('subs');
+            if (!narrWrap || !narrBtn || !volInput || !tVoiceSel || !tVoiceLock || !tVoicePre || !tourLensBar || !subsEl) {
+              throw new Error('Missing Guided Tour HUD persona/voice controls');
+            }
             const narrHiddenDuringTour = narrWrap.hidden;
-            const hasTourVoiceControls = tVoiceSel.options.length === 4 && !tVoicePre.hidden;
+            const hasTourVoiceControls = tVoiceSel.options.length === 4 && !tVoicePre.hidden && !tVoiceLock.hidden;
+            const hasTourLensPills = tourLensBar.querySelectorAll('button[data-mode]').length === 4;
             const initialNarrOn = window.__tour.T.narr && narrBtn.classList.contains('on');
 
             // Toggle narration off, then back on
@@ -1390,17 +1613,99 @@ async function runBrowserE2ETests() {
             volInput.dispatchEvent(new Event('input'));
             const updatedVolume = nar.getVolume();
 
-            // Verify all 5 voices (EN v1/v2/v3 + ES latam/spain) across both Guided Tour cues and Explorer 4-mode Lenses return HTTP 200 + OggS
+            // Live mid-Tour switching in English across Pop-Culture Guide (v3), Systems Engineer (v2), and Molecular Biologist (v1)
+            const enPopSub = (subsEl.textContent ?? '').trim();
+            const enPopUrl = nar.resolveAudioUrl({ id: firstCueId, lang: 'en-US', root: 'real-cell' });
+
+            tVoiceSel.value = 'v2';
+            tVoiceSel.dispatchEvent(new Event('change'));
+            const enBpSub = (subsEl.textContent ?? '').trim();
+            const enBpUrl = nar.resolveAudioUrl({ id: firstCueId, lang: 'en-US', root: 'real-cell' });
+            const bpPillActive = !!tourLensBar.querySelector('button[data-mode="blueprint"].on');
+
+            tVoiceSel.value = 'v1';
+            tVoiceSel.dispatchEvent(new Event('change'));
+            const enSciSub = (subsEl.textContent ?? '').trim();
+            const enSciUrl = nar.resolveAudioUrl({ id: firstCueId, lang: 'en-US', root: 'real-cell' });
+            const sciPillActive = !!tourLensBar.querySelector('button[data-mode="scientific"].on');
+
+            tourLensBar.querySelector('button[data-mode="simple"]')?.click();
+            const enSimpleSub = (subsEl.textContent ?? '').trim();
+            const simpleSyncedV3 = tVoiceSel.dataset.activeVoice === 'v3' && enSimpleSub === enPopSub;
+
+            const liveEnPersonaSwitchOk =
+              enPopSub.length >= 12 &&
+              enBpSub.length >= 12 &&
+              enSciSub.length >= 12 &&
+              enPopSub !== enBpSub &&
+              enPopSub !== enSciSub &&
+              enBpSub !== enSciSub &&
+              bpPillActive &&
+              sciPillActive &&
+              simpleSyncedV3 &&
+              enPopUrl === 'audio/en/v3/real-cell/' + encodeURIComponent(firstCueId) + '.opus' &&
+              enBpUrl === 'audio/en/v2/real-cell/' + encodeURIComponent(firstCueId) + '.opus' &&
+              enSciUrl === 'audio/en/v1/real-cell/' + encodeURIComponent(firstCueId) + '.opus';
+
+            // Test #tVoiceLock + #tVoicePreset mid-Tour
+            tVoiceLock.click();
+            tVoiceSel.value = 'v2';
+            tVoiceSel.dispatchEvent(new Event('change'));
+            tourLensBar.querySelector('button[data-mode="scientific"]')?.click();
+            const lockedMidTourOk =
+              tVoiceLock.classList.contains('on') &&
+              window.__progress.voiceLocked === true &&
+              exp.i18n.activeEnglishVoice === 'v2';
+            tVoicePre.click();
+            const unlockedMidTourOk =
+              !tVoiceLock.classList.contains('on') &&
+              window.__progress.voiceLocked === false &&
+              exp.i18n.activeEnglishVoice === 'v1';
+            const tourVoiceLockOk = lockedMidTourOk && unlockedMidTourOk;
+
+            // Live mid-Tour switching in Spanish across Pop-Culture (latam), Blueprint (spain/blueprint), and Scientific (spain/scientific)
+            exp.i18n.setLocale('es');
+            exp.i18n.resetSpanishVoiceToPreset();
+            tourLensBar.querySelector('button[data-mode="story"]')?.click();
+            const esPopSub = (subsEl.textContent ?? '').trim();
+            const esPopUrl = nar.resolveAudioUrl({ id: firstCueId, lang: 'es-ES', root: 'real-cell' });
+
+            tourLensBar.querySelector('button[data-mode="blueprint"]')?.click();
+            const esBpSub = (subsEl.textContent ?? '').trim();
+            const esBpUrl = nar.resolveAudioUrl({ id: firstCueId, lang: 'es-ES', root: 'real-cell' });
+
+            tourLensBar.querySelector('button[data-mode="scientific"]')?.click();
+            const esSciSub = (subsEl.textContent ?? '').trim();
+            const esSciUrl = nar.resolveAudioUrl({ id: firstCueId, lang: 'es-ES', root: 'real-cell' });
+
+            const liveEsPersonaSwitchOk =
+              esPopSub.length >= 12 &&
+              esBpSub.length >= 12 &&
+              esSciSub.length >= 12 &&
+              esPopSub !== esBpSub &&
+              esPopSub !== esSciSub &&
+              esBpSub !== esSciSub &&
+              esPopUrl === 'audio/es/latam/real-cell/' + encodeURIComponent(firstCueId) + '.opus' &&
+              esBpUrl === 'audio/es/spain/blueprint/real-cell/' + encodeURIComponent(firstCueId) + '.opus' &&
+              esSciUrl === 'audio/es/spain/scientific/real-cell/' + encodeURIComponent(firstCueId) + '.opus';
+
+            exp.i18n.setLocale('en');
+            exp.i18n.setMode('story');
+
+            // Verify all 6 Tour Persona streams + Explorer 4-mode Lens streams return HTTP 200 + OggS
             const urls = [
-              nar.resolveAudioUrl({ id: firstCueId, lang: 'en-US', root: 'real-cell', voice: 'v1' }),
-              nar.resolveAudioUrl({ id: firstCueId, lang: 'en-US', root: 'real-cell', voice: 'v2' }),
-              nar.resolveAudioUrl({ id: firstCueId, lang: 'en-US', root: 'real-cell', voice: 'v3' }),
-              nar.resolveAudioUrl({ id: firstCueId, lang: 'es-ES', root: 'real-cell', esVoice: 'latam' }),
-              nar.resolveAudioUrl({ id: firstCueId, lang: 'es-ES', root: 'real-cell', esVoice: 'spain' }),
+              enSciUrl,
+              enBpUrl,
+              enPopUrl,
+              esPopUrl,
+              esBpUrl,
+              esSciUrl,
               nar.resolveLensAudioUrl({ nodeId: 'mitochondrion', mode: 'scientific', lang: 'en-US', voice: 'v1' }),
               nar.resolveLensAudioUrl({ nodeId: 'mitochondrion', mode: 'blueprint', lang: 'en-US', voice: 'v2' }),
               nar.resolveLensAudioUrl({ nodeId: 'mitochondrion', mode: 'story', lang: 'en-US', voice: 'v3' }),
+              nar.resolveLensAudioUrl({ nodeId: 'mitochondrion', mode: 'simple', lang: 'en-US', voice: 'v3' }),
               nar.resolveLensAudioUrl({ nodeId: 'mitochondrion', mode: 'story', lang: 'es-ES', esVoice: 'latam' }),
+              nar.resolveLensAudioUrl({ nodeId: 'mitochondrion', mode: 'simple', lang: 'es-ES', esVoice: 'latam' }),
               nar.resolveLensAudioUrl({ nodeId: 'mitochondrion', mode: 'scientific', lang: 'es-ES', esVoice: 'spain' })
             ];
             const responses = await Promise.all(urls.map(u => fetch(u)));
@@ -1415,18 +1720,26 @@ async function runBrowserE2ETests() {
               hasGlobalNarrator: window.__tour.T.narrator === nar,
               narrHiddenDuringTour,
               hasTourVoiceControls,
+              hasTourLensPills,
               initialNarrOn,
               updatedVolume,
+              liveEnPersonaSwitchOk,
+              liveEsPersonaSwitchOk,
+              tourVoiceLockOk,
               allStreamsOk
             };
           })()
         `);
         assert.equal(narratorE2E.hasGlobalNarrator, true, 'Static .opus narrator must be wired into window.__tour');
         assert.equal(narratorE2E.narrHiddenDuringTour, false, '#tNarr control must be visible in guided tours');
-        assert.equal(narratorE2E.hasTourVoiceControls, true, '#tVoiceSelect and #tVoicePreset must be wired inside #tNarr');
+        assert.equal(narratorE2E.hasTourVoiceControls, true, '#tVoiceSelect, #tVoiceLock, and #tVoicePreset must be wired inside #tNarr');
+        assert.equal(narratorE2E.hasTourLensPills, true, '#tourLensBar must render 4 live persona mode buttons inside #tourBar');
         assert.equal(narratorE2E.initialNarrOn, true, 'Narration must start enabled by default');
         assert.equal(narratorE2E.updatedVolume, 0.65, '#tVol slider must update narrator volume');
-        assert.equal(narratorE2E.allStreamsOk, true, 'All EN (v1/v2/v3) & ES (latam/spain) tour + lens .opus streams must return HTTP 200 with OggS headers');
+        assert.equal(narratorE2E.liveEnPersonaSwitchOk, true, 'Mid-tour switching in EN must update #subs subtitles and route .opus across v1/v2/v3');
+        assert.equal(narratorE2E.liveEsPersonaSwitchOk, true, 'Mid-tour switching in ES must update #subs subtitles and route .opus across latam & spain/blueprint+scientific');
+        assert.equal(narratorE2E.tourVoiceLockOk, true, '#tVoiceLock and #tVoicePreset must lock and unlock custom voice mid-Tour');
+        assert.equal(narratorE2E.allStreamsOk, true, 'All EN & ES multi-persona tour + lens .opus streams must return HTTP 200 with OggS headers');
 
         assert.deepEqual(cdp.pageErrors, [], `Page errors on cell_explorer.html`);
         assert.deepEqual(cdp.consoleErrors, [], `Console errors on cell_explorer.html`);

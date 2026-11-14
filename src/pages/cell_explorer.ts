@@ -3401,7 +3401,7 @@ function buildATP() {
 }
 
 function makeStagePedestal(x, y, r, hex) {
-  const g = new THREE.Group(); g.position.set(x, y, 0);
+  const g = new THREE.Group(); g.position.set(x, y, 0); g.userData.noOutline = true;
   const ring = new THREE.Mesh(new THREE.TorusGeometry(r, .085, 16, 72), std(hex, { glow: .55 }));
   ring.rotation.x = Math.PI / 2;
   const inner = new THREE.Mesh(new THREE.TorusGeometry(r * .74, .035, 12, 64), std(hex, { glow: .35 }));
@@ -3452,6 +3452,7 @@ function makePedestalBadge(lines, accentHex) {
   }));
   mesh.renderOrder = 6;
   mesh.rotation.x = -0.22;
+  mesh.userData.noOutline = true;
   return mesh;
 }
 
@@ -3685,16 +3686,39 @@ function buildParasiticPreview() {
 function buildBiologyIntro() {
   const g = new THREE.Group(), an = [];
   let mk = 0, prokBuilt = null;
+  const tameMiniature = (obj, xrayScale = .62, pointScale = .22) => {
+    const done = new Map();
+    obj.traverse(o => {
+      if (!o.material) return;
+      if (!done.has(o.material)) {
+        const m = o.material.clone();
+        if (m.isShaderMaterial && m.uniforms?.uInt) {
+          m.uniforms = THREE.UniformsUtils.clone(o.material.uniforms);
+          m.uniforms.uInt.value *= xrayScale;
+          if (m.uniforms.uBase) m.uniforms.uBase.value *= xrayScale;
+        } else if (m.isPointsMaterial) {
+          m.size *= pointScale;
+          m.opacity *= xrayScale;
+        }
+        done.set(o.material, m);
+      }
+      o.material = done.get(o.material);
+    });
+    return obj;
+  };
 
   // Pedestal 1 (x = -14.4, partKey = 'real-bacterium'): Simple Cell — Prokaryote (E. coli)
   {
     const cx = -14.4;
     g.add(makeStagePedestal(cx, -1.65, 3.35, '#5cff9d'));
-    const prokWrap = new THREE.Group(); g.add(prokWrap);
+    const prokWrap = new THREE.Group();
+    prokWrap.userData.focusSphere = { center: V(cx, -.35, .2), radius: 4.1 };
+    g.add(prokWrap);
     prokBuilt = partModel('prokaryote');
     prokBuilt.group.scale.setScalar(.44);
     prokBuilt.group.position.set(cx + .55, .65, .15);
     prokBuilt.group.userData.part = 'prokaryote';
+    prokBuilt.group.userData.focusSphere = { center: V(cx, -.35, .2), radius: 4.1 };
     prokWrap.add(prokBuilt.group);
     const b1 = makePedestalBadge(['① PROKARYOTE (E. coli)', '✓ Membrane  ✓ dsDNA', '✓ 70S Ribo  ✓ Own ATP'], '#5cff9d');
     b1.position.set(cx, -2.85, 2.1); g.add(b1);
@@ -3705,10 +3729,13 @@ function buildBiologyIntro() {
   {
     const cx = -4.8;
     g.add(makeStagePedestal(cx, -1.65, 3.85, '#7fd8ff'));
-    const euk = new THREE.Group(); g.add(euk);
+    const euk = new THREE.Group();
+    euk.userData.focusSphere = { center: V(cx, -.25, .2), radius: 4.5 };
+    g.add(euk);
 
     // Central cutaway Animal Cell
     const animBuilt = partModel('cell');
+    tameMiniature(animBuilt.group, .6, .2);
     animBuilt.group.scale.setScalar(1.85 / animBuilt.radius);
     animBuilt.group.position.set(cx, .25, .65);
     animBuilt.group.userData.part = 'cell';
@@ -3717,6 +3744,7 @@ function buildBiologyIntro() {
     // Upper-right Plant Cell
     const plantWrap = new THREE.Group(); plantWrap.userData.part = 'real-plant'; euk.add(plantWrap);
     const plantBuilt = partModel('plant-cell');
+    tameMiniature(plantBuilt.group, .72, .26);
     plantBuilt.group.scale.setScalar(1.55 / plantBuilt.radius);
     plantBuilt.group.position.set(cx + 1.95, 1.55, -.45);
     plantBuilt.group.userData.part = 'plant-cell';
@@ -3746,7 +3774,9 @@ function buildBiologyIntro() {
   {
     const cx = 4.8;
     g.add(makeStagePedestal(cx, -1.65, 3.45, '#ffd26a'));
-    const para = new THREE.Group(); g.add(para);
+    const para = new THREE.Group();
+    para.userData.focusSphere = { center: V(cx, -.35, .2), radius: 4.2 };
+    g.add(para);
 
     // Cutaway translucent Host Inclusion Vacuole with intracellular Chlamydia/Rickettsia rods + animated ATP import
     const inc = new THREE.Group(); inc.position.set(cx - .55, .55, .05); para.add(inc);
@@ -3810,7 +3840,9 @@ function buildBiologyIntro() {
   {
     const cx = 14.4;
     g.add(makeStagePedestal(cx, -1.65, 3.45, '#ff6f7a'));
-    const vir = new THREE.Group(); g.add(vir);
+    const vir = new THREE.Group();
+    vir.userData.focusSphere = { center: V(cx, -.35, .2), radius: 4.2 };
+    g.add(vir);
 
     const phg = partModel('bacteriophage');
     phg.group.scale.setScalar(2.15 / phg.radius);
@@ -4654,8 +4686,10 @@ const lens = new ShaderPass({ uniforms: { tDiffuse: { value: null }, uRes: { val
 bokeh.enabled = lens.enabled = false;
 // glowing outline drawn around whatever part is hovered in the tree, the list or a tag
 const outline = new OutlinePass(new THREE.Vector2(1, 1), scene, camera);
-// parts usually sit behind a translucent membrane, so hidden edges glow as brightly as visible ones
-Object.assign(outline, { edgeStrength: 12, edgeGlow: 1.6, edgeThickness: 3, pulsePeriod: 2 }); outline.visibleEdgeColor.set('#c8f4ff'); outline.hiddenEdgeColor.set('#c8f4ff');
+// parts usually sit behind a translucent membrane, so hidden edges glow as brightly as visible ones (toned down on wide stage overviews)
+const BASE_OUTLINE = { edgeStrength: 12, edgeGlow: 1.6, edgeThickness: 3, vis: '#c8f4ff', hid: '#c8f4ff' };
+Object.assign(outline, { edgeStrength: BASE_OUTLINE.edgeStrength, edgeGlow: BASE_OUTLINE.edgeGlow, edgeThickness: BASE_OUTLINE.edgeThickness, pulsePeriod: 2 });
+outline.visibleEdgeColor.set(BASE_OUTLINE.vis); outline.hiddenEdgeColor.set(BASE_OUTLINE.hid);
 composer.addPass(new RenderPass(scene, camera)); composer.addPass(outline); composer.addPass(bokeh); composer.addPass(bloom); composer.addPass(new OutputPass()); composer.addPass(lens);
 
 // "Realistic" look: glass shells over the large x-ray meshes, studio reflections, rim light, dark-field backdrop
@@ -4773,18 +4807,49 @@ function build(id) {
   cache.set(id, out);
   return out;
 }
+const FREE_LOOK_STAGE_NODES = new Set(['life-overview', 'parasitic-cells-overview']);
+const localTourPose = { on: false, p0: V(), t0: V(), p1: V(), t1: V(), start: 0, dur: 1000, orbit: 0, theta: 0, yaw: 0, pitch: 0, seq: 0, arrived: true };
+const localHeld = new Set();
+let freeLook = true, freeLookOverride = null, localLookFrom = null;   // null = automatic (Free Look on wide overview stages, Orbit on single organelles/molecules)
+function setFreeLook(on, manual = true, refreshToolbar = true) {
+  if (manual) freeLookOverride = on == null ? null : !!on;
+  freeLook = on == null ? FREE_LOOK_STAGE_NODES.has(curPath.at(-1)) : !!on;
+  controls.enableRotate = !freeLook;
+  if (freeLook) {
+    controls.autoRotate = false;
+    if (cur) {
+      camera.near = Math.min(camera.near, 0.06);
+      camera.updateProjectionMatrix();
+      controls.minDistance = 0.4;
+    }
+  } else {
+    localHeld.clear();
+    localLookFrom = null;
+    if (cur) controls.minDistance = cur.radius * .25;
+  }
+  if ($('hint') && !cur?.real) $('hint').textContent = freeLook ? i18n.t('hintFreeLook') : i18n.t('hintDefault');
+  if (refreshToolbar) syncToolbar();
+}
+function syncFreeLookMode(nodeId = curPath.at(-1)) {
+  setFreeLook(freeLookOverride !== null ? freeLookOverride : FREE_LOOK_STAGE_NODES.has(nodeId), false, false);
+}
 function frame(r) {
   const vh = camera.fov * Math.PI / 360, hh = Math.atan(Math.tan(vh) * camera.aspect), dist = r / Math.sin(Math.min(vh, hh)) * 1.12;
   camera.position.copy(V(.42, .22, 1).normalize().multiplyScalar(dist));
-  camera.near = dist / 200; camera.far = dist * 20; camera.updateProjectionMatrix();
-  controls.target.set(0, 0, 0); controls.minDistance = r * .25; controls.maxDistance = dist * 4; controls.update();
+  camera.near = freeLook ? Math.min(0.06, dist / 200) : dist / 200; camera.far = dist * 20; camera.updateProjectionMatrix();
+  controls.target.set(0, 0, 0); controls.minDistance = freeLook ? 0.4 : r * .25; controls.maxDistance = dist * 4; controls.update();
   bokeh.uniforms.focus.value = dist * .92; bokeh.uniforms.aperture.value = .007 / r;
 }
 function setModel(out) {
   if (cur && !cur.real) scene.remove(cur.group);
   if (cur?.real) toReal({ cmd: 'hi', key: null });
+  localTourPose.on = false; localTourPose.yaw = localTourPose.pitch = 0; localFly = null; controls.enabled = true;
+  cur = out;
+  const nodeId = curPath.at(-1);
+  syncFreeLookMode(nodeId);
+  controls.autoRotate = !freeLook;
   setStageMode(false);
-  cur = out; applyLook(out); scene.add(out.group); enterT = performance.now(); frame(out.radius); makeLabels(); setHover(null); syncToolbar();
+  applyLook(out); scene.add(out.group); enterT = performance.now(); frame(out.radius); makeLabels(); setHover(null); syncToolbar();
 }
 
 // ---- each realistic cell is its own page (opened with ?embed) shown in the stage: it renders and animates, and sends back each frame
@@ -4844,9 +4909,12 @@ function setStageMode(real) {
     P.el.style.visibility = on ? '' : 'hidden';
     P.el.style.pointerEvents = on ? '' : 'none';
   });
-  $('cut').hidden = !real; $('hint').textContent = real ? i18n.t('hintReal') : i18n.t('hintDefault');
+  $('cut').hidden = !real;
+  if ($('freeBtn')) $('freeBtn').hidden = real;
+  $('hint').textContent = real ? i18n.t('hintReal') : (freeLook ? i18n.t('hintFreeLook') : i18n.t('hintDefault'));
 }
 function showReal(id) {
+  localTourPose.on = false; localTourPose.yaw = localTourPose.pitch = 0; localFly = null; controls.enabled = true;
   const n = NODES[id], src = pageOf(id), P = PAGES[src];
   if (cur && !cur.real) scene.remove(cur.group);
   if (page && page !== P) toReal({ cmd: 'hi', key: null });   // leave the other page unlit
@@ -5121,6 +5189,13 @@ function syncToolbar() {
   $('tourBtn').textContent = i18n.t('guidedTour');
   $('up').textContent = i18n.t('upOneLevel');
   $('tags').textContent = showTags ? i18n.t('hideTags') : i18n.t('showTags');
+  if ($('freeBtn')) {
+    $('freeBtn').hidden = real;
+    $('freeBtn').textContent = freeLook ? i18n.t('freeLookOn') : i18n.t('freeLookOff');
+    $('freeBtn').title = i18n.t('freeLookTitle');
+    $('freeBtn').classList.toggle('on', freeLook);
+    $('freeBtn').setAttribute('aria-pressed', String(freeLook));
+  }
   $('look').textContent = real ? `${i18n.tr(page.look)}: ${st.look ?? 'gel'}` : realLook ? i18n.t('xrayLook') : i18n.t('realisticLook');
   $('spin').textContent = real ? (st.motion === false ? i18n.t('play') : i18n.t('pause')) : controls.autoRotate ? i18n.t('pause') : i18n.t('rotate');
   $('cut').textContent = st.cut === false ? i18n.t('openCutaway') : i18n.t('closeCutaway');
@@ -5138,12 +5213,32 @@ const ringMat = (() => {
 const rings = [];
 let hoverId = null;
 function partsOf(id) { const out = []; cur.group?.traverse(o => { if (o.userData.part === id) out.push(o); }); return out; }
+function outlinePartsOf(id) { const out = []; cur?.group?.traverse(o => { if (o.userData.part === id && !o.userData.noOutline) out.push(o); }); return out; }
+function applyOutline(key, objs = null) {
+  const selected = objs ?? (key ? outlinePartsOf(key) : []);
+  if (selected.length && curPath.length === 1 && curPath[0] === 'life-overview') {
+    const isProk = key === 'real-bacterium' || key === 'prokaryote';
+    // Post-bloom (threshold = 0.6) perceptual 80% reduction on prokaryotic cell and 50% reduction + smaller halo on the others
+    outline.edgeStrength = isProk ? 1.1 : 2.6;
+    outline.edgeGlow = isProk ? 0.16 : 0.4;
+    outline.edgeThickness = isProk ? 0.75 : 1.1;
+    outline.visibleEdgeColor.set(isProk ? '#7ecce0' : '#92daf0');
+    outline.hiddenEdgeColor.set(isProk ? '#000000' : '#081318');
+  } else {
+    outline.edgeStrength = BASE_OUTLINE.edgeStrength;
+    outline.edgeGlow = BASE_OUTLINE.edgeGlow;
+    outline.edgeThickness = BASE_OUTLINE.edgeThickness;
+    outline.visibleEdgeColor.set(BASE_OUTLINE.vis);
+    outline.hiddenEdgeColor.set(BASE_OUTLINE.hid);
+  }
+  outline.selectedObjects = selected;
+}
 function setHover(id) {
   hoverId = cur && id ? id : null;
   rings.forEach(r => { r.visible = false; });
-  if (cur?.real) { outline.selectedObjects = []; realHover(hoverId ? cur.anchors.find(a => a.id === hoverId) : null); return; }
-  const parts = hoverId ? partsOf(hoverId) : [], pts = hoverId ? cur.anchors.filter(a => a.id === hoverId) : [];
-  outline.selectedObjects = parts;
+  if (cur?.real) { applyOutline(null, []); realHover(hoverId ? cur.anchors.find(a => a.id === hoverId) : null); return; }
+  const parts = hoverId ? outlinePartsOf(hoverId) : [], pts = hoverId ? cur.anchors.filter(a => a.id === hoverId) : [];
+  applyOutline(hoverId, parts);
   if (!parts.length) pts.forEach((a, i) => { if (!rings[i]) { rings[i] = new THREE.Sprite(ringMat); rings[i].renderOrder = 999; scene.add(rings[i]); } rings[i].userData.p = a.p; rings[i].visible = true; });
   labelEls.forEach((L, i) => { const on = !!hoverId && cur.anchors[i]?.id === hoverId; L.el.classList.toggle('hov', on); L.ln.classList.toggle('hot', on); });
   document.querySelectorAll('.row[data-id]').forEach(r => r.classList.toggle('hov', r.dataset.id === hoverId));
@@ -5569,6 +5664,7 @@ new ResizeObserver(resize).observe(stage); resize();
 
 $('up').onclick = () => curPath.length > 1 && go(curPath.slice(0, -1));
 $('tags').onclick = e => { showTags = !showTags; e.target.textContent = showTags ? i18n.t('hideTags') : i18n.t('showTags'); };
+if ($('freeBtn')) $('freeBtn').onclick = () => { if (!cur?.real) setFreeLook(!freeLook, true); };
 $('spin').onclick = () => { if (cur?.real) toReal({ cmd: 'motion' }); else { controls.autoRotate = !controls.autoRotate; syncToolbar(); } };
 $('look').onclick = () => (cur?.real ? toReal({ cmd: 'look' }) : setLook(!realLook));
 $('cut').onclick = () => toReal({ cmd: 'cut' });
@@ -5591,11 +5687,62 @@ function savePNG(src) {
   const a = document.createElement('a'); a.download = `cell-${curPath.at(-1)}.png`; a.href = c.toDataURL('image/png'); a.click();
 }
 addEventListener('keydown', e => { if (e.key === 'Escape' && curPath.length > 1 && !T.on) go(curPath.slice(0, -1)); });
-// W A S D move the camera in the realistic cell, also while the keyboard is on this page rather than in the embedded one
+// W A S D + mouse free look: identical to the realistic layouts on local 3D stages (Introduction to Biology, etc.), and forwarded when embedded
+const localFwd = V(), localSide = V(), localStep = V(), localAim = new THREE.Spherical(), localFp = V(), localFt = V(), localLookVec = V(), localRightVec = V();
+renderer.domElement.addEventListener('pointerdown', e => {
+  if (e.button !== 0 || cur?.real) return;
+  if (!freeLook && !localTourPose.on) return;
+  localLookFrom = [e.clientX, e.clientY];
+  try { renderer.domElement.setPointerCapture(e.pointerId); } catch { /* synthetic events may omit capture */ }
+});
+renderer.domElement.addEventListener('pointermove', e => {
+  if (!localLookFrom || cur?.real) return;
+  const dx = e.clientX - localLookFrom[0], dy = e.clientY - localLookFrom[1];
+  localLookFrom = [e.clientX, e.clientY];
+  if (localTourPose.on) {
+    localTourPose.yaw = Math.min(.44, Math.max(-.44, localTourPose.yaw - dx * .002));
+    localTourPose.pitch = Math.min(.44, Math.max(-.44, localTourPose.pitch + dy * .002));
+    return;
+  }
+  if (!freeLook) return;
+  if (controls.autoRotate) { controls.autoRotate = false; syncToolbar(); }
+  localAim.setFromVector3(controls.target.clone().sub(camera.position));
+  localAim.theta -= dx * .002;
+  localAim.phi = Math.min(Math.PI - .05, Math.max(.05, localAim.phi + dy * .002));
+  controls.target.copy(camera.position).add(V().setFromSpherical(localAim));
+});
+for (const ev of ['pointerup', 'pointercancel']) renderer.domElement.addEventListener(ev, () => { localLookFrom = null; });
+function localFreeMove(dt) {
+  if (!freeLook || !localHeld.size || !cur || cur.real || localTourPose.on || localFly || tourHolds()) return;
+  if (controls.autoRotate) { controls.autoRotate = false; syncToolbar(); }
+  camera.getWorldDirection(localFwd);
+  localSide.crossVectors(localFwd, camera.up).normalize();
+  localStep.set(0, 0, 0)
+    .addScaledVector(localFwd, (localHeld.has('w') ? 1 : 0) - (localHeld.has('s') ? 1 : 0))
+    .addScaledVector(localSide, (localHeld.has('d') ? 1 : 0) - (localHeld.has('a') ? 1 : 0));
+  if (localStep.lengthSq() < 1e-6) return;
+  const moveSpeed = Math.max(2.5, Math.min(cur.radius * 0.9, camera.position.distanceTo(controls.target) * 0.55));
+  localStep.normalize().multiplyScalar(dt * moveSpeed);
+  camera.position.add(localStep);
+  controls.target.add(localStep);
+}
 const wasd = e => { const k = e.key.toLowerCase(); return k.length === 1 && 'wasd'.includes(k) && !e.metaKey && !e.ctrlKey && !e.target.closest?.('input, textarea') ? k : null; };
-addEventListener('keydown', e => { const k = wasd(e); if (k && cur?.real && !tourHolds()) toReal({ cmd: 'key', key: k, down: true }); });
-addEventListener('keyup', e => { const k = wasd(e); if (k) toReal({ cmd: 'key', key: k, down: false }); });
-addEventListener('blur', () => 'wasd'.split('').forEach(k => toReal({ cmd: 'key', key: k, down: false })));
+addEventListener('keydown', e => {
+  const k = wasd(e);
+  if (!k || tourHolds()) return;
+  if (cur?.real) toReal({ cmd: 'key', key: k, down: true });
+  else localHeld.add(k);
+});
+addEventListener('keyup', e => {
+  const k = wasd(e);
+  if (!k) return;
+  localHeld.delete(k);
+  toReal({ cmd: 'key', key: k, down: false });
+});
+addEventListener('blur', () => {
+  localHeld.clear();
+  'wasd'.split('').forEach(k => toReal({ cmd: 'key', key: k, down: false }));
+});
 function tourHasTarget(tr, target) {
   if (!tr || !target) return false;
   return tr.chapters?.some(ch => ch.id === target || ch.steps?.some(s => s.id === target || s.cues?.some(c => c.id === target)));
@@ -5641,10 +5788,21 @@ function clearLocalGhost() {
 }
 function localTourCmd(m) {
   if (!cur || cur.real) return;
-  if (m.cmd === 'free') { localFly = null; controls.autoRotate = true; controls.autoRotateSpeed = .45; return; }
-  if (m.cmd === 'set') { if (m.motion !== undefined) controls.autoRotate = !!m.motion; return; }
+  if (m.cmd === 'free') {
+    localFly = null;
+    localTourPose.on = false; localTourPose.yaw = localTourPose.pitch = 0;
+    controls.enabled = true;
+    syncFreeLookMode(curPath.at(-1));
+    controls.autoRotate = !freeLook; controls.autoRotateSpeed = .45;
+    syncToolbar();
+    return;
+  }
+  if (m.cmd === 'set') {
+    if (m.motion !== undefined && !freeLook) controls.autoRotate = !!m.motion;
+    return;
+  }
   if (m.cmd === 'blink' || m.cmd === 'hi') {
-    outline.selectedObjects = m.key ? partsOf(m.key) : [];
+    applyOutline(m.key, m.key ? outlinePartsOf(m.key) : []);
     labelEls.forEach((L, i) => { const on = !!m.key && cur.anchors[i]?.id === m.key; L.el.classList.toggle('hov', on); L.ln.classList.toggle('hot', on); });
     return;
   }
@@ -5668,31 +5826,60 @@ function localTourCmd(m) {
     const vh = camera.fov * Math.PI / 360, hh = Math.atan(Math.tan(vh) * camera.aspect);
     let target = V(0, 0, 0), pos = V(.42, .22, 1).normalize().multiplyScalar(cur.radius / Math.sin(Math.min(vh, hh)) * 1.12);
     if (m.part) {
-      const box = new THREE.Box3();
-      partsOf(m.part).forEach(o => box.expandByObject(o));
-      if (!box.isEmpty()) {
-        const sp = new THREE.Sphere(); box.getBoundingSphere(sp);
-        target = sp.center;
-        const d = Math.max(4, sp.radius / Math.sin(Math.min(vh, hh)) * 1.25 * (m.dist ?? 1));
+      cur.group?.updateMatrixWorld?.(true);
+      const matched = partsOf(m.part);
+      const customFocus = matched.find(o => o.userData.focusSphere)?.userData.focusSphere;
+      let focusCenter = null, focusRadius = 0;
+      if (customFocus) {
+        focusCenter = cur.group.localToWorld(customFocus.center.clone());
+        focusRadius = customFocus.radius;
+      } else {
+        const box = new THREE.Box3();
+        matched.forEach(o => box.expandByObject(o));
+        if (!box.isEmpty()) {
+          const sp = box.getBoundingSphere(new THREE.Sphere());
+          focusCenter = sp.center;
+          focusRadius = sp.radius;
+        }
+      }
+      if (focusCenter) {
+        target = focusCenter;
+        const d = Math.max(4, focusRadius / Math.sin(Math.min(vh, hh)) * 1.25 * (m.dist ?? 1));
         pos = target.clone().add(V(.28, .18, 1).normalize().multiplyScalar(d));
       }
     }
-    controls.autoRotate = !!m.orbit; controls.autoRotateSpeed = (m.orbit || 2) * .25;
+    localHeld.clear();
+    localFly = null;
+    controls.autoRotate = false;
+    controls.enabled = false;
+    Object.assign(localTourPose, {
+      on: true,
+      p0: camera.position.clone(),
+      t0: controls.target.clone(),
+      p1: pos,
+      t1: target,
+      start: performance.now(),
+      dur: Math.max(1, (m.dur ?? 0) * 1000),
+      orbit: m.orbit ?? 0,
+      theta: 0,
+      yaw: 0,
+      pitch: 0,
+      seq: m.seq ?? 0,
+      arrived: !m.dur || m.dur <= 0,
+    });
     if (!m.dur || m.dur <= 0) {
-      camera.position.copy(pos); controls.target.copy(target); controls.update();
-      localFly = null; if (m.seq) setTimeout(() => tourArrived(m.seq), 0);
-      return;
+      camera.position.copy(pos); controls.target.copy(target); camera.lookAt(target);
+      if (m.seq) setTimeout(() => tourArrived(m.seq), 0);
     }
-    localFly = { p0: camera.position.clone(), t0: controls.target.clone(), p1: pos, t1: target, start: performance.now(), dur: m.dur * 1000, seq: m.seq };
   }
 }
 function highlightAnchor(idx) {
   if (!cur || cur.real) return;
   rings.forEach(r => { r.visible = false; });
   const a = cur.anchors?.[idx];
-  if (!a) { outline.selectedObjects = []; labelEls.forEach(L => { L.el.classList.remove('hov'); L.ln.classList.remove('hot'); }); return; }
-  const parts = a.id ? partsOf(a.id) : [];
-  outline.selectedObjects = parts;
+  if (!a) { applyOutline(null, []); labelEls.forEach(L => { L.el.classList.remove('hov'); L.ln.classList.remove('hot'); }); return; }
+  const parts = a.id ? outlinePartsOf(a.id) : [];
+  applyOutline(a.id, parts);
   if (!parts.length && a.p) {
     if (!rings[0]) { rings[0] = new THREE.Sprite(ringMat); rings[0].renderOrder = 999; scene.add(rings[0]); }
     rings[0].userData.p = a.p; rings[0].visible = true;
@@ -5805,7 +5992,7 @@ function restoreRootTags() {   // the root's own tags, at the points of the root
   if (!TOUR) return;
   if (!TOUR_PAGE) {
     if (curPath.join('/') !== TOUR.root) return;
-    clearLocalGhost(); outline.selectedObjects = [];
+    clearLocalGhost(); applyOutline(null, []);
     cur = build(TOUR.root); makeLabels();
     return;
   }
@@ -6533,20 +6720,54 @@ let last = performance.now();
 renderer.setAnimationLoop(now => {
   const dt = Math.min(.05, (now - last) / 1000); last = now;
   tourTick(now);
-  if (localFly) {
+  if (localTourPose.on && !cur?.real) {
+    if (!localTourPose.arrived) {
+      const u = Math.min(1, (now - localTourPose.start) / localTourPose.dur);
+      const e = u < .5 ? 4 * u * u * u : 1 - (-2 * u + 2) ** 3 / 2;
+      localFp.lerpVectors(localTourPose.p0, localTourPose.p1, e);
+      localFt.lerpVectors(localTourPose.t0, localTourPose.t1, e);
+      if (u >= 1) {
+        localTourPose.arrived = true;
+        if (localTourPose.seq) tourArrived(localTourPose.seq);
+      }
+    } else {
+      localFt.copy(localTourPose.t1);
+      if (localTourPose.orbit) {
+        localTourPose.theta += (localTourPose.orbit * Math.PI / 180) * dt;
+        const off = localTourPose.p1.clone().sub(localTourPose.t1).applyAxisAngle(UP, localTourPose.theta);
+        localFp.copy(localTourPose.t1).add(off);
+      } else {
+        localFp.copy(localTourPose.p1);
+      }
+    }
+    if (!localLookFrom) {
+      const k = Math.exp(-dt / .2);
+      localTourPose.yaw *= k;
+      localTourPose.pitch *= k;
+    }
+    localLookVec.copy(localFt).sub(localFp);
+    if (Math.abs(localTourPose.yaw) > 1e-5 || Math.abs(localTourPose.pitch) > 1e-5) {
+      localRightVec.crossVectors(localLookVec, UP).normalize();
+      localLookVec.applyAxisAngle(UP, localTourPose.yaw).applyAxisAngle(localRightVec, -localTourPose.pitch);
+    }
+    camera.position.copy(localFp);
+    controls.target.copy(localFp).add(localLookVec);
+    camera.lookAt(controls.target);
+  } else if (localFly) {
     const u = Math.min(1, (now - localFly.start) / localFly.dur), e = u < .5 ? 4 * u * u * u : 1 - (-2 * u + 2) ** 3 / 2;
     camera.position.lerpVectors(localFly.p0, localFly.p1, e);
     controls.target.lerpVectors(localFly.t0, localFly.t1, e);
     if (u >= 1) { const seq = localFly.seq; localFly = null; if (seq) tourArrived(seq); }
   }
   if (!cur?.real) {   // the realistic cell draws itself
+    localFreeMove(dt);
     if (cur) {
       const k = Math.min(1, (now - enterT) / 450), e = 1 - (1 - k) ** 3; cur.group.scale.setScalar(.9 + .1 * e);
       cur.ticks.forEach(t => t(dt)); cur.onFrame?.();
       // keep the focal plane just in front of the orbit centre, with blur scaled to the model size
       if (realLook) { bokeh.uniforms.focus.value = camera.position.distanceTo(controls.target) * .92; bokeh.uniforms.aperture.value = .007 / cur.radius; lens.uniforms.uTime.value = now / 1000; }
     }
-    updateRings(now); controls.update(); composer.render(); fpsFrame();
+    updateRings(now); if (controls.enabled) controls.update(); composer.render(); fpsFrame();
   }
   layoutLabels();
 });
@@ -6561,5 +6782,5 @@ const showNow = path => {
   if (NODES[path.at(-1)].real) { showReal(path.at(-1)); layoutLabels(); return; }
   setModel(build(path.at(-1))); enterT = -1e9; cur.group.scale.setScalar(1); cur.onFrame?.(); controls.update(); composer.render(); layoutLabels(); $('busy').style.display = 'none';
 };
-window.__explorer = { NODES, build, go, showNow, tour: window.__tour, i18n, setLook, setHover, THREE, scene, renderer, camera, composer, controls, bloom, get cur() { return cur; }, get frame() { return page?.el; }, get realPts() { return realPts; }, layoutLabels };
+window.__explorer = { NODES, build, go, showNow, tour: window.__tour, i18n, setLook, setFreeLook, setHover, localFreeMove, localTourPose, THREE, scene, renderer, camera, composer, controls, bloom, outline, get freeLook() { return freeLook; }, get cur() { return cur; }, get frame() { return page?.el; }, get realPts() { return realPts; }, layoutLabels };
 });

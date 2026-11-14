@@ -1377,6 +1377,129 @@ async function runBrowserE2ETests() {
             window.__progress.resetCourse('life-overview');
             exp.showNow(['life-overview']);
 
+            // Verify Intro Stage highlight reductions (80% on prokaryote, 50% on others, no pedestal/badge outline) + Free Look (WASD + mouse look + Tour Explore)
+            exp.setHover('real-bacterium');
+            const prokOutlineOk =
+              exp.outline.edgeStrength === 1.1 &&
+              exp.outline.edgeGlow === 0.16 &&
+              exp.outline.edgeThickness === 0.75 &&
+              exp.outline.selectedObjects.length > 0 &&
+              exp.outline.selectedObjects.every(o => !o.userData.noOutline);
+            exp.setHover('real-cell');
+            const eukOutlineOk =
+              exp.outline.edgeStrength === 2.6 &&
+              exp.outline.edgeGlow === 0.4 &&
+              exp.outline.edgeThickness === 1.1 &&
+              exp.outline.selectedObjects.length > 0 &&
+              exp.outline.selectedObjects.every(o => !o.userData.noOutline);
+            exp.setHover('parasitic-cells-overview');
+            const paraOutlineOk = exp.outline.edgeStrength === 2.6 && exp.outline.edgeGlow === 0.4;
+            exp.setHover('viruses');
+            const virOutlineOk = exp.outline.edgeStrength === 2.6 && exp.outline.edgeGlow === 0.4;
+            exp.setHover(null);
+
+            // Check Free Look default on #life-overview (WASD + mouse drag look + #freeBtn + Tour Explore)
+            const freeBtn = document.getElementById('freeBtn');
+            const hintText = document.getElementById('hint')?.textContent ?? '';
+            const initialFreeLookOk =
+              exp.freeLook === true &&
+              exp.controls.enableRotate === false &&
+              exp.controls.autoRotate === false &&
+              !!freeBtn &&
+              !freeBtn.hidden &&
+              freeBtn.classList.contains('on') &&
+              hintText.includes('W A S D');
+
+            const p0 = exp.camera.position.clone();
+            const t0 = exp.controls.target.clone();
+            window.dispatchEvent(new KeyboardEvent('keydown', { key: 'w', bubbles: true }));
+            window.dispatchEvent(new KeyboardEvent('keydown', { key: 'd', bubbles: true }));
+            exp.localFreeMove(0.2);
+            window.dispatchEvent(new KeyboardEvent('keyup', { key: 'w', bubbles: true }));
+            window.dispatchEvent(new KeyboardEvent('keyup', { key: 'd', bubbles: true }));
+            const dp = exp.camera.position.clone().sub(p0);
+            const dtgt = exp.controls.target.clone().sub(t0);
+            const wasdMovedOk = dp.length() > 0.2 && dp.distanceTo(dtgt) < 1e-5;
+
+            const camBeforeLook = exp.camera.position.clone();
+            const tgtBeforeLook = exp.controls.target.clone();
+            exp.renderer.domElement.dispatchEvent(new PointerEvent('pointerdown', { button: 0, clientX: 400, clientY: 300, pointerId: 1 }));
+            exp.renderer.domElement.dispatchEvent(new PointerEvent('pointermove', { button: 0, clientX: 480, clientY: 260, pointerId: 1 }));
+            exp.renderer.domElement.dispatchEvent(new PointerEvent('pointerup', { button: 0, clientX: 480, clientY: 260, pointerId: 1 }));
+            const mouseLookOk =
+              exp.camera.position.distanceTo(camBeforeLook) < 1e-5 &&
+              exp.controls.target.distanceTo(tgtBeforeLook) > 0.1;
+
+            // Toggling #freeBtn off disables Free Look & WASD movement; toggling back on restores it
+            freeBtn?.click();
+            const pOrbit = exp.camera.position.clone();
+            window.dispatchEvent(new KeyboardEvent('keydown', { key: 'w', bubbles: true }));
+            exp.localFreeMove(0.2);
+            window.dispatchEvent(new KeyboardEvent('keyup', { key: 'w', bubbles: true }));
+            const orbitToggleOk =
+              exp.freeLook === false &&
+              exp.controls.enableRotate === true &&
+              exp.camera.position.distanceTo(pOrbit) < 1e-5;
+            freeBtn?.click();
+            const freeToggleRestoredOk = exp.freeLook === true && exp.controls.enableRotate === false;
+            exp.setFreeLook(null);
+
+            // Start Tour 0 step 1 (prokaryote spotlight), advance into cue so arrive() lights Pedestal 1, verify 80% reduced outline + close framing, then enter Explore (E)
+            window.__tour.start(introSteps[1].id);
+            window.__tour.next();
+            const prokTourFramingOk =
+              exp.outline.edgeStrength === 1.1 &&
+              Math.abs(exp.localTourPose.t1.x - -14.4) < 1 &&
+              exp.localTourPose.p1.distanceTo(exp.localTourPose.t1) < 25;
+            window.__tour.explore();
+            const tourExploreFreeLookOk =
+              prokTourFramingOk &&
+              exp.freeLook === true &&
+              exp.controls.enabled === true &&
+              exp.controls.autoRotate === false;
+            window.__tour.exit();
+            window.__progress.resetCourse('life-overview');
+
+            // Verify non-intro schematic node restores full default outline strength (12 / 1.6 / 3)
+            exp.showNow(['life-overview', 'prokaryote']);
+            exp.setHover('nucleoid');
+            const subNodeOutlineRestoredOk =
+              exp.outline.edgeStrength === 12 &&
+              exp.outline.edgeGlow === 1.6 &&
+              exp.outline.edgeThickness === 3;
+            exp.setHover(null);
+            exp.showNow(['life-overview']);
+            const introHighlightAndFreeLookOk =
+              prokOutlineOk &&
+              eukOutlineOk &&
+              paraOutlineOk &&
+              virOutlineOk &&
+              subNodeOutlineRestoredOk &&
+              initialFreeLookOk &&
+              wasdMovedOk &&
+              mouseLookOk &&
+              orbitToggleOk &&
+              freeToggleRestoredOk &&
+              tourExploreFreeLookOk;
+            if (!introHighlightAndFreeLookOk) {
+              throw new Error(
+                'Intro highlight / free-look check failed: ' +
+                  JSON.stringify({
+                    prokOutlineOk,
+                    eukOutlineOk,
+                    paraOutlineOk,
+                    virOutlineOk,
+                    subNodeOutlineRestoredOk,
+                    initialFreeLookOk,
+                    wasdMovedOk,
+                    mouseLookOk,
+                    orbitToggleOk,
+                    freeToggleRestoredOk,
+                    tourExploreFreeLookOk
+                  })
+              );
+            }
+
             // Verify Stage 0 + Stage 3 tour & lens .opus HTTP streams
             const introUrls = [
               nar.resolveAudioUrl({ id: 'intro.ch0.pillars.01', lang: 'en-US', root: 'life-overview' }),

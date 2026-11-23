@@ -1201,5 +1201,130 @@ export const ES_NODES: Record<string, NodeTranslation> = {
     name: 'Seis átomos biogénicos compartidos en Archaea (C, H, O, N, P, Mg²⁺)',
     scale: '0,1–0,3 nm (1–3 Å)',
     desc: 'A 0,1–0,3 nm, incluso los tetraéteres arqueanos resistentes al ácido hirviente, las capas S cristalinas, los arquelos impulsados por ATP y las histonas HMfB se reducen exactamente a los mismos seis elementos biogénicos universales que construyen bacterias, plantas, animales y virus.'
+  },
+  'real-gram-positive': {
+    name: 'Bacteria grampositiva y endospora (Bacillus subtilis)',
+    scale: 'bacilo de 3,5 µm · endospora de 1,0 µm',
+    desc: 'Bacillus subtilis grampositiva monoderma comparada lado a lado con una franja a escala real de la envoltura diderma de E. coli gramnegativa: revela su pared de peptidoglicano de 30–80 nm, ácidos teicoicos aniónicos, retención de tinción de Gram, enzimas PBP3 expuestas a betalactámicos (PDB 7BN9), esporulación asimétrica FtsZ/SpoIIIE y blindaje de endospora vitrificado con Ca-DPA y ADN unido a SASP (PDB 2Z3X).'
+  },
+  'real-gp-wall': {
+    name: 'Pared grampositiva frente a gramnegativa y tinción de Gram (realista)',
+    scale: 'PG de 30–80 nm frente a diderma de 3 nm',
+    desc: 'Contraste estructural a escala real que explica la tinción de Gram y el acceso antibiótico: 15–40 capas reticuladas de peptidoglicano se encogen en alcohol reteniendo complejos violeta cristal-yodo mientras dejan las PBP expuestas a la penicilina, a diferencia de E. coli protegida por membrana externa de LPS.'
+  },
+  'real-gp-teichoic': {
+    name: 'Ácidos teicoicos parietales y lipoteicoicos (WTA y LTA)',
+    scale: 'cadenas polielectrolíticas aniónicas de ~30 nm',
+    desc: 'Polímeros de glicerol y ribitol fosfato con carga negativa entretejidos en el peptidoglicano grampositivo (WTA) o anclados a los lípidos de membrana (LTA), secuestrando cationes divalentes Mg²⁺ y Ca²⁺ y regulando autolisinas.'
+  },
+  'real-gp-pbp': {
+    name: 'Proteína de unión a penicilina PBP3 transpeptidasa (PDB 7BN9)',
+    scale: 'enzima reticuladora expuesta de ~9 nm',
+    desc: 'Estructura cristalina real de la proteína de unión a penicilina PBP3 grampositiva (PDB 7BN9) que enlaza tallos peptídicos D-Ala–D-Ala entre cadenas de glucano; sin barrera externa de LPS, queda directamente expuesta a antibióticos betalactámicos.'
+  },
+  'real-gp-sporulation': {
+    name: 'Esporulación asimétrica: FtsZ polar y SpoIIIE (realista)',
+    scale: 'bacilo en inanición de 3,5 µm · Etapas I–V',
+    desc: 'Diferenciación de supervivencia disparada por inanición (no es reproducción): Spo0A redirige FtsZ hacia un septo polar asimétrico, SpoIIIE bombea el 70% restante del cromosoma hacia la preespora y la célula madre la envuelve para ensamblar su blindaje antes de lisarse.'
+  },
+  'real-gp-endospore': {
+    name: 'Endospora latente acorazada (6 capas concéntricas, realista)',
+    scale: 'cápsula criptobiótica de 1,0 µm',
+    desc: 'Una de las bóvedas biológicas más resistentes de la naturaleza: seis capas concéntricas (exosporio, cubierta reticulada de >70 proteínas, corteza especializada, pared germinal, membrana interna comprimida y núcleo vitrificado con Ca-DPA) soportan ebullición, vacío, desecación, lejía y radiación UV durante décadas.'
+  },
+  'real-gp-core': {
+    name: 'Núcleo esporal deshidratado: Ca-DPA y ADN-SASP (realista)',
+    scale: 'núcleo vitrificado de ~450 nm (~30% agua)',
+    desc: 'Dentro del núcleo de la endospora latente el agua libre cae a ~30% mientras el dipicolinato de calcio (Ca-DPA) vitrifica las proteínas frente a 100 °C y las proteínas SASP alfa/beta (PDB 2Z3X) fijan el cromosoma en hélice forma A inmune a dímeros UV.'
+  },
+  'real-gp-crosslink': {
+    name: 'Zoom atómico: enlace peptídico NAG–NAM y quelato Ca-DPA',
+    scale: 'química covalente y de coordinación de 0,1–1,2 nm',
+    desc: 'Comparación atómica que une la armadura parietal vegetativa (azúcares NAG–NAM beta-1,4 enlazados por tallos D-Ala–D-Ala forjados por PBP3) con la estabilidad térmica esporal (Ca²⁺ divalente quelado 1:1 por ácido dipicolínico).'
+  },
+  'atom-ca': {
+    name: 'Átomo de calcio (Ca / Ca²⁺)',
+    scale: '~0,20 nm (20 protones)',
+    desc: 'Veinte protones, veinte neutrones y cuatro capas electrónicas (2, 8, 8, 2). Al ceder dos electrones forma Ca²⁺ divalente, esencial para estabilizar ácidos teicoicos, vitrificar endosporas en Ca-DPA 1:1 y disparar contracción muscular, sinapsis y tricocistos en eucariotas.'
+  },
+  'real-paramecium': {
+    name: 'Protista ciliado de vida libre (Paramecium caudatum)',
+    scale: 'depredador eucariota autónomo de 200 µm',
+    desc: 'Un depredador eucariota unicelular de vida libre de 200 µm que realiza cada función vital —nadar, virar, cazar bacterias, digestión ácida, bombeo osmótico dulceacuícola, defensa e intercambio sexual— en una sola célula con película alveolar, cilios 9+2 impulsados por dineína crio-EM real (PDB 7KZM), vacuolas contráctiles estrelladas y doble núcleo.'
+  },
+  'real-para-cilia': {
+    name: 'Película alveolar, cilios metácronos y tricocistos (realista)',
+    scale: 'cilios móviles de 10 µm · cinetosomas basales',
+    desc: 'Primer plano cortical que muestra la película alveolar acorazada pero flexible de Paramecium, hileras longitudinales de cinetosomas basales coordinando ondas metácronas en más de mil cilios de 10 µm, y tricocistos defensivos listos para dispararse en milisegundos.'
+  },
+  'real-para-axoneme': {
+    name: 'Axonema ciliar 9+2 y golpe motor de dineína (realista)',
+    scale: 'motor microtubular de 250 nm (PDB 7KZM, 1JFF)',
+    desc: 'Sección transversal ampliada a 250 nm de un cilio de Paramecium construida con dineína axonemal real crio-EM (PDB 7KZM) y tubulina alfa/beta (PDB 1JFF): los brazos de dineína hidrolizan ATP para deslizar dobletes vecinos mientras los enlaces de nexina convierten el empuje en flexión rítmica.'
+  },
+  'real-para-dynein': {
+    name: 'Motor de dineína axonemal de brazo externo (PDB 7KZM)',
+    scale: 'motor microtubular AAA+ de ~35 nm',
+    desc: 'Estructura real crio-EM de la dineína axonemal eucariota de brazo externo (PDB 7KZM): enormes anillos ATPasa AAA+ hexaméricos con tallos de unión a microtúbulos que convierten la hidrólisis de ATP (C, H, N, O, P) en batidos ciliares coordinados.'
+  },
+  'real-para-contractile': {
+    name: 'Vacuolas contráctiles estrelladas y osmorregulación V-ATPasa (realista)',
+    scale: 'bomba rítmica dulceacuícola de ~15 µm',
+    desc: 'El agua dulce hipotónica entra sin cesar en Paramecium sin pared celular; dos vacuolas contráctiles estrelladas alternas rodeadas de canales colectores con bombas V-ATPasa reúnen el agua sobrante en diástole y la expulsan por un poro en sístole cada pocos segundos para evitar el estallido osmótico.'
+  },
+  'real-para-feeding': {
+    name: 'Surco oral, ciclosis de vacuolas digestivas y citoprocto (realista)',
+    scale: 'tracto digestivo unicelular de ~40 µm',
+    desc: 'Una línea digestiva completa dentro de una célula: cilios especializados del surco oral barren bacterias al citostoma formando vacuolas digestivas que recorren la ciclosis, se fusionan con lisosomas ácidos (virando de verde-cian a ámbar ácido), absorben nutrientes y expulsan desechos en el citoprocto posterior.'
+  },
+  'real-para-nuclei': {
+    name: 'Dimorfismo nuclear: macronúcleo y micronúcleo (realista)',
+    scale: 'núcleo somático de ~25 µm frente a germinal de 3 µm',
+    desc: 'Paramecium reparte el trabajo genético en dos núcleos distintos: un gran macronúcleo poliploide arriñonado con cientos de copias amplificadas por gen para la transcripción diaria constante, y un pequeño micronúcleo diploide que resguarda el archivo germinal íntegro para la conjugación sexual.'
+  },
+  'real-plasmodium': {
+    name: 'Parásito eucariota (Plasmodium falciparum en eritrocito humano)',
+    scale: 'merozoíto de 1,5 µm invadiendo eritrocito de 7,5 µm',
+    desc: 'El parásito humano de la malaria Plasmodium falciparum, demostrando que los parásitos intracelulares no son solo bacterias o virus, sino también células eucariotas completas escondidas dentro de nuestros glóbulos rojos. Construido con cinco estructuras reales de RCSB PDB (6YCX glideosoma, 3SRI AMA1–RON2, 4U0Q PfRH5–Basigin, 4CBU PfActI, 1GZX hemoglobina) para mostrar la invasión apical de 20 segundos, su núcleo real de 14 cromosomas, su apicoplasto de 4 membranas de origen algal rojo y la detoxificación de hemo en hemozoína.'
+  },
+  'real-plas-apical': {
+    name: 'Complejo apical, unión móvil AMA1–RON2 y PfRH5 (realista)',
+    scale: 'punta invasora de ~350 nm (PDB 3SRI, 4U0Q, 6YCX)',
+    desc: 'Primer plano del motor activo de invasión eritrocitaria de 20 segundos: los micronemas despliegan PfRH5 sobre Basigin humano (PDB 4U0Q), dos roptrias inyectan RON2 en la membrana del eritrocito para que AMA1 selle la unión móvil (PDB 3SRI) y el glideosoma subpelicular PfMyoA camina por pistas PfActI metiendo al eucariota entero adentro.'
+  },
+  'real-plas-glideosome': {
+    name: 'Complejo motor glideosoma PfMyoA–MTIP (PDB 6YCX)',
+    scale: 'miosina de invasión clase XIV de ~12 nm',
+    desc: 'Modelo estructural real del motor glideosoma apicomplejo PfMyoA–MTIP–ELC (PDB 6YCX) anclado entre la membrana plasmática y el IMC alveolar, avanzando por filamentos cortos de actina PfActI para impulsar motilidad deslizante e invasión eritrocitaria sin cilios ni flagelos.'
+  },
+  'real-plas-apicoplast': {
+    name: 'Apicoplasto de 4 membranas: plástido relicto de alga roja (realista)',
+    scale: 'plástido de endosimbiosis secundaria de ~400 nm',
+    desc: 'Corte del apicoplasto con cuatro membranas concéntricas anidadas: prueba evolutiva de endosimbiosis secundaria cuando un ancestro de Plasmodium engulló un alga roja fotosintética. Aunque perdió la fotosíntesis, su ADN circular de 35 kb y ribosomas 70S bacterianos sintetizan isoprenoides IPP esenciales, explicando la muerte diferida por doxiciclina.'
+  },
+  'real-plas-digestive': {
+    name: 'Vacuola digestiva, ingesta de hemoglobina y hemozoína (realista)',
+    scale: 'vacuola ácida de ~700 nm (pH ~5,2)',
+    desc: 'En su vacuola digestiva ácida, Plasmodium degrada hemoglobina huésped para obtener aminoácidos, liberando hierro-hemo libre redox-tóxico que destruiría sus membranas si no lo apilara en cristales insolubles de hemozoína, el paso exacto bloqueado por la cloroquina y antimaláricos afines.'
+  },
+  'real-plas-hemozoin': {
+    name: 'Biocristal de hemozoína (beta-hematina) de hierro-hemo',
+    scale: 'red cristalina recíproca Fe³⁺–O de ~200–500 nm',
+    desc: 'Pigmento malárico pardo oscuro insoluble formado cuando moléculas tóxicas de hemo libre se emparejan mediante enlaces recíprocos entre hierro férrico (Fe³⁺) y oxígeno propionato, apilándose por interacciones pi-pi y puentes de hidrógeno en cristales inertes.'
+  },
+  'real-plas-hemoglobin': {
+    name: 'Tetrámero de hemoglobina humana (PDB 1GZX)',
+    scale: 'proteína eritrocitaria portadora de O₂ de ~6,5 nm',
+    desc: 'Estructura cristalina real de la hemoglobina humana alfa2-beta2 (PDB 1GZX), empaquetada en ~270 millones de copias por glóbulo rojo; el parásito la ingiere por su citostoma y la hidroliza en la vacuola digestiva liberando aminoácidos y cuatro grupos hierro-hemo por tetrámero.'
+  },
+  'real-plas-heme': {
+    name: 'Zoom atómico: grupo hemo Fe³⁺–protoporfirina IX y puente propionato',
+    scale: 'tetrapirrol coordinador de hierro de ~1,2 nm',
+    desc: 'Un anillo aromático plano de protoporfirina IX sujeta un único átomo central de hierro mediante cuatro nitrógenos pirrólicos, con dos brazos carboxilato propionato que coordinan directamente el centro Fe³⁺ del hemo vecino para nuclear dímeros de hemozoína.'
+  },
+  'atom-fe': {
+    name: 'Átomo de hierro (Fe / Fe²⁺ / Fe³⁺)',
+    scale: '~0,25 nm (26 protones)',
+    desc: 'Veintiséis protones, treinta neutrones y cuatro capas electrónicas (2, 8, 14, 2). Alternar fácilmente entre Fe²⁺ ferroso y Fe³⁺ férrico permite al hierro transportar oxígeno de forma reversible en la hemoglobina humana, y vuelve tóxico al hemo libre salvo al encerrarlo en hemozoína.'
   }
 };

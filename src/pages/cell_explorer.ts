@@ -13,6 +13,8 @@ import { mergeVertices } from 'three/addons/utils/BufferGeometryUtils.js';
 import { Effect } from 'effect';
 import { runBiologyApp, buildPdbSurfaceGeo, makeProteinBumpTexture } from '../index.js';
 import { PDB_ARCHAEA } from '../molecules/pdb_archaea.js';
+import { PDB_GRAM_POSITIVE } from '../molecules/pdb_gram_positive.js';
+import { PDB_PROTISTS } from '../molecules/pdb_protists.js';
 import { CourseProgressManager } from '../core/progress_service.js';
 import {
   PRESET_SPANISH_VOICE_BY_MODE,
@@ -101,7 +103,7 @@ function baseLetter(ch, at, lift = 1.2, size = 2.3) {
   return sp;
 }
 const PAIR = { A: 'T', T: 'A', G: 'C', C: 'G' };
-const EL = { H: { c: '#f2f2f2', r: .26 }, C: { c: '#8c8c8c', r: .4 }, N: { c: '#3a62ff', r: .39 }, O: { c: '#ff3a3a', r: .38 }, P: { c: '#ff9a1f', r: .48 }, Mg: { c: '#7dff4a', r: .5 } };
+const EL = { H: { c: '#f2f2f2', r: .26 }, C: { c: '#8c8c8c', r: .4 }, N: { c: '#3a62ff', r: .39 }, O: { c: '#ff3a3a', r: .38 }, P: { c: '#ff9a1f', r: .48 }, Mg: { c: '#7dff4a', r: .5 }, Ca: { c: '#ffd452', r: .54 }, Fe: { c: '#ff6e3a', r: .52 } };
 
 const matCache = new Map();
 const VERT = `
@@ -588,7 +590,7 @@ function buildAmino() {
     A(P[8], 'Hydrogen', 'atom-h'), A(P[5], 'Side chain R (–CH₃)'), A(P[4], 'Carboxyl group (–COOH)')]);
 }
 
-const ATOMS = { H: { Z: 1, N: 0, sh: [1] }, C: { Z: 6, N: 6, sh: [2, 4] }, N: { Z: 7, N: 7, sh: [2, 5] }, O: { Z: 8, N: 8, sh: [2, 6] }, P: { Z: 15, N: 16, sh: [2, 8, 5] }, Mg: { Z: 12, N: 12, sh: [2, 8, 2] } };
+const ATOMS = { H: { Z: 1, N: 0, sh: [1] }, C: { Z: 6, N: 6, sh: [2, 4] }, N: { Z: 7, N: 7, sh: [2, 5] }, O: { Z: 8, N: 8, sh: [2, 6] }, P: { Z: 15, N: 16, sh: [2, 8, 5] }, Mg: { Z: 12, N: 12, sh: [2, 8, 2] }, Ca: { Z: 20, N: 20, sh: [2, 8, 8, 2] }, Fe: { Z: 26, N: 30, sh: [2, 8, 14, 2] } };
 function buildAtom(sym) {
   const a = ATOMS[sym], g = new THREE.Group(), an = [], tot = a.Z + a.N, rn = tot === 1 ? 0 : .36 * Math.cbrt(tot);
   const types = [...Array(a.Z).fill(1), ...Array(a.N).fill(0)];
@@ -4288,6 +4290,213 @@ function buildArchAtoms() {
 }
 
 // =====================================================================
+// Phases 11 & 12: Gram-Positive & Protists — Real PDB & Molecular Builders
+// =====================================================================
+function genericPdbModel(table, key, colour, upright = false) {
+  const d = table[key];
+  const xyz = new Int16Array(Uint8Array.from(atob(d.xyz), c => c.charCodeAt(0)).buffer);
+  const kind = Uint8Array.from(atob(d.kind), c => c.charCodeAt(0));
+  const g = new THREE.Group(), ms = [], cs = [], beads = [], q = new THREE.Quaternion();
+  for (let i = 0; i < d.n; i++) {
+    const p = V(xyz[i * 3], xyz[i * 3 + 1], xyz[i * 3 + 2]).multiplyScalar(.1);
+    const k = kind[i], rna = (k & 3) === 2;
+    if (upright) p.set(p.x, p.z, -p.y);
+    ms.push(M4(p, q, rna ? 2.1 : 1.55));
+    cs.push(new THREE.Color(colour(k >> 2, rna)));
+    beads.push({ p, g: k >> 2, rna });
+  }
+  g.add(instanced(new THREE.IcosahedronGeometry(1, 1), plain(), ms, cs));
+  const surfGeo = buildPdbSurfaceGeo({ n: d.n, xyz, kind, rad: null }, {
+    nm: 10, maxDim: 44, sigmaAng: 3.35, aoStrength: .58, uvScale: .11,
+    colorFn: (gr, part) => new THREE.Color(colour(gr, part === 2)),
+  });
+  const surfMat = new THREE.MeshPhysicalMaterial({
+    vertexColors: true, roughness: .34, metalness: .04,
+    clearcoat: .4, clearcoatRoughness: .25, sheen: .42,
+    normalMap: protBump, normalScale: new THREE.Vector2(.38, .38),
+    transparent: true, opacity: .88, side: THREE.FrontSide,
+  });
+  const surfMesh = new THREE.Mesh(surfGeo, surfMat);
+  if (upright) surfMesh.rotation.x = -Math.PI / 2;
+  g.add(surfMesh);
+  return { g, beads, of: f => beads.filter(f).map(b => b.p) };
+}
+
+function buildGpTeichoic() {
+  const g = new THREE.Group();
+  const mem = lipidField({ w: 15, d: 10, sp: .88, y: -3.2, head: '#f0b860', tail: '#b87a2e' });
+  g.add(mem.group);
+  const pgMat = std('#8b62ff', { glow: .28, bump: true }), wtaMat = std('#38e8ff', { glow: .42 }), ltaMat = std('#ff8a5c', { glow: .42 });
+  const caMat = std('#ffd452', { glow: .65 }), mgMat = std('#7dff4a', { glow: .65 });
+  // Thick multilayered peptidoglycan glycan strata
+  for (let lay = 0; lay < 3; lay++) {
+    const y = -1.1 + lay * 1.45;
+    for (let iz = -2; iz <= 2; iz++) {
+      g.add(tube([V(-6.2, y, iz * 1.6), V(-2, y + .18, iz * 1.6 + .2), V(2, y - .15, iz * 1.6 - .2), V(6.2, y, iz * 1.6)], .22, pgMat, 8, 22));
+    }
+  }
+  // Wall teichoic acids (WTA) tethered to NAM sugars + Lipoteichoic acids (LTA) anchored in plasma membrane
+  let wtaPt = null, ltaPt = null, catPt = null;
+  for (let i = -3; i <= 3; i++) {
+    const x = i * 1.75, isLta = i % 2 === 0;
+    const pts = [];
+    const yStart = isLta ? -2.95 : -1.0;
+    for (let s = 0; s <= 12; s++) {
+      const u = s / 12, y = yStart + u * (isLta ? 6.6 : 4.8);
+      pts.push(V(x + Math.sin(u * Math.PI * 3 + i) * .35, y, Math.cos(u * Math.PI * 2 + i) * .35));
+    }
+    g.add(tube(pts, .12, isLta ? ltaMat : wtaMat, 8, 24));
+    for (let s = 2; s < pts.length; s += 2) {
+      const phos = sphere(.24, isLta ? ltaMat : wtaMat, 10); phos.position.copy(pts[s]); g.add(phos);
+      if (s === 8) {
+        const ion = sphere(.26, i % 3 === 0 ? caMat : mgMat, 12);
+        ion.position.copy(pts[s]).add(V(.38, .12, .25)); g.add(ion);
+        if (i === 0) catPt = ion.position.clone();
+      }
+    }
+    if (i === 1) wtaPt = pts[9].clone();
+    if (i === 0) ltaPt = pts[3].clone();
+  }
+  return finalize(g, [
+    A(wtaPt ?? V(1.8, 2.8, .3), 'Wall teichoic acid (WTA) poly-glycerol-phosphate tethered to NAM', 'phosphate'),
+    A(ltaPt ?? V(0, -1.2, .3), 'Lipoteichoic acid (LTA) anchored directly into plasma membrane lipids', 'phospholipid'),
+    A(catPt ?? V(.4, 1.8, .4), 'Chelated divalent cations (Mg²⁺ & Ca²⁺) stabilized by anionic phosphates', 'atom-ca'),
+    A(V(-4.5, .4, 1.8), 'Thick multilayered Gram-positive peptidoglycan glycan mesh', 'peptidoglycan'),
+  ]);
+}
+
+function buildGpPbpReal() {
+  const cols = ['#46e6c8', '#7aaeff', '#ff82a8', '#ffd166'];
+  const { g, of } = genericPdbModel(PDB_GRAM_POSITIVE, 'pbp3', gr => cols[gr % cols.length], false);
+  const all = of(() => true);
+  return finalize(g, [
+    A(outmost(of(b => b.g === 0)), 'Penicillin-Binding Protein PBP3 transpeptidase domain (PDB 7BN9)', 'polypeptide'),
+    A(topOf(all), 'Exposed D-Ala–D-Ala cross-linking cleft — primary target of beta-lactam antibiotics', 'real-gp-crosslink'),
+    A(lowOf(all), 'Transmembrane stalk anchoring PBP3 in the monoderm plasma membrane', 'alpha-helix'),
+    A(outmost(all), 'Catalytic serine active-site neighborhood', 'amino-acid'),
+  ]);
+}
+
+function buildGpCrosslink() {
+  const g = new THREE.Group();
+  // Top: NAG-NAM disaccharide + D-Ala-D-Ala peptide stem cross-link
+  const pgAtoms = [
+    ['C', -5.2, 2.2, 0], ['C', -4.0, 2.9, .2], ['O', -2.8, 2.2, .1], ['C', -2.8, .9, -.1], ['C', -4.0, .2, 0], ['C', -5.2, .9, .1],
+    ['O', -1.5, 1.4, .1], // beta-1,4 glycosidic oxygen
+    ['C', -.2, 2.1, 0], ['C', 1.0, 2.8, .2], ['O', 2.2, 2.1, .1], ['C', 2.2, .8, -.1], ['C', 1.0, .1, 0], ['C', -.2, .8, .1],
+    ['N', 3.4, 1.4, .15], ['C', 4.6, 2.0, .1], ['O', 4.6, 3.2, .3], ['N', 5.8, 1.3, 0], ['C', 7.0, 1.9, -.1], // D-Ala-D-Ala bridge
+  ];
+  const pgMol = molecule(pgAtoms); pgMol.position.set(-.6, 2.1, 0);
+  g.add(pgMol);
+
+  // Bottom: Ca2+-Dipicolinate (Ca-DPA) 1:1 chelate stabilizing dormant endospore core
+  const dpaAtoms = [
+    ['Ca', 0, -2.5, .15],
+    ['N', -1.5, -2.5, 0], ['C', -2.4, -1.4, 0], ['C', -3.7, -1.7, 0], ['C', -4.1, -3.0, 0], ['C', -3.2, -4.0, 0], ['C', -1.9, -3.7, 0],
+    ['C', -1.8, -.1, .1], ['O', -.6, -.6, .2], ['O', -2.4, .9, .1],
+    ['C', -1.0, -4.8, .1], ['O', -.2, -4.1, .2], ['O', -1.4, -5.9, .1],
+    ['O', 1.5, -1.6, .2], ['O', 1.5, -3.4, .2], ['C', 2.7, -2.5, 0],
+  ];
+  const dpaMol = molecule(dpaAtoms); dpaMol.position.set(.5, -.3, 0);
+  const caHalo = sphere(.82, xray('#ffd452', 1.4, 1.4, .24), 20); caHalo.position.set(.5, -2.8, .15);
+  g.add(dpaMol, caHalo);
+
+  return finalize(g, [
+    A(V(-3.4, 4.9, .1), 'Beta-1,4 NAG–NAM glycan strand (lysozyme site)', 'glucose'),
+    A(V(5.2, 3.2, .15), 'D-Ala–D-Ala cross-link (PBP3 / penicillin target)', 'amino-acid'),
+    A(V(-3.6, -1.1, 0), 'Pyridine-2,6-dicarboxylate (DPA) ring', 'atom-n'),
+    A(V(1.0, -3.1, .15), 'Central Ca²⁺ in 1:1 Ca-DPA core chelate', 'atom-ca'),
+    A(V(-1.4, -6.1, .1), 'Carboxylate O coordinating Ca²⁺ (100 °C shield)', 'atom-o'),
+  ]);
+}
+
+function buildParaDyneinReal() {
+  const cols = ['#ff965a', '#ffd266', '#6fe6d8', '#b088ff', '#5cb8ff', '#ff7096'];
+  const { g, of } = genericPdbModel(PDB_PROTISTS, 'dynein', gr => cols[gr % cols.length], false);
+  const all = of(() => true);
+  return finalize(g, [
+    A(topOf(all), 'ATPase hydrolysis ring (8 nm power strokes)', 'atp-synthase'),
+    A(outmost(of(b => b.g === 0)), 'Axonemal outer-arm dynein motor (PDB 7KZM)', 'polypeptide'),
+    A(lowOf(all), 'Microtubule-binding stalk driving 9+2 sliding', 'microtubule'),
+  ]);
+}
+
+function buildPlasGlideosomeReal() {
+  const cols = ['#56f0b0', '#ff9852', '#70c8ff', '#d68cff'];
+  const { g, of } = genericPdbModel(PDB_PROTISTS, 'glideosome', gr => cols[gr % cols.length], false);
+  const all = of(() => true);
+  return finalize(g, [
+    A(outmost(of(b => b.g === 0)), 'PfMyoA class XIV myosin motor domain (PDB 6YCX)', 'polypeptide'),
+    A(topOf(all), 'MTIP / ELC light-chain lever arm amplifying ATP power stroke', 'alpha-helix'),
+    A(lowOf(all), 'PfActI short actin filament interface driving RBC invasion without cilia', 'actin-filament'),
+    A(outmost(all), 'Apicomplexan motor surface residue', 'amino-acid'),
+  ]);
+}
+
+function buildPlasHemoglobinReal() {
+  const cols = ['#e63950', '#ff6e7a', '#c92a42', '#ff8c70'];
+  const { g, of } = genericPdbModel(PDB_PROTISTS, 'hemoglobin', gr => cols[gr % cols.length], false);
+  const all = of(() => true);
+  return finalize(g, [
+    A(outmost(of(b => b.g === 0)), 'Human alpha2-beta2 hemoglobin tetramer (PDB 1GZX) engulfed from RBC', 'polypeptide'),
+    A(topOf(all), 'Globin alpha-helical fold cleaved by plasmepsins & falcipains for amino acids', 'alpha-helix'),
+    A(lowOf(all), 'Buried Fe-protoporphyrin IX heme pocket releasing toxic free heme on digestion', 'real-plas-heme'),
+  ]);
+}
+
+function buildPlasHemozoin() {
+  const g = new THREE.Group();
+  const hemeMat = std('#6a2232', { glow: .28, bump: true }), feMat = std('#ff6e3a', { glow: .7 }), bondMat = std('#ffd166', { glow: .45 });
+  let fePt = null, propPt = null;
+  for (let row = -1; row <= 1; row++) for (let colI = -1; colI <= 1; colI++) for (let lay = 0; lay < 3; lay++) {
+    const x = colI * 3.1 + lay * .35, y = (lay - 1) * 2.1, z = row * 2.6;
+    const plate = new THREE.Mesh(new THREE.BoxGeometry(2.35, .28, 1.95), hemeMat);
+    plate.position.set(x, y, z); plate.rotation.z = .12; g.add(plate);
+    const fe = sphere(.34, feMat, 14); fe.position.set(x, y + .16, z); g.add(fe);
+    if (lay < 2) {
+      g.add(stick(V(x, y + .22, z), V(x + .35, y + 1.95, z), .09, bondMat));
+    }
+    if (row === 0 && colI === 0 && lay === 1) { fePt = fe.position.clone(); propPt = V(x + .2, y + 1.05, z); }
+  }
+  return finalize(g, [
+    A(fePt ?? V(0, 0, 0), 'Ferric iron Fe³⁺ center coordinated inside each flat porphyrin plane', 'atom-fe'),
+    A(propPt ?? V(.2, 1.0, 0), 'Reciprocal Fe³⁺–O propionate dimer bond (beta-hematin crystal lattice)', 'real-plas-heme'),
+    A(V(3.2, 2.2, 2.6), 'Insoluble dark hemozoin (malaria pigment) crystal face blocked by chloroquine', 'real-plas-digestive'),
+  ]);
+}
+
+function buildPlasHeme() {
+  const g = new THREE.Group();
+  // Planar Protoporphyrin IX ring with central Fe3+ + 4 pyrrole nitrogens + propionate arms
+  const atoms: any[] = [['Fe', 0, 0, 0]];
+  for (let k = 0; k < 4; k++) {
+    const a = k * Math.PI / 2 + Math.PI / 4;
+    const nx = Math.cos(a) * 1.45, ny = Math.sin(a) * 1.45;
+    atoms.push(['N', nx, ny, 0]);
+    const a1 = a - .34, a2 = a + .34;
+    atoms.push(['C', Math.cos(a1) * 2.55, Math.sin(a1) * 2.55, .05]);
+    atoms.push(['C', Math.cos(a2) * 2.55, Math.sin(a2) * 2.55, -.05]);
+    atoms.push(['C', Math.cos(a - .16) * 3.65, Math.sin(a - .16) * 3.65, .08]);
+    atoms.push(['C', Math.cos(a + .16) * 3.65, Math.sin(a + .16) * 3.65, -.08]);
+    // Methine CH bridges between pyrrole rings
+    const am = k * Math.PI / 2;
+    atoms.push(['C', Math.cos(am) * 3.15, Math.sin(am) * 3.15, 0]);
+  }
+  // Propionate side chains linking dimers into hemozoin
+  atoms.push(['C', 4.7, -1.6, .3], ['C', 5.6, -2.4, .5], ['O', 6.6, -2.0, .6], ['O', 5.4, -3.5, .6]);
+  atoms.push(['C', -4.7, -1.6, -.3], ['C', -5.6, -2.4, -.5], ['O', -6.6, -2.0, -.6], ['O', -5.4, -3.5, -.6]);
+  const m = molecule(atoms);
+  const feHalo = sphere(.88, xray('#ff6e3a', 1.4, 1.4, .26), 20);
+  g.add(m, feHalo);
+  return finalize(g, [
+    A(V(-2.2, 3.6, 0), 'Protoporphyrin IX conjugated carbon ring', 'atom-c'),
+    A(V(1.45, 1.45, 0), 'Four pyrrole nitrogens gripping central iron', 'atom-n'),
+    A(V(0, -.3, 0), 'Central Fe³⁺ / Fe²⁺ iron atom', 'atom-fe'),
+    A(V(5.8, -3.3, .6), 'Propionate O bridging into hemozoin dimer', 'atom-o'),
+  ]);
+}
+
+// =====================================================================
 // The structure tree: biggest (cell) to smallest (atoms)
 // =====================================================================
 const LEG_DNA = [['A', 'Adenine (pairs with T)'], ['T', 'Thymine (pairs with A)'], ['G', 'Guanine (pairs with C)'], ['C', 'Cytosine (pairs with G)'], ['bb0', 'Backbone, strand 1'], ['bb1', 'Backbone, strand 2']];
@@ -5057,7 +5266,7 @@ const NODES = {
     ],
     desc: 'Nearly two billion years ago, an alphaproteobacterium closely related to Rickettsiales entered an archaeal host. Modern Rickettsia and Mitochondria still share homologous respiratory Complexes I–IV, rotary F1Fo ATP synthases, circular dsDNA and 70S-type ribosomes — with one decisive reversal: parasitic Rickettsia uses Tlc1 to pull host ATP IN, whereas domesticated Mitochondria evolved the Adenine Nucleotide Translocator (ANT) to pump ATP OUT to power all complex eukaryotic life.' },
   'life-overview': { name: 'Introduction to biology: cells, parasitic cells & viruses', scale: '18 nm – 100 µm', b: buildBiologyIntro,
-    children: ['scale-explorer', 'four-biomolecules', 'real-bacterium', 'real-archaea', 'real-fungal', 'real-cell', 'real-plant', 'parasitic-cells-overview', 'viruses', 'prokaryote', 'cell', 'plant-cell', 'bacteriophage', 'coronavirus', 'hiv'],
+    children: ['scale-explorer', 'four-biomolecules', 'real-bacterium', 'real-archaea', 'real-gram-positive', 'real-fungal', 'real-cell', 'real-plant', 'real-paramecium', 'real-plasmodium', 'parasitic-cells-overview', 'viruses', 'prokaryote', 'cell', 'plant-cell', 'bacteriophage', 'coronavirus', 'hiv'],
     desc: 'Four tiers of biological organization side by side, judged by the four pillars of cellular life — a lipid membrane, a double-stranded DNA genome, protein-building ribosomes, and self-made ATP energy: (1) Simple Prokaryotes like E. coli run all four pillars in one open room; (2) Complex Eukaryotes (yeast, animal and plant cells) divide work across a nucleus and endosymbiotic mitochondria and chloroplasts; (3) Parasitic and minimal bacteria (Mycoplasma, Chlamydia, Rickettsia) remain true cells with DNA and 70S ribosomes yet depend on host cells for ATP and nutrients; and (4) Viruses carry genetic code in a protein coat with zero ribosomes and zero ATP metabolism, remaining inert outside a living host.' },
   // ===================================================================
   // Phase 09: Powers-of-10 True Scale Explorer & The 4 Biomolecules of Life
@@ -5181,6 +5390,227 @@ const NODES = {
   'real-arch-atoms': { name: 'Six shared biogenic atoms of Archaea (C, H, O, N, P, Mg²⁺)', scale: '0.1–0.3 nm (1–3 Å)', b: buildArchAtoms,
     children: ['atom-c', 'atom-h', 'atom-o', 'atom-n', 'atom-p', 'atom-mg'],
     desc: 'At 0.1–0.3 nm, even boiling-acid archaeal tetraethers, crystalline S-layers, ATP-driven archaella and HMfB histones reduce to the exact same six universal biogenic elements that build bacteria, plants, animals and viruses.' },
+  // ===================================================================
+  // Phase 11: Gram-Positive Bacterium & Armored Endospore (Bacillus subtilis)
+  // ===================================================================
+  'real-gram-positive': { name: 'Gram-positive bacterium & endospore (Bacillus subtilis)', scale: '3.5 µm rod · 1.0 µm endospore', real: 'overview', page: 'gram_positive_realistic.html',
+    children: ['real-gp-wall', 'real-gp-teichoic', 'real-gp-pbp', 'real-gp-sporulation', 'real-gp-endospore', 'real-gp-core', 'real-gp-crosslink', 'atom-ca', 'dna', 'ribosome-70s', 'peptidoglycan', 'plasma-membrane'],
+    tags: [
+      ['pg_wall', 'Thick 30–80 nm multilayered peptidoglycan wall (retains crystal violet)', 'real-gp-wall', 'pg_wall'],
+      ['teichoic', 'Anionic wall & lipoteichoic acids binding Mg²⁺ / Ca²⁺', 'real-gp-teichoic', 'teichoic'],
+      ['pm', 'Single monoderm plasma membrane (20 atm turgor)', 'plasma-membrane', 'pm'],
+      ['ecoli_strip', 'Gram-negative E. coli diderm envelope comparison strip (3 nm PG + LPS)', 'real-gp-wall', 'ecoli_strip'],
+      ['pbp', 'Exposed PBP3 transpeptidases (PDB 7BN9 — beta-lactam target)', 'real-gp-pbp', 'pbp'],
+      ['sortase', 'Sortase A LPXTG cell-wall anchoring enzyme (PDB 2KID)', 'real-gp-wall', 'sortase'],
+      ['septum', 'Asymmetric polar FtsZ division septum (PDB 2VXY)', 'real-gp-sporulation', 'septum'],
+      ['spoiiie', 'SpoIIIE hexameric ATPase chromosome translocase', 'real-gp-sporulation', 'spoiiie'],
+      ['forespore', 'Engulfed double-membrane forespore compartment', 'real-gp-sporulation', 'forespore'],
+      ['dna', '4.22 Mbp circular dsDNA nucleoid chromosome', 'dna', 'dna'],
+      ['ribosome', '70S bacterial ribosomes translating wall & sporulation proteins', 'ribosome-70s', 'ribosome'],
+      ['exosporium', 'Glycoprotein exosporium outer veil', 'real-gp-endospore', 'exosporium'],
+      ['coat', 'Cross-linked CotA spore coat armor (PDB 1GSK)', 'real-gp-endospore', 'coat'],
+      ['cortex', 'Muramic-delta-lactam peptidoglycan cortex', 'real-gp-endospore', 'cortex'],
+      ['germ_wall', 'Inner primordial germ cell wall (new vegetative wall on germination)', 'real-gp-endospore', 'germ_wall'],
+      ['spore_im', 'Compressed low-permeability inner spore membrane (GerA / SleB)', 'real-gp-core', 'spore_im'],
+      ['core', 'Dehydrated (~30% water) dormant endospore core', 'real-gp-core', 'core'],
+      ['ca_dpa', 'Calcium-dipicolinate (Ca-DPA, 10% dry weight) heat shield', 'real-gp-core', 'ca_dpa'],
+      ['sasp_dna', 'Alpha/beta SASP-bound A-form DNA (PDB 2Z3X — UV armor)', 'real-gp-core', 'sasp_dna'],
+      ['crosslink', 'Atomic NAG–NAM + D-Ala–D-Ala cross-link & Ca-DPA inset', 'real-gp-crosslink', 'crosslink'],
+    ],
+    desc: 'Monoderm Gram-positive Bacillus subtilis compared side by side against a true-scale Gram-negative E. coli envelope strip — revealing its 30–80 nm peptidoglycan mesh, anionic teichoic acids, crystal-violet Gram stain retention, exposed beta-lactam-sensitive PBP3 enzymes (PDB 7BN9), asymmetric FtsZ/SpoIIIE sporulation, and concentric heat-proof endospore armor vitrified by Ca-DPA and SASP-bound DNA (PDB 2Z3X).' },
+  'real-gp-wall': { name: 'Gram-positive vs. Gram-negative wall & Gram stain (realistic)', scale: '30–80 nm PG vs. 3 nm diderm', real: 'wall_compare', page: 'gram_positive_realistic.html', hi: 'pg_wall',
+    children: ['real-gp-teichoic', 'real-gp-pbp', 'real-gp-crosslink', 'peptidoglycan', 'plasma-membrane'],
+    tags: [
+      ['pg_wall', '15–40 cross-linked peptidoglycan strata trapping crystal violet–iodine', 'peptidoglycan', 'pg_wall'],
+      ['teichoic', 'Poly-glycerol-phosphate wall & lipoteichoic acids (LtaS PDB 2W5Q)', 'real-gp-teichoic', 'teichoic'],
+      ['ecoli_strip', 'Gram-negative E. coli comparison (outer LPS membrane + thin 3 nm PG)', 'real-bacterium', 'ecoli_strip'],
+      ['pbp', 'Directly accessible PBP3 transpeptidases (PDB 7BN9)', 'real-gp-pbp', 'pbp'],
+      ['sortase', 'Sortase A covalent surface-protein ligase (PDB 2KID)', 'protein', 'sortase'],
+    ],
+    desc: 'True-scale structural contrast explaining the Gram stain and antibiotic access: 15–40 cross-linked layers of peptidoglycan shrink in alcohol to trap purple crystal violet–iodine complexes while leaving membrane-anchored PBPs exposed to penicillin, unlike diderm E. coli shielded by an outer LPS bilayer.' },
+  'real-gp-teichoic': { name: 'Wall & lipoteichoic acids (WTA & LTA)', scale: '~30 nm anionic polyelectrolyte chains', b: buildGpTeichoic,
+    children: ['peptidoglycan', 'phospholipid', 'phosphate', 'atom-ca', 'atom-mg'],
+    desc: 'Negatively charged glycerol- and ribitol-phosphate polymers woven through Gram-positive peptidoglycan (WTA) or anchored into membrane lipids (LTA) — sequestering divalent Mg²⁺ and Ca²⁺ cations, regulating autolysins and conferring net negative surface charge.' },
+  'real-gp-pbp': { name: 'Penicillin-binding protein PBP3 transpeptidase (PDB 7BN9)', scale: '~9 nm exposed cross-linking enzyme', b: buildGpPbpReal,
+    children: ['real-gp-crosslink', 'polypeptide', 'alpha-helix', 'amino-acid'],
+    desc: 'Real crystal structure of Gram-positive Penicillin-Binding Protein PBP3 (PDB 7BN9) bridging D-Ala–D-Ala peptide stems across adjacent glycan strands — sitting directly behind porous peptidoglycan with no outer LPS barrier, making it rapidly accessible to beta-lactam antibiotics.' },
+  'real-gp-sporulation': { name: 'Asymmetric sporulation: polar FtsZ & SpoIIIE (realistic)', scale: '3.5 µm starving rod · Stages I–V', real: 'sporulation', page: 'gram_positive_realistic.html', hi: 'forespore',
+    children: ['real-gp-endospore', 'real-gp-core', 'dna', 'ribosome-70s'],
+    tags: [
+      ['septum', 'Polar asymmetric FtsZ constriction ring (PDB 2VXY)', 'protein', 'septum'],
+      ['spoiiie', 'Hexameric SpoIIIE ATPase pumping 70% of chromosome across septum', 'protein', 'spoiiie'],
+      ['forespore', 'Engulfed double-membrane forespore fed by SpoIIIAH–SpoIIQ (PDB 3UZ0)', 'real-gp-endospore', 'forespore'],
+      ['dna', 'Mother-cell & forespore chromosome copies', 'dna', 'dna'],
+    ],
+    desc: 'Starvation-triggered survival differentiation (not reproduction): Spo0A redirects FtsZ to an asymmetric polar septum, SpoIIIE pumps the remaining 70% of the copied chromosome into the forespore, and mother-cell membranes engulf it to assemble concentric armor before mother-cell lysis.' },
+  'real-gp-endospore': { name: 'Armored dormant endospore (6 concentric layers, realistic)', scale: '1.0 µm cryptobiotic survival vault', real: 'endospore', page: 'gram_positive_realistic.html', hi: 'coat',
+    children: ['real-gp-core', 'real-gp-crosslink', 'atom-ca', 'dna'],
+    tags: [
+      ['exosporium', 'Outer glycoprotein exosporium veil', 'protein', 'exosporium'],
+      ['coat', 'Cross-linked 70+ protein spore coat with CotA laccase (PDB 1GSK)', 'protein', 'coat'],
+      ['cortex', 'Loosely cross-linked muramic-delta-lactam peptidoglycan cortex', 'peptidoglycan', 'cortex'],
+      ['germ_wall', 'Inner primordial germ cell wall', 'peptidoglycan', 'germ_wall'],
+      ['spore_im', 'Compressed low-permeability inner membrane with GerA & SleB (PDB 4FET)', 'plasma-membrane', 'spore_im'],
+      ['core', 'Dehydrated (~30% water) dormant core packed with Ca-DPA & SASPs', 'real-gp-core', 'core'],
+    ],
+    desc: 'One of nature’s toughest biological vaults: six concentric shells (exosporium, 70-protein cross-linked coat, specialized cortex, germ wall, compressed inner membrane and vitrified Ca-DPA core) withstand boiling water, vacuum, desiccation, bleach and high-dose UV radiation for decades until nutrients activate GerA germination.' },
+  'real-gp-core': { name: 'Dehydrated endospore core: Ca-DPA & SASP-DNA (realistic)', scale: '~450 nm vitrified core (~30% water)', real: 'core', page: 'gram_positive_realistic.html', hi: 'ca_dpa',
+    children: ['real-gp-crosslink', 'atom-ca', 'dna', 'nucleotide'],
+    tags: [
+      ['core', 'Vitrified low-water cytoplasm (~30% H₂O)', 'water', 'core'],
+      ['ca_dpa', '1:1 Calcium-dipicolinate (Ca-DPA, ~10% dry weight) replacing free water', 'atom-ca', 'ca_dpa'],
+      ['sasp_dna', 'Alpha/beta SASPs locking DNA into UV-resistant A-form helix (PDB 2Z3X)', 'dna', 'sasp_dna'],
+      ['spore_im', 'Inner spore membrane holding GerA nutrient receptors & SleB', 'plasma-membrane', 'spore_im'],
+    ],
+    desc: 'Inside the dormant endospore core, free water drops to ~30% as calcium-dipicolinate (Ca-DPA) vitrifies proteins against 100 °C denaturation while alpha/beta Small Acid-Soluble Spore Proteins (PDB 2Z3X) coat the chromosome in an A-form helix that prevents lethal UV thymine dimers.' },
+  'real-gp-crosslink': { name: 'Atomic zoom: NAG–NAM peptide cross-link & Ca-DPA chelate', scale: '0.1–1.2 nm covalent & coordination chemistry', b: buildGpCrosslink,
+    children: ['atom-ca', 'atom-c', 'atom-h', 'atom-n', 'atom-o', 'atom-p', 'glucose', 'amino-acid'],
+    desc: 'Atomic-resolution comparison uniting vegetative Gram-positive wall armor (beta-1,4 NAG–NAM sugars linked by PBP-forged D-Ala–D-Ala peptide stems) with endospore heat stability (divalent Ca²⁺ chelated 1:1 by dipicolinic acid carboxylate and pyridine nitrogens).' },
+  'atom-ca': { name: 'Calcium atom (Ca / Ca²⁺)', scale: '~0.20 nm (20 protons)', b: () => buildAtom('Ca'), children: [],
+    desc: 'Twenty protons, twenty neutrons and four electron shells (2, 8, 8, 2). Losing its two outer electrons yields divalent Ca²⁺ — essential for stabilizing Gram-positive teichoic acids, vitrifying dormant endospores as 1:1 Ca-DPA, and triggering muscle, synaptic and trichocyst signaling across eukaryotes.' },
+  // ===================================================================
+  // Phase 12A: Free-Living Ciliate Protist (Paramecium caudatum)
+  // ===================================================================
+  'real-paramecium': { name: 'Free-living ciliate protist (Paramecium caudatum)', scale: '200 µm autonomous eukaryotic hunter', real: 'overview', page: 'paramecium_realistic.html',
+    children: ['real-para-cilia', 'real-para-axoneme', 'real-para-dynein', 'real-para-contractile', 'real-para-feeding', 'real-para-nuclei', 'mitochondrion', 'ribosome', 'microtubule', 'atp-synthase'],
+    tags: [
+      ['pellicle', 'Sculpted alveolar pellicle (flattened cortical alveoli, Supergroup Alveolata)', 'plasma-membrane', 'pellicle'],
+      ['cilia', 'Over 1,000 coordinated 10 µm motile cilia beating in metachronal waves', 'real-para-cilia', 'cilia'],
+      ['kinetosome', 'Basal body kinetosomes anchored in longitudinal kineties', 'real-para-cilia', 'kinetosome'],
+      ['trichocyst', 'Sub-pellicular defensive trichocyst harpoons (Ca²⁺-triggered)', 'real-para-cilia', 'trichocyst'],
+      ['oral_groove', 'Ciliated oral groove funneling bacterial prey to midline', 'real-para-feeding', 'oral_groove'],
+      ['cytostome', 'Cell mouth cytostome & cytopharynx pinching off food vacuoles', 'real-para-feeding', 'cytostome'],
+      ['food_vacuole', 'Migrating phagocytic food vacuoles (alkaline → acid lysosome cyclosis)', 'real-para-feeding', 'food_vacuole'],
+      ['cytoproct', 'Posterior cell-anus cytoproct docking site for exocytosis', 'real-para-feeding', 'cytoproct'],
+      ['contractile_vacuole', 'Alternating anterior & posterior star contractile vacuoles (osmoregulation)', 'real-para-contractile', 'contractile_vacuole'],
+      ['collecting_canals', '6–8 radiating collecting canals draining excess freshwater', 'real-para-contractile', 'collecting_canals'],
+      ['vatpase', 'Spongiome rotary V-ATPase proton pumps driving water loading', 'real-para-contractile', 'vatpase'],
+      ['macronucleus', 'Kidney-shaped polyploid macronucleus (daily housekeeping transcription)', 'real-para-nuclei', 'macronucleus'],
+      ['micronucleus', 'Diploid germline micronucleus (sexual conjugation archive)', 'real-para-nuclei', 'micronucleus'],
+      ['mito', 'Tubular cristae mitochondria fueling dynein & V-ATPase ATP demand', 'mitochondrion', 'mito'],
+      ['ribosome_80s', 'Cytosolic eukaryotic 80S ribosomes translating macronuclear mRNA', 'ribosome', 'ribosome_80s'],
+      ['axoneme', 'Magnified 250 nm 9+2 ciliary axoneme cross-section inset', 'real-para-axoneme', 'axoneme'],
+      ['dynein', 'Outer-arm axonemal dynein AAA+ motors (PDB 7KZM)', 'real-para-dynein', 'dynein'],
+      ['tubulin', 'Alpha/beta-tubulin microtubule doublets (PDB 1JFF)', 'tubulin', 'tubulin'],
+    ],
+    desc: 'A 200 µm free-living single-celled eukaryotic predator executing every task of an animal — swimming, steering, hunting bacteria, acid digestion, freshwater osmotic pumping, defense and sexual genetic exchange — inside one autonomous ciliate cell with an alveolar pellicle, metachronal 9+2 cilia powered by real cryo-EM axonemal dynein (PDB 7KZM), alternating star contractile vacuoles and dual nuclei.' },
+  'real-para-cilia': { name: 'Alveolar pellicle, metachronal cilia & trichocysts (realistic)', scale: '10 µm motile cilia · basal kinetosomes', real: 'cilia', page: 'paramecium_realistic.html', hi: 'cilia',
+    children: ['real-para-axoneme', 'real-para-dynein', 'cilium', 'microtubule', 'plasma-membrane'],
+    tags: [
+      ['pellicle', 'Hexagonal cortical alveolar plates beneath plasma membrane', 'plasma-membrane', 'pellicle'],
+      ['cilia', 'Metachronal traveling wave of 9+2 motile cilia (reverses on touch)', 'cilium', 'cilia'],
+      ['kinetosome', '9-triplet basal body kinetosomes anchoring every cilium', 'microtubule', 'kinetosome'],
+      ['trichocyst', 'Docked defensive trichocyst projectiles firing on Ca²⁺ signal', 'vesicle', 'trichocyst'],
+    ],
+    desc: 'Cortex close-up showing Paramecium’s armored yet flexible alveolar pellicle, longitudinal rows of basal kinetosomes driving metachronal waves across more than a thousand 10 µm cilia, and interspersed defensive trichocysts ready to extend eightfold in milliseconds.' },
+  'real-para-axoneme': { name: '9+2 ciliary axoneme & dynein power stroke (realistic)', scale: '250 nm microtubule engine (PDB 7KZM, 1JFF)', real: 'axoneme', page: 'paramecium_realistic.html', hi: 'axoneme',
+    children: ['real-para-dynein', 'microtubule', 'tubulin', 'motor-protein', 'atp-synthase'],
+    tags: [
+      ['axoneme', 'Canonical 9 outer doublets + 2 central singlet microtubules', 'microtubule', 'axoneme'],
+      ['dynein', 'ATP-driven outer-arm axonemal dynein motors (PDB 7KZM)', 'real-para-dynein', 'dynein'],
+      ['tubulin', 'Alpha/beta-tubulin protofilament doublet walls (PDB 1JFF)', 'tubulin', 'tubulin'],
+    ],
+    desc: 'Magnified 250 nm cross-section through a Paramecium cilium built with real cryo-EM axonemal dynein (PDB 7KZM) and alpha/beta-tubulin (PDB 1JFF): dynein arms burn ATP to walk along neighboring doublets while nexin cross-links convert sliding force into rhythmic bending.' },
+  'real-para-dynein': { name: 'Axonemal outer-arm dynein motor (PDB 7KZM)', scale: '~35 nm AAA+ microtubule motor', b: buildParaDyneinReal,
+    children: ['microtubule', 'tubulin', 'motor-protein', 'atp-synthase', 'polypeptide', 'amino-acid'],
+    desc: 'Real cryo-EM structure of eukaryotic axonemal outer-arm dynein (PDB 7KZM): giant hexameric AAA+ ATPase rings extending microtubule-binding stalks that convert ATP hydrolysis (C, H, N, O, P) into coordinated ciliary power and recovery strokes.' },
+  'real-para-contractile': { name: 'Star contractile vacuoles & V-ATPase osmoregulation (realistic)', scale: '~15 µm rhythmic freshwater water pump', real: 'osmosis', page: 'paramecium_realistic.html', hi: 'contractile_vacuole',
+    children: ['central-vacuole', 'atp-synthase', 'water', 'mitochondrion'],
+    tags: [
+      ['contractile_vacuole', 'Alternating anterior & posterior star vacuole pulsing in systole/diastole', 'central-vacuole', 'contractile_vacuole'],
+      ['collecting_canals', '6–8 radiating collecting canals channeling cytosolic water inward', 'water', 'collecting_canals'],
+      ['vatpase', 'Rotary V-ATPase proton pumps acidifying spongiome tubules', 'atp-synthase', 'vatpase'],
+    ],
+    desc: 'Hypotonic pond water floods continuously into wall-less Paramecium; two alternating star-shaped contractile vacuoles ringed by V-ATPase-driven collecting canals gather excess water during diastole and jet it out a surface pore during systole every few seconds to prevent osmotic bursting.' },
+  'real-para-feeding': { name: 'Oral groove, food vacuole cyclosis & cytoproct (realistic)', scale: '~40 µm single-cell digestive tract', real: 'feeding', page: 'paramecium_realistic.html', hi: 'food_vacuole',
+    children: ['lysosome', 'vesicle', 'real-bacterium', 'plasma-membrane'],
+    tags: [
+      ['oral_groove', 'Ciliated oral groove sweeping bacteria into the midline funnel', 'real-para-cilia', 'oral_groove'],
+      ['cytostome', 'Cytostome & cytopharynx pinching off nascent phagosomes', 'vesicle', 'cytostome'],
+      ['food_vacuole', 'Food vacuoles migrating in cyclosis while acidifying with lysosomes', 'lysosome', 'food_vacuole'],
+      ['cytoproct', 'Posterior cytoproct expelling indigestible waste & recycling membrane', 'vesicle', 'cytoproct'],
+    ],
+    desc: 'An entire digestive assembly line inside a single cell: specialized oral-groove cilia sweep bacteria down the cytostome into budding food vacuoles that ride cytoplasmic cyclosis, fuse with acidic lysosomes (turning green-cyan to acid amber), export digested monomers and discharge waste at the fixed posterior cytoproct.' },
+  'real-para-nuclei': { name: 'Nuclear dimorphism: macronucleus & micronucleus (realistic)', scale: '~25 µm somatic vs. 3 µm germline nuclei', real: 'nuclei', page: 'paramecium_realistic.html', hi: 'macronucleus',
+    children: ['nucleus', 'nuclear-envelope', 'dna', 'rna', 'ribosome'],
+    tags: [
+      ['macronucleus', 'Kidney-shaped polyploid macronucleus (~800 copies/gene for active transcription)', 'nucleus', 'macronucleus'],
+      ['micronucleus', 'Small diploid germline micronucleus reserved for meiotic conjugation', 'nucleus', 'micronucleus'],
+      ['ribosome_80s', 'Dense 80S cytosolic ribosomes translating macronuclear mRNA', 'ribosome', 'ribosome_80s'],
+      ['mito', 'Cristae-packed mitochondria supplying ATP across the cytosol', 'mitochondrion', 'mito'],
+    ],
+    desc: 'Paramecium divides genetic labor across two distinct nuclei: a large kidney-shaped polyploid macronucleus holding hundreds of amplified gene copies to power nonstop daily transcription, and a tiny tucked diploid micronucleus safeguarding the intact germline archive for sexual conjugation.' },
+  // ===================================================================
+  // Phase 12B: Eukaryotic Intracellular Parasite (Plasmodium falciparum)
+  // ===================================================================
+  'real-plasmodium': { name: 'Eukaryotic parasite (Plasmodium falciparum in human RBC)', scale: '1.5 µm merozoite invading 7.5 µm RBC', real: 'overview', page: 'plasmodium_realistic.html',
+    children: ['real-plas-apical', 'real-plas-glideosome', 'real-plas-apicoplast', 'real-plas-digestive', 'real-plas-hemozoin', 'real-plas-hemoglobin', 'real-plas-heme', 'atom-fe', 'nucleus', 'mitochondrion', 'ribosome'],
+    tags: [
+      ['rbc', 'Human biconcave red blood cell (7.5 µm, anucleate, MHC-free, packed with Hb)', 'real-plas-hemoglobin', 'rbc'],
+      ['pvm', 'Parasitophorous vacuole membrane (PVM) shielding parasite inside RBC', 'plasma-membrane', 'pvm'],
+      ['imc', 'Quilted alveolar Inner Membrane Complex (IMC — alveolate kin to Paramecium)', 'plasma-membrane', 'imc'],
+      ['apical_complex', 'Polar apical complex defining phylum Apicomplexa', 'real-plas-apical', 'apical_complex'],
+      ['rhoptries', 'Twin tear-drop rhoptries injecting RON2 & PVM-building lipids', 'real-plas-apical', 'rhoptries'],
+      ['micronemes', 'Cigar-shaped micronemes secreting PfRH5 & AMA1 invasion adhesins', 'real-plas-apical', 'micronemes'],
+      ['moving_junction', 'AMA1–RON2 moving junction ring (PDB 3SRI) sliding rearward during entry', 'real-plas-apical', 'moving_junction'],
+      ['pfrh5', 'Essential PfRH5–Basigin host RBC docking bridge (PDB 4U0Q)', 'real-plas-apical', 'pfrh5'],
+      ['glideosome', 'Sub-pellicular PfMyoA–MTIP glideosome motors (PDB 6YCX)', 'real-plas-glideosome', 'glideosome'],
+      ['actin', 'Short polarized PfActI actin tracks (PDB 4CBU)', 'actin-filament', 'actin'],
+      ['nucleus', 'True eukaryotic nucleus (14 linear chromosomes, 23.3 Mbp, double envelope)', 'nucleus', 'nucleus'],
+      ['ribosome_80s', 'Cytosolic eukaryotic 80S ribosomes (unaffected by penicillin)', 'ribosome', 'ribosome_80s'],
+      ['mito', 'Single branched mitochondrion (6 kb genome — smallest known)', 'mitochondrion', 'mito'],
+      ['apicoplast', '4-membrane relict red-algal plastid synthesizing essential IPP isoprenoids', 'real-plas-apicoplast', 'apicoplast'],
+      ['apicoplast_membranes', '4 concentric secondary-endosymbiosis membranes', 'real-plas-apicoplast', 'apicoplast_membranes'],
+      ['apicoplast_dna', '35 kb circular plastid DNA & bacterial-type 70S ribosomes (doxycycline target)', 'real-plas-apicoplast', 'apicoplast_dna'],
+      ['digestive_vacuole', 'Acidic digestive vacuole cleaving host hemoglobin (pH ~5.2)', 'real-plas-digestive', 'digestive_vacuole'],
+      ['hemoglobin', 'Engulfed human hemoglobin tetramers (PDB 1GZX)', 'real-plas-hemoglobin', 'hemoglobin'],
+      ['hemozoin', 'Stacked insoluble dark hemozoin (beta-hematin) biocrystals (chloroquine target)', 'real-plas-hemozoin', 'hemozoin'],
+      ['iron_atom', 'Atomic Fe³⁺–protoporphyrin IX heme & Fe–O propionate dimer inset', 'real-plas-heme', 'iron_atom'],
+    ],
+    desc: 'The human malaria parasite Plasmodium falciparum — proving that intracellular parasites are not only bacteria or viruses, but can be full eukaryotic cells hiding inside our own red blood cells. Built with five real RCSB PDB structures (6YCX glideosome, 3SRI AMA1–RON2, 4U0Q PfRH5–Basigin, 4CBU PfActI, 1GZX hemoglobin) to showcase active 20-second apical invasion, its true 14-chromosome nucleus, a stunning 4-membrane relict red-algal apicoplast, and hemoglobin-to-hemozoin iron detoxification.' },
+  'real-plas-apical': { name: 'Apical complex, AMA1–RON2 moving junction & PfRH5 (realistic)', scale: '~350 nm invasion nose (PDB 3SRI, 4U0Q, 6YCX)', real: 'invasion', page: 'plasmodium_realistic.html', hi: 'apical_complex',
+    children: ['real-plas-glideosome', 'actin-filament', 'plasma-membrane', 'protein'],
+    tags: [
+      ['apical_complex', 'Polar rings organizing rhoptry & microneme secretion', 'protein', 'apical_complex'],
+      ['pfrh5', 'PfRH5–Basigin essential RBC commitment receptor bridge (PDB 4U0Q)', 'protein', 'pfrh5'],
+      ['moving_junction', 'AMA1–RON2 tight moving junction ring (PDB 3SRI)', 'protein', 'moving_junction'],
+      ['rhoptries', 'Twin rhoptries injecting RON2 & parasitophorous vacuole lipids', 'vesicle', 'rhoptries'],
+      ['micronemes', 'Micronemes releasing adhesins to the parasite tip', 'vesicle', 'micronemes'],
+      ['glideosome', 'PfMyoA–MTIP glideosome pulling junction rearward (PDB 6YCX)', 'real-plas-glideosome', 'glideosome'],
+      ['actin', 'Short sub-pellicular PfActI filaments (PDB 4CBU)', 'actin-filament', 'actin'],
+    ],
+    desc: 'Close-up of the 20-second active erythrocyte invasion engine: micronemes deploy PfRH5 to bind human Basigin (PDB 4U0Q), twin rhoptries inject RON2 into the RBC membrane so parasite AMA1 clamps a tight moving junction (PDB 3SRI), and the sub-pellicular PfMyoA glideosome walks along PfActI tracks to pull the entire eukaryote inside.' },
+  'real-plas-glideosome': { name: 'PfMyoA–MTIP glideosome motor complex (PDB 6YCX)', scale: '~12 nm class XIV invasion myosin', b: buildPlasGlideosomeReal,
+    children: ['actin-filament', 'g-actin', 'motor-protein', 'polypeptide', 'alpha-helix', 'amino-acid'],
+    desc: 'Real structural model of the apicomplexan PfMyoA–MTIP–ELC glideosome motor (PDB 6YCX) anchored between the plasma membrane and alveolar IMC — stepping along short PfActI actin filaments to drive rapid gliding motility and active red blood cell penetration without cilia or flagella.' },
+  'real-plas-apicoplast': { name: '4-membrane apicoplast: relict red-algal plastid (realistic)', scale: '~400 nm secondary-endosymbiosis plastid', real: 'apicoplast', page: 'plasmodium_realistic.html', hi: 'apicoplast',
+    children: ['chloroplast', 'dna', 'ribosome-70s', 'phospholipid'],
+    tags: [
+      ['apicoplast', 'Non-photosynthetic plastid essential for blood-stage IPP isoprenoid synthesis', 'chloroplast', 'apicoplast'],
+      ['apicoplast_membranes', '4 concentric bilayers proving ancient engulfment of a red alga', 'phospholipid', 'apicoplast_membranes'],
+      ['apicoplast_dna', '35 kb circular genome encoding bacterial 70S ribosomes (doxycycline target)', 'dna', 'apicoplast_dna'],
+    ],
+    desc: 'Cutaway of the apicoplast’s four nested concentric membranes — evolutionary proof of secondary endosymbiosis when an ancestor of Plasmodium engulfed a photosynthetic red alga. Though photosynthesis vanished, its 35 kb circular DNA and bacterial 70S ribosomes synthesize essential IPP isoprenoids, explaining why doxycycline causes delayed-death parasite collapse.' },
+  'real-plas-digestive': { name: 'Digestive vacuole, hemoglobin uptake & hemozoin (realistic)', scale: '~700 nm acidic food vacuole (pH ~5.2)', real: 'hemozoin', page: 'plasmodium_realistic.html', hi: 'digestive_vacuole',
+    children: ['real-plas-hemoglobin', 'real-plas-hemozoin', 'real-plas-heme', 'atom-fe', 'lysosome'],
+    tags: [
+      ['digestive_vacuole', 'Acidic pH ~5.2 vacuole cleaving up to 75% of host RBC hemoglobin', 'lysosome', 'digestive_vacuole'],
+      ['hemoglobin', 'Engulfed human alpha2-beta2 hemoglobin tetramers (PDB 1GZX)', 'real-plas-hemoglobin', 'hemoglobin'],
+      ['hemozoin', 'Insoluble dark beta-hematin hemozoin biocrystals (blocked by chloroquine)', 'real-plas-hemozoin', 'hemozoin'],
+      ['iron_atom', 'Atomic Fe³⁺–protoporphyrin IX & Fe–O propionate bond inset', 'real-plas-heme', 'iron_atom'],
+    ],
+    desc: 'Inside its acidic digestive vacuole, Plasmodium cleaves host hemoglobin for amino acids, releasing redox-toxic free iron-heme that would shred its own membranes unless neutralized into stacked insoluble hemozoin crystals — the exact biocrystallization step disrupted by chloroquine and related antimalarials.' },
+  'real-plas-hemozoin': { name: 'Hemozoin (beta-hematin) iron-heme biocrystal', scale: '~200–500 nm reciprocal Fe³⁺–O crystal lattice', b: buildPlasHemozoin,
+    children: ['real-plas-heme', 'atom-fe', 'atom-o', 'atom-n', 'atom-c'],
+    desc: 'Insoluble dark-brown malaria pigment formed when toxic free heme molecules pair via reciprocal ferric iron (Fe³⁺) to propionate oxygen bonds and stack by pi-pi and hydrogen bonding into inert rectangular crystals — sequestering reactive iron safely unless blocked by quinoline antimalarials.' },
+  'real-plas-hemoglobin': { name: 'Human hemoglobin tetramer (PDB 1GZX)', scale: '~6.5 nm O₂-carrying RBC protein', b: buildPlasHemoglobinReal,
+    children: ['real-plas-heme', 'atom-fe', 'polypeptide', 'alpha-helix', 'amino-acid'],
+    desc: 'Real crystal structure of human alpha2-beta2 hemoglobin (PDB 1GZX), packed at ~270 million copies inside every human erythrocyte — imported through the parasite cytostome and proteolyzed inside the digestive vacuole to supply amino acids while liberating four iron-heme groups per tetramer.' },
+  'real-plas-heme': { name: 'Atomic zoom: Fe³⁺–protoporphyrin IX heme & propionate bridge', scale: '~1.2 nm iron-coordinating tetrapyrrole', b: buildPlasHeme,
+    children: ['atom-fe', 'atom-n', 'atom-c', 'atom-o', 'atom-h'],
+    desc: 'A flat aromatic protoporphyrin IX ring gripping a single central iron atom through four pyrrole nitrogens, with twin carboxylate propionate arms that coordinate directly onto an adjacent heme’s Fe³⁺ center to nucleate hemozoin dimers.' },
+  'atom-fe': { name: 'Iron atom (Fe / Fe²⁺ / Fe³⁺)', scale: '~0.25 nm (26 protons)', b: () => buildAtom('Fe'), children: [],
+    desc: 'Twenty-six protons, thirty neutrons and four electron shells (2, 8, 14, 2). Switching effortlessly between ferrous Fe²⁺ and ferric Fe³⁺ lets iron reversibly carry oxygen inside human hemoglobin — and makes free heme iron chemically hazardous unless locked into hemozoin crystals by Plasmodium.' },
 };
 
 // =====================================================================
@@ -5287,11 +5717,14 @@ const MENU_GROUPS = [
   { id: 'stage-1', label: '1 · Simple Cells — Prokaryotes', sub: '1 Open Room · Fully Autonomous', items: [
     ['real-bacterium', '1.1 · Bacterium (E. coli)'],
     ['real-archaea', '1.2 · Archaeon (Asgard & extremophiles)'],
+    ['real-gram-positive', '1.3 · Gram-positive bacterium & endospore (B. subtilis)'],
   ] },
   { id: 'stage-2', label: '2 · Complex Cells — Eukaryotes', sub: 'Internal Organelles & Symbionts', items: [
     ['real-fungal', '2.1 · Fungal cell (yeast)'],
     ['real-cell', '2.2 · Animal cell'],
     ['real-plant', '2.3 · Plant cell'],
+    ['real-paramecium', '2.4 · Free-living protist (Paramecium)'],
+    ['real-plasmodium', '2.5 · Eukaryotic parasite (Plasmodium falciparum)'],
   ] },
   { id: 'stage-3', label: '3 · Parasitic & Minimal Cells', sub: 'Has DNA + Ribosomes · Steals Host ATP', items: [
     ['parasitic-cells-overview', '3.0 · Incomplete & intracellular bacteria'],
@@ -5314,9 +5747,12 @@ const TOUR_BY_ROOT = {
   'scale-explorer': window.TOURS?.scale_biomolecules ?? null,
   'real-bacterium': window.TOURS?.bacterium ?? null,
   'real-archaea': window.TOURS?.archaea ?? null,
+  'real-gram-positive': window.TOURS?.gram_positive ?? null,
   'real-fungal': window.TOURS?.fungal ?? null,
   'real-cell': window.TOURS?.eukaryotic ?? null,
   'real-plant': window.TOURS?.plant ?? null,
+  'real-paramecium': window.TOURS?.paramecium ?? null,
+  'real-plasmodium': window.TOURS?.plasmodium ?? null,
   'real-mycoplasma': window.TOURS?.mycoplasma ?? null,
   'real-chlamydia': window.TOURS?.chlamydia ?? null,
   'real-rickettsia': window.TOURS?.rickettsia ?? null,
@@ -5391,6 +5827,9 @@ function setModel(out) {
 const PAGES = {
   'scale_explorer.html': { title: 'Powers-of-10 true scale explorer', look: 'Scale' },
   'archaea_realistic.html': { title: 'Realistic archaeon', look: 'Envelope' },
+  'gram_positive_realistic.html': { title: 'Realistic Gram-positive bacterium & endospore', look: 'Envelope' },
+  'paramecium_realistic.html': { title: 'Realistic Paramecium', look: 'Organelles' },
+  'plasmodium_realistic.html': { title: 'Realistic Plasmodium falciparum', look: 'Organelles' },
   'animal_cell_realistic.html': { title: 'Realistic animal cell', look: 'Organelles' },
   'prokaryote_cell_realistic.html': { title: 'Realistic bacterium', look: 'Envelope' },
   'plant_cell_realistic.html': { title: 'Realistic plant cell', look: 'Organelles' },
@@ -5411,6 +5850,9 @@ const toReal = (m, P = page) => P?.el?.contentWindow?.postMessage({ to: 'realist
 const RECIPE = {
   'scale_explorer.html': { 'real-plant': 'plant_100um', 'real-cell': 'animal_20um', 'real-fungal': 'yeast_5um', 'real-bacterium': 'ecoli_2um', 'real-mycoplasma': 'myco_300nm', 'real-coronavirus': 'virus_100nm', ribosome: 'ribo_25nm', 'atp-synthase': 'enzyme_10nm', dna: 'dna_2nm', 'four-biomolecules': 'monomer_1nm', glucose: 'monomer_1nm', 'atom-h': 'atom_01nm' },
   'archaea_realistic.html': { 'real-arch-envelope': 'slayer', 'real-arch-slayer': 'slayer', 'real-arch-tetraether': 'tetraether', 'real-arch-archaellum': 'archaellum', 'real-arch-bacteriorhodopsin': 'bacteriorhodopsin', 'real-arch-histones': 'histone', 'real-arch-rnap': 'rnap', 'real-arch-ribosome': 'ribosome', 'real-arch-lokiactin': 'lokiactin', 'real-arch-synapse': 'synapse', 'real-arch-ether-bond': 'ether_bond', 'real-arch-atoms': 'ether_bond', dna: 'dna', rna: 'mrna', 'atp-synthase': 'a_atps', mitochondrion: 'symbiont', histone: 'histone' },
+  'gram_positive_realistic.html': { 'real-gp-wall': 'pg_wall', 'real-gp-teichoic': 'teichoic', 'real-gp-pbp': 'pbp', 'real-gp-sporulation': 'forespore', 'real-gp-endospore': 'coat', 'real-gp-core': 'ca_dpa', 'real-gp-crosslink': 'crosslink', 'atom-ca': 'ca_dpa', dna: 'dna', 'ribosome-70s': 'ribosome', peptidoglycan: 'pg_wall', 'plasma-membrane': 'pm', 'real-bacterium': 'ecoli_strip' },
+  'paramecium_realistic.html': { 'real-para-cilia': 'cilia', 'real-para-axoneme': 'axoneme', 'real-para-dynein': 'dynein', 'real-para-contractile': 'contractile_vacuole', 'real-para-feeding': 'food_vacuole', 'real-para-nuclei': 'macronucleus', mitochondrion: 'mito', ribosome: 'ribosome_80s', microtubule: 'axoneme', tubulin: 'tubulin', 'atp-synthase': 'vatpase', nucleus: 'macronucleus', lysosome: 'food_vacuole', cilium: 'cilia', 'plasma-membrane': 'pellicle' },
+  'plasmodium_realistic.html': { 'real-plas-apical': 'apical_complex', 'real-plas-glideosome': 'glideosome', 'real-plas-apicoplast': 'apicoplast', 'real-plas-digestive': 'digestive_vacuole', 'real-plas-hemozoin': 'hemozoin', 'real-plas-hemoglobin': 'hemoglobin', 'real-plas-heme': 'iron_atom', 'atom-fe': 'iron_atom', nucleus: 'nucleus', mitochondrion: 'mito', ribosome: 'ribosome_80s', 'actin-filament': 'actin', chloroplast: 'apicoplast', dna: 'apicoplast_dna', lysosome: 'digestive_vacuole', 'plasma-membrane': 'pvm' },
   'animal_cell_realistic.html': { 'plasma-membrane': 'membrane', nucleus: 'nucleus', 'real-nucleus': 'nucleus', nucleolus: 'nucleolus', 'real-nucleolus': 'nucleolus', rna: 'mrna', 'real-dna': 'chromatin', 'rough-er': 'rer', ribosome: 'ribosome', 'smooth-er': 'ser', golgi: 'golgi', mitochondrion: 'mito', lysosome: 'lyso', peroxisome: 'perox', vesicle: 'vesicle',
     'lipid-droplet': 'lipid', centrosome: 'centro', microtubule: 'mt', 'actin-filament': 'actin', 'intermediate-filament': 'if', cilium: 'cilium', microvillus: 'villi', cytosol: 'cytosol', chromosome: 'chromatin' },
   'prokaryote_cell_realistic.html': { 'real-envelope': 'om', lps: 'om', porin: 'porin', peptidoglycan: 'pg', 'plasma-membrane': 'im', 'electron-transport-chain': 'etc', 'atp-synthase': 'atps', 'real-motor': 'flag', flagellum: 'flag', pilus: 'pili',
@@ -5980,6 +6422,10 @@ const AUTONOMY_PROFILES = {
     statusKey: 'statusArchaea',
     pills: [['ok', 'pillarEtherMembrane'], ['ok', 'pillarHistoneDna'], ['ok', 'pillarRibosomes70S'], ['ok', 'pillarOwnAtp']],
   },
+  'real-gram-positive': {
+    statusKey: 'statusGramPositive',
+    pills: [['ok', 'pillarThickWall'], ['ok', 'pillarDna'], ['ok', 'pillarRibosomes70S'], ['ok', 'pillarOwnAtp']],
+  },
   'real-fungal': {
     statusKey: 'statusCompartmentalized',
     pills: [['ok', 'pillarMembrane'], ['ok', 'pillarDna'], ['ok', 'pillarRibosomes80S'], ['ok', 'pillarOrganelleAtp']],
@@ -5991,6 +6437,14 @@ const AUTONOMY_PROFILES = {
   'real-plant': {
     statusKey: 'statusCompartmentalized',
     pills: [['ok', 'pillarMembrane'], ['ok', 'pillarDna'], ['ok', 'pillarRibosomes80S'], ['ok', 'pillarOrganelleAtp']],
+  },
+  'real-paramecium': {
+    statusKey: 'statusFreeLivingProtist',
+    pills: [['ok', 'pillarPellicleCilia'], ['ok', 'pillarDualNuclei'], ['ok', 'pillarRibosomes80S'], ['ok', 'pillarOrganelleAtp']],
+  },
+  'real-plasmodium': {
+    statusKey: 'statusEukaryoticParasite',
+    pills: [['ok', 'pillarApicalComplex'], ['ok', 'pillarDna'], ['ok', 'pillarRibosomes80S'], ['warn', 'pillarMitoApicoplastAtp']],
   },
   'parasitic-cells-overview': {
     statusKey: 'statusHostDependent',

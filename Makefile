@@ -52,16 +52,20 @@ AUDIO_ARCHIVES := \
 	audio_stage0_en.tar.gz audio_stage0_es.tar.gz \
 	audio_stage3_en.tar.gz audio_stage3_es.tar.gz \
 	audio_phase09_en.tar.gz audio_phase09_es.tar.gz \
-	audio_phase10_en.tar.gz audio_phase10_es.tar.gz
+	audio_phase10_en.tar.gz audio_phase10_es.tar.gz \
+	audio_phase11_en.tar.gz audio_phase11_es.tar.gz \
+	audio_phase12_en.tar.gz audio_phase12_es.tar.gz
 
 STAGE0_EXCLUDE := --exclude='*/life-overview' --exclude='*/life-overview.opus' --exclude='*/parasitic-cells-overview.opus'
 STAGE3_EXCLUDE := --exclude='*/real-mycoplasma' --exclude='*/real-chlamydia' --exclude='*/real-rickettsia' --exclude='*/real-mycoplasma.opus' --exclude='*/real-myco-*.opus' --exclude='*/real-chlamydia.opus' --exclude='*/real-chlam-*.opus' --exclude='*/real-rickettsia.opus' --exclude='*/real-rick-*.opus'
 PHASE09_EXCLUDE := --exclude='*/scale-explorer' --exclude='*/scale-explorer.opus' --exclude='*/four-biomolecules.opus' --exclude='*/disaccharide.opus' --exclude='*/beta-sheet.opus' --exclude='*/polynucleotide-strand.opus'
 PHASE10_EXCLUDE := --exclude='*/real-archaea' --exclude='*/real-archaea.opus' --exclude='*/real-arch-*.opus'
-BASE_EXCLUDE := $(STAGE0_EXCLUDE) $(STAGE3_EXCLUDE) $(PHASE09_EXCLUDE) $(PHASE10_EXCLUDE)
+PHASE11_EXCLUDE := --exclude='*/real-gram-positive' --exclude='*/real-gram-positive.opus' --exclude='*/real-gp-*.opus' --exclude='*/atom-ca.opus'
+PHASE12_EXCLUDE := --exclude='*/real-paramecium' --exclude='*/real-paramecium.opus' --exclude='*/real-para-*.opus' --exclude='*/real-plasmodium' --exclude='*/real-plasmodium.opus' --exclude='*/real-plas-*.opus' --exclude='*/atom-fe.opus'
+BASE_EXCLUDE := $(STAGE0_EXCLUDE) $(STAGE3_EXCLUDE) $(PHASE09_EXCLUDE) $(PHASE10_EXCLUDE) $(PHASE11_EXCLUDE) $(PHASE12_EXCLUDE)
 
 unpack-audio:
-	@if [ ! -d audio/en/v1 ] || [ ! -d audio/en/v1/life-overview ] || [ ! -d audio/en/v1/real-mycoplasma ] || [ ! -d audio/en/v1/scale-explorer ] || [ ! -d audio/en/v1/real-archaea ] || [ ! -d audio/es/latam/life-overview ] || [ ! -d audio/es/latam/real-mycoplasma ] || [ ! -d audio/es/latam/scale-explorer ] || [ ! -d audio/es/latam/real-archaea ] || [ ! -d audio/es/spain/blueprint ] || [ ! -d audio/es/spain/scientific ] || [ ! -d audio/lenses/en/v1/scientific ] || [ ! -d audio/lenses/es/latam/scientific ] || [ ! -d audio/lenses/es/spain/scientific ]; then \
+	@if [ ! -d audio/en/v1 ] || [ ! -d audio/en/v1/life-overview ] || [ ! -d audio/en/v1/real-mycoplasma ] || [ ! -d audio/en/v1/scale-explorer ] || [ ! -d audio/en/v1/real-archaea ] || [ ! -d audio/en/v1/real-gram-positive ] || [ ! -d audio/en/v1/real-paramecium ] || [ ! -d audio/en/v1/real-plasmodium ] || [ ! -d audio/es/latam/life-overview ] || [ ! -d audio/es/latam/real-mycoplasma ] || [ ! -d audio/es/latam/scale-explorer ] || [ ! -d audio/es/latam/real-archaea ] || [ ! -d audio/es/latam/real-gram-positive ] || [ ! -d audio/es/latam/real-paramecium ] || [ ! -d audio/es/latam/real-plasmodium ] || [ ! -d audio/es/spain/blueprint ] || [ ! -d audio/es/spain/scientific ] || [ ! -d audio/lenses/en/v1/scientific ] || [ ! -d audio/lenses/es/latam/scientific ] || [ ! -d audio/lenses/es/spain/scientific ]; then \
 		for f in $(AUDIO_ARCHIVES); do \
 			if [ -f "$$f" ]; then \
 				echo "==> Extracting $$f into audio/ ..."; \
@@ -95,6 +99,10 @@ pack-audio:
 	tar -czf audio_phase09_es.tar.gz audio/es/latam/scale-explorer audio/es/spain/*/scale-explorer audio/lenses/es/*/*/scale-explorer.opus audio/lenses/es/*/*/four-biomolecules.opus audio/lenses/es/*/*/disaccharide.opus audio/lenses/es/*/*/beta-sheet.opus audio/lenses/es/*/*/polynucleotide-strand.opus
 	tar -czf audio_phase10_en.tar.gz audio/en/*/real-archaea audio/lenses/en/*/*/real-archaea.opus audio/lenses/en/*/*/real-arch-*.opus
 	tar -czf audio_phase10_es.tar.gz audio/es/latam/real-archaea audio/es/spain/*/real-archaea audio/lenses/es/*/*/real-archaea.opus audio/lenses/es/*/*/real-arch-*.opus
+	tar -czf audio_phase11_en.tar.gz audio/en/*/real-gram-positive audio/lenses/en/*/*/real-gram-positive.opus audio/lenses/en/*/*/real-gp-*.opus audio/lenses/en/*/*/atom-ca.opus
+	tar -czf audio_phase11_es.tar.gz audio/es/latam/real-gram-positive audio/es/spain/*/real-gram-positive audio/lenses/es/*/*/real-gram-positive.opus audio/lenses/es/*/*/real-gp-*.opus audio/lenses/es/*/*/atom-ca.opus
+	tar -czf audio_phase12_en.tar.gz audio/en/*/real-paramecium audio/en/*/real-plasmodium audio/lenses/en/*/*/real-paramecium.opus audio/lenses/en/*/*/real-para-*.opus audio/lenses/en/*/*/real-plasmodium.opus audio/lenses/en/*/*/real-plas-*.opus audio/lenses/en/*/*/atom-fe.opus
+	tar -czf audio_phase12_es.tar.gz audio/es/latam/real-paramecium audio/es/latam/real-plasmodium audio/es/spain/*/real-paramecium audio/es/spain/*/real-plasmodium audio/lenses/es/*/*/real-paramecium.opus audio/lenses/es/*/*/real-para-*.opus audio/lenses/es/*/*/real-plasmodium.opus audio/lenses/es/*/*/real-plas-*.opus audio/lenses/es/*/*/atom-fe.opus
 
 typecheck:
 	npm run typecheck

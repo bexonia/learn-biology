@@ -1,7 +1,7 @@
 # 12 — Single-Celled Eukaryotes (Protists) & Eukaryotic Parasites: *Paramecium caudatum* & *Plasmodium falciparum*
 
 **Iteration:** `12` (Two Standalone Realistic WebGL2 Protist & Eukaryotic-Parasite Scenes, Whole-to-Tiniest Molecular Cascades, 3-Persona Guided Tours & Sharded GPU `.opus` Narration in `EN` & `ES`)  
-**Status:** 📋 **Planned**  
+**Status:** ✅ **Completed**  
 **Parent Index:** [`roadmap/README.md`](./README.md)  
 **Previous Step:** [`11-gram-positive-bacteria-and-endospores.md`](./11-gram-positive-bacteria-and-endospores.md)  
 **Next Step:** [`13-giant-viruses-viroids-and-prions.md`](./13-giant-viruses-viroids-and-prions.md)

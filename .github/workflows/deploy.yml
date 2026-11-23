@@ -81,6 +81,10 @@ jobs:
             central_dogma_realistic.html \
             bioenergetics_realistic.html \
             membrane_transport_realistic.html \
+            neuron_realistic.html \
+            muscle_realistic.html \
+            immune_defense_realistic.html \
+            pharmacology_lab.html \
             robots.txt \
             sitemap.xml \
             nginx/default.conf; do
@@ -146,6 +150,10 @@ jobs:
           curl -sf "http://127.0.0.1:8080/central_dogma_realistic.html" | grep -q "Central Dogma"
           curl -sf "http://127.0.0.1:8080/bioenergetics_realistic.html" | grep -q "Bioenergetics"
           curl -sf "http://127.0.0.1:8080/membrane_transport_realistic.html" | grep -q "Membrane"
+          curl -sf "http://127.0.0.1:8080/neuron_realistic.html" | grep -q "Neuron"
+          curl -sf "http://127.0.0.1:8080/muscle_realistic.html" | grep -q "Muscle"
+          curl -sf "http://127.0.0.1:8080/immune_defense_realistic.html" | grep -q "Immune"
+          curl -sf "http://127.0.0.1:8080/pharmacology_lab.html" | grep -q "Pharmacology"
           curl -sf -r 0-3 "http://127.0.0.1:8080/audio/lenses/en/v3/story/real-mycoplasma.opus" | grep -q "OggS"
           curl -sf -r 0-3 "http://127.0.0.1:8080/audio/lenses/es/latam/story/real-chlamydia.opus" | grep -q "OggS"
           curl -sf -r 0-3 "http://127.0.0.1:8080/audio/lenses/en/v1/scientific/real-rickettsia.opus" | grep -q "OggS"
@@ -172,6 +180,11 @@ jobs:
           curl -sf -r 0-3 "http://127.0.0.1:8080/audio/es/latam/real-central-dogma/cd.ch0.s0.01.opus" | grep -q "OggS"
           curl -sf -r 0-3 "http://127.0.0.1:8080/audio/en/v3/real-bioenergetics/bio.ch0.s0.01.opus" | grep -q "OggS"
           curl -sf -r 0-3 "http://127.0.0.1:8080/audio/es/latam/real-membrane-transport/mem.ch0.s0.01.opus" | grep -q "OggS"
+          curl -sf -r 0-3 "http://127.0.0.1:8080/audio/en/v3/real-neuron/neu.ch0.s0.01.opus" | grep -q "OggS"
+          curl -sf -r 0-3 "http://127.0.0.1:8080/audio/es/latam/real-muscle/mus.ch0.s0.01.opus" | grep -q "OggS"
+          curl -sf -r 0-3 "http://127.0.0.1:8080/audio/en/v3/real-immune/imm.ch0.s0.01.opus" | grep -q "OggS"
+          curl -sf -r 0-3 "http://127.0.0.1:8080/audio/es/latam/real-pharmacology/pha.ch0.s0.01.opus" | grep -q "OggS"
+          curl -sf -r 0-3 "http://127.0.0.1:8080/audio/lenses/en/v3/story/specialized-cells-overview.opus" | grep -q "OggS"
           echo "Smoke test passed (/api/health, /, /dist/pages/cell_explorer.js, /audio/*.opus, /robots.txt, /sitemap.xml)."
 
   publish:

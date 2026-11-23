@@ -1586,5 +1586,175 @@ export const ES_NODES: Record<string, NodeTranslation> = {
     name: 'Fusión SNARE de 4 hélices y transporte vesicular por clatrina (PDB 1SFC)',
     scale: 'cremallera vesicular de ~12 nm',
     desc: 'Estructura cristalina real del haz de cuatro hélices SNARE (PDB 1SFC): junto a las jaulas de Clatrina (1XI4) para la endocitosis, la cremallera SNARE vence la repulsión hídrica para fusionar vesículas secretoras con la membrana plasmática.'
+  },
+  'specialized-cells-overview': {
+    name: 'Células humanas especializadas: mismo ADN de 6,4 Gpb, trabajos distintos (3D)',
+    scale: 'cuarteto tisular de 7,8 – 100 µm · H3K27ac / me3',
+    desc: 'Compara cuatro células humanas especializadas en torno al mismo genoma diploide de 6,4 Gpb: marcas epigenéticas en histonas (H3K27ac abriendo genes de linaje frente a H3K27me3 silenciando otros) esculpen una Neurona multipolar, una Fibra muscular esquelética, un Glóbulo rojo anucleado lleno de hemoglobina y un Enterocito intestinal sellado.'
+  },
+  'real-erythrocyte': {
+    name: 'Glóbulo rojo (Eritrocito) y empaque de Hemoglobina (PDB 2HHB)',
+    scale: 'disco bicóncavo de 7,8 µm · 270 M Hb',
+    desc: 'Un eritrocito humano bicóncavo de 7,8 µm expulsa su núcleo y mitocondrias al madurar para que una corteza flexible de espectrina empaque ~270 millones de tetrámeros de oxihemoglobina (PDB 2HHB), transportando más de mil millones de moléculas de O₂ por capilares de 3–5 µm.'
+  },
+  'real-enterocyte': {
+    name: 'Enterocito intestinal polarizado: microvellosidades y uniones estrechas',
+    scale: 'célula columnar ~25 µm · 3.000 microvellosidades',
+    desc: 'Célula epitelial intestinal polarizada coronada por ~3.000 microvellosidades de actina para absorber nutrientes con rapidez, remachada lateralmente por uniones estrechas herméticas de Claudina-15 (PDB 4P79) e impulsada por gradientes de ATPasa Na⁺/K⁺ basolateral.'
+  },
+  'real-epigenetics': {
+    name: 'Control epigenético de cromatina: Nucleosoma y H3K27ac / me3 (PDB 1AOI)',
+    scale: 'nucleosoma de 11 nm · marcas en colas histónicas',
+    desc: 'Estructura cristalina real del núcleo nucleosómico eucariota (PDB 1AOI): la acetilación (H3K27ac) neutraliza cargas positivas para abrir genes específicos ante ARN Pol II, mientras la trimetilación (H3K27me3) compacta programas no usados en heterocromatina silenciosa.'
+  },
+  'real-claudin15': {
+    name: 'Barrera paracelular de unión estrecha Claudina-15 (PDB 4P79)',
+    scale: 'sello epitelial de ~6 nm',
+    desc: 'Estructura cristalina real de Claudina-15 (PDB 4P79): sus hebras polimerizadas cierran herméticamente membranas epiteliales vecinas para que los nutrientes crucen de forma selectiva mientras patógenos y toxinas quedan bloqueados.'
+  },
+  'real-neuron': {
+    name: 'Neurona multipolar, mielina saltatoria y sinapsis química de 20 nm (realista)',
+    scale: 'soma 50 µm · Nodos de Ranvier · hendidura 20 nm',
+    desc: 'Sigue un impulso eléctrico desde dendritas y un núcleo somático de eucromatina H3K27ac (1AOI) por un axón mielinizado a través de Nodos de Ranvier saltatorios (Naᵥ1.7 6J8I, Kᵥ1.2 2R9R, Na⁺/K⁺ 3WGU) hasta una sinapsis química de 20 nm donde Ca²⁺ dispara fusión SNARE (1SFC) sobre canales postsinápticos AMPA (3KG2) y nAChR (2BG9).'
+  },
+  'real-neuron-node': {
+    name: 'Nodo de Ranvier: disparo saltatorio de Naᵥ1.7 y Kᵥ1.2 (realista)',
+    scale: 'brecha axonal de 1–2 µm · -70 → +40 mV',
+    desc: 'Concentrados en brechas sin mielina entre vainas aislantes, densos canales Naᵥ1.7 (6J8I) y Kᵥ1.2 (2R9R) regeneran potenciales de acción hasta a 120 m/s ahorrando enormes cantidades de ATP.'
+  },
+  'real-neuron-nav17': {
+    name: 'Canal de sodio dependiente de voltaje Naᵥ1.7 (PDB 6J8I)',
+    scale: '~10 nm · ignición del potencial de acción',
+    desc: 'Estructura crio-EM real de Naᵥ1.7 humano (PDB 6J8I): hélices sensoras de voltaje S4 ascienden al cruzar -55 mV, abriendo un poro selectivo a Na⁺ que dispara la espiga explosiva de +40 mV.'
+  },
+  'real-neuron-kv12': {
+    name: 'Canal de potasio dependiente de voltaje Kᵥ1.2 (PDB 2R9R)',
+    scale: '~9 nm · filtro selectivo repolarizador',
+    desc: 'Estructura cristalina real del tetrámero Kᵥ1.2 (PDB 2R9R): los oxígenos carbonílicos de su filtro selectivo imitan la solvatación de K⁺, permitiendo una rápida salida de K⁺ que devuelve el axón a -70 mV.'
+  },
+  'real-neuron-synapse': {
+    name: 'Sinapsis química de 20 nm: Ca²⁺, SNARE y AMPA/nAChR (realista)',
+    scale: 'hendidura de 20 nm · transmisión de 1 ms',
+    desc: 'En el botón terminal presináptico, la llegada del voltaje abre canales Caᵥ; el Ca²⁺ activa la sinaptotagmina para que las hélices SNARE (1SFC) fusionen vesículas sinápticas y liberen glutamato/ACh hacia receptores postsinápticos AMPA (3KG2) y nAChR (2BG9).'
+  },
+  'real-neuron-ampa': {
+    name: 'Receptor postsináptico de glutamato AMPA GluA2 (PDB 3KG2)',
+    scale: 'canal iónico por ligando de ~14 nm',
+    desc: 'Estructura cristalina real del receptor tetramérico AMPA GluA2 (PDB 3KG2): al unirse dos moléculas de glutamato en sus dominios en valva se abre un poro central de Na⁺ que inicia corrientes excitadoras rápidas.'
+  },
+  'real-neuron-nachr': {
+    name: 'Receptor nicotínico de acetilcolina nAChR (PDB 2BG9)',
+    scale: 'compuerta neuromuscular y sináptica (~12 nm)',
+    desc: 'Estructura crio-EM real del receptor nicotínico pentamérico nAChR (PDB 2BG9): la unión de acetilcolina rota cinco hélices M2 transmembrana para dejar entrar Na⁺ y disparar la fibra muscular o neuronal.'
+  },
+  'real-muscle': {
+    name: 'Fibra muscular esquelética y sarcómero deslizante de 2,2 µm (realista)',
+    scale: 'miofibra 50 µm · sarcómero 2,2 ↔ 1,6 µm',
+    desc: 'Desciende desde una miofibra esquelética multinucleada (núcleos periféricos H3K27ac, túbulos T, retículo sarcoplásmico con RyR1 y SERCA1a 1SU4) hasta un sarcómero vivo de 2,2 µm ↔ 1,6 µm donde Ca²⁺ gira Troponina–Tropomiosina (6KN8) dejando que las cabezas Miosina-II S1 (2MYS) acerquen los discos Z usando ATP.'
+  },
+  'real-muscle-sarcomere': {
+    name: 'Sarcómero de filamentos deslizantes 2,2 µm ↔ 1,6 µm (realista)',
+    scale: 'unidad contráctil disco Z a disco Z (2,2 µm)',
+    desc: 'Ni la miosina gruesa ni la actina fina se acortan al contraerse el músculo: puentes cruzados asíncronos de Miosina-II con ATP deslizan filamentos finos hacia la línea M, estrechando la banda I y la zona H mientras la banda A permanece constante.'
+  },
+  'real-muscle-myosin': {
+    name: 'Cabeza motora esquelética Miosina-II S1 (PDB 2MYS)',
+    scale: 'brazo de palanca por ATP (~16 nm)',
+    desc: 'Estructura cristalina real de la cabeza catalítica y brazo de palanca de Miosina-II S1 (PDB 2MYS): liberar Pᵢ y ADP gira la palanca ~10 nm deslizando la F-actina; luego un nuevo ATP la despega y rearma.'
+  },
+  'real-muscle-actin-tropo': {
+    name: 'Filamento fino F-Actina–Tropomiosina–Troponina (PDB 6KN8)',
+    scale: 'pista contráctil regulada por Ca²⁺ (~10 nm)',
+    desc: 'Estructura crio-EM real del filamento fino unido a Ca²⁺ (PDB 6KN8): cuando el Ca²⁺ sarcoplásmico se une a Troponina-C, el giro conformacional aparta el cable de Tropomiosina de la F-actina descubriendo los sitios de Miosina-II.'
+  },
+  'real-muscle-serca': {
+    name: 'Bomba de Ca²⁺ SERCA1a del retículo sarcoplásmico (PDB 1SU4)',
+    scale: 'bomba de relajación por ATP (~11 nm)',
+    desc: 'Estructura cristalina real de SERCA1a (PDB 1SU4): hidrolizar 1 ATP bombea 2 iones Ca²⁺ cuesta arriba de vuelta al retículo sarcoplásmico, dejando que la tropomiosina vuelva a cubrir la actina y la titina elástica relaje el sarcómero a 2,2 µm.'
+  },
+  'real-spec-atoms': {
+    name: 'Señales atómicas de diferenciación: H3K27ac, Ca²⁺, Na⁺/K⁺ y Glutamato',
+    scale: '0,1–0,5 nm (C, H, N, O, Ca²⁺, Na⁺, K⁺)',
+    desc: 'A escala atómica de 0,1–0,5 nm, pensamiento y movimiento obedecen a la misma química: etiquetas acetilo (-COCH₃) abren ADN de linaje, iones Na⁺/K⁺ recorren axones y el Ca²⁺ activa tanto SNARE sinápticas como troponina muscular.'
+  },
+  'real-immune': {
+    name: 'Campo de batalla inmunitario: macrófago, IgG y linfocito T CD8⁺ (realista)',
+    scale: 'nicho 30 µm · sinapsis 15 nm · epítopos 0,1 nm',
+    desc: 'Explora los tres brazos de la inmunidad humana en un campo de batalla 3D de 30 µm: fagocitosis innata por Macrófago con estallido ROS y MHC-II (1DLH), neutralización humoral por IgG en Y (1IGT) bloqueando SARS-CoV-2 Spike RBD (7BZ5) frente a ACE2 (6M0J), y sinapsis celular CD8⁺ TCR–pMHC-I (1AO7) disparando poros de Perforina (3NSJ) y Granzima B (1IAU).'
+  },
+  'real-imm-phagolysosome': {
+    name: 'Fagocitosis de macrófago, estallido ROS y MHC-II (realista)',
+    scale: 'fagocito 15 µm · fagolisosoma pH 4,5',
+    desc: 'La inmunidad innata actúa en minutos: pseudópodos de actina engullen bacterias en un fagosoma que se funde con lisosomas, descargando ácido pH 4,5, radicales ROS de NOX2 y proteasas antes de cargar péptidos bacterianos en MHC-II (1DLH).'
+  },
+  'real-imm-mhcii': {
+    name: 'Dímero presentador de antígeno MHC Clase II (PDB 1DLH)',
+    scale: 'puente innato-adaptativo (~8 nm)',
+    desc: 'Estructura cristalina real de HLA-DR1 MHC Clase II humano (PDB 1DLH): fija péptidos bacterianos exógenos digeridos en fagolisosomas de macrófagos y los exhibe en superficie para activar linfocitos T cooperadores CD4⁺.'
+  },
+  'real-imm-igg': {
+    name: 'Anticuerpo IgG intacto en forma de Y (PDB 1IGT)',
+    scale: '~14 nm · 150 kDa defensor humoral',
+    desc: 'Estructura cristalina real de una inmunoglobulina IgG intacta en Y (PDB 1IGT): dos brazos variables Fab unidos por bisagra disulfuro sujetan epítopos con afinidad nanomolar mientras el tallo Fc recluta fagocitosis por macrófagos.'
+  },
+  'real-imm-rbd-block': {
+    name: 'Complejo neutralizante Fab–Spike RBD de SARS-CoV-2 (PDB 7BZ5)',
+    scale: 'bloqueo estérico de ACE2 (~10 nm)',
+    desc: 'Estructura cristalina real del brazo Fab humano B38 bloqueando el dominio RBD de la espícula de SARS-CoV-2 (PDB 7BZ5), solapando físicamente la interfaz de ACE2 (PDB 6M0J) para impedir la entrada viral.'
+  },
+  'real-imm-tcr-mhci': {
+    name: 'Sinapsis citotóxica CD8⁺ TCR–pMHC-I (PDB 1AO7)',
+    scale: 'prueba celular propio/extraño (~15 nm)',
+    desc: 'Estructura cristalina real de un Receptor de Linfocito T humano acoplado a HLA-A2 MHC Clase I con un péptido viral de 9 aminoácidos (PDB 1AO7): las células sanas exhiben péptidos propios y se respetan; los péptidos virales activan eliminación citotóxica.'
+  },
+  'real-imm-perforin': {
+    name: 'Proteína citotóxica formadora de poros Perforina (PDB 3NSJ)',
+    scale: 'barril lítico transmembrana de ~18 nm',
+    desc: 'Estructura cristalina real de Perforina (PDB 3NSJ): secretada en la sinapsis inmunológica de 15 nm, el Ca²⁺ ensambla 20–24 subunidades en un barril beta transmembrana de 18 nm que perfora la célula infectada.'
+  },
+  'real-imm-granzyme': {
+    name: 'Serina proteasa apoptótica Granzima B (PDB 1IAU)',
+    scale: 'activador de caspasa-3 (~5 nm)',
+    desc: 'Estructura cristalina real de Granzima B humana (PDB 1IAU): tras cruzar los poros de Perforina dentro de la célula infectada, esta proteasa escinde procaspasa-3 para desmantelar la fábrica viral de forma ordenada por apoptosis.'
+  },
+  'real-pharmacology': {
+    name: 'Laboratorio de farmacología dirigida y vacunas ARNm-LNP (realista)',
+    scale: 'banco de 5 organismos · enlace covalente 1,35 Å',
+    desc: 'Cierre del curso: alterna Penicilina, Macrólido/Tetraciclina, Antivirales de acción directa y Vacunas ARNm-LNP en vivo sobre un banco de selectividad de 5 organismos (E. coli, Mycoplasma, Chlamydia, SARS-CoV-2/VIH-1 y Célula humana) con 6 complejos PDB reales (1PWC, 4V7U, 1HNW, 4UG0, 7BV2, 3V4I) hasta enlaces covalentes de 1,35 Å.'
+  },
+  'real-pharm-pbp': {
+    name: 'PBP bacteriana acilada por Penicilina G (PDB 1PWC)',
+    scale: 'inhibición suicida covalente (~8 nm)',
+    desc: 'Estructura cristalina real de una Proteína de Unión a Penicilina (PBP) bloqueada covalentemente por Penicilina G (PDB 1PWC): su anillo betalactámico tenso imita D-Ala–D-Ala y se suelda a la serina catalítica, reventando a E. coli con pared mientras deja intactos a Mycoplasma sin pared, virus y células humanas.'
+  },
+  'real-pharm-macrolide': {
+    name: 'Túnel de salida 50S bacteriano + Macrólido (PDB 4V7U)',
+    scale: 'selectividad ribosómica 70S (~21 nm)',
+    desc: 'Estructura cristalina real de la subunidad 50S bacteriana con Eritromicina taponando el túnel de salida del ARNr 23S (PDB 4V7U): detiene la traducción en E. coli, Mycoplasma sin pared y Chlamydia intracelular mientras la divergencia del ARNr 28S mantiene sanos los ribosomas 80S humanos.'
+  },
+  'real-pharm-tetra': {
+    name: 'Sitio A 30S bacteriano + Tetraciclina (PDB 1HNW)',
+    scale: 'bloqueo decodificador 30S (~15 nm)',
+    desc: 'Estructura cristalina real de Tetraciclina ocupando el sitio A del ribosoma bacteriano 30S (PDB 1HNW): bloquea estéricamente los aminoacil-ARNt en ribosomas 70S (eficaz frente a E. coli, Chlamydia y Rickettsia) sin ninguna diana sobre virus.'
+  },
+  'real-pharm-rdrp': {
+    name: 'RdRp de SARS-CoV-2 frenada por Remdesivir-TP (PDB 7BV2)',
+    scale: 'bloqueo de ARN polimerasa viral (~10 nm)',
+    desc: 'Estructura crio-EM real de la ARN polimerasa RdRp de SARS-CoV-2 incorporando monofosfato de Remdesivir (PDB 7BV2): su grupo 1′-ciano choca con Ser861 tres bases después provocando terminación retardada i+3 del ARN viral.'
+  },
+  'real-pharm-hivrt': {
+    name: 'Transcriptasa Inversa de VIH-1 + AZT-TP (PDB 3V4I)',
+    scale: 'terminador obligado sin 3′-OH (~10 nm)',
+    desc: 'Estructura cristalina real de la Transcriptasa Inversa de VIH-1 (PDB 3V4I): al incorporar AZT-TP se inserta un grupo azido (-N₃) en lugar del 3′-OH nucleofílico, cortando al instante la síntesis de ADN proviral.'
+  },
+  'real-pharm-mrna-lnp': {
+    name: 'Vacuna ARNm-LNP: traducción citosólica fuera del núcleo intacto (realista)',
+    scale: 'LNP 90 nm · citosol 80S · 0 edición de ADN',
+    desc: 'Demuestra visualmente por qué las vacunas ARNm-LNP no alteran el ADN humano: una nanopartícula lipídica de ~90 nm escapa del endosoma ácido y entrega ARNm transitorio con m¹Ψ directo a los ribosomas 80S citosólicos totalmente fuera de la envoltura nuclear intacta, entrenando memoria IgG y CD8⁺ antes de que las RNasas lo reciclen.'
+  },
+  'real-pharm-atoms': {
+    name: 'Química atómica fármaco-diana: enlace β-lactámico–Ser 1,35 Å y AZT',
+    scale: '0,1–0,5 nm (C, H, N, O, S, P)',
+    desc: 'A resolución atómica de 0,1–0,5 nm, la medicina selectiva se reduce a geometría covalente: un éster de 1,35 Å suelda la penicilina a la serina de PBP, un 3′-OH ausente detiene la transcriptasa de VIH y los mismos átomos C, H, N, O, S, P unen todo el curso desde la escala celular hasta las vacunas modernas.'
   }
 };

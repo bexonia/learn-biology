@@ -11,9 +11,11 @@ import { PERSONAS_CELL_DIVISION } from './personas_cell_division.js';
 import { PERSONAS_CENTRAL_DOGMA } from './personas_central_dogma.js';
 import { PERSONAS_EDGE_OF_LIFE } from './personas_edge_of_life.js';
 import { PERSONAS_GRAM_POSITIVE } from './personas_gram_positive.js';
+import { PERSONAS_IMMUNE_MEDICINE } from './personas_immune_medicine.js';
 import { PERSONAS_PARASITIC_CELLS } from './personas_parasitic_cells.js';
 import { PERSONAS_PROTISTS } from './personas_protists.js';
 import { PERSONAS_SCALE_BIOMOLECULES } from './personas_scale_biomolecules.js';
+import { PERSONAS_SPECIALIZED_CELLS } from './personas_specialized_cells.js';
 import { PROKARYOTE_PHAGE_TOUR_PERSONAS } from './personas_prokaryote_phage.js';
 import { VIRUS_TOUR_PERSONAS } from './personas_viruses.js';
 
@@ -44,6 +46,8 @@ export const TOUR_PERSONA_REGISTRY: TourPersonaMap = {
   ...PERSONAS_CELL_DIVISION,
   ...PERSONAS_CENTRAL_DOGMA,
   ...PERSONAS_BIOENERGETICS,
+  ...PERSONAS_SPECIALIZED_CELLS,
+  ...PERSONAS_IMMUNE_MEDICINE,
   ...EUKARYOTE_TOUR_PERSONAS,
   ...PROKARYOTE_PHAGE_TOUR_PERSONAS,
   ...PERSONAS_PARASITIC_CELLS,
@@ -85,6 +89,8 @@ export {
   PERSONAS_CELL_DIVISION,
   PERSONAS_CENTRAL_DOGMA,
   PERSONAS_BIOENERGETICS,
+  PERSONAS_SPECIALIZED_CELLS,
+  PERSONAS_IMMUNE_MEDICINE,
   EUKARYOTE_TOUR_PERSONAS,
   PROKARYOTE_PHAGE_TOUR_PERSONAS,
   PERSONAS_PARASITIC_CELLS,

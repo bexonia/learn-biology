@@ -67,7 +67,12 @@ export const COURSE_SEQUENCE = [
   'real-cell-division',
   'real-central-dogma',
   'real-bioenergetics',
-  'real-membrane-transport'
+  'real-membrane-transport',
+  'specialized-cells-overview',
+  'real-neuron',
+  'real-muscle',
+  'real-immune',
+  'real-pharmacology'
 ] as const;
 
 const VALID_MODES = new Set<ExplanationMode>(['simple', 'story', 'blueprint', 'scientific']);

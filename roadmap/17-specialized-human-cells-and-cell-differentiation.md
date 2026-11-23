@@ -1,7 +1,7 @@
 # 17 — Cell Differentiation & Specialized Human Cells (Same DNA, Different Jobs)
 
 **Iteration:** `17` (Comparative 4-Cell Differentiation Stage, Standalone Realistic WebGL2 Neuron & Chemical Synapse + Skeletal Muscle Sarcomere Models, Comparative Erythrocyte & Polarized Enterocyte Explorer Subtrees, Epigenetic Chromatin-Bookmark Toggle, Bilingual 3-Persona Guided Tours & Sharded GPU `.opus` Narration in `EN` & `ES`)  
-**Status:** 📋 **Planned**  
+**Status:** ✅ **Completed**  
 **Parent Index:** [`roadmap/README.md`](./README.md)  
 **Previous Step:** [`16-bioenergetics-photosynthesis-respiration-and-membrane-transport.md`](./16-bioenergetics-photosynthesis-respiration-and-membrane-transport.md)  
 **Next Step:** [`18-immune-defense-and-pharmacology-antibiotics-antivirals-vaccines.md`](./18-immune-defense-and-pharmacology-antibiotics-antivirals-vaccines.md)

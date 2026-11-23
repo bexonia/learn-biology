@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" href="data:,">
+<title>Interactive 3D Immune Defense Battleground — Innate, Humoral IgG &amp; Cellular CD8⁺ T-Cell | BEXONIA</title>
+<!-- SEO:START -->
+<meta name="description" content="Interactive Cinema PBR WebGL2 3D Immune Defense Battleground uniting all three arms of vertebrate immunity across a 30 µm mucosal frontier: translucent Macrophage Arp2/3 actin phagocytosis of E. coli with acidic phagolysosome NOX2 ROS burst and MHC-II display (PDB 1DLH), golden Y-shaped IgG antibodies (PDB 1IGT) and neutralizing Fab clamps (PDB 7BZ5) coating a SARS-CoV-2 virion to sterically block host ACE2 (PDB 6M0J), and a cytotoxic CD8+ T-Cell immunological synapse featuring TCR-pMHC-I recognition (PDB 1AO7), transmembrane Perforin pore rings (PDB 3NSJ), Granzyme B apoptosis (PDB 1IAU), and an atomic 0.1-0.5 nm CDR3-epitope H-bond and IgG hinge Cys-S-S-Cys disulfide inset.">
+<meta name="keywords" content="3D biology, immune system, immunology, macrophage, phagocytosis, actin pseudopod, E. coli, phagolysosome, NOX2 ROS, MHC class II PDB 1DLH, IgG antibody PDB 1IGT, Fab arms, Fc stem, SARS-CoV-2 Spike RBD PDB 7BZ5, ACE2 receptor PDB 6M0J, antibody neutralization, CD8 cytotoxic T cell, immunological synapse, TCR pMHC-I PDB 1AO7, viral peptide, perforin pore PDB 3NSJ, granzyme B PDB 1IAU, apoptosis, CDR3 epitope hydrogen bonds, disulfide bond, WebGL2, Three.js, Bexonia">
+<meta name="author" content="BEXONIA">
+<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">
+<link rel="canonical" href="https://learn.bexonia.com/immune_defense_realistic.html">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="BEXONIA Learn Biology">
+<meta property="og:title" content="Interactive 3D Immune Defense Battleground — Innate, Humoral IgG &amp; Cellular CD8⁺ T-Cell | BEXONIA">
+<meta property="og:description" content="Explore all three arms of human immune defense live in 3D WebGL2: Macrophage phagocytosis &amp; MHC-II (1DLH), IgG neutralization blocking ACE2 (1IGT, 7BZ5, 6M0J), and CD8+ T-Cell synapse killing (1AO7, 3NSJ, 1IAU).">
+<meta property="og:url" content="https://learn.bexonia.com/immune_defense_realistic.html">
+<meta property="og:image" content="https://learn.bexonia.com/screenshots/immune_defense.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Interactive 3D Immune Defense Battleground — Innate, Humoral IgG &amp; Cellular CD8⁺ T-Cell | BEXONIA">
+<meta name="twitter:description" content="Explore Macrophage phagocytosis, Y-shaped IgG antibody neutralization of SARS-CoV-2 Spike RBDs, and CD8+ T-Cell Perforin/Granzyme B synapses powered by 7 real RCSB PDB structures.">
+<meta name="twitter:image" content="https://learn.bexonia.com/screenshots/immune_defense.jpg">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":["LearningResource","WebApplication"],"name":"Interactive 3D Immune Defense Battleground — Innate, Humoral IgG & Cellular CD8+ T-Cell | BEXONIA","description":"Interactive Cinema PBR WebGL2 3D Immune Defense stage uniting Macrophage phagocytosis and MHC-II presentation (PDB 1DLH), golden Y-shaped IgG antibody neutralization of SARS-CoV-2 Spike RBDs blocking host ACE2 (PDB 1IGT, 7BZ5, 6M0J), and a CD8+ cytotoxic T-cell immunological synapse with TCR-pMHC-I (PDB 1AO7), transmembrane Perforin pore rings (PDB 3NSJ), and Granzyme B protease flux (PDB 1IAU), plus a 0.1-0.5 nm atomic CDR3-epitope H-bond and Cys-S-S-Cys disulfide inset.","url":"https://learn.bexonia.com/immune_defense_realistic.html","image":"https://learn.bexonia.com/screenshots/immune_defense.jpg","applicationCategory":"EducationalApplication","operatingSystem":"Web Browser (WebGL)","learningResourceType":["Interactive 3D Model","Simulation","Guided Tour"],"educationalUse":["Self-study","Classroom instruction","Reference library"],"isAccessibleForFree":true,"license":"https://opensource.org/licenses/MIT","inLanguage":"en","author":{"@type":"Organization","name":"BEXONIA","url":"https://bexonia.com"},"about":[{"@type":"Thing","name":"Immune system"},{"@type":"Thing","name":"Macrophage"},{"@type":"Thing","name":"Phagocytosis"},{"@type":"Thing","name":"Immunoglobulin G"},{"@type":"Thing","name":"Cytotoxic T cell"},{"@type":"Thing","name":"Immunological synapse"},{"@type":"Thing","name":"Perforin"},{"@type":"Thing","name":"Granzyme B"}],"keywords":"3D biology, immune defense, macrophage, phagocytosis, MHC-II 1DLH, IgG antibody 1IGT, Fab Spike RBD 7BZ5, ACE2 6M0J, CD8 T-cell, TCR pMHC-I 1AO7, perforin 3NSJ, granzyme B 1IAU, WebGL2, Three.js, Bexonia"}</script>
+<!-- SEO:END -->
+<style>
+  :root { --bg: #04060e; --fg: #ebf1fc; --muted: #95a7c2; --line: rgba(255,255,255,.13); --accent: #74e6ff; --teal: #42e8f5; --gold: #ffd858; --violet: #b67eff; }
+  html, body { margin: 0; height: 100%; background: var(--bg); color: var(--fg); font-family: system-ui, -apple-system, "Segoe UI", sans-serif; overflow: hidden; }
+  canvas { display: block; }
+  #hud { position: absolute; left: 20px; top: 14px; pointer-events: none; max-width: calc(100% - 280px); text-shadow: 0 1px 10px rgba(4,6,14,.92), 0 0 3px rgba(4,6,14,.85); }
+  #hud h1 { margin: 0; font-size: 20px; font-weight: 650; letter-spacing: .01em; }
+  #hud p { margin: 3px 0 0; font-size: 12.1px; color: #aec0da; }
+  #legend { position: absolute; left: 14px; top: 66px; width: 254px; max-height: calc(100% - 82px); overflow: auto; background: rgba(7,11,23,.68); border: 1px solid var(--line); border-radius: 11px; padding: 4px 5px; backdrop-filter: blur(8px); }
+  .it { display: flex; align-items: center; gap: 7px; padding: 2.3px 6px; border-radius: 6px; font-size: 11px; line-height: 1.22; cursor: default; transition: background .14s ease; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .it span:last-child { overflow: hidden; text-overflow: ellipsis; }
+  .it:hover { background: rgba(116,230,255,.16); }
+  .sw { width: 9.5px; height: 9.5px; border-radius: 50%; flex: none; box-shadow: inset 0 0 0 1px rgba(255,255,255,.32); }
+  .key { grid-column: 1 / -1; margin-top: 3px; padding: 5px 6px 2px; border-top: 1px solid var(--line); font-size: 10.3px; color: var(--muted); line-height: 1.32; }
+  .key .row { display: flex; align-items: center; flex-wrap: nowrap; gap: 4px; margin-bottom: 3.5px; white-space: nowrap; }
+  .key .row:last-child { margin-bottom: 0; }
+  .chip { width: 16px; height: 16px; border-radius: 50%; display: inline-grid; place-items: center; font-size: 9.5px; font-weight: 700; color: #12151e; flex: none; }
+  .bar { width: 11px; height: 5px; border-radius: 3px; display: inline-block; flex: none; }
+  #flows { position: absolute; right: 14px; top: 14px; width: 246px; max-height: calc(100% - 118px); overflow: auto; background: rgba(7,11,23,.68); border: 1px solid var(--line); border-radius: 11px; padding: 7px 6px 6px; backdrop-filter: blur(8px); }
+  #flows h2 { margin: 2px 8px 4px; font-size: 12.8px; font-weight: 650; }
+  #armCard { margin: 2px 7px 6px; padding: 5px 8px; border-radius: 8px; background: rgba(14,42,56,.76); border: 1px solid rgba(66,232,245,.42); transition: background .2s ease, border-color .2s ease; }
+  #armCard.humoral_igg { background: rgba(56,42,14,.78); border-color: rgba(255,216,88,.54); }
+  #armCard.cellular_cd8 { background: rgba(42,20,68,.78); border-color: rgba(182,126,255,.54); }
+  #armTitle { font-size: 11.8px; font-weight: 700; color: #92f4ff; letter-spacing: .01em; }
+  #armCard.humoral_igg #armTitle { color: #ffe788; }
+  #armCard.cellular_cd8 #armTitle { color: #dfc0ff; }
+  #armSub { font-size: 10.4px; color: var(--muted); margin-top: 2px; line-height: 1.3; }
+  .speed { display: flex; align-items: center; gap: 8px; margin: 2px 8px 6px; font-size: 11.8px; color: var(--muted); }
+  .speed input { flex: 1; min-width: 0; accent-color: var(--accent); }
+  #spd { width: 36px; text-align: right; color: var(--fg); font-variant-numeric: tabular-nums; }
+  #tip { margin: 0 8px 6px; font-size: 11.3px; line-height: 1.38; color: var(--muted); }
+  #tip b { color: var(--fg); font-weight: 600; }
+  .mol { display: flex; align-items: center; gap: 7px; padding: 2.5px 7px; border-radius: 7px; font-size: 11.5px; cursor: default; }
+  .mol:hover { background: rgba(116,230,255,.15); }
+  .mol canvas { width: 20px; height: 20px; flex: none; }
+  .mol .mol-name { flex: 1; min-width: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .mol .mol-cnt { font-size: 10.4px; font-weight: 650; color: var(--accent); font-variant-numeric: tabular-nums; padding: 1px 5px; border-radius: 999px; background: rgba(116,230,255,.12); border: 1px solid rgba(116,230,255,.22); flex: none; }
+  #tools { position: absolute; right: 14px; bottom: 14px; display: flex; flex-wrap: wrap; justify-content: flex-end; gap: 6px; max-width: calc(100% - 28px); }
+  #tools button { background: rgba(8,13,25,.80); color: var(--fg); border: 1px solid rgba(255,255,255,.22); border-radius: 8px; padding: 6.5px 10.5px; font: inherit; font-size: 12px; cursor: pointer; backdrop-filter: blur(6px); transition: border-color .15s ease, background .15s ease, color .15s ease; }
+  #tools button:hover { border-color: var(--accent); }
+  #modeBtn { border-color: rgba(66,232,245,.70) !important; background: rgba(12,44,58,.88) !important; color: #bef7ff !important; font-weight: 600; }
+  #modeBtn.humoral_igg { border-color: rgba(255,216,88,.82) !important; background: rgba(62,46,12,.90) !important; color: #ffefad !important; }
+  #modeBtn.cellular_cd8 { border-color: rgba(182,126,255,.82) !important; background: rgba(46,20,74,.90) !important; color: #e8d2ff !important; }
+  #hint { position: absolute; right: 16px; bottom: 54px; font-size: 11.4px; color: var(--muted); pointer-events: none; }
+  #busy { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; color: var(--muted); font-size: 14px; pointer-events: none; background: radial-gradient(circle at 50% 45%, #16223e 0%, #09101f 55%, #02040a 100%); z-index: 20; }
+  @media (max-width: 760px) {
+    #legend { top: auto; bottom: 64px; left: 10px; right: 10px; width: auto; max-height: 25vh; display: grid; grid-template-columns: 1fr 1fr; }
+    #hint, #flows { display: none; }
+    #hud { max-width: calc(100% - 28px); }
+    #hud h1 { font-size: 16px; }
+  }
+  .embed #hud, .embed #legend, .embed #flows, .embed #hint, .embed #tools, .embed #busy { display: none !important; }
+</style>
+<script type="importmap">
+{ "imports": {
+  "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js",
+  "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"
+} }
+</script>
+</head>
+<body>
+<div id="busy">Building Three-Arm Immune Defense Battleground (7 RCSB PDB Complexes)…</div>
+<div id="hud"><h1>Immune Defense — Innate, Humoral IgG &amp; CD8⁺ T-Cell Battleground</h1><p id="sub">30 µm mucosal frontier · Macrophage phagocytosis (1DLH) · IgG blocks ACE2 (1IGT/7BZ5/6M0J) · CD8⁺ synapse (1AO7/3NSJ/1IAU)</p></div>
+<div id="legend"></div>
+<div id="flows">
+  <h2>Immune Signals &amp; Effector Flux</h2>
+  <div id="armCard"><div id="armTitle">Innate Arm · Macrophage Phagocytosis</div><div id="armSub">Arp2/3 actin cup · pH 4.5 NOX2 ROS · MHC-II load</div></div>
+  <label class="speed">Speed <input id="speed" type="range" min="-3" max="2" step=".1" value="0"><span id="spd">1×</span></label>
+  <div id="tip"></div>
+  <div id="mols"></div>
+</div>
+<div id="hint">Drag to look around · W A S D to move · scroll to zoom · right-drag to pan · hover a name to highlight it</div>
+<div id="tools"><button id="modeBtn" type="button">Arm: Innate Phagocytosis</button><button id="view" type="button">View: overview</button><button id="flow" type="button">Flows: on</button><button id="look" type="button">Membrane: gel</button><button id="cut" type="button">Close cutaway</button><button id="motion" type="button">Pause</button><button id="snap" type="button">Save PNG</button></div>
+<script type="module" src="dist/pages/immune_defense_realistic.js"></script>
+</body>
+</html>

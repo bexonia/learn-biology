@@ -56,7 +56,9 @@ AUDIO_ARCHIVES := \
 	audio_phase11_en.tar.gz audio_phase11_es.tar.gz \
 	audio_phase12_en.tar.gz audio_phase12_es.tar.gz \
 	audio_phase13_en.tar.gz audio_phase13_es.tar.gz \
-	audio_phase14_en.tar.gz audio_phase14_es.tar.gz
+	audio_phase14_en.tar.gz audio_phase14_es.tar.gz \
+	audio_phase15_en.tar.gz audio_phase15_es.tar.gz \
+	audio_phase16_en.tar.gz audio_phase16_es.tar.gz
 
 STAGE0_EXCLUDE := --exclude='*/life-overview' --exclude='*/life-overview.opus' --exclude='*/parasitic-cells-overview.opus'
 STAGE3_EXCLUDE := --exclude='*/real-mycoplasma' --exclude='*/real-chlamydia' --exclude='*/real-rickettsia' --exclude='*/real-mycoplasma.opus' --exclude='*/real-myco-*.opus' --exclude='*/real-chlamydia.opus' --exclude='*/real-chlam-*.opus' --exclude='*/real-rickettsia.opus' --exclude='*/real-rick-*.opus'
@@ -66,10 +68,12 @@ PHASE11_EXCLUDE := --exclude='*/real-gram-positive' --exclude='*/real-gram-posit
 PHASE12_EXCLUDE := --exclude='*/real-paramecium' --exclude='*/real-paramecium.opus' --exclude='*/real-para-*.opus' --exclude='*/real-plasmodium' --exclude='*/real-plasmodium.opus' --exclude='*/real-plas-*.opus' --exclude='*/atom-fe.opus'
 PHASE13_EXCLUDE := --exclude='*/real-mimivirus' --exclude='*/real-viroid' --exclude='*/real-prion' --exclude='*/subviral-overview.opus' --exclude='*/real-mimivirus.opus' --exclude='*/real-mimi-*.opus' --exclude='*/real-viroid.opus' --exclude='*/real-viroid-*.opus' --exclude='*/real-prion.opus' --exclude='*/real-prion-*.opus' --exclude='*/atom-s.opus'
 PHASE14_EXCLUDE := --exclude='*/real-cell-division' --exclude='*/real-cell-division.opus' --exclude='*/real-div-*.opus'
-BASE_EXCLUDE := $(STAGE0_EXCLUDE) $(STAGE3_EXCLUDE) $(PHASE09_EXCLUDE) $(PHASE10_EXCLUDE) $(PHASE11_EXCLUDE) $(PHASE12_EXCLUDE) $(PHASE13_EXCLUDE) $(PHASE14_EXCLUDE)
+PHASE15_EXCLUDE := --exclude='*/real-central-dogma' --exclude='*/real-central-dogma.opus' --exclude='*/real-cd-*.opus'
+PHASE16_EXCLUDE := --exclude='*/real-bioenergetics' --exclude='*/real-bioenergetics.opus' --exclude='*/real-bio-*.opus' --exclude='*/real-membrane-transport' --exclude='*/real-membrane-transport.opus' --exclude='*/real-mem-*.opus'
+BASE_EXCLUDE := $(STAGE0_EXCLUDE) $(STAGE3_EXCLUDE) $(PHASE09_EXCLUDE) $(PHASE10_EXCLUDE) $(PHASE11_EXCLUDE) $(PHASE12_EXCLUDE) $(PHASE13_EXCLUDE) $(PHASE14_EXCLUDE) $(PHASE15_EXCLUDE) $(PHASE16_EXCLUDE)
 
 unpack-audio:
-	@if [ ! -d audio/en/v1 ] || [ ! -d audio/en/v1/life-overview ] || [ ! -d audio/en/v1/real-mycoplasma ] || [ ! -d audio/en/v1/scale-explorer ] || [ ! -d audio/en/v1/real-archaea ] || [ ! -d audio/en/v1/real-gram-positive ] || [ ! -d audio/en/v1/real-paramecium ] || [ ! -d audio/en/v1/real-plasmodium ] || [ ! -d audio/en/v1/real-mimivirus ] || [ ! -d audio/en/v1/real-viroid ] || [ ! -d audio/en/v1/real-prion ] || [ ! -d audio/en/v1/real-cell-division ] || [ ! -d audio/es/latam/life-overview ] || [ ! -d audio/es/latam/real-mycoplasma ] || [ ! -d audio/es/latam/scale-explorer ] || [ ! -d audio/es/latam/real-archaea ] || [ ! -d audio/es/latam/real-gram-positive ] || [ ! -d audio/es/latam/real-paramecium ] || [ ! -d audio/es/latam/real-plasmodium ] || [ ! -d audio/es/latam/real-mimivirus ] || [ ! -d audio/es/latam/real-viroid ] || [ ! -d audio/es/latam/real-prion ] || [ ! -d audio/es/latam/real-cell-division ] || [ ! -d audio/es/spain/blueprint ] || [ ! -d audio/es/spain/scientific ] || [ ! -d audio/lenses/en/v1/scientific ] || [ ! -d audio/lenses/es/latam/scientific ] || [ ! -d audio/lenses/es/spain/scientific ]; then \
+	@if [ ! -d audio/en/v1 ] || [ ! -d audio/en/v1/life-overview ] || [ ! -d audio/en/v1/real-mycoplasma ] || [ ! -d audio/en/v1/scale-explorer ] || [ ! -d audio/en/v1/real-archaea ] || [ ! -d audio/en/v1/real-gram-positive ] || [ ! -d audio/en/v1/real-paramecium ] || [ ! -d audio/en/v1/real-plasmodium ] || [ ! -d audio/en/v1/real-mimivirus ] || [ ! -d audio/en/v1/real-viroid ] || [ ! -d audio/en/v1/real-prion ] || [ ! -d audio/en/v1/real-cell-division ] || [ ! -d audio/en/v1/real-central-dogma ] || [ ! -d audio/en/v1/real-bioenergetics ] || [ ! -d audio/en/v1/real-membrane-transport ] || [ ! -d audio/es/latam/life-overview ] || [ ! -d audio/es/latam/real-mycoplasma ] || [ ! -d audio/es/latam/scale-explorer ] || [ ! -d audio/es/latam/real-archaea ] || [ ! -d audio/es/latam/real-gram-positive ] || [ ! -d audio/es/latam/real-paramecium ] || [ ! -d audio/es/latam/real-plasmodium ] || [ ! -d audio/es/latam/real-mimivirus ] || [ ! -d audio/es/latam/real-viroid ] || [ ! -d audio/es/latam/real-prion ] || [ ! -d audio/es/latam/real-cell-division ] || [ ! -d audio/es/latam/real-central-dogma ] || [ ! -d audio/es/latam/real-bioenergetics ] || [ ! -d audio/es/latam/real-membrane-transport ] || [ ! -d audio/es/spain/blueprint ] || [ ! -d audio/es/spain/scientific ] || [ ! -d audio/lenses/en/v1/scientific ] || [ ! -d audio/lenses/es/latam/scientific ] || [ ! -d audio/lenses/es/spain/scientific ]; then \
 		for f in $(AUDIO_ARCHIVES); do \
 			if [ -f "$$f" ]; then \
 				echo "==> Extracting $$f into audio/ ..."; \
@@ -111,6 +115,10 @@ pack-audio:
 	tar -czf audio_phase13_es.tar.gz audio/es/latam/real-mimivirus audio/es/latam/real-viroid audio/es/latam/real-prion audio/es/spain/*/real-mimivirus audio/es/spain/*/real-viroid audio/es/spain/*/real-prion audio/lenses/es/*/*/subviral-overview.opus audio/lenses/es/*/*/real-mimivirus.opus audio/lenses/es/*/*/real-mimi-*.opus audio/lenses/es/*/*/real-viroid.opus audio/lenses/es/*/*/real-viroid-*.opus audio/lenses/es/*/*/real-prion.opus audio/lenses/es/*/*/real-prion-*.opus audio/lenses/es/*/*/atom-s.opus
 	tar -czf audio_phase14_en.tar.gz audio/en/*/real-cell-division audio/lenses/en/*/*/real-cell-division.opus audio/lenses/en/*/*/real-div-*.opus
 	tar -czf audio_phase14_es.tar.gz audio/es/latam/real-cell-division audio/es/spain/*/real-cell-division audio/lenses/es/*/*/real-cell-division.opus audio/lenses/es/*/*/real-div-*.opus
+	tar -czf audio_phase15_en.tar.gz audio/en/*/real-central-dogma audio/lenses/en/*/*/real-central-dogma.opus audio/lenses/en/*/*/real-cd-*.opus
+	tar -czf audio_phase15_es.tar.gz audio/es/latam/real-central-dogma audio/es/spain/*/real-central-dogma audio/lenses/es/*/*/real-central-dogma.opus audio/lenses/es/*/*/real-cd-*.opus
+	tar -czf audio_phase16_en.tar.gz audio/en/*/real-bioenergetics audio/en/*/real-membrane-transport audio/lenses/en/*/*/real-bioenergetics.opus audio/lenses/en/*/*/real-bio-*.opus audio/lenses/en/*/*/real-membrane-transport.opus audio/lenses/en/*/*/real-mem-*.opus
+	tar -czf audio_phase16_es.tar.gz audio/es/latam/real-bioenergetics audio/es/latam/real-membrane-transport audio/es/spain/*/real-bioenergetics audio/es/spain/*/real-membrane-transport audio/lenses/es/*/*/real-bioenergetics.opus audio/lenses/es/*/*/real-bio-*.opus audio/lenses/es/*/*/real-membrane-transport.opus audio/lenses/es/*/*/real-mem-*.opus
 
 typecheck:
 	npm run typecheck

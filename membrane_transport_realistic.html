@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Interactive 3D Membrane Transport &amp; Osmosis Lab — Animal vs. Plant Tonicity, 5 nm Bilayer, AQP1, GLUT1, Na⁺/K⁺-ATPase &amp; Vesicles | BEXONIA</title>
+<!-- SEO:START -->
+<meta name="description" content="Interactive 3D Membrane Transport and Osmosis Lab in Cinema PBR WebGL2: compare wall-less Animal Cell (lysis vs. crenation) against cellulose-walled Plant Cell (turgid vs. plasmolysis) across live Hypotonic, Isotonic, and Hypertonic modes, directly above a 5 nm POPC phospholipid bilayer featuring Simple Diffusion (O2/CO2), Aquaporin AQP1 (PDB 1J4N) single-file H2O osmosis, GLUT1 (PDB 4PYP) alternating-access glucose transport, Na+/K+-ATPase (PDB 3WGU) electrogenic 3 Na+ out / 2 K+ in pumping with ATP hydrolysis and -70 mV resting potential, Clathrin endocytosis (PDB 1XI4), SNARE exocytosis (PDB 1SFC), and an atomic Na+/K+/H2O/POPC inset.">
+<meta name="keywords" content="3D biology, membrane transport, osmosis, tonicity, hypotonic, isotonic, hypertonic, osmotic lysis, turgor pressure, crenation, plasmolysis, phospholipid bilayer, POPC, simple diffusion, aquaporin AQP1, PDB 1J4N, facilitated diffusion, GLUT1, PDB 4PYP, active transport, sodium potassium pump, Na+/K+-ATPase, PDB 3WGU, ATP hydrolysis, resting membrane potential, -70 mV, endocytosis, clathrin, PDB 1XI4, exocytosis, SNARE, PDB 1SFC, WebGL2, Three.js, Bexonia">
+<meta name="author" content="BEXONIA">
+<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">
+<link rel="canonical" href="https://learn.bexonia.com/membrane_transport_realistic.html">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="BEXONIA Learn Biology">
+<meta property="og:title" content="Interactive 3D Membrane Transport &amp; Osmosis Lab — Tonicity, Bilayer, AQP1, GLUT1 &amp; Na⁺/K⁺-ATPase | BEXONIA">
+<meta property="og:description" content="Live 3D Animal vs. Plant Cell osmosis comparator (Hypotonic, Isotonic, Hypertonic) paired with a 5 nm phospholipid bilayer displaying real RCSB PDB AQP1 (1J4N), GLUT1 (4PYP), Na+/K+-ATPase (3WGU), Clathrin (1XI4), and SNARE (1SFC).">
+<meta property="og:url" content="https://learn.bexonia.com/membrane_transport_realistic.html">
+<meta property="og:image" content="https://learn.bexonia.com/screenshots/animal_cell.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Interactive 3D Membrane Transport &amp; Osmosis Lab — Tonicity, Bilayer, AQP1, GLUT1 &amp; Na⁺/K⁺-ATPase | BEXONIA">
+<meta name="twitter:description" content="Live 3D Animal vs. Plant Cell osmosis comparator (Hypotonic, Isotonic, Hypertonic) paired with a 5 nm phospholipid bilayer displaying real RCSB PDB AQP1 (1J4N), GLUT1 (4PYP), Na+/K+-ATPase (3WGU), Clathrin (1XI4), and SNARE (1SFC).">
+<meta name="twitter:image" content="https://learn.bexonia.com/screenshots/animal_cell.jpg">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":["LearningResource","WebApplication"],"name":"Interactive 3D Membrane Transport & Osmosis Lab — Animal vs. Plant Tonicity, 5 nm Bilayer, AQP1, GLUT1, Na+/K+-ATPase & Vesicles | BEXONIA","description":"Interactive 3D Membrane Transport and Osmosis Lab: live Hypotonic, Isotonic, and Hypertonic Animal vs. Plant Cell comparator above a 5 nm POPC phospholipid bilayer displaying Simple Diffusion (O2/CO2), Aquaporin AQP1 (RCSB PDB 1J4N) single-file H2O dipole transport, GLUT1 (PDB 4PYP) alternating-access facilitated diffusion, Na+/K+-ATPase (PDB 3WGU) electrogenic 3 Na+ out / 2 K+ in pumping with ATP hydrolysis and -70 mV membrane voltage, Clathrin-coated endocytosis (PDB 1XI4), SNARE-driven exocytosis (PDB 1SFC), and an atomic Na+/K+/H2O/POPC inset.","url":"https://learn.bexonia.com/membrane_transport_realistic.html","image":"https://learn.bexonia.com/screenshots/animal_cell.jpg","applicationCategory":"EducationalApplication","operatingSystem":"Web Browser (WebGL)","learningResourceType":["Interactive 3D Model","Simulation","Guided Tour"],"educationalUse":["Self-study","Classroom instruction","Reference library"],"isAccessibleForFree":true,"license":"https://opensource.org/licenses/MIT","inLanguage":"en","author":{"@type":"Organization","name":"BEXONIA","url":"https://bexonia.com"},"about":[{"@type":"Thing","name":"Osmosis"},{"@type":"Thing","name":"Tonicity"},{"@type":"Thing","name":"Membrane transport"},{"@type":"Thing","name":"Aquaporin 1"},{"@type":"Thing","name":"GLUT1"},{"@type":"Thing","name":"Na+/K+-ATPase"},{"@type":"Thing","name":"Endocytosis"},{"@type":"Thing","name":"Exocytosis"}],"keywords":"3D biology, membrane transport, osmosis, tonicity, hypotonic, isotonic, hypertonic, lysis, turgor, crenation, plasmolysis, POPC bilayer, AQP1 1J4N, GLUT1 4PYP, Na+/K+-ATPase 3WGU, Clathrin 1XI4, SNARE 1SFC, WebGL2, Three.js, Bexonia"}</script>
+<!-- SEO:END -->
+<style>
+  :root { --bg: #04070e; --fg: #ebf2fc; --muted: #92a4be; --line: rgba(255,255,255,.13); --accent: #6ce8ff; --amber: #ffbe58; }
+  html, body { margin: 0; height: 100%; background: var(--bg); color: var(--fg); font-family: system-ui, -apple-system, "Segoe UI", sans-serif; overflow: hidden; }
+  canvas { display: block; }
+  #hud { position: absolute; left: 20px; top: 14px; pointer-events: none; max-width: calc(100% - 280px); }
+  #hud h1 { margin: 0; font-size: 21px; font-weight: 650; letter-spacing: .01em; }
+  #hud p { margin: 3px 0 0; font-size: 12.6px; color: var(--muted); }
+  #legend { position: absolute; left: 14px; top: 72px; width: 264px; max-height: calc(100% - 88px); overflow: auto; background: rgba(7,12,22,.68); border: 1px solid var(--line); border-radius: 11px; padding: 5px; backdrop-filter: blur(8px); }
+  .it { display: flex; align-items: center; gap: 7px; padding: 2.8px 7px; border-radius: 6px; font-size: 11.4px; line-height: 1.24; cursor: default; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; transition: background .14s ease; }
+  .it:hover { background: rgba(108,232,255,.16); }
+  .sw { width: 10px; height: 10px; border-radius: 50%; flex: none; box-shadow: inset 0 0 0 1px rgba(255,255,255,.32); }
+  .key { grid-column: 1 / -1; margin-top: 3px; padding: 5px 7px 3px; border-top: 1px solid var(--line); font-size: 10.6px; color: var(--muted); line-height: 1.38; }
+  .key .row { display: flex; align-items: center; flex-wrap: nowrap; gap: 4px; margin-bottom: 3px; white-space: nowrap; }
+  .chip { width: 15px; height: 15px; border-radius: 50%; display: inline-grid; place-items: center; font-size: 9.5px; font-weight: 700; color: #101520; }
+  .bar { width: 15px; height: 5px; border-radius: 3px; display: inline-block; }
+  .vm-tag { margin-left: auto; padding: 1px 5px; border-radius: 999px; font-size: 9.4px; font-weight: 700; background: rgba(108,232,255,.16); color: #9cf2ff; border: 1px solid rgba(108,232,255,.36); }
+  #flows { position: absolute; right: 14px; top: 14px; width: 244px; max-height: calc(100% - 126px); overflow: auto; background: rgba(7,12,22,.68); border: 1px solid var(--line); border-radius: 11px; padding: 8px 6px 6px; backdrop-filter: blur(8px); }
+  #flows h2 { margin: 2px 8px 4px; font-size: 13px; font-weight: 650; }
+  .speed { display: flex; align-items: center; gap: 8px; margin: 2px 8px 7px; font-size: 12px; color: var(--muted); }
+  .speed input { flex: 1; min-width: 0; accent-color: var(--accent); }
+  #spd { width: 38px; text-align: right; color: var(--fg); font-variant-numeric: tabular-nums; }
+  #tip { margin: 0 8px 7px; font-size: 11.7px; line-height: 1.42; color: var(--muted); }
+  #tip b { color: var(--fg); font-weight: 600; }
+  .mol { display: flex; align-items: center; gap: 7px; padding: 3px 7px; border-radius: 7px; font-size: 11.8px; cursor: default; }
+  .mol:hover { background: rgba(108,232,255,.15); }
+  .mol canvas { width: 21px; height: 21px; flex: none; }
+  .mol .mname { flex: 1; min-width: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .mol .mcnt { font-size: 10.6px; font-variant-numeric: tabular-nums; color: #b6d6f6; background: rgba(255,255,255,.07); border-radius: 5px; padding: 1px 5px; min-width: 24px; text-align: right; }
+  #tools { position: absolute; right: 14px; bottom: 14px; display: flex; flex-wrap: wrap; justify-content: flex-end; gap: 6px; max-width: calc(100% - 28px); }
+  #tools button { background: rgba(8,13,24,.78); color: var(--fg); border: 1px solid rgba(255,255,255,.22); border-radius: 8px; padding: 6.5px 10.5px; font: inherit; font-size: 12.2px; cursor: pointer; backdrop-filter: blur(6px); transition: border-color .15s ease, background .15s ease; }
+  #tools button:hover { border-color: var(--accent); }
+  #modeBtn { border-color: rgba(102,226,255,.72) !important; background: rgba(14,44,64,.86) !important; color: #cef7ff !important; font-weight: 650; }
+  #modeBtn.hypotonic { border-color: rgba(82,224,255,.82) !important; background: rgba(10,56,74,.88) !important; color: #d8fbff !important; }
+  #modeBtn.hypertonic { border-color: rgba(255,180,82,.82) !important; background: rgba(66,34,12,.88) !important; color: #ffebc6 !important; }
+  #hint { position: absolute; right: 16px; bottom: 54px; font-size: 11.8px; color: var(--muted); pointer-events: none; }
+  #busy { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; color: var(--muted); font-size: 14px; pointer-events: none; }
+  @media (max-width: 760px) {
+    #legend { top: auto; bottom: 68px; left: 10px; right: 10px; width: auto; max-height: 25vh; display: grid; grid-template-columns: 1fr 1fr; }
+    #hint, #flows { display: none; }
+    #hud { max-width: calc(100% - 28px); }
+    #hud h1 { font-size: 17px; }
+  }
+  .embed #hud, .embed #legend, .embed #flows, .embed #hint, .embed #tools, .embed #busy { display: none !important; }
+</style>
+<script type="importmap">
+{ "imports": {
+  "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js",
+  "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"
+} }
+</script>
+</head>
+<body>
+<div id="busy">Building Animal vs. Plant Osmosis Lab &amp; 5 nm Bilayer (PDB 1J4N · 4PYP · 3WGU · 1XI4 · 1SFC)…</div>
+<div id="hud"><h1>Membrane Transport &amp; Osmosis Lab</h1><p id="sub">Animal vs. Plant Cell tonicity comparator above a 5 nm POPC bilayer · AQP1 (1J4N) · GLUT1 (4PYP) · Na⁺/K⁺-ATPase (3WGU) · Clathrin (1XI4) · SNARE (1SFC)</p></div>
+<div id="legend"></div>
+<div id="flows"><h2>Transmembrane Flows</h2><label class="speed">Speed <input id="speed" type="range" min="-3" max="2" step=".1" value="0"><span id="spd">1×</span></label><div id="tip"></div><div id="mols"></div></div>
+<div id="hint">Drag to look around · W A S D to move · scroll to zoom · right-drag to pan · hover a name to highlight it</div>
+<div id="tools"><button id="modeBtn">Tonicity: Isotonic (Balanced)</button><button id="view">View: overview</button><button id="flow">Transport: on</button><button id="look">Membrane: gel</button><button id="cut">Close cutaway</button><button id="motion">Pause</button><button id="snap">Save PNG</button></div>
+<script type="module" src="dist/pages/membrane_transport_realistic.js"></script>
+</body>
+</html>

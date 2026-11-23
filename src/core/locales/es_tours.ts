@@ -2913,4 +2913,349 @@ export const ES_TOURS_PHRASES: Record<string, string> = {
     'La mitosis guarda clones diploides por tensión en [[cinetocoros|kinetochore]]; la meiosis mezcla en [[quiasmas|chiasma]].',
   'Scrub the phase bar or click any molecular tag now, including [[base pairs|dna_basepair]], to explore deeper.':
     'Desliza la barra de fase o pulsa cualquier etiqueta, incluso [[pares de bases|dna_basepair]], para explorar más.',
+  // =========================================================================
+  // Phase 15: Central Dogma Pipeline, Splicing & Molecular Evolution
+  // =========================================================================
+  'Central Dogma, mRNA Splicing & Molecular Evolution: a guided tour':
+    'Dogma central, empalme de ARNm y evolución molecular: recorrido guiado',
+  'Trace one human HBB gene across a continuous 5 um Nucleus-to-Cytosol corridor: DNA replication and 3-prime proofreading (helicase, Pol delta), RNA Pol II transcription, megadalton spliceosome alternative splicing, NPC export, 80S ribosome A-P-E decoding, Hsp70/TRiC folding, live HbA-to-HbS and AcrB point mutations, and atomic codon H-bonds.':
+    'Sigue un gen humano HBB por un corredor continuo de 5 µm del núcleo al citosol: replicación del ADN y corrección 3′ (helicasa, Pol delta), transcripción por ARN Pol II, empalme alternativo en el espliceosoma, exportación por NPC, decodificación A-P-E en ribosomas 80S, plegamiento Hsp70/TRiC, mutaciones HbA a HbS y AcrB, y puentes de hidrógeno atómicos.',
+  'One Continuous Information Corridor': 'Un corredor continuo de información',
+  'From nuclear DNA to folded cytosolic proteins': 'Del ADN nuclear a proteínas citosólicas plegadas',
+  'Five linked stations & live mutation bench': 'Cinco estaciones enlazadas y banco de mutaciones',
+  'Stages A & B: Replication, Proofreading & Transcription': 'Etapas A y B: replicación, corrección y transcripción',
+  'Stage A: Replicative helicase unzips euchromatin': 'Etapa A: la helicasa replicativa abre la eucromatina',
+  'DNA Pol delta synthesis & 3-prime proofreading': 'Síntesis por ADN Pol delta y corrección 3′',
+  'Stage B: RNA Pol II bubble, 5-prime cap & poly-A tail': 'Etapa B: burbuja de ARN Pol II, caperuza 5′ y cola poli-A',
+  'Stage C: Spliceosome & Alternative Splicing': 'Etapa C: espliceosoma y empalme alternativo',
+  'Megadalton spliceosome & intron lariat excision': 'Espliceosoma megadalton y escisión del lazo intrónico',
+  'Live Alternative Splicing: Isoform A vs Isoform B': 'Empalme alternativo en vivo: isoforma A frente a isoforma B',
+  'Stage D: Nuclear Export & 80S Ribosome Translation': 'Etapa D: exportación nuclear y traducción en ribosomas 80S',
+  'Nuclear Pore Complex export into cytosolic polysomes': 'Exportación por el complejo de poro nuclear a polisomas',
+  '80S Ribosome & tRNA A-P-E codon decoding': 'Ribosoma 80S y decodificación de codones A-P-E por ARNt',
+  '60S rRNA ribozyme & nascent polypeptide extrusion': 'Ribozima de ARNr 60S y extrusión del polipéptido naciente',
+  'Stage E: Chaperone Folding & Live Point Mutations': 'Etapa E: plegamiento por chaperonas y mutaciones puntuales',
+  'Hsp70 shielding & TRiC/GroEL folding chamber': 'Protección por Hsp70 y cámara de plegamiento TRiC/GroEL',
+  'Single-base missense: HbA Glu6 to HbS Val6 fibers': 'Mutación sin sentido de una base: HbA Glu6 a fibras HbS Val6',
+  'Adaptive bacterial mutation: AcrB efflux pocket': 'Mutación bacteriana adaptativa: bolsillo de eflujo AcrB',
+  'Atomic Codon Switch, Selection & Next Steps': 'Cambio atómico de codón, selección y próximos pasos',
+  'Atomic 0.1-0.5 nm codon H-bond switch': 'Cambio atómico de puentes de hidrógeno de codón a 0,1-0,5 nm',
+  'Balancing vs directional natural selection': 'Selección natural balanceadora frente a direccional',
+  'Central Dogma recap & onward to Bioenergetics': 'Resumen del dogma central y paso a Bioenergética',
+  'Genetic information flows across one 5 um corridor from nucleus through nuclear pores to cytosol.':
+    'La información genética fluye por un corredor de 5 µm del núcleo por poros nucleares al citosol.',
+  'Inside the nucleus, [[chromatin|chromatin]] stores the human HBB beta-globin gene across three exons.':
+    'En el núcleo, la [[cromatina|chromatin]] guarda el gen humano HBB de beta-globina en tres exones.',
+  'Follow one transcript past [[RNA Pol II|rna_pol2]] and [[nuclear pores|npc]] into [[ribosomes|ribosome_80s]].':
+    'Sigue un transcrito tras la [[ARN Pol II|rna_pol2]] y los [[poros nucleares|npc]] hasta los [[ribosomas|ribosome_80s]].',
+  'Nuclear machines replicate [[chromatin|chromatin]], copy pre-mRNA and splice introns via the [[spliceosome|spliceosome]].':
+    'Máquinas nucleares replican [[cromatina|chromatin]], copian pre-ARNm y cortan intrones con el [[espliceosoma|spliceosome]].',
+  'Exported mRNA drives [[polysome|polysome]] translation and folds into soluble [[wild-type HbA|hb_wildtype]].':
+    'El ARNm exportado impulsa la traducción en [[polisomas|polysome]] y forma [[HbA normal|hb_wildtype]] soluble.',
+  'Along the way, live toggles test how alternative splicing or one DNA base change reshapes life.':
+    'En el camino, controles vivos muestran cómo el empalme alternativo o una base cambian la vida.',
+  'Zoom to Stage A inside the nucleus, where DNA replication copies opened [[chromatin|chromatin]].':
+    'Acércate a la Etapa A en el núcleo, donde la replicación copia la [[cromatina|chromatin]] abierta.',
+  'A six-subunit [[helicase|helicase]] ring unwinds parental double-stranded DNA using ATP hydrolysis.':
+    'Un anillo [[helicasa|helicase]] de seis subunidades abre el ADN bicatenario usando hidrólisis de ATP.',
+  'As the [[helicase|helicase]] fork advances, RPA proteins coat single strands ready for [[Pol delta|pol_delta]].':
+    'Al avanzar la [[helicasa|helicase]], proteínas RPA cubren hebras simples listas para [[Pol delta|pol_delta]].',
+  'Clamped to DNA by PCNA, [[DNA Pol delta|pol_delta]] builds complementary DNA strands from 5-prime to 3-prime.':
+    'Sujeta al ADN por PCNA, la [[ADN Pol delta|pol_delta]] sintetiza hebras complementarias de 5′ a 3′.',
+  'When a wrong base slips in, [[Pol delta|pol_delta]] backs up and its 3-prime exonuclease excises the mismatch.':
+    'Si entra una base errónea, [[Pol delta|pol_delta]] retrocede y su exonucleasa 3′ recorta el fallo.',
+  'Proofreading cuts errors roughly thousandfold, yet rare copy mistakes still seed evolution.':
+    'La corrección reduce errores unas mil veces, pero raros fallos de copia siembran la evolución.',
+  'Next door in Stage B, twelve-subunit [[RNA Pol II|rna_pol2]] opens a 12 base-pair transcription bubble.':
+    'Al lado, en la Etapa B, la [[ARN Pol II|rna_pol2]] de doce subunidades abre una burbuja de 12 pares.',
+  'Reading the 3-prime template strand, [[RNA Pol II|rna_pol2]] synthesizes complementary [[pre-mRNA|pre_mrna]] with uracil.':
+    'Leyendo la hebra molde 3′, la [[ARN Pol II|rna_pol2]] sintetiza [[pre-ARNm|pre_mrna]] complementario con uracilo.',
+  'A 5-prime m7G cap and 3-prime poly-A tail shield nascent [[pre-mRNA|pre_mrna]] and license nuclear export.':
+    'La caperuza 5′ m7G y cola poli-A protegen el [[pre-ARNm|pre_mrna]] y autorizan su salida nuclear.',
+  'Eukaryotic [[pre-mRNA|pre_mrna]] mixes coding exons with non-coding introns that must be removed cleanly.':
+    'El [[pre-ARNm|pre_mrna]] eucariota mezcla exones codificantes con intrones que deben retirarse limpios.',
+  'The megadalton [[spliceosome|spliceosome]] binds GU and AG splice signals across five snRNP subcomplexes.':
+    'El [[espliceosoma|spliceosome]] megadalton reconoce señales GU y AG mediante cinco complejos snRNP.',
+  'Two Mg2+ cuts loop each intron into an excised [[intron lariat|intron_lariat]] while sealing [[exons|exon_junction]].':
+    'Dos cortes con Mg2+ forman un [[lazo intrónico|intron_lariat]] escindido mientras sellan los [[exones|exon_junction]].',
+  'In Isoform A, the [[spliceosome|spliceosome]] joins Exons 1, 2 and 3 into one continuous [[exon junction|exon_junction]].':
+    'En la isoforma A, el [[espliceosoma|spliceosome]] une exones 1, 2 y 3 en una [[unión exónica|exon_junction]] continua.',
+  'Toggle Isoform B so the [[spliceosome|spliceosome]] skips Exon 2 and fuses Exon 1 to Exon 3 at [[exons|exon_junction]].':
+    'Cambia a isoforma B para que el [[espliceosoma|spliceosome]] salte el exón 2 y una exón 1 con 3 en [[exones|exon_junction]].',
+  'Alternative splicing lets 20,000 human genes build over 100,000 distinct proteins from [[exons|exon_junction]].':
+    'El empalme alternativo permite a 20.000 genes humanos armar más de 100.000 proteínas desde [[exones|exon_junction]].',
+  'Capped, spliced [[mature mRNA|mature_mrna]] crosses the 120 nm eight-fold [[Nuclear Pore Complex|npc]] into cytosol.':
+    'El [[ARNm maduro|mature_mrna]] cruza el [[complejo de poro nuclear|npc]] óctuple de 120 nm hacia el citosol.',
+  'Export receptors thread [[mature mRNA|mature_mrna]] through FG-repeat channels inside the [[nuclear pore|npc]].':
+    'Receptores de exportación guían el [[ARNm maduro|mature_mrna]] por canales FG dentro del [[poro nuclear|npc]].',
+  'Once outside, multiple ribosomes load onto one [[mature mRNA|mature_mrna]] to form a busy [[polysome|polysome]] arc.':
+    'Ya fuera, varios ribosomas cargan un [[ARNm maduro|mature_mrna]] formando un arco [[polisoma|polysome]] activo.',
+  'Focus on one [[80S ribosome|ribosome_80s]], built from a 40S decoding unit and a 60S catalytic subunit.':
+    'Enfoca un [[ribosoma 80S|ribosome_80s]], formado por una unidad decodificadora 40S y otra catalítica 60S.',
+  'L-shaped [[tRNAs|trna_ape]] match three-base anticodons to [[mRNA|mature_mrna]] codons inside the [[80S ribosome|ribosome_80s]].':
+    'Los [[ARNt|trna_ape]] en L emparejan anticodones con codones del [[ARNm|mature_mrna]] dentro del [[ribosoma 80S|ribosome_80s]].',
+  'Powered by GTP, each [[tRNA|trna_ape]] ratchets through A, P and E sites as the chain advances one codon.':
+    'Con GTP, cada [[ARNt|trna_ape]] avanza paso a paso por los sitios A, P y E al leer cada codón.',
+  'Inside the 60S core of the [[80S ribosome|ribosome_80s]], ribosomal RNA itself catalyzes every peptide bond.':
+    'En el núcleo 60S del [[ribosoma 80S|ribosome_80s]], el propio ARN ribosómico cataliza cada enlace peptídico.',
+  'The growing [[polypeptide|polypeptide]] threads through a 10 nm exit tunnel while spent [[tRNA|trna_ape]] leaves site E.':
+    'El [[polipéptido|polypeptide]] sale por un túnel de 10 nm mientras el [[ARNt|trna_ape]] vacío deja el sitio E.',
+  'Across the [[polysome|polysome]], dozens of [[polypeptide|polypeptide]] chains emerge in parallel from one transcript.':
+    'En el [[polisoma|polysome]], decenas de cadenas [[polipeptídicas|polypeptide]] brotan en paralelo de un transcrito.',
+  'Unfolded [[polypeptide|polypeptide]] segments expose sticky hydrophobic patches that risk clumping in cytosol.':
+    'Segmentos desplegados del [[polipéptido|polypeptide]] exponen parches hidrofóbicos que pueden agruparse.',
+  'ATP-driven [[Hsp70|hsp70]] clamps nascent chains, then hands stubborn folds into the [[TRiC barrel|tric_groel]].':
+    '[[Hsp70|hsp70]] impulsada por ATP sujeta cadenas nacientes y las pasa al [[barril TRiC|tric_groel]].',
+  'Inside [[TRiC/GroEL|tric_groel]], isolated folding completes native 3D beta-globin for [[wild-type HbA|hb_wildtype]].':
+    'En [[TRiC/GroEL|tric_groel]], el plegamiento aislado completa beta-globina nativa para [[HbA normal|hb_wildtype]].',
+  'In [[wild-type HbA|hb_wildtype]], codon 6 reads GAG, placing charged hydrophilic glutamate on the surface.':
+    'En [[HbA normal|hb_wildtype]], el codón 6 lee GAG y sitúa glutamato hidrofílico cargado en la superficie.',
+  'Flip one A to T so GAG becomes GTG, swapping Glu6 for nonpolar valine in [[sickle HbS|hb_sickle_fiber]].':
+    'Cambiar una A por T pasa GAG a GTG, trocando Glu6 por valina apolar en [[HbS falciforme|hb_sickle_fiber]].',
+  'Under low oxygen, Val6 on [[sickle HbS|hb_sickle_fiber]] docks into nearby beta pockets and forms rigid fibers.':
+    'Con poco oxígeno, Val6 en [[HbS falciforme|hb_sickle_fiber]] encaja en bolsillos beta vecinos y forma fibras rígidas.',
+  'Mutations are not always harmful: switch the bench to bacterial [[AcrB efflux pump|acrb_pocket]].':
+    'No toda mutación daña: cambia el banco a la [[bomba de eflujo AcrB|acrb_pocket]] bacteriana.',
+  'Changing GGC to GAC swaps Gly288 for Asp288, reshaping the distal [[AcrB binding pocket|acrb_pocket]].':
+    'Pasar GGC a GAC cambia Gly288 por Asp288 y remodela el [[bolsillo distal AcrB|acrb_pocket]].',
+  'Under antibiotic pressure, mutant [[AcrB pockets|acrb_pocket]] expel fluoroquinolone faster so carriers survive.':
+    'Bajo antibióticos, los [[bolsillos AcrB|acrb_pocket]] mutantes expulsan fluoroquinolonas más rápido y sobreviven.',
+  'Zoom to 0.1 to 0.5 nm in the [[codon atoms|codon_atoms]] inset to see one letter change at atomic scale.':
+    'Acércate a 0,1-0,5 nm en los [[átomos de codón|codon_atoms]] para ver cambiar una letra a escala atómica.',
+  'Across [[codon atoms|codon_atoms]], C, H, N, O and P geometry flips specific hydrogen-bond donors and acceptors.':
+    'En los [[átomos de codón|codon_atoms]], C, H, N, O y P invierten donadores y aceptores de puentes de hidrógeno.',
+  'Catalytic Mg2+ ions steady [[codon atoms|codon_atoms]] whether flipping GAG to GTG or GGC to GAC.':
+    'Iones Mg2+ catalíticos estabilizan [[átomos de codón|codon_atoms]] al cambiar GAG a GTG o GGC a GAC.',
+  'One [[atomic substitution|codon_atoms]] alters side-chain chemistry, protein folding and organism survival.':
+    'Una [[sustitución atómica|codon_atoms]] altera la química lateral, el plegamiento proteico y la supervivencia.',
+  'Carrying both [[HbA|hb_wildtype]] and [[HbS|hb_sickle_fiber]] resists severe malaria, driving balancing selection.':
+    'Portar [[HbA|hb_wildtype]] y [[HbS|hb_sickle_fiber]] resiste la malaria grave por selección balanceadora.',
+  'Meanwhile, antibiotics favor mutant [[AcrB|acrb_pocket]] carriers, driving directional natural selection.':
+    'Mientras tanto, los antibióticos favorecen a portadores de [[AcrB|acrb_pocket]] por selección direccional.',
+  'From [[chromatin|chromatin]] to [[spliceosome|spliceosome]] and [[80S ribosomes|ribosome_80s]], one pipeline builds every enzyme.':
+    'De [[cromatina|chromatin]] al [[espliceosoma|spliceosome]] y [[ribosomas 80S|ribosome_80s]], una sola vía arma cada enzima.',
+  'Chaperones like [[TRiC|tric_groel]] fold chains whose fate traces back to single [[codon atoms|codon_atoms]].':
+    'Chaperonas como [[TRiC|tric_groel]] pliegan cadenas cuyo destino remonta a [[átomos de codón|codon_atoms]].',
+  'Test the splicing and mutation toggles now, then continue to Bioenergetics to see what powers it all.':
+    'Prueba los controles de empalme y mutación ahora y sigue a Bioenergética para ver qué impulsa todo.',
+  // =========================================================================
+  // Phase 16A: Bioenergetics — Photosynthesis <-> Cellular Respiration Loop
+  // =========================================================================
+  'Bioenergetics (Photosynthesis & Cellular Respiration): a guided tour':
+    'Bioenergética (fotosíntesis y respiración celular): recorrido guiado',
+  'Trace one coupled Glucose + 6 O2 <-> 6 CO2 + 6 H2O loop across a cutaway chloroplast and mitochondrion: PSII water splitting, Cyt b6f, PSI, CF1CF0, RuBisCO Calvin cycle, glycolysis, Krebs cycle, Complexes I-IV, rotary F1F0 ATP synthase and atomic cofactors.':
+    'Sigue el ciclo acoplado Glucosa + 6 O2 <-> 6 CO2 + 6 H2O entre cloroplasto y mitocondria en corte: fotólisis del agua en PSII, Cit b6f, PSI, CF1CF0, ciclo de Calvin por RuBisCO, glucólisis, ciclo de Krebs, complejos I-IV, ATP sintasa rotatoria F1F0 y cofactores atómicos.',
+  'One Planetary Loop: Chloroplast & Mitochondrion': 'Un ciclo planetario: cloroplasto y mitocondria',
+  'Glucose + O2 <-> CO2 + H2O planetary exchange': 'Intercambio planetario Glucosa + O2 <-> CO2 + H2O',
+  'Cutaway membranes as reversed redox mirrors': 'Membranas en corte como espejos redox invertidos',
+  'Light Reactions: PSII, Cyt b6f & PSI Z-Scheme': 'Reacciones lumínicas: esquema Z de PSII, Cit b6f y PSI',
+  'Photosystem II (3JCU) & water splitting': 'Fotosistema II (3JCU) y fotólisis del agua',
+  'Plastoquinone shuttle & Cytochrome b6f (6RQF)': 'Lanzadera plastoquinona y citocromo b6f (6RQF)',
+  'Photosystem I (4XK8) & NADPH electron charging': 'Fotosistema I (4XK8) y carga de electrones en NADPH',
+  'Thylakoid ATP, RuBisCO Calvin Cycle & Glycolysis': 'ATP tilacoidal, ciclo de Calvin (RuBisCO) y glucólisis',
+  'Rotary CF1CF0 ATP synthase on the thylakoid': 'ATP sintasa rotatoria CF1CF0 en el tilacoide',
+  'Stromal RuBisCO (1RCX) fixing CO2 into glucose': 'RuBisCO estromal (1RCX) fijando CO2 en glucosa',
+  'Cytosolic glycolysis: glucose to 2 pyruvate': 'Glucólisis citosólica: glucosa en 2 piruvatos',
+  'Krebs Matrix Cycle & Mitochondrial Complexes I-IV': 'Ciclo de Krebs en la matriz y complejos mitocondriales I-IV',
+  'Pyruvate oxidation & Krebs cycle (1CTS)': 'Oxidación del piruvato y ciclo de Krebs (1CTS)',
+  'Cristae Complexes I (5XTD), II (1ZOY) & III (1BGY)': 'Complejos de crestas I (5XTD), II (1ZOY) y III (1BGY)',
+  'Complex IV (1V54) & terminal O2 reduction': 'Complejo IV (1V54) y reducción terminal de O2',
+  'Chemiosmotic ATP Synthase, Cofactor Atoms & Recap': 'ATP sintasa quimiosmótica, átomos cofactores y resumen',
+  'Rotary F1F0 ATP synthase (5ARA) & 32 vs 2 ATP': 'ATP sintasa rotatoria F1F0 (5ARA) y 32 frente a 2 ATP',
+  'Atomic Chlorophyll Mg2+ & ATP phosphate bonds': 'Mg2+ atómico de la clorofila y enlaces fosfato del ATP',
+  'Live Sun/O2 modes & handoff to Membrane Transport': 'Modos vivos Sol/O2 y paso a Transporte de Membrana',
+  'Every breath links [[plant chloroplasts|chloroplast_hull]] and [[animal mitochondria|mito_hull]] in one loop.':
+    'Cada respiro enlaza [[cloroplastos vegetales|chloroplast_hull]] y [[mitocondrias animales|mito_hull]] en un solo ciclo.',
+  'The [[chloroplast|chloroplast_hull]] captures sunlight to build glucose and O2 from CO2 and water.':
+    'El [[cloroplasto|chloroplast_hull]] capta luz solar para fabricar glucosa y O2 desde CO2 y agua.',
+  'The [[mitochondrion|mito_hull]] oxidizes that glucose with O2 to charge [[ATP carriers|energy_carriers]].':
+    'La [[mitocondria|mito_hull]] oxida esa glucosa con O2 para recargar [[portadores de ATP|energy_carriers]].',
+  'Inside the [[chloroplast|chloroplast_hull]], stacked [[thylakoid|thylakoid]] membranes harvest photons.':
+    'En el [[cloroplasto|chloroplast_hull]], las membranas [[tilacoides|thylakoid]] apiladas cosechan fotones.',
+  'Inside the [[mitochondrion|mito_hull]], folded inner cristae release bond energy from food.':
+    'En la [[mitocondria|mito_hull]], las crestas internas plegadas liberan energía química del alimento.',
+  'Both organelles convert electron flow into a transmembrane [[proton gradient|proton_grad]] to make ATP.':
+    'Ambos orgánulos convierten flujo electrónico en un [[gradiente de protones|proton_grad]] para hacer ATP.',
+  'Zoom to the 5 nm [[thylakoid bilayer|thylakoid]], where golden 680 nm photons strike [[PSII|psii]].':
+    'Acércate a la [[bicapa tilacoidal|thylakoid]] de 5 nm, donde fotones de 680 nm excitan [[PSII|psii]].',
+  'Excited chlorophyll in [[Photosystem II|psii]] splits two H2O molecules at its Mn4CaO5 cluster.':
+    'La clorofila excitada en [[Fotosistema II|psii]] escinde dos moléculas de H2O en su cúmulo Mn4CaO5.',
+  'Water splitting at [[PSII|psii]] releases breathable O2 gas, four electrons and four luminal H+ ions.':
+    'La fotólisis en [[PSII|psii]] libera oxígeno O2 respirable, cuatro electrones y cuatro H+ luminales.',
+  'Lipid-soluble plastoquinone carries electrons from [[PSII|psii]] straight to [[Cytochrome b6f|cyt_b6f]].':
+    'La plastoquinona liposoluble lleva electrones desde [[PSII|psii]] directo al [[Citocromo b6f|cyt_b6f]].',
+  'As electrons pass through [[Cyt b6f|cyt_b6f]], the complex pumps extra H+ into the [[proton gradient|proton_grad]].':
+    'Al cruzar [[Cit b6f|cyt_b6f]], el complejo bombea H+ extra hacia el [[gradiente de protones|proton_grad]].',
+  'Next, mobile luminal plastocyanin hands those lowered-energy electrons onward to [[PSI|psi]].':
+    'Luego la plastocianina luminal entrega esos electrones de menor energía al [[PSI|psi]].',
+  'A 700 nm photon re-excites electrons inside [[Photosystem I|psi]] to complete the linear Z-scheme.':
+    'Un fotón de 700 nm reexcita electrones en el [[Fotosistema I|psi]] para cerrar el esquema Z lineal.',
+  '[[PSI|psi]] charges [[NADPH carriers|energy_carriers]] with high-energy electrons distinct from spent ATP.':
+    '[[PSI|psi]] carga [[portadores NADPH|energy_carriers]] con electrones de alta energía distintos del ATP.',
+  'Fresh [[NADPH|energy_carriers]] diffuses into the stroma to reduce CO2 during carbon fixation.':
+    'El [[NADPH|energy_carriers]] recién cargado difunde al estroma para reducir CO2 en fijación de carbono.',
+  'Protons crowded in the lumen build a steep [[proton gradient|proton_grad]] across the thylakoid membrane.':
+    'Los protones acumulados en el lumen crean un fuerte [[gradiente de protones|proton_grad]] tilacoidal.',
+  'Those H+ ions rush back to the stroma through rotary [[CF1CF0 ATP synthase|cf1cf0]], turning its ring.':
+    'Esos H+ regresan al estroma por la [[ATP sintasa CF1CF0|cf1cf0]] rotatoria haciendo girar su anillo.',
+  'Each rotation of [[CF1CF0|cf1cf0]] forges stromal [[ATP|energy_carriers]] needed to run the Calvin cycle.':
+    'Cada giro de [[CF1CF0|cf1cf0]] forja [[ATP|energy_carriers]] estromal necesario para el ciclo de Calvin.',
+  'In the stroma, sixteen-subunit [[RuBisCO|rubisco]] captures CO2 onto five-carbon RuBP rings.':
+    'En el estroma, [[RuBisCO|rubisco]] de dieciséis subunidades fija CO2 sobre moléculas RuBP de cinco carbonos.',
+  'Spending 18 ATP and 12 NADPH from [[energy carriers|energy_carriers]], the cycle turns six CO2 into sugar.':
+    'Gastando 18 ATP y 12 NADPH de [[portadores energéticos|energy_carriers]], el ciclo convierte seis CO2 en azúcar.',
+  'Assembled glucose leaves the [[chloroplast|chloroplast_hull]] after [[RuBisCO|rubisco]] fixes airborne carbon.':
+    'La glucosa ensamblada sale del [[cloroplasto|chloroplast_hull]] tras fijar carbono aéreo con [[RuBisCO|rubisco]].',
+  'In the cytosol, ten enzymes of [[glycolysis|glycolysis]] split one six-carbon glucose into two pyruvate.':
+    'En el citosol, diez enzimas de la [[glucólisis|glycolysis]] dividen una glucosa en dos piruvatos.',
+  '[[Glycolysis|glycolysis]] runs without oxygen, netting 2 ATP and 2 NADH [[carriers|energy_carriers]] fast.':
+    'La [[glucólisis|glycolysis]] opera sin oxígeno y rinde rápido 2 ATP y 2 [[portadores|energy_carriers]] NADH.',
+  'When O2 is present, twin pyruvate molecules cross into the [[mitochondrion|mito_hull]] for full oxidation.':
+    'Con O2 disponible, ambos piruvatos cruzan hacia la [[mitocondria|mito_hull]] para su oxidación completa.',
+  'Inside the [[mitochondrial matrix|mito_hull]], pyruvate becomes acetyl-CoA and enters the [[Krebs cycle|krebs_cycle]].':
+    'En la [[matriz mitocondrial|mito_hull]], el piruvato forma acetil-CoA y entra al [[ciclo de Krebs|krebs_cycle]].',
+  'Citrate synthase drives the [[Krebs cycle|krebs_cycle]], exhaling six CO2 back to [[chloroplasts|chloroplast_hull]].':
+    'La citrato sintasa impulsa el [[ciclo de Krebs|krebs_cycle]] y exhala seis CO2 hacia [[cloroplastos|chloroplast_hull]].',
+  'Together with glycolysis, the [[Krebs cycle|krebs_cycle]] loads 10 NADH and 2 FADH2 [[carriers|energy_carriers]].':
+    'Junto a la glucólisis, el [[ciclo de Krebs|krebs_cycle]] carga 10 NADH y 2 FADH2 como [[portadores|energy_carriers]].',
+  'On inner cristae, [[Complex I|complex_i]] strips electrons from NADH and pumps four protons outward.':
+    'En las crestas internas, el [[Complejo I|complex_i]] toma electrones del NADH y bombea cuatro protones.',
+  '[[Complex II|complex_ii]] accepts electrons from FADH2 without pumping H+, feeding the same ubiquinone pool.':
+    'El [[Complejo II|complex_ii]] acepta electrones del FADH2 sin bombear H+ y alimenta la misma ubiquinona.',
+  '[[Complex III|complex_iii]] relays electrons to cytochrome c while pumping four more H+ into the [[gradient|proton_grad]].':
+    'El [[Complejo III|complex_iii]] cede electrones al citocromo c bombeando cuatro H+ al [[gradiente|proton_grad]].',
+  'Cytochrome c delivers electrons from [[Complex III|complex_iii]] to copper-heme [[Complex IV|complex_iv]].':
+    'El citocromo c entrega electrones del [[Complejo III|complex_iii]] al [[Complejo IV|complex_iv]] de cobre y hemo.',
+  '[[Complex IV|complex_iv]] pumps two H+ and unites electrons, protons and O2 to form clean H2O.':
+    'El [[Complejo IV|complex_iv]] bombea dos H+ y une electrones, protones y O2 en H2O limpia.',
+  'Remove O2 and [[Complex IV|complex_iv]] halts instantly, backing up the entire electron chain.':
+    'Sin O2, el [[Complejo IV|complex_iv]] se frena al instante y bloquea toda la cadena de electrones.',
+  'Complexes I, III and IV pack a dense [[proton gradient|proton_grad]] inside the intermembrane space.':
+    'Los complejos I, III y IV acumulan un denso [[gradiente de protones|proton_grad]] en el espacio intermembrana.',
+  'The [[proton gradient|proton_grad]] pushes H+ through [[F1F0 ATP synthase|f1f0_atps]], spinning its rotor to make ATP.':
+    'El [[gradiente de protones|proton_grad]] impulsa H+ por [[ATP sintasa F1F0|f1f0_atps]] y gira su rotor creando ATP.',
+  'Aerobic [[F1F0 ATP synthase|f1f0_atps]] yields ~32 ATP per glucose versus just 2 ATP in anaerobic [[glycolysis|glycolysis]].':
+    'La [[ATP sintasa F1F0|f1f0_atps]] aeróbica rinde ~32 ATP por glucosa frente a solo 2 ATP en [[glucólisis|glycolysis]].',
+  'Zoom to 0.1 nm atomic scale in the [[cofactor lens|cofactor_atoms]] showing Chlorophyll a and ATP.':
+    'Acércate a 0,1 nm en la [[lente de cofactores|cofactor_atoms]] que muestra Clorofila a y ATP.',
+  'In [[cofactor atoms|cofactor_atoms]], a central green Mg2+ atom sits inside four nitrogens to catch light.':
+    'En [[átomos cofactores|cofactor_atoms]], un Mg2+ verde central entre cuatro nitrógenos capta la luz.',
+  'Beside it, C, H, N, O and three P atoms in [[ATP|cofactor_atoms]] store energy in the gamma-phosphate bond.':
+    'Al lado, C, H, N, O y tres fósforos P del [[ATP|cofactor_atoms]] guardan energía en el enlace fosfato gamma.',
+  '[[Chloroplasts|chloroplast_hull]] and [[mitochondria|mito_hull]] run opposite carbon chemistry on shared rotary engines.':
+    '[[Cloroplastos|chloroplast_hull]] y [[mitocondrias|mito_hull]] ejecutan química de carbono opuesta con motores rotatorios.',
+  'Toggle Sun and O2 modes to watch the [[proton gradient|proton_grad]] and [[ATP synthase|f1f0_atps]] respond live.':
+    'Alterna los modos Sol y O2 para ver responder el [[gradiente de protones|proton_grad]] y la [[ATP sintasa|f1f0_atps]].',
+  'Continue next to the Membrane Transport Lab to see how cells spend ATP moving water, glucose and ions.':
+    'Sigue al Laboratorio de Transporte de Membrana para ver cómo la célula usa ATP al mover agua, glucosa e iones.',
+  // =========================================================================
+  // Phase 16B: Membrane Transport & Osmosis Lab
+  // =========================================================================
+  'Membrane Transport & Osmosis Lab: a guided tour':
+    'Laboratorio de transporte de membrana y ósmosis: recorrido guiado',
+  'Explore whole-cell tonicity comparing an animal cell and walled plant cell across hypotonic, isotonic and hypertonic states, then zoom into the 5 nm bilayer: simple gas diffusion, AQP1 aquaporins, GLUT1 glucose uniporter, Na+/K+-ATPase pump, clathrin/SNARE vesicles and atomic ions.':
+    'Explora la tonicidad celular comparando una célula animal y una vegetal con pared en estados hipotónico, isotónico e hipertónico, y desciende a la bicapa de 5 nm: difusión simple de gases, acuaporinas AQP1, uniportador GLUT1, bomba Na+/K+-ATPasa, vesículas de clatrina/SNARE e iones atómicos.',
+  'Whole-Cell Tonicity: Animal vs. Plant Cell': 'Tonicidad celular: célula animal frente a vegetal',
+  'Selective barriers from whole cells to 5 nm': 'Barreras selectivas desde células enteras hasta 5 nm',
+  'Hypotonic (lysis vs turgid) & isotonic balance': 'Estado hipotónico (lisis frente a turgencia) e isotónico',
+  'Isotonic balance & hypertonic crenation vs plasmolysis': 'Equilibrio isotónico y crenación frente a plasmólisis hipertónica',
+  'The 5 nm Bilayer: Simple Diffusion & Aquaporins': 'La bicapa de 5 nm: difusión simple y acuaporinas',
+  'Hydrophobic fatty-acyl barrier of the 5 nm bilayer': 'Barrera hidrofóbica de colas lipídicas en la bicapa de 5 nm',
+  'Passive simple diffusion of nonpolar O2 & CO2': 'Difusión simple pasiva de gases apolares O2 y CO2',
+  'Aquaporin AQP1 (1J4N) & single-file water osmosis': 'Acuaporina AQP1 (1J4N) y ósmosis de agua en fila india',
+  'Facilitated Diffusion: GLUT1 Glucose Uniporter': 'Difusión facilitada: uniportador de glucosa GLUT1',
+  'Why polar D-glucose requires GLUT1 (4PYP)': 'Por qué la D-glucosa polar requiere GLUT1 (4PYP)',
+  'Alternating-access rocker switch mechanism': 'Mecanismo basculante de acceso alterno',
+  'Primary Active Transport: The 3 Na+ / 2 K+ Pump': 'Transporte activo primario: la bomba 3 Na+ / 2 K+',
+  'Na+/K+-ATPase (3WGU) uphill ion stoichiometry': 'Estequiometría cuesta arriba de Na+/K+-ATPasa (3WGU)',
+  'E1~P / E2~P conformational shift vs passive carriers': 'Cambio conformacional E1~P / E2~P frente a portadores pasivos',
+  'Resting -70 mV membrane voltage & osmotic defense': 'Voltaje de reposo -70 mV y defensa osmótica',
+  'Bulk Vesicles, Atomic Ions & Differentiated Cells': 'Vesículas en masa, iones atómicos y células diferenciadas',
+  'Clathrin (1XI4) endocytosis & SNARE (1SFC) exocytosis': 'Endocitosis por clatrina (1XI4) y exocitosis SNARE (1SFC)',
+  'Atomic Na+ vs K+ radii, H2O dipole & POPC heads': 'Radios atómicos Na+ frente a K+, dipolo H2O y cabezas POPC',
+  'Tonicity toggle check & handoff to Human Cells': 'Prueba de tonicidad y paso a Células Humanas',
+  'Every cell survives by controlling what crosses its selective 5 nm [[phospholipid bilayer|bilayer]].':
+    'Toda célula sobrevive controlando qué cruza su selectiva [[bicapa lipídica|bilayer]] de 5 nm.',
+  'Above sit a wall-less [[animal cell|animal_cell]] and a walled [[plant cell|plant_cell]] facing live osmosis.':
+    'Arriba están una [[célula animal|animal_cell]] sin pared y una [[célula vegetal|plant_cell]] con pared ante la ósmosis.',
+  'Below, the same [[bilayer|bilayer]] reveals passive diffusion, channels, active pumps and bulk vesicles.':
+    'Abajo, la misma [[bicapa|bilayer]] muestra difusión pasiva, canales, bombas activas y vesículas.',
+  'In hypotonic fluid with lower external solute, net [[water flow|water_flow]] rushes into both cells.':
+    'En medio hipotónico con menos soluto externo, el [[flujo de agua|water_flow]] entra con fuerza en ambas células.',
+  'With no wall, the [[animal cell|animal_cell]] swells past its elastic limit toward osmotic lysis.':
+    'Sin pared celular, la [[célula animal|animal_cell]] se hincha más allá de su límite hacia la lisis osmótica.',
+  'The [[plant cell|plant_cell]] fills its [[vacuole|vacuole]] against its rigid [[cell wall|cell_wall]] to stay turgid.':
+    'La [[célula vegetal|plant_cell]] llena su [[vacuola|vacuole]] contra su [[pared celular|cell_wall]] rígida y gana turgencia.',
+  'In isotonic fluid, equal water exchange keeps the [[animal cell|animal_cell]] stable and the [[plant cell|plant_cell]] flaccid.':
+    'En medio isotónico, el equilibrio hídrico mantiene estable la [[célula animal|animal_cell]] y flácida la [[vegetal|plant_cell]].',
+  'In hypertonic salty fluid, water exits and shrivels the [[animal cell|animal_cell]] into spiked crenation.':
+    'En medio hipertónico salado, el agua sale y arruga la [[célula animal|animal_cell]] en crenación espiculada.',
+  'Meanwhile, the plant [[vacuole|vacuole]] shrinks and pulls the membrane off its [[cell wall|cell_wall]] in plasmolysis.':
+    'Mientras tanto, la [[vacuola|vacuole]] vegetal se encoge y despega la membrana de su [[pared celular|cell_wall]].',
+  'Zoom straight into the 5 nm [[phospholipid bilayer|bilayer]], a fluid double sheet of POPC lipids.':
+    'Acércate a la [[bicapa fosfolipídica|bilayer]] de 5 nm, una lámina doble fluida de lípidos POPC.',
+  'Polar phosphate heads face water outside and inside, while hydrophobic fatty tails fill the 3 nm core.':
+    'Cabezas fosfato polares miran al agua exterior e interior; colas hidrofóbicas llenan el núcleo de 3 nm.',
+  'That oily core inside the [[bilayer|bilayer]] blocks charged ions and polar sugars from leaking freely.':
+    'Ese núcleo aceitoso en la [[bicapa|bilayer]] impide el paso libre de iones cargados y azúcares polares.',
+  'Small nonpolar gases O2 and CO2 slip directly between lipid tails via passive [[simple diffusion|simple_diff]].':
+    'Pequeños gases apolares O2 y CO2 cruzan entre colas lipídicas por [[difusión simple|simple_diff]] pasiva.',
+  '[[Simple diffusion|simple_diff]] runs down concentration gradients across the [[bilayer|bilayer]] at zero ATP cost.':
+    'La [[difusión simple|simple_diff]] sigue el gradiente de concentración por la [[bicapa|bilayer]] sin gastar ATP.',
+  'Unassisted gas exchange supplies O2 to mitochondria and clears CO2 from active tissues.':
+    'Este intercambio libre abastece de O2 a las mitocondrias y retira CO2 de los tejidos activos.',
+  'Polar H2O crosses slowly alone, so tetrameric [[aquaporins|aquaporin]] open narrow hourglass water pores.':
+    'El H2O polar cruza lento por sí solo, por eso [[acuaporinas|aquaporin]] tetraméricas abren poros de reloj de arena.',
+  'Net [[water flow|water_flow]] diffuses passively through [[aquaporins|aquaporin]] toward denser solute concentration.':
+    'El [[flujo neto de agua|water_flow]] difunde pasivamente por [[acuaporinas|aquaporin]] hacia mayor concentración de soluto.',
+  'Central NPA motifs in [[AQP1|aquaporin]] flip each H2O dipole single-file while excluding H+ ions.':
+    'Los motivos NPA en [[AQP1|aquaporin]] giran cada dipolo de H2O en fila india excluyendo protones H+.',
+  'Six-carbon D-glucose is polar and bulky, so the hydrophobic [[bilayer|bilayer]] blocks its passive entry.':
+    'La D-glucosa de seis carbonos es polar y grande, así que la [[bicapa|bilayer]] hidrofóbica frena su entrada.',
+  'Embedded [[GLUT1|glut1]] carrier proteins selectively bind extracellular glucose for facilitated diffusion.':
+    'Proteínas portadoras [[GLUT1|glut1]] captan glucosa extracelular de forma selectiva por difusión facilitada.',
+  'Because glucose moves down its concentration gradient, [[GLUT1|glut1]] spends zero cellular ATP.':
+    'Como la glucosa avanza a favor de su gradiente de concentración, [[GLUT1|glut1]] gasta cero ATP.',
+  '[[GLUT1|glut1]] rocks through outward-open, occluded and inward-open shapes to release glucose inside.':
+    '[[GLUT1|glut1]] alterna estados abierto fuera, ocluido y abierto dentro para soltar glucosa al citosol.',
+  'This alternating-access switch never opens a continuous hole across the [[bilayer|bilayer]] that leaks ions.':
+    'Este cambio de acceso alterno nunca abre un hueco continuo en la [[bicapa|bilayer]] por donde escapen iones.',
+  'Once inside cytosol, rapid glucose phosphorylation keeps gradient flow running through [[GLUT1|glut1]].':
+    'Ya en el citosol, la rápida fosforilación mantiene activo el gradiente de entrada por [[GLUT1|glut1]].',
+  'Splitting one [[ATP|atp_hydrolysis]], the [[sodium-potassium pump|nak_pump]] exports three Na+ and imports two K+.':
+    'Escindiendo un [[ATP|atp_hydrolysis]], la [[bomba sodio-potasio|nak_pump]] exporta tres Na+ e importa dos K+.',
+  'Both ions move uphill against steep gradients, so [[Na+/K+-ATPase|nak_pump]] executes primary active transport.':
+    'Ambos iones suben contra fuertes gradientes, así que [[Na+/K+-ATPasa|nak_pump]] ejecuta transporte activo primario.',
+  'Each cleavage flash at [[ATP hydrolysis|atp_hydrolysis]] powers one full pumping cycle of 3 Na+ out, 2 K+ in.':
+    'Cada destello de [[hidrólisis de ATP|atp_hydrolysis]] impulsa un ciclo completo de 3 Na+ fuera y 2 K+ dentro.',
+  'Three cytosolic Na+ ions bind the [[pump|nak_pump]], triggering [[ATP phosphorylation|atp_hydrolysis]] into E1-P.':
+    'Tres iones Na+ citosólicos se unen a la [[bomba|nak_pump]] y disparan [[fosforilación por ATP|atp_hydrolysis]] a E1-P.',
+  'Unlike passive [[GLUT1|glut1]] moving down gradients, [[Na+/K+-ATPase|nak_pump]] burns energy to push ions uphill.':
+    'A diferencia de [[GLUT1|glut1]] pasiva a favor de gradiente, [[Na+/K+-ATPasa|nak_pump]] quema energía cuesta arriba.',
+  'Switching to E2-P releases 3 Na+ outside and binds 2 K+, then dephosphorylation resets the [[pump|nak_pump]].':
+    'Pasar a E2-P libera 3 Na+ fuera y une 2 K+; luego la desfosforilación reinicia la [[bomba|nak_pump]].',
+  'Exporting 3 Na+ for every 2 K+ leaves net negative charge inside, driving [[membrane voltage|membrane_voltage]].':
+    'Exportar 3 Na+ por cada 2 K+ deja carga negativa interior y genera [[voltaje de membrana|membrane_voltage]].',
+  'Paired with K+ leak channels, the [[pump|nak_pump]] holds resting [[voltage|membrane_voltage]] near -70 mV.':
+    'Junto a canales de fuga de K+, la [[bomba|nak_pump]] sostiene el [[voltaje|membrane_voltage]] de reposo cerca de -70 mV.',
+  'Continuous Na+ export also lowers internal osmolarity so wall-less [[animal cells|animal_cell]] do not burst.':
+    'La salida continua de Na+ reduce la osmolaridad interna para que las [[células animales|animal_cell]] no estallen.',
+  'Proteins and large [[vesicle cargo|vesicle_cargo]] are far too big for channels, requiring bulk membrane traffic.':
+    'Proteínas y grandes [[cargas vesiculares|vesicle_cargo]] exceden cualquier canal y requieren tráfico en masa.',
+  'In endocytosis, triskelion [[clathrin pits|clathrin_pit]] curve the membrane inward until dynamin pinches a vesicle.':
+    'En endocitosis, [[fositas de clatrina|clathrin_pit]] curvan la membrana hacia dentro hasta que la dinamina cierra la vesícula.',
+  'In exocytosis, four-helix [[SNARE bundles|snare_fusion]] zipper membranes together to release [[cargo|vesicle_cargo]] outside.':
+    'En exocitosis, [[haces SNARE|snare_fusion]] de cuatro hélices fusionan membranas para liberar [[carga|vesicle_cargo]] fuera.',
+  'Zoom to 0.1 nm atomic scale in the [[ion lens|ion_atoms]] comparing Na+, K+, H2O and POPC heads.':
+    'Acércate a 0,1 nm en la [[lente de iones|ion_atoms]] comparando Na+, K+, H2O y cabezas POPC.',
+  'Inside [[ion atoms|ion_atoms]], naked Na+ measures 0.102 nm while K+ spans 0.138 nm, enabling pump sorting.':
+    'En [[átomos e iones|ion_atoms]], Na+ mide 0,102 nm y K+ mide 0,138 nm, permitiendo la selección en la bomba.',
+  'Bent 104.5 deg H2O dipoles and C, H, N, O, P lipid heads in [[ion atoms|ion_atoms]] dictate membrane selectivity.':
+    'Dipolos H2O de 104,5 grados y cabezas lipídicas C, H, N, O, P en [[átomos e iones|ion_atoms]] dictan la selectividad.',
+  'From [[animal|animal_cell]] and [[plant|plant_cell]] tonicity to [[AQP1|aquaporin]] and [[GLUT1|glut1]], gradients guide passive flow.':
+    'De la tonicidad [[animal|animal_cell]] y [[vegetal|plant_cell]] a [[AQP1|aquaporin]] y [[GLUT1|glut1]], los gradientes guían el flujo.',
+  'Test Hypotonic, Isotonic and Hypertonic modes, then watch [[Na+/K+-ATPase|nak_pump]] sustain [[voltage|membrane_voltage]].':
+    'Prueba los modos hipotónico, isotónico e hipertónico y observa cómo [[Na+/K+-ATPasa|nak_pump]] sostiene el [[voltaje|membrane_voltage]].',
+  'Continue next to Specialized Human Cells to see neurons and muscles harness these ion gradients.':
+    'Sigue a Células Humanas Especializadas para ver cómo neuronas y músculos aprovechan estos gradientes iónicos.',
 };

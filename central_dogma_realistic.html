@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" href="data:,">
+<title>Interactive 3D Central Dogma, Alternative Splicing &amp; Live Point-Mutation Explorer | BEXONIA</title>
+<!-- SEO:START -->
+<meta name="description" content="Interactive Cinema PBR WebGL2 3D End-to-End Central Dogma Pipeline spanning Nucleus, 8-fold Nuclear Pore Complex, and Cytosol: euchromatin replication fork (helicase PDB 6QEL, DNA Pol delta/PCNA PDB 6TNY with proofreading), RNA Pol II transcription (PDB 1I50), megadalton Spliceosome (PDB 5YZG) with live Isoform A/B alternative splicing, 80S Ribosome (PDB 4UG0) &amp; tRNA (PDB 1EHZ) A/P/E polysome translation, Hsp70 (PDB 2KHO) &amp; TRiC/CCT chaperonin (PDB 6NR8), live point-mutation bench (HbA PDB 2HHB vs sickle HbS fiber PDB 2HBS &amp; adaptive AcrB efflux pocket PDB 5O66), and 0.1-0.5 nm atomic codon H-bond inset.">
+<meta name="keywords" content="3D biology, central dogma, DNA replication, helicase PDB 6QEL, DNA polymerase delta PCNA PDB 6TNY, RNA polymerase II PDB 1I50, pre-mRNA, 5' m7G cap, poly-A tail, spliceosome PDB 5YZG, intron lariat, alternative splicing, nuclear pore complex, 80S ribosome PDB 4UG0, tRNA PDB 1EHZ, polysome, Hsp70 PDB 2KHO, TRiC CCT chaperonin PDB 6NR8, hemoglobin HbA PDB 2HHB, sickle cell HbS fiber PDB 2HBS, AcrB multidrug efflux PDB 5O66, point mutation, natural selection, codon anticodon hydrogen bonds, WebGL2, Three.js, Bexonia">
+<meta name="author" content="BEXONIA">
+<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">
+<link rel="canonical" href="https://learn.bexonia.com/central_dogma_realistic.html">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="BEXONIA Learn Biology">
+<meta property="og:title" content="Interactive 3D Central Dogma, Alternative Splicing &amp; Live Point-Mutation Explorer | BEXONIA">
+<meta property="og:description" content="Trace one eukaryotic gene live in 3D from DNA replication and RNA Pol II transcription through Spliceosome alternative splicing, Nuclear Pore export, 80S ribosome translation, chaperonin folding, and live HbA->HbS &amp; AcrB point mutations powered by 11 real RCSB PDB structures.">
+<meta property="og:url" content="https://learn.bexonia.com/central_dogma_realistic.html">
+<meta property="og:image" content="https://learn.bexonia.com/screenshots/animal_cell.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Interactive 3D Central Dogma, Alternative Splicing &amp; Live Point-Mutation Explorer | BEXONIA">
+<meta name="twitter:description" content="Interactive Cinema PBR WebGL2 Central Dogma pipeline with live Isoform A/B alternative splicing and HbA/HbS/AcrB single-base point-mutation explorer powered by 11 real RCSB PDB structures.">
+<meta name="twitter:image" content="https://learn.bexonia.com/screenshots/animal_cell.jpg">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":["LearningResource","WebApplication"],"name":"Interactive 3D Central Dogma, Alternative Splicing & Live Point-Mutation Explorer | BEXONIA","description":"Interactive Cinema PBR WebGL2 3D End-to-End Central Dogma Pipeline from Nucleus to Nuclear Pore Complex to Cytosol with live Isoform A/B alternative splicing and live single-base point-mutation explorer (HbA 2HHB vs HbS fiber 2HBS and adaptive bacterial AcrB 5O66), powered by 11 real RCSB PDB structures.","url":"https://learn.bexonia.com/central_dogma_realistic.html","image":"https://learn.bexonia.com/screenshots/animal_cell.jpg","applicationCategory":"EducationalApplication","operatingSystem":"Web Browser (WebGL)","learningResourceType":["Interactive 3D Model","Simulation","Guided Tour"],"educationalUse":["Self-study","Classroom instruction","Reference library"],"isAccessibleForFree":true,"license":"https://opensource.org/licenses/MIT","inLanguage":"en","author":{"@type":"Organization","name":"BEXONIA","url":"https://bexonia.com"},"about":[{"@type":"Thing","name":"Central dogma of molecular biology"},{"@type":"Thing","name":"Alternative splicing"},{"@type":"Thing","name":"Spliceosome"},{"@type":"Thing","name":"Ribosome"},{"@type":"Thing","name":"Point mutation"},{"@type":"Thing","name":"Natural selection"}],"keywords":"3D biology, central dogma, DNA replication, transcription, spliceosome, alternative splicing, 80S ribosome, tRNA, chaperonin, hemoglobin, sickle cell, AcrB efflux, point mutation, WebGL2, Three.js, Bexonia"}</script>
+<!-- SEO:END -->
+<style>
+  :root { --bg: #04060d; --fg: #ebf1fc; --muted: #93a3bd; --line: rgba(255,255,255,.13); --accent: #7ee8ff; --gold: #ffd46b; --rose: #ff78a8; --mint: #58f5c8; }
+  html, body { margin: 0; height: 100%; background: var(--bg); color: var(--fg); font-family: system-ui, -apple-system, "Segoe UI", sans-serif; overflow: hidden; }
+  canvas { display: block; }
+  #hud { position: absolute; left: 20px; top: 14px; pointer-events: none; max-width: calc(100% - 280px); text-shadow: 0 1px 10px rgba(4,6,13,.95), 0 0 3px rgba(4,6,13,.9); }
+  #hud h1 { margin: 0; font-size: 20px; font-weight: 650; letter-spacing: .01em; }
+  #hud p { margin: 3px 0 0; font-size: 12.2px; color: #b2c2db; }
+  #legend { position: absolute; left: 16px; top: 70px; width: 264px; max-height: calc(100% - 86px); overflow: auto; background: rgba(7,11,22,.66); border: 1px solid var(--line); border-radius: 11px; padding: 5px; backdrop-filter: blur(8px); }
+  .it { display: flex; align-items: center; gap: 7px; padding: 2.3px 6px; border-radius: 5px; font-size: 11px; line-height: 1.24; cursor: default; transition: background .14s ease; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .it span:last-child { overflow: hidden; text-overflow: ellipsis; }
+  .it:hover { background: rgba(126,232,255,.15); }
+  .sw { width: 9px; height: 9px; border-radius: 50%; flex: none; box-shadow: inset 0 0 0 1px rgba(255,255,255,.32); }
+  .key { grid-column: 1 / -1; margin-top: 3px; padding: 5px 6px 2px; border-top: 1px solid var(--line); font-size: 10.4px; color: var(--muted); line-height: 1.32; }
+  .key .row { display: flex; align-items: center; flex-wrap: wrap; gap: 4px; margin-bottom: 4px; }
+  .key .row:last-child { margin-bottom: 0; }
+  .chip { width: 16px; height: 16px; border-radius: 50%; display: inline-grid; place-items: center; font-size: 9.8px; font-weight: 700; color: #12151e; }
+  .bar { width: 14px; height: 5px; border-radius: 3px; display: inline-block; }
+  #flows { position: absolute; right: 16px; top: 14px; width: 244px; max-height: calc(100% - 118px); overflow: auto; background: rgba(7,11,22,.66); border: 1px solid var(--line); border-radius: 11px; padding: 8px 6px 6px; backdrop-filter: blur(8px); }
+  #flows h2 { margin: 2px 8px 4px; font-size: 13px; font-weight: 650; }
+  .speed { display: flex; align-items: center; gap: 8px; margin: 2px 8px 7px; font-size: 11.8px; color: var(--muted); }
+  .speed input { flex: 1; min-width: 0; accent-color: var(--accent); }
+  #spd { width: 38px; text-align: right; color: var(--fg); font-variant-numeric: tabular-nums; }
+  #tip { margin: 0 8px 8px; font-size: 11.5px; line-height: 1.42; color: var(--muted); }
+  #tip b { color: var(--fg); font-weight: 600; }
+  .mol { display: flex; align-items: center; gap: 7px; padding: 3px 8px; border-radius: 7px; font-size: 11.8px; cursor: default; }
+  .mol:hover { background: rgba(126,232,255,.15); }
+  .mol canvas { width: 20px; height: 20px; flex: none; }
+  .mol .mn { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .mol .cnt { font-size: 10.8px; color: var(--accent); font-variant-numeric: tabular-nums; font-weight: 600; }
+  #tools { position: absolute; right: 16px; bottom: 14px; display: flex; flex-wrap: wrap; justify-content: flex-end; gap: 6px; max-width: calc(100% - 32px); }
+  #tools button { background: rgba(8,13,24,.80); color: var(--fg); border: 1px solid rgba(255,255,255,.22); border-radius: 8px; padding: 6.5px 10px; font: inherit; font-size: 12px; cursor: pointer; backdrop-filter: blur(6px); transition: border-color .15s ease, background .15s ease, color .15s ease; }
+  #tools button:hover { border-color: var(--accent); }
+  #spliceBtn { border-color: rgba(64,240,216,.62) !important; background: rgba(12,42,46,.86) !important; color: #b8fff2 !important; font-weight: 600; }
+  #spliceBtn.isoform_b { border-color: rgba(255,168,92,.82) !important; background: rgba(58,32,12,.88) !important; color: #ffe0b8 !important; }
+  #mutBtn { border-color: rgba(126,232,255,.64) !important; background: rgba(14,34,58,.86) !important; color: #ccefff !important; font-weight: 600; }
+  #mutBtn.hbs_mut { border-color: rgba(255,112,138,.86) !important; background: rgba(68,18,32,.88) !important; color: #ffd4de !important; }
+  #mutBtn.acrb_sel { border-color: rgba(94,255,176,.84) !important; background: rgba(12,50,34,.88) !important; color: #c8ffe4 !important; }
+  #hint { position: absolute; right: 18px; bottom: 54px; font-size: 11.5px; color: var(--muted); pointer-events: none; }
+  #busy { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; color: var(--muted); font-size: 14px; pointer-events: none; background: radial-gradient(circle at 50% 45%, #162442 0%, #09101f 55%, #020409 100%); z-index: 20; }
+  @media (max-width: 760px) {
+    #legend { top: auto; bottom: 68px; left: 10px; right: 10px; width: auto; max-height: 24vh; display: grid; grid-template-columns: 1fr 1fr; }
+    #hint, #flows { display: none; }
+    #hud { max-width: calc(100% - 28px); }
+    #hud h1 { font-size: 16px; }
+  }
+  .embed #hud, .embed #legend, .embed #flows, .embed #hint, .embed #tools, .embed #busy { display: none !important; }
+</style>
+<script type="importmap">
+{ "imports": {
+  "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js",
+  "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"
+} }
+</script>
+</head>
+<body>
+<div id="busy">Building End-to-End Central Dogma Pipeline, Spliceosome &amp; Live Mutation Bench…</div>
+<div id="hud"><h1>Central Dogma, Alternative Splicing &amp; Point-Mutation Explorer</h1><p id="sub">Cryo-EM dark-field corridor · Nucleus → 8-fold NPC → Cytosol · 11 real RCSB PDB machines · Isoform A (Exons 1+2+3) · Wild-Type HbA (GAG → Glu6)</p></div>
+<div id="legend"></div>
+<div id="flows"><h2>Central Dogma Molecular Flows</h2><label class="speed">Speed <input id="speed" type="range" min="-3" max="2" step=".1" value="0"><span id="spd">1×</span></label><div id="tip"></div><div id="mols"></div></div>
+<div id="hint">Drag to look · W A S D to move · scroll to zoom · right-drag to pan · hover a name to highlight it</div>
+<div id="tools"><button id="spliceBtn" type="button">Splice: Isoform A (E1+E2+E3)</button><button id="mutBtn" type="button">Wild-Type HbA · GAG → Glu6</button><button id="view" type="button">View: overview</button><button id="flow" type="button">Flows: on</button><button id="look" type="button">Membrane: gel</button><button id="cut" type="button">Close cutaway</button><button id="motion" type="button">Pause</button><button id="snap" type="button">Save PNG</button></div>
+<script type="module" src="dist/pages/central_dogma_realistic.js"></script>
+</body>
+</html>

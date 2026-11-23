@@ -27,11 +27,22 @@ export const STANDALONE_PAGE_PART_KEYS: Record<string, readonly string[]> = {
     'capsid', 'soc', 'vertex', 'dna', 'core', 'portal', 'collar', 'sheath', 'tube',
     'baseplate', 'stf', 'needle', 'ltf', 'om', 'porin', 'pg', 'im', 'rnap', 'ribosome'
   ],
+  'bioenergetics_realistic.html': [
+    'chloroplast_hull', 'thylakoid', 'psii', 'cyt_b6f', 'psi', 'cf1cf0', 'rubisco',
+    'glycolysis', 'mito_hull', 'krebs_cycle', 'complex_i', 'complex_ii', 'complex_iii',
+    'complex_iv', 'f1f0_atps', 'proton_grad', 'energy_carriers', 'cofactor_atoms'
+  ],
   'cell_division_realistic.html': [
     'cell_cortex', 'nuclear_env', 'centrosome', 'spindle_mt', 'kinesin5',
     'sister_chromatids', 'condensin', 'cohesin', 'kinetochore', 'separase',
     'contractile_ring', 'bivalent', 'synaptonemal', 'spo11', 'rad51',
     'chiasma', 'holliday', 'ftsz_ring', 'par_segregation', 'dna_basepair'
+  ],
+  'central_dogma_realistic.html': [
+    'chromatin', 'helicase', 'pol_delta', 'rna_pol2', 'pre_mrna', 'spliceosome',
+    'intron_lariat', 'exon_junction', 'npc', 'mature_mrna', 'ribosome_80s', 'trna_ape',
+    'polypeptide', 'polysome', 'hsp70', 'tric_groel', 'hb_wildtype', 'hb_sickle_fiber',
+    'acrb_pocket', 'codon_atoms'
   ],
   'chlamydia_realistic.html': [
     'inclusion', 'inc', 'golgi_lip', 'host_cyto', 'eb_om', 'momp', 'eb_dna', 't3ss',
@@ -53,6 +64,11 @@ export const STANDALONE_PAGE_PART_KEYS: Record<string, readonly string[]> = {
   ],
   'hiv_realistic.html': [
     'env', 'membrane', 'ma', 'capsid', 'pentamer', 'rna', 'rt', 'int', 'cd4'
+  ],
+  'membrane_transport_realistic.html': [
+    'animal_cell', 'plant_cell', 'cell_wall', 'vacuole', 'bilayer', 'simple_diff',
+    'aquaporin', 'water_flow', 'glut1', 'nak_pump', 'atp_hydrolysis', 'membrane_voltage',
+    'clathrin_pit', 'snare_fusion', 'vesicle_cargo', 'ion_atoms'
   ],
   'mimivirus_realistic.html': [
     'fibers', 'capsid', 'stargate', 'inner_mem', 'genomic_fiber', 'dsdna', 'tyrrs',

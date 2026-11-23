@@ -64,7 +64,10 @@ export const COURSE_SEQUENCE = [
   'real-mimivirus',
   'real-viroid',
   'real-prion',
-  'real-cell-division'
+  'real-cell-division',
+  'real-central-dogma',
+  'real-bioenergetics',
+  'real-membrane-transport'
 ] as const;
 
 const VALID_MODES = new Set<ExplanationMode>(['simple', 'story', 'blueprint', 'scientific']);

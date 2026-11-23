@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" href="data:,">
+<title>Interactive 3D Bioenergetics — Photosynthesis ↔ Cellular Respiration Coupled Loop | BEXONIA</title>
+<!-- SEO:START -->
+<meta name="description" content="Interactive Cinema PBR WebGL2 3D Bioenergetics stage uniting a cutaway Plant Chloroplast and cutaway Animal Mitochondrion linked by live Glucose + 6 O2 to 6 CO2 + 6 H2O exchange streams. Powered by 10 real RCSB PDB structures: PSII (3JCU), Cyt b6f (6RQF), PSI (4XK8), RuBisCO (1RCX), Citrate Synthase (1CTS), Complexes I-IV (5XTD, 1ZOY, 1BGY, 1V54), and rotary F1F0 / CF1CF0 ATP Synthase (5ARA), with live Aerobic (~32 ATP), Anaerobic (2 ATP Glycolysis), and Dark Respiration modes plus an atomic Chlorophyll a (Mg2+) & ATP inset.">
+<meta name="keywords" content="3D biology, bioenergetics, photosynthesis, cellular respiration, chloroplast, mitochondrion, thylakoid grana, Z-scheme, PSII PDB 3JCU, cytochrome b6f PDB 6RQF, PSI PDB 4XK8, Calvin cycle, RuBisCO PDB 1RCX, glycolysis, Krebs cycle, citric acid cycle, citrate synthase PDB 1CTS, electron transport chain, Complex I PDB 5XTD, Complex II PDB 1ZOY, Complex III PDB 1BGY, Complex IV PDB 1V54, F1F0 ATP synthase PDB 5ARA, chemiosmosis, proton gradient, aerobic vs anaerobic respiration, chlorophyll a Mg2+, ATP hydrolysis, WebGL2, Three.js, Bexonia">
+<meta name="author" content="BEXONIA">
+<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">
+<link rel="canonical" href="https://learn.bexonia.com/bioenergetics_realistic.html">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="BEXONIA Learn Biology">
+<meta property="og:title" content="Interactive 3D Bioenergetics — Photosynthesis ↔ Cellular Respiration Coupled Loop | BEXONIA">
+<meta property="og:description" content="Explore the coupled Photosynthesis and Cellular Respiration loop in 3D WebGL2: cutaway Chloroplast (PSII, b6f, PSI, RuBisCO) linked to cutaway Mitochondrion (Glycolysis, Krebs, Complexes I-IV, rotary F1F0 ATP Synthase) with live O2 and Sunlight controls.">
+<meta property="og:url" content="https://learn.bexonia.com/bioenergetics_realistic.html">
+<meta property="og:image" content="https://learn.bexonia.com/screenshots/bioenergetics.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Interactive 3D Bioenergetics — Photosynthesis ↔ Cellular Respiration Coupled Loop | BEXONIA">
+<meta name="twitter:description" content="Explore the coupled Photosynthesis and Cellular Respiration loop in 3D WebGL2 powered by 10 real RCSB PDB nanomachines and live Aerobic (~32 ATP) vs Anaerobic (2 ATP) controls.">
+<meta name="twitter:image" content="https://learn.bexonia.com/screenshots/bioenergetics.jpg">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":["LearningResource","WebApplication"],"name":"Interactive 3D Bioenergetics — Photosynthesis <-> Cellular Respiration Coupled Loop | BEXONIA","description":"Interactive 3D Bioenergetics stage uniting a cutaway Plant Chloroplast and cutaway Animal Mitochondrion linked by live Glucose + 6 O2 <-> 6 CO2 + 6 H2O exchange streams, powered by 10 real RCSB PDB structures (3JCU, 6RQF, 4XK8, 1RCX, 1CTS, 5XTD, 1ZOY, 1BGY, 1V54, 5ARA), live Aerobic (~32 ATP), Anaerobic (2 ATP Glycolysis), and Dark Respiration modes, and an atomic Chlorophyll a (Mg2+) & ATP inset.","url":"https://learn.bexonia.com/bioenergetics_realistic.html","image":"https://learn.bexonia.com/screenshots/bioenergetics.jpg","applicationCategory":"EducationalApplication","operatingSystem":"Web Browser (WebGL)","learningResourceType":["Interactive 3D Model","Simulation","Guided Tour"],"educationalUse":["Self-study","Classroom instruction","Reference library"],"isAccessibleForFree":true,"license":"https://opensource.org/licenses/MIT","inLanguage":"en","author":{"@type":"Organization","name":"BEXONIA","url":"https://bexonia.com"},"about":[{"@type":"Thing","name":"Photosynthesis"},{"@type":"Thing","name":"Cellular respiration"},{"@type":"Thing","name":"Chloroplast"},{"@type":"Thing","name":"Mitochondrion"},{"@type":"Thing","name":"ATP synthase"},{"@type":"Thing","name":"Chemiosmosis"}],"keywords":"3D biology, bioenergetics, photosynthesis, cellular respiration, chloroplast, mitochondrion, PSII 3JCU, Cyt b6f 6RQF, PSI 4XK8, RuBisCO 1RCX, Citrate Synthase 1CTS, Complexes I-IV, F1F0 ATP synthase 5ARA, WebGL2, Three.js, Bexonia"}</script>
+<!-- SEO:END -->
+<style>
+  :root { --bg: #04060d; --fg: #ebf1fc; --muted: #93a3bd; --line: rgba(255,255,255,.13); --accent: #7ee8ff; --emerald: #46f2a6; --amber: #ffb84d; --crimson: #ff6278; }
+  html, body { margin: 0; height: 100%; background: var(--bg); color: var(--fg); font-family: system-ui, -apple-system, "Segoe UI", sans-serif; overflow: hidden; }
+  canvas { display: block; }
+  #hud { position: absolute; left: 20px; top: 14px; pointer-events: none; max-width: calc(100% - 280px); }
+  #hud h1 { margin: 0; font-size: 20px; font-weight: 650; letter-spacing: .01em; }
+  #hud p { margin: 3px 0 0; font-size: 12.2px; color: var(--muted); }
+  #legend { position: absolute; left: 14px; top: 68px; width: 256px; max-height: calc(100% - 84px); overflow: auto; background: rgba(7,11,22,.66); border: 1px solid var(--line); border-radius: 11px; padding: 4px 5px; backdrop-filter: blur(8px); }
+  .it { display: flex; align-items: center; gap: 7px; padding: 2.3px 6px; border-radius: 6px; font-size: 11px; line-height: 1.22; cursor: default; transition: background .14s ease; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .it:hover { background: rgba(126,232,255,.16); }
+  .sw { width: 9.5px; height: 9.5px; border-radius: 50%; flex: none; box-shadow: inset 0 0 0 1px rgba(255,255,255,.32); }
+  .key { grid-column: 1 / -1; margin-top: 3px; padding: 5px 6px 2px; border-top: 1px solid var(--line); font-size: 10.5px; color: var(--muted); line-height: 1.32; }
+  .key .row { display: flex; align-items: center; flex-wrap: nowrap; gap: 4px; margin-bottom: 3.5px; white-space: nowrap; }
+  .chip { width: 16px; height: 16px; border-radius: 50%; display: inline-grid; place-items: center; font-size: 9.5px; font-weight: 700; color: #12151e; flex: none; }
+  .bar { width: 14px; height: 5px; border-radius: 3px; display: inline-block; flex: none; }
+  #flows { position: absolute; right: 14px; top: 14px; width: 244px; max-height: calc(100% - 122px); overflow: auto; background: rgba(7,11,22,.66); border: 1px solid var(--line); border-radius: 11px; padding: 7px 6px 6px; backdrop-filter: blur(8px); }
+  #flows h2 { margin: 2px 8px 4px; font-size: 12.8px; font-weight: 650; }
+  #atpCard { margin: 2px 7px 6px; padding: 5px 8px; border-radius: 8px; background: rgba(16,44,38,.72); border: 1px solid rgba(70,242,166,.38); transition: background .2s ease, border-color .2s ease; }
+  #atpCard.anaerobic_no_o2 { background: rgba(62,20,28,.78); border-color: rgba(255,98,120,.52); }
+  #atpCard.dark_respiration { background: rgba(34,26,64,.78); border-color: rgba(176,140,255,.46); }
+  #atpYield { font-size: 12px; font-weight: 700; color: #8affcf; letter-spacing: .01em; }
+  #atpCard.anaerobic_no_o2 #atpYield { color: #ffadc0; }
+  #atpCard.dark_respiration #atpYield { color: #d6c2ff; }
+  #atpSub { font-size: 10.5px; color: var(--muted); margin-top: 2px; line-height: 1.3; }
+  .speed { display: flex; align-items: center; gap: 8px; margin: 2px 8px 6px; font-size: 11.8px; color: var(--muted); }
+  .speed input { flex: 1; min-width: 0; accent-color: var(--accent); }
+  #spd { width: 36px; text-align: right; color: var(--fg); font-variant-numeric: tabular-nums; }
+  #tip { margin: 0 8px 6px; font-size: 11.4px; line-height: 1.4; color: var(--muted); }
+  #tip b { color: var(--fg); font-weight: 600; }
+  .mol { display: flex; align-items: center; gap: 7px; padding: 2.5px 7px; border-radius: 7px; font-size: 11.6px; cursor: default; }
+  .mol:hover { background: rgba(126,232,255,.15); }
+  .mol canvas { width: 20px; height: 20px; flex: none; }
+  .mol .mol-name { flex: 1; min-width: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .mol .mol-cnt { font-size: 10.5px; font-weight: 650; color: var(--accent); font-variant-numeric: tabular-nums; padding: 1px 5px; border-radius: 999px; background: rgba(126,232,255,.12); border: 1px solid rgba(126,232,255,.22); flex: none; }
+  #tools { position: absolute; right: 14px; bottom: 14px; display: flex; flex-wrap: wrap; justify-content: flex-end; gap: 6px; max-width: calc(100% - 28px); }
+  #tools button { background: rgba(8,13,24,.78); color: var(--fg); border: 1px solid rgba(255,255,255,.22); border-radius: 8px; padding: 6.5px 10.5px; font: inherit; font-size: 12px; cursor: pointer; backdrop-filter: blur(6px); transition: border-color .15s ease, background .15s ease; }
+  #tools button:hover { border-color: var(--accent); }
+  #modeBtn { border-color: rgba(70,242,166,.65) !important; background: rgba(12,48,40,.86) !important; color: #b8ffe0 !important; font-weight: 600; }
+  #modeBtn.anaerobic_no_o2 { border-color: rgba(255,104,126,.82) !important; background: rgba(68,18,28,.88) !important; color: #ffd0da !important; }
+  #modeBtn.dark_respiration { border-color: rgba(182,144,255,.78) !important; background: rgba(34,20,66,.88) !important; color: #e6d6ff !important; }
+  #hint { position: absolute; right: 16px; bottom: 54px; font-size: 11.5px; color: var(--muted); pointer-events: none; }
+  #busy { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; color: var(--muted); font-size: 14px; pointer-events: none; background: radial-gradient(circle at 52% 46%, #132538 0%, #08101c 56%, #020408 100%); z-index: 20; }
+  @media (max-width: 760px) {
+    #legend { top: auto; bottom: 64px; left: 10px; right: 10px; width: auto; max-height: 25vh; display: grid; grid-template-columns: 1fr 1fr; }
+    #hint, #flows { display: none; }
+    #hud { max-width: calc(100% - 28px); }
+    #hud h1 { font-size: 16px; }
+  }
+  .embed #hud, .embed #legend, .embed #flows, .embed #hint, .embed #tools, .embed #busy { display: none !important; }
+</style>
+<script type="importmap">
+{ "imports": {
+  "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js",
+  "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"
+} }
+</script>
+</head>
+<body>
+<div id="busy">Building Coupled Chloroplast ↔ Mitochondrion Bioenergetics Chamber (10 RCSB PDB Nanomachines)…</div>
+<div id="hud"><h1>Bioenergetics — Photosynthesis ↔ Cellular Respiration</h1><p id="sub">Coupled Chloroplast ↔ Mitochondrion loop · 6 CO₂ + 6 H₂O + Sun ⇌ C₆H₁₂O₆ + 6 O₂ · ~30–32 ATP / Glucose (10 real PDBs)</p></div>
+<div id="legend"></div>
+<div id="flows">
+  <h2>Bioenergetic Flows &amp; Yield</h2>
+  <div id="atpCard"><div id="atpYield">~30–32 ATP / Glucose (Aerobic)</div><div id="atpSub">Photosynthesis + OXPHOS active · ΔpH high</div></div>
+  <label class="speed">Speed <input id="speed" type="range" min="-3" max="2" step=".1" value="0"><span id="spd">1×</span></label>
+  <div id="tip"></div>
+  <div id="mols"></div>
+</div>
+<div id="hint">Drag to look around · W A S D to move · scroll to zoom · right-drag to pan · hover a name to highlight it</div>
+<div id="tools"><button id="modeBtn" type="button">Mode: Sun + O2 (~32 ATP)</button><button id="view" type="button">View: overview</button><button id="flow" type="button">Flows: on</button><button id="look" type="button">Membrane: gel</button><button id="cut" type="button">Close cutaway</button><button id="motion" type="button">Pause</button><button id="snap" type="button">Save PNG</button></div>
+<script type="module" src="dist/pages/bioenergetics_realistic.js"></script>
+</body>
+</html>

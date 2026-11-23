@@ -17,6 +17,8 @@ import { PDB_GRAM_POSITIVE } from '../molecules/pdb_gram_positive.js';
 import { PDB_PROTISTS } from '../molecules/pdb_protists.js';
 import { PDB_SUBVIRAL } from '../molecules/pdb_subviral.js';
 import { PDB_DIVISION } from '../molecules/pdb_division.js';
+import { PDB_CENTRAL_DOGMA } from '../molecules/pdb_central_dogma.js';
+import { PDB_BIOENERGETICS } from '../molecules/pdb_bioenergetics.js';
 import { CourseProgressManager } from '../core/progress_service.js';
 import {
   PRESET_SPANISH_VOICE_BY_MODE,
@@ -4772,6 +4774,239 @@ function buildDivHolliday() {
 }
 
 // =====================================================================
+// Phases 15 & 16: Central Dogma, Bioenergetics & Membrane Transport PDB Builders
+// =====================================================================
+function buildCdPolDeltaReal() {
+  const cols = ['#4ae8ff', '#ffd166', '#b088ff', '#56f0b0'];
+  const { g, of } = genericPdbModel(PDB_CENTRAL_DOGMA, 'pol_delta', gr => cols[gr % cols.length], false);
+  const all = of(() => true);
+  return finalize(g, [
+    A(topOf(all), 'DNA Pol δ catalytic & 3′→5′ exonuclease (PDB 6TNY)', 'polypeptide'),
+    A(lowOf(all), 'PCNA processivity ring gripping duplex DNA', 'dna'),
+  ]);
+}
+
+function buildCdSpliceosomeReal() {
+  const cols = ['#ff7a98', '#ffd166', '#70c8ff', '#b088ff', '#56f0b0', '#ff9f5a', '#6fe6d8', '#e88cff'];
+  const { g, of } = genericPdbModel(PDB_CENTRAL_DOGMA, 'spliceosome', gr => cols[gr % cols.length], false);
+  const all = of(() => true);
+  return finalize(g, [
+    A(all.reduce((a, p) => (p.x < a.x ? p : a)), 'Human catalytic Spliceosome C complex (PDB 5YZG)', 'polypeptide'),
+    A(all.reduce((a, p) => (p.x > a.x ? p : a)), 'U2/U5/U6 snRNA active center excising intron lariats', 'rna'),
+    A(lowOf(all), 'Alternative exon-ligation channel (Isoform A vs B)', 'real-cd-splicing-view'),
+  ]);
+}
+
+function buildCdRibo80Real() {
+  const cols = ['#5aa6ff', '#ff7a98', '#ffd166', '#56f0b0', '#b088ff', '#ff9f5a', '#6fe6d8', '#e88cff'];
+  const { g, of } = genericPdbModel(PDB_CENTRAL_DOGMA, 'ribo_80s', gr => cols[gr % cols.length], false);
+  const all = of(() => true);
+  return finalize(g, [
+    A(topOf(all), 'Human 80S Ribosome 60S peptidyl-transferase (PDB 4UG0)', 'ribo-large'),
+    A(lowOf(all), '40S decoding center pairing mRNA codons to tRNA', 'real-cd-trna'),
+  ]);
+}
+
+function buildCdTrnaReal() {
+  const cols = ['#ffd166', '#4ae8ff'];
+  const { g, of } = genericPdbModel(PDB_CENTRAL_DOGMA, 'trna', gr => cols[gr % cols.length], false);
+  const all = of(() => true);
+  return finalize(g, [
+    A(topOf(all), '3′-CCA acceptor stem carrying one amino acid (PDB 1EHZ)', 'amino-acid'),
+    A(lowOf(all), '3-base anticodon loop reading mRNA in 40S A/P sites', 'real-cd-mutation-atom'),
+  ]);
+}
+
+function buildCdTricReal() {
+  const cols = ['#70c8ff', '#b088ff', '#56f0b0', '#ffd166', '#ff8a5c', '#4ae8ff'];
+  const { g, of } = genericPdbModel(PDB_CENTRAL_DOGMA, 'tric', gr => cols[gr % cols.length], false);
+  const all = of(() => true);
+  return finalize(g, [
+    A(topOf(all), 'Eukaryotic TRiC/CCT ATP-gated chaperonin (PDB 6NR8)', 'polypeptide'),
+    A(lowOf(all), 'Isolated folding chamber preventing protein aggregation', 'protein'),
+  ]);
+}
+
+function buildCdHsp70Real() {
+  const cols = ['#56f0b0', '#ffd166'];
+  const { g, of } = genericPdbModel(PDB_CENTRAL_DOGMA, 'hsp70', gr => cols[gr % cols.length], false);
+  const all = of(() => true);
+  return finalize(g, [
+    A(topOf(all), 'Hsp70 ATP-regulated folding chaperone (PDB 2KHO)', 'polypeptide'),
+    A(lowOf(all), 'Substrate clamp shielding emerging hydrophobic peptides', 'alpha-helix'),
+  ]);
+}
+
+function buildCdHbsReal() {
+  const cols = ['#ff5c7a', '#ff965a', '#4ae8ff', '#ffd166'];
+  const { g, of } = genericPdbModel(PDB_CENTRAL_DOGMA, 'hbs', gr => cols[gr % cols.length], false);
+  const all = of(() => true);
+  return finalize(g, [
+    A(topOf(all), 'Sickle-cell HbS Val6 mutant tetramer (PDB 2HBS)', 'polypeptide'),
+    A(outmost(of(b => b.g === 0)), 'Exposed Val6 hydrophobic patch nucleating HbS fibers', 'real-cd-mutation-atom'),
+    A(lowOf(all), 'Heme Fe²⁺ pocket + balancing selection vs malaria', 'atom-fe'),
+  ]);
+}
+
+function buildCdAcrbReal() {
+  const cols = ['#46e6c8', '#7aaeff', '#ffd166'];
+  const { g, of } = genericPdbModel(PDB_CENTRAL_DOGMA, 'acrb', gr => cols[gr % cols.length], false);
+  const all = of(() => true);
+  return finalize(g, [
+    A(topOf(all), 'E. coli AcrB multidrug efflux trimer (PDB 5O66)', 'polypeptide'),
+    A(lowOf(all), 'Gly288→Asp288 distal pocket remodeling antibiotic export', 'real-cd-mutation-atom'),
+  ]);
+}
+
+function buildCdMutationAtom() {
+  const g = new THREE.Group();
+  // Atomic single-base point mutation comparator: top Wild-Type A=T (GAG -> Glu6) vs bottom Mutant T=A (GTG -> Val6)
+  const atoms: any[] = [
+    // Top pair: Adenine (left) paired to Thymine (right) at y = +2.3
+    ['N', -3.6, 2.3, 0], ['C', -2.3, 2.9, .1], ['N', -1.1, 2.3, 0], ['C', -2.3, 1.5, -.1], ['H', -1.1, 3.25, .1],
+    ['O', 1.4, 3.25, .1], ['C', 2.4, 2.4, 0], ['N', 1.4, 1.5, -.1], ['C', 3.6, 2.3, .1], ['P', -4.9, 2.3, .2],
+    // Bottom pair: Thymine (left) paired to Adenine (right) at y = -2.3 (flipped single-base mutation!)
+    ['O', -1.4, -1.35, .1], ['C', -2.4, -2.2, 0], ['N', -1.4, -3.1, -.1], ['C', -3.6, -2.3, .1], ['P', -4.9, -2.3, .2],
+    ['N', 1.1, -2.3, 0], ['C', 2.3, -1.6, .1], ['N', 3.6, -2.3, 0], ['C', 2.3, -3.1, -.1], ['H', 1.1, -1.35, .1],
+  ];
+  const m = molecule(atoms);
+  const hbWt = std('#4ae8ff', { glow: .8 }), hbMut = std('#ff6b8b', { glow: .85 });
+  // Non-zero H-bond dashes across base pairs
+  g.add(stick(V(-1.1, 3.25, .1), V(1.4, 3.25, .1), .07, hbWt));
+  g.add(stick(V(-1.1, 2.3, 0), V(1.4, 1.5, -.1), .07, hbWt));
+  g.add(stick(V(-1.4, -1.35, .1), V(1.1, -1.35, .1), .07, hbMut));
+  g.add(stick(V(-1.4, -3.1, -.1), V(1.1, -2.3, 0), .07, hbMut));
+  const mutHalo = sphere(1.05, xray('#ff5c7a', 1.4, 1.4, .25), 20); mutHalo.position.set(0, -2.2, 0);
+  g.add(m, mutHalo);
+  return finalize(g, [
+    A(V(-2.4, 4.1, .1), 'Wild-type GAG codon base pair (A=T → Glu6)', 'atom-n'),
+    A(V(2.5, 4.0, .1), 'Watson–Crick H-bonds (0.29 nm donor–acceptor)', 'atom-o'),
+    A(V(-4.9, .1, .2), 'Sugar-phosphate DNA backbone (P atom)', 'atom-p'),
+    A(V(0, -3.9, .1), 'Single A→T transversion (GTG → Val6 HbS)', 'atom-c'),
+  ]);
+}
+
+function buildBioPsiiReal() {
+  const cols = ['#46f09c', '#2dd478', '#ffd166', '#4ae8ff', '#8cff5a', '#ff9f5a'];
+  const { g, of } = genericPdbModel(PDB_BIOENERGETICS, 'psii', gr => cols[gr % cols.length], false);
+  const all = of(() => true);
+  return finalize(g, [
+    A(topOf(all), 'Photosystem II–LHCII supercomplex (PDB 3JCU)', 'chlorophyll'),
+    A(lowOf(all), 'Mn₄CaO₅ oxygen-evolving complex splitting H₂O → O₂', 'water'),
+  ]);
+}
+
+function buildBioB6fReal() {
+  const cols = ['#46e6c8', '#ff7a98', '#ffd166', '#70c8ff', '#b088ff', '#56f0b0'];
+  const { g, of } = genericPdbModel(PDB_BIOENERGETICS, 'cyt_b6f', gr => cols[gr % cols.length], false);
+  const all = of(() => true);
+  return finalize(g, [
+    A(topOf(all), 'Cytochrome b₆f dimer Q-cycle pump (PDB 6RQF)', 'polypeptide'),
+    A(lowOf(all), 'Pumps H⁺ into thylakoid lumen linking PSII to PSI', 'atom-fe'),
+  ]);
+}
+
+function buildBioPsiReal() {
+  const cols = ['#38e898', '#6fe6d8', '#ffd166', '#5aa6ff', '#9dff7a', '#ff9f5a'];
+  const { g, of } = genericPdbModel(PDB_BIOENERGETICS, 'psi', gr => cols[gr % cols.length], false);
+  const all = of(() => true);
+  return finalize(g, [
+    A(topOf(all), 'Photosystem I–LHCI P700 reaction center (PDB 4XK8)', 'chlorophyll'),
+    A(lowOf(all), 'Energizes electrons to ferredoxin for stromal NADPH', 'atom-mg'),
+  ]);
+}
+
+function buildBioRubiscoReal() {
+  const cols = ['#66f088', '#ffd166', '#4ae8ff', '#a8ff78', '#56f0b0', '#ff9f5a', '#70c8ff', '#c8ff8c'];
+  const { g, of } = genericPdbModel(PDB_BIOENERGETICS, 'rubisco', gr => cols[gr % cols.length], false);
+  const all = of(() => true);
+  return finalize(g, [
+    A(topOf(all), 'RuBisCO L₈S₈ carbon-fixing hexadecamer (PDB 1RCX)', 'polypeptide'),
+    A(lowOf(all), 'Fixes atmospheric CO₂ into 3-PGA & glucose in stroma', 'glucose'),
+  ]);
+}
+
+function buildBioComplex1Real() {
+  const cols = ['#ff7a5c', '#ffd166', '#4ae8ff', '#b088ff', '#56f0b0', '#ff82a8', '#7aaeff', '#ffaa5c'];
+  const { g, of } = genericPdbModel(PDB_BIOENERGETICS, 'complex_i', gr => cols[gr % cols.length], false);
+  const all = of(() => true);
+  return finalize(g, [
+    A(topOf(all), 'Mitochondrial Complex I NADH dehydrogenase (PDB 5XTD)', 'polypeptide'),
+    A(lowOf(all), 'Oxidizes NADH & pumps 4 H⁺ across cristae membrane', 'atom-fe'),
+  ]);
+}
+
+function buildBioComplex4Real() {
+  const cols = ['#ff5c7a', '#ff9f5a', '#ffd166', '#70c8ff', '#b088ff', '#56f0b0'];
+  const { g, of } = genericPdbModel(PDB_BIOENERGETICS, 'complex_iv', gr => cols[gr % cols.length], false);
+  const all = of(() => true);
+  return finalize(g, [
+    A(topOf(all), 'Complex IV Cytochrome c Oxidase (PDB 1V54)', 'polypeptide'),
+    A(lowOf(all), 'Terminal O₂ reduction site forming H₂O (aerobic bottleneck)', 'water'),
+  ]);
+}
+
+function buildBioAtpSynthReal() {
+  const cols = ['#ffd166', '#ff8a5c', '#4ae8ff', '#56f0b0', '#b088ff', '#ff7096'];
+  const { g, of } = genericPdbModel(PDB_BIOENERGETICS, 'f1f0_atps', gr => cols[gr % cols.length], false);
+  const all = of(() => true);
+  return finalize(g, [
+    A(topOf(all), 'Intact F₁F₀ ATP Synthase rotary motor (PDB 5ARA)', 'atp-synthase'),
+    A(lowOf(all), 'H⁺-driven c-ring rotor forging ~30–32 ATP per glucose', 'atom-p'),
+  ]);
+}
+
+function buildBioCitrateReal() {
+  const cols = ['#ff9f5a', '#ffd166', '#56f0b0', '#70c8ff'];
+  const { g, of } = genericPdbModel(PDB_BIOENERGETICS, 'citrate_syn', gr => cols[gr % cols.length], false);
+  const all = of(() => true);
+  return finalize(g, [
+    A(topOf(all), 'Mitochondrial Citrate Synthase dimer (PDB 1CTS)', 'polypeptide'),
+    A(lowOf(all), 'Entry pacemaker of the matrix Krebs cycle (Acetyl-CoA)', 'atom-c'),
+  ]);
+}
+
+function buildMemAqp1Real() {
+  const cols = ['#4ae8ff', '#5aa6ff', '#56f0b0', '#70c8ff'];
+  const { g, of } = genericPdbModel(PDB_BIOENERGETICS, 'aqp1', gr => cols[gr % cols.length], false);
+  const all = of(() => true);
+  return finalize(g, [
+    A(topOf(all), 'Aquaporin AQP1 water-channel tetramer (PDB 1J4N)', 'channel-protein'),
+    A(lowOf(all), 'NPA dipole filter streaming 10⁹ H₂O/s while blocking H⁺', 'water'),
+  ]);
+}
+
+function buildMemGlut1Real() {
+  const cols = ['#ffd166', '#ff9f5a'];
+  const { g, of } = genericPdbModel(PDB_BIOENERGETICS, 'glut1', gr => cols[gr % cols.length], false);
+  const all = of(() => true);
+  return finalize(g, [
+    A(topOf(all), 'Human GLUT1 facilitated glucose uniporter (PDB 4PYP)', 'polypeptide'),
+    A(lowOf(all), 'Alternating-access rocker moving D-glucose down gradient', 'glucose'),
+  ]);
+}
+
+function buildMemNakReal() {
+  const cols = ['#ff7a98', '#ffd166', '#70c8ff'];
+  const { g, of } = genericPdbModel(PDB_BIOENERGETICS, 'nak_pump', gr => cols[gr % cols.length], false);
+  const all = of(() => true);
+  return finalize(g, [
+    A(topOf(all), 'Electrogenic Na⁺/K⁺-ATPase ion pump (PDB 3WGU)', 'na-k-pump'),
+    A(lowOf(all), 'Spends 1 ATP to export 3 Na⁺ & import 2 K⁺ (-70 mV)', 'atom-p'),
+  ]);
+}
+
+function buildMemVesicleReal() {
+  const cols = ['#b088ff', '#4ae8ff', '#ffd166', '#ff7a98'];
+  const { g, of } = genericPdbModel(PDB_BIOENERGETICS, 'snare', gr => cols[gr % cols.length], false);
+  const all = of(() => true);
+  return finalize(g, [
+    A(topOf(all), 'SNARE 4-helix fusion zipper bundle (PDB 1SFC)', 'vesicle'),
+    A(lowOf(all), 'Pulls vesicle & plasma bilayers together for exocytosis', 'phospholipid'),
+  ]);
+}
+
+// =====================================================================
 // The structure tree: biggest (cell) to smallest (atoms)
 // =====================================================================
 const LEG_DNA = [['A', 'Adenine (pairs with T)'], ['T', 'Thymine (pairs with A)'], ['G', 'Guanine (pairs with C)'], ['C', 'Cytosine (pairs with G)'], ['bb0', 'Backbone, strand 1'], ['bb1', 'Backbone, strand 2']];
@@ -6071,6 +6306,161 @@ const NODES = {
   'real-div-holliday': { name: '4-way recombinant DNA Holliday junction', scale: '~4 nm four-strand DNA crossover', b: buildDivHolliday,
     children: ['dna', 'nucleotide', 'atom-mg', 'atom-p', 'atom-c'],
     desc: 'The physical molecular crossroads of genetic diversity: four DNA strands from maternal and paternal chromosomes interweave across a Mg²⁺-stabilized X-shaped Holliday junction that resolves into chimeric recombinant chromatids.' },
+  // ===================================================================
+  // Phase 15: End-to-End Central Dogma, mRNA Splicing & Molecular Evolution
+  // ===================================================================
+  'real-central-dogma': { name: 'Central dogma: replication, splicing, translation & point mutations (realistic)', scale: '5 µm corridor · 27 nm spliceosome · 0.5 nm codons', real: 'overview', page: 'central_dogma_realistic.html',
+    children: ['real-cd-replisome', 'real-cd-pol-delta', 'real-cd-spliceosome', 'real-cd-splicing-view', 'real-cd-ribo80', 'real-cd-trna', 'real-cd-tric', 'real-cd-hsp70', 'real-cd-hbs', 'real-cd-acrb', 'real-cd-mutation-atom', 'dna', 'rna', 'ribosome', 'protein'],
+    tags: [
+      ['chromatin', 'Nuclear euchromatin & human HBB beta-globin locus', 'chromosome', 'chromatin'],
+      ['helicase', 'Hexameric replicative helicase unzipping dsDNA (PDB 6QEL)', 'real-cd-replisome', 'helicase'],
+      ['pol_delta', 'DNA Polymerase δ + PCNA clamp & 3′→5′ proofreading (PDB 6TNY)', 'real-cd-pol-delta', 'pol_delta'],
+      ['rna_pol2', '12-subunit RNA Polymerase II transcription bubble (PDB 1I50)', 'rna-polymerase', 'rna_pol2'],
+      ['pre_mrna', 'Capped & polyadenylated pre-mRNA (3 exons, 2 introns)', 'rna', 'pre_mrna'],
+      ['spliceosome', 'Megadalton Spliceosome C complex excising introns (PDB 5YZG)', 'real-cd-spliceosome', 'spliceosome'],
+      ['intron_lariat', 'Excised 2′–5′ intron lariat loop removed from pre-mRNA', 'real-cd-splicing-view', 'intron_lariat'],
+      ['exon_junction', 'Ligated exon junction switching Isoform A vs Isoform B', 'real-cd-splicing-view', 'exon_junction'],
+      ['npc', '120 nm 8-fold Nuclear Pore Complex exporting mature mRNA', 'nuclear-pore', 'npc'],
+      ['mature_mrna', 'Exported mature mRNA threading into cytosolic polysomes', 'rna', 'mature_mrna'],
+      ['ribosome_80s', 'Eukaryotic 80S ribosome decoding codons (PDB 4UG0)', 'real-cd-ribo80', 'ribosome_80s'],
+      ['trna_ape', 'L-shaped aminoacyl-tRNAs stepping A → P → E sites (PDB 1EHZ)', 'real-cd-trna', 'trna_ape'],
+      ['polypeptide', 'Growing nascent polypeptide exiting 60S tunnel', 'polypeptide', 'polypeptide'],
+      ['polysome', 'Multi-ribosome cytosolic polysome translation arc', 'ribosome', 'polysome'],
+      ['hsp70', 'Hsp70 chaperone shielding nascent hydrophobic chains (PDB 2KHO)', 'real-cd-hsp70', 'hsp70'],
+      ['tric_groel', 'TRiC/CCT ATP-gated folding chaperonin barrel (PDB 6NR8)', 'real-cd-tric', 'tric_groel'],
+      ['hb_wildtype', 'Wild-type soluble HbA tetramer Glu6 (PDB 2HHB)', 'protein', 'hb_wildtype'],
+      ['hb_sickle_fiber', 'Mutant Val6 HbS polymerizing sickle fiber (PDB 2HBS)', 'real-cd-hbs', 'hb_sickle_fiber'],
+      ['acrb_pocket', 'Adaptive bacterial AcrB efflux pocket Gly288→Asp288 (PDB 5O66)', 'real-cd-acrb', 'acrb_pocket'],
+      ['codon_atoms', 'Atomic codon–anticodon H-bonds & GAG→GTG point-mutation inset', 'real-cd-mutation-atom', 'codon_atoms'],
+    ],
+    desc: 'One continuous 5 µm Nucleus → Nuclear Pore → Cytosol production corridor tracking a single gene from euchromatin replication (6QEL/6TNY) and RNA Pol II transcription (1I50) through Spliceosome alternative splicing (5YZG), 80S ribosomal decoding (4UG0/1EHZ), and Hsp70/TRiC folding (2KHO/6NR8) — plus a live single-base Point-Mutation bench comparing HbA → HbS sickle fibers (2HHB/2HBS) and bacterial AcrB antibiotic efflux evolution (5O66).' },
+  'real-cd-replisome': { name: 'DNA replication fork & RNA Pol II transcription (realistic)', scale: '12–15 nm nuclear enzymes', real: 'replisome', page: 'central_dogma_realistic.html', hi: 'pol_delta',
+    children: ['real-cd-pol-delta', 'dna', 'rna-polymerase', 'rna'],
+    tags: [
+      ['helicase', 'Hexameric helicase unzipping duplex DNA (PDB 6QEL)', 'dna', 'helicase'],
+      ['pol_delta', 'DNA Pol δ + PCNA with 3′→5′ proofreading (PDB 6TNY)', 'real-cd-pol-delta', 'pol_delta'],
+      ['rna_pol2', 'RNA Pol II opening a 12 bp transcription bubble (PDB 1I50)', 'rna-polymerase', 'rna_pol2'],
+      ['pre_mrna', 'Nascent pre-mRNA receiving 5′ m⁷G cap & 3′ poly-A tail', 'rna', 'pre_mrna'],
+    ],
+    desc: 'Inside the nucleus, hexameric helicases (6QEL) unzip euchromatin while DNA Pol δ + PCNA (6TNY) synthesizes and proofreads new DNA at 3′→5′ exonuclease checkpoints, right beside RNA Pol II (1I50) transcribing capped, polyadenylated pre-mRNA.' },
+  'real-cd-pol-delta': { name: 'DNA Polymerase δ + PCNA sliding clamp (PDB 6TNY)', scale: '~15 nm proofreading replisome', b: buildCdPolDeltaReal,
+    children: ['dna', 'polypeptide', 'nucleotide', 'atom-mg'],
+    desc: 'Real cryo-EM structure of human DNA Polymerase δ latched to its PCNA sliding clamp (PDB 6TNY): the palm domain polymerizes DNA 5′→3′ while a separate 3′→5′ exonuclease cleft excises mismatched bases before errors become permanent mutations.' },
+  'real-cd-spliceosome': { name: 'Human catalytic Spliceosome C complex (PDB 5YZG)', scale: '~27 nm · 2.5 MDa ribonucleoprotein', b: buildCdSpliceosomeReal,
+    children: ['real-cd-splicing-view', 'rna', 'polypeptide', 'atom-mg'],
+    desc: 'Real cryo-EM structure of the megadalton human Spliceosome (PDB 5YZG): five snRNPs (U1/U2/U4/U5/U6) coordinate catalytic Mg²⁺ ions to loop out non-coding introns as 2′–5′ lariats and stitch coding exons into mature mRNA.' },
+  'real-cd-splicing-view': { name: 'Spliceosome intron lariat & alternative splicing (realistic)', scale: '27 nm exon-routing engine', real: 'spliceosome', page: 'central_dogma_realistic.html', hi: 'exon_junction',
+    children: ['real-cd-spliceosome', 'rna', 'nucleotide'],
+    tags: [
+      ['spliceosome', 'Catalytic Spliceosome C complex (PDB 5YZG)', 'real-cd-spliceosome', 'spliceosome'],
+      ['intron_lariat', 'Excised 2′–5′ branch-point intron lariat loop', 'rna', 'intron_lariat'],
+      ['exon_junction', 'Alternative exon ligation (Isoform A vs Isoform B)', 'rna', 'exon_junction'],
+    ],
+    desc: 'Why ~20,000 human genes yield >100,000 distinct proteins: by retaining or skipping cassette exons during intron lariat excision, the spliceosome routes one pre-mRNA transcript into structurally distinct protein isoforms.' },
+  'real-cd-ribo80': { name: 'Human 80S Ribosome 40S + 60S (PDB 4UG0)', scale: '~28 nm · 4.3 MDa ribozyme', b: buildCdRibo80Real,
+    children: ['real-cd-trna', 'ribo-large', 'ribo-small', 'rna', 'polypeptide'],
+    desc: 'Real cryo-EM structure of the human cytosolic 80S ribosome (PDB 4UG0): the 40S subunit inspects 3-base codon–anticodon geometry while 28S rRNA inside the 60S subunit catalyzes peptide bond synthesis and extrudes nascent polypeptides.' },
+  'real-cd-trna': { name: 'L-shaped transfer RNA adaptor (PDB 1EHZ)', scale: '~7 nm · 76-nt RNA translator', b: buildCdTrnaReal,
+    children: ['real-cd-mutation-atom', 'amino-acid', 'rna', 'nucleotide'],
+    desc: 'Real crystal structure of L-shaped transfer RNA (PDB 1EHZ): its 3-base anticodon loop pairs directly with an mRNA codon in the 40S decoding center while its opposite 3′-CCA end delivers the matching amino acid into the 60S active site.' },
+  'real-cd-tric': { name: 'Eukaryotic TRiC/CCT chaperonin barrel (PDB 6NR8)', scale: '~16 nm ATP-gated folding chamber', b: buildCdTricReal,
+    children: ['protein', 'polypeptide', 'alpha-helix', 'amino-acid'],
+    desc: 'Real cryo-EM structure of the human TRiC/CCT chaperonin (PDB 6NR8): two stacked eight-subunit rings close an ATP-driven folding chamber around vulnerable nascent polypeptides so they collapse into native 3D folds without aggregating.' },
+  'real-cd-hsp70': { name: 'Hsp70 folding chaperone (PDB 2KHO)', scale: '~8 nm hydrophobic-patch shield', b: buildCdHsp70Real,
+    children: ['protein', 'polypeptide', 'alpha-helix', 'amino-acid'],
+    desc: 'Real crystal structure of Hsp70 (PDB 2KHO): an ATP-regulated molecular clamp that grips exposed hydrophobic patches emerging from the 80S ribosome tunnel, preventing premature misfolding before tertiary collapse.' },
+  'real-cd-hbs': { name: 'Sickle-cell HbS Val6 mutant & fiber assembly (PDB 2HBS)', scale: '~6 nm tetramer → rigid fibers', b: buildCdHbsReal,
+    children: ['real-cd-mutation-atom', 'polypeptide', 'atom-fe', 'real-plasmodium'],
+    desc: 'Real crystal structure of deoxy-HbS (PDB 2HBS): a single A→T mutation (GAG → GTG, Glu6 → Val6) creates a nonpolar surface patch that locks adjacent beta-globin tetramers into rigid sickle fibers — driving both pathology and heterozygous malaria resistance (balancing selection).' },
+  'real-cd-acrb': { name: 'Adaptive E. coli AcrB efflux pocket (PDB 5O66)', scale: '~14 nm multidrug pump evolution', b: buildCdAcrbReal,
+    children: ['real-cd-mutation-atom', 'real-bacterium', 'polypeptide', 'amino-acid'],
+    desc: 'Real crystal structure of E. coli AcrB (PDB 5O66): a single point mutation (GGC → GAC, Gly288 → Asp288) reshapes the distal binding pocket to alter fluoroquinolone extrusion, showing directional natural selection at atomic resolution.' },
+  'real-cd-mutation-atom': { name: 'Atomic point mutation: GAG → GTG base-pair switch', scale: '0.1–0.5 nm (C, H, N, O, P)', b: buildCdMutationAtom,
+    children: ['atom-c', 'atom-h', 'atom-n', 'atom-o', 'atom-p'],
+    desc: 'At 0.1–0.5 nm atomic scale, molecular evolution starts with a single altered Watson–Crick base pair: flipping A=T to T=A in codon 6 (GAG → GTG) swaps one amino-acid side chain and cascades upward to protein geometry and organismal survival.' },
+  // ===================================================================
+  // Phase 16: Bioenergetics (Photosynthesis <-> Respiration) & Membrane Transport
+  // ===================================================================
+  'real-bioenergetics': { name: 'Bioenergetics: photosynthesis ↔ cellular respiration (realistic)', scale: '5 µm chloroplast ↔ 2.5 µm mitochondrion · 32 ATP vs 2 ATP', real: 'overview', page: 'bioenergetics_realistic.html',
+    children: ['real-bio-psii', 'real-bio-b6f', 'real-bio-psi', 'real-bio-rubisco', 'real-bio-citrate', 'real-bio-complex1', 'real-bio-complex4', 'real-bio-atpsynth', 'chloroplast', 'mitochondrion', 'chlorophyll', 'glucose', 'atp-synthase'],
+    tags: [
+      ['chloroplast_hull', 'Cutaway 5 µm plant chloroplast harvesting sunlight', 'chloroplast', 'chloroplast_hull'],
+      ['thylakoid', 'Stacked thylakoid grana (acidic lumen pH 5.5 vs stroma pH 8.0)', 'granum', 'thylakoid'],
+      ['psii', 'Photosystem II–LHCII splitting 2 H₂O → O₂ + 4 H⁺ + 4 e⁻ (PDB 3JCU)', 'real-bio-psii', 'psii'],
+      ['cyt_b6f', 'Cytochrome b₆f pumping protons via plastoquinol (PDB 6RQF)', 'real-bio-b6f', 'cyt_b6f'],
+      ['psi', 'Photosystem I–LHCI driving NADP⁺ → NADPH (PDB 4XK8)', 'real-bio-psi', 'psi'],
+      ['cf1cf0', 'Chloroplast rotary CF₁CF₀ ATP synthase (14 c-subunits)', 'atp-synthase', 'cf1cf0'],
+      ['rubisco', 'Stromal RuBisCO fixing 6 CO₂ → Glucose (PDB 1RCX)', 'real-bio-rubisco', 'rubisco'],
+      ['glycolysis', 'Cytosolic glycolysis splitting Glucose → 2 Pyruvate + 2 net ATP', 'glucose', 'glycolysis'],
+      ['mito_hull', 'Cutaway 2.5 µm mitochondrion releasing chemical energy as ATP', 'mitochondrion', 'mito_hull'],
+      ['krebs_cycle', 'Matrix Krebs cycle exhaling 6 CO₂ + 10 NADH + 2 FADH₂ (PDB 1CTS)', 'real-bio-citrate', 'krebs_cycle'],
+      ['complex_i', 'Complex I NADH dehydrogenase pumping 4 H⁺ (PDB 5XTD)', 'real-bio-complex1', 'complex_i'],
+      ['complex_ii', 'Complex II Succinate Dehydrogenase oxidizing FADH₂ (PDB 1ZOY)', 'electron-transport-chain', 'complex_ii'],
+      ['complex_iii', 'Complex III Cytochrome bc₁ pumping 4 H⁺ (PDB 1BGY)', 'electron-transport-chain', 'complex_iii'],
+      ['complex_iv', 'Complex IV Cytochrome c Oxidase reducing O₂ → H₂O (PDB 1V54)', 'real-bio-complex4', 'complex_iv'],
+      ['f1f0_atps', 'Rotary F₁F₀ ATP synthase minting ~30–32 ATP/Glucose (PDB 5ARA)', 'real-bio-atpsynth', 'f1f0_atps'],
+      ['proton_grad', 'Transmembrane H⁺ electrochemical proton-motive force', 'atom-h', 'proton_grad'],
+      ['energy_carriers', 'Planetary Glucose + 6 O₂ ↔ 6 CO₂ + 6 H₂O cycle & ATP/NADH shuttles', 'glucose', 'energy_carriers'],
+      ['cofactor_atoms', 'Atomic Chlorophyll a Mg²⁺ ring & ATP γ-phosphate bond inset', 'chlorophyll', 'cofactor_atoms'],
+    ],
+    desc: 'Unifies photosynthesis and cellular respiration as reversed redox mirrors inside one live 3D chamber: a cutaway Chloroplast captures photons via PSII (3JCU), Cyt b₆f (6RQF), PSI (4XK8) & RuBisCO (1RCX) to emit Glucose + 6 O₂, while a cutaway Mitochondrion oxidizes Glucose via Glycolysis, Krebs (1CTS), Complexes I–IV (5XTD/1ZOY/1BGY/1V54) & rotary F₁F₀ ATP Synthase (5ARA) to mint ~30–32 ATP — with a live Aerobic (~32 ATP) vs. Anaerobic (2 ATP) & Dark switch.' },
+  'real-bio-psii': { name: 'Photosystem II–LHCII water-splitting supercomplex (PDB 3JCU)', scale: '~22 nm · 206 chlorophylls', b: buildBioPsiiReal,
+    children: ['chlorophyll', 'water', 'atom-mg', 'polypeptide'],
+    desc: 'Real cryo-EM structure of spinach PSII–LHCII (PDB 3JCU): light-harvesting chlorophylls funnel 680 nm photon energy to the Mn₄CaO₅ oxygen-evolving complex, splitting water into O₂ gas, luminal protons and high-energy electrons.' },
+  'real-bio-b6f': { name: 'Thylakoid Cytochrome b₆f proton pump (PDB 6RQF)', scale: '~12 nm Q-cycle dimer', b: buildBioB6fReal,
+    children: ['polypeptide', 'atom-fe', 'light-reactions'],
+    desc: 'Real cryo-EM structure of Cytochrome b₆f (PDB 6RQF): links Photosystem II to Photosystem I by oxidizing plastoquinol, pumping extra H⁺ into the thylakoid lumen via the Q-cycle, and handing electrons to luminal plastocyanin.' },
+  'real-bio-psi': { name: 'Photosystem I–LHCI supercomplex (PDB 4XK8)', scale: '~20 nm · 155 chlorophylls', b: buildBioPsiReal,
+    children: ['chlorophyll', 'atom-mg', 'polypeptide'],
+    desc: 'Real crystal structure of PSI–LHCI (PDB 4XK8): absorbs a second 700 nm photon to boost electrons high enough to reduce ferredoxin and synthesize stromal NADPH for carbon fixation.' },
+  'real-bio-rubisco': { name: 'RuBisCO L₈S₈ carbon-fixing enzyme (PDB 1RCX)', scale: '~11 nm · 16-subunit hexadecamer', b: buildBioRubiscoReal,
+    children: ['glucose', 'polypeptide', 'atom-mg', 'atom-c'],
+    desc: 'Real crystal structure of spinach RuBisCO (PDB 1RCX): Earth’s most abundant enzyme fixes atmospheric CO₂ onto 5-carbon RuBP inside the chloroplast stroma, driving the Calvin cycle that builds glucose.' },
+  'real-bio-complex1': { name: 'Mitochondrial Complex I NADH dehydrogenase (PDB 5XTD)', scale: '~20 nm L-shaped proton pump', b: buildBioComplex1Real,
+    children: ['electron-transport-chain', 'polypeptide', 'atom-fe'],
+    desc: 'Real cryo-EM structure of mammalian Complex I (PDB 5XTD): strips two high-energy electrons from matrix NADH through a chain of iron–sulfur clusters to ubiquinone while pumping 4 H⁺ across the inner cristae membrane.' },
+  'real-bio-complex4': { name: 'Complex IV Cytochrome c Oxidase (PDB 1V54)', scale: '~12 nm terminal O₂ reductase', b: buildBioComplex4Real,
+    children: ['water', 'electron-transport-chain', 'polypeptide', 'atom-fe'],
+    desc: 'Real crystal structure of bovine Complex IV (PDB 1V54): transfers four electrons onto molecular O₂ to form water while pumping protons — explaining why blocking O₂ immediately stalls Complexes I–IV and drops ATP yield from ~32 to 2.' },
+  'real-bio-atpsynth': { name: 'Mitochondrial F₁F₀ ATP Synthase (PDB 5ARA)', scale: '~18 nm rotary molecular turbine', b: buildBioAtpSynthReal,
+    children: ['atp-synthase', 'polypeptide', 'atom-p', 'atom-h'],
+    desc: 'Real cryo-EM structure of intact bovine F₁F₀ ATP Synthase (PDB 5ARA): protons stored in the intermembrane space surge down their gradient through the F₀ c-ring rotor, turning the γ-stalk to phosphorylate ADP into ~26–28 ATP per glucose.' },
+  'real-bio-citrate': { name: 'Mitochondrial Citrate Synthase — Krebs Cycle (PDB 1CTS)', scale: '~9 nm matrix metabolic hub', b: buildBioCitrateReal,
+    children: ['mitochondrion', 'polypeptide', 'atom-c'],
+    desc: 'Real crystal structure of Citrate Synthase (PDB 1CTS): condenses 2-carbon Acetyl-CoA with 4-carbon oxaloacetate to launch the mitochondrial Krebs cycle, completing glucose oxidation to 6 CO₂ while charging NADH and FADH₂.' },
+  'real-membrane-transport': { name: 'Membrane transport & osmosis lab (realistic)', scale: '20 µm cells → 5 nm bilayer → 0.1 nm Na⁺/K⁺ ions', real: 'overview', page: 'membrane_transport_realistic.html',
+    children: ['real-mem-aqp1', 'real-mem-glut1', 'real-mem-nak', 'real-mem-vesicle', 'plasma-membrane', 'phospholipid', 'cell-wall', 'central-vacuole', 'water', 'glucose'],
+    tags: [
+      ['animal_cell', 'Wall-less animal cell (Hypotonic Lysis · Isotonic · Hypertonic Crenation)', 'real-cell', 'animal_cell'],
+      ['plant_cell', 'Walled plant cell (Hypotonic Turgid · Isotonic Flaccid · Hypertonic Plasmolysis)', 'real-plant', 'plant_cell'],
+      ['cell_wall', 'Rigid cellulose cell wall bracing internal turgor pressure', 'cell-wall', 'cell_wall'],
+      ['vacuole', 'Central plant vacuole driving osmotic turgor & plasmolysis', 'central-vacuole', 'vacuole'],
+      ['bilayer', '5 nm POPC phospholipid bilayer + planar cholesterol barrier', 'plasma-membrane', 'bilayer'],
+      ['simple_diff', 'Passive simple diffusion of nonpolar O₂ & CO₂ across acyl core', 'phospholipid', 'simple_diff'],
+      ['aquaporin', 'Aquaporin AQP1 hourglass water channel (PDB 1J4N · 10⁹ H₂O/s)', 'real-mem-aqp1', 'aquaporin'],
+      ['water_flow', 'Directional osmotic H₂O stream flipping with external tonicity', 'water', 'water_flow'],
+      ['glut1', 'GLUT1 alternating-access facilitated glucose uniporter (PDB 4PYP)', 'real-mem-glut1', 'glut1'],
+      ['nak_pump', 'Electrogenic Na⁺/K⁺-ATPase pumping 3 Na⁺ out / 2 K⁺ in (PDB 3WGU)', 'real-mem-nak', 'nak_pump'],
+      ['atp_hydrolysis', 'Cytosolic ATP → ADP + Pᵢ cleavage powering uphill ion pumping', 'atom-p', 'atp_hydrolysis'],
+      ['membrane_voltage', 'Resting membrane potential (V_m ≈ -70 mV) & ion gradient meters', 'real-mem-nak', 'membrane_voltage'],
+      ['clathrin_pit', 'Clathrin-coated endocytic pit budding inward (PDB 1XI4)', 'real-mem-vesicle', 'clathrin_pit'],
+      ['snare_fusion', 'SNARE 4-helix zipper driving exocytic vesicle fusion (PDB 1SFC)', 'real-mem-vesicle', 'snare_fusion'],
+      ['vesicle_cargo', 'Bulk macromolecular cargo crossing via membrane vesicles', 'vesicle', 'vesicle_cargo'],
+      ['ion_atoms', 'Atomic Na⁺ (0.102 nm) vs K⁺ (0.138 nm) + H₂O dipole + POPC inset', 'water', 'ion_atoms'],
+    ],
+    desc: 'Connects whole-cell osmosis directly to single transmembrane PDB nanomachines: toggle Hypotonic, Isotonic and Hypertonic solutions live across side-by-side Animal (lysis/crenation) and Plant (turgid/plasmolysis) cells, then zoom straight into the 5 nm phospholipid bilayer displaying Simple Diffusion (O₂/CO₂), Aquaporin AQP1 (1J4N), GLUT1 (4PYP), Na⁺/K⁺-ATPase (3WGU), and Clathrin/SNARE vesicular transport (1XI4/1SFC).' },
+  'real-mem-aqp1': { name: 'Aquaporin AQP1 water channel (PDB 1J4N)', scale: '~7 nm homotetramer · 0.28 nm waist', b: buildMemAqp1Real,
+    children: ['channel-protein', 'water', 'phospholipid', 'polypeptide'],
+    desc: 'Real structure of Aquaporin-1 (PDB 1J4N): four hourglass pores lined by central NPA (Asn-Pro-Ala) dipoles stream ~10⁹ single-file H₂O molecules per second down osmotic gradients while strictly excluding protons (H⁺) and dissolved ions.' },
+  'real-mem-glut1': { name: 'Human GLUT1 glucose uniporter (PDB 4PYP)', scale: '~6 nm alternating-access carrier', b: buildMemGlut1Real,
+    children: ['glucose', 'phospholipid', 'polypeptide', 'alpha-helix'],
+    desc: 'Real crystal structure of human GLUT1 (PDB 4PYP): twelve transmembrane alpha-helices rock between outward-open, occluded, and inward-open conformations to carry polar D-glucose down its concentration gradient with zero ATP cost.' },
+  'real-mem-nak': { name: 'Electrogenic Na⁺/K⁺-ATPase pump (PDB 3WGU)', scale: '~10 nm · 3 Na⁺ out / 2 K⁺ in per ATP', b: buildMemNakReal,
+    children: ['na-k-pump', 'phospholipid', 'polypeptide', 'atom-p'],
+    desc: 'Real crystal structure of the Sodium–Potassium Pump (PDB 3WGU): hydrolyzing 1 ATP drives an E1 ↔ E2 phosphorylation cycle exporting 3 Na⁺ and importing 2 K⁺ uphill — sustaining resting -70 mV membrane voltage and preventing animal osmotic lysis.' },
+  'real-mem-vesicle': { name: 'SNARE 4-helix fusion & Clathrin bulk transport (PDB 1SFC)', scale: '~12 nm vesicular zipper', b: buildMemVesicleReal,
+    children: ['vesicle', 'phospholipid', 'polypeptide', 'alpha-helix'],
+    desc: 'Real crystal structure of the neuronal/exocytic SNARE four-helix bundle (PDB 1SFC): paired with Clathrin coats (1XI4) for inward endocytosis, SNARE zippering overcomes hydration repulsion to fuse secretory vesicles directly into the plasma membrane.' },
 };
 
 // =====================================================================
@@ -6206,6 +6596,9 @@ const MENU_GROUPS = [
   ] },
   { id: 'stage-5', label: '5 · Cellular Processes — Division, Genes & Energy', sub: 'Copying, Expressing & Powering Life', items: [
     ['real-cell-division', '5.1 · Cell division: fission, mitosis & meiosis'],
+    ['real-central-dogma', '5.2 · Central dogma, splicing & mutations'],
+    ['real-bioenergetics', '5.3 · Bioenergetics: photosynthesis ↔ respiration'],
+    ['real-membrane-transport', '5.4 · Membrane transport & osmosis lab'],
   ] },
 ];
 const ROOTS = MENU_GROUPS.flatMap(g => g.items), EXTRA_ROOTS = new Set(['cell', 'plant-cell', 'prokaryote']), isRoot = id => ROOTS.some(r => r[0] === id) || EXTRA_ROOTS.has(id);
@@ -6233,6 +6626,9 @@ const TOUR_BY_ROOT = {
   'real-viroid': window.TOURS?.viroid ?? null,
   'real-prion': window.TOURS?.prion ?? null,
   'real-cell-division': window.TOURS?.cell_division ?? null,
+  'real-central-dogma': window.TOURS?.central_dogma ?? null,
+  'real-bioenergetics': window.TOURS?.bioenergetics ?? null,
+  'real-membrane-transport': window.TOURS?.membrane_transport ?? null,
 };
 const collapsedMenus = new Set();
 const cache = new Map(), expanded = new Set(ROOTS.map(r => r[0]));
@@ -6317,6 +6713,9 @@ const PAGES = {
   'viroid_realistic.html': { title: 'Realistic PSTVd Viroid', look: 'RNA' },
   'prion_realistic.html': { title: 'Realistic Prion Fibril', look: 'Fibril' },
   'cell_division_realistic.html': { title: 'Interactive Cell Division', look: 'Spindle' },
+  'central_dogma_realistic.html': { title: 'Central Dogma & Mutations', look: 'Envelope' },
+  'bioenergetics_realistic.html': { title: 'Photosynthesis & Respiration', look: 'Organelles' },
+  'membrane_transport_realistic.html': { title: 'Membrane Transport & Osmosis', look: 'Bilayer' },
 };   // each also gets: el (its iframe), ready, data (symbols, recipes, parts), state (button states), pending (the view to show once ready)
 let page = null, realPts = [], viewSeq = 0;   // the page in the stage
 const pageOf = id => NODES[id].page ?? 'animal_cell_realistic.html';
@@ -6355,6 +6754,9 @@ const RECIPE = {
   'viroid_realistic.html': { 'real-viroid-loope': 'loop_e', 'real-viroid-pol2': 'pol2', 'pol-ii': 'pol2', rna: 'c_domain', nucleotide: 'wobble_gu', 'atom-p': 'rna_atoms' },
   'prion_realistic.html': { 'real-prion-prpc': 'prpc', 'real-prion-piribs': 'prpsc_fibril', 'real-prion-zipper': 'beta_rungs', 'atom-s': 'disulfide', 'beta-sheet': 'piribs_core', 'alpha-helix': 'helices_h123', 'plasma-membrane': 'lipid_raft' },
   'cell_division_realistic.html': { 'real-div-fission': 'ftsz_ring', 'real-div-ftsz': 'ftsz_ring', 'real-div-spindle': 'spindle_mt', 'real-div-condensin': 'condensin', 'real-div-cohesin': 'cohesin', 'real-div-kinetochore': 'kinetochore', 'real-div-separase': 'separase', 'real-div-meiosis': 'bivalent', 'real-div-synaptonemal': 'synaptonemal', 'real-div-rad51': 'rad51', 'real-div-holliday': 'holliday', chromosome: 'sister_chromatids', centrosome: 'centrosome', microtubule: 'spindle_mt', dna: 'dna_basepair' },
+  'central_dogma_realistic.html': { 'real-cd-replisome': 'pol_delta', 'real-cd-pol-delta': 'pol_delta', 'real-cd-spliceosome': 'spliceosome', 'real-cd-splicing-view': 'exon_junction', 'real-cd-ribo80': 'ribosome_80s', 'real-cd-trna': 'trna_ape', 'real-cd-tric': 'tric_groel', 'real-cd-hsp70': 'hsp70', 'real-cd-hbs': 'hb_sickle_fiber', 'real-cd-acrb': 'acrb_pocket', 'real-cd-mutation-atom': 'codon_atoms', dna: 'chromatin', rna: 'mature_mrna', ribosome: 'ribosome_80s', protein: 'hb_wildtype' },
+  'bioenergetics_realistic.html': { 'real-bio-psii': 'psii', 'real-bio-b6f': 'cyt_b6f', 'real-bio-psi': 'psi', 'real-bio-rubisco': 'rubisco', 'real-bio-citrate': 'krebs_cycle', 'real-bio-complex1': 'complex_i', 'real-bio-complex4': 'complex_iv', 'real-bio-atpsynth': 'f1f0_atps', chloroplast: 'chloroplast_hull', mitochondrion: 'mito_hull', chlorophyll: 'cofactor_atoms', glucose: 'glycolysis', 'atp-synthase': 'f1f0_atps' },
+  'membrane_transport_realistic.html': { 'real-mem-aqp1': 'aquaporin', 'real-mem-glut1': 'glut1', 'real-mem-nak': 'nak_pump', 'real-mem-vesicle': 'snare_fusion', 'plasma-membrane': 'bilayer', phospholipid: 'bilayer', 'cell-wall': 'cell_wall', 'central-vacuole': 'vacuole', water: 'water_flow', glucose: 'glut1' },
 };
 const nName = id => i18n.nodeName(id, NODES[id]?.name ?? id);
 const nScale = id => i18n.nodeScale(id, NODES[id]?.scale ?? '');
@@ -6984,6 +7386,18 @@ const AUTONOMY_PROFILES = {
   'real-cell-division': {
     statusKey: 'statusCellDivision',
     pills: [['ok', 'pillarFission'], ['ok', 'pillarMitosis'], ['ok', 'pillarMeiosis'], ['ok', 'pillarDna']],
+  },
+  'real-central-dogma': {
+    statusKey: 'statusCentralDogma',
+    pills: [['ok', 'pillarDna'], ['ok', 'pillarSplicing'], ['ok', 'pillarRibosomes80S'], ['warn', 'pillarPointMutation']],
+  },
+  'real-bioenergetics': {
+    statusKey: 'statusBioenergetics',
+    pills: [['ok', 'pillarLightZScheme'], ['ok', 'pillarCalvinGlucose'], ['ok', 'pillarMitoEtc'], ['ok', 'pillarAtpYield']],
+  },
+  'real-membrane-transport': {
+    statusKey: 'statusMembraneTransport',
+    pills: [['ok', 'pillarOsmosis'], ['ok', 'pillarAquaporinGlut'], ['ok', 'pillarNakPump'], ['ok', 'pillarVesicular']],
   },
 };
 function renderInfo() {

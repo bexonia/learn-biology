@@ -1,7 +1,7 @@
 # 16 — Bioenergetics (Photosynthesis ↔ Cellular Respiration) & Membrane Transport / Osmosis
 
 **Iteration:** 16  
-**Status:** 📋 **Planned**  
+**Status:** ✅ **Completed**  
 **Parent Index:** [roadmap/README.md](./README.md)  
 **Previous Step:** [15-central-dogma-pipeline-and-molecular-evolution.md](./15-central-dogma-pipeline-and-molecular-evolution.md)  
 **Next Step:** [17-specialized-human-cells-and-cell-differentiation.md](./17-specialized-human-cells-and-cell-differentiation.md)

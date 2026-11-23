@@ -28,6 +28,14 @@ import {
   PARASITIC_CELLS_NODE_LENSES,
   PARASITIC_CELLS_PART_LENSES
 } from './lenses_parasitic_cells.js';
+import {
+  EDGE_OF_LIFE_NODE_LENSES,
+  EDGE_OF_LIFE_PART_LENSES
+} from './lenses_edge_of_life.js';
+import {
+  CELL_DIVISION_NODE_LENSES,
+  CELL_DIVISION_PART_LENSES
+} from './lenses_cell_division.js';
 
 registerNodeLenses(INTRO_NODE_LENSES);
 registerNodeLenses(SCALE_BIOMOLECULES_NODE_LENSES);
@@ -40,6 +48,8 @@ registerNodeLenses(PROKARYOTE_NODE_LENSES);
 registerNodeLenses(PHAGE_DNA_VIRUS_NODE_LENSES);
 registerNodeLenses(ENVELOPED_VIRUS_NODE_LENSES);
 registerNodeLenses(PARASITIC_CELLS_NODE_LENSES);
+registerNodeLenses(EDGE_OF_LIFE_NODE_LENSES);
+registerNodeLenses(CELL_DIVISION_NODE_LENSES);
 
 registerPartLenses(SCALE_BIOMOLECULES_PART_LENSES);
 registerPartLenses(ARCHAEA_PART_LENSES);
@@ -51,6 +61,8 @@ registerPartLenses(PROKARYOTE_PART_LENSES);
 registerPartLenses(PHAGE_DNA_VIRUS_PART_LENSES);
 registerPartLenses(ENVELOPED_VIRUS_PART_LENSES);
 registerPartLenses(PARASITIC_CELLS_PART_LENSES);
+registerPartLenses(EDGE_OF_LIFE_PART_LENSES);
+registerPartLenses(CELL_DIVISION_PART_LENSES);
 
 export * from './types.js';
 export * from './parser.js';
@@ -76,5 +88,9 @@ export {
   ENVELOPED_VIRUS_NODE_LENSES,
   ENVELOPED_VIRUS_PART_LENSES,
   PARASITIC_CELLS_NODE_LENSES,
-  PARASITIC_CELLS_PART_LENSES
+  PARASITIC_CELLS_PART_LENSES,
+  EDGE_OF_LIFE_NODE_LENSES,
+  EDGE_OF_LIFE_PART_LENSES,
+  CELL_DIVISION_NODE_LENSES,
+  CELL_DIVISION_PART_LENSES
 };

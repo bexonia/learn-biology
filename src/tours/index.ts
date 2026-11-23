@@ -5,19 +5,23 @@ import { archaeaTour } from "./archaea.js";
 import { bacteriophageTour } from "./bacteriophage.js";
 import { bacterium_cellTour } from "./bacterium_cell.js";
 import { biology_introTour } from "./biology_intro.js";
+import { cell_divisionTour } from "./cell_division.js";
 import { chlamydiaTour } from "./chlamydia.js";
 import { coronavirusTour } from "./coronavirus.js";
 import { eukaryotic_cellTour } from "./eukaryotic_cell.js";
 import { fungal_cellTour } from "./fungal_cell.js";
 import { gram_positiveTour } from "./gram_positive.js";
 import { hivTour } from "./hiv.js";
+import { mimivirusTour } from "./mimivirus.js";
 import { mycoplasmaTour } from "./mycoplasma.js";
 import { parameciumTour } from "./paramecium.js";
 import { plant_cellTour } from "./plant_cell.js";
 import { plasmodiumTour } from "./plasmodium.js";
+import { prionTour } from "./prion.js";
 import { rickettsiaTour } from "./rickettsia.js";
 import { scale_biomoleculesTour } from "./scale_biomolecules.js";
 import { tmvTour } from "./tmv.js";
+import { viroidTour } from "./viroid.js";
 import { virusesTour } from "./viruses.js";
 
 export const ALL_TOURS: Record<string, TourDefinition> = {
@@ -27,18 +31,22 @@ export const ALL_TOURS: Record<string, TourDefinition> = {
   archaea: archaeaTour,
   bacteriophage: bacteriophageTour,
   bacterium: bacterium_cellTour,
+  cell_division: cell_divisionTour,
   chlamydia: chlamydiaTour,
   coronavirus: coronavirusTour,
   eukaryotic: eukaryotic_cellTour,
   fungal: fungal_cellTour,
   gram_positive: gram_positiveTour,
   hiv: hivTour,
+  mimivirus: mimivirusTour,
   mycoplasma: mycoplasmaTour,
   paramecium: parameciumTour,
   plant: plant_cellTour,
   plasmodium: plasmodiumTour,
+  prion: prionTour,
   rickettsia: rickettsiaTour,
   tmv: tmvTour,
+  viroid: viroidTour,
   viruses: virusesTour,
 };
 
@@ -52,6 +60,10 @@ export {
   gram_positiveTour,
   parameciumTour,
   plasmodiumTour,
+  mimivirusTour,
+  viroidTour,
+  prionTour,
+  cell_divisionTour,
   mycoplasmaTour,
   chlamydiaTour,
   rickettsiaTour,

@@ -15,6 +15,8 @@ import { runBiologyApp, buildPdbSurfaceGeo, makeProteinBumpTexture } from '../in
 import { PDB_ARCHAEA } from '../molecules/pdb_archaea.js';
 import { PDB_GRAM_POSITIVE } from '../molecules/pdb_gram_positive.js';
 import { PDB_PROTISTS } from '../molecules/pdb_protists.js';
+import { PDB_SUBVIRAL } from '../molecules/pdb_subviral.js';
+import { PDB_DIVISION } from '../molecules/pdb_division.js';
 import { CourseProgressManager } from '../core/progress_service.js';
 import {
   PRESET_SPANISH_VOICE_BY_MODE,
@@ -103,7 +105,7 @@ function baseLetter(ch, at, lift = 1.2, size = 2.3) {
   return sp;
 }
 const PAIR = { A: 'T', T: 'A', G: 'C', C: 'G' };
-const EL = { H: { c: '#f2f2f2', r: .26 }, C: { c: '#8c8c8c', r: .4 }, N: { c: '#3a62ff', r: .39 }, O: { c: '#ff3a3a', r: .38 }, P: { c: '#ff9a1f', r: .48 }, Mg: { c: '#7dff4a', r: .5 }, Ca: { c: '#ffd452', r: .54 }, Fe: { c: '#ff6e3a', r: .52 } };
+const EL = { H: { c: '#f2f2f2', r: .26 }, C: { c: '#8c8c8c', r: .4 }, N: { c: '#3a62ff', r: .39 }, O: { c: '#ff3a3a', r: .38 }, P: { c: '#ff9a1f', r: .48 }, Mg: { c: '#7dff4a', r: .5 }, Ca: { c: '#ffd452', r: .54 }, Fe: { c: '#ff6e3a', r: .52 }, S: { c: '#ffe44a', r: .47 } };
 
 const matCache = new Map();
 const VERT = `
@@ -590,7 +592,7 @@ function buildAmino() {
     A(P[8], 'Hydrogen', 'atom-h'), A(P[5], 'Side chain R (–CH₃)'), A(P[4], 'Carboxyl group (–COOH)')]);
 }
 
-const ATOMS = { H: { Z: 1, N: 0, sh: [1] }, C: { Z: 6, N: 6, sh: [2, 4] }, N: { Z: 7, N: 7, sh: [2, 5] }, O: { Z: 8, N: 8, sh: [2, 6] }, P: { Z: 15, N: 16, sh: [2, 8, 5] }, Mg: { Z: 12, N: 12, sh: [2, 8, 2] }, Ca: { Z: 20, N: 20, sh: [2, 8, 8, 2] }, Fe: { Z: 26, N: 30, sh: [2, 8, 14, 2] } };
+const ATOMS = { H: { Z: 1, N: 0, sh: [1] }, C: { Z: 6, N: 6, sh: [2, 4] }, N: { Z: 7, N: 7, sh: [2, 5] }, O: { Z: 8, N: 8, sh: [2, 6] }, P: { Z: 15, N: 16, sh: [2, 8, 5] }, Mg: { Z: 12, N: 12, sh: [2, 8, 2] }, Ca: { Z: 20, N: 20, sh: [2, 8, 8, 2] }, Fe: { Z: 26, N: 30, sh: [2, 8, 14, 2] }, S: { Z: 16, N: 16, sh: [2, 8, 6] } };
 function buildAtom(sym) {
   const a = ATOMS[sym], g = new THREE.Group(), an = [], tot = a.Z + a.N, rn = tot === 1 ? 0 : .36 * Math.cbrt(tot);
   const types = [...Array(a.Z).fill(1), ...Array(a.N).fill(0)];
@@ -4497,6 +4499,279 @@ function buildPlasHeme() {
 }
 
 // =====================================================================
+// Phases 13 & 14: Edge of Life & Cell Division — Comparative Stage & PDB Builders
+// =====================================================================
+function buildSubviralOverview() {
+  const g = new THREE.Group(), an = [];
+  const pedMat = colHex => new THREE.MeshPhysicalMaterial({ color: colHex, roughness: .28, metalness: .15, clearcoat: .7, transparent: true, opacity: .34 });
+  const addPed = (x, colHex) => {
+    const disc = new THREE.Mesh(new THREE.CylinderGeometry(4.1, 4.45, .42, 48), pedMat(colHex));
+    disc.position.set(x, -3.65, 0); disc.userData.noOutline = true; g.add(disc);
+    const rim = new THREE.Mesh(new THREE.TorusGeometry(4.25, .07, 10, 64), std(colHex, { glow: .75 }));
+    rim.rotation.x = Math.PI / 2; rim.position.set(x, -3.44, 0); rim.userData.noOutline = true; g.add(rim);
+  };
+  // Left Pedestal: Giant Virus (Mimivirus — 750 nm capsid + fiber canopy + golden stargate) + 300 nm Mycoplasma comparison ring
+  addPed(-11.8, '#7c6aff');
+  {
+    const mk = g.children.length;
+    const cap = new THREE.Mesh(new THREE.IcosahedronGeometry(2.35, 1), std('#7c6aff', { glow: .34, bump: true }));
+    cap.position.set(-11.8, .25, 0); g.add(cap);
+    const fMat = std('#6ae6ff', { glow: .45 });
+    for (let i = 0; i < 64; i++) {
+      const d = fibDir(i, 64);
+      g.add(stick(V(-11.8, .25, 0).addScaledVector(d, 2.3), V(-11.8, .25, 0).addScaledVector(d, 3.25), .055, fMat));
+    }
+    const sg = new THREE.Mesh(new THREE.TorusGeometry(.85, .14, 10, 5), std('#ffd166', { glow: .7 }));
+    sg.position.set(-11.8, .25, 2.45); g.add(sg);
+    // Reference Mycoplasma ring (300 nm vs 750 nm)
+    const refRing = new THREE.Mesh(new THREE.TorusGeometry(1.15, .06, 8, 36), std('#5cf2b8', { glow: .6 }));
+    refRing.position.set(-15.6, -2.0, 1.3); g.add(refRing);
+    tagFrom(g, mk, 'real-mimivirus');
+  }
+  // Center Pedestal: Viroid (PSTVd — 359-nt naked circular rod-like ssRNA, zero capsid, zero protein genes)
+  addPed(0, '#38e8b8');
+  {
+    const mk = g.children.length;
+    const cols = ['#38e8ff', '#ff9f5a', '#46f09c', '#b47cff', '#5aa6ff'];
+    const pA = [], pB = [];
+    for (let i = 0; i <= 24; i++) {
+      const t = i / 24, x = -3.4 + t * 6.8, bulge = (i === 7 || i === 14 || i === 19) ? .55 : .28;
+      pA.push(V(x, .25 + bulge + Math.sin(t * 14) * .08, Math.cos(t * 14) * .12));
+      pB.push(V(x, .25 - bulge - Math.sin(t * 14) * .08, -Math.cos(t * 14) * .12));
+      if (i > 0 && i < 24 && i % 2 === 0) {
+        g.add(stick(pA[i], pB[i], .065, std(cols[Math.floor(t * 5) % 5], { glow: .55 })));
+      }
+    }
+    g.add(tube(pA, .14, std('#38e8b8', { glow: .42 }), 10, 40), tube(pB, .14, std('#38e8b8', { glow: .42 }), 10, 40));
+    const loopGlow = sphere(.58, xray('#ffdf5c', 1.35, 1.4, .28), 18); loopGlow.position.set(.4, .25, 0); g.add(loopGlow);
+    tagFrom(g, mk, 'real-viroid');
+  }
+  // Right Pedestal: Prion (PrP^C -> PrP^Sc PIRIBS cross-beta amyloid fibril, zero DNA, zero RNA)
+  addPed(11.8, '#ff5c7a');
+  {
+    const mk = g.children.length;
+    const rungMat = std('#ff5c7a', { glow: .42, bump: true });
+    for (let i = 0; i < 11; i++) {
+      const y = -2.35 + i * .52, ang = i * .16;
+      const rung = new THREE.Mesh(new THREE.BoxGeometry(2.5, .24, 1.35), rungMat);
+      rung.position.set(11.8, y, 0); rung.rotation.y = ang; g.add(rung);
+    }
+    // Incoming healthy alpha-helical PrP^C monomer docking onto fibril tip
+    const helMat = std('#4ae8ff', { glow: .55 });
+    for (let h = 0; h < 3; h++) {
+      const cyl = new THREE.Mesh(new THREE.CylinderGeometry(.22, .22, 1.4, 14), helMat);
+      cyl.position.set(9.9 + h * .45, 3.15, .35); cyl.rotation.z = .35 - h * .3; g.add(cyl);
+    }
+    tagFrom(g, mk, 'real-prion');
+  }
+  an.push(
+    A(V(-11.8, 4.4, .6), '1. Mimivirus (750 nm · 1.18 Mbp · 0 ribosomes)', 'real-mimivirus'),
+    A(V(-15.6, -3.2, 1.5), '300 nm Mycoplasma (smallest living cell)', 'real-mycoplasma'),
+    A(V(0, 2.35, .6), '2. PSTVd Viroid (359-nt RNA · 0 capsid · 0 genes)', 'real-viroid'),
+    A(V(11.8, 4.4, .6), '3. Prion PrPᶜ → PrPˢᶜ (0 DNA · 0 RNA · protein only)', 'real-prion'),
+  );
+  return finalize(g, an, 17.6);
+}
+
+function buildMimiCapsidReal() {
+  const cols = ['#7c6aff', '#5aa6ff', '#46e6c8'];
+  const { g, of } = genericPdbModel(PDB_SUBVIRAL, 'mimi_mcp', gr => cols[gr % cols.length], false);
+  const all = of(() => true);
+  return finalize(g, [
+    A(outmost(of(b => b.g === 0)), 'Double jelly-roll major capsid protein trimer (PDB 5J7O)', 'polypeptide'),
+    A(topOf(all), 'Pseudo-hexagonal outer capsid facet anchoring 125 nm fibers', 'alpha-helix'),
+    A(lowOf(all), 'Inner facet contacting the internal viral lipid membrane', 'amino-acid'),
+  ]);
+}
+
+function buildMimiTyrrsReal() {
+  const cols = ['#ffd166', '#ff7a98'];
+  const { g, of } = genericPdbModel(PDB_SUBVIRAL, 'mimi_aars', gr => cols[gr % cols.length], false);
+  const all = of(() => true);
+  return finalize(g, [
+    A(topOf(all), 'Mimivirus tyrosyl-tRNA synthetase dimer (PDB 2J5B)', 'polypeptide'),
+    A(outmost(of(b => b.g === 0)), 'Virus-encoded translation enzyme — yet 0 ribosomes in genome', 'alpha-helix'),
+    A(lowOf(all), 'Catalytic ATP + tyrosine charging cleft', 'amino-acid'),
+  ]);
+}
+
+function buildMimiFiberReal() {
+  const cols = ['#56f0b0', '#70c8ff', '#d68cff'];
+  const { g, of } = genericPdbModel(PDB_SUBVIRAL, 'mimi_rnap', gr => cols[gr % cols.length], false);
+  const all = of(() => true);
+  return finalize(g, [
+    A(topOf(all), 'Mimivirus 30 nm genomic fiber & transcription core (PDB 7YX3)', 'polypeptide'),
+    A(lowOf(all), 'Packaged 1.18 Mbp linear dsDNA chromosome (~1,000 genes)', 'dna'),
+  ]);
+}
+
+function buildViroidPol2Real() {
+  const cols = ['#46e6c8', '#7aaeff', '#ff82a8', '#ffd166', '#b088ff', '#5cf2b8'];
+  const { g, of } = genericPdbModel(PDB_SUBVIRAL, 'host_rnap2', gr => cols[gr % cols.length], false);
+  const all = of(() => true);
+  return finalize(g, [
+    A(topOf(all), 'Host plant 12-subunit RNA Polymerase II (PDB 1WCM)', 'polypeptide'),
+    A(outmost(of(b => b.g === 0)), 'DNA-dependent enzyme tricked into copying naked PSTVd RNA', 'rna'),
+    A(lowOf(all), 'Active Mg²⁺ catalytic bridge driving rolling-circle synthesis', 'atom-mg'),
+  ]);
+}
+
+function buildPrionPrpcReal() {
+  const cols = ['#4ae8ff'];
+  const { g, of } = genericPdbModel(PDB_SUBVIRAL, 'prpc', gr => cols[gr % cols.length], false);
+  const all = of(() => true);
+  return finalize(g, [
+    A(topOf(all), 'Healthy soluble cellular PrPᶜ (NMR PDB 1QLX)', 'alpha-helix'),
+    A(outmost(all), 'Three native alpha-helices (H1–H3) before misfolding', 'polypeptide'),
+    A(lowOf(all), 'Intramolecular Cys179–Cys214 disulfide stabilizer', 'atom-s'),
+  ]);
+}
+
+function buildPrionPiribsReal() {
+  const cols = ['#ff5c7a', '#ff965a', '#ffd266', '#ff7096'];
+  const { g, of } = genericPdbModel(PDB_SUBVIRAL, 'prpsc_fibril', gr => cols[gr % cols.length], false);
+  const all = of(() => true);
+  return finalize(g, [
+    A(topOf(all), 'Pathogenic PrPˢᶜ PIRIBS cross-beta fibril (cryo-EM PDB 7LNA)', 'beta-sheet'),
+    A(outmost(of(b => b.g === 0)), 'Parallel in-register beta-sheet rungs spaced every 4.8 Å', 'real-prion-zipper'),
+    A(lowOf(all), 'Protease-resistant amyloid core with 0 DNA & 0 RNA', 'amino-acid'),
+  ]);
+}
+
+function buildPrionZipper() {
+  const g = new THREE.Group();
+  // Stacked 4.8 A cross-beta amide backbone rungs with N-H...O=C hydrogen bonds + Cys-Cys S-S disulfide bridge
+  const atoms: any[] = [];
+  for (let r = 0; r < 3; r++) {
+    const y = (r - 1) * 2.55;
+    atoms.push(['N', -4.2, y, 0], ['C', -2.9, y + .3, .2], ['C', -1.6, y, 0], ['O', -1.6, y - 1.15, .15], ['H', -4.2, y + 1.0, .1]);
+    atoms.push(['N', -.3, y + .3, -.1], ['C', 1.0, y, .1], ['C', 2.3, y + .3, 0], ['O', 2.3, y - 1.05, .15]);
+  }
+  // Conserved Cys179-Cys214 S-S disulfide bridge on right flank
+  atoms.push(['C', 4.3, 1.3, .2], ['S', 4.8, .0, .2], ['S', 4.8, -1.5, .2], ['C', 4.3, -2.7, .2]);
+  const m = molecule(atoms);
+  const hbMat = std('#56f0ff', { glow: .8 });
+  for (let r = 0; r < 2; r++) {
+    const y0 = (r - 1) * 2.55, y1 = r * 2.55;
+    g.add(stick(V(-4.2, y0 + 1.0, .1), V(-4.2, y1 - .1, .0), .07, hbMat));
+    g.add(stick(V(-1.6, y0 + .15, .05), V(-1.6, y1 - 1.15, .15), .07, hbMat));
+    g.add(stick(V(2.3, y0 + .35, .0), V(2.3, y1 - 1.05, .15), .07, hbMat));
+  }
+  const sHalo = sphere(.88, xray('#ffe44a', 1.4, 1.4, .26), 20); sHalo.position.set(4.8, -.75, .2);
+  g.add(m, sHalo);
+  return finalize(g, [
+    A(V(-3.8, 3.6, .1), '4.8 Å backbone N–H···O=C H-bond ladder', 'atom-n'),
+    A(V(.6, .4, .1), 'Dry steric-zipper peptide core (0 nucleic acid)', 'atom-c'),
+    A(V(5.1, -.75, .2), 'Conserved Cys179–Cys214 S–S disulfide', 'atom-s'),
+    A(V(-1.6, -3.7, .15), 'Carbonyl oxygen locking PrPˢᶜ rungs', 'atom-o'),
+  ]);
+}
+
+function buildDivFtszReal() {
+  const cols = ['#46e6c8', '#7aaeff', '#5cf2b8', '#ffd166'];
+  const { g, of } = genericPdbModel(PDB_DIVISION, 'ftsz_ring', gr => cols[gr % cols.length], false);
+  const all = of(() => true);
+  return finalize(g, [
+    A(topOf(all), 'Bacterial FtsZ GTPase protofilament (PDB 6UNX — ancestor of tubulin)', 'polypeptide'),
+    A(lowOf(all), 'GTP hydrolysis pocket driving mid-cell Z-ring treadmilling', 'tubulin'),
+  ]);
+}
+
+function buildDivCondensinReal() {
+  const cols = ['#b088ff', '#5aa6ff', '#ff82a8', '#ffd166'];
+  const { g, of } = genericPdbModel(PDB_DIVISION, 'condensin', gr => cols[gr % cols.length], false);
+  const all = of(() => true);
+  return finalize(g, [
+    A(topOf(all), 'Condensin SMC ring complex (PDB 6YVU — DNA loop extruder)', 'polypeptide'),
+    A(lowOf(all), 'ATPase heads compacting 2 m of DNA into mitotic chromosomes', 'chromosome'),
+  ]);
+}
+
+function buildDivCohesinReal() {
+  const cols = ['#ffd266', '#ff965a', '#6fe6d8', '#b088ff'];
+  const { g, of } = genericPdbModel(PDB_DIVISION, 'cohesin', gr => cols[gr % cols.length], false);
+  const all = of(() => true);
+  return finalize(g, [
+    A(topOf(all), 'Cohesin SMC ring embracing sister chromatids (PDB 6WG3)', 'polypeptide'),
+    A(lowOf(all), 'Kleisin latch cleaved by separase at anaphase onset', 'real-div-separase'),
+  ]);
+}
+
+function buildDivKinetochoreReal() {
+  const cols = ['#56f0b0', '#4ae8ff', '#ff7096', '#ffd266'];
+  const { g, of } = genericPdbModel(PDB_DIVISION, 'kinetochore', gr => cols[gr % cols.length], false);
+  const all = of(() => true);
+  return finalize(g, [
+    A(topOf(all), 'Ndc80/Nuf2 outer kinetochore coupler (PDB 3VKH)', 'polypeptide'),
+    A(lowOf(all), 'Microtubule-gripping tip sensing bipolar tension for SAC checkpoint', 'microtubule'),
+  ]);
+}
+
+function buildDivSeparaseReal() {
+  const cols = ['#ff6478', '#ffd166'];
+  const { g, of } = genericPdbModel(PDB_DIVISION, 'separase', gr => cols[gr % cols.length], false);
+  const all = of(() => true);
+  return finalize(g, [
+    A(topOf(all), 'Human Separase–Securin protease complex (PDB 7NJ1)', 'polypeptide'),
+    A(lowOf(all), 'Activated by APC/C to snap cohesin rings synchronously', 'real-div-cohesin'),
+  ]);
+}
+
+function buildDivSycp3Real() {
+  const cols = ['#70c8ff', '#d68cff', '#56f0b0', '#ffd266'];
+  const { g, of } = genericPdbModel(PDB_DIVISION, 'sycp3', gr => cols[gr % cols.length], false);
+  const all = of(() => true);
+  return finalize(g, [
+    A(topOf(all), 'Synaptonemal complex SYCP3 tetramer strut (PDB 4CPC)', 'polypeptide'),
+    A(lowOf(all), 'Zippers maternal & paternal homologs for meiotic crossing-over', 'real-div-holliday'),
+  ]);
+}
+
+function buildDivRad51Real() {
+  const cols = ['#ff8a5c', '#ffd266', '#6fe6d8', '#b088ff'];
+  const { g, of } = genericPdbModel(PDB_DIVISION, 'rad51_dmc1', gr => cols[gr % cols.length], false);
+  const all = of(() => true);
+  return finalize(g, [
+    A(topOf(all), 'RAD51/DMC1 recombinase nucleoprotein filament (PDB 5H1B)', 'polypeptide'),
+    A(lowOf(all), 'Invades homologous duplex after Spo11 DNA break', 'dna'),
+  ]);
+}
+
+function buildDivHolliday() {
+  const g = new THREE.Group();
+  const matM = std('#ff7a6b', { glow: .42 }), matP = std('#4ac6ff', { glow: .42 }), rungMat = std('#ffe07a', { glow: .48 });
+  // 4-way X-shaped recombinant Holliday junction swapping maternal (coral) & paternal (cyan) DNA arms!
+  const arms = [
+    [V(-6.2, 4.4, 0), V(-1.2, 1.0, .2), matM, matM],
+    [V(6.2, 4.4, 0), V(1.2, 1.0, -.2), matP, matP],
+    [V(-6.2, -4.4, 0), V(-1.2, -1.0, -.2), matM, matP],
+    [V(6.2, -4.4, 0), V(1.2, -1.0, .2), matP, matM],
+  ];
+  for (const [endP, midP, m1, m2] of arms) {
+    const dir = endP.clone().sub(midP), len = dir.length(), n = dir.clone().normalize();
+    const perp = V(-n.y, n.x, 0).normalize();
+    const s1 = [], s2 = [];
+    for (let i = 0; i <= 14; i++) {
+      const t = i / 14, ang = t * Math.PI * 3.2;
+      const base = midP.clone().addScaledVector(n, t * len);
+      const off = perp.clone().multiplyScalar(Math.cos(ang) * .45).add(V(0, 0, Math.sin(ang) * .45));
+      s1.push(base.clone().add(off)); s2.push(base.clone().sub(off));
+      if (i % 2 === 1) g.add(stick(s1[i], s2[i], .065, rungMat));
+    }
+    g.add(tube(s1, .14, m1, 8, 28), tube(s2, .14, m2, 8, 28));
+  }
+  // Central 4-way crossover exchange bridge
+  g.add(stick(V(-1.2, 1.0, .2), V(1.2, -1.0, .2), .16, matM), stick(V(1.2, 1.0, -.2), V(-1.2, -1.0, -.2), .16, matP));
+  const coreHalo = sphere(1.25, xray('#ffd166', 1.35, 1.4, .22), 20); g.add(coreHalo);
+  return finalize(g, [
+    A(V(-4.2, 3.4, .3), 'Maternal homolog DNA duplex (pre-crossover)', 'dna'),
+    A(V(4.2, 3.4, .3), 'Paternal homolog DNA duplex (pre-crossover)', 'dna'),
+    A(V(0, .2, .4), '4-way Holliday junction strand exchange (Mg²⁺-stabilized)', 'atom-mg'),
+    A(V(4.2, -3.4, .3), 'Recombinant chimeric chromatid arm (new allele combination)', 'nucleotide'),
+  ]);
+}
+
+// =====================================================================
 // The structure tree: biggest (cell) to smallest (atoms)
 // =====================================================================
 const LEG_DNA = [['A', 'Adenine (pairs with T)'], ['T', 'Thymine (pairs with A)'], ['G', 'Guanine (pairs with C)'], ['C', 'Cytosine (pairs with G)'], ['bb0', 'Backbone, strand 1'], ['bb1', 'Backbone, strand 2']];
@@ -5611,6 +5886,191 @@ const NODES = {
     desc: 'A flat aromatic protoporphyrin IX ring gripping a single central iron atom through four pyrrole nitrogens, with twin carboxylate propionate arms that coordinate directly onto an adjacent heme’s Fe³⁺ center to nucleate hemozoin dimers.' },
   'atom-fe': { name: 'Iron atom (Fe / Fe²⁺ / Fe³⁺)', scale: '~0.25 nm (26 protons)', b: () => buildAtom('Fe'), children: [],
     desc: 'Twenty-six protons, thirty neutrons and four electron shells (2, 8, 14, 2). Switching effortlessly between ferrous Fe²⁺ and ferric Fe³⁺ lets iron reversibly carry oxygen inside human hemoglobin — and makes free heme iron chemically hazardous unless locked into hemozoin crystals by Plasmodium.' },
+  // ===================================================================
+  // Phase 13: Edge of Life — Giant Viruses (Mimivirus), Viroids (PSTVd) & Prions
+  // ===================================================================
+  'subviral-overview': { name: 'Beyond viruses: giant viruses, viroids & prions (Edge of Life)', scale: '13 nm – 750 nm comparative stage', b: buildSubviralOverview,
+    children: ['real-mimivirus', 'real-viroid', 'real-prion', 'real-mycoplasma', 'viruses', 'dna', 'rna', 'protein', 'atom-s'],
+    desc: 'Three boundary-breaking replicators compared beside 300 nm Mycoplasma (the smallest living cell): (1) 750 nm Mimivirus is over twice as wide as Mycoplasma with 1.18 Mbp DNA yet still owns zero ribosomes and zero ATP; (2) 50 nm PSTVd viroids are 359-nt naked circular RNA with zero protein coat and zero genes; and (3) 13 nm PrPˢᶜ prions are misfolded amyloid proteins carrying zero DNA and zero RNA.' },
+  'real-mimivirus': { name: 'Giant virus — Acanthamoeba polyphaga Mimivirus (realistic)', scale: '750 nm overall · 1.18 Mbp dsDNA', real: 'overview', page: 'mimivirus_realistic.html',
+    children: ['real-mimi-stargate', 'real-mimi-capsid', 'real-mimi-fiber', 'real-mimi-tyrrs', 'real-mycoplasma', 'dna', 'ribosome', 'atp-synthase'],
+    tags: [
+      ['fibers', 'Dense 125 nm glycosylated surface fiber canopy (750 nm total diameter)', 'real-mimi-capsid', 'fibers'],
+      ['capsid', '500 nm pseudo-icosahedral double-jelly-roll MCP capsid (PDB 5J7O)', 'real-mimi-capsid', 'capsid'],
+      ['stargate', '5-fold star-shaped stargate vertex portal (unzips inside phagosome)', 'real-mimi-stargate', 'stargate'],
+      ['inner_mem', 'Internal lipid bilayer fusing with amoeba phagosome', 'plasma-membrane', 'inner_mem'],
+      ['genomic_fiber', '30 nm helical nucleoprotein genomic fiber (PDB 7YX3)', 'real-mimi-fiber', 'genomic_fiber'],
+      ['dsdna', '1.18 Mbp linear dsDNA chromosome (~1,000 genes)', 'dna', 'dsdna'],
+      ['tyrrs', 'Viral tyrosyl-tRNA synthetase (PDB 2J5B — still 0 ribosomes!)', 'real-mimi-tyrrs', 'tyrrs'],
+      ['viral_rnap', 'Virus-encoded multisubunit RNA polymerase', 'real-mimi-fiber', 'viral_rnap'],
+      ['capping_enz', 'Viral mRNA 5′-capping enzyme complex', 'protein', 'capping_enz'],
+      ['phagosome', 'Acidic Acanthamoeba phagosome triggering stargate opening', 'plasma-membrane', 'phagosome'],
+      ['amoeba_mem', 'Host Acanthamoeba plasma membrane engulfing mimivirus', 'plasma-membrane', 'amoeba_mem'],
+      ['viral_factory', 'Cytoplasmic giant viral factory assembling progeny capsids', 'real-mimi-stargate', 'viral_factory'],
+      ['host_ribo', 'Stolen host amoeba 80S ribosomes (Mimivirus encodes 0 ribosomes)', 'ribosome', 'host_ribo'],
+      ['myco_ref', 'True-scale 300 nm Mycoplasma benchmark (alive, smaller than Mimivirus!)', 'real-mycoplasma', 'myco_ref'],
+      ['atp_pool', 'Host amoeba ATP fueling viral factory assembly', 'atp-synthase', 'atp_pool'],
+      ['dna_atoms', 'Atomic dsDNA A–T / G–C hydrogen bonds & phosphodiester P inset', 'dna', 'dna_atoms'],
+    ],
+    desc: 'Acanthamoeba polyphaga Mimivirus — at 750 nm wide and 1.18 Mbp of dsDNA (~1,000 genes), it dwarfs the living bacterium Mycoplasma genitalium (300 nm, 580 kbp) and even encodes its own TyrRS translation enzyme (PDB 2J5B), yet still owns zero ribosomes and zero ATP metabolism, remaining inert until an amoeba swallows it and its 5-fold stargate unzips.' },
+  'real-mimi-stargate': { name: 'Mimivirus 5-fold stargate portal & phagosome entry (realistic)', scale: '5-fold unzipping star vertex', real: 'stargate', page: 'mimivirus_realistic.html', hi: 'stargate',
+    children: ['real-mimi-capsid', 'real-mimi-fiber', 'plasma-membrane', 'ribosome'],
+    tags: [
+      ['stargate', '5-fold stargate vertex petals unzipping inside acidic phagosome', 'real-mimi-capsid', 'stargate'],
+      ['inner_mem', 'Internal viral lipid membrane fusing to release genomic core', 'plasma-membrane', 'inner_mem'],
+      ['phagosome', 'Acidic amoeba phagosome vacuole', 'plasma-membrane', 'phagosome'],
+      ['viral_factory', 'Cytoplasmic viral factory hijacking host 80S ribosomes', 'ribosome', 'viral_factory'],
+    ],
+    desc: 'Instead of injecting DNA through a narrow tail tube like Phage T4, Mimivirus bears a unique 5-fold stargate seam across one icosahedral vertex that unzips like five petals inside an amoeba phagosome so its internal bilayer fuses and pours the 30 nm genomic fiber into the cytoplasm.' },
+  'real-mimi-capsid': { name: 'Mimivirus double jelly-roll MCP trimer (PDB 5J7O)', scale: '~10 nm NCLDV major capsid trimer', b: buildMimiCapsidReal,
+    children: ['polypeptide', 'alpha-helix', 'beta-sheet', 'amino-acid'],
+    desc: 'Real crystal structure of a nucleocytoplasmic large DNA virus double jelly-roll major capsid protein trimer (PDB 5J7O) tiling the 500 nm pseudo-icosahedral Mimivirus shell and anchoring its 125 nm glycosylated surface fiber canopy.' },
+  'real-mimi-tyrrs': { name: 'Mimivirus tyrosyl-tRNA synthetase (PDB 2J5B)', scale: '~9 nm viral translation enzyme', b: buildMimiTyrrsReal,
+    children: ['polypeptide', 'alpha-helix', 'amino-acid', 'rna'],
+    desc: 'Real crystal structure of Mimivirus tyrosyl-tRNA synthetase (PDB 2J5B) — astonishing proof that giant viruses carry borrowed translation genes, yet still fail the ribosome pillar completely and cannot synthesize a single protein outside a host cell.' },
+  'real-mimi-fiber': { name: 'Mimivirus 30 nm helical genomic fiber & RNAP (PDB 7YX3)', scale: '~30 nm nucleoprotein superhelix', b: buildMimiFiberReal,
+    children: ['dna', 'polypeptide', 'rna', 'nucleotide'],
+    desc: 'Real cryo-EM structure of the Mimivirus nucleoprotein genomic fiber (PDB 7YX3) compacting 1.18 Mbp of linear dsDNA together with pre-packaged viral RNA polymerase for immediate early transcription upon stargate opening.' },
+  'real-viroid': { name: 'Viroid — Potato Spindle Tuber Viroid PSTVd (realistic)', scale: '50 × 2 nm · 359-nt naked circular RNA', real: 'overview', page: 'viroid_realistic.html',
+    children: ['real-viroid-loope', 'real-viroid-pol2', 'rna', 'nucleotide', 'pol-ii', 'atom-p'],
+    tags: [
+      ['tl_domain', 'Terminal Left (TL) replication initiation domain', 'rna', 'tl_domain'],
+      ['p_domain', 'Pathogenicity (P) symptom-modulating domain', 'rna', 'p_domain'],
+      ['c_domain', 'Central Conserved Region (C) hosting Loop E & cleavage hairpin', 'real-viroid-loope', 'c_domain'],
+      ['v_domain', 'Variable (V) sequence-divergent stem-loop domain', 'rna', 'v_domain'],
+      ['tr_domain', 'Terminal Right (TR) plant-trafficking domain', 'rna', 'tr_domain'],
+      ['loop_e', 'Conserved non-canonical Loop E structural motif (TFIIIA/ligase cue)', 'real-viroid-loope', 'loop_e'],
+      ['ccr_hairpin', 'Central Conserved Region (CCR) cleavage & circularization hairpin', 'real-viroid-loope', 'ccr_hairpin'],
+      ['wobble_gu', 'Non-Watson–Crick G·U wobble base pairs sculpting rod geometry', 'nucleotide', 'wobble_gu'],
+      ['pol2', 'Hijacked plant 12-subunit RNA Polymerase II (PDB 1WCM)', 'real-viroid-pol2', 'pol2'],
+      ['tfiiia', 'Plant splicing variant TFIIIA-7ZF adapting Pol II onto RNA template', 'protein', 'tfiiia'],
+      ['minus_rna', 'Multimeric (-) linear concatemer RNA intermediate', 'rna', 'minus_rna'],
+      ['plus_rna', 'Cleaved & ligated (+) progeny circular PSTVd rings', 'rna', 'plus_rna'],
+      ['ligase', 'Host plant DNA ligase 1 redirected to seal circular RNA', 'protein', 'ligase'],
+      ['rna_atoms', 'Atomic 2′-OH ribose, phosphodiester P & G·U wobble H-bonds inset', 'nucleotide', 'rna_atoms'],
+    ],
+    desc: 'Potato Spindle Tuber Viroid (PSTVd) — just 359 nucleotides of covalently closed naked circular ssRNA with ZERO capsid, ZERO lipid envelope, and ZERO protein-coding genes. Its self-paired 5-domain rod hijacks host plant DNA-dependent RNA Polymerase II (PDB 1WCM) via TFIIIA-7ZF for asymmetric rolling-circle replication.' },
+  'real-viroid-loope': { name: 'PSTVd Loop E motif & Central Conserved Region (realistic)', scale: '~3 nm non-canonical RNA structure', real: 'loope', page: 'viroid_realistic.html', hi: 'loop_e',
+    children: ['real-viroid-pol2', 'rna', 'nucleotide', 'atom-p', 'atom-o'],
+    tags: [
+      ['loop_e', 'Non-canonical Loop E base-triple motif directing circularization', 'rna', 'loop_e'],
+      ['ccr_hairpin', 'CCR Hairpin I cleavage substrate for host RNase', 'rna', 'ccr_hairpin'],
+      ['wobble_gu', 'G·U wobble pairs flexing the major groove for protein binding', 'nucleotide', 'wobble_gu'],
+    ],
+    desc: 'Because viroids encode zero proteins, every function — nuclear import, Pol II recruitment, cleavage, circularization and plant trafficking — is encoded directly into 3D RNA folds like the conserved non-canonical Loop E motif and CCR cleavage hairpin.' },
+  'real-viroid-pol2': { name: 'Hijacked eukaryotic RNA Polymerase II (PDB 1WCM)', scale: '~15 nm rolling-circle host copier', b: buildViroidPol2Real,
+    children: ['polypeptide', 'rna', 'nucleotide', 'atom-mg'],
+    desc: 'Real 12-subunit crystal structure of eukaryotic RNA Polymerase II (PDB 1WCM) — normally dedicated to reading chromosomal dsDNA, yet tricked by PSTVd’s double-stranded RNA rod and host TFIIIA-7ZF into copying naked viroid RNA around and around.' },
+  'real-prion': { name: 'Prion — PrPᶜ → PrPˢᶜ cross-beta amyloid fibril (realistic)', scale: '13 nm fibril · 4.8 Å rungs · 0 DNA / 0 RNA', real: 'overview', page: 'prion_realistic.html',
+    children: ['real-prion-prpc', 'real-prion-piribs', 'real-prion-zipper', 'atom-s', 'beta-sheet', 'alpha-helix', 'protein'],
+    tags: [
+      ['lipid_raft', 'Neuronal plasma-membrane sphingolipid/cholesterol lipid raft', 'plasma-membrane', 'lipid_raft'],
+      ['gpi_anchor', 'C-terminal GPI glycolipid anchor tethering healthy PrPᶜ', 'phospholipid', 'gpi_anchor'],
+      ['prpc', 'Soluble native alpha-helical cellular PrPᶜ (NMR PDB 1QLX)', 'real-prion-prpc', 'prpc'],
+      ['helices_h123', 'Three native alpha-helices H1, H2 & H3 (~42% helical)', 'alpha-helix', 'helices_h123'],
+      ['beta_ribbon', 'Short native beta-1 / beta-2 ribbon', 'beta-sheet', 'beta_ribbon'],
+      ['nglycans', 'Two Asn-linked N-glycan carbohydrate chains', 'glucose', 'nglycans'],
+      ['disulfide', 'Conserved Cys179–Cys214 intramolecular S–S disulfide bridge', 'atom-s', 'disulfide'],
+      ['prpsc_fibril', 'Pathogenic PrPˢᶜ cross-beta amyloid fibril (cryo-EM PDB 7LNA / 7TD6)', 'real-prion-piribs', 'prpsc_fibril'],
+      ['piribs_core', 'Parallel In-Register Intermolecular Beta-Sheet (PIRIBS) arch core', 'real-prion-piribs', 'piribs_core'],
+      ['beta_rungs', 'Stacked cross-beta rungs spaced strictly at 4.8 Å (0.48 nm)', 'real-prion-zipper', 'beta_rungs'],
+      ['steric_zipper', 'Dry interdigitated steric-zipper side chains excluding water', 'real-prion-zipper', 'steric_zipper'],
+      ['template_dock', 'Active fibril tip refolding incoming PrPᶜ without DNA or RNA', 'real-prion-piribs', 'template_dock'],
+      ['fragmentation', 'Fibril shearing generating new infectious amyloid seeds', 'real-prion-piribs', 'fragmentation'],
+      ['amide_atoms', 'Atomic 4.8 Å N–H···O=C H-bond ladder & Cys S–S inset (0 P atoms!)', 'real-prion-zipper', 'amide_atoms'],
+    ],
+    desc: 'Biological replication stripped below genes themselves: pathogenic PrPˢᶜ prions carry ZERO DNA and ZERO RNA, propagating solely by templated protein misfolding — docking healthy alpha-helical neuronal PrPᶜ (PDB 1QLX) onto the tip of a protease-resistant cross-beta PIRIBS amyloid fibril (PDB 7LNA / 7TD6) locked every 4.8 Å.' },
+  'real-prion-prpc': { name: 'Healthy soluble cellular PrPᶜ monomer (PDB 1QLX)', scale: '~4 × 3 nm native 3-helix fold', b: buildPrionPrpcReal,
+    children: ['alpha-helix', 'polypeptide', 'amino-acid', 'atom-s'],
+    desc: 'Real solution NMR structure of healthy human cellular prion protein PrPᶜ (PDB 1QLX) — a normal, protease-sensitive, alpha-helix-rich glycoprotein tethered to neuronal membranes by a GPI anchor before encountering a misfolded PrPˢᶜ template.' },
+  'real-prion-piribs': { name: 'Pathogenic PrPˢᶜ PIRIBS cross-beta fibril (PDB 7LNA)', scale: '~13 nm wide · 4.8 Å rung pitch', b: buildPrionPiribsReal,
+    children: ['real-prion-zipper', 'beta-sheet', 'polypeptide', 'amino-acid'],
+    desc: 'Real near-atomic cryo-EM structure of infectious PrPˢᶜ (PDB 7LNA): the exact same 208-amino-acid sequence completely refolded into stacked parallel in-register intermolecular beta-sheets (PIRIBS) stabilized by dry steric zippers and an axial H-bond spine every 4.8 Å.' },
+  'real-prion-zipper': { name: 'Atomic zoom: 4.8 Å cross-beta H-bond ladder & S–S disulfide', scale: '0.1–1.0 nm (C, H, N, O, S — 0 P)', b: buildPrionZipper,
+    children: ['atom-s', 'atom-c', 'atom-n', 'atom-o', 'atom-h'],
+    desc: 'At 0.1–1.0 nm, prion infectivity boils down to pure polypeptide geometry: continuous backbone N–H···O=C hydrogen bonds spaced every 4.8 Å lock adjacent PrPˢᶜ chains together beside the intact Cys179–Cys214 sulfur disulfide bond — with zero phosphorus and zero nucleic-acid bases.' },
+  'atom-s': { name: 'Sulfur atom (S)', scale: '~0.20 nm (16 protons)', b: () => buildAtom('S'), children: [],
+    desc: 'Sixteen protons, sixteen neutrons and three electron shells (2, 8, 6). Found in cysteine and methionine amino acids, sulfur forms covalent S–S disulfide bridges that lock protein folds like PrP Cys179–Cys214, antibodies and extracellular toxins against unfolding.' },
+  // ===================================================================
+  // Phase 14: Cell Division — Binary Fission, Mitosis & Meiosis
+  // ===================================================================
+  'real-cell-division': { name: 'Cell division: binary fission, mitosis & meiosis (interactive timeline)', scale: '2 µm E. coli · 20 µm eukaryote · 10 nm motors', real: 'overview', page: 'cell_division_realistic.html',
+    children: ['real-div-fission', 'real-div-ftsz', 'real-div-spindle', 'real-div-condensin', 'real-div-cohesin', 'real-div-kinetochore', 'real-div-separase', 'real-div-meiosis', 'real-div-synaptonemal', 'real-div-rad51', 'real-div-holliday', 'chromosome', 'nucleosome', 'dna'],
+    tags: [
+      ['cell_cortex', 'Cutaway dividing plasma membrane & cortical actin-myosin shell', 'plasma-membrane', 'cell_cortex'],
+      ['nuclear_env', 'Dissolving / reforming double nuclear envelope (lamin cycle)', 'nuclear-envelope', 'nuclear_env'],
+      ['centrosome', 'Duplicated centrosome poles nucleating bipolar microtubule asters', 'centrosome', 'centrosome'],
+      ['spindle_mt', 'Dynamic mitotic / meiotic spindle microtubules', 'real-div-spindle', 'spindle_mt'],
+      ['kinesin5', 'Bipolar Kinesin-5 / Eg5 sliding antiparallel microtubules (PDB 1II6)', 'real-div-spindle', 'kinesin5'],
+      ['sister_chromatids', 'Condensed sister chromatids (2n = 4 color-coded homolog pairs)', 'chromosome', 'sister_chromatids'],
+      ['condensin', 'Condensin SMC DNA-loop-extruding rings (PDB 6YVU)', 'real-div-condensin', 'condensin'],
+      ['cohesin', 'Cohesin SMC rings clamping sister chromatids (PDB 6WG3)', 'real-div-cohesin', 'cohesin'],
+      ['kinetochore', 'Ndc80 outer kinetochore plaque & tension checkpoint (PDB 3VKH)', 'real-div-kinetochore', 'kinetochore'],
+      ['separase', 'APC/C-activated Separase protease cleaving cohesin (PDB 7NJ1)', 'real-div-separase', 'separase'],
+      ['contractile_ring', 'Actin–myosin II cleavage furrow contractile ring', 'actin-filament', 'contractile_ring'],
+      ['bivalent', 'Meiotic homologous chromosome bivalent tetrad', 'real-div-meiosis', 'bivalent'],
+      ['synaptonemal', 'Synaptonemal complex zipper SYCP3 (PDB 4CPC)', 'real-div-synaptonemal', 'synaptonemal'],
+      ['spo11', 'Spo11 / TopVI programmed meiotic DSB enzyme (PDB 2Q2E)', 'real-div-meiosis', 'spo11'],
+      ['rad51', 'RAD51/DMC1 homologous strand-invasion filament (PDB 5H1B)', 'real-div-rad51', 'rad51'],
+      ['chiasma', 'Physical crossing-over chiasma swapping maternal & paternal arms', 'real-div-holliday', 'chiasma'],
+      ['holliday', '4-way recombinant DNA Holliday junction intermediate', 'real-div-holliday', 'holliday'],
+      ['ftsz_ring', 'Prokaryotic FtsZ GTPase Z-ring cinching E. coli (PDB 6UNX)', 'real-div-ftsz', 'ftsz_ring'],
+      ['par_segregation', 'Bacterial oriC / FtsK DNA translocase pole segregation (PDB 2IUU)', 'real-div-fission', 'par_segregation'],
+      ['dna_basepair', 'Atomic A=T / G≡C base pairs & catalytic Mg²⁺ inset', 'dna', 'dna_basepair'],
+    ],
+    desc: 'Interactive timeline-scrubbable Cinema PBR Cell Division Simulator comparing all three genetic partitioning engines in one 3D stage: prokaryotic E. coli Binary Fission (FtsZ Z-ring PDB 6UNX + FtsK PDB 2IUU), somatic Mitosis (2n → 2×2n via condensin 6YVU, cohesin 6WG3, Ndc80 kinetochore 3VKH, kinesin-5 1II6 & separase 7NJ1), and gametic Meiosis (2n → 4×1n with SYCP3 synapsis 4CPC, Spo11 2Q2E, RAD51 5H1B crossing-over & recombinant Holliday junctions).' },
+  'real-div-fission': { name: 'Prokaryotic binary fission: oriC & FtsZ Z-ring (realistic)', scale: '2 µm elongating E. coli rod', real: 'fission', page: 'cell_division_realistic.html', hi: 'ftsz_ring',
+    children: ['real-div-ftsz', 'real-bacterium', 'peptidoglycan', 'dna'],
+    tags: [
+      ['ftsz_ring', 'GTP-powered FtsZ Z-ring guiding mid-cell septal peptidoglycan (PDB 6UNX)', 'real-div-ftsz', 'ftsz_ring'],
+      ['par_segregation', 'Circular chromosome oriC partitioning & FtsK clearing (PDB 2IUU)', 'dna', 'par_segregation'],
+    ],
+    desc: 'Binary fission is active molecular engineering, not passive pinching: E. coli copies its circular chromosome from oriC, actively segregates origins to opposite poles, and cinches the envelope with a GTP-treadmilling FtsZ Z-ring (evolutionary ancestor of tubulin) coupled to septal wall synthesis.' },
+  'real-div-ftsz': { name: 'Bacterial FtsZ GTPase protofilament (PDB 6UNX)', scale: '~8 nm tubulin ancestor', b: buildDivFtszReal,
+    children: ['tubulin', 'polypeptide', 'alpha-helix', 'amino-acid'],
+    desc: 'Real structure of bacterial FtsZ protofilaments (PDB 6UNX): sharing the exact GTP-binding fold of eukaryotic alpha/beta-tubulin, FtsZ assembles a dynamic mid-cell Z-ring that constricts bacteria during binary fission.' },
+  'real-div-spindle': { name: 'Mitotic spindle, centrosomes & Kinesin-5 (realistic)', scale: '~10 µm bipolar microtubule engine', real: 'mitosis_spindle', page: 'cell_division_realistic.html', hi: 'spindle_mt',
+    children: ['real-div-condensin', 'real-div-cohesin', 'real-div-kinetochore', 'real-div-separase', 'centrosome', 'microtubule'],
+    tags: [
+      ['centrosome', 'Opposing spindle-pole centrosomes nucleating microtubule arrays', 'centrosome', 'centrosome'],
+      ['spindle_mt', 'Kinetochore & interpolar spindle microtubules aligning chromosomes', 'microtubule', 'spindle_mt'],
+      ['kinesin5', 'Antiparallel Kinesin-5 (Eg5) motor pushing poles apart (PDB 1II6)', 'motor-protein', 'kinesin5'],
+      ['kinetochore', 'Bi-oriented Ndc80 kinetochores under balanced tension (PDB 3VKH)', 'real-div-kinetochore', 'kinetochore'],
+      ['separase', 'APC/C–Separase cleaving cohesin once checkpoint clears (PDB 7NJ1)', 'real-div-separase', 'separase'],
+    ],
+    desc: 'The mechanical heart of Mitosis: Kinesin-5 motors push opposing centrosomes apart while kinetochore microtubules capture every chromosome pair, waiting for balanced bipolar tension at the Spindle Assembly Checkpoint before separase triggers synchronous anaphase.' },
+  'real-div-condensin': { name: 'Condensin SMC loop-extrusion ring (PDB 6YVU)', scale: '~45 nm chromosome compactor', b: buildDivCondensinReal,
+    children: ['chromosome', 'nucleosome', 'dna', 'polypeptide'],
+    desc: 'Real cryo-EM structure of the eukaryotic condensin SMC complex (PDB 6YVU): burning ATP to reel two meters of tangled interphase DNA into sturdy, separable mitotic rods 10,000-fold shorter than their stretched length.' },
+  'real-div-cohesin': { name: 'Cohesin SMC sister-chromatid ring (PDB 6WG3)', scale: '~40 nm topological DNA clamp', b: buildDivCohesinReal,
+    children: ['real-div-separase', 'chromosome', 'dna', 'polypeptide'],
+    desc: 'Real cryo-EM structure of the cohesin SMC ring (PDB 6WG3) encircling newly replicated sister chromatids from S-phase until metaphase, resisting spindle tension until APC/C unleashes separase to cleave its kleisin subunit.' },
+  'real-div-kinetochore': { name: 'Ndc80/Nuf2 kinetochore microtubule coupler (PDB 3VKH)', scale: '~55 nm tension-sensing bridge', b: buildDivKinetochoreReal,
+    children: ['microtubule', 'tubulin', 'chromosome', 'polypeptide'],
+    desc: 'Real crystal structure of the Ndc80/Nuf2 outer kinetochore complex (PDB 3VKH): gripping shrinking plus-ends of spindle microtubules and reporting mechanical tension to silence the Spindle Assembly Checkpoint.' },
+  'real-div-separase': { name: 'Separase–Securin anaphase trigger (PDB 7NJ1)', scale: '~14 nm cohesin-cleaving protease', b: buildDivSeparaseReal,
+    children: ['real-div-cohesin', 'polypeptide', 'alpha-helix', 'amino-acid'],
+    desc: 'Real cryo-EM structure of human Separase bound to inhibitory Securin (PDB 7NJ1): once every chromosome achieves bipolar attachment, APC/C tags securin for destruction, unleashing separase to snap cohesin rings instantaneously across the cell.' },
+  'real-div-meiosis': { name: 'Meiosis I crossing-over, bivalents & haploid gametes (realistic)', scale: '2n → 4×1n genetic recombination', real: 'meiosis_crossover', page: 'cell_division_realistic.html', hi: 'bivalent',
+    children: ['real-div-synaptonemal', 'real-div-rad51', 'real-div-holliday', 'chromosome', 'dna'],
+    tags: [
+      ['bivalent', 'Paired maternal + paternal homologous chromosomes (bivalent tetrad)', 'chromosome', 'bivalent'],
+      ['synaptonemal', 'SYCP3/SYCP1 synaptonemal complex protein zipper (PDB 4CPC)', 'real-div-synaptonemal', 'synaptonemal'],
+      ['spo11', 'Spo11 programmed DNA double-strand break enzyme (PDB 2Q2E)', 'protein', 'spo11'],
+      ['rad51', 'RAD51/DMC1 recombinase driving homolog strand invasion (PDB 5H1B)', 'real-div-rad51', 'rad51'],
+      ['chiasma', 'Physical crossover chiasma trading chromosome segments', 'real-div-holliday', 'chiasma'],
+      ['holliday', '4-way DNA Holliday junction resolving into chimeric arms', 'real-div-holliday', 'holliday'],
+    ],
+    desc: 'How sexual reproduction generates endless genetic diversity: homologous chromosomes zip along the synaptonemal complex, exchange DNA segments via Spo11, RAD51 and Holliday junctions, segregate recombinant homologs in Meiosis I, and split sister chromatids in Meiosis II to yield four unique haploid (1n) gametes.' },
+  'real-div-synaptonemal': { name: 'Synaptonemal complex SYCP3 lateral strut (PDB 4CPC)', scale: '~20 nm meiotic zipper scaffold', b: buildDivSycp3Real,
+    children: ['real-div-holliday', 'polypeptide', 'alpha-helix', 'chromosome'],
+    desc: 'Real crystal structure of the human SYCP3 coiled-coil tetramer (PDB 4CPC) assembling the lateral axes of the synaptonemal complex to align homologous maternal and paternal chromosomes base-for-base during Prophase I.' },
+  'real-div-rad51': { name: 'RAD51/DMC1 homologous recombination filament (PDB 5H1B)', scale: '~12 nm strand-invasion helicase', b: buildDivRad51Real,
+    children: ['real-div-holliday', 'dna', 'polypeptide', 'amino-acid'],
+    desc: 'Real cryo-EM structure of the RAD51 recombinase filament (PDB 5H1B) coating resected DNA ends after Spo11 cleavage and searching the homologous chromosome to catalyze base-paired strand invasion and crossing-over.' },
+  'real-div-holliday': { name: '4-way recombinant DNA Holliday junction', scale: '~4 nm four-strand DNA crossover', b: buildDivHolliday,
+    children: ['dna', 'nucleotide', 'atom-mg', 'atom-p', 'atom-c'],
+    desc: 'The physical molecular crossroads of genetic diversity: four DNA strands from maternal and paternal chromosomes interweave across a Mg²⁺-stabilized X-shaped Holliday junction that resolves into chimeric recombinant chromatids.' },
 };
 
 // =====================================================================
@@ -5732,13 +6192,20 @@ const MENU_GROUPS = [
     ['real-chlamydia', '3.2 · Chlamydia trachomatis'],
     ['real-rickettsia', '3.3 · Rickettsia prowazekii'],
   ] },
-  { id: 'stage-4', label: '4 · Viruses — Code Without Cells', sub: '0 Ribosomes · 0 ATP · Hijacks Host', items: [
+  { id: 'stage-4', label: '4 · Viruses & The Edge of Life', sub: '0 Ribosomes · 0 ATP · Hijacks Host', items: [
     ['viruses', '4.1 · All virus architectures (3D)'],
     ['real-phage', '4.2 · Bacteriophage T4'],
     ['real-tmv', '4.3 · Tobacco mosaic (TMV)'],
     ['real-adenovirus', '4.4 · Human adenovirus'],
     ['real-coronavirus', '4.5 · SARS-CoV-2 coronavirus'],
     ['real-hiv', '4.6 · HIV-1 retrovirus'],
+    ['subviral-overview', '4.7 · Giant viruses, viroids & prions (3D)'],
+    ['real-mimivirus', '4.8 · Giant virus (Mimivirus · 750 nm)'],
+    ['real-viroid', '4.9 · Naked RNA viroid (PSTVd · 359 nt)'],
+    ['real-prion', '4.10 · Protein-only prion (PrPᶜ → PrPˢᶜ)'],
+  ] },
+  { id: 'stage-5', label: '5 · Cellular Processes — Division, Genes & Energy', sub: 'Copying, Expressing & Powering Life', items: [
+    ['real-cell-division', '5.1 · Cell division: fission, mitosis & meiosis'],
   ] },
 ];
 const ROOTS = MENU_GROUPS.flatMap(g => g.items), EXTRA_ROOTS = new Set(['cell', 'plant-cell', 'prokaryote']), isRoot = id => ROOTS.some(r => r[0] === id) || EXTRA_ROOTS.has(id);
@@ -5762,6 +6229,10 @@ const TOUR_BY_ROOT = {
   'real-adenovirus': window.TOURS?.adenovirus ?? null,
   'real-coronavirus': window.TOURS?.coronavirus ?? null,
   'real-hiv': window.TOURS?.hiv ?? null,
+  'real-mimivirus': window.TOURS?.mimivirus ?? null,
+  'real-viroid': window.TOURS?.viroid ?? null,
+  'real-prion': window.TOURS?.prion ?? null,
+  'real-cell-division': window.TOURS?.cell_division ?? null,
 };
 const collapsedMenus = new Set();
 const cache = new Map(), expanded = new Set(ROOTS.map(r => r[0]));
@@ -5776,7 +6247,7 @@ function build(id) {
   cache.set(id, out);
   return out;
 }
-const FREE_LOOK_STAGE_NODES = new Set(['life-overview', 'four-biomolecules', 'parasitic-cells-overview']);
+const FREE_LOOK_STAGE_NODES = new Set(['life-overview', 'four-biomolecules', 'parasitic-cells-overview', 'subviral-overview']);
 const localTourPose = { on: false, p0: V(), t0: V(), p1: V(), t1: V(), start: 0, dur: 1000, orbit: 0, theta: 0, yaw: 0, pitch: 0, seq: 0, arrived: true };
 const localHeld = new Set();
 let freeLook = true, freeLookOverride = null, localLookFrom = null;   // null = automatic (Free Look on wide overview stages, Orbit on single organelles/molecules)
@@ -5842,6 +6313,10 @@ const PAGES = {
   'mycoplasma_realistic.html': { title: 'Realistic Mycoplasma', look: 'Envelope' },
   'chlamydia_realistic.html': { title: 'Realistic Chlamydia', look: 'Inclusion' },
   'rickettsia_realistic.html': { title: 'Realistic Rickettsia', look: 'Envelope' },
+  'mimivirus_realistic.html': { title: 'Realistic Mimivirus', look: 'Capsid' },
+  'viroid_realistic.html': { title: 'Realistic PSTVd Viroid', look: 'RNA' },
+  'prion_realistic.html': { title: 'Realistic Prion Fibril', look: 'Fibril' },
+  'cell_division_realistic.html': { title: 'Interactive Cell Division', look: 'Spindle' },
 };   // each also gets: el (its iframe), ready, data (symbols, recipes, parts), state (button states), pending (the view to show once ready)
 let page = null, realPts = [], viewSeq = 0;   // the page in the stage
 const pageOf = id => NODES[id].page ?? 'animal_cell_realistic.html';
@@ -5876,6 +6351,10 @@ const RECIPE = {
   'mycoplasma_realistic.html': { 'real-myco-nap': 'nap', 'real-myco-rod': 'rod', 'real-myco-nucleoid': 'dna', 'ribosome-70s': 'ribosome', dna: 'dna', rna: 'mrna', 'rna-polymerase': 'rnap', phospholipid: 'membrane', cholesterol: 'sterol', cilium: 'cilium' },
   'chlamydia_realistic.html': { 'real-chlam-eb': 't3ss', 'real-chlam-rb': 'mreb', 'real-chlam-npt1': 'npt1', 'ribosome-70s': 'ribosome', dna: 'rb_dna', rna: 'mrna', phospholipid: 'inclusion', peptidoglycan: 'septum', mitochondrion: 'host_cyto', golgi: 'golgi_lip' },
   'rickettsia_realistic.html': { 'real-rick-envelope': 'tlc1', 'real-rick-comet': 'comet', 'real-rick-mito': 'host_mito', mitochondrion: 'host_mito', 'ribosome-70s': 'ribosome', 'atp-synthase': 'atps', 'electron-transport-chain': 'etc', dna: 'dna', 'actin-filament': 'comet', peptidoglycan: 'pg', lps: 'om', phospholipid: 'im' },
+  'mimivirus_realistic.html': { 'real-mimi-stargate': 'stargate', 'real-mimi-capsid': 'capsid', 'real-mimi-fiber': 'genomic_fiber', 'real-mimi-tyrrs': 'tyrrs', 'real-mycoplasma': 'myco_ref', dna: 'dsdna', ribosome: 'host_ribo', 'atp-synthase': 'atp_pool', 'plasma-membrane': 'inner_mem' },
+  'viroid_realistic.html': { 'real-viroid-loope': 'loop_e', 'real-viroid-pol2': 'pol2', 'pol-ii': 'pol2', rna: 'c_domain', nucleotide: 'wobble_gu', 'atom-p': 'rna_atoms' },
+  'prion_realistic.html': { 'real-prion-prpc': 'prpc', 'real-prion-piribs': 'prpsc_fibril', 'real-prion-zipper': 'beta_rungs', 'atom-s': 'disulfide', 'beta-sheet': 'piribs_core', 'alpha-helix': 'helices_h123', 'plasma-membrane': 'lipid_raft' },
+  'cell_division_realistic.html': { 'real-div-fission': 'ftsz_ring', 'real-div-ftsz': 'ftsz_ring', 'real-div-spindle': 'spindle_mt', 'real-div-condensin': 'condensin', 'real-div-cohesin': 'cohesin', 'real-div-kinetochore': 'kinetochore', 'real-div-separase': 'separase', 'real-div-meiosis': 'bivalent', 'real-div-synaptonemal': 'synaptonemal', 'real-div-rad51': 'rad51', 'real-div-holliday': 'holliday', chromosome: 'sister_chromatids', centrosome: 'centrosome', microtubule: 'spindle_mt', dna: 'dna_basepair' },
 };
 const nName = id => i18n.nodeName(id, NODES[id]?.name ?? id);
 const nScale = id => i18n.nodeScale(id, NODES[id]?.scale ?? '');
@@ -6485,6 +6964,26 @@ const AUTONOMY_PROFILES = {
   'real-hiv': {
     statusKey: 'statusNotAlive',
     pills: [['warn', 'pillarCapsid'], ['warn', 'pillarViralGenome'], ['no', 'pillarNoRibosomes'], ['no', 'pillarNoAtp']],
+  },
+  'subviral-overview': {
+    statusKey: 'statusEdgeOfLife',
+    pills: [['warn', 'pillarGiantVirus'], ['no', 'pillarNakedRna'], ['no', 'pillarZeroGenes'], ['no', 'pillarNoRibosomes']],
+  },
+  'real-mimivirus': {
+    statusKey: 'statusGiantVirus',
+    pills: [['warn', 'pillarFiberCapsid'], ['warn', 'pillarGiantDna'], ['no', 'pillarNoRibosomes'], ['no', 'pillarNoAtp']],
+  },
+  'real-viroid': {
+    statusKey: 'statusViroid',
+    pills: [['no', 'pillarNoCapsid'], ['warn', 'pillarNakedRna'], ['no', 'pillarNoRibosomes'], ['no', 'pillarNoAtp']],
+  },
+  'real-prion': {
+    statusKey: 'statusPrion',
+    pills: [['no', 'pillarNoCapsid'], ['no', 'pillarZeroGenes'], ['no', 'pillarNoRibosomes'], ['no', 'pillarNoAtp']],
+  },
+  'real-cell-division': {
+    statusKey: 'statusCellDivision',
+    pills: [['ok', 'pillarFission'], ['ok', 'pillarMitosis'], ['ok', 'pillarMeiosis'], ['ok', 'pillarDna']],
   },
 };
 function renderInfo() {

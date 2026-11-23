@@ -74,6 +74,10 @@ jobs:
             coronavirus_realistic.html \
             adenovirus_realistic.html \
             tmv_realistic.html \
+            mimivirus_realistic.html \
+            viroid_realistic.html \
+            prion_realistic.html \
+            cell_division_realistic.html \
             robots.txt \
             sitemap.xml \
             nginx/default.conf; do
@@ -132,6 +136,10 @@ jobs:
           curl -sf "http://127.0.0.1:8080/gram_positive_realistic.html" | grep -q "Gram"
           curl -sf "http://127.0.0.1:8080/paramecium_realistic.html" | grep -q "Paramecium"
           curl -sf "http://127.0.0.1:8080/plasmodium_realistic.html" | grep -q "Plasmodium"
+          curl -sf "http://127.0.0.1:8080/mimivirus_realistic.html" | grep -q "Mimivirus"
+          curl -sf "http://127.0.0.1:8080/viroid_realistic.html" | grep -q "Viroid"
+          curl -sf "http://127.0.0.1:8080/prion_realistic.html" | grep -q "Prion"
+          curl -sf "http://127.0.0.1:8080/cell_division_realistic.html" | grep -q "Division"
           curl -sf -r 0-3 "http://127.0.0.1:8080/audio/lenses/en/v3/story/real-mycoplasma.opus" | grep -q "OggS"
           curl -sf -r 0-3 "http://127.0.0.1:8080/audio/lenses/es/latam/story/real-chlamydia.opus" | grep -q "OggS"
           curl -sf -r 0-3 "http://127.0.0.1:8080/audio/lenses/en/v1/scientific/real-rickettsia.opus" | grep -q "OggS"
@@ -149,6 +157,11 @@ jobs:
           curl -sf -r 0-3 "http://127.0.0.1:8080/audio/lenses/es/spain/scientific/real-archaea.opus" | grep -q "OggS"
           curl -sf -r 0-3 "http://127.0.0.1:8080/audio/lenses/en/v3/story/real-gram-positive.opus" | grep -q "OggS"
           curl -sf -r 0-3 "http://127.0.0.1:8080/audio/lenses/es/spain/scientific/real-plasmodium.opus" | grep -q "OggS"
+          curl -sf -r 0-3 "http://127.0.0.1:8080/audio/en/v3/real-mimivirus/mimi.ch0.s0.01.opus" | grep -q "OggS"
+          curl -sf -r 0-3 "http://127.0.0.1:8080/audio/es/latam/real-viroid/vir.ch0.s0.01.opus" | grep -q "OggS"
+          curl -sf -r 0-3 "http://127.0.0.1:8080/audio/en/v3/real-prion/pri.ch0.s0.01.opus" | grep -q "OggS"
+          curl -sf -r 0-3 "http://127.0.0.1:8080/audio/en/v3/real-cell-division/div.ch0.s0.01.opus" | grep -q "OggS"
+          curl -sf -r 0-3 "http://127.0.0.1:8080/audio/es/latam/real-cell-division/div.ch0.s0.01.opus" | grep -q "OggS"
           echo "Smoke test passed (/api/health, /, /dist/pages/cell_explorer.js, /audio/*.opus, /robots.txt, /sitemap.xml)."
 
   publish:

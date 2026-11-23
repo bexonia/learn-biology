@@ -1,7 +1,7 @@
 # 13 — Beyond Viruses: Giant Viruses, Viroids & Prions (The Edge of Life)
 
 **Iteration:** 13 (3-Pedestal Comparative Edge-of-Life Stage, Three Standalone Realistic WebGL2 Subviral & Giant-Virus Models, Whole-to-Atomic Molecular Drill-Down, 3-Persona Guided Tours & Sharded GPU `.opus` Narration in `EN` & `ES`)  
-**Status:** 📋 **Planned**  
+**Status:** ✅ **Completed**  
 **Parent Index:** [`roadmap/README.md`](./README.md)  
 **Previous Step:** [`12-protists-and-eukaryotic-parasites.md`](./12-protists-and-eukaryotic-parasites.md)  
 **Next Step:** [`14-cell-division-binary-fission-mitosis-and-meiosis.md`](./14-cell-division-binary-fission-mitosis-and-meiosis.md)

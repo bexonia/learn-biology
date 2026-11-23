@@ -59,7 +59,12 @@ export const COURSE_SEQUENCE = [
   'real-tmv',
   'real-adenovirus',
   'real-coronavirus',
-  'real-hiv'
+  'real-hiv',
+  'subviral-overview',
+  'real-mimivirus',
+  'real-viroid',
+  'real-prion',
+  'real-cell-division'
 ] as const;
 
 const VALID_MODES = new Set<ExplanationMode>(['simple', 'story', 'blueprint', 'scientific']);

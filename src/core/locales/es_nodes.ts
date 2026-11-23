@@ -1326,5 +1326,135 @@ export const ES_NODES: Record<string, NodeTranslation> = {
     name: 'Átomo de hierro (Fe / Fe²⁺ / Fe³⁺)',
     scale: '~0,25 nm (26 protones)',
     desc: 'Veintiséis protones, treinta neutrones y cuatro capas electrónicas (2, 8, 14, 2). Alternar fácilmente entre Fe²⁺ ferroso y Fe³⁺ férrico permite al hierro transportar oxígeno de forma reversible en la hemoglobina humana, y vuelve tóxico al hemo libre salvo al encerrarlo en hemozoína.'
+  },
+  'subviral-overview': {
+    name: 'Más allá de los virus: virus gigantes, viroides y priones (Frontera de la vida)',
+    scale: 'escenario comparativo de 13 nm a 750 nm',
+    desc: 'Tres replicadores que desafían la frontera de la vida comparados con Mycoplasma de 300 nm (la célula viva más pequeña): (1) Mimivirus de 750 nm mide más del doble que Mycoplasma con 1,18 Mpb de ADN pero tiene cero ribosomas y cero ATP; (2) el viroide PSTVd de 50 nm es ARN circular desnudo de 359 nt sin cápside ni genes proteicos; y (3) los priones PrPˢᶜ de 13 nm son proteínas amiloides mal plegadas sin ADN ni ARN.'
+  },
+  'real-mimivirus': {
+    name: 'Virus gigante — Acanthamoeba polyphaga Mimivirus (realista)',
+    scale: '750 nm en total · ADNbc de 1,18 Mpb',
+    desc: 'Acanthamoeba polyphaga Mimivirus: con 750 nm de diámetro y 1,18 Mpb de ADNbc (~1.000 genes), supera a la bacteria viva Mycoplasma genitalium (300 nm, 580 kb) e incluso codifica su propia enzima de traducción TyrRS (PDB 2J5B), pero carece de ribosomas y de metabolismo de ATP, permaneciendo inerte hasta que una ameba lo fagocita y abre su portal estelar de 5 pliegues.'
+  },
+  'real-mimi-stargate': {
+    name: 'Portal estelar de 5 pliegues y entrada en fagosoma de Mimivirus (realista)',
+    scale: 'vértice estelar desplegable de 5 pétalos',
+    desc: 'En lugar de inyectar ADN por un tubo caudal como el fago T4, Mimivirus posee una costura estelar única de 5 pliegues que se abre como cinco pétalos dentro del fagosoma ácido de la ameba para fusionar su bicapa interna y liberar la fibra genómica de 30 nm al citoplasma.'
+  },
+  'real-mimi-capsid': {
+    name: 'Trímero MCP doble jelly-roll de Mimivirus (PDB 5J7O)',
+    scale: 'trímero mayor de cápside NCLDV de ~10 nm',
+    desc: 'Estructura cristalina real de un trímero de proteína mayor de cápside doble jelly-roll de virus gigante (PDB 5J7O) que pavimenta la cápside pseudoicosaédrica de 500 nm de Mimivirus y ancla su bosque superficial de fibras glucosiladas de 125 nm.'
+  },
+  'real-mimi-tyrrs': {
+    name: 'Tirosil-ARNt sintetasa de Mimivirus (PDB 2J5B)',
+    scale: 'enzima viral de traducción de ~9 nm',
+    desc: 'Estructura cristalina real de la tirosil-ARNt sintetasa de Mimivirus (PDB 2J5B), prueba asombrosa de que los virus gigantes portan genes prestados de traducción pero siguen fallando por completo el pilar de ribosomas y no pueden sintetizar ni una sola proteína solos.'
+  },
+  'real-mimi-fiber': {
+    name: 'Fibra genómica helicoidal de 30 nm y ARNP de Mimivirus (PDB 7YX3)',
+    scale: 'superhélice nucleoproteica de ~30 nm',
+    desc: 'Estructura crio-EM real de la fibra genómica nucleoproteica de Mimivirus (PDB 7YX3) que compacta 1,18 Mpb de ADNbc lineal junto a ARN polimerasa viral preempaquetada para transcribir genes tempranos apenas se abre el portal estelar.'
+  },
+  'real-viroid': {
+    name: 'Viroide — Viroide del tubérculo fusiforme de la papa PSTVd (realista)',
+    scale: '50 × 2 nm · ARN circular desnudo de 359 nt',
+    desc: 'Viroide PSTVd: apenas 359 nucleótidos de ARN monocatenario circular cerrado y desnudo con CERO cápside, CERO envoltura lipídica y CERO genes codificantes de proteínas. Su varilla autopareada de 5 dominios secuestra a la ARN polimerasa II vegetal (PDB 1WCM) mediante TFIIIA-7ZF para replicación en círculo rodante asimétrico.'
+  },
+  'real-viroid-loope': {
+    name: 'Motivo Bucle E y Región Central Conservada de PSTVd (realista)',
+    scale: 'estructura de ARN no canónica de ~3 nm',
+    desc: 'Como los viroides no codifican ninguna proteína, cada función —importación nuclear, reclutamiento de Pol II, corte, circularización y tráfico vegetal— se codifica directamente en pliegues 3D de ARN como el motivo conservado Bucle E y la horquilla CCR.'
+  },
+  'real-viroid-pol2': {
+    name: 'ARN polimerasa II eucariota secuestrada (PDB 1WCM)',
+    scale: 'copiadora huésped en círculo rodante de ~15 nm',
+    desc: 'Estructura cristalina real de 12 subunidades de la ARN polimerasa II eucariota (PDB 1WCM), normalmente dedicada a leer ADNbc cromosómico, pero engañada por la varilla de ARN de PSTVd y el factor vegetal TFIIIA-7ZF para copiar ARN viroidal sin parar.'
+  },
+  'real-prion': {
+    name: 'Prión — Fibrilla amiloide cross-beta PrPᶜ → PrPˢᶜ (realista)',
+    scale: 'fibrilla de 13 nm · peldaños de 4,8 Å · 0 ADN / 0 ARN',
+    desc: 'Replicación biológica despojada hasta por debajo de los genes: los priones patógenos PrPˢᶜ llevan CERO ADN y CERO ARN, propagándose solo por mal plegamiento proteico moldeado que acopla PrPᶜ neuronal alfa-helicoidal (PDB 1QLX) a la punta de una fibrilla amiloide PIRIBS cross-beta resistente a proteasas (PDB 7LNA / 7TD6) fijada cada 4,8 Å.'
+  },
+  'real-prion-prpc': {
+    name: 'Monómero celular soluble sano PrPᶜ (PDB 1QLX)',
+    scale: 'pliegue nativo de 3 hélices de ~4 × 3 nm',
+    desc: 'Estructura RMN real en solución de la proteína priónica celular humana sana PrPᶜ (PDB 1QLX): una glucoproteína normal, sensible a proteasas y rica en hélices alfa anclada por GPI a membranas neuronales antes de toparse con un molde PrPˢᶜ.'
+  },
+  'real-prion-piribs': {
+    name: 'Fibrilla patógena cross-beta PIRIBS PrPˢᶜ (PDB 7LNA)',
+    scale: '~13 nm de ancho · paso de peldaño de 4,8 Å',
+    desc: 'Estructura crio-EM casi atómica real del prión infeccioso PrPˢᶜ (PDB 7LNA): exactamente la misma secuencia de 208 aminoácidos replegada por completo en láminas beta intermoleculares paralelas en registro (PIRIBS) estabilizadas por cremalleras estéricas secas y puentes de hidrógeno cada 4,8 Å.'
+  },
+  'real-prion-zipper': {
+    name: 'Zoom atómico: escalera H cross-beta de 4,8 Å y puente disulfuro S–S',
+    scale: '0,1–1,0 nm (C, H, N, O, S — 0 P)',
+    desc: 'A 0,1–1,0 nm, la infectividad priónica se reduce a pura geometría polipeptídica: puentes de hidrógeno continuos N–H···O=C cada 4,8 Å bloquean cadenas PrPˢᶜ vecinas junto al puente disulfuro Cys179–Cys214 intacto, sin fósforo ni bases nucleicas.'
+  },
+  'atom-s': {
+    name: 'Átomo de azufre (S)',
+    scale: '~0,20 nm (16 protones)',
+    desc: 'Dieciséis protones, dieciséis neutrones y tres capas electrónicas (2, 8, 6). Presente en cisteína y metionina, el azufre forma puentes disulfuro covalentes S–S que estabilizan pliegues proteicos como PrP Cys179–Cys214, anticuerpos y toxinas.'
+  },
+  'real-cell-division': {
+    name: 'División celular: fisión binaria, mitosis y meiosis (línea temporal interactiva)',
+    scale: 'E. coli de 2 µm · eucariota de 20 µm · motores de 10 nm',
+    desc: 'Simulador cinematográfico interactivo de división celular con barra temporal desplazable comparando los tres motores de reparto genético: fisión binaria procariota de E. coli (anillo Z de FtsZ PDB 6UNX + FtsK PDB 2IUU), mitosis somática (2n → 2×2n con condensina 6YVU, cohesina 6WG3, cinetocoro Ndc80 3VKH, cinesina-5 1II6 y separasa 7NJ1) y meiosis gamética (2n → 4×1n con sinapsis SYCP3 4CPC, Spo11 2Q2E, RAD51 5H1B y uniones Holliday recombinantes).'
+  },
+  'real-div-fission': {
+    name: 'Fisión binaria procariota: oriC y anillo Z de FtsZ (realista)',
+    scale: 'bacilo de E. coli elongándose (2 µm)',
+    desc: 'La fisión binaria es ingeniería molecular activa, no un simple pellizco: E. coli copia su cromosoma circular desde oriC, segrega los orígenes a polos opuestos y estrecha la envoltura con un anillo Z de FtsZ impulsado por GTP (ancestro evolutivo de la tubulina) acoplado a la pared septal.'
+  },
+  'real-div-ftsz': {
+    name: 'Protofilamento GTPasa bacteriano FtsZ (PDB 6UNX)',
+    scale: 'ancestro de la tubulina de ~8 nm',
+    desc: 'Estructura real de protofilamentos bacterianos FtsZ (PDB 6UNX): compartiendo el mismo pliegue de unión a GTP que la tubulina alfa/beta eucariota, FtsZ ensambla un anillo Z central dinámico que constriñe la bacteria durante la fisión binaria.'
+  },
+  'real-div-spindle': {
+    name: 'Huso mitótico, centrosomas y Cinesina-5 (realista)',
+    scale: 'motor microtubular bipolar de ~10 µm',
+    desc: 'El corazón mecánico de la mitosis: motores Cinesina-5 separan los centrosomas opuestos mientras los microtúbulos cinetocóricos capturan cada cromosoma, esperando tensión bipolar equilibrada en el punto de control del huso antes de que la separasa dispare la anafase.'
+  },
+  'real-div-condensin': {
+    name: 'Anillo SMC de condensina extrusor de bucles (PDB 6YVU)',
+    scale: 'compactador cromosómico de ~45 nm',
+    desc: 'Estructura crio-EM real del complejo SMC de condensina eucariota (PDB 6YVU): quema ATP para enrollar dos metros de ADN interfásico en bastones mitóticos compactos 10.000 veces más cortos y libres de enredos.'
+  },
+  'real-div-cohesin': {
+    name: 'Anillo SMC de cohesina de cromátidas hermanas (PDB 6WG3)',
+    scale: 'abrazadera topológica de ADN de ~40 nm',
+    desc: 'Estructura crio-EM real del anillo SMC de cohesina (PDB 6WG3) que abraza cromátidas hermanas recién replicadas desde la fase S hasta la metafase, resistiendo la tracción del huso hasta que APC/C libera a la separasa.'
+  },
+  'real-div-kinetochore': {
+    name: 'Acoplador microtubular cinetocórico Ndc80/Nuf2 (PDB 3VKH)',
+    scale: 'puente sensor de tensión de ~55 nm',
+    desc: 'Estructura cristalina real del complejo externo cinetocórico Ndc80/Nuf2 (PDB 3VKH): sujeta los extremos más en acortamiento de los microtúbulos del huso y comunica la tensión mecánica para apagar el punto de control del huso.'
+  },
+  'real-div-separase': {
+    name: 'Disparador de anafase Separasa–Segurina (PDB 7NJ1)',
+    scale: 'proteasa escindidora de cohesina de ~14 nm',
+    desc: 'Estructura crio-EM real de la separasa humana unida a la segurina inhibidora (PDB 7NJ1): una vez que cada cromosoma logra anclaje bipolar, APC/C destruye la segurina y libera a la separasa para cortar simultáneamente todos los anillos de cohesina.'
+  },
+  'real-div-meiosis': {
+    name: 'Entrecruzamiento en Meiosis I, bivalentes y gametos haploides (realista)',
+    scale: 'recombinación genética 2n → 4×1n',
+    desc: 'Cómo la reproducción sexual crea diversidad genética infinita: los cromosomas homólogos se acoplan en el complejo sinaptonémico, intercambian segmentos de ADN mediante Spo11, RAD51 y uniones Holliday, segregan homólogos recombinantes en Meiosis I y separan cromátidas en Meiosis II generando cuatro gametos haploides (1n) únicos.'
+  },
+  'real-div-synaptonemal': {
+    name: 'Puntal lateral SYCP3 del complejo sinaptonémico (PDB 4CPC)',
+    scale: 'andamio cremallera meiótico de ~20 nm',
+    desc: 'Estructura cristalina real del tetrámero helicoidal humano SYCP3 (PDB 4CPC) que ensambla los ejes laterales del complejo sinaptonémico para alinear base a base los cromosomas homólogos maternos y paternos en Profase I.'
+  },
+  'real-div-rad51': {
+    name: 'Filamento recombinasa homóloga RAD51/DMC1 (PDB 5H1B)',
+    scale: 'helicasa de invasión de hebra de ~12 nm',
+    desc: 'Estructura crio-EM real del filamento recombinasa RAD51 (PDB 5H1B) que recubre extremos de ADN cortados por Spo11 y busca el cromosoma homólogo para catalizar invasión de hebra y entrecruzamiento.'
+  },
+  'real-div-holliday': {
+    name: 'Unión Holliday recombinante de ADN de 4 vías',
+    scale: 'cruce tetracatenario de ADN de ~4 nm',
+    desc: 'La encrucijada molecular física de la diversidad genética: cuatro hebras de ADN de cromosomas maternos y paternos se entrecruzan en una unión Holliday en X estabilizada por Mg²⁺ que se resuelve en cromátidas recombinantes quiméricas.'
   }
 };

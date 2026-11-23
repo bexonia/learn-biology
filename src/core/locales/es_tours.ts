@@ -1925,4 +1925,247 @@ export const ES_TOURS_PHRASES: Record<string, string> = {
     'En la Etapa 4, los virus pierden por completo membranas, citoplasma y [[ribosomas|ribosome]].',
   'Explore any 3D structure now, or advance to Stage 4 to cross into the acellular virosphere.':
     'Explora cualquier estructura 3D o avanza a la Etapa 4 hacia la virosfera acelular.',
+  // Phase 09: Powers-of-10 True Scale Explorer & Four Biomolecules Tour
+  'Powers of 10: true scale explorer & four biomolecules':
+    'Potencias de 10: explorador de escala real y cuatro biomoléculas',
+  'Travel six powers of ten from a 100 um plant cell to 0.1 nm atoms, then meet the four biomolecule families that build every living cell and virus.':
+    'Recorre seis potencias de diez desde una célula vegetal de 100 µm hasta átomos de 0,1 nm y conoce las cuatro familias de biomoléculas que construyen cada célula viva y cada virus.',
+  'Scale from Whole Cell to Microbe': 'Escala de la célula entera al microbio',
+  'Six orders of magnitude of life': 'Seis órdenes de magnitud de la vida',
+  'Plant cell (100 um) & animal cell (20 um)': 'Célula vegetal (100 µm) y célula animal (20 µm)',
+  'Budding yeast (5 um) & E. coli (2 um)': 'Levadura en gemación (5 µm) y E. coli (2 µm)',
+  'Mycoplasma (300 nm) & the optical limit': 'Mycoplasma (300 nm) y el límite óptico',
+  'Viruses to Molecular Machines': 'De virus a máquinas moleculares',
+  'Viruses (100 nm) & billion-fold leaps': 'Virus (100 nm) y saltos de mil millones de veces',
+  'Ribosomes (25 nm): protein builders': 'Ribosomas (25 nm): constructores de proteínas',
+  'Enzymes (10 nm) & DNA double helix (2 nm)': 'Enzimas (10 nm) y doble hélice de ADN (2 nm)',
+  'The Four Biomolecules of Life': 'Las cuatro biomoléculas de la vida',
+  '1. Lipids: self-assembling bilayers': '1. Lípidos: bicapas autoensamblables',
+  '2. Carbohydrates: fuel & plant walls': '2. Carbohidratos: combustible y paredes vegetales',
+  '3. Proteins: folded molecular machines': '3. Proteínas: máquinas moleculares plegadas',
+  '4. Nucleic acids: DNA & RNA code': '4. Ácidos nucleicos: código de ADN y ARN',
+  'Monomers to Atoms': 'De monómeros a átomos',
+  'Universal monomers (0.5 to 1 nm)': 'Monómeros universales (0,5 a 1 nm)',
+  'Six shared biogenic atoms (0.1 to 0.3 nm)': 'Seis átomos biogénicos compartidos (0,1 a 0,3 nm)',
+  'From atoms to living cells': 'De los átomos a las células vivas',
+  'From a 100 um [[plant cell|plant_100um]] to a 0.1 nm [[atom|atom_01nm]], life spans six powers of ten.':
+    'Desde una [[célula vegetal|plant_100um]] de 100 µm hasta un [[átomo|atom_01nm]] de 0,1 nm, la vida abarca seis potencias de diez.',
+  'Standalone scenes fill one screen, hiding that cells can be 1,000 times wider than [[viruses|virus_100nm]].':
+    'Las escenas aisladas llenan la pantalla y ocultan que las células son 1.000 veces más anchas que los [[virus|virus_100nm]].',
+  'This logarithmic gallery aligns eleven true-size stops from whole cells down to [[atoms|atom_01nm]].':
+    'Esta galería logarítmica alinea once paradas a escala real desde células enteras hasta [[átomos|atom_01nm]].',
+  'At 100 um, a [[plant leaf cell|plant_100um]] or human oocyte sits right at the limit of the naked eye.':
+    'A 100 µm, una [[célula foliar vegetal|plant_100um]] o un ovocito humano están justo en el límite del ojo humano.',
+  'A cellulose wall, central vacuole and green chloroplasts fill the [[plant cell|plant_100um]] interior.':
+    'Una pared de celulosa, la vacuola central y los cloroplastos verdes llenan la [[célula vegetal|plant_100um]].',
+  'Beside it, a 20 um [[animal cell|animal_20um]] is five times narrower and over 100 times smaller in volume.':
+    'Junto a ella, una [[célula animal|animal_20um]] de 20 µm es cinco veces más estrecha y cien veces menor en volumen.',
+  'Stepping down to 5 um brings [[budding yeast|yeast_5um]], matching the width of an animal nucleus.':
+    'Bajar a 5 µm revela la [[levadura en gemación|yeast_5um]], igual de ancha que un núcleo animal.',
+  'A single 2 um [[E. coli bacterium|ecoli_2um]] is smaller than one mitochondrion inside a eukaryote.':
+    'Una [[bacteria E. coli|ecoli_2um]] de 2 µm es más pequeña que una sola mitocondria eucariota.',
+  'Yet that compact [[bacterial rod|ecoli_2um]] still runs a 4.6 Mbp genome, ribosomes and ATP synthase.':
+    'Aun así, ese [[bastón bacteriano|ecoli_2um]] compacto mantiene un genoma de 4,6 Mpb, ribosomas y ATP sintasa.',
+  'At 300 nm wide, wall-less [[Mycoplasma genitalium|myco_300nm]] marks the lower edge of cellular life.':
+    'Con 300 nm de ancho, [[Mycoplasma genitalium|myco_300nm]] sin pared marca el borde inferior de la vida celular.',
+  'Just below [[Mycoplasma|myco_300nm]], visible light hits its ~200 nm diffraction barrier.':
+    'Justo por debajo de [[Mycoplasma|myco_300nm]], la luz visible topa con su barrera de difracción de ~200 nm.',
+  'Past that optical limit, biologists rely on electron beams and X-ray beams to resolve structure.':
+    'Más allá de ese límite óptico, los biólogos emplean haces de electrones y rayos X para resolver estructuras.',
+  'At 100 nm sit enveloped [[SARS-CoV-2 and HIV-1 virions|virus_100nm]]: genetic payloads with zero ribosomes.':
+    'A 100 nm se sitúan [[viriones de SARS-CoV-2 y VIH-1|virus_100nm]]: cargas genéticas con cero ribosomas.',
+  'A 100 um [[plant cell|plant_100um]] is 1,000 times wider and one billion times bulkier than a 100 nm [[virus|virus_100nm]].':
+    'Una [[célula vegetal|plant_100um]] de 100 µm es 1.000 veces más ancha y mil millones más voluminosa que un [[virus|virus_100nm]].',
+  'Because [[virions|virus_100nm]] lack cytoplasm and enzymes, every copy depends on hijacking a host cell.':
+    'Como los [[viriones|virus_100nm]] carecen de citoplasma y enzimas, cada copia debe secuestrar una célula huésped.',
+  'At 25 nm sits the [[ribosome|ribo_25nm]], the RNA-protein complex that translates mRNA into polypeptides.':
+    'A 25 nm aparece el [[ribosoma|ribo_25nm]], el complejo de ARN y proteína que traduce el ARNm en polipéptidos.',
+  'A 70S bacterial [[ribosome|ribo_25nm]] spans ~21 to 25 nm, while eukaryotic 80S reaches ~30 nm.':
+    'Un [[ribosoma|ribo_25nm]] bacteriano 70S mide de 21 a 25 nm, mientras el eucariota 80S alcanza ~30 nm.',
+  'Tens of thousands of [[ribosomes|ribo_25nm]] operate together inside a single growing bacterium.':
+    'Decenas de miles de [[ribosomas|ribo_25nm]] trabajan a la vez dentro de una sola bacteria en crecimiento.',
+  'At 10 nm operate folded [[protein complexes|enzyme_10nm]] such as rotary ATP synthase and RuBisCO.':
+    'A 10 nm operan [[complejos proteicos|enzyme_10nm]] plegados como la ATP sintasa rotatoria y RuBisCO.',
+  'Proton flow turns the [[ATP synthase|enzyme_10nm]] rotor to join phosphate onto ADP at every cycle.':
+    'El flujo de protones hace girar el rotor de la [[ATP sintasa|enzyme_10nm]] para unir fosfato al ADP en cada ciclo.',
+  'Five times thinner at 2 nm runs the [[B-DNA double helix|dna_2nm]], 50,000 times narrower than a cell.':
+    'Cinco veces más fina, con 2 nm, corre la [[doble hélice de ADN-B|dna_2nm]], 50.000 veces más delgada que una célula.',
+  'Every cell and virus on Earth is built from four biomolecule families, starting with lipids.':
+    'Toda célula y todo virus en la Tierra se construyen con cuatro familias de biomoléculas, empezando por los lípidos.',
+  'Polar [[phospholipid|monomer_1nm]] heads face water while nonpolar tails pack inward to seal the [[bilayer|animal_20um]].':
+    'Las cabezas polares del [[fosfolípido|monomer_1nm]] miran al agua y sus colas se ocultan para sellar la [[bicapa|animal_20um]].',
+  'This non-covalent [[5 nm membrane|animal_20um]] encloses cells and organelles while remaining fluid.':
+    'Esta [[membrana de 5 nm|animal_20um]] no covalente encierra células y orgánulos manteniéndose fluida.',
+  'Carbohydrates join 0.9 nm [[glucose rings|monomer_1nm]] built from carbon, hydrogen and oxygen.':
+    'Los carbohidratos enlazan [[anillos de glucosa|monomer_1nm]] de 0,9 nm formados por carbono, hidrógeno y oxígeno.',
+  'Coiled alpha-linked glucose stores rapid energy as starch, ready for glycolysis to generate ATP.':
+    'La glucosa espiral con enlaces alfa almacena energía rápida en almidón, lista para producir ATP en glucólisis.',
+  'Flipping that bond into flat beta chains forms rigid cellulose fibers in [[plant cell walls|plant_100um]].':
+    'Invertir ese enlace en cadenas beta planas forma fibras rígidas de celulosa en las [[paredes vegetales|plant_100um]].',
+  'Proteins link twenty [[amino acids|monomer_1nm]] through planar peptide bonds inside the [[ribosome|ribo_25nm]].':
+    'Las proteínas unen veinte [[aminoácidos|monomer_1nm]] mediante enlaces peptídicos planos dentro del [[ribosoma|ribo_25nm]].',
+  'Backbone hydrogen bonds fold chains into alpha helices and pleated beta sheets with exact shapes.':
+    'Los puentes de hidrógeno del esqueleto pliegan las cadenas en hélices alfa y láminas beta con forma exacta.',
+  'Those folds turn chains into [[catalytic enzymes|enzyme_10nm]], membrane transporters and cell fibers.':
+    'Esos pliegues convierten cadenas en [[enzimas catalíticas|enzyme_10nm]], transportadores de membrana y fibras celulares.',
+  'Nucleic acids join [[nucleotides|monomer_1nm]] into directional chains that store and carry genetic code.':
+    'Los ácidos nucleicos unen [[nucleótidos|monomer_1nm]] en cadenas direccionales que guardan y llevan el código genético.',
+  'In [[B-DNA|dna_2nm]], two antiparallel strands pair A with T and G with C across a 2 nm double helix.':
+    'En el [[ADN-B|dna_2nm]], dos hebras antiparalelas emparejan A con T y G con C en una doble hélice de 2 nm.',
+  'RNA adds one hydroxyl oxygen per sugar, folding into messengers and active [[ribosomes|ribo_25nm]].':
+    'El ARN añade un oxígeno hidroxilo por azúcar y se pliega en mensajeros y [[ribosomas|ribo_25nm]] activos.',
+  'Zoom to 0.5 to 1 nm and all four macromolecules break into compact [[monomer units|monomer_1nm]].':
+    'Al acercarnos a 0,5–1 nm, las cuatro macromoléculas se revelan como compactas [[unidades monoméricas|monomer_1nm]].',
+  'Glucose, phospholipids, amino acids and [[nucleotides|monomer_1nm]] measure five to ten angstroms across.':
+    'Glucosa, fosfolípidos, aminoácidos y [[nucleótidos|monomer_1nm]] miden entre cinco y diez ángstroms de ancho.',
+  'Reactive hydroxyl, amino, carboxyl and phosphate groups let [[monomers|monomer_1nm]] link into polymers.':
+    'Los grupos hidroxilo, amino, carboxilo y fosfato permiten a los [[monómeros|monomer_1nm]] enlazarse en polímeros.',
+  'At 0.1 to 0.3 nm, every [[biomolecule|monomer_1nm]] reduces to six core [[biogenic atoms|atom_01nm]].':
+    'Entre 0,1 y 0,3 nm, cada [[biomolécula|monomer_1nm]] se reduce a seis [[átomos biogénicos|atom_01nm]] centrales.',
+  '[[Carbon, hydrogen, oxygen and nitrogen|atom_01nm]] form covalent skeletons from glucose to proteins.':
+    '[[Carbono, hidrógeno, oxígeno y nitrógeno|atom_01nm]] forman esqueletos covalentes desde la glucosa hasta proteínas.',
+  '[[Phosphorus and magnesium|atom_01nm]] bridge DNA backbones, lipid heads and high-energy ATP bonds.':
+    '[[Fósforo y magnesio|atom_01nm]] sostienen el esqueleto del ADN, cabezas lipídicas y enlaces energéticos del ATP.',
+  'Across six powers of ten, the same [[atoms|atom_01nm]] build [[monomers|monomer_1nm]], [[enzymes|enzyme_10nm]] and [[cells|plant_100um]].':
+    'En seis potencias de diez, los mismos [[átomos|atom_01nm]] construyen [[monómeros|monomer_1nm]], [[enzimas|enzyme_10nm]] y [[células|plant_100um]].',
+  'Toggle 1:1 pair comparison or drag the scale slider to inspect adjacent stops at true size.':
+    'Activa el comparador 1:1 o arrastra el control de escala para inspeccionar paradas adyacentes a tamaño real.',
+  'Explore the Four Biomolecules stage next, or dive straight into E. coli to see them in action.':
+    'Explora luego el banco de las Cuatro Biomoléculas o entra en E. coli para verlas en acción.',
+  // Phase 10: Domain Archaea & Endosymbiosis Tour
+  'Archaeon (Asgard & Extremophiles): a guided tour':
+    'Arquea (Asgard y extremófilas): visita guiada',
+  'Explore the third domain of life: crystalline S-layer, C40 tetraether monolayer, ATP archaellum, bacteriorhodopsin, archaeal histones, Lokiactin and the endosymbiotic origin of mitochondria.':
+    'Explora el tercer dominio de la vida: capa S cristalina, monocapa tetraéter C40, arquelo por ATP, bacteriorrodopsina, histonas arqueanas, Lokiactina y el origen endosimbiótico de las mitocondrias.',
+  'The 3rd Domain of Life': 'El tercer dominio de la vida',
+  'Asgard archaeon: the third domain': 'Arquea Asgard: el tercer dominio',
+  'Branched Asgard cytoplasmic tentacles': 'Tentáculos citoplasmáticos ramificados Asgard',
+  'Extremophile cousins: Sulfolobus & Halobacterium': 'Primas extremófilas: Sulfolobus y Halobacterium',
+  'Envelope: S-Layer & Tetraether Monolayer': 'Envoltura: capa S y monocapa tetraéter',
+  'Hexagonal glycoprotein S-layer shell': 'Bóveda hexagonal glicoproteica de capa S',
+  'Ether-linked C40 tetraether monolayer': 'Monocapa tetraéter C40 con enlaces éter',
+  'Proton-tight barrier under extreme stress': 'Barrera impermeable a protones bajo estrés extremo',
+  'ATP Archaellum & Light-Driven Pumps': 'Arquelo por ATP y bombas de luz',
+  'Solid ArlB helical archaellum propeller': 'Hélice sólida de ArlB del arquelo',
+  'ArlI hexameric ATPase rotary motor': 'Motor rotatorio ATPasa hexamérico ArlI',
+  'Halobacterium bacteriorhodopsin proton pump': 'Bomba de protones bacteriorrodopsina de Halobacterium',
+  'Rotary A1A0 ATP synthase turbine': 'Turbina rotatoria ATP sintasa A1A0',
+  'Eukaryotic-Like Core: Histones, RNAP & ESPs': 'Núcleo afín a eucariotas: histonas, ARNP y ESP',
+  'Circular dsDNA on HMfB archaeal histones': 'ADNbc circular en histonas arqueanas HMfB',
+  'TBP/TFB & 12-subunit archaeal RNAP': 'TBP/TFB y ARNP arqueana de 12 subunidades',
+  '70S archaeal ribosomes & translation': 'Ribosomas arqueanos 70S y traducción',
+  'Asgard ESPs: Lokiactin & ESCRT-III rings': 'Proteínas Asgard: Lokiactina y anillos ESCRT-III',
+  'Endosymbiotic Synapse & Atomic Foundations': 'Sinapsis endosimbiótica y base atómica',
+  'Asgard host meets alphaproteobacterium': 'El huésped Asgard se une a la alfaproteobacteria',
+  'H2 syntrophy to mitochondrial ATP export': 'De la sintrofía de H₂ a la exportación mitocondrial de ATP',
+  'Atomic zoom: ether bond vs. ester bond': 'Zoom atómico: enlace éter frente a enlace éster',
+  'Bridge from prokaryotes to eukaryotes': 'Puente entre procariotas y eucariotas',
+  'Meet Domain Archaea, a third branch of cellular life wholly distinct from Bacteria.':
+    'Conoce el dominio Archaea, una tercera rama de la vida celular por completo distinta de Bacteria.',
+  'This Prometheoarchaeum-like Asgard archaeon has a 550 nm body with no membrane nucleus.':
+    'Esta arquea Asgard tipo Prometheoarchaeum tiene un cuerpo de 550 nm sin núcleo membranoso.',
+  'Yet its [[S-layer|slayer]], [[tentacles|tentacle]] and [[histones|histone]] set it apart from E. coli.':
+    'Sin embargo, su [[capa S|slayer]], sus [[tentáculos|tentacle]] y sus [[histonas|histone]] la distinguen de E. coli.',
+  'Extending 1 to 3 um from the body are long branched [[cytoplasmic tentacles|tentacle]].':
+    'Del cuerpo se extienden de 1 a 3 µm largos [[tentáculos citoplasmáticos|tentacle]] ramificados.',
+  'Internal [[Lokiactin cables|lokiactin]] brace each [[tentacle|tentacle]] as it reaches into sediment.':
+    '[[Cables de Lokiactina|lokiactin]] internos sostienen cada [[tentáculo|tentacle]] mientras explora el sedimento.',
+  'Those [[Asgard protrusions|tentacle]] wrap closely around a neighboring [[bacterial symbiont|symbiont]].':
+    'Esas [[proyecciones Asgard|tentacle]] envuelven de cerca a un [[simbionte bacteriano|symbiont]] vecino.',
+  'Beside Asgard lineages thrive extremophiles enclosed in a tough [[extremophile shell|extremophile_shell]].':
+    'Junto al linaje Asgard prosperan extremófilas cubiertas por un resistente [[escudo extremófilo|extremophile_shell]].',
+  'Sulfolobus grows in 80 C pH 2 hot springs, while Halobacterium colors salt ponds purple.':
+    'Sulfolobus crece en fuentes termales a 80 °C y pH 2, y Halobacterium tiñe de púrpura las salinas.',
+  'From boiling vents to human guts, every archaeon shares unique envelope and core genes.':
+    'Desde fumarolas hirvientes hasta nuestro intestino, toda arquea comparte envoltura y genes únicos.',
+  'Cut open the envelope to see its outer coat: a hexagonal [[glycoprotein S-layer|slayer]].':
+    'Secciona la envoltura para ver su cubierta externa: una [[capa S glicoproteica|slayer]] hexagonal.',
+  'Interlocking SlaA and SlaB stalks form an 18 nm crystalline [[S-layer lattice|slayer]] with pores.':
+    'Los tallos SlaA y SlaB forman una [[red cristalina de capa S|slayer]] de 18 nm con poros regulares.',
+  'Because Archaea build zero peptidoglycan in this [[S-layer|slayer]], penicillin cannot harm them.':
+    'Como las arqueas no producen peptidoglicano en esta [[capa S|slayer]], la penicilina no las daña.',
+  'Beneath the [[S-layer|slayer]] lies not a bacterial bilayer, but a continuous [[tetraether monolayer|tetraether]].':
+    'Bajo la [[capa S|slayer]] no hay una bicapa bacteriana, sino una [[monocapa tetraéter|tetraether]] continua.',
+  'C40 [[tetraether lipids|tetraether]] span the full membrane as one monolayer stable in boiling acid.':
+    'Los [[lípidos tetraéter|tetraether]] C40 cruzan toda la membrana como una monocapa estable en ácido hirviente.',
+  'Branched isoprenoid chains join by [[ether bonds|ether_bond]] to opposite-handed G1P glycerol heads.':
+    'Cadenas isoprenoides ramificadas se unen por [[enlaces éter|ether_bond]] a cabezas de glicerol G1P.',
+  'Methyl branches and cyclopentane rings pack the [[tetraether membrane|tetraether]] tight against protons.':
+    'Ramas metilo y anillos de ciclopentano sellan la [[membrana tetraéter|tetraether]] contra los protones.',
+  'Even in pH 2 acid, this [[ether monolayer|tetraether]] keeps the interior near neutral pH 6.5.':
+    'Incluso en ácido a pH 2, esta [[monocapa éter|tetraether]] mantiene el interior cerca del pH 6,5.',
+  'Paired with the porous [[S-layer|slayer]], the [[extremophile envelope|extremophile_shell]] resists heat and salt.':
+    'Unida a la [[capa S|slayer]] porosa, la [[envoltura extremófila|extremophile_shell]] resiste calor y sal.',
+  'To swim, Archaea spin a rotary [[archaellum|archaellum]] that evolved apart from bacterial flagella.':
+    'Para nadar, las arqueas giran un [[arquelo|archaellum]] rotatorio que evolucionó aparte del flagelo bacteriano.',
+  'Rather than a hollow 20 nm tube, the [[archaellum|archaellum]] is a solid 12 nm ArlB protein helix.':
+    'En vez de un tubo hueco de 20 nm, el [[arquelo|archaellum]] es una hélice sólida de proteína ArlB de 12 nm.',
+  'Related to Type IV pili, its [[ArlB filament|archaellum]] adds new subunits at the base, not the tip.':
+    'Emparentado con los pili tipo IV, su [[filamento ArlB|archaellum]] añade subunidades por la base, no por la punta.',
+  'Bacterial flagella burn proton flow, but the [[archaellum|archaellum]] runs directly on Mg2+-ATP.':
+    'El flagelo bacteriano usa protones, pero el [[arquelo|archaellum]] funciona directamente con Mg²⁺-ATP.',
+  'At the base, a cytoplasmic [[ArlI hexamer|arli]] hydrolyzes yellow ATP into ADP and phosphate.':
+    'En la base, un [[hexámero ArlI|arli]] citoplasmático hidroliza ATP amarillo en ADP y fosfato.',
+  'Sequential strokes in [[ArlI|arli]] rotate the [[ArlB shaft|archaellum]] forward or backward to steer.':
+    'Impulsos secuenciales en [[ArlI|arli]] giran el [[eje ArlB|archaellum]] adelante o atrás para orientarse.',
+  'Switch to Halobacterium purple membrane, tiled with light-driven [[bacteriorhodopsin|bacteriorhodopsin]].':
+    'Cambia a la membrana púrpura de Halobacterium, tapizada de [[bacteriorrodopsina|bacteriorhodopsin]] activada por luz.',
+  'Each seven-helix [[bacteriorhodopsin trimer|bacteriorhodopsin]] holds retinal that bends on green light.':
+    'Cada [[trímero de bacteriorrodopsina|bacteriorhodopsin]] de siete hélices contiene retinal que se dobla con luz verde.',
+  'With zero chlorophyll, [[bacteriorhodopsin|bacteriorhodopsin]] pumps protons directly across the membrane.':
+    'Sin clorofila, la [[bacteriorrodopsina|bacteriorhodopsin]] bombea protones directamente a través de la membrana.',
+  'Protons pumped by [[bacteriorhodopsin|bacteriorhodopsin]] or respiration return via [[A1A0 ATP synthase|a_atps]].':
+    'Los protones bombeados por [[bacteriorrodopsina|bacteriorhodopsin]] o respiración regresan por la [[ATP sintasa A1A0|a_atps]].',
+  'Archaeal [[A1A0 ATP synthase|a_atps]] resembles eukaryotic vacuolar ATPases more than bacterial F1Fo.':
+    'La [[ATP sintasa A1A0|a_atps]] arqueana se parece más a las ATPasas vacuolares eucariotas que a la F1Fo bacteriana.',
+  'Its spinning proteolipid ring turns proton flow into cytosolic ATP for growth and swimming.':
+    'Su anillo proteolipídico giratorio convierte el flujo de protones en ATP citosólico para crecer y nadar.',
+  'Zoom inside the cytosol to see why Eukaryotes branch directly from within Domain Archaea.':
+    'Acércate al citosol para ver por qué los eucariotas ramifican directamente desde el dominio Archaea.',
+  'Circular [[DNA|dna]] wraps around [[archaeal histones|histone]], the direct ancestor of our chromatin.':
+    'El [[ADN|dna]] circular se enrolla sobre [[histonas arqueanas|histone]], ancestro directo de nuestra cromatina.',
+  'Unlike bacterial HU proteins, stacked [[HMfB dimers|histone]] coil [[DNA|dna]] into a long superhelix.':
+    'A diferencia de las proteínas HU bacterianas, los [[dímeros HMfB|histone]] apilados forman una superhélice de [[ADN|dna]].',
+  'To read genes, Archaea recruit a 12-subunit [[RNA polymerase|rnap]] homologous to eukaryotic Pol II.':
+    'Para leer genes, las arqueas reclutan una [[ARN polimerasa|rnap]] de 12 subunidades homóloga a la Pol II eucariota.',
+  'Instead of bacterial sigma factors, TBP and TFB load [[archaeal RNAP|rnap]] onto TATA-box [[DNA|dna]].':
+    'En lugar de factores sigma, TBP y TFB colocan la [[ARNP arqueana|rnap]] sobre la caja TATA del [[ADN|dna]].',
+  'The open [[RNAP clamp|rnap]] unwinds the double helix and extrudes a fresh [[mRNA transcript|mrna]].':
+    'La [[pinza de la ARNP|rnap]] abierta desenrolla la doble hélice y libera un nuevo [[transcrito de ARNm|mrna]].',
+  'Translating that [[mRNA|mrna]] are compact 22 nm [[70S archaeal ribosomes|ribosome]] in the cytosol.':
+    'Traduciendo ese [[ARNm|mrna]] trabajan compactos [[ribosomas arqueanos 70S|ribosome]] de 22 nm en el citosol.',
+  'Though sized like bacterial 70S, these [[ribosomes|ribosome]] use eukaryotic proteins and Met starts.':
+    'Aunque miden como los 70S bacterianos, estos [[ribosomas|ribosome]] usan proteínas eucariotas e inicio con Met.',
+  'That shared structure explains why bacterial drugs like streptomycin spare [[archaeal 70S|ribosome]].':
+    'Esa estructura explica por qué antibióticos bacterianos como la estreptomicina respetan al [[70S arqueano|ribosome]].',
+  'Asgard genomes add Eukaryotic Signature Proteins once thought unique to complex cells.':
+    'Los genomas Asgard añaden proteínas de firma eucariota antes creídas exclusivas de células complejas.',
+  'Profilin-guided [[Lokiactin filaments|lokiactin]] polymerize to shape and extend [[Asgard tentacles|tentacle]].':
+    'Los [[filamentos de Lokiactina|lokiactin]] guiados por profilina se polimerizan y extienden los [[tentáculos Asgard|tentacle]].',
+  'Spiral [[ESCRT-III rings|escrt]] pinch membranes from inside for cell division and vesicle scission.':
+    'Los [[anillos espirales ESCRT-III|escrt]] estrangulan membranas desde dentro para dividir células y vesículas.',
+  'Follow the [[tentacles|tentacle]] to a contact cleft holding a Rickettsia-like [[alphaproteobacterium|symbiont]].':
+    'Sigue los [[tentáculos|tentacle]] hasta la hendidura que acoge una [[alfaproteobacteria|symbiont]] afín a Rickettsia.',
+  'This [[bacterial partner|symbiont]] carries two membranes, circular DNA and an O2 respiratory chain.':
+    'Esta [[socia bacteriana|symbiont]] posee dos membranas, ADN circular y una cadena respiratoria de O₂.',
+  'Close wrapping at the [[endosymbiotic synapse|synapse]] lets both domains trade metabolites directly.':
+    'El abrazo estrecho en la [[sinapsis endosimbiótica|synapse]] permite a ambos dominios intercambiar metabolitos.',
+  'Fermenting amino acids, the host releases [[H2 and formate|h2_flow]] that the [[symbiont|symbiont]] burns with O2.':
+    'Al fermentar aminoácidos, el huésped libera [[H₂ y formiato|h2_flow]] que el [[simbionte|symbiont]] respira con O₂.',
+  'Sustained [[syntrophy|synapse]] exchanging [[H2|h2_flow]] for bacterial [[ATP|atp_export]] gave rise to mitochondria.':
+    'La [[sintrofía|synapse]] sostenida que cambió [[H₂|h2_flow]] por [[ATP|atp_export]] bacteriano originó las mitocondrias.',
+  'Unlike parasitic Rickettsia stealing ATP via Tlc1, ANT carriers reversed [[ATP export|atp_export]] outward.':
+    'Al contrario que la parásita Rickettsia con Tlc1, los portadores ANT invirtieron la [[exportación de ATP|atp_export]] hacia afuera.',
+  'Zoom to the 0.1 nm atomic inset where an archaeal [[ether bond|ether_bond]] defines the whole domain.':
+    'Acércate al inserto atómico de 0,1 nm donde un [[enlace éter|ether_bond]] arqueano define todo el dominio.',
+  'Bacterial ester lipids expose a carbonyl oxygen that hot acid readily splits by hydrolysis.':
+    'Los lípidos éster bacterianos exponen un oxígeno carbonilo que el ácido caliente rompe por hidrólisis.',
+  'Archaea replace it with a tough C-O-C [[ether link|ether_bond]] built from C, H, O, P and Mg2+ ions.':
+    'Las arqueas lo sustituyen por un recio [[enlace éter|ether_bond]] C-O-C hecho de C, H, O, P e iones Mg²⁺.',
+  'Together, [[ether membranes|tetraether]], [[ATP archaella|archaellum]] and [[histones|histone]] define the third domain.':
+    'Juntas, las [[membranas éter|tetraether]], los [[arquelos por ATP|archaellum]] y las [[histonas|histone]] definen el tercer dominio.',
+  'From [[Asgard Lokiactin|lokiactin]] and [[symbiotic ATP export|atp_export]] emerged the first complex eukaryotic cells.':
+    'De la [[Lokiactina Asgard|lokiactin]] y la [[exportación simbiótica de ATP|atp_export]] surgieron las primeras células eucariotas.',
+  'Explore any molecular tag now, or continue to Yeast to enter Domain Eukarya.':
+    'Explora ahora cualquier etiqueta molecular o continúa a Levadura para entrar al dominio Eukarya.',
 };

@@ -40,7 +40,10 @@ export const COOKIE_MAX_AGE_SECONDS = 30 * 24 * 60 * 60; // 30 days
 
 export const COURSE_SEQUENCE = [
   'life-overview',
+  'scale-explorer',
+  'four-biomolecules',
   'real-bacterium',
+  'real-archaea',
   'real-fungal',
   'real-cell',
   'real-plant',

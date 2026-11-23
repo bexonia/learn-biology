@@ -1,7 +1,7 @@
 # 09 — Powers-of-10 True Scale Explorer & The 4 Biomolecules of Life
 
 **Iteration:** `09` (Interactive Logarithmic Powers-of-10 True Scale Comparator, 4-Biomolecule Whole-to-Atom Comparative Stage, Multi-Persona Guided Tour & GPU `.opus` Narration in `EN` & `ES`)  
-**Status:** 📋 **Planned**  
+**Status:** ✅ **Completed**  
 **Parent Index:** [`roadmap/README.md`](./README.md)  
 **Previous Step:** [`08-parasitic-and-minimal-cells-mycoplasma-chlamydia-rickettsia.md`](./08-parasitic-and-minimal-cells-mycoplasma-chlamydia-rickettsia.md)  
 **Next Step:** [`10-archaea-third-domain-and-endosymbiosis.md`](./10-archaea-third-domain-and-endosymbiosis.md)

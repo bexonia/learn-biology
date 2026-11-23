@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Interactive 3D Powers-of-10 True Scale Explorer — 100 µm Plant Cell to 0.1 nm Atoms | BEXONIA</title>
+<!-- SEO:START -->
+<meta name="description" content="Interactive 3D Powers-of-10 True Scale Explorer spanning six orders of magnitude from a 100 µm plant cell & human oocyte down through animal cells, budding yeast, E. coli, Mycoplasma, SARS-CoV-2 & HIV-1 virions, 70S/80S ribosomes, ATP synthase & RuBisCO, B-DNA, biomolecule monomers, and 0.1 nm biogenic atoms with a 1:1 true-size pair comparator.">
+<meta name="keywords" content="3D biology, Powers of 10, biological scale explorer, true scale comparator, 100 um to 0.1 nm, plant cell, animal cell, budding yeast, E. coli, Mycoplasma genitalium, SARS-CoV-2, HIV-1, ribosome, ATP synthase, RuBisCO, B-DNA double helix, biomolecules, biogenic atoms, cryo-EM, light microscope diffraction limit, WebGL2, Three.js, Bexonia">
+<meta name="author" content="BEXONIA">
+<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">
+<link rel="canonical" href="https://learn.bexonia.com/scale_explorer.html">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="BEXONIA Learn Biology">
+<meta property="og:title" content="Interactive 3D Powers-of-10 True Scale Explorer — 100 µm Plant Cell to 0.1 nm Atoms | BEXONIA">
+<meta property="og:description" content="Explore six logarithmic orders of magnitude of life in photorealistic 3D: from 100 µm cells down to 0.1 nm biogenic atoms with live imaging-limit badges and a 1:1 true-size pair comparator.">
+<meta property="og:url" content="https://learn.bexonia.com/scale_explorer.html">
+<meta property="og:image" content="https://learn.bexonia.com/screenshots/animal_cell.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Interactive 3D Powers-of-10 True Scale Explorer — 100 µm to 0.1 nm | BEXONIA">
+<meta name="twitter:description" content="Explore six logarithmic orders of magnitude of life in photorealistic 3D: from 100 µm cells down to 0.1 nm biogenic atoms with live imaging-limit badges and a 1:1 true-size pair comparator.">
+<meta name="twitter:image" content="https://learn.bexonia.com/screenshots/animal_cell.jpg">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":["LearningResource","WebApplication"],"name":"Interactive 3D Powers-of-10 True Scale Explorer — 100 µm Plant Cell to 0.1 nm Atoms | BEXONIA","description":"Interactive 3D Powers-of-10 True Scale Explorer spanning six orders of magnitude from a 100 µm plant cell & human oocyte down to 0.1 nm biogenic atoms (H, C, N, O, P, Mg) with live calibrated scale bar, imaging-limit indicators, and a 1:1 true-size pair comparator.","url":"https://learn.bexonia.com/scale_explorer.html","image":"https://learn.bexonia.com/screenshots/animal_cell.jpg","applicationCategory":"EducationalApplication","operatingSystem":"Web Browser (WebGL)","learningResourceType":["Interactive 3D Model","Simulation","Guided Tour"],"educationalUse":["Self-study","Classroom instruction","Reference library"],"isAccessibleForFree":true,"license":"https://opensource.org/licenses/MIT","inLanguage":"en","author":{"@type":"Organization","name":"BEXONIA","url":"https://bexonia.com"},"about":[{"@type":"Thing","name":"Orders of magnitude (length)"},{"@type":"Thing","name":"Cell biology"},{"@type":"Thing","name":"Molecular biology"},{"@type":"Thing","name":"Biomolecules"},{"@type":"Thing","name":"Cryo-electron microscopy"}],"keywords":"3D biology, Powers of 10, biological scale explorer, true scale comparator, 100 um to 0.1 nm, WebGL2, Three.js, Bexonia"}</script>
+<!-- SEO:END -->
+<style>
+  :root { --bg: #04070e; --fg: #e8edf6; --muted: #8e9bb0; --line: rgba(255,255,255,.13); --accent: #9fd8ff; --glow: rgba(126,210,255,.28); }
+  html, body { margin: 0; height: 100%; background: var(--bg); color: var(--fg); font-family: system-ui, -apple-system, "Segoe UI", sans-serif; overflow: hidden; }
+  canvas { display: block; }
+  #hud { position: absolute; left: 22px; top: 16px; pointer-events: none; max-width: calc(100vw - 280px); }
+  #hud h1 { margin: 0; font-size: 21px; font-weight: 650; letter-spacing: .01em; }
+  #hud p { margin: 4px 0 0; font-size: 12.5px; color: var(--muted); }
+  #legend { position: absolute; left: 16px; top: 78px; width: 248px; max-height: calc(100% - 98px); overflow: auto; background: rgba(8,12,22,.64); border: 1px solid var(--line); border-radius: 11px; padding: 6px; backdrop-filter: blur(8px); }
+  .it { display: flex; align-items: center; gap: 9px; padding: 5px 8px; border-radius: 7px; font-size: 12.5px; cursor: pointer; transition: background .15s; }
+  .it:hover, .it.active { background: rgba(159,216,255,.16); }
+  .sw { width: 12px; height: 12px; border-radius: 50%; flex: none; box-shadow: inset 0 0 0 1px rgba(255,255,255,.35); }
+  .key { grid-column: 1 / -1; margin-top: 4px; padding: 8px 8px 4px; border-top: 1px solid var(--line); font-size: 11.5px; color: var(--muted); line-height: 1.5; }
+  .key .row { display: flex; align-items: center; flex-wrap: wrap; gap: 5px; margin-bottom: 5px; }
+  .chip { width: 18px; height: 18px; border-radius: 50%; display: inline-grid; place-items: center; font-size: 10.5px; font-weight: 700; color: #12151f; }
+  .bar { width: 16px; height: 6px; border-radius: 3px; display: inline-block; }
+  #flows { position: absolute; right: 16px; top: 16px; width: 222px; max-height: calc(100% - 134px); overflow: auto; background: rgba(8,12,22,.64); border: 1px solid var(--line); border-radius: 11px; padding: 8px 6px 6px; backdrop-filter: blur(8px); }
+  #flows h2 { margin: 2px 8px 4px; font-size: 13px; font-weight: 650; }
+  .speed { display: flex; align-items: center; gap: 8px; margin: 2px 8px 8px; font-size: 12px; color: var(--muted); }
+  .speed input { flex: 1; min-width: 0; accent-color: var(--accent); }
+  #spd { width: 38px; text-align: right; color: var(--fg); font-variant-numeric: tabular-nums; }
+  #tip { margin: 0 8px 8px; font-size: 12px; line-height: 1.44; color: var(--muted); }
+  #tip b { color: var(--fg); font-weight: 600; }
+  .mol { display: flex; align-items: center; gap: 8px; padding: 3px 8px; border-radius: 7px; font-size: 12.5px; cursor: default; }
+  .mol:hover { background: rgba(159,216,255,.15); }
+  .mol canvas { width: 22px; height: 22px; flex: none; }
+  #scaleHud { position: absolute; left: 50%; bottom: 58px; transform: translateX(-50%); width: min(560px, calc(100vw - 520px)); min-width: 340px; background: rgba(9,14,26,.72); border: 1px solid rgba(160,210,255,.22); border-radius: 14px; padding: 10px 14px 9px; backdrop-filter: blur(12px); box-shadow: 0 10px 32px rgba(0,0,0,.46), inset 0 1px 0 rgba(255,255,255,.08); }
+  .sh-top { display: flex; align-items: center; justify-content: space-between; gap: 8px; flex-wrap: wrap; margin-bottom: 7px; }
+  .sh-scale { display: flex; align-items: center; gap: 9px; min-width: 0; }
+  #scaleCaliper { width: 42px; height: 8px; border-left: 1.5px solid var(--accent); border-right: 1.5px solid var(--accent); position: relative; flex: none; }
+  #scaleCaliper::after { content: ""; position: absolute; left: 0; right: 0; top: 50%; height: 1.5px; background: linear-gradient(90deg, var(--accent), #d7f2ff, var(--accent)); box-shadow: 0 0 8px var(--glow); }
+  #scaleBarLabel { font-size: 12.5px; font-weight: 650; letter-spacing: .01em; color: #f0f6ff; font-variant-numeric: tabular-nums; white-space: nowrap; }
+  .sh-right { display: flex; align-items: center; gap: 7px; }
+  #imagingBadge { display: inline-flex; align-items: center; gap: 6px; padding: 3px 9px; border-radius: 999px; font-size: 11px; font-weight: 600; letter-spacing: .01em; background: rgba(255,214,102,.14); color: #ffe394; border: 1px solid rgba(255,214,102,.32); white-space: nowrap; }
+  #imagingBadge.light { background: rgba(99,224,185,.14); color: #8ef5d4; border-color: rgba(99,224,185,.34); }
+  #imagingBadge.cryo { background: rgba(182,138,255,.16); color: #d8c2ff; border-color: rgba(182,138,255,.38); }
+  #pairBtn { background: rgba(18,28,48,.82); color: var(--fg); border: 1px solid rgba(159,216,255,.3); border-radius: 8px; padding: 4px 10px; font: inherit; font-size: 11.5px; font-weight: 600; cursor: pointer; transition: all .16s; white-space: nowrap; }
+  #pairBtn:hover { border-color: var(--accent); background: rgba(34,54,88,.85); }
+  #pairBtn.on { background: linear-gradient(135deg, rgba(84,184,255,.32), rgba(145,112,255,.34)); border-color: #a9e1ff; color: #ffffff; box-shadow: 0 0 14px rgba(124,205,255,.35); }
+  #scaleSlider { width: 100%; margin: 2px 0 4px; accent-color: #8fd4ff; cursor: pointer; height: 5px; }
+  .sh-ticks { display: flex; justify-content: space-between; font-size: 10px; color: var(--muted); font-variant-numeric: tabular-nums; user-select: none; }
+  .sh-ticks span { cursor: pointer; padding: 1px 2px; border-radius: 4px; transition: color .14s; }
+  .sh-ticks span:hover, .sh-ticks span.on { color: #d9f1ff; font-weight: 650; }
+  #pairNote { margin-top: 4px; font-size: 11px; color: #b7d8f7; text-align: center; min-height: 0; display: none; }
+  #pairNote.show { display: block; }
+  #tools { position: absolute; right: 16px; bottom: 14px; display: flex; gap: 7px; flex-wrap: wrap; justify-content: flex-end; }
+  #tools button { background: rgba(8,12,22,.76); color: var(--fg); border: 1px solid rgba(255,255,255,.22); border-radius: 8px; padding: 6px 11px; font: inherit; font-size: 12.5px; cursor: pointer; backdrop-filter: blur(6px); }
+  #tools button:hover { border-color: var(--accent); }
+  #hint { position: absolute; left: 18px; bottom: 18px; font-size: 11.5px; color: var(--muted); pointer-events: none; max-width: calc(100vw - 640px); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  #busy { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; color: var(--muted); font-size: 14px; pointer-events: none; background: radial-gradient(circle at 54% 44%, #18253e 0%, #09101e 55%, #020409 100%); z-index: 20; }
+  @media (max-width: 1024px) {
+    #scaleHud { width: min(520px, calc(100vw - 290px)); left: auto; right: 16px; transform: none; }
+    #hint { display: none; }
+  }
+  @media (max-width: 720px) {
+    #legend { top: auto; bottom: 152px; left: 10px; right: 10px; width: auto; max-height: 22vh; display: grid; grid-template-columns: 1fr 1fr; }
+    #scaleHud { left: 10px; right: 10px; bottom: 56px; width: auto; min-width: 0; transform: none; padding: 8px 10px; }
+    #hint, #flows { display: none; }
+    #hud h1 { font-size: 17px; }
+  }
+  .embed #hud, .embed #legend, .embed #flows, .embed #hint, .embed #tools, .embed #busy, .embed #scaleHud { display: none !important; }
+</style>
+<script type="importmap">
+{ "imports": {
+  "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js",
+  "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"
+} }
+</script>
+</head>
+<body>
+<div id="busy">Building Powers-of-10 True Scale Explorer…</div>
+<div id="hud"><h1>Powers-of-10 True Scale Explorer</h1><p>Logarithmic 3D gallery · 100 µm plant cell &amp; oocyte → 0.1 nm biogenic atoms (6 orders of magnitude)</p></div>
+<div id="legend"></div>
+<div id="flows"><h2>Living flows</h2><label class="speed">Speed <input id="speed" type="range" min="-3" max="2" step=".1" value="0"><span id="spd">1×</span></label><div id="tip"></div><div id="mols"></div></div>
+<div id="scaleHud">
+  <div class="sh-top">
+    <div class="sh-scale"><span id="scaleCaliper"></span><span id="scaleBarLabel">100 µm · 10⁻⁴ m (1,000,000 Å)</span></div>
+    <div class="sh-right"><span id="imagingBadge">Naked Eye (~100 µm)</span><button id="pairBtn" type="button">1:1 Pair: off</button></div>
+  </div>
+  <input id="scaleSlider" type="range" min="0" max="10" step="0.01" value="0" aria-label="Logarithmic scale rail from 100 micrometers to 0.1 nanometers">
+  <div class="sh-ticks" id="scaleTicks"></div>
+  <div id="pairNote"></div>
+</div>
+<div id="hint">Drag to look · W A S D to move · scroll to zoom · click or slide rail to travel 100 µm → 0.1 nm</div>
+<div id="tools"><button id="view" type="button">View: overview</button><button id="flow" type="button">Metabolism: on</button><button id="look" type="button">Membrane: gel</button><button id="cut" type="button">Close cutaway</button><button id="motion" type="button">Pause</button><button id="snap" type="button">Save PNG</button></div>
+<script type="module" src="dist/pages/scale_explorer.js"></script>
+</body>
+</html>

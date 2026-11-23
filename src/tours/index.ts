@@ -1,6 +1,7 @@
 import { Layer } from "effect";
 import { type TourDefinition, type TourShape, TourService, makeTourLayer } from "./tourService.js";
 import { adenovirusTour } from "./adenovirus.js";
+import { archaeaTour } from "./archaea.js";
 import { bacteriophageTour } from "./bacteriophage.js";
 import { bacterium_cellTour } from "./bacterium_cell.js";
 import { biology_introTour } from "./biology_intro.js";
@@ -12,12 +13,15 @@ import { hivTour } from "./hiv.js";
 import { mycoplasmaTour } from "./mycoplasma.js";
 import { plant_cellTour } from "./plant_cell.js";
 import { rickettsiaTour } from "./rickettsia.js";
+import { scale_biomoleculesTour } from "./scale_biomolecules.js";
 import { tmvTour } from "./tmv.js";
 import { virusesTour } from "./viruses.js";
 
 export const ALL_TOURS: Record<string, TourDefinition> = {
   biology_intro: biology_introTour,
+  scale_biomolecules: scale_biomoleculesTour,
   adenovirus: adenovirusTour,
+  archaea: archaeaTour,
   bacteriophage: bacteriophageTour,
   bacterium: bacterium_cellTour,
   chlamydia: chlamydiaTour,
@@ -37,6 +41,8 @@ export {
   TourService,
   type TourShape,
   type TourDefinition,
+  scale_biomoleculesTour,
+  archaeaTour,
   mycoplasmaTour,
   chlamydiaTour,
   rickettsiaTour,

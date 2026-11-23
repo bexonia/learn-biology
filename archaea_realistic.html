@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Interactive 3D Archaea &amp; Endosymbiosis Model — Asgard Host, Extremophiles &amp; Eukaryotic Origin | BEXONIA</title>
+<!-- SEO:START -->
+<meta name="description" content="Interactive 3D Archaea and Endosymbiosis at molecular scale: Asgard archaeon (Prometheoarchaeum-like) with hexagonal glycoprotein S-layer, single-sheet ether-linked tetraether monolayer, Lokiactin tentacles (PDB 5ZZB), ESCRT-III rings, ATP-driven ArlB/ArlI archaellum (PDB 7OFQ, 4IHQ), HMfB histone hypernucleosomes (PDB 5T5K), 12-subunit archaeal RNAP (PDB 2PMZ), alphaproteobacterial endosymbiont synapse, and live Extremophile toggle with Halobacterium bacteriorhodopsin (PDB 1C3W) and A1A0 ATP synthase.">
+<meta name="keywords" content="3D biology, interactive 3D archaea model, Domain Archaea, Asgard archaea, Prometheoarchaeum, endosymbiosis, origin of eukaryotes, mitochondria origin, tetraether lipid monolayer, ether vs ester bond, glycoprotein S-layer, archaellum, ArlB PDB 7OFQ, ArlI ATPase PDB 4IHQ, archaeal histones HMfB PDB 5T5K, archaeal RNA polymerase PDB 2PMZ, Lokiactin profilin PDB 5ZZB, ESCRT-III, bacteriorhodopsin PDB 1C3W, Sulfolobus, Halobacterium, A1A0 ATP synthase, WebGL2, Three.js, Bexonia">
+<meta name="author" content="BEXONIA">
+<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">
+<link rel="canonical" href="https://learn.bexonia.com/archaea_realistic.html">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="BEXONIA Learn Biology">
+<meta property="og:title" content="Interactive 3D Archaea &amp; Endosymbiosis Model — Asgard Host, Extremophiles &amp; Eukaryotic Origin | BEXONIA">
+<meta property="og:description" content="Interactive 3D Asgard archaeon embracing a syntrophic alphaproteobacterial partner alongside a live Sulfolobus and Halobacterium extremophile toggle, powered by real RCSB PDB cryo-EM structures.">
+<meta property="og:url" content="https://learn.bexonia.com/archaea_realistic.html">
+<meta property="og:image" content="https://learn.bexonia.com/screenshots/bacterium_cell.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Interactive 3D Archaea &amp; Endosymbiosis Model — Asgard Host, Extremophiles &amp; Eukaryotic Origin | BEXONIA">
+<meta name="twitter:description" content="Interactive 3D Asgard archaeon embracing a syntrophic alphaproteobacterial partner alongside a live Sulfolobus and Halobacterium extremophile toggle, powered by real RCSB PDB cryo-EM structures.">
+<meta name="twitter:image" content="https://learn.bexonia.com/screenshots/bacterium_cell.jpg">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":["LearningResource","WebApplication"],"name":"Interactive 3D Archaea & Endosymbiosis Model — Asgard Host, Extremophiles & Eukaryotic Origin | BEXONIA","description":"Interactive 3D Archaea and Endosymbiosis at molecular scale: Asgard archaeon with hexagonal S-layer, ether-linked tetraether monolayer, Lokiactin tentacles (PDB 5ZZB), ESCRT-III rings, ATP-driven archaellum (PDB 7OFQ, 4IHQ), HMfB histone hypernucleosomes (PDB 5T5K), 12-subunit archaeal RNAP (PDB 2PMZ), alphaproteobacterial endosymbiont synapse, and live Extremophile toggle with Halobacterium bacteriorhodopsin (PDB 1C3W) and A1A0 ATP synthase.","url":"https://learn.bexonia.com/archaea_realistic.html","image":"https://learn.bexonia.com/screenshots/bacterium_cell.jpg","applicationCategory":"EducationalApplication","operatingSystem":"Web Browser (WebGL)","learningResourceType":["Interactive 3D Model","Simulation","Guided Tour"],"educationalUse":["Self-study","Classroom instruction","Reference library"],"isAccessibleForFree":true,"license":"https://opensource.org/licenses/MIT","inLanguage":"en","author":{"@type":"Organization","name":"BEXONIA","url":"https://bexonia.com"},"about":[{"@type":"Thing","name":"Archaea"},{"@type":"Thing","name":"Asgardarchaeota"},{"@type":"Thing","name":"Endosymbiosis"},{"@type":"Thing","name":"Eukaryogenesis"},{"@type":"Thing","name":"Extremophile"},{"@type":"Thing","name":"Bacteriorhodopsin"},{"@type":"Thing","name":"Microbiology"}],"keywords":"3D biology, interactive 3D archaea model, Domain Archaea, Asgard archaea, endosymbiosis, tetraether monolayer, S-layer, archaellum, HMfB histones, Lokiactin, ESCRT-III, bacteriorhodopsin, WebGL2, Three.js, Bexonia"}</script>
+<!-- SEO:END -->
+<style>
+  :root { --bg: #04060c; --fg: #ebf0fa; --muted: #92a0b8; --line: rgba(255,255,255,.13); --accent: #7ee8ff; --gold: #ffd46b; }
+  html, body { margin: 0; height: 100%; background: var(--bg); color: var(--fg); font-family: system-ui, -apple-system, "Segoe UI", sans-serif; overflow: hidden; }
+  canvas { display: block; }
+  #hud { position: absolute; left: 22px; top: 18px; pointer-events: none; max-width: calc(100% - 270px); }
+  #hud h1 { margin: 0; font-size: 22px; font-weight: 650; letter-spacing: .01em; }
+  #hud p { margin: 4px 0 0; font-size: 13px; color: var(--muted); }
+  #legend { position: absolute; left: 16px; top: 86px; width: 256px; max-height: calc(100% - 156px); overflow: auto; background: rgba(7,11,20,.62); border: 1px solid var(--line); border-radius: 11px; padding: 6px; backdrop-filter: blur(8px); }
+  .it { display: flex; align-items: center; gap: 9px; padding: 4.5px 8px; border-radius: 7px; font-size: 12.5px; cursor: default; transition: background .14s ease; }
+  .it:hover { background: rgba(126,232,255,.15); }
+  .sw { width: 12px; height: 12px; border-radius: 50%; flex: none; box-shadow: inset 0 0 0 1px rgba(255,255,255,.32); }
+  .key { grid-column: 1 / -1; margin-top: 4px; padding: 8px 8px 4px; border-top: 1px solid var(--line); font-size: 11.5px; color: var(--muted); line-height: 1.5; }
+  .key .row { display: flex; align-items: center; flex-wrap: wrap; gap: 5px; margin-bottom: 5px; }
+  .chip { width: 18px; height: 18px; border-radius: 50%; display: inline-grid; place-items: center; font-size: 10.5px; font-weight: 700; color: #12151e; }
+  .bar { width: 18px; height: 6px; border-radius: 3px; display: inline-block; }
+  #flows { position: absolute; right: 16px; top: 18px; width: 230px; max-height: calc(100% - 134px); overflow: auto; background: rgba(7,11,20,.62); border: 1px solid var(--line); border-radius: 11px; padding: 8px 6px 6px; backdrop-filter: blur(8px); }
+  #flows h2 { margin: 2px 8px 4px; font-size: 13px; font-weight: 650; }
+  .speed { display: flex; align-items: center; gap: 8px; margin: 2px 8px 8px; font-size: 12px; color: var(--muted); }
+  .speed input { flex: 1; min-width: 0; accent-color: var(--accent); }
+  #spd { width: 38px; text-align: right; color: var(--fg); font-variant-numeric: tabular-nums; }
+  #tip { margin: 0 8px 8px; font-size: 12px; line-height: 1.45; color: var(--muted); }
+  #tip b { color: var(--fg); font-weight: 600; }
+  .mol { display: flex; align-items: center; gap: 8px; padding: 3px 8px; border-radius: 7px; font-size: 12.5px; cursor: default; }
+  .mol:hover { background: rgba(126,232,255,.15); }
+  .mol canvas { width: 22px; height: 22px; flex: none; }
+  #tools { position: absolute; right: 16px; bottom: 16px; display: flex; flex-wrap: wrap; justify-content: flex-end; gap: 7px; max-width: calc(100% - 32px); }
+  #tools button { background: rgba(8,12,22,.76); color: var(--fg); border: 1px solid rgba(255,255,255,.22); border-radius: 8px; padding: 7px 11px; font: inherit; font-size: 12.5px; cursor: pointer; backdrop-filter: blur(6px); transition: border-color .15s ease, background .15s ease; }
+  #tools button:hover { border-color: var(--accent); }
+  #modeBtn { border-color: rgba(255,212,107,.55) !important; background: rgba(42,28,14,.78) !important; color: #ffe7a8 !important; font-weight: 600; }
+  #modeBtn.extremophile { border-color: rgba(201,107,255,.72) !important; background: rgba(44,18,62,.82) !important; color: #f0d0ff !important; }
+  #hint { position: absolute; right: 18px; bottom: 58px; font-size: 12px; color: var(--muted); pointer-events: none; }
+  #busy { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; color: var(--muted); font-size: 14px; pointer-events: none; }
+  @media (max-width: 760px) {
+    #legend { top: auto; bottom: 68px; left: 10px; right: 10px; width: auto; max-height: 25vh; display: grid; grid-template-columns: 1fr 1fr; }
+    #hint, #flows { display: none; }
+    #hud { max-width: calc(100% - 28px); }
+    #hud h1 { font-size: 17px; }
+  }
+  .embed #hud, .embed #legend, .embed #flows, .embed #hint, .embed #tools, .embed #busy { display: none !important; }
+</style>
+<script type="importmap">
+{ "imports": {
+  "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js",
+  "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"
+} }
+</script>
+</head>
+<body>
+<div id="busy">Building Asgard Archaeon &amp; Endosymbiotic Synapse…</div>
+<div id="hud"><h1>Domain Archaea &amp; Endosymbiosis (<i>Prometheoarchaeum</i> / Extremophiles)</h1><p id="sub">Cryo-EM dark-field cutaway · Asgard host + alphaproteobacterial partner · toggle Extremophile mode (1 unit = 100 nm)</p></div>
+<div id="legend"></div>
+<div id="flows"><h2>Metabolic Flows</h2><label class="speed">Speed <input id="speed" type="range" min="-3" max="2" step=".1" value="0"><span id="spd">1×</span></label><div id="tip"></div><div id="mols"></div></div>
+<div id="hint">Drag to look around · W A S D to move · scroll to zoom · right-drag to pan · hover a name to highlight it</div>
+<div id="tools"><button id="modeBtn">Mode: Asgard + Symbiont</button><button id="view">View: overview</button><button id="flow">Metabolism: on</button><button id="look">Membrane: gel</button><button id="cut">Close cutaway</button><button id="motion">Pause</button><button id="snap">Save PNG</button></div>
+<script type="module" src="dist/pages/archaea_realistic.js"></script>
+</body>
+</html>

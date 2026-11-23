@@ -1,7 +1,7 @@
 # 10 — Archaea (The 3rd Domain of Life) & Endosymbiosis: Asgard Host, Extremophile Architecture & Origin of Eukaryotes
 
 **Iteration:** 10 (Standalone Realistic WebGL2 Asgard Archaeon & Comparative Extremophile Model, Endosymbiotic Synapse Simulation, Explorer Molecular Subtree, 3-Persona Guided Tour & Sharded `.opus` Narration in `EN` & `ES`)  
-**Status:** 📋 **Planned**  
+**Status:** ✅ **Completed**  
 **Parent Index:** [roadmap/README.md](./README.md)  
 **Previous Step:** [09-powers-of-10-scale-explorer-and-four-biomolecules.md](./09-powers-of-10-scale-explorer-and-four-biomolecules.md)  
 **Next Step:** [11-gram-positive-bacteria-and-endospores.md](./11-gram-positive-bacteria-and-endospores.md)

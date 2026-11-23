@@ -36,6 +36,14 @@ import {
   CELL_DIVISION_NODE_LENSES,
   CELL_DIVISION_PART_LENSES
 } from './lenses_cell_division.js';
+import {
+  CENTRAL_DOGMA_NODE_LENSES,
+  CENTRAL_DOGMA_PART_LENSES
+} from './lenses_central_dogma.js';
+import {
+  BIOENERGETICS_NODE_LENSES,
+  BIOENERGETICS_PART_LENSES
+} from './lenses_bioenergetics.js';
 
 registerNodeLenses(INTRO_NODE_LENSES);
 registerNodeLenses(SCALE_BIOMOLECULES_NODE_LENSES);
@@ -50,6 +58,8 @@ registerNodeLenses(ENVELOPED_VIRUS_NODE_LENSES);
 registerNodeLenses(PARASITIC_CELLS_NODE_LENSES);
 registerNodeLenses(EDGE_OF_LIFE_NODE_LENSES);
 registerNodeLenses(CELL_DIVISION_NODE_LENSES);
+registerNodeLenses(CENTRAL_DOGMA_NODE_LENSES);
+registerNodeLenses(BIOENERGETICS_NODE_LENSES);
 
 registerPartLenses(SCALE_BIOMOLECULES_PART_LENSES);
 registerPartLenses(ARCHAEA_PART_LENSES);
@@ -63,6 +73,8 @@ registerPartLenses(ENVELOPED_VIRUS_PART_LENSES);
 registerPartLenses(PARASITIC_CELLS_PART_LENSES);
 registerPartLenses(EDGE_OF_LIFE_PART_LENSES);
 registerPartLenses(CELL_DIVISION_PART_LENSES);
+registerPartLenses(CENTRAL_DOGMA_PART_LENSES);
+registerPartLenses(BIOENERGETICS_PART_LENSES);
 
 export * from './types.js';
 export * from './parser.js';
@@ -92,5 +104,9 @@ export {
   EDGE_OF_LIFE_NODE_LENSES,
   EDGE_OF_LIFE_PART_LENSES,
   CELL_DIVISION_NODE_LENSES,
-  CELL_DIVISION_PART_LENSES
+  CELL_DIVISION_PART_LENSES,
+  CENTRAL_DOGMA_NODE_LENSES,
+  CENTRAL_DOGMA_PART_LENSES,
+  BIOENERGETICS_NODE_LENSES,
+  BIOENERGETICS_PART_LENSES
 };

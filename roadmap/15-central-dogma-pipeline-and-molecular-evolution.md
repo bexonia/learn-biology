@@ -1,7 +1,7 @@
 # 15 — End-to-End Central Dogma, mRNA Splicing & Molecular Evolution
 
 **Iteration:** `15` (Continuous Nucleus-to-Cytosol WebGL2 Central Dogma Pipeline, Spliceosome Alternative Splicing, Live Point-Mutation & Natural-Selection Explorer, 3-Persona Guided Tour & GPU `.opus` Narration in `EN` & `ES`)  
-**Status:** 📋 **Planned**  
+**Status:** ✅ **Completed**  
 **Parent Index:** [`roadmap/README.md`](./README.md)  
 **Previous Step:** [`14-cell-division-binary-fission-mitosis-and-meiosis.md`](./14-cell-division-binary-fission-mitosis-and-meiosis.md)  
 **Next Step:** [`16-bioenergetics-photosynthesis-respiration-and-membrane-transport.md`](./16-bioenergetics-photosynthesis-respiration-and-membrane-transport.md)

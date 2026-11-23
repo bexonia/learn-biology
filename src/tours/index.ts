@@ -4,14 +4,17 @@ import { adenovirusTour } from "./adenovirus.js";
 import { archaeaTour } from "./archaea.js";
 import { bacteriophageTour } from "./bacteriophage.js";
 import { bacterium_cellTour } from "./bacterium_cell.js";
+import { BIOENERGETICS_TOUR } from "./bioenergetics.js";
 import { biology_introTour } from "./biology_intro.js";
 import { cell_divisionTour } from "./cell_division.js";
+import { CENTRAL_DOGMA_TOUR } from "./central_dogma.js";
 import { chlamydiaTour } from "./chlamydia.js";
 import { coronavirusTour } from "./coronavirus.js";
 import { eukaryotic_cellTour } from "./eukaryotic_cell.js";
 import { fungal_cellTour } from "./fungal_cell.js";
 import { gram_positiveTour } from "./gram_positive.js";
 import { hivTour } from "./hiv.js";
+import { MEMBRANE_TRANSPORT_TOUR } from "./membrane_transport.js";
 import { mimivirusTour } from "./mimivirus.js";
 import { mycoplasmaTour } from "./mycoplasma.js";
 import { parameciumTour } from "./paramecium.js";
@@ -31,13 +34,16 @@ export const ALL_TOURS: Record<string, TourDefinition> = {
   archaea: archaeaTour,
   bacteriophage: bacteriophageTour,
   bacterium: bacterium_cellTour,
+  bioenergetics: BIOENERGETICS_TOUR,
   cell_division: cell_divisionTour,
+  central_dogma: CENTRAL_DOGMA_TOUR,
   chlamydia: chlamydiaTour,
   coronavirus: coronavirusTour,
   eukaryotic: eukaryotic_cellTour,
   fungal: fungal_cellTour,
   gram_positive: gram_positiveTour,
   hiv: hivTour,
+  membrane_transport: MEMBRANE_TRANSPORT_TOUR,
   mimivirus: mimivirusTour,
   mycoplasma: mycoplasmaTour,
   paramecium: parameciumTour,
@@ -64,6 +70,9 @@ export {
   viroidTour,
   prionTour,
   cell_divisionTour,
+  CENTRAL_DOGMA_TOUR,
+  BIOENERGETICS_TOUR,
+  MEMBRANE_TRANSPORT_TOUR,
   mycoplasmaTour,
   chlamydiaTour,
   rickettsiaTour,

@@ -82,6 +82,9 @@ const HTML_PAGES = [
   'viroid_realistic.html',
   'prion_realistic.html',
   'cell_division_realistic.html',
+  'central_dogma_realistic.html',
+  'bioenergetics_realistic.html',
+  'membrane_transport_realistic.html',
   'cell_explorer.html',
   'dna_styles.html',
   'molecules_preview.html',
@@ -257,9 +260,9 @@ async function runUnitTests() {
     assert.equal(pdbEmitter.beads.length, 1, 'PdbService.placeProtein should decode and emit PDB spheres');
     ok('RibosomeService & PdbService (80S rough ER, free 80S, polysome rosettes, PDB decoder, OccupancyGrid)');
 
-    // TourService + Multi-Persona Guided Tour Scripts (7,890 cues across 23 tours × EN/ES × pop/blueprint/scientific)
+    // TourService + Multi-Persona Guided Tour Scripts (8,682 cues across 26 tours × EN/ES × pop/blueprint/scientific)
     const all = tours.tours;
-    assert.equal(Object.keys(all).length, 23, 'TourService must provide all 23 guided tours');
+    assert.equal(Object.keys(all).length, 26, 'TourService must provide all 26 guided tours');
     const plainOf = (s: string) => s.replace(/\[\[([^\]|]+)(?:\|[^\]]+)?\]\]/g, '$1');
     const extractHighlightTargets = (s: string): string[] =>
       [...s.matchAll(/\[\[([^|\]]+)(?:\|([^\]]+))?\]\]/g)].map((m) =>
@@ -354,12 +357,12 @@ async function runUnitTests() {
         }
       }
     }
-    assert.equal(Object.keys(ALL_TOURS).length, 23);
-    assert.equal(uniqueTourCuesCount, 1315, `Expected 1315 unique tour cues across 23 tours, got ${uniqueTourCuesCount}`);
+    assert.equal(Object.keys(ALL_TOURS).length, 26);
+    assert.equal(uniqueTourCuesCount, 1447, `Expected 1447 unique tour cues across 26 tours, got ${uniqueTourCuesCount}`);
     assert.equal(
       verifiedPersonaCueStrings,
-      7890,
-      `Expected 7890 verified multi-persona tour cue strings, got ${verifiedPersonaCueStrings}`
+      8682,
+      `Expected 8682 verified multi-persona tour cue strings, got ${verifiedPersonaCueStrings}`
     );
     assert.ok(
       tourAnalogyCounts['life-overview'] >= 1 && tourAnalogyCounts['life-overview'] <= 2,
@@ -377,7 +380,10 @@ async function runUnitTests() {
       'real-mimivirus',
       'real-viroid',
       'real-prion',
-      'real-cell-division'
+      'real-cell-division',
+      'real-central-dogma',
+      'real-bioenergetics',
+      'real-membrane-transport'
     ] as const) {
       assert.ok(
         tourAnalogyCounts[waveRoot] >= 2 && tourAnalogyCounts[waveRoot] <= 3,
@@ -385,11 +391,11 @@ async function runUnitTests() {
       );
     }
     assert.ok(
-      curatedAnalogyCueCount >= 46 && curatedAnalogyCueCount <= 74,
-      `Expected sparse, high-value analogies on complex mechanisms only (46..74 of 1315 cues, ~1 every 2 min), got ${curatedAnalogyCueCount}`
+      curatedAnalogyCueCount >= 52 && curatedAnalogyCueCount <= 80,
+      `Expected sparse, high-value analogies on complex mechanisms only (52..80 of 1447 cues, ~1 every 2 min), got ${curatedAnalogyCueCount}`
     );
     ok(
-      `TourService & Multi-Persona Scripts (23 tours, ${uniqueTourCuesCount} unique cues, ${curatedAnalogyCueCount} sparse complex-mechanism analogies [Tour 0: ${tourAnalogyCounts['life-overview']}, Phase 09-14: ${tourAnalogyCounts['scale-explorer']}/${tourAnalogyCounts['real-archaea']}/${tourAnalogyCounts['real-gram-positive']}/${tourAnalogyCounts['real-paramecium']}/${tourAnalogyCounts['real-plasmodium']}/${tourAnalogyCounts['real-mimivirus']}/${tourAnalogyCounts['real-viroid']}/${tourAnalogyCounts['real-prion']}/${tourAnalogyCounts['real-cell-division']}, Stage 3: ${tourAnalogyCounts['real-mycoplasma']}/${tourAnalogyCounts['real-chlamydia']}/${tourAnalogyCounts['real-rickettsia']}], all ${verifiedPersonaCueStrings} cues <= 110 chars & highlight-verified)`
+      `TourService & Multi-Persona Scripts (26 tours, ${uniqueTourCuesCount} unique cues, ${curatedAnalogyCueCount} sparse complex-mechanism analogies [Tour 0: ${tourAnalogyCounts['life-overview']}, Phase 09-16: ${tourAnalogyCounts['scale-explorer']}/${tourAnalogyCounts['real-archaea']}/${tourAnalogyCounts['real-gram-positive']}/${tourAnalogyCounts['real-paramecium']}/${tourAnalogyCounts['real-plasmodium']}/${tourAnalogyCounts['real-mimivirus']}/${tourAnalogyCounts['real-viroid']}/${tourAnalogyCounts['real-prion']}/${tourAnalogyCounts['real-cell-division']}/${tourAnalogyCounts['real-central-dogma']}/${tourAnalogyCounts['real-bioenergetics']}/${tourAnalogyCounts['real-membrane-transport']}, Stage 3: ${tourAnalogyCounts['real-mycoplasma']}/${tourAnalogyCounts['real-chlamydia']}/${tourAnalogyCounts['real-rickettsia']}], all ${verifiedPersonaCueStrings} cues <= 110 chars & highlight-verified)`
     );
 
     // I18nService + AtomRef reactivity checks
@@ -411,7 +417,7 @@ async function runUnitTests() {
       'The [[Membrana plasmática|membrane]] encloses the cell.'
     );
     const esDef = i18n.getLocaleDefinition('es');
-    assert.ok(Object.keys(esDef.nodes).length >= 291, 'ES_LOCALE must include all 291 NODES');
+    assert.ok(Object.keys(esDef.nodes).length >= 317, 'ES_LOCALE must include all 317 NODES');
     for (const [id, n] of Object.entries(esDef.nodes)) {
       assert.ok(n.name && n.name.length > 0, `Missing ES name for node ${id}`);
       assert.ok(n.scale && n.scale.length > 0, `Missing ES scale for node ${id}`);
@@ -445,21 +451,21 @@ async function runUnitTests() {
         }
       }
     }
-    assert.ok(totalTranslatedCues >= 1315, `Expected >= 1315 translated tour cues, got ${totalTranslatedCues}`);
+    assert.ok(totalTranslatedCues >= 1447, `Expected >= 1447 translated tour cues, got ${totalTranslatedCues}`);
     Effect.runSync(i18n.setLocaleEffect('en'));
     assert.equal(i18n.locale, 'en');
     assert.equal(i18n.t('structureTree'), 'Structure tree');
     unsubscribe();
     assert.deepEqual(observedLocales, ['es', 'en'], 'AtomRef subscription must emit locale transitions');
-    ok(`I18nService (Effect service + AtomRef reactivity, 291/291 ES node descriptions, ${totalTranslatedCues} ES tour cues verified)`);
+    ok(`I18nService (Effect service + AtomRef reactivity, 317/317 ES node descriptions, ${totalTranslatedCues} ES tour cues verified)`);
 
-    // Explanation Modes (Simple, Story, Blueprint, Scientific) + 291 Node Lenses + 358 Realistic Part Lenses checks
+    // Explanation Modes (Simple, Story, Blueprint, Scientific) + 317 Node Lenses + 412 Realistic Part Lenses checks
     const validNodeIds = new Set(Object.keys(esDef.nodes));
-    assert.equal(validNodeIds.size, 291, 'Expected 291 total explorer node IDs');
+    assert.equal(validNodeIds.size, 317, 'Expected 317 total explorer node IDs');
     assert.equal(
       Object.keys(NODE_LENS_REGISTRY).length,
-      291,
-      `Expected 291 registered node lenses, got ${Object.keys(NODE_LENS_REGISTRY).length}`
+      317,
+      `Expected 317 registered node lenses, got ${Object.keys(NODE_LENS_REGISTRY).length}`
     );
     const verifyInlineTokens = (ctx: string, raw: string) => {
       for (const tok of parseRichInline(raw)) {
@@ -518,7 +524,7 @@ async function runUnitTests() {
         verifiedPartCount++;
       }
     }
-    assert.equal(verifiedPartCount, 358, `Expected 358 verified realistic part lenses across 21 pages, got ${verifiedPartCount}`);
+    assert.equal(verifiedPartCount, 412, `Expected 412 verified realistic part lenses across 24 pages, got ${verifiedPartCount}`);
 
     const observedModes: string[] = [];
     const unsubMode = i18n.onModeChange((m) => observedModes.push(m));
@@ -536,10 +542,10 @@ async function runUnitTests() {
     assert.notEqual(simMito, storyMito);
     unsubMode();
     assert.deepEqual(observedModes, ['scientific', 'blueprint', 'simple', 'story']);
-    ok('Multi-mode Explanation Lenses (291/291 bilingual node lenses, 358/358 bilingual realistic part supply chains, & AtomRef mode reactivity)');
+    ok('Multi-mode Explanation Lenses (317/317 bilingual node lenses, 412/412 bilingual realistic part supply chains, & AtomRef mode reactivity)');
 
     // Sequential Curriculum (COURSE_SEQUENCE, markTourCompleted, isTourCompleted, getNextCourseRoot) unit check
-    assert.equal(COURSE_SEQUENCE.length, 26, 'Expected 26-step sequential curriculum');
+    assert.equal(COURSE_SEQUENCE.length, 29, 'Expected 29-step sequential curriculum');
     assert.equal(COURSE_SEQUENCE[0], 'life-overview', 'Curriculum must start with Stage 0 (life-overview)');
     assert.equal(COURSE_SEQUENCE[1], 'scale-explorer', 'Stage 0.2 must follow with Powers-of-10 Scale Explorer');
     assert.equal(COURSE_SEQUENCE[2], 'four-biomolecules', 'Stage 0.3 must follow with The Four Biomolecules');
@@ -565,7 +571,10 @@ async function runUnitTests() {
     assert.equal(seqPm.getNextCourseRoot('real-mimivirus'), 'real-viroid');
     assert.equal(seqPm.getNextCourseRoot('real-viroid'), 'real-prion');
     assert.equal(seqPm.getNextCourseRoot('real-prion'), 'real-cell-division');
-    assert.equal(seqPm.getNextCourseRoot('real-cell-division'), null);
+    assert.equal(seqPm.getNextCourseRoot('real-cell-division'), 'real-central-dogma');
+    assert.equal(seqPm.getNextCourseRoot('real-central-dogma'), 'real-bioenergetics');
+    assert.equal(seqPm.getNextCourseRoot('real-bioenergetics'), 'real-membrane-transport');
+    assert.equal(seqPm.getNextCourseRoot('real-membrane-transport'), null);
     assert.equal(seqPm.isTourCompleted('life-overview'), false);
     seqPm.markTourCompleted('life-overview');
     assert.equal(seqPm.isTourCompleted('life-overview'), true);
@@ -1029,7 +1038,11 @@ function runStaticChecks() {
     'audio_phase13_en.tar.gz',
     'audio_phase13_es.tar.gz',
     'audio_phase14_en.tar.gz',
-    'audio_phase14_es.tar.gz'
+    'audio_phase14_es.tar.gz',
+    'audio_phase15_en.tar.gz',
+    'audio_phase15_es.tar.gz',
+    'audio_phase16_en.tar.gz',
+    'audio_phase16_es.tar.gz'
   ];
   assert.ok(
     !fs.existsSync(path.join(ROOT_DIR, 'audio_tours_es.tar.gz')),
@@ -1059,6 +1072,9 @@ function runStaticChecks() {
     !fs.existsSync(path.join(ROOT_DIR, 'audio', 'en', 'v1', 'real-viroid')) ||
     !fs.existsSync(path.join(ROOT_DIR, 'audio', 'en', 'v1', 'real-prion')) ||
     !fs.existsSync(path.join(ROOT_DIR, 'audio', 'en', 'v1', 'real-cell-division')) ||
+    !fs.existsSync(path.join(ROOT_DIR, 'audio', 'en', 'v1', 'real-central-dogma')) ||
+    !fs.existsSync(path.join(ROOT_DIR, 'audio', 'en', 'v1', 'real-bioenergetics')) ||
+    !fs.existsSync(path.join(ROOT_DIR, 'audio', 'en', 'v1', 'real-membrane-transport')) ||
     !fs.existsSync(path.join(ROOT_DIR, 'audio', 'es', 'latam', 'life-overview')) ||
     !fs.existsSync(path.join(ROOT_DIR, 'audio', 'es', 'latam', 'real-mycoplasma')) ||
     !fs.existsSync(path.join(ROOT_DIR, 'audio', 'es', 'latam', 'scale-explorer')) ||
@@ -1070,6 +1086,9 @@ function runStaticChecks() {
     !fs.existsSync(path.join(ROOT_DIR, 'audio', 'es', 'latam', 'real-viroid')) ||
     !fs.existsSync(path.join(ROOT_DIR, 'audio', 'es', 'latam', 'real-prion')) ||
     !fs.existsSync(path.join(ROOT_DIR, 'audio', 'es', 'latam', 'real-cell-division')) ||
+    !fs.existsSync(path.join(ROOT_DIR, 'audio', 'es', 'latam', 'real-central-dogma')) ||
+    !fs.existsSync(path.join(ROOT_DIR, 'audio', 'es', 'latam', 'real-bioenergetics')) ||
+    !fs.existsSync(path.join(ROOT_DIR, 'audio', 'es', 'latam', 'real-membrane-transport')) ||
     !fs.existsSync(path.join(ROOT_DIR, 'audio', 'es', 'spain', 'blueprint')) ||
     !fs.existsSync(path.join(ROOT_DIR, 'audio', 'es', 'spain', 'scientific')) ||
     !fs.existsSync(path.join(ROOT_DIR, 'audio', 'lenses', 'en', 'v1', 'scientific')) ||
@@ -1118,7 +1137,7 @@ function runStaticChecks() {
       }
     }
   });
-  assert.equal(verifiedTourOpusCount, 7890, `Expected 7890 verified multi-persona tour .opus files, got ${verifiedTourOpusCount}`);
+  assert.equal(verifiedTourOpusCount, 8682, `Expected 8682 verified multi-persona tour .opus files, got ${verifiedTourOpusCount}`);
 
   let verifiedLensOpusCount = 0;
   for (const nodeId of Object.keys(NODE_LENS_REGISTRY)) {
@@ -1134,11 +1153,11 @@ function runStaticChecks() {
       }
     }
   }
-  assert.equal(verifiedLensOpusCount, 5820, `Expected 5820 verified multi-voice node lens .opus files, got ${verifiedLensOpusCount}`);
+  assert.equal(verifiedLensOpusCount, 6340, `Expected 6340 verified multi-voice node lens .opus files, got ${verifiedLensOpusCount}`);
   const totalOpusCount = verifiedTourOpusCount + verifiedLensOpusCount;
-  assert.equal(totalOpusCount, 13710, `Expected 13710 total verified .opus files, got ${totalOpusCount}`);
+  assert.equal(totalOpusCount, 15022, `Expected 15022 total verified .opus files, got ${totalOpusCount}`);
   ok(
-    `All ${totalOpusCount} pre-generated Public Domain narration (.opus) files verified (${verifiedTourOpusCount} multi-persona tour cues + ${verifiedLensOpusCount} 4-mode lenses across EN v1/v2/v3 & ES latam/spain, all 31 archives < 48 MB)`
+    `All ${totalOpusCount} pre-generated Public Domain narration (.opus) files verified (${verifiedTourOpusCount} multi-persona tour cues + ${verifiedLensOpusCount} 4-mode lenses across EN v1/v2/v3 & ES latam/spain, all 35 archives < 48 MB)`
   );
 }
 
@@ -1240,7 +1259,7 @@ function findChromeBinary(): string {
 }
 
 async function runBrowserE2ETests() {
-  console.log('\n=== 3. Headless Chrome WebGL End-to-End Verification (All 26 Pages, All Models & Tours) ===');
+  console.log('\n=== 3. Headless Chrome WebGL End-to-End Verification (All 29 Pages, All Models & Tours) ===');
   const { server, port } = await startStaticServer(ROOT_DIR);
   const chromeBin = findChromeBinary();
   const debugPort = 9222 + Math.floor(Math.random() * 1000);
@@ -1391,7 +1410,7 @@ async function runBrowserE2ETests() {
                 builtModels++;
               }
             }
-            const roots = ['life-overview', 'scale-explorer', 'real-bacterium', 'real-archaea', 'real-gram-positive', 'real-fungal', 'real-cell', 'real-plant', 'real-paramecium', 'real-plasmodium', 'real-mycoplasma', 'real-chlamydia', 'real-rickettsia', 'viruses', 'real-phage', 'real-tmv', 'real-adenovirus', 'real-coronavirus', 'real-hiv', 'real-mimivirus', 'real-viroid', 'real-prion', 'real-cell-division'];
+            const roots = ['life-overview', 'scale-explorer', 'real-bacterium', 'real-archaea', 'real-gram-positive', 'real-fungal', 'real-cell', 'real-plant', 'real-paramecium', 'real-plasmodium', 'real-mycoplasma', 'real-chlamydia', 'real-rickettsia', 'viruses', 'real-phage', 'real-tmv', 'real-adenovirus', 'real-coronavirus', 'real-hiv', 'real-mimivirus', 'real-viroid', 'real-prion', 'real-cell-division', 'real-central-dogma', 'real-bioenergetics', 'real-membrane-transport'];
             for (const r of roots) {
               const cues = window.TOURS && Object.values(window.TOURS).find(t => t.root === r);
               if (!cues || !cues.chapters || cues.chapters.length === 0) {
@@ -1590,6 +1609,12 @@ async function runBrowserE2ETests() {
               nar.resolveAudioUrl({ id: 'pri.ch0.s0.01', lang: 'es-ES', root: 'real-prion' }),
               nar.resolveAudioUrl({ id: 'div.ch0.s0.01', lang: 'en-US', root: 'real-cell-division' }),
               nar.resolveAudioUrl({ id: 'div.ch0.s0.01', lang: 'es-ES', root: 'real-cell-division' }),
+              nar.resolveAudioUrl({ id: 'cd.ch0.s0.01', lang: 'en-US', root: 'real-central-dogma' }),
+              nar.resolveAudioUrl({ id: 'cd.ch0.s0.01', lang: 'es-ES', root: 'real-central-dogma' }),
+              nar.resolveAudioUrl({ id: 'bio.ch0.s0.01', lang: 'en-US', root: 'real-bioenergetics' }),
+              nar.resolveAudioUrl({ id: 'bio.ch0.s0.01', lang: 'es-ES', root: 'real-bioenergetics' }),
+              nar.resolveAudioUrl({ id: 'mem.ch0.s0.01', lang: 'en-US', root: 'real-membrane-transport' }),
+              nar.resolveAudioUrl({ id: 'mem.ch0.s0.01', lang: 'es-ES', root: 'real-membrane-transport' }),
               nar.resolveAudioUrl({ id: 'myco.ch0.s0.01', lang: 'en-US', root: 'real-mycoplasma' }),
               nar.resolveAudioUrl({ id: 'chla.ch0.s0.01', lang: 'es-ES', root: 'real-chlamydia' }),
               nar.resolveAudioUrl({ id: 'rick.ch0.s0.01', lang: 'en-US', root: 'real-rickettsia' }),
@@ -1604,6 +1629,9 @@ async function runBrowserE2ETests() {
               nar.resolveLensAudioUrl({ nodeId: 'real-viroid', mode: 'scientific', lang: 'en-US', voice: 'v1' }),
               nar.resolveLensAudioUrl({ nodeId: 'real-prion', mode: 'story', lang: 'es-ES', esVoice: 'latam' }),
               nar.resolveLensAudioUrl({ nodeId: 'real-cell-division', mode: 'scientific', lang: 'en-US', voice: 'v1' }),
+              nar.resolveLensAudioUrl({ nodeId: 'real-central-dogma', mode: 'story', lang: 'en-US', voice: 'v3' }),
+              nar.resolveLensAudioUrl({ nodeId: 'real-bioenergetics', mode: 'blueprint', lang: 'es-ES', esVoice: 'spain' }),
+              nar.resolveLensAudioUrl({ nodeId: 'real-membrane-transport', mode: 'scientific', lang: 'en-US', voice: 'v1' }),
               nar.resolveLensAudioUrl({ nodeId: 'parasitic-cells-overview', mode: 'story', lang: 'es-ES', esVoice: 'latam' }),
               nar.resolveLensAudioUrl({ nodeId: 'real-mycoplasma', mode: 'scientific', lang: 'en-US', voice: 'v1' }),
               nar.resolveLensAudioUrl({ nodeId: 'real-chlam-npt1', mode: 'blueprint', lang: 'es-ES', esVoice: 'spain' }),
@@ -1635,9 +1663,9 @@ async function runBrowserE2ETests() {
         assert.equal(explorerCheck.initialHash, '#life-overview', 'Bare cell_explorer.html must default to Stage 0 (#life-overview)');
         assert.equal(explorerCheck.stageGroupsCount, 6, '#roots must render all 6 sequential curriculum stages (0..5)');
         assert.equal(explorerCheck.autonomyPillsCount, 4, '#autonomyBar must display 4-Pillar Autonomy badges on root view');
-        assert.ok(explorerCheck.totalNodes >= 291, 'cell_explorer must have >= 291 biological nodes');
+        assert.ok(explorerCheck.totalNodes >= 317, 'cell_explorer must have >= 317 biological nodes');
         assert.ok(explorerCheck.builtModels > 40, 'cell_explorer must build all standalone 3D organelle/molecular models');
-        assert.equal(explorerCheck.tourRoots.length, 23);
+        assert.equal(explorerCheck.tourRoots.length, 26);
         assert.equal(explorerCheck.langSwitchOk, true);
         assert.equal(explorerCheck.esStageGroupsOk, true, 'Spanish locale must translate all 6 curriculum stage headers');
         assert.equal(explorerCheck.introTourNextCourseOk, true, 'Finishing Tour 0 must mark ✓ in #tree and advance via #tNextCourse to #scale-explorer');

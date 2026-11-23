@@ -43,6 +43,9 @@ COPY cell_explorer.html \
      viroid_realistic.html \
      prion_realistic.html \
      cell_division_realistic.html \
+     central_dogma_realistic.html \
+     bioenergetics_realistic.html \
+     membrane_transport_realistic.html \
      robots.txt \
      sitemap.xml \
      /usr/share/nginx/html/
@@ -80,6 +83,10 @@ ADD audio.tar.gz \
     audio_phase13_es.tar.gz \
     audio_phase14_en.tar.gz \
     audio_phase14_es.tar.gz \
+    audio_phase15_en.tar.gz \
+    audio_phase15_es.tar.gz \
+    audio_phase16_en.tar.gz \
+    audio_phase16_es.tar.gz \
     /usr/share/nginx/html/
 COPY --from=builder /app/dist/ /usr/share/nginx/html/dist/
 COPY --from=builder /app/dist/server.js /app/server.js

@@ -1456,5 +1456,135 @@ export const ES_NODES: Record<string, NodeTranslation> = {
     name: 'Unión Holliday recombinante de ADN de 4 vías',
     scale: 'cruce tetracatenario de ADN de ~4 nm',
     desc: 'La encrucijada molecular física de la diversidad genética: cuatro hebras de ADN de cromosomas maternos y paternos se entrecruzan en una unión Holliday en X estabilizada por Mg²⁺ que se resuelve en cromátidas recombinantes quiméricas.'
+  },
+  'real-central-dogma': {
+    name: 'Dogma central: replicación, empalme, traducción y mutaciones puntuales (realista)',
+    scale: 'corredor de 5 µm · espliceosoma de 27 nm · codones de 0,5 nm',
+    desc: 'Un corredor molecular continuo de 5 µm Núcleo → Poro Nuclear → Citosol que sigue un solo gen desde la replicación de eucromatina (6QEL/6TNY) y la transcripción por ARN Pol II (1I50) hasta el empalme alternativo en el espliceosoma (5YZG), la traducción en ribosomas 80S (4UG0/1EHZ) y el plegamiento en Hsp70/TRiC (2KHO/6NR8), más un banco interactivo de mutaciones puntuales comparando fibras falciformes HbA → HbS (2HHB/2HBS) y la evolución del bolsillo de eflujo bacteriano AcrB (5O66).'
+  },
+  'real-cd-replisome': {
+    name: 'Horquilla de replicación de ADN y transcripción por ARN Pol II (realista)',
+    scale: 'enzimas nucleares de 12–15 nm',
+    desc: 'Dentro del núcleo, helicasas hexaméricas (6QEL) abren la eucromatina mientras ADN Pol δ + PCNA (6TNY) sintetiza y corrige errores 3′→5′, justo junto a ARN Pol II (1I50) transcribiendo pre-ARNm con caperuza 5′ y cola poli-A.'
+  },
+  'real-cd-pol-delta': {
+    name: 'ADN Polimerasa δ + abrazadera deslizante PCNA (PDB 6TNY)',
+    scale: 'replisoma corrector de ~15 nm',
+    desc: 'Estructura crio-EM real de la ADN Polimerasa δ humana unida a la abrazadera PCNA (PDB 6TNY): la palma polimeriza ADN 5′→3′ mientras su hendidura exonucleasa 3′→5′ escinde bases mal emparejadas antes de fijar mutaciones.'
+  },
+  'real-cd-spliceosome': {
+    name: 'Complejo C catalítico del Espliceosoma humano (PDB 5YZG)',
+    scale: 'ribonucleoproteína de ~27 nm y 2,5 MDa',
+    desc: 'Estructura crio-EM real del espliceosoma megadalton humano (PDB 5YZG): cinco snRNP (U1/U2/U4/U5/U6) coordinan iones Mg²⁺ catalíticos para escindir intrones en lazo 2′–5′ y empalmar exones codificantes en ARNm maduro.'
+  },
+  'real-cd-splicing-view': {
+    name: 'Lazo intrónico del espliceosoma y empalme alternativo (realista)',
+    scale: 'motor de enrutado de exones de 27 nm',
+    desc: 'Por qué ~20.000 genes humanos generan más de 100.000 proteínas distintas: al incluir u omitir exones casete durante la escisión de intrones, el espliceosoma produce dos isoformas estructuralmente diferentes desde un mismo pre-ARNm.'
+  },
+  'real-cd-ribo80': {
+    name: 'Ribosoma humano 80S — subunidades 40S y 60S (PDB 4UG0)',
+    scale: 'ribozima de ~28 nm y 4,3 MDa',
+    desc: 'Estructura crio-EM real del ribosoma citosólico humano 80S (PDB 4UG0): la subunidad 40S inspecciona la geometría codón–anticodón de 3 bases mientras el ARNr 28S en la 60S cataliza enlaces peptídicos y extruye el polipéptido.'
+  },
+  'real-cd-trna': {
+    name: 'ARN de transferencia adaptador en L (PDB 1EHZ)',
+    scale: 'traductor de ARN de ~7 nm y 76 nt',
+    desc: 'Estructura cristalina real del ARN de transferencia en forma de L (PDB 1EHZ): su bucle anticodón de 3 bases se empareja con el codón del ARNm en la 40S mientras su extremo 3′-CCA entrega el aminoácido exacto en la 60S.'
+  },
+  'real-cd-tric': {
+    name: 'Barril chaperonina eucariota TRiC/CCT (PDB 6NR8)',
+    scale: 'cámara de plegamiento regulada por ATP (~16 nm)',
+    desc: 'Estructura crio-EM real de la chaperonina humana TRiC/CCT (PDB 6NR8): dos anillos apilados de ocho subunidades cierran una cámara con ATP alrededor de polipéptidos nacientes para guiar su plegamiento 3D nativo sin agregarse.'
+  },
+  'real-cd-hsp70': {
+    name: 'Chaperona de plegamiento Hsp70 (PDB 2KHO)',
+    scale: 'escudo hidrofóbico de ~8 nm',
+    desc: 'Estructura cristalina real de Hsp70 (PDB 2KHO): una pinza molecular regulada por ATP que protege segmentos hidrofóbicos recién salidos del túnel del ribosoma 80S evitando agregaciones prematuras.'
+  },
+  'real-cd-hbs': {
+    name: 'Hemoglobina falciforme mutante HbS Val6 y fibras (PDB 2HBS)',
+    scale: 'tetrámero de ~6 nm → fibras rígidas',
+    desc: 'Estructura cristalina real de desoxi-HbS (PDB 2HBS): una sola mutación A→T (GAG → GTG, Glu6 → Val6) expone un parche hidrofóbico que apila tetrámeros de beta-globina en fibras falciformes rígidas, ilustrando patología y selección balanceadora frente a la malaria.'
+  },
+  'real-cd-acrb': {
+    name: 'Bolsillo adaptativo de eflujo AcrB en E. coli (PDB 5O66)',
+    scale: 'evolución de bomba multifármaco de ~14 nm',
+    desc: 'Estructura cristalina real de AcrB de E. coli (PDB 5O66): una única sustitución puntual (GGC → GAC, Gly288 → Asp288) remodela el bolsillo distal para alterar la expulsión de fluoroquinolonas, mostrando selección natural direccional a escala atómica.'
+  },
+  'real-cd-mutation-atom': {
+    name: 'Mutación puntual atómica: cambio de par de bases GAG → GTG',
+    scale: '0,1–0,5 nm (C, H, N, O, P)',
+    desc: 'A escala atómica de 0,1–0,5 nm, la evolución molecular comienza con un solo par de bases Watson–Crick alterado: invertir A=T a T=A en el codón 6 (GAG → GTG) sustituye una cadena lateral y repercute en la forma proteica y la supervivencia.'
+  },
+  'real-bioenergetics': {
+    name: 'Bioenergética: fotosíntesis ↔ respiración celular (realista)',
+    scale: 'cloroplasto 5 µm ↔ mitocondria 2,5 µm · 32 ATP vs 2 ATP',
+    desc: 'Unifica fotosíntesis y respiración celular como espejos redox acoplados en una cámara 3D viva: un cloroplasto abierto capta fotones vía PSII (3JCU), Cyt b₆f (6RQF), PSI (4XK8) y RuBisCO (1RCX) emitiendo Glucosa + 6 O₂, mientras una mitocondria abierta oxida glucosa vía glucólisis, Krebs (1CTS), Complejos I–IV (5XTD/1ZOY/1BGY/1V54) y ATP sintasa F₁F₀ (5ARA) produciendo ~30–32 ATP, con selector en vivo Aerobio (~32 ATP) frente a Anaerobio (2 ATP) y Oscuridad.'
+  },
+  'real-bio-psii': {
+    name: 'Supercomplejo Fotosistema II–LHCII fotólisis del agua (PDB 3JCU)',
+    scale: '~22 nm · 206 clorofilas',
+    desc: 'Estructura crio-EM real de PSII–LHCII de espinaca (PDB 3JCU): antenas de clorofila canalizan fotones de 680 nm al centro Mn₄CaO₅ que divide agua en O₂ gaseoso, protones luminales y electrones excitados.'
+  },
+  'real-bio-b6f': {
+    name: 'Bomba protónica tilacoidal Citocromo b₆f (PDB 6RQF)',
+    scale: 'dímero del ciclo Q de ~12 nm',
+    desc: 'Estructura crio-EM real del Citocromo b₆f (PDB 6RQF): enlaza el Fotosistema II con el Fotosistema I oxidando plastoquinol, bombeando H⁺ extra al lumen tilacoidal mediante el ciclo Q y transfiriendo electrones a plastocianina.'
+  },
+  'real-bio-psi': {
+    name: 'Supercomplejo Fotosistema I–LHCI (PDB 4XK8)',
+    scale: '~20 nm · 155 clorofilas',
+    desc: 'Estructura cristalina real de PSI–LHCI (PDB 4XK8): absorbe un segundo fotón de 700 nm para elevar electrones hasta reducir la ferredoxina y sintetizar NADPH estromal para fijar carbono.'
+  },
+  'real-bio-rubisco': {
+    name: 'Enzima fijadora de carbono RuBisCO L₈S₈ (PDB 1RCX)',
+    scale: 'hexadecámero de 16 subunidades (~11 nm)',
+    desc: 'Estructura cristalina real de RuBisCO de espinaca (PDB 1RCX): la enzima más abundante de la Tierra fija CO₂ atmosférico sobre RuBP en el estroma cloroplástico impulsando el ciclo de Calvin hacia la glucosa.'
+  },
+  'real-bio-complex1': {
+    name: 'Complejo I mitocondrial NADH deshidrogenasa (PDB 5XTD)',
+    scale: 'bomba protónica en L de ~20 nm',
+    desc: 'Estructura crio-EM real del Complejo I mamífero (PDB 5XTD): extrae dos electrones de alta energía del NADH matricial por centros hierro-azufre hacia la ubiquinona bombeando 4 H⁺ a través de la membrana interna.'
+  },
+  'real-bio-complex4': {
+    name: 'Complejo IV Citocromo c Oxidasa (PDB 1V54)',
+    scale: 'reductasa terminal de O₂ (~12 nm)',
+    desc: 'Estructura cristalina real del Complejo IV bovino (PDB 1V54): transfiere cuatro electrones al O₂ molecular formando agua mientras bombea protones, explicando por qué la falta de O₂ detiene los Complejos I–IV y cae a 2 ATP.'
+  },
+  'real-bio-atpsynth': {
+    name: 'ATP Sintasa mitocondrial F₁F₀ (PDB 5ARA)',
+    scale: 'turbina molecular rotatoria de ~18 nm',
+    desc: 'Estructura crio-EM real de la ATP Sintasa F₁F₀ bovina intacta (PDB 5ARA): los protones del espacio intermembrana fluyen por el rotor del anillo c haciendo girar el tallo γ para fosforilar ADP en ~26–28 ATP por glucosa.'
+  },
+  'real-bio-citrate': {
+    name: 'Citrato Sintasa mitocondrial — Ciclo de Krebs (PDB 1CTS)',
+    scale: 'eje metabólico matricial de ~9 nm',
+    desc: 'Estructura cristalina real de la Citrato Sintasa (PDB 1CTS): condensa Acetil-CoA de 2 carbonos con oxalacetato de 4 carbonos iniciando el ciclo de Krebs matricial que libera 6 CO₂ y carga NADH y FADH₂.'
+  },
+  'real-membrane-transport': {
+    name: 'Laboratorio de transporte de membrana y ósmosis (realista)',
+    scale: 'células 20 µm → bicapa 5 nm → iones Na⁺/K⁺ 0,1 nm',
+    desc: 'Conecta la ósmosis celular completa directamente con nanomáquinas PDB transmembrana: alterna soluciones Hipotónica, Isotónica e Hipertónica sobre células animal (lisis/crenación) y vegetal (turgencia/plasmólisis) lado a lado y acerca la cámara a la bicapa de 5 nm con Difusión Simple (O₂/CO₂), Acuaporina AQP1 (1J4N), GLUT1 (4PYP), ATPasa Na⁺/K⁺ (3WGU) y vesículas Clatrina/SNARE (1XI4/1SFC).'
+  },
+  'real-mem-aqp1': {
+    name: 'Canal de agua Acuaporina AQP1 (PDB 1J4N)',
+    scale: 'homotetrámero de ~7 nm · paso de 0,28 nm',
+    desc: 'Estructura real de la Acuaporina-1 (PDB 1J4N): cuatro poros en reloj de arena con motivos dipolares NPA (Asn-Pro-Ala) conducen ~10⁹ moléculas de H₂O por segundo en fila india excluyendo estrictamente protones (H⁺) e iones.'
+  },
+  'real-mem-glut1': {
+    name: 'Uniportador humano de glucosa GLUT1 (PDB 4PYP)',
+    scale: 'transportador de acceso alterno (~6 nm)',
+    desc: 'Estructura cristalina real de GLUT1 humano (PDB 4PYP): doce hélices alfa transmembrana oscilan entre conformaciones abierta al exterior, ocluida y abierta al interior para transportar D-glucosa polar a favor de gradiente sin gastar ATP.'
+  },
+  'real-mem-nak': {
+    name: 'Bomba electrogénica ATPasa Na⁺/K⁺ (PDB 3WGU)',
+    scale: '~10 nm · 3 Na⁺ fuera / 2 K⁺ dentro por ATP',
+    desc: 'Estructura cristalina real de la Bomba Sodio–Potasio (PDB 3WGU): la hidrólisis de 1 ATP impulsa el ciclo de fosforilación E1 ↔ E2 sacando 3 Na⁺ e introduciendo 2 K⁺ cuesta arriba, manteniendo el potencial en reposo de -70 mV.'
+  },
+  'real-mem-vesicle': {
+    name: 'Fusión SNARE de 4 hélices y transporte vesicular por clatrina (PDB 1SFC)',
+    scale: 'cremallera vesicular de ~12 nm',
+    desc: 'Estructura cristalina real del haz de cuatro hélices SNARE (PDB 1SFC): junto a las jaulas de Clatrina (1XI4) para la endocitosis, la cremallera SNARE vence la repulsión hídrica para fusionar vesículas secretoras con la membrana plasmática.'
   }
 };

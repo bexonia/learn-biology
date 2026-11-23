@@ -3,7 +3,8 @@
 **Iteration:** `08` (Three Standalone Realistic WebGL2 Intracellular/Minimal Bacteria Models, Host-ATP-Theft Molecular Simulations, 3-Persona Guided Tours & GPU `.opus` Narration in `EN` & `ES`)  
 **Status:** ✅ **Completed & Verified**  
 **Parent Index:** [`roadmap/README.md`](./README.md)  
-**Previous Step:** [`07-biology-introduction-stage-and-sequential-curriculum-tree.md`](./07-biology-introduction-stage-and-sequential-curriculum-tree.md)
+**Previous Step:** [`07-biology-introduction-stage-and-sequential-curriculum-tree.md`](./07-biology-introduction-stage-and-sequential-curriculum-tree.md)  
+**Next Step:** [`09-powers-of-10-scale-explorer-and-four-biomolecules.md`](./09-powers-of-10-scale-explorer-and-four-biomolecules.md)
 
 ---
 

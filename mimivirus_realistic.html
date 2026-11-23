@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Interactive 3D Giant Virus — Acanthamoeba polyphaga Mimivirus (750 nm) vs. Mycoplasma | BEXONIA</title>
+<!-- SEO:START -->
+<meta name="description" content="Interactive 3D Acanthamoeba polyphaga Mimivirus at true nanoscale (1 unit = 100 nm): 750 nm giant virus with 500 nm pseudo-icosahedral double-jelly-roll capsid (MCP PDB 5J7O), 125 nm glycosylated surface fiber canopy, animated 5-fold stargate portal inside an acidic Acanthamoeba phagosome, 30 nm helical genomic fiber (PDB 7YX3), 1.18 Mbp linear dsDNA, viral TyrRS (PDB 2J5B), RNA polymerase & capping enzyme, cytoplasmic viral factory with stolen host 80S ribosomes and ATP, true-scale 300 nm Mycoplasma genitalium comparator, and dsDNA atomic inset.">
+<meta name="keywords" content="3D biology, Mimivirus, Acanthamoeba polyphaga Mimivirus, giant virus, NCLDV, 750 nm virus, 500 nm capsid, 125 nm glycosylated fibers, 5-fold stargate portal, double jelly-roll MCP PDB 5J7O, 30 nm genomic fiber PDB 7YX3, Mimivirus TyrRS PDB 2J5B, aminoacyl-tRNA synthetase, 1.18 Mbp dsDNA, Acanthamoeba phagosome, cytoplasmic viral factory, Mycoplasma genitalium 300 nm comparison, edge of life, zero viral ribosomes, WebGL2, Three.js, Bexonia">
+<meta name="author" content="BEXONIA">
+<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">
+<link rel="canonical" href="https://learn.bexonia.com/mimivirus_realistic.html">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="BEXONIA Learn Biology">
+<meta property="og:title" content="Interactive 3D Giant Virus — Acanthamoeba polyphaga Mimivirus (750 nm) vs. Mycoplasma | BEXONIA">
+<meta property="og:description" content="Interactive 3D 750 nm Mimivirus cutaway beside a true-scale 300 nm living Mycoplasma comparator and cutaway Acanthamoeba phagosome & viral factory, powered by real RCSB PDB structures (5J7O, 7YX3, 2J5B).">
+<meta property="og:url" content="https://learn.bexonia.com/mimivirus_realistic.html">
+<meta property="og:image" content="https://learn.bexonia.com/screenshots/mimivirus.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Interactive 3D Giant Virus — Acanthamoeba polyphaga Mimivirus (750 nm) vs. Mycoplasma | BEXONIA">
+<meta name="twitter:description" content="Interactive 3D 750 nm Mimivirus cutaway beside a true-scale 300 nm living Mycoplasma comparator and cutaway Acanthamoeba phagosome & viral factory, powered by real RCSB PDB structures (5J7O, 7YX3, 2J5B).">
+<meta name="twitter:image" content="https://learn.bexonia.com/screenshots/mimivirus.jpg">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":["LearningResource","WebApplication"],"name":"Interactive 3D Giant Virus — Acanthamoeba polyphaga Mimivirus (750 nm) vs. Mycoplasma | BEXONIA","description":"Interactive 3D Acanthamoeba polyphaga Mimivirus at true nanoscale (1 unit = 100 nm): 750 nm giant virus with 500 nm pseudo-icosahedral double-jelly-roll capsid (PDB 5J7O), 125 nm glycosylated surface fibers, animated 5-fold stargate portal inside an acidic Acanthamoeba phagosome, 30 nm helical genomic fiber (PDB 7YX3), 1.18 Mbp linear dsDNA, viral TyrRS (PDB 2J5B), cytoplasmic viral factory with stolen host 80S ribosomes and ATP, true-scale 300 nm Mycoplasma genitalium comparator, and dsDNA atomic inset.","url":"https://learn.bexonia.com/mimivirus_realistic.html","image":"https://learn.bexonia.com/screenshots/mimivirus.jpg","applicationCategory":"EducationalApplication","operatingSystem":"Web Browser (WebGL)","learningResourceType":["Interactive 3D Model","Simulation","Guided Tour"],"educationalUse":["Self-study","Classroom instruction","Reference library"],"isAccessibleForFree":true,"license":"https://opensource.org/licenses/MIT","inLanguage":"en","author":{"@type":"Organization","name":"BEXONIA","url":"https://bexonia.com"},"about":[{"@type":"Thing","name":"Mimivirus"},{"@type":"Thing","name":"Giant virus"},{"@type":"Thing","name":"Acanthamoeba"},{"@type":"Thing","name":"Mycoplasma genitalium"},{"@type":"Thing","name":"Stargate portal"},{"@type":"Thing","name":"Virology"}],"keywords":"3D biology, Mimivirus, giant virus, 750 nm, stargate portal, PDB 5J7O, PDB 7YX3, PDB 2J5B, Mycoplasma 300 nm, viral factory, edge of life, WebGL2, Three.js, Bexonia"}</script>
+<!-- SEO:END -->
+<style>
+  :root { --bg: #04060d; --fg: #ebf1fc; --muted: #93a3bd; --line: rgba(255,255,255,.13); --accent: #7ee8ff; --gold: #ffd46b; }
+  html, body { margin: 0; height: 100%; background: var(--bg); color: var(--fg); font-family: system-ui, -apple-system, "Segoe UI", sans-serif; overflow: hidden; }
+  canvas { display: block; }
+  #hud { position: absolute; left: 22px; top: 18px; pointer-events: none; max-width: calc(100% - 270px); }
+  #hud h1 { margin: 0; font-size: 22px; font-weight: 650; letter-spacing: .01em; }
+  #hud p { margin: 4px 0 0; font-size: 13px; color: var(--muted); }
+  #legend { position: absolute; left: 16px; top: 82px; width: 258px; max-height: calc(100% - 102px); overflow: auto; background: rgba(7,11,22,.64); border: 1px solid var(--line); border-radius: 11px; padding: 5px; backdrop-filter: blur(8px); }
+  .it { display: flex; align-items: center; gap: 8px; padding: 3px 7px; border-radius: 6px; font-size: 11.5px; line-height: 1.24; cursor: default; transition: background .14s ease; }
+  .it:hover { background: rgba(126,232,255,.15); }
+  .sw { width: 10px; height: 10px; border-radius: 50%; flex: none; box-shadow: inset 0 0 0 1px rgba(255,255,255,.32); }
+  .key { grid-column: 1 / -1; margin-top: 3px; padding: 6px 7px 2px; border-top: 1px solid var(--line); font-size: 11px; color: var(--muted); line-height: 1.38; }
+  .key .row { display: flex; align-items: center; flex-wrap: wrap; gap: 5px; margin-bottom: 5px; }
+  .chip { width: 18px; height: 18px; border-radius: 50%; display: inline-grid; place-items: center; font-size: 10.5px; font-weight: 700; color: #12151e; }
+  .bar { width: 18px; height: 6px; border-radius: 3px; display: inline-block; }
+  #flows { position: absolute; right: 16px; top: 18px; width: 236px; max-height: calc(100% - 134px); overflow: auto; background: rgba(7,11,22,.64); border: 1px solid var(--line); border-radius: 11px; padding: 8px 6px 6px; backdrop-filter: blur(8px); }
+  #flows h2 { margin: 2px 8px 4px; font-size: 13px; font-weight: 650; }
+  .speed { display: flex; align-items: center; gap: 8px; margin: 2px 8px 8px; font-size: 12px; color: var(--muted); }
+  .speed input { flex: 1; min-width: 0; accent-color: var(--accent); }
+  #spd { width: 38px; text-align: right; color: var(--fg); font-variant-numeric: tabular-nums; }
+  #tip { margin: 0 8px 8px; font-size: 12px; line-height: 1.45; color: var(--muted); }
+  #tip b { color: var(--fg); font-weight: 600; }
+  .mol { display: flex; align-items: center; gap: 8px; padding: 3px 8px; border-radius: 7px; font-size: 12.5px; cursor: default; }
+  .mol:hover { background: rgba(126,232,255,.15); }
+  .mol canvas { width: 22px; height: 22px; flex: none; }
+  #tools { position: absolute; right: 16px; bottom: 16px; display: flex; flex-wrap: wrap; justify-content: flex-end; gap: 7px; max-width: calc(100% - 32px); }
+  #tools button { background: rgba(8,13,24,.78); color: var(--fg); border: 1px solid rgba(255,255,255,.22); border-radius: 8px; padding: 7px 11px; font: inherit; font-size: 12.5px; cursor: pointer; backdrop-filter: blur(6px); transition: border-color .15s ease, background .15s ease; }
+  #tools button:hover { border-color: var(--accent); }
+  #modeBtn { border-color: rgba(126,232,255,.55) !important; background: rgba(14,34,54,.82) !important; color: #ccf6ff !important; font-weight: 600; }
+  #modeBtn.stargate_open { border-color: rgba(255,210,76,.85) !important; background: rgba(62,40,10,.86) !important; color: #ffebb0 !important; }
+  #hint { position: absolute; right: 18px; bottom: 58px; font-size: 12px; color: var(--muted); pointer-events: none; }
+  #busy { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; color: var(--muted); font-size: 14px; pointer-events: none; }
+  @media (max-width: 760px) {
+    #legend { top: auto; bottom: 68px; left: 10px; right: 10px; width: auto; max-height: 25vh; display: grid; grid-template-columns: 1fr 1fr; }
+    #hint, #flows { display: none; }
+    #hud { max-width: calc(100% - 28px); }
+    #hud h1 { font-size: 17px; }
+  }
+  .embed #hud, .embed #legend, .embed #flows, .embed #hint, .embed #tools, .embed #busy { display: none !important; }
+</style>
+<script type="importmap">
+{ "imports": {
+  "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js",
+  "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"
+} }
+</script>
+</head>
+<body>
+<div id="busy">Building 750 nm Acanthamoeba polyphaga Mimivirus, Phagosome &amp; Viral Factory…</div>
+<div id="hud"><h1>Giant Virus — <i>Acanthamoeba polyphaga Mimivirus</i> (750 nm)</h1><p id="sub">Cryo-EM dark-field cutaway · 500 nm capsid + 125 nm fibers vs. 300 nm Mycoplasma · 1.18 Mbp dsDNA · 0 viral ribosomes (1 unit = 100 nm)</p></div>
+<div id="legend"></div>
+<div id="flows"><h2>Viral Factory &amp; Entry Flows</h2><label class="speed">Speed <input id="speed" type="range" min="-3" max="2" step=".1" value="0"><span id="spd">1×</span></label><div id="tip"></div><div id="mols"></div></div>
+<div id="hint">Drag to look around · W A S D to move · scroll to zoom · right-drag to pan · hover a name to highlight it</div>
+<div id="tools"><button id="modeBtn">Mode: Intact Virion</button><button id="view">View: overview</button><button id="flow">Flows: on</button><button id="look">Membrane: gel</button><button id="cut">Close cutaway</button><button id="motion">Pause</button><button id="snap">Save PNG</button></div>
+<script type="module" src="dist/pages/mimivirus_realistic.js"></script>
+</body>
+</html>

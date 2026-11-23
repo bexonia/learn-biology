@@ -1,7 +1,7 @@
 # 14 — Cell Division: Binary Fission, Mitosis & Meiosis
 
 **Iteration:** `14` (Interactive Animated WebGL2 Cell Division Stage with Scrubbable Phase Timeline, 3-Mechanism Toggle, Whole-to-Tiniest Molecular Drill-Down, 3-Persona Guided Tour & GPU `.opus` Narration in `EN` & `ES`)  
-**Status:** 📋 **Planned**  
+**Status:** ✅ **Completed**  
 **Parent Index:** [`roadmap/README.md`](./README.md)  
 **Previous Step:** [`13-giant-viruses-viroids-and-prions.md`](./13-giant-viruses-viroids-and-prions.md)  
 **Next Step:** [`15-central-dogma-pipeline-and-molecular-evolution.md`](./15-central-dogma-pipeline-and-molecular-evolution.md)

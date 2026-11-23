@@ -2524,4 +2524,393 @@ export const ES_TOURS_PHRASES: Record<string, string> = {
     'Cada [[átomo de hierro|iron_atom]] enlaza un oxígeno propionato, uniendo C, H, N y O en [[hemozoína|hemozoin]].',
   'Explore any tag now, or continue to Stage 3 to contrast eukaryotic Plasmodium with bacterial parasites.':
     'Explora cualquier etiqueta o pasa a la Etapa 3 para comparar Plasmodium con parásitos bacterianos.',
+  // =========================================================================
+  // Phase 13A: Giant Virus (Acanthamoeba polyphaga Mimivirus, 750 nm)
+  // =========================================================================
+  'Mimivirus (750 nm Giant Virus): a guided tour': 'Mimivirus (virus gigante de 750 nm): recorrido guiado',
+  'Explore a 750 nm giant virus wider than living Mycoplasma: 125 nm glycosylated fibers, 500 nm double-jelly-roll capsid, 5-fold stargate portal, 1.18 Mbp genomic fiber, viral TyrRS and cytoplasmic viral factory.':
+    'Explora un virus gigante de 750 nm mayor que Mycoplasma vivo: fibras glicosiladas de 125 nm, cápside de 500 nm, portal stargate pentagonal, fibra genómica de 1,18 Mpb, TyrRS viral y fábrica viral citoplásmica.',
+  'A Giant Virus Larger Than a Living Cell': 'Un virus gigante más grande que una célula viva',
+  'Acanthamoeba polyphaga Mimivirus at 750 nm': 'Acanthamoeba polyphaga Mimivirus a 750 nm',
+  'True-scale comparison vs. living Mycoplasma': 'Comparación a escala real frente a Mycoplasma vivo',
+  '125 nm Fiber Canopy, Capsid & Inner Bilayer': 'Dosel fibroso de 125 nm, cápside y bicapa interna',
+  'Glycosylated 125 nm surface fiber coat': 'Manto superficial de fibras glicosiladas de 125 nm',
+  '500 nm pseudo-icosahedral double-jelly-roll capsid': 'Cápside pseudoicosaédrica de 500 nm de doble rollo de gelatina',
+  'Internal lipid bilayer beneath the protein shell': 'Bicapa lipídica interna bajo la cubierta proteica',
+  'Opening the 5-Fold Stargate Portal': 'Apertura del portal stargate de 5 pétalos',
+  'Five-pointed stargate vertex portal': 'Portal stargate pentagonal en un vértice único',
+  'Phagosome membrane fusion & core injection': 'Fusión con la membrana del fagosoma e inyección del núcleo',
+  '1.18 Mbp Genomic Fiber & Translation Enzymes': 'Fibra genómica de 1,18 Mpb y enzimas de traducción',
+  '30 nm helical genomic fiber & 1.18 Mbp dsDNA': 'Fibra genómica helicoidal de 30 nm y ADNbc de 1,18 Mpb',
+  'Packaged viral RNA polymerase & capping enzymes': 'ARN polimerasa viral empacada y enzimas de caperuza',
+  'Viral TyrRS synthetase & the missing ribosome pillar': 'Sintetasa TyrRS viral y el pilar ribosómico ausente',
+  'Cytoplasmic Viral Factory, Atoms & Edge-of-Life Recap': 'Fábrica viral citoplásmica, átomos y balance de frontera',
+  'Giant viral factory fueled by stolen 80S & ATP': 'Fábrica viral gigante alimentada por 80S y ATP robados',
+  'Atomic dsDNA bonds & the size-vs-life lesson': 'Enlaces atómicos del ADNbc y lección de tamaño frente a vida',
+  'Meet Acanthamoeba polyphaga Mimivirus, a 750 nm giant virus first mistaken for a bacterium.':
+    'Conoce a Acanthamoeba polyphaga Mimivirus, un virus gigante de 750 nm confundido con bacteria.',
+  'Its [[fiber canopy|fibers]], [[capsid|capsid]] and [[stargate|stargate]] dwarf every canonical virus.':
+    'Su [[dosel de fibras|fibers]], [[cápside|capsid]] y [[stargate|stargate]] eclipsan a todo virus clásico.',
+  'Cut open its shell to test whether huge size and 1,000 genes cross the boundary into life.':
+    'Abre su cubierta para probar si un gran tamaño y 1.000 genes cruzan la frontera de la vida.',
+  'Beside the virion sits a true-scale 300 nm [[Mycoplasma cell|myco_ref]], the smallest living cell.':
+    'Junto al virión hay una [[célula Mycoplasma|myco_ref]] a escala real de 300 nm, la célula más pequeña.',
+  'Mimivirus is over twice as wide as [[Mycoplasma|myco_ref]] and carries double its 482 genes.':
+    'Mimivirus duplica el ancho de [[Mycoplasma|myco_ref]] y lleva el doble de sus 482 genes.',
+  'Yet [[Mycoplasma|myco_ref]] owns 70S ribosomes and ATP pathways, while Mimivirus has zero.':
+    'Aun así, [[Mycoplasma|myco_ref]] posee ribosomas 70S y vías de ATP, mientras Mimivirus tiene cero.',
+  'A dense 125 nm coat of glycosylated [[surface fibers|fibers]] bristles from every [[capsid|capsid]] face.':
+    'Una densa capa de [[fibras superficiales|fibers]] de 125 nm eriza cada cara de la [[cápside|capsid]].',
+  'Cross-linked sugars on these [[fibers|fibers]] mimic bacteria so [[amoeba membranes|amoeba_mem]] engulf it.':
+    'Azúcares entrelazados en estas [[fibras|fibers]] imitan bacterias para que la [[membrana ameboide|amoeba_mem]] lo engulla.',
+  'That bacterial disguise even retains Gram stain dye, fooling microbiologists for a decade.':
+    'Ese disfraz bacteriano incluso retiene la tinción de Gram, engañando a la ciencia una década.',
+  'Under the [[fiber canopy|fibers]] lies a 500 nm pseudo-icosahedral protein [[capsid|capsid]].':
+    'Bajo el [[dosel fibroso|fibers]] descansa una [[cápside|capsid]] proteica pseudoicosaédrica de 500 nm.',
+  'Double-jelly-roll major capsid trimers tile each facet of the [[capsid|capsid]] into rigid armor.':
+    'Trímeros de doble rollo de gelatina cubren cada faceta de la [[cápside|capsid]] con coraza rígida.',
+  'Twenty triangular faces shield the giant genome from pond water, desiccation and predators.':
+    'Veinte caras triangulares protegen al genoma gigante del agua, la desecación y depredadores.',
+  'Lining the interior of the [[capsid|capsid]] sits a continuous viral [[inner lipid bilayer|inner_mem]].':
+    'Tapizando el interior de la [[cápside|capsid]] hay una [[bicapa lipídica interna|inner_mem]] continua.',
+  'Unlike enveloped coronaviruses, Mimivirus hides this [[inner membrane|inner_mem]] inside protein armor.':
+    'Al revés que los coronavirus, Mimivirus oculta su [[membrana interna|inner_mem]] bajo coraza proteica.',
+  'This sealed [[lipid sac|inner_mem]] protects the [[genomic fiber|genomic_fiber]] until entry triggers fusion.':
+    'Este [[saco lipídico|inner_mem]] sellado protege la [[fibra genómica|genomic_fiber]] hasta la fusión.',
+  'One unique vertex breaks symmetry with a five-pointed star seam called the [[stargate|stargate]].':
+    'Un vértice único rompe la simetría con una costura en estrella llamada [[stargate|stargate]].',
+  'Inside an acidic [[phagosome|phagosome]], low pH triggers all five [[stargate|stargate]] petals to unzip.':
+    'Dentro de un [[fagosoma|phagosome]] ácido, el pH bajo abre los cinco pétalos del [[stargate|stargate]].',
+  'Wide open, the [[stargate|stargate]] clears a huge aperture straight through the rigid [[capsid|capsid]].':
+    'Bien abierto, el [[stargate|stargate]] despeja un enorme portal a través de la rígida [[cápside|capsid]].',
+  'After the [[amoeba membrane|amoeba_mem]] swallows the virion, an acidic [[phagosome|phagosome]] encloses it.':
+    'Tras engullirlo la [[membrana ameboide|amoeba_mem]], un [[fagosoma|phagosome]] ácido encierra al virión.',
+  'Through the open [[stargate|stargate]], the [[inner membrane|inner_mem]] fuses with the [[phagosome|phagosome]] wall.':
+    'Por el [[stargate|stargate]] abierto, la [[membrana interna|inner_mem]] se fusiona con el [[fagosoma|phagosome]].',
+  'That fusion bridge injects the entire [[genomic fiber|genomic_fiber]] directly into amoeba cytosol.':
+    'Ese puente de fusión inyecta toda la [[fibra genómica|genomic_fiber]] directa al citosol ameboide.',
+  'Inside the [[inner membrane|inner_mem]] coils a 30 nm helical [[genomic fiber|genomic_fiber]] protein shell.':
+    'Dentro de la [[membrana interna|inner_mem]] se enrolla una [[fibra genómica|genomic_fiber]] helicoidal de 30 nm.',
+  'This cryo-EM tube packages 1.18 Mbp of linear [[dsDNA|dsdna]] encoding roughly 1,000 viral genes.':
+    'Este tubo de crio-ME empaqueta 1,18 Mpb de [[ADNbc|dsdna]] lineal con unos 1.000 genes virales.',
+  'Unwinding the [[genomic fiber|genomic_fiber]] exposes [[viral dsDNA|dsdna]] right inside host cytoplasm.':
+    'Desenrollar la [[fibra genómica|genomic_fiber]] expone el [[ADNbc viral|dsdna]] en el citoplasma huésped.',
+  'Mimivirus never enters the amoeba nucleus, because it packs its own [[RNA polymerase|viral_rnap]].':
+    'Mimivirus nunca entra al núcleo ameboide porque empaca su propia [[ARN polimerasa|viral_rnap]].',
+  'Early transcription launches immediately on [[dsDNA|dsdna]] via packaged [[viral RNAP|viral_rnap]].':
+    'La transcripción temprana arranca al instante sobre el [[ADNbc|dsdna]] vía su [[ARN pol|viral_rnap]].',
+  'Viral [[mRNA capping enzymes|capping_enz]] add 5-prime caps so host translation accepts viral transcripts.':
+    "Las [[enzimas de caperuza|capping_enz]] virales ponen topes 5' para que el huésped traduzca su ARNm.",
+  'Shockingly, its [[dsDNA|dsdna]] even encodes aminoacyl-tRNA synthetases such as viral [[TyrRS|tyrrs]].':
+    'Sorprendentemente, su [[ADNbc|dsdna]] codifica aminoacil-ARNt sintetasas como [[TyrRS|tyrrs]].',
+  'Even with [[viral TyrRS|tyrrs]] charging tRNAs, Mimivirus still relies wholly on [[host ribosomes|host_ribo]].':
+    'Incluso con [[TyrRS viral|tyrrs]] cargando ARNt, Mimivirus depende por completo de los [[ribosomas huésped|host_ribo]].',
+  'It carries zero ribosomal RNA and zero ribosomal proteins, failing life\'s translation pillar.':
+    'Lleva cero ARN ribosómico y cero proteínas ribosómicas, fallando el pilar de la traducción.',
+  'Within hours, early proteins erect a giant cytoplasmic [[viral factory|viral_factory]] rivaling a nucleus.':
+    'En pocas horas, proteínas tempranas alzan una [[fábrica viral|viral_factory]] del tamaño de un núcleo.',
+  'Host [[80S ribosomes|host_ribo]] and amoeba [[ATP pools|atp_pool]] ring this [[factory|viral_factory]] to build progeny.':
+    '[[Ribosomas 80S|host_ribo]] y [[reservas de ATP|atp_pool]] ameboides rodean la [[fábrica|viral_factory]] viral.',
+  'With zero ATP synthases and zero ribosomes of its own, Mimivirus remains a non-living giant.':
+    'Con cero ATP sintasas y cero ribosomas propios, Mimivirus sigue siendo un gigante no vivo.',
+  'Zoom to 0.1 nm atomic scale on [[dsDNA atoms|dna_atoms]]: C, H, N, O and phosphodiester P.':
+    'Acércate a escala atómica de 0,1 nm en [[átomos de ADNbc|dna_atoms]]: C, H, N, O y fósforo P.',
+  'Hydrogen bonds pair A-T and G-C inside [[dsDNA atoms|dna_atoms]], storing 1.18 Mbp of viral code.':
+    'Puentes de hidrógeno unen A-T y G-C en [[átomos de ADNbc|dna_atoms]], guardando 1,18 Mpb virales.',
+  'Bigger than [[Mycoplasma|myco_ref]] yet non-living, Mimivirus leads next to naked RNA viroids.':
+    'Más grande que [[Mycoplasma|myco_ref]] pero no vivo, Mimivirus da paso ahora a los viroides desnudos.',
+  // =========================================================================
+  // Phase 13B: Viroid (PSTVd — 359-nt Naked Circular RNA)
+  // =========================================================================
+  'PSTVd Viroid (359-nt Naked Circular RNA): a guided tour':
+    'Viroide PSTVd (ARN circular desnudo de 359 nt): recorrido guiado',
+  'Explore a coatless 359-nt circular plant viroid: five self-paired RNA domains (TL, P, C, V, TR), Loop E motif, G-U wobble pairs, host plant RNA Pol II rolling-circle replication, DNA ligase 1 and RNA atoms.':
+    'Explora un viroide vegetal de ARN circular desnudo de 359 nt: cinco dominios (TL, P, C, V, TR), motivo Loop E, pares G-U, replicación por círculo rodante con ARN Pol II huésped, ADN ligasa 1 y átomos de ARN.',
+  '359 Nucleotides, Zero Protein': '359 nucleótidos, cero proteínas',
+  'PSTVd: naked circular non-coding ssRNA': 'PSTVd: ARNmc circular desnudo no codificante',
+  'Self-paired 50 x 2 nm rod across five domains': 'Varilla autoemparejada de 50 × 2 nm en cinco dominios',
+  'Five Functional Domains, Loop E & Wobble Pairs': 'Cinco dominios funcionales, Loop E y pares tambaleantes',
+  'Functional architecture of TL, P, V and TR domains': 'Arquitectura funcional de los dominios TL, P, V y TR',
+  'Central Conserved Region, Loop E & CCR hairpin': 'Región Central Conservada, Loop E y horquilla CCR',
+  'G-U wobble pairs & structural RNase resistance': 'Pares tambaleantes G-U y resistencia estructural a RNasas',
+  'Hijacking Plant RNA Pol II: Rolling-Circle Copying': 'Secuestro de ARN Pol II vegetal: copia por círculo rodante',
+  'TFIIIA-7ZF docking onto host nuclear RNA Pol II': 'Acoplamiento de TFIIIA-7ZF a la ARN Pol II nuclear',
+  'Asymmetric rolling-circle minus & plus concatemers': 'Concatémeros menos y más en círculo rodante asimétrico',
+  'CCR cleavage & circularization by DNA ligase 1': 'Corte en la horquilla CCR y circularización por ADN ligasa 1',
+  'Ribonucleotide Atoms & Edge-of-Life Recap': 'Átomos de ribonucleótidos y balance de frontera',
+  'Atomic RNA 2-prime OH, phosphate P & G-U H-bonds': 'Grupos 2′-OH, fosfato P y puentes de hidrógeno G-U atómicos',
+  'Code without a coat: bridging onward to Prions': 'Código sin cubierta: puente hacia los priones',
+  'Meet Potato Spindle Tuber Viroid, or PSTVd: 359 nucleotides of naked circular single-stranded RNA.':
+    'Conoce al Viroide del Tubérculo Ahusado de la Papa (PSTVd): 359 nucleótidos de ARN circular desnudo.',
+  'Unlike Mimivirus or SARS-CoV-2, PSTVd wears zero protein capsid and zero lipid envelope.':
+    'A diferencia de Mimivirus o SARS-CoV-2, PSTVd tiene cero cápside proteica y cero envoltura lipídica.',
+  'It carries zero protein-coding genes, proving infectious code needs neither a coat nor ORFs.':
+    'No lleva genes que codifiquen proteínas, probando que el código infeccioso no precisa cápside.',
+  'Intramolecular base pairing collapses the ring into a stiff 50 by 2 nm rod across five domains.':
+    'El emparejamiento interno pliega el anillo en una varilla rígida de 50 por 2 nm en cinco dominios.',
+  'Left to right run [[TL|tl_domain]], [[P|p_domain]], [[C|c_domain]], [[V|v_domain]] and [[TR|tr_domain]].':
+    'De izquierda a derecha van [[TL|tl_domain]], [[P|p_domain]], [[C|c_domain]], [[V|v_domain]] y [[TR|tr_domain]].',
+  'Paired helical stems alternate with bulged loops, stabilizing this bare RNA inside plant nuclei.':
+    'Tallos helicoidales alternan con bucles abultados, estabilizando este ARN desnudo en el núcleo.',
+  'The [[Terminal Left domain|tl_domain]] initiates replication, while [[P domain|p_domain]] drives symptoms.':
+    'El [[dominio Terminal Izquierdo|tl_domain]] inicia la copia y el [[dominio P|p_domain]] causa síntomas.',
+  'Processing of [[P domain|p_domain]] into small RNAs silences host plant genes, stunting tubers.':
+    'El corte del [[dominio P|p_domain]] en ARN pequeños silencia genes vegetales y deforma tubérculos.',
+  'Across the right half, [[V domain|v_domain]] tolerates mutation and [[TR|tr_domain]] steers cell exit.':
+    'En la mitad derecha, el [[dominio V|v_domain]] tolera mutaciones y [[TR|tr_domain]] guía la salida.',
+  'At rod center sits the [[Central Conserved Region|c_domain]], shared across Pospiviroidae viroids.':
+    'Al centro de la varilla está la [[Región Central Conservada|c_domain]], común en Pospiviroidae.',
+  'Embedded here is [[Loop E|loop_e]], a rigid non-canonical base-triple motif docking host factors.':
+    'Incrustado allí está [[Loop E|loop_e]], un motivo rígido no canónico que acopla factores huésped.',
+  'Adjacent sequences refold into the [[CCR hairpin|ccr_hairpin]] required to cleave progeny rings.':
+    'Secuencias vecinas se pliegan en la [[horquilla CCR|ccr_hairpin]] clave para cortar anillos hijos.',
+  'Alongside standard A-U and G-C rungs sit golden [[G-U wobble pairs|wobble_gu]] shaping stem twist.':
+    'Junto a peldaños A-U y G-C hay [[pares tambaleantes G-U|wobble_gu]] que ajustan el giro del tallo.',
+  'Tight self-pairing and [[G-U wobbles|wobble_gu]] shield [[Loop E|loop_e]] stems from plant RNases.':
+    'El autoemparejamiento y los [[pares G-U|wobble_gu]] protegen los tallos de [[Loop E|loop_e]] frente a RNasas vegetales.',
+  'Every structural bulge acts as a physical recognition address replacing protein-encoded signals.':
+    'Cada bucle estructural sirve de dirección física que sustituye a las señales de proteínas.',
+  'Inside the plant nucleus, PSTVd hijacks host 12-subunit [[RNA Polymerase II|pol2]] for copying.':
+    'En el núcleo vegetal, PSTVd secuestra la [[ARN Polimerasa II|pol2]] huésped de 12 subunidades.',
+  'Host [[TFIIIA-7ZF|tfiiia]] bridges the naked RNA onto [[RNA Pol II|pol2]], which normally reads DNA.':
+    'El factor [[TFIIIA-7ZF|tfiiia]] del huésped une el ARN desnudo a la [[ARN Pol II|pol2]], que suele leer ADN.',
+  'With zero viral polymerase of its own, PSTVd turns a host DNA copier into an RNA replicase.':
+    'Sin polimerasa viral propia, PSTVd convierte una copiadora de ADN huésped en replicasa de ARN.',
+  'Running asymmetric rolling-circle copying, [[Pol II|pol2]] spools a long [[minus RNA|minus_rna]] chain.':
+    'En copia asimétrica de círculo rodante, [[Pol II|pol2]] devana una larga cadena de [[ARN menos|minus_rna]].',
+  'Each lap around the 359-nt ring extends the multimeric [[minus-strand concatemer|minus_rna]] unbroken.':
+    'Cada vuelta al anillo de 359 nt alarga sin cortes el [[concatémero menos|minus_rna]] multimérico.',
+  '[[Pol II|pol2]] then transcribes that [[minus strand|minus_rna]] into multimeric [[plus RNA|plus_rna]].':
+    'Luego [[Pol II|pol2]] transcribe esa [[hebra menos|minus_rna]] en copias multiméricas de [[ARN más|plus_rna]].',
+  'Host RNase III recognizes the [[CCR hairpin|ccr_hairpin]] and snips [[plus RNA|plus_rna]] into 359-nt units.':
+    'La RNasa III huésped reconoce la [[horquilla CCR|ccr_hairpin]] y corta el [[ARN más|plus_rna]] en 359 nt.',
+  'Then plant [[DNA ligase 1|ligase]] seals each linear [[plus RNA|plus_rna]] guided by [[Loop E|loop_e]].':
+    'Luego la [[ADN ligasa 1|ligase]] vegetal sella cada [[ARN más|plus_rna]] lineal guiada por [[Loop E|loop_e]].',
+  'Fresh naked circles exit through plasmodesmata to infect neighboring plant cells systemically.':
+    'Los nuevos círculos desnudos salen por plasmodesmos e infectan de forma sistémica a la planta.',
+  'Zoom to 0.1 nm atomic resolution on [[RNA atoms|rna_atoms]]: only C, H, N, O and phosphorus P.':
+    'Acércate a 0,1 nm en los [[átomos de ARN|rna_atoms]]: únicamente C, H, N, O y fósforo P.',
+  'Each ribose 2-prime OH in [[RNA atoms|rna_atoms]] drives A-form geometry and [[G-U wobble|wobble_gu]] pairs.':
+    "Cada grupo 2'-OH en [[átomos de ARN|rna_atoms]] dicta la forma A y los [[pares G-U|wobble_gu]].",
+  'Not a single amino-acid sulfur atom belongs to PSTVd itself; host enzymes do every reaction.':
+    'Ni un solo átomo de azufre proteico pertenece a PSTVd; las enzimas huésped hacen cada reacción.',
+  'Five RNA domains, [[Loop E|loop_e]], host [[Pol II|pol2]] and [[ligase|ligase]] sustain a coatless replicator.':
+    'Cinco dominios, [[Loop E|loop_e]], [[Pol II|pol2]] y [[ligasa|ligase]] sostienen un replicador sin capa.',
+  'With zero capsid, zero genes for proteins, zero ribosomes and zero ATP, PSTVd is pure RNA code.':
+    'Con cero cápside, cero genes de proteínas, cero ribosomas y cero ATP, PSTVd es puro código ARN.',
+  'Inspect any domain tag now, or continue to Prions to see infectious shape with zero genes.':
+    'Explora cualquier dominio ahora o sigue a los Priones para ver forma infecciosa sin genes.',
+  // =========================================================================
+  // Phase 13C: Prion (PrPc -> PrPsc Amyloid Fibril)
+  // =========================================================================
+  'Prion (PrPc to PrPsc Amyloid Fibril): a guided tour':
+    'Prión (fibrilla amiloide PrPc a PrPsc): recorrido guiado',
+  'Explore protein-only infectious inheritance with zero DNA or RNA: GPI-anchored alpha-helical PrPc on a neuronal lipid raft, templated docking, 4.8 A cross-beta PIRIBS amyloid rungs, steric zippers and amide H-bond atoms.':
+    'Explora la herencia infecciosa solo proteica sin ADN ni ARN: PrPc helicoidal alfa anclada por GPI en una balsa lipídica neuronal, acoplamiento plantilla, peldaños beta cruzados PIRIBS a 4,8 Å, cremalleras estéricas y átomos amida.',
+  'Infection With Zero DNA or RNA': 'Infección con cero ADN y cero ARN',
+  'PrPc to PrPsc: infectious shape with zero genes': 'PrPc a PrPsc: forma infecciosa sin genes',
+  'Identical 208-aa sequence, two opposite folds': 'Secuencia idéntica de 208 aa, dos plegamientos opuestos',
+  'Healthy Alpha-Helical PrPc on the Neuronal Raft': 'PrPc alfa-helicoidal sana en la balsa neuronal',
+  'Neuronal lipid raft & C-terminal GPI anchor': 'Balsa lipídica neuronal y ancla GPI C-terminal',
+  'Native H1-H3 alpha-helices & short beta-ribbon': 'Hélices alfa H1-H3 nativas y cinta beta corta',
+  'N-glycan shield & conserved Cys179-Cys214 disulfide': 'Escudo de N-glicanos y disulfuro conservado Cys179-Cys214',
+  'Templated Refolding & Cross-Beta PIRIBS Amyloid': 'Replegamiento por plantilla y amiloide PIRIBS beta cruzado',
+  'Templated docking & conformational refolding': 'Acoplamiento plantilla y replegamiento conformacional',
+  'Cryo-EM PIRIBS architecture & 4.8 A beta rungs': 'Arquitectura PIRIBS por crio-ME y peldaños beta a 4,8 Å',
+  'Dry steric zippers & extreme protease resistance': 'Cremalleras estéricas secas y resistencia extrema a proteasas',
+  'Seed Fragmentation, Amide Atoms & Edge-of-Life Finale': 'Fragmentación de semillas, átomos amida y cierre de frontera',
+  'Fibril fragmentation & exponential seed spread': 'Fragmentación fibrilar y propagación exponencial de semillas',
+  'Atomic 4.8 A amide H-bond ladder & sulfur bridge': 'Escalera atómica de puentes amida a 4,8 Å y puente de azufre',
+  'Bottom of the autonomy ladder & onward to Cell Division': 'Base de la escalera de autonomía y paso a División Celular',
+  'Meet the mammalian prion, an infectious agent made purely of misfolded protein with zero genes.':
+    'Conoce al prión mamífero, un agente infeccioso hecho solo de proteína mal plegada y cero genes.',
+  'Unlike viruses or viroids, [[PrPsc fibrils|prpsc_fibril]] carry zero DNA and zero RNA nucleotides.':
+    'A diferencia de virus o viroides, las [[fibrillas PrPsc|prpsc_fibril]] llevan cero ADN y cero ARN.',
+  'Information propagates purely by shape, converting healthy [[PrPc|prpc]] into [[PrPsc|prpsc_fibril]].':
+    'La información viaja solo por la forma, convirtiendo [[PrPc|prpc]] sana en [[PrPsc|prpsc_fibril]].',
+  'Both harmless [[PrPc|prpc]] and lethal [[PrPsc|prpsc_fibril]] share the exact same 208-residue sequence.':
+    'La [[PrPc|prpc]] sana y la letal [[PrPsc|prpsc_fibril]] comparten la misma secuencia de 208 residuos.',
+  'Encoded by the host PRNP gene, mature residues 23 to 230 adopt two radically different 3D folds.':
+    'Codificada por el gen PRNP, la proteína madura (23-230) adopta dos pliegues 3D opuestos.',
+  'Soluble [[alpha-helices|helices_h123]] flip into an insoluble [[cross-beta core|piribs_core]] without mutation.':
+    '[[Hélices alfa|helices_h123]] solubles giran a un [[núcleo beta cruzado|piribs_core]] insoluble sin mutar.',
+  'On healthy brain neurons, cholesterol-rich [[lipid rafts|lipid_raft]] host native [[PrPc|prpc]] monomers.':
+    'En neuronas sanas, [[balsas lipídicas|lipid_raft]] ricas en colesterol alojan monómeros de [[PrPc|prpc]].',
+  'A C-terminal [[GPI anchor|gpi_anchor]] tethers [[PrPc|prpc]] to the outer leaflet of the [[lipid raft|lipid_raft]].':
+    'Un [[ancla GPI|gpi_anchor]] C-terminal amarra [[PrPc|prpc]] a la cara externa de la [[balsa lipídica|lipid_raft]].',
+  'Normal [[PrPc|prpc]] stays monomeric, soluble and easily recycled by cellular proteases.':
+    'La [[PrPc|prpc]] normal permanece monomérica, soluble y fácil de reciclar por proteasas celulares.',
+  'Solution NMR reveals [[PrPc|prpc]] built around three compact [[alpha-helices H1-H3|helices_h123]].':
+    'La RMN revela a [[PrPc|prpc]] construida en torno a tres compactas [[hélices alfa H1-H3|helices_h123]].',
+  'Flanking those [[helices|helices_h123]] sits a short two-strand [[beta-ribbon|beta_ribbon]] of six residues.':
+    'Junto a esas [[hélices|helices_h123]] hay una corta [[cinta beta|beta_ribbon]] de dos hebras y seis residuos.',
+  'Its flexible N-terminal tail binds copper ions while the folded C-terminal globe stays stable.':
+    'Su cola N-terminal flexible enlaza iones cobre mientras el globo C-terminal queda estable.',
+  'Two branching [[N-glycan trees|nglycans]] shield the outer surface of native [[PrPc|prpc]].':
+    'Dos [[árboles de N-glicanos|nglycans]] ramificados cubren la superficie externa de [[PrPc|prpc]].',
+  'Inside, one covalent [[Cys179-Cys214 disulfide|disulfide]] bridges helices H2 and H3.':
+    'Dentro, un puente covalente [[disulfuro Cys179-Cys214|disulfide]] enlaza las hélices H2 y H3.',
+  'Remarkably, this sulfur [[disulfide bond|disulfide]] remains unbroken even after conversion to PrPsc.':
+    'Sorprendentemente, este [[enlace disulfuro|disulfide]] sigue intacto tras convertirse en PrPsc.',
+  'Conversion begins when soluble [[PrPc|prpc]] encounters the exposed [[template tip|template_dock]] of a seed.':
+    'La conversión inicia cuando [[PrPc|prpc]] soluble choca con la [[punta plantilla|template_dock]] activa.',
+  'Docked onto [[template tip|template_dock]], [[PrPc|prpc]] unwinds and refolds onto [[PrPsc|prpsc_fibril]] rungs.':
+    'Acoplada a la [[punta plantilla|template_dock]], [[PrPc|prpc]] se despliega y repliega en peldaños de [[PrPsc|prpsc_fibril]].',
+  'Each refolded subunit becomes the next [[template tip|template_dock]], adding a fresh [[beta rung|beta_rungs]].':
+    'Cada subunidad plegada forma la nueva [[punta plantilla|template_dock]], sumando un [[peldaño beta|beta_rungs]].',
+  'Near-atomic cryo-EM maps the 13 nm [[PrPsc fibril|prpsc_fibril]] as a parallel [[PIRIBS core|piribs_core]].':
+    'La crio-ME mapea la [[fibrilla PrPsc|prpsc_fibril]] de 13 nm como un [[núcleo PIRIBS|piribs_core]] paralelo.',
+  'Identical residues stack directly in register along [[cross-beta rungs|beta_rungs]] spaced 4.8 A apart.':
+    'Residuos idénticos se apilan en registro en [[peldaños beta cruzados|beta_rungs]] cada 4,8 A.',
+  'Every monomer flattens into a serpentine arch around the intact [[Cys179-Cys214 disulfide|disulfide]].':
+    'Cada monómero se aplana en arco serpentino en torno al [[disulfuro Cys179-Cys214|disulfide]] intacto.',
+  'Between facing beta sheets, side chains interdigitate into a water-free [[steric zipper|steric_zipper]].':
+    'Entre láminas beta opuestas, las cadenas laterales encajan en una [[cremallera estérica|steric_zipper]] seca.',
+  'Dry [[steric zippers|steric_zipper]] and outward [[N-glycans|nglycans]] lock the [[PIRIBS core|piribs_core]] rigid.':
+    '[[Cremalleras estéricas|steric_zipper]] secas y [[N-glicanos|nglycans]] externos blindan el [[núcleo PIRIBS|piribs_core]].',
+  'This ultra-stable amyloid resists boiling, UV light, alcohol and cellular protease cleavage.':
+    'Este amiloide ultraestable resiste ebullición, luz UV, alcohol y el corte de proteasas celulares.',
+  'Shear forces cause [[fibril fragmentation|fragmentation]], snapping one [[PrPsc|prpsc_fibril]] into two seeds.':
+    'Las fuerzas de corte causan [[fragmentación fibrilar|fragmentation]], partiendo una [[PrPsc|prpsc_fibril]] en dos semillas.',
+  'Each broken [[fragment|fragmentation]] creates fresh [[template tips|template_dock]], multiplying conversion rate.':
+    'Cada [[fragmento|fragmentation]] roto abre nuevas [[puntas plantilla|template_dock]] y acelera la conversión.',
+  'This protein-only chain reaction drives CJD, scrapie and BSE without a single viral gene.':
+    'Esta reacción proteica impulsa CJD, scrapie y vacas locas sin un solo gen viral.',
+  'Zoom to 0.1 nm atomic scale on [[amide atoms|amide_atoms]]: backbone N-H bonds grip O=C every 4.8 A.':
+    'Acércate a 0,1 nm en [[átomos amida|amide_atoms]]: enlaces N-H sujetan O=C cada 4,8 A.',
+  'Hundreds of parallel [[amide H-bonds|amide_atoms]] reinforce each [[beta rung|beta_rungs]] axially.':
+    'Cientos de [[puentes de hidrógeno amida|amide_atoms]] refuerzan axialmente cada [[peldaño beta|beta_rungs]].',
+  'Only C, H, N, O and [[disulfide sulfur|disulfide]] atoms appear here: zero phosphorus and zero genes.':
+    'Aquí solo hay C, H, N, O y [[azufre disulfuro|disulfide]]: cero fósforo y cero genes.',
+  'From 750 nm Mimivirus to 359-nt PSTVd to zero-gene [[PrPsc|prpsc_fibril]], life\'s pillars fall to zero.':
+    'De Mimivirus a PSTVd y a [[PrPsc|prpsc_fibril]] sin genes, los pilares de la vida bajan a cero.',
+  'No membrane, no genome, no ribosomes and no ATP: [[prions|prpsc_fibril]] prove shape alone can infect.':
+    'Sin membrana, genoma, ribosomas ni ATP: los [[priones|prpsc_fibril]] prueban que la forma infecta.',
+  'Inspect any molecular tag now, or move ahead to Cell Division to see living genomes replicate.':
+    'Explora cualquier etiqueta molecular o avanza a División Celular para ver replicar genomas vivos.',
+  // =========================================================================
+  // Phase 14: Cell Division (Binary Fission, Mitosis & Meiosis)
+  // =========================================================================
+  'Cell Division (Binary Fission, Mitosis & Meiosis): a guided tour':
+    'División celular (fisión binaria, mitosis y meiosis): recorrido guiado',
+  'Compare bacterial binary fission (oriC, ParABS, FtsZ Z-ring), mitotic spindle mechanics and tension checkpoint (condensin, cohesin, kinetochore, separase, contractile ring), meiotic crossing-over (bivalent, synaptonemal complex, Spo11, Rad51, chiasmata, Holliday junctions), and atomic DNA base pairs.':
+    'Compara fisión binaria bacteriana (oriC, ParABS, anillo Z FtsZ), mecánica y punto de control del huso mitótico (condensina, cohesina, cinetocoro, separasa, anillo contráctil), entrecruzamiento meiótico (bivalente, complejo sinaptonémico, Spo11, Rad51, quiasmas, uniones Holliday) y pares de bases atómicos.',
+  'Why Cells Divide: Three Blueprints': 'Por qué se dividen las células: tres planos maestros',
+  'Copying and partitioning a genome intact': 'Copiar y repartir un genoma intacto',
+  'Binary fission, mitosis & meiosis compared': 'Fisión binaria, mitosis y meiosis comparadas',
+  'Prokaryotic Binary Fission: E. coli': 'Fisión binaria procariota: E. coli',
+  'Bidirectional oriC replication & Par segregation': 'Replicación bidireccional en oriC y segregación Par',
+  'GTP-powered FtsZ Z-ring & septal constriction': 'Anillo Z FtsZ impulsado por GTP y constricción septal',
+  'Mitosis Part 1: Compaction & Bipolar Spindle': 'Mitosis parte 1: compactación y huso bipolar',
+  'Condensin loop extrusion & cohesin tethering': 'Extrusión de lazos por condensina y sujeción por cohesina',
+  'Nuclear envelope breakdown & centrosome poles': 'Ruptura de la envoltura nuclear y polos centrosómicos',
+  'Kinesin-5 pole pushing & kinetochore capture': 'Empuje polar de quinesina-5 y captura por cinetocoros',
+  'Mitosis Part 2: Checkpoint, Anaphase & Cytokinesis': 'Mitosis parte 2: control, anafase y citocinesis',
+  'Metaphase alignment & spindle assembly checkpoint': 'Alineación en metafase y punto de control del huso',
+  'Separase activation, cohesin cleavage & anaphase': 'Activación de separasa, corte de cohesina y anafase',
+  'Nuclear reassembly & contractile ring cytokinesis': 'Reensamblaje nuclear y citocinesis por anillo contráctil',
+  'Meiosis: Synapsis, Crossing-Over & Gametes': 'Meiosis: sinapsis, entrecruzamiento y gametos',
+  'Homolog pairing & synaptonemal complex': 'Emparejamiento de homólogos y complejo sinaptonémico',
+  'Programmed Spo11 breaks & Rad51 strand invasion': 'Cortes programados de Spo11 e invasión de hebra por Rad51',
+  'Chiasmata & four-way Holliday junction exchange': 'Quiasmas e intercambio en uniones Holliday de cuatro vías',
+  'Meiosis I homolog split & Meiosis II gametes': 'Separación de homólogos en meiosis I y gametos en meiosis II',
+  'Molecular Nanomachines to Base Pairs & Recap': 'Nanomáquinas moleculares hasta pares de bases y balance',
+  'Nanomachine rings down to DNA base pairs': 'Anillos moleculares hasta pares de bases del ADN',
+  'Three division engines compared & next steps': 'Tres motores de división comparados y próximos pasos',
+  'Every cellular lineage survives by copying its full genome and dividing it without losing DNA.':
+    'Cada linaje celular sobrevive copiando todo su genoma y repartiéndolo sin perder ADN.',
+  'Inside this cutaway [[dividing cell|cell_cortex]], glowing [[spindle fibers|spindle_mt]] organize paired [[sister chromatids|sister_chromatids]].':
+    'En esta [[célula en división|cell_cortex]], las [[fibras del huso|spindle_mt]] alinean [[cromátidas hermanas|sister_chromatids]] emparejadas.',
+  'Above left, a 2 um E. coli rod splits by bacterial fission using an [[FtsZ Z-ring|ftsz_ring]].':
+    'Arriba a la izquierda, un bacilo E. coli de 2 um se divide por fisión con un [[anillo Z FtsZ|ftsz_ring]].',
+  'Prokaryotes use binary fission: copying one circular chromosome and pinching via [[FtsZ|ftsz_ring]].':
+    'Los procariotas usan fisión binaria: copian un cromosoma circular y se cierran con [[FtsZ|ftsz_ring]].',
+  'Somatic mitosis splits identical [[sister chromatids|sister_chromatids]] inside the [[cell cortex|cell_cortex]] into two 2n clones.':
+    'La mitosis somática separa [[cromátidas hermanas|sister_chromatids]] en la [[corteza celular|cell_cortex]] en dos clones 2n.',
+  'Germline meiosis pairs homologs into [[bivalents|bivalent]], swaps genes and yields four unique 1n gametes.':
+    'La meiosis germinal une homólogos en [[bivalentes|bivalent]], mezcla genes y forma cuatro gametos 1n únicos.',
+  'Zoom to E. coli, where two replication forks copy a 4.6 Mbp circular genome from oriC to ter.':
+    'Acércate a E. coli, donde dos horquillas copian su genoma circular de 4,6 Mpb desde oriC hasta ter.',
+  'Active [[Par segregation|par_segregation]] machinery drives sister origins toward opposite bacterial poles.':
+    'La maquinaria activa [[Par|par_segregation]] desplaza los orígenes hermanos hacia polos opuestos.',
+  'As the rod elongates, [[DNA translocases|par_segregation]] clear the terminus away from the mid-cell plane.':
+    'Al alargarse el bacilo, las [[translocasas de ADN|par_segregation]] despejan el término del plano central.',
+  'Oscillating Min proteins block the poles so an [[FtsZ Z-ring|ftsz_ring]] assembles precisely at mid-cell.':
+    'Las proteínas Min bloquean los polos para que el [[anillo Z FtsZ|ftsz_ring]] se arme justo en el centro.',
+  'Powered by GTP, [[FtsZ filaments|ftsz_ring]] treadmill around the waist and guide inward septum synthesis.':
+    'Con energía de GTP, los [[filamentos FtsZ|ftsz_ring]] giran en la cintura y guían el septo hacia dentro.',
+  'Once the [[Z-ring|ftsz_ring]] closes behind cleared [[nucleoids|par_segregation]], two clonal bacteria separate cleanly.':
+    'Al cerrarse el [[anillo Z|ftsz_ring]] tras despejar los [[nucleoides|par_segregation]], dos bacterias clonales se separan.',
+  'Now enter eukaryotic mitosis, where meters of linear DNA must travel cleanly without tangling.':
+    'Entra ahora en la mitosis eucariota, donde metros de ADN lineal deben viajar sin enredarse.',
+  'ATP-driven [[condensin|condensin]] rings extrude chromatin loops, packing DNA into sturdy [[sister chromatids|sister_chromatids]].':
+    'Los anillos [[condensina|condensin]] con ATP forman lazos y compactan el ADN en [[cromátidas hermanas|sister_chromatids]].',
+  'Ring-shaped [[cohesin|cohesin]] clamps encircle both [[sister chromatids|sister_chromatids]] so copies stay paired until separation.':
+    'Abrazaderas de [[cohesina|cohesin]] rodean ambas [[cromátidas hermanas|sister_chromatids]] para mantenerlas unidas hasta separarse.',
+  'Mitotic kinases phosphorylate nuclear lamins, dissolving the [[nuclear envelope|nuclear_env]] into membrane vesicles.':
+    'Las quinasas mitóticas fosforilan láminas y disuelven la [[envoltura nuclear|nuclear_env]] en vesículas.',
+  'Two duplicated [[centrosomes|centrosome]] migrate to opposite poles, anchoring the emerging bipolar spindle.':
+    'Dos [[centrosomas|centrosome]] duplicados migran a polos opuestos y anclan el huso bipolar naciente.',
+  'Each [[centrosome|centrosome]] nucleates dynamic [[spindle microtubules|spindle_mt]] that grow and shrink across the cytoplasm.':
+    'Cada [[centrosoma|centrosome]] nuclea [[microtúbulos del huso|spindle_mt]] dinámicos que crecen y se encogen en el citosol.',
+  'Tetrameric [[kinesin-5|kinesin5]] motors bridge overlapping [[spindle microtubules|spindle_mt]] and push the poles apart.':
+    'Motores tetraméricos [[quinesina-5|kinesin5]] unen [[microtúbulos|spindle_mt]] opuestos y empujan los polos aparte.',
+  'Searching [[microtubule tips|spindle_mt]] capture protein [[kinetochores|kinetochore]] built at each chromosome centromere.':
+    'Las puntas de [[microtúbulos|spindle_mt]] capturan los [[cinetocoros|kinetochore]] proteicos en cada centrómero.',
+  'Opposing fibers pull on both [[kinetochores|kinetochore]], walking every [[sister pair|sister_chromatids]] to the equator.':
+    'Fibras opuestas tiran de ambos [[cinetocoros|kinetochore]] y llevan cada [[par hermano|sister_chromatids]] al ecuador.',
+  'At metaphase, all [[sister chromatids|sister_chromatids]] line up along the equator under balanced [[spindle|spindle_mt]] pull.':
+    'En metafase, las [[cromátidas hermanas|sister_chromatids]] se alinean en el ecuador bajo tracción equilibrada del [[huso|spindle_mt]].',
+  'Even one unattached [[kinetochore|kinetochore]] emits a stop signal that holds the entire cell at metaphase.':
+    'Incluso un solo [[cinetocoro|kinetochore]] suelto emite una señal de alto que detiene toda la metafase.',
+  'Balanced opposite pull across every [[kinetochore|kinetochore]] pair signals when [[cohesin|cohesin]] can be cut.':
+    'La tracción opuesta equilibrada en cada par de [[cinetocoros|kinetochore]] avisa cuándo cortar la [[cohesina|cohesin]].',
+  'Once tension satisfies the checkpoint, APC/C removes securin and unleashes active [[separase|separase]].':
+    'Cuando la tensión cumple el control, APC/C elimina la segurina y libera [[separasa|separase]] activa.',
+  'Active [[separase|separase]] cleaves every [[cohesin|cohesin]] ring simultaneously, triggering irreversible anaphase.':
+    'La [[separasa|separase]] activa corta todos los anillos de [[cohesina|cohesin]] a la vez e inicia una anafase irreversible.',
+  'Depolymerizing [[spindle fibers|spindle_mt]] and dynein pull freed [[sister chromatids|sister_chromatids]] toward opposite [[poles|centrosome]].':
+    'Los [[microtúbulos|spindle_mt]] al acortarse y la dineína llevan las [[cromátidas|sister_chromatids]] hacia [[polos|centrosome]] opuestos.',
+  'In telophase, chromosomes decondense and a fresh [[nuclear envelope|nuclear_env]] reforms around each daughter set.':
+    'En telofase, los cromosomas se descompactan y se reforma una nueva [[envoltura nuclear|nuclear_env]] en cada polo.',
+  'Around the equator, an actin-myosin II [[contractile ring|contractile_ring]] cinches the [[cell cortex|cell_cortex]] inward.':
+    'En el ecuador, un [[anillo contráctil|contractile_ring]] de actina y miosina II estrecha la [[corteza celular|cell_cortex]].',
+  'As the cleavage furrow pinches shut via the [[contractile ring|contractile_ring]], two identical 2n daughters emerge.':
+    'Al cerrarse el surco con el [[anillo contráctil|contractile_ring]], nacen dos células hijas 2n idénticas.',
+  'Sexual reproduction needs meiosis: one DNA copy followed by two divisions to halve chromosome count.':
+    'La reproducción sexual requiere meiosis: una copia de ADN y dos divisiones que reducen los cromosomas.',
+  'In Prophase I, maternal and paternal homologs align gene-by-gene into a four-chromatid [[bivalent|bivalent]].':
+    'En profase I, los homólogos maternos y paternos se alinean gen a gen en un [[bivalente|bivalent]] de cuatro brazos.',
+  'A protein zipper called the [[synaptonemal complex|synaptonemal]] holds both homologs tightly inside the [[bivalent|bivalent]].':
+    'Una cremallera proteica, el [[complejo sinaptonémico|synaptonemal]], mantiene unidos los homólogos del [[bivalente|bivalent]].',
+  'Rather than avoiding breaks, [[Spo11|spo11]] deliberately cuts DNA strands to initiate meiotic recombination.':
+    'En lugar de evitar cortes, [[Spo11|spo11]] rompe el ADN a propósito para iniciar la recombinación meiótica.',
+  'After end resection, [[Rad51|rad51]] coats single-stranded DNA and guides it into the matching homolog.':
+    'Tras resecar los extremos, [[Rad51|rad51]] recubre el ADN monocatenario y lo guía al homólogo pareja.',
+  'This [[Rad51|rad51]] strand invasion physically links non-sister chromatids across the paired [[bivalent|bivalent]].':
+    'Esta invasión de [[Rad51|rad51]] enlaza físicamente cromátidas no hermanas en el [[bivalente|bivalent]] emparejado.',
+  'Where DNA strands cross between homologs, X-shaped [[chiasmata|chiasma]] lock the [[bivalent|bivalent]] together.':
+    'Donde las hebras cruzan entre homólogos, los [[quiasmas|chiasma]] en X sujetan unido al [[bivalente|bivalent]].',
+  'Crossing-over at [[chiasmata|chiasma]] swaps homologous DNA arms through four-way [[Holliday junctions|holliday]].':
+    'El entrecruzamiento en los [[quiasmas|chiasma]] intercambia brazos de ADN mediante [[uniones Holliday|holliday]].',
+  'Resolving each [[Holliday junction|holliday]] seals mosaic maternal-paternal chromosomes with brand-new allele sets.':
+    'Resolver cada [[unión Holliday|holliday]] sella cromosomas mosaico materno-paternos con nuevos alelos.',
+  'In Meiosis I, [[separase|separase]] cuts arm [[cohesin|cohesin]] while centromeres stay protected, splitting whole [[bivalents|bivalent]].':
+    'En meiosis I, [[separasa|separase]] corta la [[cohesina|cohesin]] de brazos y separa enteros los [[bivalentes|bivalent]].',
+  'Random orientation of each [[bivalent|bivalent]] independently assorts maternal and paternal chromosomes to poles.':
+    'La orientación al azar de cada [[bivalente|bivalent]] reparte de forma independiente cromosomas a cada polo.',
+  'Meiosis II then splits [[sister chromatids|sister_chromatids]] and the [[contractile ring|contractile_ring]] yields four unique 1n gametes.':
+    'Luego la meiosis II separa [[cromátidas hermanas|sister_chromatids]] y el [[anillo contráctil|contractile_ring]] forma cuatro gametos 1n.',
+  'Zoom into the molecular inset where [[condensin|condensin]], [[cohesin|cohesin]] and [[separase|separase]] act at 10 to 50 nm.':
+    'Acércate al recuadro molecular donde [[condensina|condensin]], [[cohesina|cohesin]] y [[separasa|separase]] actúan a 10-50 nm.',
+  'Every crossover at a [[Holliday junction|holliday]] ultimately realigns complementary [[DNA base pairs|dna_basepair]] below.':
+    'Cada cruce en una [[unión Holliday|holliday]] realinea abajo los [[pares de bases de ADN|dna_basepair]] complementarios.',
+  'At 0.34 nm rise, A-T and G-C [[base pairs|dna_basepair]] depend on C, H, N, O, P atoms and catalytic Mg2+ ions.':
+    'A 0,34 nm de paso, los [[pares de bases|dna_basepair]] A-T y G-C dependen de átomos C, H, N, O, P e iones Mg2+.',
+  'Bacteria divide rapidly by cloning circular DNA and pinching mid-cell with an [[FtsZ Z-ring|ftsz_ring]].':
+    'Las bacterias se dividen rápido clonando ADN circular y cerrándose con un [[anillo Z FtsZ|ftsz_ring]].',
+  'Mitosis preserves diploid clones via [[kinetochore|kinetochore]] tension, while meiosis recombines genes at [[chiasmata|chiasma]].':
+    'La mitosis guarda clones diploides por tensión en [[cinetocoros|kinetochore]]; la meiosis mezcla en [[quiasmas|chiasma]].',
+  'Scrub the phase bar or click any molecular tag now, including [[base pairs|dna_basepair]], to explore deeper.':
+    'Desliza la barra de fase o pulsa cualquier etiqueta, incluso [[pares de bases|dna_basepair]], para explorar más.',
 };

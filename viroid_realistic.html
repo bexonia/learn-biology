@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Interactive 3D Viroid Model (PSTVd) — 359-nt Naked Circular RNA, Loop E &amp; Host Pol II Rolling-Circle | BEXONIA</title>
+<!-- SEO:START -->
+<meta name="description" content="Interactive 3D Potato Spindle Tuber Viroid (PSTVd) at true molecular scale (50 x 2 nm): 359-nucleotide covalently closed circular non-coding ssRNA folded into five functional domains (TL, P, C, V, TR) with zero capsid and zero protein-coding genes, featuring golden G-U wobble pairs, bioluminescent Loop E motif, CCR cleavage hairpin, hijacked 12-subunit host plant RNA Polymerase II (PDB 1WCM) bridged by TFIIIA-7ZF driving asymmetric rolling-circle replication, host DNA ligase 1 circularization, and a magnified atomic RNA inset (2'-OH ribose, phosphodiester P, and G-U wobble H-bonds).">
+<meta name="keywords" content="3D biology, interactive 3D viroid model, Potato Spindle Tuber Viroid, PSTVd, subviral agent, naked circular RNA, 359 nucleotides, non-coding ssRNA, Loop E motif, Central Conserved Region, CCR hairpin, G-U wobble base pair, RNA Polymerase II PDB 1WCM, TFIIIA-7ZF, rolling-circle replication, DNA ligase 1, vd-siRNA, 2'-OH ribose, phosphodiester bond, WebGL2, Three.js, Bexonia">
+<meta name="author" content="BEXONIA">
+<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">
+<link rel="canonical" href="https://learn.bexonia.com/viroid_realistic.html">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="BEXONIA Learn Biology">
+<meta property="og:title" content="Interactive 3D Viroid Model (PSTVd) — 359-nt Naked Circular RNA, Loop E &amp; Host Pol II | BEXONIA">
+<meta property="og:description" content="Interactive 3D Potato Spindle Tuber Viroid (PSTVd): naked 359-nt circular ssRNA rod with zero capsid or genes, glowing Loop E and CCR hairpin, hijacked 12-subunit plant RNA Pol II (PDB 1WCM) rolling-circle synthesis, and an atomic 2'-OH ribose &amp; G-U wobble inset.">
+<meta property="og:url" content="https://learn.bexonia.com/viroid_realistic.html">
+<meta property="og:image" content="https://learn.bexonia.com/screenshots/animal_cell.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Interactive 3D Viroid Model (PSTVd) — 359-nt Naked Circular RNA, Loop E &amp; Host Pol II | BEXONIA">
+<meta name="twitter:description" content="Interactive 3D Potato Spindle Tuber Viroid (PSTVd): naked 359-nt circular ssRNA rod with zero capsid or genes, glowing Loop E and CCR hairpin, hijacked 12-subunit plant RNA Pol II (PDB 1WCM) rolling-circle synthesis, and an atomic 2'-OH ribose &amp; G-U wobble inset.">
+<meta name="twitter:image" content="https://learn.bexonia.com/screenshots/animal_cell.jpg">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":["LearningResource","WebApplication"],"name":"Interactive 3D Viroid Model (PSTVd) — 359-nt Naked Circular RNA, Loop E & Host Pol II Rolling-Circle | BEXONIA","description":"Interactive 3D Potato Spindle Tuber Viroid (PSTVd) molecular model: 50 x 2 nm covalently closed 359-nucleotide circular non-coding ssRNA with zero capsid, zero envelope, and zero protein-coding ORFs, displaying all five structural domains (TL, P, C, V, TR), Watson-Crick and golden G-U wobble pairs, bioluminescent Loop E motif, CCR cleavage hairpin, hijacked 12-subunit host plant RNA Polymerase II (RCSB PDB 1WCM) with TFIIIA-7ZF, live asymmetric rolling-circle (-) and (+) RNA synthesis, host DNA ligase 1 circularization, and a magnified atomic inset showing RNA 2'-OH ribose, phosphodiester P, and G-U wobble hydrogen bonds.","url":"https://learn.bexonia.com/viroid_realistic.html","image":"https://learn.bexonia.com/screenshots/animal_cell.jpg","applicationCategory":"EducationalApplication","operatingSystem":"Web Browser (WebGL)","learningResourceType":["Interactive 3D Model","Simulation","Guided Tour"],"educationalUse":["Self-study","Classroom instruction","Reference library"],"isAccessibleForFree":true,"license":"https://opensource.org/licenses/MIT","inLanguage":"en","author":{"@type":"Organization","name":"BEXONIA","url":"https://bexonia.com"},"about":[{"@type":"Thing","name":"Potato spindle tuber viroid"},{"@type":"Thing","name":"Viroid"},{"@type":"Thing","name":"Circular RNA"},{"@type":"Thing","name":"RNA Polymerase II"},{"@type":"Thing","name":"Rolling circle replication"},{"@type":"Thing","name":"Loop E motif"},{"@type":"Thing","name":"Molecular biology"}],"keywords":"3D biology, interactive 3D viroid model, Potato Spindle Tuber Viroid, PSTVd, naked circular RNA, 359 nt, Loop E motif, CCR hairpin, G-U wobble pair, RNA Polymerase II PDB 1WCM, TFIIIA-7ZF, DNA ligase 1, rolling-circle replication, 2'-OH ribose, WebGL2, Three.js, Bexonia"}</script>
+<!-- SEO:END -->
+<style>
+  :root { --bg: #04060c; --fg: #ebf0fa; --muted: #92a0b8; --line: rgba(255,255,255,.13); --accent: #7ee8ff; --gold: #ffd46b; }
+  html, body { margin: 0; height: 100%; background: var(--bg); color: var(--fg); font-family: system-ui, -apple-system, "Segoe UI", sans-serif; overflow: hidden; }
+  canvas { display: block; }
+  #hud { position: absolute; left: 22px; top: 18px; pointer-events: none; max-width: calc(100% - 270px); }
+  #hud h1 { margin: 0; font-size: 22px; font-weight: 650; letter-spacing: .01em; }
+  #hud p { margin: 4px 0 0; font-size: 13px; color: var(--muted); }
+  #legend { position: absolute; left: 16px; top: 82px; width: 256px; max-height: calc(100% - 100px); overflow: auto; background: rgba(7,11,20,.64); border: 1px solid var(--line); border-radius: 11px; padding: 5px; backdrop-filter: blur(8px); }
+  .it { display: flex; align-items: center; gap: 8px; padding: 3.2px 7px; border-radius: 6px; font-size: 11.8px; line-height: 1.25; cursor: default; transition: background .14s ease; }
+  .it:hover { background: rgba(126,232,255,.15); }
+  .sw { width: 11px; height: 11px; border-radius: 50%; flex: none; box-shadow: inset 0 0 0 1px rgba(255,255,255,.32); }
+  .key { grid-column: 1 / -1; margin-top: 3px; padding: 6px 7px 3px; border-top: 1px solid var(--line); font-size: 11px; color: var(--muted); line-height: 1.4; }
+  .key .row { display: flex; align-items: center; flex-wrap: wrap; gap: 5px; margin-bottom: 4px; }
+  .chip { width: 16px; height: 16px; border-radius: 50%; display: inline-grid; place-items: center; font-size: 10px; font-weight: 700; color: #12151e; }
+  .bar { width: 18px; height: 6px; border-radius: 3px; display: inline-block; }
+  #flows { position: absolute; right: 16px; top: 18px; width: 234px; max-height: calc(100% - 134px); overflow: auto; background: rgba(7,11,20,.64); border: 1px solid var(--line); border-radius: 11px; padding: 8px 6px 6px; backdrop-filter: blur(8px); }
+  #flows h2 { margin: 2px 8px 4px; font-size: 13px; font-weight: 650; }
+  .speed { display: flex; align-items: center; gap: 8px; margin: 2px 8px 8px; font-size: 12px; color: var(--muted); }
+  .speed input { flex: 1; min-width: 0; accent-color: var(--accent); }
+  #spd { width: 38px; text-align: right; color: var(--fg); font-variant-numeric: tabular-nums; }
+  #tip { margin: 0 8px 8px; font-size: 12px; line-height: 1.45; color: var(--muted); }
+  #tip b { color: var(--fg); font-weight: 600; }
+  .mol { display: flex; align-items: center; gap: 8px; padding: 3px 8px; border-radius: 7px; font-size: 12.5px; cursor: default; }
+  .mol:hover { background: rgba(126,232,255,.15); }
+  .mol canvas { width: 22px; height: 22px; flex: none; }
+  #tools { position: absolute; right: 16px; bottom: 16px; display: flex; flex-wrap: wrap; justify-content: flex-end; gap: 7px; max-width: calc(100% - 32px); }
+  #tools button { background: rgba(8,12,22,.76); color: var(--fg); border: 1px solid rgba(255,255,255,.22); border-radius: 8px; padding: 7px 11px; font: inherit; font-size: 12.5px; cursor: pointer; backdrop-filter: blur(6px); transition: border-color .15s ease, background .15s ease; }
+  #tools button:hover { border-color: var(--accent); }
+  #hint { position: absolute; right: 18px; bottom: 58px; font-size: 12px; color: var(--muted); pointer-events: none; }
+  #busy { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; color: var(--muted); font-size: 14px; pointer-events: none; }
+  @media (max-width: 760px) {
+    #legend { top: auto; bottom: 68px; left: 10px; right: 10px; width: auto; max-height: 25vh; display: grid; grid-template-columns: 1fr 1fr; }
+    #hint, #flows { display: none; }
+    #hud { max-width: calc(100% - 28px); }
+    #hud h1 { font-size: 17px; }
+  }
+  .embed #hud, .embed #legend, .embed #flows, .embed #hint, .embed #tools, .embed #busy { display: none !important; }
+</style>
+<script type="importmap">
+{ "imports": {
+  "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js",
+  "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"
+} }
+</script>
+</head>
+<body>
+<div id="busy">Building PSTVd 359-nt Circular RNA, Host RNA Pol II (PDB 1WCM) &amp; Atomic Inset…</div>
+<div id="hud"><h1>Potato Spindle Tuber Viroid (<i>PSTVd</i>)</h1><p id="sub">359-nt naked circular non-coding ssRNA (50 × 2 nm · 0 capsid · 0 genes) · hijacked plant Pol II (PDB 1WCM) rolling-circle &amp; atomic 2'-OH inset</p></div>
+<div id="legend"></div>
+<div id="flows"><h2>Molecular Kinetics</h2><label class="speed">Speed <input id="speed" type="range" min="-3" max="2" step=".1" value="0"><span id="spd">1×</span></label><div id="tip"></div><div id="mols"></div></div>
+<div id="hint">Drag to look around · W A S D to move · scroll to zoom · right-drag to pan · hover a name to highlight it</div>
+<div id="tools"><button id="view">View: overview</button><button id="flow">Flows: on</button><button id="look">Halo: gel</button><button id="cut">Close halo</button><button id="motion">Pause</button><button id="snap">Save PNG</button></div>
+<script type="module" src="dist/pages/viroid_realistic.js"></script>
+</body>
+</html>

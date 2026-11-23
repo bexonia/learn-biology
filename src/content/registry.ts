@@ -27,6 +27,12 @@ export const STANDALONE_PAGE_PART_KEYS: Record<string, readonly string[]> = {
     'capsid', 'soc', 'vertex', 'dna', 'core', 'portal', 'collar', 'sheath', 'tube',
     'baseplate', 'stf', 'needle', 'ltf', 'om', 'porin', 'pg', 'im', 'rnap', 'ribosome'
   ],
+  'cell_division_realistic.html': [
+    'cell_cortex', 'nuclear_env', 'centrosome', 'spindle_mt', 'kinesin5',
+    'sister_chromatids', 'condensin', 'cohesin', 'kinetochore', 'separase',
+    'contractile_ring', 'bivalent', 'synaptonemal', 'spo11', 'rad51',
+    'chiasma', 'holliday', 'ftsz_ring', 'par_segregation', 'dna_basepair'
+  ],
   'chlamydia_realistic.html': [
     'inclusion', 'inc', 'golgi_lip', 'host_cyto', 'eb_om', 'momp', 'eb_dna', 't3ss',
     'tarP', 'rb_om', 'rb_im', 'septum', 'mreb', 'npt1', 'npt2', 'rb_dna', 'rnap',
@@ -47,6 +53,11 @@ export const STANDALONE_PAGE_PART_KEYS: Record<string, readonly string[]> = {
   ],
   'hiv_realistic.html': [
     'env', 'membrane', 'ma', 'capsid', 'pentamer', 'rna', 'rt', 'int', 'cd4'
+  ],
+  'mimivirus_realistic.html': [
+    'fibers', 'capsid', 'stargate', 'inner_mem', 'genomic_fiber', 'dsdna', 'tyrrs',
+    'viral_rnap', 'capping_enz', 'phagosome', 'amoeba_mem', 'viral_factory',
+    'host_ribo', 'myco_ref', 'atp_pool', 'dna_atoms'
   ],
   'mycoplasma_realistic.html': [
     'membrane', 'sterol', 'lipo', 'nap', 'sialo', 'cilium', 'button', 'rod', 'wheel',
@@ -69,6 +80,11 @@ export const STANDALONE_PAGE_PART_KEYS: Record<string, readonly string[]> = {
     'apicoplast_membranes', 'apicoplast_dna', 'digestive_vacuole', 'hemoglobin',
     'hemozoin', 'iron_atom'
   ],
+  'prion_realistic.html': [
+    'lipid_raft', 'gpi_anchor', 'prpc', 'helices_h123', 'beta_ribbon', 'nglycans',
+    'disulfide', 'prpsc_fibril', 'piribs_core', 'beta_rungs', 'steric_zipper',
+    'template_dock', 'fragmentation', 'amide_atoms'
+  ],
   'prokaryote_cell_realistic.html': [
     'om', 'porin', 'pump', 'pg', 'im', 'etc', 'atps', 'transport', 'flag', 'pili',
     'chemo', 'mreb', 'dna', 'hu', 'fork', 'rnap', 'mrna', 'ribosome', 'trna', 'cyto', 'glycogen'
@@ -81,7 +97,12 @@ export const STANDALONE_PAGE_PART_KEYS: Record<string, readonly string[]> = {
     'plant_100um', 'animal_20um', 'yeast_5um', 'ecoli_2um', 'myco_300nm',
     'virus_100nm', 'ribo_25nm', 'enzyme_10nm', 'dna_2nm', 'monomer_1nm', 'atom_01nm'
   ],
-  'tmv_realistic.html': ['coat', 'disc', 'rna', 'channel', 'ribo', 'mp']
+  'tmv_realistic.html': ['coat', 'disc', 'rna', 'channel', 'ribo', 'mp'],
+  'viroid_realistic.html': [
+    'tl_domain', 'p_domain', 'c_domain', 'v_domain', 'tr_domain', 'loop_e',
+    'ccr_hairpin', 'wobble_gu', 'pol2', 'tfiiia', 'minus_rna', 'plus_rna',
+    'ligase', 'rna_atoms'
+  ]
 };
 
 export function registerNodeLenses(map: NodeLensMap): void {

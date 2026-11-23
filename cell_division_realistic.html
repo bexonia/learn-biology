@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" href="data:,">
+<title>Interactive 3D Cell Division Simulator — Mitosis, Meiosis &amp; Binary Fission | BEXONIA</title>
+<!-- SEO:START -->
+<meta name="description" content="Interactive timeline-scrubbable Cinema PBR WebGL2 3D Cell Division Simulator comparing Eukaryotic Mitosis (2n → 2×2n), Eukaryotic Meiosis (2n → 4×1n with synaptonemal complex &amp; crossing-over chiasmata), and Prokaryotic Binary Fission (E. coli FtsZ Z-ring &amp; ParABS/FtsK segregation), powered by 10 real RCSB PDB cryo-EM and crystal structures (6UNX, 2IUU, 6WG3, 6YVU, 3VKH, 7NJ1, 1II6, 2Q2E, 5H1B, 4CPC).">
+<meta name="keywords" content="3D biology, cell division simulator, mitosis, meiosis, binary fission, E. coli FtsZ Z-ring PDB 6UNX, FtsK ParABS PDB 2IUU, mitotic spindle, centrosome, kinesin-5 Eg5 PDB 1II6, sister chromatids, condensin PDB 6YVU, cohesin PDB 6WG3, kinetochore dynein PDB 3VKH, separase PDB 7NJ1, spindle assembly checkpoint, actin myosin contractile ring, synaptonemal complex SYCP3 PDB 4CPC, Spo11 PDB 2Q2E, Rad51 PDB 5H1B, crossing-over chiasma, Holliday junction, haploid gametes, Watson-Crick base pairs, WebGL2, Three.js, Bexonia">
+<meta name="author" content="BEXONIA">
+<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">
+<link rel="canonical" href="https://learn.bexonia.com/cell_division_realistic.html">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="BEXONIA Learn Biology">
+<meta property="og:title" content="Interactive 3D Cell Division Simulator — Mitosis, Meiosis &amp; Binary Fission | BEXONIA">
+<meta property="og:description" content="Scrub live in 3D through Mitosis (2n → 2×2n), Meiosis (2n → 4×1n with visible crossing-over chiasmata), and E. coli Binary Fission (FtsZ Z-ring), powered by 10 real RCSB PDB molecular machines.">
+<meta property="og:url" content="https://learn.bexonia.com/cell_division_realistic.html">
+<meta property="og:image" content="https://learn.bexonia.com/screenshots/animal_cell.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Interactive 3D Cell Division Simulator — Mitosis, Meiosis &amp; Binary Fission | BEXONIA">
+<meta name="twitter:description" content="Scrub live in 3D through Mitosis, Meiosis with crossing-over chiasmata, and E. coli Binary Fission powered by 10 real RCSB PDB structures.">
+<meta name="twitter:image" content="https://learn.bexonia.com/screenshots/animal_cell.jpg">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":["LearningResource","WebApplication"],"name":"Interactive 3D Cell Division Simulator — Mitosis, Meiosis & Binary Fission | BEXONIA","description":"Interactive timeline-scrubbable Cinema PBR WebGL2 3D Cell Division Simulator comparing Eukaryotic Mitosis (2n -> 2x2n), Eukaryotic Meiosis (2n -> 4x1n with crossing-over chiasmata & Holliday junctions), and Prokaryotic Binary Fission (E. coli FtsZ Z-ring & ParABS/FtsK segregation), powered by 10 real RCSB PDB structures.","url":"https://learn.bexonia.com/cell_division_realistic.html","image":"https://learn.bexonia.com/screenshots/animal_cell.jpg","applicationCategory":"EducationalApplication","operatingSystem":"Web Browser (WebGL)","learningResourceType":["Interactive 3D Model","Simulation","Guided Tour"],"educationalUse":["Self-study","Classroom instruction","Reference library"],"isAccessibleForFree":true,"license":"https://opensource.org/licenses/MIT","inLanguage":"en","author":{"@type":"Organization","name":"BEXONIA","url":"https://bexonia.com"},"about":[{"@type":"Thing","name":"Cell division"},{"@type":"Thing","name":"Mitosis"},{"@type":"Thing","name":"Meiosis"},{"@type":"Thing","name":"Binary fission"},{"@type":"Thing","name":"Chromosomal crossover"},{"@type":"Thing","name":"Mitotic spindle"}],"keywords":"3D biology, cell division, mitosis, meiosis, binary fission, FtsZ, cohesin, condensin, kinetochore, separase, kinesin-5, synaptonemal complex, Spo11, Rad51, Holliday junction, WebGL2, Three.js, Bexonia"}</script>
+<!-- SEO:END -->
+<style>
+  :root { --bg: #04060c; --fg: #ebf0fa; --muted: #92a0b8; --line: rgba(255,255,255,.13); --accent: #7ee8ff; --gold: #ffd46b; --glow: rgba(126,232,255,.30); }
+  html, body { margin: 0; height: 100%; background: var(--bg); color: var(--fg); font-family: system-ui, -apple-system, "Segoe UI", sans-serif; overflow: hidden; }
+  canvas { display: block; }
+  #hud { position: absolute; left: 22px; top: 16px; pointer-events: none; max-width: calc(100% - 275px); }
+  #hud h1 { margin: 0; font-size: 21px; font-weight: 650; letter-spacing: .01em; }
+  #hud p { margin: 4px 0 0; font-size: 12.5px; color: var(--muted); }
+  #legend { position: absolute; left: 16px; top: 82px; width: 256px; max-height: calc(100% - 148px); overflow: auto; background: rgba(7,11,20,.64); border: 1px solid var(--line); border-radius: 11px; padding: 6px; backdrop-filter: blur(8px); }
+  .it { display: flex; align-items: center; gap: 9px; padding: 4.5px 8px; border-radius: 7px; font-size: 12.2px; cursor: default; transition: background .14s ease; }
+  .it:hover { background: rgba(126,232,255,.15); }
+  .sw { width: 12px; height: 12px; border-radius: 50%; flex: none; box-shadow: inset 0 0 0 1px rgba(255,255,255,.32); }
+  .key { grid-column: 1 / -1; margin-top: 4px; padding: 8px 8px 4px; border-top: 1px solid var(--line); font-size: 11.2px; color: var(--muted); line-height: 1.5; }
+  .key .row { display: flex; align-items: center; flex-wrap: wrap; gap: 5px; margin-bottom: 5px; }
+  .chip { width: 18px; height: 18px; border-radius: 50%; display: inline-grid; place-items: center; font-size: 10.5px; font-weight: 700; color: #12151e; }
+  .bar { width: 18px; height: 6px; border-radius: 3px; display: inline-block; }
+  #flows { position: absolute; right: 16px; top: 16px; width: 234px; max-height: calc(100% - 156px); overflow: auto; background: rgba(7,11,20,.64); border: 1px solid var(--line); border-radius: 11px; padding: 8px 6px 6px; backdrop-filter: blur(8px); }
+  #flows h2 { margin: 2px 8px 4px; font-size: 13px; font-weight: 650; }
+  .speed { display: flex; align-items: center; gap: 8px; margin: 2px 8px 8px; font-size: 12px; color: var(--muted); }
+  .speed input { flex: 1; min-width: 0; accent-color: var(--accent); }
+  #spd { width: 38px; text-align: right; color: var(--fg); font-variant-numeric: tabular-nums; }
+  #tip { margin: 0 8px 8px; font-size: 11.8px; line-height: 1.44; color: var(--muted); }
+  #tip b { color: var(--fg); font-weight: 600; }
+  .mol { display: flex; align-items: center; gap: 8px; padding: 3px 8px; border-radius: 7px; font-size: 12.2px; cursor: default; }
+  .mol:hover { background: rgba(126,232,255,.15); }
+  .mol canvas { width: 22px; height: 22px; flex: none; }
+  #phaseBar { position: absolute; left: 50%; bottom: 56px; transform: translateX(-50%); width: min(570px, calc(100vw - 540px)); min-width: 340px; background: rgba(8,14,26,.76); border: 1px solid rgba(145,214,255,.24); border-radius: 14px; padding: 9px 14px 8px; backdrop-filter: blur(12px); box-shadow: 0 10px 32px rgba(0,0,0,.48), inset 0 1px 0 rgba(255,255,255,.08); }
+  .pb-top { display: flex; align-items: center; justify-content: space-between; gap: 8px; flex-wrap: wrap; margin-bottom: 6px; }
+  .pb-left { display: flex; align-items: center; gap: 8px; min-width: 0; }
+  #phaseDot { width: 9px; height: 9px; border-radius: 50%; background: var(--accent); box-shadow: 0 0 10px var(--glow); flex: none; }
+  #phaseReadout { font-size: 12.5px; font-weight: 650; letter-spacing: .01em; color: #f0f6ff; font-variant-numeric: tabular-nums; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .pb-right { display: flex; align-items: center; gap: 7px; }
+  #phaseBadge { display: inline-flex; align-items: center; padding: 2.5px 9px; border-radius: 999px; font-size: 11px; font-weight: 600; background: rgba(126,232,255,.14); color: #9df0ff; border: 1px solid rgba(126,232,255,.32); white-space: nowrap; }
+  #phaseBadge.meiosis { background: rgba(206,136,255,.16); color: #e2c2ff; border-color: rgba(206,136,255,.38); }
+  #phaseBadge.fission { background: rgba(84,242,194,.15); color: #9effdf; border-color: rgba(84,242,194,.36); }
+  #scrubBtn { background: rgba(18,30,52,.84); color: var(--fg); border: 1px solid rgba(145,214,255,.32); border-radius: 8px; padding: 3.5px 9px; font: inherit; font-size: 11.2px; font-weight: 600; cursor: pointer; transition: all .15s; white-space: nowrap; }
+  #scrubBtn:hover { border-color: var(--accent); background: rgba(34,56,92,.88); }
+  #scrubBtn.on { background: linear-gradient(135deg, rgba(66,192,255,.30), rgba(142,110,255,.34)); border-color: #a9e6ff; color: #ffffff; }
+  #phaseSlider { width: 100%; margin: 2px 0 4px; accent-color: #7ee8ff; cursor: pointer; height: 5px; }
+  .pb-ticks { display: flex; justify-content: space-between; font-size: 10px; color: var(--muted); font-variant-numeric: tabular-nums; user-select: none; gap: 4px; }
+  .pb-ticks span { cursor: pointer; padding: 1px 3px; border-radius: 4px; transition: color .14s, background .14s; white-space: nowrap; }
+  .pb-ticks span:hover, .pb-ticks span.on { color: #e6f6ff; background: rgba(126,232,255,.16); font-weight: 650; }
+  #tools { position: absolute; right: 16px; bottom: 14px; display: flex; flex-wrap: wrap; justify-content: flex-end; gap: 7px; max-width: calc(100% - 32px); }
+  #tools button { background: rgba(8,12,22,.78); color: var(--fg); border: 1px solid rgba(255,255,255,.22); border-radius: 8px; padding: 6.5px 11px; font: inherit; font-size: 12.2px; cursor: pointer; backdrop-filter: blur(6px); transition: border-color .15s ease, background .15s ease; }
+  #tools button:hover { border-color: var(--accent); }
+  #modeBtn { border-color: rgba(126,232,255,.64) !important; background: rgba(14,38,54,.84) !important; color: #b8f4ff !important; font-weight: 600; }
+  #modeBtn.meiosis { border-color: rgba(206,136,255,.76) !important; background: rgba(44,18,68,.84) !important; color: #ecd2ff !important; }
+  #modeBtn.fission { border-color: rgba(84,242,194,.76) !important; background: rgba(12,48,42,.84) !important; color: #c4ffec !important; }
+  #hint { position: absolute; left: 18px; bottom: 18px; font-size: 11.5px; color: var(--muted); pointer-events: none; max-width: calc(100vw - 700px); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  #busy { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; color: var(--muted); font-size: 14px; pointer-events: none; background: radial-gradient(circle at 52% 45%, #162442 0%, #09101f 55%, #020409 100%); z-index: 20; }
+  @media (max-width: 1120px) {
+    #phaseBar { width: min(500px, calc(100vw - 300px)); left: auto; right: 16px; transform: none; }
+    #hint { display: none; }
+  }
+  @media (max-width: 760px) {
+    #legend { top: auto; bottom: 152px; left: 10px; right: 10px; width: auto; max-height: 22vh; display: grid; grid-template-columns: 1fr 1fr; }
+    #phaseBar { left: 10px; right: 10px; bottom: 56px; width: auto; min-width: 0; transform: none; padding: 8px 10px; }
+    #hint, #flows { display: none; }
+    #hud { max-width: calc(100% - 28px); }
+    #hud h1 { font-size: 17px; }
+  }
+  .embed #hud, .embed #legend, .embed #flows, .embed #hint, .embed #tools, .embed #busy, .embed #phaseBar { display: none !important; }
+</style>
+<script type="importmap">
+{ "imports": {
+  "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js",
+  "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"
+} }
+</script>
+</head>
+<body>
+<div id="busy">Building Mitosis, Meiosis &amp; Binary Fission 3D Division Simulator…</div>
+<div id="hud"><h1>Cell Division Simulator — Mitosis, Meiosis &amp; Binary Fission</h1><p id="sub">Cryo-EM dark-field interactive timeline · Mitosis (2n → 2×2n), Meiosis (2n → 4×1n crossing-over) &amp; E. coli FtsZ Z-ring</p></div>
+<div id="legend"></div>
+<div id="flows"><h2>Division Energy &amp; Signaling</h2><label class="speed">Speed <input id="speed" type="range" min="-3" max="2" step=".1" value="0"><span id="spd">1×</span></label><div id="tip"></div><div id="mols"></div></div>
+<div id="phaseBar">
+  <div class="pb-top">
+    <div class="pb-left"><span id="phaseDot"></span><span id="phaseReadout">Metaphase · 2n = 4 (8 chromatids)</span></div>
+    <div class="pb-right"><span id="phaseBadge">Mitosis · 2n → 2×2n</span><button id="scrubBtn" type="button">Auto-Play: off</button></div>
+  </div>
+  <input id="phaseSlider" type="range" min="0" max="1" step="0.005" value="0.48" aria-label="Cell division timeline scrub from Interphase to Cytokinesis">
+  <div class="pb-ticks" id="phaseTicks"></div>
+</div>
+<div id="hint">Drag to look · W A S D to move · scroll to zoom · scrub timeline slider · hover a part to inspect</div>
+<div id="tools"><button id="modeBtn" type="button">Mode: Mitosis (2n → 2×2n)</button><button id="view" type="button">View: overview</button><button id="flow" type="button">Metabolism: on</button><button id="look" type="button">Membrane: gel</button><button id="cut" type="button">Close cutaway</button><button id="motion" type="button">Pause</button><button id="snap" type="button">Save PNG</button></div>
+<script type="module" src="dist/pages/cell_division_realistic.js"></script>
+</body>
+</html>

@@ -39,6 +39,10 @@ COPY cell_explorer.html \
      coronavirus_realistic.html \
      adenovirus_realistic.html \
      tmv_realistic.html \
+     mimivirus_realistic.html \
+     viroid_realistic.html \
+     prion_realistic.html \
+     cell_division_realistic.html \
      robots.txt \
      sitemap.xml \
      /usr/share/nginx/html/
@@ -72,6 +76,10 @@ ADD audio.tar.gz \
     audio_phase11_es.tar.gz \
     audio_phase12_en.tar.gz \
     audio_phase12_es.tar.gz \
+    audio_phase13_en.tar.gz \
+    audio_phase13_es.tar.gz \
+    audio_phase14_en.tar.gz \
+    audio_phase14_es.tar.gz \
     /usr/share/nginx/html/
 COPY --from=builder /app/dist/ /usr/share/nginx/html/dist/
 COPY --from=builder /app/dist/server.js /app/server.js

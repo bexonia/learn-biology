@@ -40,6 +40,11 @@ export const STANDALONE_PAGE_PART_KEYS: Record<string, readonly string[]> = {
     'chromatin', 'mrna', 'nucleolus', 'rrna', 'nucleoplasm', 'er', 'erg11', 'golgi',
     'mito', 'perox', 'lipid', 'vesicle', 'actin', 'ribosome', 'ferm', 'cytosol'
   ],
+  'gram_positive_realistic.html': [
+    'pg_wall', 'teichoic', 'pm', 'ecoli_strip', 'pbp', 'sortase', 'septum', 'spoiiie',
+    'forespore', 'dna', 'ribosome', 'exosporium', 'coat', 'cortex', 'germ_wall',
+    'spore_im', 'core', 'ca_dpa', 'sasp_dna', 'crosslink'
+  ],
   'hiv_realistic.html': [
     'env', 'membrane', 'ma', 'capsid', 'pentamer', 'rna', 'rt', 'int', 'cd4'
   ],
@@ -47,11 +52,22 @@ export const STANDALONE_PAGE_PART_KEYS: Record<string, readonly string[]> = {
     'membrane', 'sterol', 'lipo', 'nap', 'sialo', 'cilium', 'button', 'rod', 'wheel',
     'gliding', 'dna', 'hu', 'fork', 'rnap', 'mrna', 'ribosome', 'import', 'glycolysis'
   ],
+  'paramecium_realistic.html': [
+    'pellicle', 'cilia', 'kinetosome', 'trichocyst', 'oral_groove', 'cytostome',
+    'food_vacuole', 'cytoproct', 'contractile_vacuole', 'collecting_canals', 'vatpase',
+    'macronucleus', 'micronucleus', 'mito', 'ribosome_80s', 'axoneme', 'dynein', 'tubulin'
+  ],
   'plant_cell_realistic.html': [
     'wall', 'membrane', 'pd', 'vacuole', 'strand', 'nucleus', 'chromatin', 'mrna',
     'nucleolus', 'rrna', 'nucleoplasm', 'chloro', 'thyl', 'starch', 'psii', 'psi',
     'b6f', 'catp', 'rubisco', 'mito', 'perox', 'golgi', 'vesicle', 'er', 'ribosome',
     'mt', 'actin', 'csc', 'cytosol'
+  ],
+  'plasmodium_realistic.html': [
+    'rbc', 'pvm', 'imc', 'apical_complex', 'rhoptries', 'micronemes', 'moving_junction',
+    'pfrh5', 'glideosome', 'actin', 'nucleus', 'ribosome_80s', 'mito', 'apicoplast',
+    'apicoplast_membranes', 'apicoplast_dna', 'digestive_vacuole', 'hemoglobin',
+    'hemozoin', 'iron_atom'
   ],
   'prokaryote_cell_realistic.html': [
     'om', 'porin', 'pump', 'pg', 'im', 'etc', 'atps', 'transport', 'flag', 'pili',

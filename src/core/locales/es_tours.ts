@@ -2168,4 +2168,360 @@ export const ES_TOURS_PHRASES: Record<string, string> = {
     'De la [[Lokiactina Asgard|lokiactin]] y la [[exportación simbiótica de ATP|atp_export]] surgieron las primeras células eucariotas.',
   'Explore any molecular tag now, or continue to Yeast to enter Domain Eukarya.':
     'Explora ahora cualquier etiqueta molecular o continúa a Levadura para entrar al dominio Eukarya.',
+  // =========================================================================
+  // Phase 11: Gram-Positive Bacterium & Armored Endospore (Bacillus subtilis)
+  // =========================================================================
+  'Gram-Positive Bacterium & Endospore (Bacillus subtilis): a guided tour':
+    'Bacteria grampositiva y endospora (Bacillus subtilis): recorrido guiado',
+  'Explore Bacillus subtilis vs. E. coli: thick peptidoglycan, teichoic acids, Gram stain retention, exposed PBPs, asymmetric sporulation, concentric endospore armor, Ca-DPA, SASP-bound DNA and atomic cross-links.':
+    'Explora Bacillus subtilis frente a E. coli: peptidoglicano grueso, ácidos teicoicos, retención de tinción de Gram, PBP expuestas, esporulación asimétrica, endospora acorazada concéntrica, Ca-DPA, ADN con SASP y enlaces atómicos.',
+  'Two Bacterial Blueprints': 'Dos planos bacterianos',
+  'Bacillus subtilis: a Gram-positive rod': 'Bacillus subtilis: un bacilo grampositivo',
+  'Monoderm vs. diderm envelope comparison': 'Comparación de envoltura monoderma frente a diderma',
+  'High turgor pressure & surface polymers': 'Alta presión de turgencia y polímeros superficiales',
+  'Thick Peptidoglycan, Teichoic Acids & Gram Stain': 'Peptidoglicano grueso, ácidos teicoicos y tinción de Gram',
+  'Multilayered peptidoglycan & teichoic acids': 'Peptidoglicano multicapa y ácidos teicoicos',
+  'Physical basis of the Gram stain': 'Base física de la tinción de Gram',
+  'Exposed PBPs, beta-lactams & Sortase A': 'PBP expuestas, betalactámicos y sortasa A',
+  'Starvation Switch & Asymmetric Sporulation': 'Interruptor por inanición y esporulación asimétrica',
+  'Starvation switch & polar FtsZ septum': 'Interruptor por inanición y septo FtsZ polar',
+  'SpoIIIE ATPase DNA translocation': 'Translocación de ADN por ATPasa SpoIIIE',
+  'Forespore engulfment & mother lysis': 'Envoltura de la preespora y lisis materna',
+  'Armored Dormant Endospore & Dehydrated Core': 'Endospora latente acorazada y núcleo deshidratado',
+  'Exosporium veil & cross-linked spore coat': 'Velo del exosporio y cubierta esporal reticulada',
+  'Peptidoglycan cortex, germ wall & inner membrane': 'Corteza de peptidoglicano, pared germinal y membrana interna',
+  'Dehydrated core: Ca-DPA & SASP-locked DNA': 'Núcleo deshidratado: Ca-DPA y ADN protegido por SASP',
+  'Cross-Links, Atoms (C, H, N, O, P, Ca) & Survival Recap': 'Enlaces, átomos (C, H, N, O, P, Ca) y resumen de supervivencia',
+  'NAG-NAM glycan & peptide cross-links': 'Glucano NAG-NAM y enlaces peptídicos',
+  'Constituent atoms: C, H, N, O, P and Ca': 'Átomos constituyentes: C, H, N, O, P y Ca',
+  'Gram-positive armor & survival recap': 'Resumen de blindaje grampositivo y supervivencia',
+  'Meet Bacillus subtilis, a 3.5 um Gram-positive rod built on a single-membrane blueprint.':
+    'Conoce a Bacillus subtilis, un bacilo Gram positivo de 3,5 um con diseño de una sola membrana.',
+  'Inside its cutaway cytoplasm sit a 4.22 Mbp [[DNA nucleoid|dna]], [[70S ribosomes|ribosome]] and no nucleus.':
+    'En su citoplasma abierto hay un [[nucleoide de ADN|dna]] de 4,22 Mpb, [[ribosomas 70S|ribosome]] y sin núcleo.',
+  'Its thick [[peptidoglycan wall|pg_wall]] and single [[plasma membrane|pm]] differ sharply from [[E. coli|ecoli_strip]].':
+    'Su gruesa [[pared de peptidoglicano|pg_wall]] y única [[membrana|pm]] difieren mucho de [[E. coli|ecoli_strip]].',
+  'Beside the cut edge stands a true-scale Gram-negative [[E. coli envelope strip|ecoli_strip]].':
+    'Junto al borde abierto se muestra a escala real una [[franja de E. coli|ecoli_strip]] Gram negativa.',
+  'Gram-negative [[E. coli|ecoli_strip]] is diderm: two lipid membranes enclosing a thin 3 nm wall.':
+    '[[E. coli|ecoli_strip]] Gram negativa es diderma: dos membranas lipídicas rodean una pared de 3 nm.',
+  'Gram-positive bacteria are monoderm: one [[plasma membrane|pm]] beneath a 20 to 80 nm [[wall|pg_wall]].':
+    'Las Gram positivas son monodermas: una [[membrana plasmática|pm]] bajo una [[pared|pg_wall]] de 20 a 80 nm.',
+  'Without an outer LPS membrane, the single [[plasma membrane|pm]] endures about 20 atm turgor.':
+    'Sin membrana externa de LPS, la única [[membrana plasmática|pm]] soporta unas 20 atm de turgencia.',
+  'Fifteen to forty cross-linked layers of [[peptidoglycan|pg_wall]] contain that osmotic pressure.':
+    'De quince a cuarenta capas enlazadas de [[peptidoglicano|pg_wall]] contienen esa presión osmótica.',
+  'Anionic [[teichoic acids|teichoic]] thread through the wall, binding magnesium and calcium ions.':
+    '[[Ácidos teicoicos|teichoic]] aniónicos cruzan la pared y captan iones de magnesio y calcio.',
+  'Zoom to the wall section where [[peptidoglycan strata|pg_wall]] measure ten times thicker than [[E. coli|ecoli_strip]].':
+    'Acércate al corte donde el [[peptidoglicano|pg_wall]] mide diez veces más grosor que en [[E. coli|ecoli_strip]].',
+  'Wall [[teichoic acids|teichoic]] bind NAM sugars, while lipoteichoic chains anchor in the [[plasma membrane|pm]].':
+    'Los [[ácidos teicoicos|teichoic]] parietales se unen a NAM y los lipoteicoicos se anclan en la [[membrana|pm]].',
+  'These negatively charged [[teichoic chains|teichoic]] guide division enzymes and stabilize surface cations.':
+    'Estas [[cadenas teicoicas|teichoic]] negativas guían enzimas de división y estabilizan cationes.',
+  'In the Gram stain, crystal violet and iodine enter both cells and form large CV-I dye complexes.':
+    'En la tinción de Gram, el cristal violeta y el yodo entran en ambas células y forman complejos CV-I.',
+  'Ethanol dehydrates the [[thick peptidoglycan|pg_wall]] trapping CV-I dye, while [[E. coli|ecoli_strip]] flushes clear.':
+    'El etanol deshidrata el [[peptidoglicano grueso|pg_wall]] atrapando el tinte CV-I, mientras [[E. coli|ecoli_strip]] se lava.',
+  'Safranin counterstain colors [[E. coli|ecoli_strip]] pink, while [[Gram-positive walls|pg_wall]] remain deep purple.':
+    'La safranina tiñe de rosa a [[E. coli|ecoli_strip]], mientras las [[paredes Gram positivas|pg_wall]] siguen violetas.',
+  'With no outer LPS barrier, penicillin diffuses through [[peptidoglycan|pg_wall]] directly to exposed [[PBPs|pbp]].':
+    'Sin barrera externa de LPS, la penicilina cruza el [[peptidoglicano|pg_wall]] directa hacia las [[PBP|pbp]].',
+  'Beta-lactams mimic D-Ala-D-Ala and block [[PBP transpeptidases|pbp]], halting new wall cross-links.':
+    'Los betalactámicos imitan D-Ala-D-Ala y bloquean las [[transpeptidasas PBP|pbp]], frenando enlaces.',
+  'Beside them, [[Sortase A|sortase]] cleaves LPXTG motifs to link surface proteins onto [[peptidoglycan|pg_wall]].':
+    'A su lado, la [[sortasa A|sortase]] corta motivos LPXTG para unir proteínas de superficie al [[peptidoglicano|pg_wall]].',
+  'When nutrients run dry, Spo0A switches Bacillus subtilis from normal division to sporulation.':
+    'Cuando faltan nutrientes, Spo0A cambia a Bacillus subtilis de división normal a esporulación.',
+  'An asymmetric [[FtsZ septum|septum]] forms near one pole, isolating a small [[forespore|forespore]] compartment.':
+    'Un [[septo FtsZ|septum]] asimétrico se forma cerca de un polo y aísla una pequeña [[preespora|forespore]].',
+  'Sporulation is not reproduction: one vegetative cell converts into one dormant survival spore.':
+    'Esporular no es reproducirse: una célula vegetativa se convierte en una sola espora latente.',
+  'As the polar [[septum|septum]] closes, only thirty percent of the copied [[chromosome|dna]] sits inside.':
+    'Al cerrarse el [[septo|septum]] polar, solo el treinta por ciento del [[cromosoma|dna]] copiado queda dentro.',
+  'A hexameric [[SpoIIIE translocase|spoiiie]] uses ATP to pump the remaining [[DNA|dna]] into the [[forespore|forespore]].':
+    'Una [[translocasa SpoIIIE|spoiiie]] hexamérica usa ATP para bombear el [[ADN|dna]] restante a la [[preespora|forespore]].',
+  'Separate sigma factors then activate distinct mother-cell and [[forespore|forespore]] genetic programs.':
+    'Factores sigma separados activan luego programas genéticos distintos en madre y [[preespora|forespore]].',
+  'Mother-cell membranes migrate around the [[forespore|forespore]], enclosing it inside two lipid bilayers.':
+    'Las membranas de la madre rodean la [[preespora|forespore]] y la encierran dentro de dos bicapas.',
+  'SpoIIIAH-SpoIIQ channels feed the [[forespore|forespore]] while [[70S ribosomes|ribosome]] synthesize protective proteins.':
+    'Canales SpoIIIAH-SpoIIQ nutren la [[preespora|forespore]] mientras los [[ribosomas 70S|ribosome]] fabrican defensas.',
+  'Once cortex and coat assembly finish around the [[forespore|forespore]], the mother cell lyses to release it.':
+    'Cuando terminan corteza y cubierta en la [[preespora|forespore]], la célula madre se lisa para liberarla.',
+  'Inspect the liberated 1.0 um dormant endospore, built from concentric layers around a dry center.':
+    'Observa la endospora latente libre de 1,0 um, armada en capas concéntricas sobre un centro seco.',
+  'An outer glycoprotein [[exosporium|exosporium]] drapes over a 50 to 100 nm cross-linked [[spore coat|coat]].':
+    'Un [[exosporio|exosporium]] glucoproteico cubre una [[cubierta esporal|coat]] reticulada de 50 a 100 nm.',
+  'Over seventy proteins including CotA pack this [[spore coat|coat]] to block lysozyme and disinfectants.':
+    'Más de setenta proteínas como CotA sellan esta [[cubierta esporal|coat]] frente a lisozima y químicos.',
+  'Beneath the [[coat|coat]] sits a thick peptidoglycan [[cortex|cortex]] modified with muramic-delta-lactam.':
+    'Bajo la [[cubierta|coat]] hay una gruesa [[corteza|cortex]] de peptidoglicano con murámico-delta-lactama.',
+  'Loosely cross-linked [[cortex|cortex]] layers keep the core dry above the thin [[germ cell wall|germ_wall]].':
+    'Una [[corteza|cortex]] poco reticulada mantiene seco el núcleo sobre la fina [[pared germinal|germ_wall]].',
+  'Inside lies a compressed [[inner spore membrane|spore_im]] holding GerA receptors and SleB lytic enzymes.':
+    'Adentro hay una [[membrana interna|spore_im]] comprimida con receptores GerA y enzimas líticas SleB.',
+  'Enter the dehydrated [[spore core|core]], where water content drops from eighty to about thirty percent.':
+    'Entra al [[núcleo esporal|core]] deshidratado, donde el agua cae del ochenta a cerca del treinta por ciento.',
+  'Chelated [[Ca-DPA|ca_dpa]] and [[SASP-bound DNA|sasp_dna]] vitrify the [[core|core]] against boiling heat and UV damage.':
+    'El [[Ca-DPA|ca_dpa]] quelado y el [[ADN unido a SASP|sasp_dna]] vitrifican el [[núcleo|core]] contra ebullición y UV.',
+  'Alpha/beta [[SASPs|sasp_dna]] lock DNA in A-form until nutrients trigger [[inner membrane|spore_im]] GerA sensors.':
+    'Las [[SASP|sasp_dna]] alfa/beta fijan el ADN en forma A hasta que nutrientes activan GerA en la [[membrana|spore_im]].',
+  'Zoom to the molecular [[cross-link inset|crosslink]] showing alternating NAG and NAM sugar chains.':
+    'Acércate al [[detalle molecular|crosslink]] que muestra cadenas alternas de azúcares NAG y NAM.',
+  '[[PBP transpeptidases|pbp]] bridge stem peptides at D-Ala-D-Ala, forging a covalent [[wall cross-link|crosslink]].':
+    'Las [[transpeptidasas PBP|pbp]] unen péptidos en D-Ala-D-Ala formando un [[enlace covalente|crosslink]] parietal.',
+  'Phosphodiester [[teichoic chains|teichoic]] attach to NAM C6, reinforcing the [[peptidoglycan wall|pg_wall]].':
+    'Las [[cadenas teicoicas|teichoic]] fosfodiéster se unen al C6 de NAM y refuerzan la [[pared|pg_wall]].',
+  'At 0.1 nm atomic scale, C, H, N and O atoms build every glycan ring, [[cross-link|crosslink]] and DPA ring.':
+    'A escala atómica de 0,1 nm, átomos de C, H, N y O forman cada azúcar, [[enlace|crosslink]] y anillo DPA.',
+  'Phosphorus atoms anchor [[teichoic acids|teichoic]] and [[A-form DNA|sasp_dna]] backbones across both states.':
+    'Los átomos de fósforo sostienen el esqueleto de [[ácidos teicoicos|teichoic]] y [[ADN forma A|sasp_dna]].',
+  'Each divalent calcium ion chelates pyridine-2,6-dicarboxylate into a 1:1 [[Ca-DPA complex|ca_dpa]].':
+    'Cada ion calcio divalente quela piridina-2,6-dicarboxilato en un [[complejo Ca-DPA|ca_dpa]] 1:1.',
+  'One [[plasma membrane|pm]] and thick [[peptidoglycan|pg_wall]] explain Gram-positive staining and drug access.':
+    'Una [[membrana|pm]] y grueso [[peptidoglicano|pg_wall]] explican la tinción de Gram y el acceso antibiótico.',
+  'Under starvation, [[sporulation|forespore]] builds a [[coat|coat]], [[cortex|cortex]] and vitrified [[Ca-DPA core|ca_dpa]].':
+    'Ante inanición, la [[esporulación|forespore]] arma [[cubierta|coat]], [[corteza|cortex]] y [[núcleo Ca-DPA|ca_dpa]].',
+  'Explore any molecular tag now, or continue forward to inspect complex eukaryotic cells.':
+    'Explora ahora cualquier etiqueta molecular o avanza para conocer células eucariotas complejas.',
+  // =========================================================================
+  // Phase 12A: Free-Living Ciliate Protist (Paramecium caudatum)
+  // =========================================================================
+  'Paramecium caudatum: a guided tour': 'Paramecium caudatum: recorrido guiado',
+  'Explore an autonomous 200 um freshwater ciliate predator: alveolar pellicle, metachronal 9+2 cilia powered by axonemal dynein, star contractile vacuoles, food vacuole cyclosis and dual nuclei.':
+    'Explora un depredador ciliado dulceacuícola autónomo de 200 µm: película alveolar, cilios 9+2 metácronos impulsados por dineína axonemal, vacuolas contráctiles estrelladas, ciclosis digestiva y doble núcleo.',
+  'A Single-Celled Freshwater Predator': 'Un depredador unicelular de agua dulce',
+  'Paramecium caudatum: an autonomous predator': 'Paramecium caudatum: un depredador autónomo',
+  'Alveolar pellicle: armored flexible cortex': 'Película alveolar: córtex flexible acorazado',
+  'Defensive trichocyst harpoons in the cortex': 'Arpones defensivos de tricocistos en el córtex',
+  'Metachronal Cilia & the 9+2 Axoneme Motor': 'Cilios metácronos y el motor del axonema 9+2',
+  'Metachronal ciliary waves & kinetosomes': 'Ondas ciliares metácronas y cinetosomas',
+  'Magnified 9+2 axoneme microtubule scaffold': 'Andamio microtubular ampliado del axonema 9+2',
+  'Axonemal dynein arms & ATP bending': 'Brazos de dineína axonemal y flexión por ATP',
+  'Osmoregulation: Star Contractile Vacuoles': 'Osmorregulación: vacuolas contráctiles estrelladas',
+  'Hypotonic freshwater influx & osmotic risk': 'Entrada de agua dulce hipotónica y riesgo osmótico',
+  'Radiating collecting canals & rhythmic systole': 'Canales colectores radiales y sístole rítmica',
+  'V-ATPase proton pumps driving water loading': 'Bombas de protones V-ATPasa impulsando carga hídrica',
+  'Oral Groove & Food Vacuole Cyclosis': 'Surco oral y ciclosis de vacuolas digestivas',
+  'Ciliated oral groove & cytostome funnel': 'Surco oral ciliado y embudo del citostoma',
+  'Phagocytic food vacuoles & acidic digestion': 'Vacuolas digestivas fagocíticas y digestión ácida',
+  'Exocytosis at the posterior cytoproct': 'Exocitosis en el citoprocto posterior',
+  'Dual Nuclei, Metabolism & Autonomous Recap': 'Doble núcleo, metabolismo y resumen autónomo',
+  'Nuclear dimorphism: macronucleus & micronucleus': 'Dimorfismo nuclear: macronúcleo y micronúcleo',
+  '80S ribosomes & mitochondrial ATP supply': 'Ribosomas 80S y suministro mitocondrial de ATP',
+  'Complete autonomy inside a single eukaryote': 'Autonomía completa dentro de un solo eucariota',
+  'Meet Paramecium caudatum, a 200 um freshwater eukaryote that hunts as one complete cell.':
+    'Conoce a Paramecium caudatum, un eucariota dulceacuícola de 200 um que caza en una sola célula.',
+  'With zero organs or nerves, this slipper-shaped ciliate swims, feeds, digests and divides.':
+    'Sin órganos ni nervios, este ciliado con forma de zapatilla nada, come, digiere y se divide.',
+  'Its [[pellicle|pellicle]], [[beating cilia|cilia]] and [[oral groove|oral_groove]] run life at cell scale.':
+    'Su [[película|pellicle]], [[cilios batientes|cilia]] y [[surco oral|oral_groove]] sostienen la vida celular.',
+  'Rather than a rigid plant wall, Paramecium wears a sculpted, flexible [[pellicle|pellicle]].':
+    'En vez de una pared vegetal rígida, Paramecium luce una [[película|pellicle]] esculpida y flexible.',
+  'Beneath the plasma membrane, flattened [[pellicle alveoli|pellicle]] form hexagonal armor plates.':
+    'Bajo la membrana plasmática, [[alvéolos de la película|pellicle]] aplanados forman placas hexagonales.',
+  'Those cortical sacs define Supergroup Alveolata, linking Paramecium to malaria parasites.':
+    'Esos sacos corticales definen al supergrupo Alveolata y unen a Paramecium con la malaria.',
+  'Docked beneath the [[pellicle|pellicle]] between ciliary rows sit spindle-shaped [[trichocysts|trichocyst]].':
+    'Bajo la [[película|pellicle]], entre filas de cilios, descansan [[tricocistos|trichocyst]] fusiformes.',
+  'When a predator strikes, calcium triggers [[trichocysts|trichocyst]] to fire in milliseconds.':
+    'Si un depredador ataca, el calcio dispara los [[tricocistos|trichocyst]] en pocos milisegundos.',
+  'Each discharged [[trichocyst|trichocyst]] stretches eightfold into a stiff shaft that pushes foes away.':
+    'Cada [[tricocisto|trichocyst]] disparado se alarga ocho veces en una púa rígida que aleja rivales.',
+  'Over a thousand [[motile cilia|cilia]] carpet the [[pellicle|pellicle]], each about 10 um long.':
+    'Más de mil [[cilios móviles|cilia]] cubren la [[película|pellicle]], cada uno de unos 10 um de largo.',
+  'Every cilium roots in a basal [[kinetosome|kinetosome]] wired along longitudinal cortical tracks.':
+    'Cada cilio se ancla en un [[cinetosoma|kinetosome]] basal alineado en pistas corticales longitudinales.',
+  'Coordinated [[cilia|cilia]] beat in traveling metachronal waves and reverse stroke on obstacle contact.':
+    'Los [[cilios|cilia]] baten en ondas metácronas coordinadas e invierten el giro al chocar con algo.',
+  'Zoom into the 250 nm magnified inset to inspect the classic eukaryotic [[9+2 axoneme|axoneme]].':
+    'Acércate al recuadro de 250 nm para explorar el clásico [[axonema 9+2|axoneme]] eucariota.',
+  'Nine outer microtubule doublets ring a central pair inside this cylindrical [[axoneme|axoneme]].':
+    'Nueve dobletes externos de microtúbulos rodean un par central en este [[axonema|axoneme]] cilíndrico.',
+  'Every doublet wall is built from repeating alpha and beta [[tubulin dimers|tubulin]].':
+    'Cada pared del doblete está construida con dímeros repetidos de [[tubulina|tubulin]] alfa y beta.',
+  'Bridging neighboring [[tubulin doublets|tubulin]] are giant [[axonemal dynein arms|dynein]].':
+    'Uniendo [[dobletes de tubulina|tubulin]] vecinos hay enormes [[brazos de dineína|dynein]] axonemal.',
+  'Each [[dynein motor|dynein]] splits ATP built from C, H, N, O and P atoms to step along [[tubulin|tubulin]].':
+    'Cada [[motor de dineína|dynein]] rompe ATP de C, H, N, O y P para caminar sobre la [[tubulina|tubulin]].',
+  'Because [[axoneme|axoneme]] cross-links resist free sliding, [[dynein|dynein]] force bends the cilium.':
+    'Como los enlaces del [[axonema|axoneme]] frenan el deslizamiento libre, la [[dineína|dynein]] curva el cilio.',
+  'Pond water is far fresher than cytosol, so water constantly floods inward across the [[pellicle|pellicle]].':
+    'El agua del estanque es mucho más dulce que el citosol y entra sin cesar por la [[película|pellicle]].',
+  'With no rigid cell wall, Paramecium would swell and burst within minutes without water pumping.':
+    'Sin una pared rígida, Paramecium se hincharía y estallaría en minutos sin bombear esa agua.',
+  'Two star-shaped [[contractile vacuoles|contractile_vacuole]], front and rear, solve that osmotic threat.':
+    'Dos [[vacuolas contráctiles|contractile_vacuole]] en estrella, anterior y posterior, resuelven ese riesgo.',
+  'Six to eight radial [[collecting canals|collecting_canals]] gather excess cytosolic water during diastole.':
+    'De seis a ocho [[canales colectores|collecting_canals]] radiales recogen el agua sobrante en diástole.',
+  'Fluid drains from radial [[collecting canals|collecting_canals]] into the central [[vacuole|contractile_vacuole]] for expulsion.':
+    'El líquido drena desde los [[canales colectores|collecting_canals]] radiales a la [[vacuola|contractile_vacuole]] central para expulsarlo.',
+  'Every few seconds, systole contracts the [[vacuole|contractile_vacuole]] and jets water out a surface pore.':
+    'Cada pocos segundos, la sístole contrae la [[vacuola|contractile_vacuole]] y expulsa agua por un poro.',
+  'Studding the spongiome tubules around [[collecting canals|collecting_canals]] are rotary [[V-ATPases|vatpase]].':
+    'Tapizando los túbulos en torno a los [[canales colectores|collecting_canals]] hay [[V-ATPasas|vatpase]] rotatorias.',
+  'Burning ATP, [[V-ATPase pumps|vatpase]] drive H+ gradients that exchange ions into the [[canals|collecting_canals]].':
+    'Gastando ATP, las [[bombas V-ATPasa|vatpase]] crean gradientes de H+ que cargan iones en los [[canales|collecting_canals]].',
+  'Water follows those concentrated ions through aquaporins until the [[vacuole|contractile_vacuole]] pulses.':
+    'El agua sigue a esos iones por acuaporinas hasta que la [[vacuola|contractile_vacuole]] vuelve a pulsar.',
+  'A deep ciliated [[oral groove|oral_groove]] sweeps down one side of the swimming cell toward its midline.':
+    'Un profundo [[surco oral|oral_groove]] ciliado recorre un costado de la célula hasta su zona media.',
+  'Specialized [[cilia|cilia]] inside the [[oral groove|oral_groove]] funnel suspended bacteria into the [[cytostome|cytostome]].':
+    '[[Cilios|cilia]] especializados del [[surco oral|oral_groove]] barren bacterias suspendidas hacia el [[citostoma|cytostome]].',
+  'At the base of the [[cytostome|cytostome]] cytopharynx, incoming prey pinches off inside fresh membrane.':
+    'En el fondo del [[citostoma|cytostome]], las presas quedan encerradas dentro de una membrana nueva.',
+  'Each budding [[food vacuole|food_vacuole]] breaks away from the [[cytostome|cytostome]] and joins cytoplasmic flow.':
+    'Cada [[vacuola digestiva|food_vacuole]] se desprende del [[citostoma|cytostome]] y se suma al flujo interno.',
+  'Along its cyclosis loop, the [[food vacuole|food_vacuole]] fuses with lysosomes and shifts from green to acid amber.':
+    'En su ruta de ciclosis, la [[vacuola digestiva|food_vacuole]] se funde con lisosomas y vira a ámbar ácido.',
+  'Acid hydrolases digest the bacteria, then digested amino acids and sugars cross into the cytosol.':
+    'Las hidrolasas ácidas digieren las bacterias y pasan aminoácidos y azúcares hacia el citosol.',
+  'Once nutrients are absorbed, the spent [[food vacuole|food_vacuole]] reaches the posterior [[cytoproct|cytoproct]].':
+    'Tras absorber nutrientes, la [[vacuola digestiva|food_vacuole]] agotada llega al [[citoprocto|cytoproct]] posterior.',
+  'The [[cytoproct|cytoproct]] is a dedicated cell-anus docking site where vacuole membrane fuses outward.':
+    'El [[citoprocto|cytoproct]] es un poro anal fijo donde la membrana vacuolar se fusiona al exterior.',
+  'Indigestible debris exits cleanly while membrane discs recycle along tracks back to the [[cytostome|cytostome]].':
+    'Los restos salen al exterior y los discos de membrana vuelven por pistas al [[citostoma|cytostome]].',
+  'Unlike animal or plant cells, Paramecium splits its genome across a [[macronucleus|macronucleus]] and [[micronucleus|micronucleus]].':
+    'A diferencia de animales o plantas, Paramecium reparte su ADN entre [[macronúcleo|macronucleus]] y [[micronúcleo|micronucleus]].',
+  'The polyploid [[macronucleus|macronucleus]] drives daily gene activity while the [[micronucleus|micronucleus]] stores germline DNA.':
+    'El [[macronúcleo|macronucleus]] poliploide impulsa la actividad diaria mientras el [[micronúcleo|micronucleus]] guarda el ADN germinal.',
+  'During sexual conjugation, two cells swap haploid [[micronucleus|micronucleus]] copies and rebuild a fresh [[macronucleus|macronucleus]].':
+    'En la conjugación sexual, dos células intercambian [[micronúcleos|micronucleus]] y rehacen el [[macronúcleo|macronucleus]].',
+  'Dense clouds of eukaryotic [[80S ribosomes|ribosome_80s]] translate continuous mRNA streaming from the [[macronucleus|macronucleus]].':
+    'Nubes de [[ribosomas 80S|ribosome_80s]] eucariotas traducen el ARNm continuo que sale del [[macronúcleo|macronucleus]].',
+  'Tubular [[mitochondria|mito]] burn food-derived fuel with O2 to supply steady cytosolic ATP.':
+    '[[Mitocondrias|mito]] tubulares queman nutrientes con O2 para mantener un suministro constante de ATP.',
+  'That mitochondrial ATP directly fuels every [[dynein|dynein]] stroke and [[V-ATPase|vatpase]] osmotic pump.':
+    'Ese ATP mitocondrial impulsa cada golpe de [[dineína|dynein]] y cada bomba osmótica [[V-ATPasa|vatpase]].',
+  'Together, [[9+2 cilia|cilia]], [[contractile vacuoles|contractile_vacuole]] and [[food vacuoles|food_vacuole]] run a whole hunter.':
+    'Juntos, [[cilios 9+2|cilia]], [[vacuolas contráctiles|contractile_vacuole]] y [[digestivas|food_vacuole]] sostienen a un cazador.',
+  'From a 200 um [[pellicle|pellicle]] down to ATP atoms on [[dynein|dynein]], one cell handles every task of life.':
+    'Desde su [[película|pellicle]] de 200 um hasta el ATP en la [[dineína|dynein]], una sola célula resuelve toda la vida.',
+  'Inspect any tag up close, or continue to Plasmodium to meet an alveolate cousin turned parasite.':
+    'Explora cualquier etiqueta de cerca o avanza a Plasmodium para ver a un primo alveolado parásito.',
+  // =========================================================================
+  // Phase 12B: Eukaryotic Intracellular Parasite (Plasmodium falciparum)
+  // =========================================================================
+  'Plasmodium falciparum: a guided tour': 'Plasmodium falciparum: recorrido guiado',
+  'Explore a eukaryotic malaria parasite invading a human red blood cell: apical complex, AMA1-RON2 moving junction, PfMyoA glideosome, 14-chromosome nucleus, 4-membrane apicoplast and hemozoin biocrystals.':
+    'Explora un parásito eucariota de la malaria invadiendo un glóbulo rojo humano: complejo apical, unión móvil AMA1-RON2, glideosoma PfMyoA, núcleo de 14 cromosomas, apicoplasto de 4 membranas y biocristales de hemozoína.',
+  'A Eukaryote Inside a Human Red Blood Cell': 'Un eucariota dentro de un glóbulo rojo humano',
+  'Plasmodium falciparum invading an erythrocyte': 'Plasmodium falciparum invadiendo un eritrocito',
+  'The parasitophorous vacuole shield (PVM)': 'El escudo de la vacuola parasitófora (PVM)',
+  'Inner Membrane Complex: alveolate heritage': 'Complejo de Membrana Interna: herencia alveolada',
+  'Apical Complex & Glideosome Invasion': 'Complejo apical e invasión por glideosoma',
+  'Polar rings, micronemes & PfRH5 docking': 'Anillos polares, micronemas y acoplamiento PfRH5',
+  'Rhoptries & the AMA1-RON2 moving junction': 'Roptrias y la unión móvil AMA1-RON2',
+  'PfMyoA-MTIP glideosome walking on PfActI': 'Glideosoma PfMyoA-MTIP caminando sobre PfActI',
+  'Rhoptry lipids & parasitophorous vacuole closure': 'Lípidos de roptrias y cierre de la vacuola parasitófora',
+  'True Eukaryotic Core: Nucleus, 80S & Mitochondrion': 'Núcleo eucariota verdadero, ribosomas 80S y mitocondria',
+  'Membrane-bound nucleus & 14 linear chromosomes': 'Núcleo con membrana y 14 cromosomas lineales',
+  'Cytosolic 80S ribosomes & host RBC remodeling': 'Ribosomas citosólicos 80S y remodelado del eritrocito',
+  'Single branched mitochondrion & 6 kb genome': 'Mitocondria ramificada única y genoma de 6 kb',
+  'The 4-Membrane Apicoplast: Relict Red Alga': 'El apicoplasto de 4 membranas: alga roja relicta',
+  'Four-membrane plastid from secondary endosymbiosis': 'Plástido de cuatro membranas por endosimbiosis secundaria',
+  '35 kb circular DNA & bacterial 70S ribosomes': 'ADN circular de 35 kb y ribosomas 70S bacterianos',
+  'Isoprenoid synthesis & delayed-death antibiotics': 'Síntesis de isoprenoides y antibióticos de muerte diferida',
+  'Hemoglobin Digestion, Hemozoin & Atomic Iron': 'Digestión de hemoglobina, hemozoína y hierro atómico',
+  'Hemoglobin uptake into the digestive vacuole': 'Ingesta de hemoglobina en la vacuola digestiva',
+  'Hemozoin biocrystals & antimalarial targets': 'Biocristales de hemozoína y dianas antimaláricas',
+  'Atomic Fe coordination & Stage 2 vs Stage 3 recap': 'Coordinación atómica del Fe y contraste Etapa 2 frente a Etapa 3',
+  'Meet Plasmodium falciparum, the malaria parasite invading a 7.5 um human [[red blood cell|rbc]].':
+    'Conoce a Plasmodium falciparum, el parásito de la malaria invadiendo un [[glóbulo rojo|rbc]] de 7,5 um.',
+  'Unlike bacterial Chlamydia or viruses, this 1.5 um merozoite is a full eukaryotic cell.':
+    'A diferencia de la bacteria Chlamydia o de los virus, este merozoíto de 1,5 um es eucariota.',
+  'Cut open the crimson [[erythrocyte|rbc]] to trace its [[parasitophorous vacuole|pvm]] and [[nucleus|nucleus]].':
+    'Abre el [[eritrocito|rbc]] rojo para ver su [[vacuola parasitófora|pvm]] y su [[núcleo|nucleus]] verdadero.',
+  'Inside the [[red blood cell|rbc]], the parasite lives enclosed in a [[parasitophorous vacuole|pvm]].':
+    'Dentro del [[glóbulo rojo|rbc]], el parásito vive envuelto en una [[vacuola parasitófora|pvm]].',
+  "Like Chlamydia's bacterial inclusion, this [[PVM barrier|pvm]] hides the invader from host defenses.":
+    'Como la inclusión de Chlamydia, esta [[barrera PVM|pvm]] oculta al invasor de las defensas huésped.',
+  'Because mature human [[red blood cells|rbc]] lack nuclei and MHC, this shelter hides it from T cells.':
+    'Como los [[glóbulos rojos|rbc]] maduros carecen de núcleo y MHC, el parásito escapa a los linfocitos T.',
+  'Beneath the parasite plasma membrane sits a quilted [[Inner Membrane Complex|imc]], or IMC.':
+    'Bajo la membrana plasmática del parásito hay un [[Complejo de Membrana Interna|imc]] acolchado o IMC.',
+  'Those flattened [[IMC sacs|imc]] share direct ancestry with the cortical alveoli of Paramecium.':
+    'Esos [[sacos del IMC|imc]] aplanados comparten origen directo con los alvéolos de Paramecium.',
+  'Instead of anchoring cilia, the [[IMC|imc]] frames the sub-pellicular track for the [[glideosome|glideosome]].':
+    'En vez de anclar cilios, el [[IMC|imc]] forma la pista subpelicular donde corre el [[glideosoma|glideosome]].',
+  'At the nose sits the [[apical complex|apical_complex]], a polar assembly defining phylum Apicomplexa.':
+    'En la punta está el [[complejo apical|apical_complex]], ensamblaje polar que define a Apicomplexa.',
+  'Cigar-shaped [[micronemes|micronemes]] discharge [[PfRH5 adhesins|pfrh5]] toward the [[red blood cell|rbc]].':
+    '[[Micronemas|micronemes]] alargados descargan [[adhesinas PfRH5|pfrh5]] hacia el [[glóbulo rojo|rbc]].',
+  'Essential [[PfRH5|pfrh5]] locks onto human Basigin receptors, committing the merozoite to invade.':
+    'La proteína esencial [[PfRH5|pfrh5]] se acopla a Basigin humano y dispara la invasión irreversible.',
+  'Next, twin tear-drop [[rhoptries|rhoptries]] inject RON2 protein straight into the [[RBC membrane|rbc]].':
+    'Luego, dos [[roptrias|rhoptries]] en lágrima inyectan proteína RON2 directo en la [[membrana del RBC|rbc]].',
+  'Bound to the [[moving junction|moving_junction]], the [[glideosome|glideosome]] pulls the merozoite into the [[red blood cell|rbc]].':
+    'Unido a la [[unión móvil|moving_junction]], el [[glideosoma|glideosome]] tira del merozoíto hacia el [[glóbulo rojo|rbc]].',
+  'Parasite AMA1 clamps onto host-embedded RON2, sealing a tight [[moving junction|moving_junction]] ring.':
+    'AMA1 del parásito atrapa al RON2 incrustado y sella un anillo ceñido de [[unión móvil|moving_junction]].',
+  'Between the plasma membrane and [[IMC|imc]] runs the ATP-powered [[PfMyoA-MTIP glideosome|glideosome]].':
+    'Entre la membrana plasmática y el [[IMC|imc]] corre el [[glideosoma PfMyoA-MTIP|glideosome]] con ATP.',
+  'Myosin heads in the [[glideosome|glideosome]] step backward along short [[PfActI actin tracks|actin]].':
+    'Las cabezas de miosina del [[glideosoma|glideosome]] caminan atrás por pistas cortas de [[actina PfActI|actin]].',
+  'Linked to external adhesins, [[actin|actin]] and [[glideosome|glideosome]] pull the cell inward in 20 seconds.':
+    'Unidos a adhesinas externas, [[actina|actin]] y [[glideosoma|glideosome]] meten la célula en 20 segundos.',
+  'As the [[moving junction|moving_junction]] slides rearward, [[rhoptries|rhoptries]] pour lipids into the entry pocket.':
+    'Mientras la [[unión móvil|moving_junction]] corre atrás, las [[roptrias|rhoptries]] vierten lípidos en el bolsillo.',
+  'Those secretions expand the host membrane inward to form the new [[parasitophorous vacuole|pvm]].':
+    'Esas secreciones expanden la membrana huésped hacia adentro formando la [[vacuola parasitófora|pvm]].',
+  'Once the rear closes, the parasite sits sealed inside its [[PVM|pvm]] ready to feed and remodel.':
+    'Al cerrarse por detrás, el parásito queda sellado en su [[PVM|pvm]] listo para nutrirse y remodelar.',
+  'Inside the merozoite sits a true [[nucleus|nucleus]] enclosed by a porous double nuclear envelope.':
+    'Dentro del merozoíto hay un [[núcleo|nucleus]] verdadero rodeado por una doble envoltura con poros.',
+  'Its [[nucleus|nucleus]] holds 23.3 Mbp across 14 linear chromosomes encoding about 5,300 genes.':
+    'Su [[núcleo|nucleus]] alberga 23,3 Mbp en 14 cromosomas lineales que codifican unos 5.300 genes.',
+  "That nuclear genome dwarfs Chlamydia's 1.04 Mbp bacterial chromosome over twentyfold.":
+    'Ese genoma nuclear supera en más de veinte veces al cromosoma bacteriano de 1,04 Mbp de Chlamydia.',
+  'Surrounding the [[nucleus|nucleus]], eukaryotic [[80S ribosomes|ribosome_80s]] translate parasite mRNA.':
+    'Alrededor del [[núcleo|nucleus]], [[ribosomas 80S|ribosome_80s]] eucariotas traducen el ARNm del parásito.',
+  'Because it runs [[80S ribosomes|ribosome_80s]] and builds zero peptidoglycan, penicillin cannot kill it.':
+    'Como opera con [[ribosomas 80S|ribosome_80s]] y sin peptidoglicano, la penicilina no le hace daño.',
+  'Exported proteins cross the [[PVM|pvm]] via PTEX translocons to stiffen and remodel the [[RBC|rbc]].':
+    'Proteínas exportadas cruzan la [[PVM|pvm]] por poros PTEX para rigidizar y remodelar el [[RBC|rbc]].',
+  'One branched tubular [[mitochondrion|mito]] snakes through the cytosol beside the [[nucleus|nucleus]].':
+    'Una sola [[mitocondria|mito]] tubular ramificada serpentea por el citosol junto al [[núcleo|nucleus]].',
+  'Its 6 kb [[mitochondrial genome|mito]] is the smallest known, encoding just three respiratory proteins.':
+    'Su [[genoma mitocondrial|mito]] de 6 kb es el menor conocido y codifica solo tres proteínas respiratorias.',
+  'Blood-stage ATP comes mostly from glycolysis, while [[mitochondria|mito]] sustain pyrimidine synthesis.':
+    'En sangre el ATP viene casi todo de la glucólisis; la [[mitocondria|mito]] sostiene la síntesis de pirimidinas.',
+  'Beside the [[mitochondrion|mito]] lies a surprise: the [[apicoplast|apicoplast]], a relict chloroplast.':
+    'Junto a la [[mitocondria|mito]] hay una sorpresa: el [[apicoplasto|apicoplast]], un cloroplasto relicto.',
+  'Four [[concentric membranes|apicoplast_membranes]] wrap the [[apicoplast|apicoplast]] from ancient secondary endosymbiosis.':
+    'Cuatro [[membranas concéntricas|apicoplast_membranes]] envuelven al [[apicoplasto|apicoplast]] desde una endosimbiosis secundaria.',
+  'Those four [[apicoplast bilayers|apicoplast_membranes]] record a protist engulfing a photosynthetic red alga.':
+    'Esas cuatro [[bicapas del apicoplasto|apicoplast_membranes]] registran a un protista engullendo un alga roja.',
+  'Inside the [[apicoplast|apicoplast]] coils a 35 kb circular [[apicoplast DNA|apicoplast_dna]] genome.':
+    'Dentro del [[apicoplasto|apicoplast]] se enrolla un [[ADN del apicoplasto|apicoplast_dna]] circular de 35 kb.',
+  'Its [[circular genome|apicoplast_dna]] encodes bacterial-type 70S ribosomes distinct from cytosolic [[80S|ribosome_80s]].':
+    'Ese [[genoma circular|apicoplast_dna]] codifica ribosomas 70S bacterianos, distintos de los [[80S|ribosome_80s]].',
+  'All photosynthesis genes vanished long ago, yet the [[apicoplast|apicoplast]] remains indispensable.':
+    'Los genes de fotosíntesis desaparecieron hace millones de años, pero el [[apicoplasto|apicoplast]] es vital.',
+  'In human blood, the [[apicoplast|apicoplast]] synthesizes essential IPP isoprenoids via the MEP pathway.':
+    'En la sangre humana, el [[apicoplasto|apicoplast]] sintetiza isoprenoides IPP esenciales por la vía MEP.',
+  'Antibiotics like doxycycline block its bacterial 70S ribosomes and halt [[apicoplast|apicoplast]] division.':
+    'Antibióticos como la doxiciclina bloquean sus ribosomas 70S e impiden dividir el [[apicoplasto|apicoplast]].',
+  'Daughter merozoites inherit no [[apicoplast|apicoplast]] and die next cycle, causing delayed death.':
+    'Los merozoítos hijos nacen sin [[apicoplasto|apicoplast]] y mueren en el ciclo siguiente por muerte diferida.',
+  'To fuel rapid growth, the parasite gulps host [[hemoglobin|hemoglobin]] from the [[red blood cell|rbc]].':
+    'Para crecer rápido, el parásito engulle [[hemoglobina|hemoglobin]] huésped del [[glóbulo rojo|rbc]].',
+  'Inside the acidic [[digestive vacuole|digestive_vacuole]], proteases cleave [[hemoglobin|hemoglobin]] into amino acids.':
+    'En la [[vacuola digestiva|digestive_vacuole]] ácida, proteasas rompen la [[hemoglobina|hemoglobin]] en aminoácidos.',
+  'Breaking down [[hemoglobin|hemoglobin]] dumps toxic free heme into the [[digestive vacuole|digestive_vacuole]] lumen.':
+    'Romper la [[hemoglobina|hemoglobin]] libera grupo hemo libre tóxico en la [[vacuola digestiva|digestive_vacuole]].',
+  'Free iron-heme generates reactive radicals that would shred the [[digestive vacuole|digestive_vacuole]] membrane.':
+    'El hemo libre con hierro genera radicales que destruirían la membrana de la [[vacuola digestiva|digestive_vacuole]].',
+  'Plasmodium detoxifies free heme by stacking dimers into insoluble dark [[hemozoin crystals|hemozoin]].':
+    'Plasmodium neutraliza el hemo libre apilando dímeros en oscuros [[cristales de hemozoína|hemozoin]].',
+  'Chloroquine blocks [[hemozoin|hemozoin]] crystal growth so toxic free heme kills the parasite instead.':
+    'La cloroquina frena el crecimiento de la [[hemozoína|hemozoin]] y el hemo libre tóxico mata al parásito.',
+  'Zoom to 0.1 nm atomic scale where a central [[Fe3+ iron atom|iron_atom]] anchors each heme ring.':
+    'Baja a escala atómica de 0,1 nm, donde un [[átomo de hierro Fe3+|iron_atom]] centra cada anillo hemo.',
+  'Each [[iron atom|iron_atom]] bonds an adjacent propionate oxygen, locking C, H, N and O into [[hemozoin|hemozoin]].':
+    'Cada [[átomo de hierro|iron_atom]] enlaza un oxígeno propionato, uniendo C, H, N y O en [[hemozoína|hemozoin]].',
+  'Explore any tag now, or continue to Stage 3 to contrast eukaryotic Plasmodium with bacterial parasites.':
+    'Explora cualquier etiqueta o pasa a la Etapa 3 para comparar Plasmodium con parásitos bacterianos.',
 };

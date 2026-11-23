@@ -55,6 +55,9 @@ jobs:
             cell_explorer.html \
             scale_explorer.html \
             archaea_realistic.html \
+            gram_positive_realistic.html \
+            paramecium_realistic.html \
+            plasmodium_realistic.html \
             eukaryotic_cell_3d.html \
             prokaryotic_cell_3d.html \
             dna_styles.html \
@@ -126,6 +129,9 @@ jobs:
           curl -sf "http://127.0.0.1:8080/rickettsia_realistic.html" | grep -q "Rickettsia"
           curl -sf "http://127.0.0.1:8080/scale_explorer.html" | grep -q "Scale"
           curl -sf "http://127.0.0.1:8080/archaea_realistic.html" | grep -q "Archaea"
+          curl -sf "http://127.0.0.1:8080/gram_positive_realistic.html" | grep -q "Gram"
+          curl -sf "http://127.0.0.1:8080/paramecium_realistic.html" | grep -q "Paramecium"
+          curl -sf "http://127.0.0.1:8080/plasmodium_realistic.html" | grep -q "Plasmodium"
           curl -sf -r 0-3 "http://127.0.0.1:8080/audio/lenses/en/v3/story/real-mycoplasma.opus" | grep -q "OggS"
           curl -sf -r 0-3 "http://127.0.0.1:8080/audio/lenses/es/latam/story/real-chlamydia.opus" | grep -q "OggS"
           curl -sf -r 0-3 "http://127.0.0.1:8080/audio/lenses/en/v1/scientific/real-rickettsia.opus" | grep -q "OggS"
@@ -133,8 +139,16 @@ jobs:
           curl -sf -r 0-3 "http://127.0.0.1:8080/audio/es/latam/scale-explorer/scale.ch0.s0.01.opus" | grep -q "OggS"
           curl -sf -r 0-3 "http://127.0.0.1:8080/audio/en/v3/real-archaea/arch.ch0.s0.01.opus" | grep -q "OggS"
           curl -sf -r 0-3 "http://127.0.0.1:8080/audio/es/latam/real-archaea/arch.ch0.s0.01.opus" | grep -q "OggS"
+          curl -sf -r 0-3 "http://127.0.0.1:8080/audio/en/v3/real-gram-positive/gp.ch0.s0.01.opus" | grep -q "OggS"
+          curl -sf -r 0-3 "http://127.0.0.1:8080/audio/es/latam/real-gram-positive/gp.ch0.s0.01.opus" | grep -q "OggS"
+          curl -sf -r 0-3 "http://127.0.0.1:8080/audio/en/v3/real-paramecium/para.ch0.s0.01.opus" | grep -q "OggS"
+          curl -sf -r 0-3 "http://127.0.0.1:8080/audio/es/latam/real-paramecium/para.ch0.s0.01.opus" | grep -q "OggS"
+          curl -sf -r 0-3 "http://127.0.0.1:8080/audio/en/v3/real-plasmodium/plas.ch0.s0.01.opus" | grep -q "OggS"
+          curl -sf -r 0-3 "http://127.0.0.1:8080/audio/es/latam/real-plasmodium/plas.ch0.s0.01.opus" | grep -q "OggS"
           curl -sf -r 0-3 "http://127.0.0.1:8080/audio/lenses/en/v3/story/four-biomolecules.opus" | grep -q "OggS"
           curl -sf -r 0-3 "http://127.0.0.1:8080/audio/lenses/es/spain/scientific/real-archaea.opus" | grep -q "OggS"
+          curl -sf -r 0-3 "http://127.0.0.1:8080/audio/lenses/en/v3/story/real-gram-positive.opus" | grep -q "OggS"
+          curl -sf -r 0-3 "http://127.0.0.1:8080/audio/lenses/es/spain/scientific/real-plasmodium.opus" | grep -q "OggS"
           echo "Smoke test passed (/api/health, /, /dist/pages/cell_explorer.js, /audio/*.opus, /robots.txt, /sitemap.xml)."
 
   publish:

@@ -5,6 +5,14 @@ import {
   SCALE_BIOMOLECULES_PART_LENSES
 } from './lenses_scale_biomolecules.js';
 import { ARCHAEA_NODE_LENSES, ARCHAEA_PART_LENSES } from './lenses_archaea.js';
+import {
+  GRAM_POSITIVE_NODE_LENSES,
+  GRAM_POSITIVE_PART_LENSES
+} from './lenses_gram_positive.js';
+import {
+  PROTISTS_NODE_LENSES,
+  PROTISTS_PART_LENSES
+} from './lenses_protists.js';
 import { ANIMAL_NODE_LENSES, ANIMAL_PART_LENSES } from './lenses_animal.js';
 import { PLANT_FUNGAL_NODE_LENSES, PLANT_FUNGAL_PART_LENSES } from './lenses_plant_fungal.js';
 import { PROKARYOTE_NODE_LENSES, PROKARYOTE_PART_LENSES } from './lenses_prokaryote.js';
@@ -24,6 +32,8 @@ import {
 registerNodeLenses(INTRO_NODE_LENSES);
 registerNodeLenses(SCALE_BIOMOLECULES_NODE_LENSES);
 registerNodeLenses(ARCHAEA_NODE_LENSES);
+registerNodeLenses(GRAM_POSITIVE_NODE_LENSES);
+registerNodeLenses(PROTISTS_NODE_LENSES);
 registerNodeLenses(ANIMAL_NODE_LENSES);
 registerNodeLenses(PLANT_FUNGAL_NODE_LENSES);
 registerNodeLenses(PROKARYOTE_NODE_LENSES);
@@ -33,6 +43,8 @@ registerNodeLenses(PARASITIC_CELLS_NODE_LENSES);
 
 registerPartLenses(SCALE_BIOMOLECULES_PART_LENSES);
 registerPartLenses(ARCHAEA_PART_LENSES);
+registerPartLenses(GRAM_POSITIVE_PART_LENSES);
+registerPartLenses(PROTISTS_PART_LENSES);
 registerPartLenses(ANIMAL_PART_LENSES);
 registerPartLenses(PLANT_FUNGAL_PART_LENSES);
 registerPartLenses(PROKARYOTE_PART_LENSES);
@@ -49,6 +61,10 @@ export {
   SCALE_BIOMOLECULES_PART_LENSES,
   ARCHAEA_NODE_LENSES,
   ARCHAEA_PART_LENSES,
+  GRAM_POSITIVE_NODE_LENSES,
+  GRAM_POSITIVE_PART_LENSES,
+  PROTISTS_NODE_LENSES,
+  PROTISTS_PART_LENSES,
   ANIMAL_NODE_LENSES,
   ANIMAL_PART_LENSES,
   PLANT_FUNGAL_NODE_LENSES,

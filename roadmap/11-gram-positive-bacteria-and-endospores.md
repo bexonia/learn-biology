@@ -1,7 +1,7 @@
 # 11 — Gram-Positive Bacteria & Armored Endospores: *Bacillus subtilis* Realistic 3D Model, Cell Wall Comparator & Guided Tour
 
 **Iteration:** 11 (Standalone Realistic WebGL2 *Bacillus subtilis* Vegetative, Asymmetric Sporulation & Dormant Endospore Model, Side-by-Side Gram-Positive vs. Gram-Negative Wall Comparator, 3-Persona Guided Tour & GPU `.opus` Narration in `EN` & `ES`)  
-**Status:** 📋 **Planned**  
+**Status:** ✅ **Completed**  
 **Parent Index:** [roadmap/README.md](./README.md)  
 **Previous Step:** [10-archaea-third-domain-and-endosymbiosis.md](./10-archaea-third-domain-and-endosymbiosis.md)  
 **Next Step:** [12-protists-and-eukaryotic-parasites.md](./12-protists-and-eukaryotic-parasites.md)

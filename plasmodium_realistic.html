@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Interactive 3D Plasmodium falciparum Merozoite &amp; Red Blood Cell Invasion Model | BEXONIA</title>
+<!-- SEO:START -->
+<meta name="description" content="Interactive 3D Plasmodium falciparum eukaryotic intracellular parasite invading a human red blood cell (erythrocyte) at molecular scale: cutaway biconcave RBC packed with hemoglobin tetramers (PDB 1GZX), cyan parasitophorous vacuole (PVM), inner membrane complex (IMC), apical complex (polar rings, rhoptries, micronemes), PfRH5-Basigin bridge (PDB 4U0Q), AMA1-RON2 moving junction (PDB 3SRI), PfMyoA-MTIP glideosome (PDB 6YCX) walking along PfActI actin (PDB 4CBU), 14-chromosome eukaryotic nucleus, 80S ribosomes, branched mitochondrion, 4-membrane apicoplast with 35 kb circular DNA, acidic digestive vacuole with hemozoin biocrystals, and atomic Fe3+-heme inset.">
+<meta name="keywords" content="3D biology, interactive 3D Plasmodium falciparum model, malaria parasite, merozoite invasion, red blood cell erythrocyte, parasitophorous vacuole PVM, inner membrane complex IMC, apical complex, rhoptries, micronemes, AMA1 RON2 moving junction PDB 3SRI, PfRH5 Basigin PDB 4U0Q, PfMyoA MTIP glideosome PDB 6YCX, PfActI actin PDB 4CBU, 4-membrane apicoplast, secondary endosymbiosis, digestive vacuole, hemoglobin PDB 1GZX, hemozoin beta-hematin, heme iron atom, 80S ribosomes, WebGL2, Three.js, Bexonia">
+<meta name="author" content="BEXONIA">
+<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">
+<link rel="canonical" href="https://learn.bexonia.com/plasmodium_realistic.html">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="BEXONIA Learn Biology">
+<meta property="og:title" content="Interactive 3D Plasmodium falciparum Merozoite &amp; Red Blood Cell Invasion Model | BEXONIA">
+<meta property="og:description" content="Interactive 3D malaria merozoite invading a human erythrocyte inside a parasitophorous vacuole, featuring real RCSB PDB structures (6YCX, 3SRI, 4U0Q, 4CBU, 1GZX), a cutaway 4-membrane apicoplast, and hemoglobin-to-hemozoin biocrystal formation.">
+<meta property="og:url" content="https://learn.bexonia.com/plasmodium_realistic.html">
+<meta property="og:image" content="https://learn.bexonia.com/screenshots/animal_cell.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Interactive 3D Plasmodium falciparum Merozoite &amp; Red Blood Cell Invasion Model | BEXONIA">
+<meta name="twitter:description" content="Interactive 3D malaria merozoite invading a human erythrocyte inside a parasitophorous vacuole, powered by real RCSB PDB cryo-EM and crystal structures.">
+<meta name="twitter:image" content="https://learn.bexonia.com/screenshots/animal_cell.jpg">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":["LearningResource","WebApplication"],"name":"Interactive 3D Plasmodium falciparum Merozoite & Red Blood Cell Invasion Model | BEXONIA","description":"Interactive 3D Plasmodium falciparum eukaryotic intracellular parasite invading a human red blood cell: cutaway biconcave RBC packed with hemoglobin (PDB 1GZX), parasitophorous vacuole (PVM), inner membrane complex (IMC), apical complex (polar rings, rhoptries, micronemes), PfRH5-Basigin (PDB 4U0Q), AMA1-RON2 moving junction (PDB 3SRI), PfMyoA-MTIP glideosome (PDB 6YCX), PfActI actin (PDB 4CBU), eukaryotic nucleus, 80S ribosomes, single branched mitochondrion, 4-membrane apicoplast with 35 kb circular DNA, digestive vacuole crystallizing toxic heme into hemozoin, and atomic Fe3+-heme dimer inset.","url":"https://learn.bexonia.com/plasmodium_realistic.html","image":"https://learn.bexonia.com/screenshots/animal_cell.jpg","applicationCategory":"EducationalApplication","operatingSystem":"Web Browser (WebGL)","learningResourceType":["Interactive 3D Model","Simulation","Guided Tour"],"educationalUse":["Self-study","Classroom instruction","Reference library"],"isAccessibleForFree":true,"license":"https://opensource.org/licenses/MIT","inLanguage":"en","author":{"@type":"Organization","name":"BEXONIA","url":"https://bexonia.com"},"about":[{"@type":"Thing","name":"Plasmodium falciparum"},{"@type":"Thing","name":"Apicomplexa"},{"@type":"Thing","name":"Apicoplast"},{"@type":"Thing","name":"Hemozoin"},{"@type":"Thing","name":"Glideosome"},{"@type":"Thing","name":"Erythrocyte"},{"@type":"Thing","name":"Cell biology"}],"keywords":"3D biology, interactive 3D Plasmodium falciparum model, malaria merozoite, RBC invasion, PVM, IMC, glideosome, AMA1-RON2, PfRH5-Basigin, apicoplast, secondary endosymbiosis, digestive vacuole, hemoglobin, hemozoin, heme iron atom, WebGL2, Three.js, Bexonia"}</script>
+<!-- SEO:END -->
+<style>
+  :root { --bg: #05040a; --fg: #f0f2fa; --muted: #98a2ba; --line: rgba(255,255,255,.13); --accent: #6ceaff; --crimson: #ff6678; }
+  html, body { margin: 0; height: 100%; background: var(--bg); color: var(--fg); font-family: system-ui, -apple-system, "Segoe UI", sans-serif; overflow: hidden; }
+  canvas { display: block; }
+  #hud { position: absolute; left: 22px; top: 18px; pointer-events: none; max-width: calc(100% - 270px); }
+  #hud h1 { margin: 0; font-size: 22px; font-weight: 650; letter-spacing: .01em; }
+  #hud p { margin: 4px 0 0; font-size: 13px; color: var(--muted); }
+  #legend { position: absolute; left: 16px; top: 86px; width: 262px; max-height: calc(100% - 156px); overflow: auto; background: rgba(9,9,18,.64); border: 1px solid var(--line); border-radius: 11px; padding: 6px; backdrop-filter: blur(8px); }
+  .it { display: flex; align-items: center; gap: 9px; padding: 4.5px 8px; border-radius: 7px; font-size: 12.5px; cursor: default; transition: background .14s ease; }
+  .it:hover { background: rgba(108,234,255,.15); }
+  .sw { width: 12px; height: 12px; border-radius: 50%; flex: none; box-shadow: inset 0 0 0 1px rgba(255,255,255,.32); }
+  .key { grid-column: 1 / -1; margin-top: 4px; padding: 8px 8px 4px; border-top: 1px solid var(--line); font-size: 11.5px; color: var(--muted); line-height: 1.5; }
+  .key .row { display: flex; align-items: center; flex-wrap: wrap; gap: 5px; margin-bottom: 5px; }
+  .chip { width: 18px; height: 18px; border-radius: 50%; display: inline-grid; place-items: center; font-size: 10.5px; font-weight: 700; color: #12151e; }
+  .bar { width: 18px; height: 6px; border-radius: 3px; display: inline-block; }
+  #flows { position: absolute; right: 16px; top: 18px; width: 236px; max-height: calc(100% - 134px); overflow: auto; background: rgba(9,9,18,.64); border: 1px solid var(--line); border-radius: 11px; padding: 8px 6px 6px; backdrop-filter: blur(8px); }
+  #flows h2 { margin: 2px 8px 4px; font-size: 13px; font-weight: 650; }
+  .speed { display: flex; align-items: center; gap: 8px; margin: 2px 8px 8px; font-size: 12px; color: var(--muted); }
+  .speed input { flex: 1; min-width: 0; accent-color: var(--accent); }
+  #spd { width: 38px; text-align: right; color: var(--fg); font-variant-numeric: tabular-nums; }
+  #tip { margin: 0 8px 8px; font-size: 12px; line-height: 1.45; color: var(--muted); }
+  #tip b { color: var(--fg); font-weight: 600; }
+  .mol { display: flex; align-items: center; gap: 8px; padding: 3px 8px; border-radius: 7px; font-size: 12.5px; cursor: default; }
+  .mol:hover { background: rgba(108,234,255,.15); }
+  .mol canvas { width: 22px; height: 22px; flex: none; }
+  #tools { position: absolute; right: 16px; bottom: 16px; display: flex; flex-wrap: wrap; justify-content: flex-end; gap: 7px; max-width: calc(100% - 32px); }
+  #tools button { background: rgba(10,12,24,.78); color: var(--fg); border: 1px solid rgba(255,255,255,.22); border-radius: 8px; padding: 7px 11px; font: inherit; font-size: 12.5px; cursor: pointer; backdrop-filter: blur(6px); transition: border-color .15s ease, background .15s ease; }
+  #tools button:hover { border-color: var(--accent); }
+  #hint { position: absolute; right: 18px; bottom: 58px; font-size: 12px; color: var(--muted); pointer-events: none; }
+  #busy { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; color: var(--muted); font-size: 14px; pointer-events: none; }
+  @media (max-width: 760px) {
+    #legend { top: auto; bottom: 68px; left: 10px; right: 10px; width: auto; max-height: 25vh; display: grid; grid-template-columns: 1fr 1fr; }
+    #hint, #flows { display: none; }
+    #hud { max-width: calc(100% - 28px); }
+    #hud h1 { font-size: 17px; }
+  }
+  .embed #hud, .embed #legend, .embed #flows, .embed #hint, .embed #tools, .embed #busy { display: none !important; }
+</style>
+<script type="importmap">
+{ "imports": {
+  "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js",
+  "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"
+} }
+</script>
+</head>
+<body>
+<div id="busy">Building Plasmodium falciparum Merozoite &amp; Erythrocyte Invasion…</div>
+<div id="hud"><h1>Eukaryotic Parasite: <i>Plasmodium falciparum</i> Invading Human RBC</h1><p id="sub">Cryo-EM dark-field cutaway · ~1.5 µm merozoite invading ~7.5 µm erythrocyte (parasite organelles &amp; PDB complexes magnified for clarity)</p></div>
+<div id="legend"></div>
+<div id="flows"><h2>Parasite Flows</h2><label class="speed">Speed <input id="speed" type="range" min="-3" max="2" step=".1" value="0"><span id="spd">1×</span></label><div id="tip"></div><div id="mols"></div></div>
+<div id="hint">Drag to look around · W A S D to move · scroll to zoom · right-drag to pan · hover a name to highlight it</div>
+<div id="tools"><button id="view">View: overview</button><button id="flow">Metabolism: on</button><button id="look">Membrane: gel</button><button id="cut">Close cutaway</button><button id="motion">Pause</button><button id="snap">Save PNG</button></div>
+<script type="module" src="dist/pages/plasmodium_realistic.js"></script>
+</body>
+</html>

@@ -6,7 +6,9 @@ import {
 import { EUKARYOTE_TOUR_PERSONAS } from './personas_eukaryote.js';
 import { INTRO_TOUR_PERSONAS } from './personas_intro.js';
 import { PERSONAS_ARCHAEA } from './personas_archaea.js';
+import { PERSONAS_GRAM_POSITIVE } from './personas_gram_positive.js';
 import { PERSONAS_PARASITIC_CELLS } from './personas_parasitic_cells.js';
+import { PERSONAS_PROTISTS } from './personas_protists.js';
 import { PERSONAS_SCALE_BIOMOLECULES } from './personas_scale_biomolecules.js';
 import { PROKARYOTE_PHAGE_TOUR_PERSONAS } from './personas_prokaryote_phage.js';
 import { VIRUS_TOUR_PERSONAS } from './personas_viruses.js';
@@ -32,6 +34,8 @@ export const TOUR_PERSONA_REGISTRY: TourPersonaMap = {
   ...INTRO_TOUR_PERSONAS,
   ...PERSONAS_SCALE_BIOMOLECULES,
   ...PERSONAS_ARCHAEA,
+  ...PERSONAS_GRAM_POSITIVE,
+  ...PERSONAS_PROTISTS,
   ...EUKARYOTE_TOUR_PERSONAS,
   ...PROKARYOTE_PHAGE_TOUR_PERSONAS,
   ...PERSONAS_PARASITIC_CELLS,
@@ -67,6 +71,8 @@ export {
   INTRO_TOUR_PERSONAS,
   PERSONAS_SCALE_BIOMOLECULES,
   PERSONAS_ARCHAEA,
+  PERSONAS_GRAM_POSITIVE,
+  PERSONAS_PROTISTS,
   EUKARYOTE_TOUR_PERSONAS,
   PROKARYOTE_PHAGE_TOUR_PERSONAS,
   PERSONAS_PARASITIC_CELLS,

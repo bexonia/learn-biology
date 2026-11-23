@@ -1,7 +1,7 @@
 # 18 — Immune Defense & Applied Medicine: Antibiotics, Antivirals & Vaccines
 
 **Iteration:** `18` (Capstone Immune Defense Battleground & Targeted Pharmacology / mRNA-LNP Vaccine WebGL2 Labs, Whole-to-Tiniest Molecular Cascade, 3-Persona Guided Tours & GPU `.opus` Narration in `EN` & `ES`)  
-**Status:** 📋 **Planned**  
+**Status:** ✅ **Completed**  
 **Parent Index:** [`roadmap/README.md`](./README.md)  
 **Previous Step:** [`17-specialized-human-cells-and-cell-differentiation.md`](./17-specialized-human-cells-and-cell-differentiation.md)  
 **Next Step:** *(Curriculum Capstone — End of Intro Biology Track)*

@@ -1,0 +1,113 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" href="data:,">
+<title>Interactive 3D Targeted Pharmacology &amp; mRNA-LNP Vaccine Lab — Drug × Organism Selectivity, PBP (1PWC), 70S vs. 80S Ribosomes, RdRp (7BV2), HIV-1 RT (3V4I) &amp; Cytosolic mRNA-LNP | BEXONIA</title>
+<!-- SEO:START -->
+<meta name="description" content="Interactive 3D Targeted Pharmacology and mRNA-LNP Vaccine Lab in Cinema PBR WebGL2: compare live drug outcomes across 5 organisms (E. coli, wall-less Mycoplasma, intracellular Chlamydia, SARS-CoV-2/HIV-1 viruses, and Human cell) above 4 real RCSB PDB molecular stations: Penicillin G covalently locking PBP (1PWC), Erythromycin/Azithromycin (4V7U) and Tetracycline (1HNW) halting bacterial 70S while sparing human 80S (4UG0), Remdesivir-TP stalling SARS-CoV-2 RdRp at i+3 (7BV2) and AZT-TP terminating HIV-1 RT (3V4I), and a 90 nm ionizable mRNA-LNP escaping an endosome onto cytosolic 80S ribosomes visibly outside the intact nuclear envelope.">
+<meta name="keywords" content="3D biology, pharmacology, selective toxicity, penicillin G, beta-lactam, PBP transpeptidase, PDB 1PWC, peptidoglycan, osmotic lysis, mycoplasma, chlamydia, 70S ribosome, 80S ribosome, macrolide, erythromycin, azithromycin, PDB 4V7U, tetracycline, PDB 1HNW, human ribosome PDB 4UG0, antivirals, remdesivir, SARS-CoV-2 RdRp, PDB 7BV2, HIV-1 reverse transcriptase, AZT zidovudine, PDB 3V4I, mRNA vaccine, lipid nanoparticle LNP, endosomal escape, N1-methylpseudouridine, intact nuclear envelope, WebGL2, Three.js, Bexonia">
+<meta name="author" content="BEXONIA">
+<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">
+<link rel="canonical" href="https://learn.bexonia.com/pharmacology_lab.html">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="BEXONIA Learn Biology">
+<meta property="og:title" content="Interactive 3D Targeted Pharmacology &amp; mRNA-LNP Vaccine Lab | BEXONIA">
+<meta property="og:description" content="Explore selective toxicity across 5 organisms and 6 real RCSB PDB molecular targets: Penicillin/PBP (1PWC), 70S Macrolide (4V7U) &amp; Tetracycline (1HNW) vs. human 80S (4UG0), Remdesivir/RdRp (7BV2), AZT/HIV-1 RT (3V4I), and cytosolic mRNA-LNP translation outside the intact nucleus.">
+<meta property="og:url" content="https://learn.bexonia.com/pharmacology_lab.html">
+<meta property="og:image" content="https://learn.bexonia.com/screenshots/pharmacology_lab.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Interactive 3D Targeted Pharmacology &amp; mRNA-LNP Vaccine Lab | BEXONIA">
+<meta name="twitter:description" content="Live 5-organism Drug x Target Selectivity Lab with 6 real RCSB PDB structures (1PWC, 4V7U, 1HNW, 4UG0, 7BV2, 3V4I) and cytosolic 90 nm mRNA-LNP vaccine translation outside the intact nuclear envelope.">
+<meta name="twitter:image" content="https://learn.bexonia.com/screenshots/pharmacology_lab.jpg">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":["LearningResource","WebApplication"],"name":"Interactive 3D Targeted Pharmacology & mRNA-LNP Vaccine Lab | BEXONIA","description":"Interactive 3D Targeted Pharmacology and mRNA-LNP Vaccine Lab in Cinema PBR WebGL2: compare live drug outcomes across 5 organisms (E. coli, Mycoplasma, Chlamydia, SARS-CoV-2/HIV-1, Human cell) above 4 real RCSB PDB molecular stations (PBP 1PWC, bacterial 70S 4V7U/1HNW vs human 80S 4UG0, SARS-CoV-2 RdRp 7BV2 and HIV-1 RT 3V4I, and 90 nm mRNA-LNP cytosolic translation outside the intact nuclear envelope) plus an atomic pharmacophore lens.","url":"https://learn.bexonia.com/pharmacology_lab.html","image":"https://learn.bexonia.com/screenshots/pharmacology_lab.jpg","applicationCategory":"EducationalApplication","operatingSystem":"Web Browser (WebGL)","learningResourceType":["Interactive 3D Model","Simulation","Guided Tour"],"educationalUse":["Self-study","Classroom instruction","Reference library"],"isAccessibleForFree":true,"license":"https://opensource.org/licenses/MIT","inLanguage":"en","author":{"@type":"Organization","name":"BEXONIA","url":"https://bexonia.com"},"about":[{"@type":"Thing","name":"Selective toxicity"},{"@type":"Thing","name":"Penicillin"},{"@type":"Thing","name":"Ribosome"},{"@type":"Thing","name":"Antiviral drugs"},{"@type":"Thing","name":"mRNA vaccine"},{"@type":"Thing","name":"Lipid nanoparticle"}],"keywords":"3D biology, pharmacology, selective toxicity, penicillin, PBP 1PWC, macrolide 4V7U, tetracycline 1HNW, human 80S 4UG0, remdesivir 7BV2, AZT HIV-1 RT 3V4I, mRNA-LNP vaccine, endosomal escape, WebGL2, Three.js, Bexonia"}</script>
+<!-- SEO:END -->
+<style>
+  :root { --bg: #04070e; --fg: #ebf2fc; --muted: #93a6c2; --line: rgba(255,255,255,.13); --accent: #6ce8ff; --emerald: #44f2a6; --amber: #ffbe52; --crimson: #ff5e7e; --violet: #c47cff; }
+  html, body { margin: 0; height: 100%; background: var(--bg); color: var(--fg); font-family: system-ui, -apple-system, "Segoe UI", sans-serif; overflow: hidden; }
+  canvas { display: block; }
+  #hud { position: absolute; left: 18px; top: 12px; pointer-events: none; max-width: calc(100% - 300px); }
+  #hud h1 { margin: 0; font-size: 19.5px; font-weight: 650; letter-spacing: .01em; }
+  #hud p { margin: 2px 0 0; font-size: 12px; color: var(--muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  #legend { position: absolute; left: 14px; top: 62px; width: 256px; max-height: calc(100% - 76px); overflow: auto; background: rgba(7,12,22,.68); border: 1px solid var(--line); border-radius: 11px; padding: 4px 5px; backdrop-filter: blur(8px); }
+  .it { display: flex; align-items: center; gap: 6px; padding: 2px 6px; border-radius: 6px; font-size: 10.7px; line-height: 1.22; cursor: default; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; transition: background .14s ease; }
+  .it:hover { background: rgba(108,232,255,.16); }
+  .sw { width: 9px; height: 9px; border-radius: 50%; flex: none; box-shadow: inset 0 0 0 1px rgba(255,255,255,.32); }
+  .key { grid-column: 1 / -1; margin-top: 3px; padding: 4px 6px 2px; border-top: 1px solid var(--line); font-size: 10.1px; color: var(--muted); line-height: 1.3; }
+  .key .row { display: flex; align-items: center; flex-wrap: nowrap; gap: 4px; margin-bottom: 3px; white-space: nowrap; }
+  .chip { width: 14.5px; height: 14.5px; border-radius: 50%; display: inline-grid; place-items: center; font-size: 9px; font-weight: 700; color: #101520; flex: none; }
+  .bar { width: 12px; height: 5px; border-radius: 3px; display: inline-block; flex: none; }
+  #flows { position: absolute; right: 14px; top: 12px; width: 264px; max-height: calc(100% - 114px); overflow: auto; background: rgba(7,12,22,.70); border: 1px solid var(--line); border-radius: 11px; padding: 6px 6px 5px; backdrop-filter: blur(8px); }
+  #flows h2 { margin: 1px 7px 4px; font-size: 12.6px; font-weight: 650; }
+  #outcomeCard { margin: 0 6px 6px; padding: 5px 7px; border-radius: 8px; background: rgba(18,22,40,.78); border: 1px solid rgba(255,104,132,.44); transition: background .2s ease, border-color .2s ease; }
+  #outcomeCard.macrolide_tetra { background: rgba(42,30,14,.78); border-color: rgba(255,190,82,.48); }
+  #outcomeCard.antivirals { background: rgba(34,18,56,.78); border-color: rgba(196,124,255,.52); }
+  #outcomeCard.mrna_lnp { background: rgba(12,42,46,.78); border-color: rgba(68,242,166,.52); }
+  #drugTitle { font-size: 11.4px; font-weight: 700; color: #ff9cb0; letter-spacing: .01em; }
+  #outcomeCard.macrolide_tetra #drugTitle { color: #ffd480; }
+  #outcomeCard.antivirals #drugTitle { color: #dfb2ff; }
+  #outcomeCard.mrna_lnp #drugTitle { color: #7cffcc; }
+  #drugSub { font-size: 10px; color: var(--muted); margin: 1px 0 4px; line-height: 1.24; }
+  .orow { display: flex; align-items: center; justify-content: space-between; gap: 6px; font-size: 10.3px; padding: 1.6px 0; border-top: 1px solid rgba(255,255,255,.06); }
+  .orow .oname { color: #dce8fa; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .obadge { font-size: 9.2px; font-weight: 700; padding: 1px 5.5px; border-radius: 999px; letter-spacing: .02em; white-space: nowrap; flex: none; }
+  .obadge.lysis { background: rgba(255,70,104,.24); color: #ff9ab0; border: 1px solid rgba(255,94,126,.55); }
+  .obadge.halted { background: rgba(255,176,66,.22); color: #ffd588; border: 1px solid rgba(255,190,82,.52); }
+  .obadge.spared { background: rgba(68,242,166,.16); color: #84ffca; border: 1px solid rgba(68,242,166,.44); }
+  .obadge.primed { background: rgba(94,232,255,.20); color: #9cf6ff; border: 1px solid rgba(108,232,255,.55); }
+  .obadge.none { background: rgba(148,166,196,.15); color: #a9bcd6; border: 1px solid rgba(148,166,196,.34); }
+  .speed { display: flex; align-items: center; gap: 7px; margin: 2px 7px 5px; font-size: 11.4px; color: var(--muted); }
+  .speed input { flex: 1; min-width: 0; accent-color: var(--accent); }
+  #spd { width: 34px; text-align: right; color: var(--fg); font-variant-numeric: tabular-nums; }
+  #tip { margin: 0 7px 5px; font-size: 10.8px; line-height: 1.35; color: var(--muted); }
+  #tip b { color: var(--fg); font-weight: 600; }
+  .mol { display: flex; align-items: center; gap: 6px; padding: 2px 6px; border-radius: 6px; font-size: 11px; cursor: default; }
+  .mol:hover { background: rgba(108,232,255,.15); }
+  .mol canvas { width: 19px; height: 19px; flex: none; }
+  .mol .mname { flex: 1; min-width: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .mol .mcnt { font-size: 10px; font-variant-numeric: tabular-nums; color: #b8dcf8; background: rgba(255,255,255,.07); border-radius: 5px; padding: 1px 5px; min-width: 24px; text-align: right; }
+  #tools { position: absolute; right: 14px; bottom: 12px; display: flex; flex-wrap: wrap; justify-content: flex-end; gap: 6px; max-width: calc(100% - 28px); }
+  #tools button { background: rgba(8,13,24,.78); color: var(--fg); border: 1px solid rgba(255,255,255,.22); border-radius: 8px; padding: 6px 10px; font: inherit; font-size: 11.8px; cursor: pointer; backdrop-filter: blur(6px); transition: border-color .15s ease, background .15s ease; }
+  #tools button:hover { border-color: var(--accent); }
+  #modeBtn { border-color: rgba(255,104,132,.80) !important; background: rgba(68,18,32,.88) !important; color: #ffd4de !important; font-weight: 650; }
+  #modeBtn.macrolide_tetra { border-color: rgba(255,190,82,.82) !important; background: rgba(66,40,12,.88) !important; color: #ffebc2 !important; }
+  #modeBtn.antivirals { border-color: rgba(196,124,255,.82) !important; background: rgba(42,18,72,.88) !important; color: #ecd4ff !important; }
+  #modeBtn.mrna_lnp { border-color: rgba(68,242,166,.82) !important; background: rgba(10,54,48,.88) !important; color: #c8ffea !important; }
+  #hint { position: absolute; right: 16px; bottom: 50px; font-size: 11.2px; color: var(--muted); pointer-events: none; }
+  #busy { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; color: var(--muted); font-size: 14px; pointer-events: none; background: radial-gradient(circle at 50% 45%, #152238 0%, #09101d 55%, #020409 100%); z-index: 20; }
+  @media (max-width: 760px) {
+    #legend { top: auto; bottom: 64px; left: 10px; right: 10px; width: auto; max-height: 25vh; display: grid; grid-template-columns: 1fr 1fr; }
+    #hint, #flows { display: none; }
+    #hud { max-width: calc(100% - 28px); }
+    #hud h1 { font-size: 16px; }
+  }
+  .embed #hud, .embed #legend, .embed #flows, .embed #hint, .embed #tools, .embed #busy { display: none !important; }
+</style>
+<script type="importmap">
+{ "imports": {
+  "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js",
+  "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"
+} }
+</script>
+</head>
+<body>
+<div id="busy">Building Targeted Pharmacology &amp; mRNA-LNP Vaccine Lab (PDB 1PWC · 4V7U · 1HNW · 4UG0 · 7BV2 · 3V4I)…</div>
+<div id="hud"><h1>Targeted Pharmacology &amp; mRNA-LNP Vaccine Lab</h1><p id="sub">5-Organism Drug × Target Selectivity Bench · PBP (1PWC) · 70S (4V7U/1HNW) vs. 80S (4UG0) · RdRp (7BV2) · HIV-1 RT (3V4I) · Cytosolic mRNA-LNP</p></div>
+<div id="legend"></div>
+<div id="flows">
+  <h2>Drug × Organism Outcomes</h2>
+  <div id="outcomeCard">
+    <div id="drugTitle">Penicillin G (β-Lactam)</div>
+    <div id="drugSub">Covalent Ser62 PBP block · Peptidoglycan lysis</div>
+    <div id="outcomeRows"></div>
+  </div>
+  <label class="speed">Speed <input id="speed" type="range" min="-3" max="2" step=".1" value="0"><span id="spd">1×</span></label>
+  <div id="tip"></div>
+  <div id="mols"></div>
+</div>
+<div id="hint">Drag to look around · W A S D to move · scroll to zoom · right-drag to pan · hover a name to highlight it</div>
+<div id="tools"><button id="modeBtn" type="button">Drug: Penicillin G (β-Lactam)</button><button id="view" type="button">View: overview</button><button id="flow" type="button">Flows: on</button><button id="look" type="button">Membrane: gel</button><button id="cut" type="button">Close cutaway</button><button id="motion" type="button">Pause</button><button id="snap" type="button">Save PNG</button></div>
+<script type="module" src="dist/pages/pharmacology_lab.js"></script>
+</body>
+</html>

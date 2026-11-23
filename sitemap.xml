@@ -131,6 +131,26 @@
     <priority>0.9</priority>
   </url>
   <url>
+    <loc>https://learn.bexonia.com/neuron_realistic.html</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://learn.bexonia.com/muscle_realistic.html</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://learn.bexonia.com/immune_defense_realistic.html</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://learn.bexonia.com/pharmacology_lab.html</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
     <loc>https://learn.bexonia.com/molecules_preview.html</loc>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>

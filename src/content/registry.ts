@@ -65,6 +65,12 @@ export const STANDALONE_PAGE_PART_KEYS: Record<string, readonly string[]> = {
   'hiv_realistic.html': [
     'env', 'membrane', 'ma', 'capsid', 'pentamer', 'rna', 'rt', 'int', 'cd4'
   ],
+  'immune_defense_realistic.html': [
+    'macrophage', 'actin_pseudopod', 'ecoli_target', 'phagosome', 'lysosome_ros',
+    'mhcii_display', 'igg_antibody', 'fab_arms', 'fc_stem', 'spike_rbd',
+    'ace2_blocked', 'virion_target', 'cd8_tcell', 'tcr_mhci', 'viral_peptide',
+    'perforin_pore', 'granzyme_b', 'immune_atoms'
+  ],
   'membrane_transport_realistic.html': [
     'animal_cell', 'plant_cell', 'cell_wall', 'vacuole', 'bilayer', 'simple_diff',
     'aquaporin', 'water_flow', 'glut1', 'nak_pump', 'atp_hydrolysis', 'membrane_voltage',
@@ -75,14 +81,32 @@ export const STANDALONE_PAGE_PART_KEYS: Record<string, readonly string[]> = {
     'viral_rnap', 'capping_enz', 'phagosome', 'amoeba_mem', 'viral_factory',
     'host_ribo', 'myco_ref', 'atp_pool', 'dna_atoms'
   ],
+  'muscle_realistic.html': [
+    'sarcolemma', 'peripheral_nuclei', 't_tubule', 'sr_network', 'ryr1_channel',
+    'serca1a_pump', 'myofibril', 'z_disc', 'i_band', 'a_band', 'h_zone', 'm_line',
+    'titin_spring', 'myosin_thick', 'myosin_head', 'actin_thin', 'troponin_tropo',
+    'muscle_atoms'
+  ],
   'mycoplasma_realistic.html': [
     'membrane', 'sterol', 'lipo', 'nap', 'sialo', 'cilium', 'button', 'rod', 'wheel',
     'gliding', 'dna', 'hu', 'fork', 'rnap', 'mrna', 'ribosome', 'import', 'glycolysis'
+  ],
+  'neuron_realistic.html': [
+    'dendrites', 'soma', 'nucleus_h3k27ac', 'axon_hillock', 'myelin_sheath',
+    'node_ranvier', 'nav17', 'kv12', 'nak_reset', 'axon_mt', 'terminal_bouton',
+    'cav_channel', 'synaptic_vesicle', 'snare_zipper', 'synaptic_cleft',
+    'ampa_receptor', 'nachr_receptor', 'neuro_atoms'
   ],
   'paramecium_realistic.html': [
     'pellicle', 'cilia', 'kinetosome', 'trichocyst', 'oral_groove', 'cytostome',
     'food_vacuole', 'cytoproct', 'contractile_vacuole', 'collecting_canals', 'vatpase',
     'macronucleus', 'micronucleus', 'mito', 'ribosome_80s', 'axoneme', 'dynein', 'tubulin'
+  ],
+  'pharmacology_lab.html': [
+    'bench_ecoli', 'bench_myco', 'bench_chlam', 'bench_virus', 'bench_human',
+    'pg_wall', 'pbp_penicillin', 'ribo_70s', 'macrolide_tunnel', 'tetra_asite',
+    'ribo_80s_safe', 'rdrp_remdesivir', 'hiv_rt_azt', 'mrna_lnp',
+    'endosome_escape', 'vaccine_mrna', 'intact_nucleus', 'drug_atoms'
   ],
   'plant_cell_realistic.html': [
     'wall', 'membrane', 'pd', 'vacuole', 'strand', 'nucleus', 'chromatin', 'mrna',

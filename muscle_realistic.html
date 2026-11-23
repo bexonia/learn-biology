@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" href="data:,">
+<title>Interactive 3D Skeletal Muscle Fiber &amp; Sliding-Filament Sarcomere — Myosin-II (2MYS), F-Actin/Tropomyosin (6KN8), SERCA1a (1SU4) &amp; Ca²⁺ Triad | BEXONIA</title>
+<!-- SEO:START -->
+<meta name="description" content="Interactive Cinema PBR WebGL2 3D Skeletal Muscle Fiber and Sliding-Filament Sarcomere stage. Explore a cutaway multinucleated skeletal myofiber with peripheral nuclei (Nucleosome PDB 1AOI H3K27ac MYH1/ACTA1/TNNT3 euchromatin vs. silenced SYT1/HBB heterochromatin), transverse T-tubules, fenestrated Sarcoplasmic Reticulum (SR) triads with RyR1 Ca2+ release channels and SERCA1a Ca2+-ATPase pumps (PDB 1SU4), and a live contracting 2.20 um to 1.60 um sarcomere driven by pivoting Myosin-II S1 motor heads (PDB 2MYS) walking on sliding F-actin/tropomyosin/troponin thin filaments (PDB 6KN8) with elastic Titin springs and an atomic EF-hand Ca2+ and Mg2+-ATP cleavage optical lens.">
+<meta name="keywords" content="3D biology, skeletal muscle fiber, sarcomere, sliding filament theory, excitation-contraction coupling, sarcolemma, peripheral nuclei, T-tubule, sarcoplasmic reticulum, triad, RyR1, SERCA1a PDB 1SU4, myofibril, Z-disc, I-band, A-band, H-zone, M-line, titin spring, Myosin-II S1 PDB 2MYS, F-actin tropomyosin troponin PDB 6KN8, cross-bridge cycle, power stroke, nucleosome PDB 1AOI, H3K27ac, Ca2+ EF-hand, Mg2+ ATP hydrolysis, WebGL2, Three.js, Bexonia">
+<meta name="author" content="BEXONIA">
+<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">
+<link rel="canonical" href="https://learn.bexonia.com/muscle_realistic.html">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="BEXONIA Learn Biology">
+<meta property="og:title" content="Interactive 3D Skeletal Muscle Fiber &amp; Sliding-Filament Sarcomere | BEXONIA">
+<meta property="og:description" content="Explore skeletal muscle excitation-contraction coupling in 3D WebGL2: cutaway myofiber, T-tubule/SR triad with RyR1 and SERCA1a (1SU4), live 2.20 um to 1.60 um sarcomere contraction with pivoting Myosin-II S1 (2MYS) on F-actin/tropomyosin (6KN8), and an atomic Ca2+ EF-hand and ATP lens.">
+<meta property="og:url" content="https://learn.bexonia.com/muscle_realistic.html">
+<meta property="og:image" content="https://learn.bexonia.com/screenshots/muscle.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Interactive 3D Skeletal Muscle Fiber &amp; Sliding-Filament Sarcomere | BEXONIA">
+<meta name="twitter:description" content="Live 3D sliding-filament sarcomere (2.20 um Relaxed to 1.60 um Contracted) powered by real RCSB PDBs 2MYS, 6KN8, 1SU4, and 1AOI.">
+<meta name="twitter:image" content="https://learn.bexonia.com/screenshots/muscle.jpg">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":["LearningResource","WebApplication"],"name":"Interactive 3D Skeletal Muscle Fiber & Sliding-Filament Sarcomere | BEXONIA","description":"Interactive Cinema PBR WebGL2 3D Skeletal Muscle Fiber and Sliding-Filament Sarcomere stage featuring a cutaway multinucleated myofiber with peripheral nuclei (PDB 1AOI), transverse T-tubules, fenestrated Sarcoplasmic Reticulum triads (RyR1 and SERCA1a PDB 1SU4), live 2.20 um to 1.60 um sliding-filament contraction with pivoting Myosin-II S1 motor heads (PDB 2MYS) and F-actin/tropomyosin/troponin filaments (PDB 6KN8), elastic Titin springs, and an atomic Ca2+ EF-hand and Mg2+-ATP cleavage inset.","url":"https://learn.bexonia.com/muscle_realistic.html","image":"https://learn.bexonia.com/screenshots/muscle.jpg","applicationCategory":"EducationalApplication","operatingSystem":"Web Browser (WebGL)","learningResourceType":["Interactive 3D Model","Simulation","Guided Tour"],"educationalUse":["Self-study","Classroom instruction","Reference library"],"isAccessibleForFree":true,"license":"https://opensource.org/licenses/MIT","inLanguage":"en","author":{"@type":"Organization","name":"BEXONIA","url":"https://bexonia.com"},"about":[{"@type":"Thing","name":"Skeletal muscle"},{"@type":"Thing","name":"Sarcomere"},{"@type":"Thing","name":"Sliding filament theory"},{"@type":"Thing","name":"Myosin"},{"@type":"Thing","name":"Actin"},{"@type":"Thing","name":"Sarcoplasmic reticulum"},{"@type":"Thing","name":"SERCA1a"}],"keywords":"3D biology, skeletal muscle, sarcomere, sliding filament, Myosin-II 2MYS, Actin Tropomyosin 6KN8, SERCA1a 1SU4, Nucleosome 1AOI, RyR1, T-tubule, Titin, WebGL2, Three.js, Bexonia"}</script>
+<!-- SEO:END -->
+<style>
+  :root { --bg: #04060d; --fg: #ebf1fc; --muted: #93a3bd; --line: rgba(255,255,255,.13); --accent: #7ee8ff; --emerald: #46f2a6; --amber: #ffb84d; --crimson: #ff6278; }
+  html, body { margin: 0; height: 100%; background: var(--bg); color: var(--fg); font-family: system-ui, -apple-system, "Segoe UI", sans-serif; overflow: hidden; }
+  canvas { display: block; }
+  #hud { position: absolute; left: 20px; top: 14px; pointer-events: none; max-width: calc(100% - 280px); }
+  #hud h1 { margin: 0; font-size: 20px; font-weight: 650; letter-spacing: .01em; }
+  #hud p { margin: 3px 0 0; font-size: 12.2px; color: var(--muted); }
+  #legend { position: absolute; left: 14px; top: 66px; width: 256px; max-height: calc(100% - 82px); overflow: auto; background: rgba(7,11,22,.68); border: 1px solid var(--line); border-radius: 11px; padding: 4px 5px; backdrop-filter: blur(8px); }
+  .it { display: flex; align-items: center; gap: 7px; padding: 2.2px 6px; border-radius: 6px; font-size: 11px; line-height: 1.22; cursor: default; transition: background .14s ease; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .it:hover { background: rgba(126,232,255,.16); }
+  .sw { width: 9.5px; height: 9.5px; border-radius: 50%; flex: none; box-shadow: inset 0 0 0 1px rgba(255,255,255,.32); }
+  .key { grid-column: 1 / -1; margin-top: 3px; padding: 5px 6px 2px; border-top: 1px solid var(--line); font-size: 10.3px; color: var(--muted); line-height: 1.32; }
+  .key .row { display: flex; align-items: center; flex-wrap: nowrap; gap: 3.5px; margin-bottom: 3px; white-space: nowrap; }
+  .chip { width: 15.5px; height: 15.5px; border-radius: 50%; display: inline-grid; place-items: center; font-size: 8.8px; font-weight: 700; color: #0e131c; flex: none; }
+  .bar { width: 13px; height: 5px; border-radius: 3px; display: inline-block; flex: none; }
+  #flows { position: absolute; right: 14px; top: 14px; width: 248px; max-height: calc(100% - 118px); overflow: auto; background: rgba(7,11,22,.68); border: 1px solid var(--line); border-radius: 11px; padding: 7px 6px 6px; backdrop-filter: blur(8px); }
+  #flows h2 { margin: 2px 8px 4px; font-size: 12.6px; font-weight: 650; }
+  #sarcomereCard { margin: 2px 7px 6px; padding: 6px 8px; border-radius: 8px; background: rgba(16,44,38,.74); border: 1px solid rgba(70,242,166,.42); transition: background .10s ease, border-color .10s ease; }
+  #sarcomereCard.contracted_16um { background: rgba(66,22,34,.80); border-color: rgba(255,98,120,.56); }
+  #sarcomereCard.relaxed_22um { background: rgba(16,38,62,.80); border-color: rgba(114,218,255,.48); }
+  #sarcoLen { font-size: 12px; font-weight: 700; color: #8affcf; letter-spacing: .01em; font-variant-numeric: tabular-nums; }
+  #sarcomereCard.contracted_16um #sarcoLen { color: #ffadc0; }
+  #sarcomereCard.relaxed_22um #sarcoLen { color: #a8ebff; }
+  #sarcoBarWrap { position: relative; height: 6px; margin: 4px 0 3px; border-radius: 999px; background: rgba(255,255,255,.10); overflow: hidden; }
+  #sarcoBar { position: absolute; top: 0; bottom: 0; left: 50%; transform: translateX(-50%); width: 88%; border-radius: 999px; background: linear-gradient(90deg, #5ea8ff 0%, #ff5a76 28%, #ffd454 50%, #ff5a76 72%, #5ea8ff 100%); transition: width .08s linear; }
+  #sarcoSub { font-size: 10.2px; color: var(--muted); line-height: 1.28; }
+  .speed { display: flex; align-items: center; gap: 8px; margin: 2px 8px 5px; font-size: 11.6px; color: var(--muted); }
+  .speed input { flex: 1; min-width: 0; accent-color: var(--accent); }
+  #spd { width: 36px; text-align: right; color: var(--fg); font-variant-numeric: tabular-nums; }
+  #tip { margin: 0 8px 6px; font-size: 11.1px; line-height: 1.36; color: var(--muted); }
+  #tip b { color: var(--fg); font-weight: 600; }
+  .mol { display: flex; align-items: center; gap: 7px; padding: 2.3px 7px; border-radius: 7px; font-size: 11.3px; cursor: default; }
+  .mol:hover { background: rgba(126,232,255,.15); }
+  .mol canvas { width: 19px; height: 19px; flex: none; }
+  .mol .mol-name { flex: 1; min-width: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .mol .mol-cnt { font-size: 10.2px; font-weight: 650; color: var(--accent); font-variant-numeric: tabular-nums; padding: 1px 5px; border-radius: 999px; background: rgba(126,232,255,.12); border: 1px solid rgba(126,232,255,.22); flex: none; }
+  #tools { position: absolute; right: 14px; bottom: 14px; display: flex; flex-wrap: wrap; justify-content: flex-end; gap: 6px; max-width: calc(100% - 28px); }
+  #tools button { background: rgba(8,13,24,.80); color: var(--fg); border: 1px solid rgba(255,255,255,.22); border-radius: 8px; padding: 6.5px 10.5px; font: inherit; font-size: 12px; cursor: pointer; backdrop-filter: blur(6px); transition: border-color .15s ease, background .15s ease; }
+  #tools button:hover { border-color: var(--accent); }
+  #modeBtn { border-color: rgba(70,242,166,.68) !important; background: rgba(12,48,40,.88) !important; color: #b8ffe0 !important; font-weight: 600; }
+  #modeBtn.contracted_16um { border-color: rgba(255,104,126,.84) !important; background: rgba(72,18,30,.90) !important; color: #ffd0da !important; }
+  #modeBtn.relaxed_22um { border-color: rgba(114,218,255,.78) !important; background: rgba(14,42,68,.90) !important; color: #d2f4ff !important; }
+  #hint { position: absolute; right: 16px; bottom: 54px; font-size: 11.4px; color: var(--muted); pointer-events: none; }
+  #busy { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; color: var(--muted); font-size: 14px; pointer-events: none; background: radial-gradient(circle at 52% 46%, #241322 0%, #0d0c1a 56%, #020307 100%); z-index: 20; }
+  @media (max-width: 760px) {
+    #legend { top: auto; bottom: 64px; left: 10px; right: 10px; width: auto; max-height: 25vh; display: grid; grid-template-columns: 1fr 1fr; }
+    #hint, #flows { display: none; }
+    #hud { max-width: calc(100% - 28px); }
+    #hud h1 { font-size: 16px; }
+  }
+  .embed #hud, .embed #legend, .embed #flows, .embed #hint, .embed #tools, .embed #busy { display: none !important; }
+</style>
+<script type="importmap">
+{ "imports": {
+  "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js",
+  "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"
+} }
+</script>
+</head>
+<body>
+<div id="busy">Building Skeletal Muscle Fiber &amp; Sliding-Filament Sarcomere (PDB 2MYS · 6KN8 · 1SU4 · 1AOI)…</div>
+<div id="hud"><h1>Skeletal Muscle Fiber &amp; Sliding-Filament Sarcomere</h1><p id="sub">Cutaway multinucleated myofiber · T-tubule / SR Triad (RyR1 &amp; SERCA1a 1SU4) · Live 2.20 µm ↔ 1.60 µm Myosin-II (2MYS) &amp; Actin–Tropomyosin (6KN8)</p></div>
+<div id="legend"></div>
+<div id="flows">
+  <h2>Excitation–Contraction Flows</h2>
+  <div id="sarcomereCard">
+    <div id="sarcoLen">2.20 µm Relaxed ↔ 1.60 µm Contracted</div>
+    <div id="sarcoBarWrap"><div id="sarcoBar"></div></div>
+    <div id="sarcoSub">Live Ca²⁺ cycle · A-band 1.60 µm const · H-zone &amp; I-band narrow</div>
+  </div>
+  <label class="speed">Speed <input id="speed" type="range" min="-3" max="2" step=".1" value="0"><span id="spd">1×</span></label>
+  <div id="tip"></div>
+  <div id="mols"></div>
+</div>
+<div id="hint">Drag to look around · W A S D to move · scroll to zoom · right-drag to pan · hover a name to highlight it</div>
+<div id="tools"><button id="modeBtn" type="button">State: Live Ca²⁺ Cycle</button><button id="view" type="button">View: overview</button><button id="flow" type="button">Flows: on</button><button id="look" type="button">Membrane: gel</button><button id="cut" type="button">Close cutaway</button><button id="motion" type="button">Pause</button><button id="snap" type="button">Save PNG</button></div>
+<script type="module" src="dist/pages/muscle_realistic.js"></script>
+</body>
+</html>

@@ -19,6 +19,8 @@ import { PDB_SUBVIRAL } from '../molecules/pdb_subviral.js';
 import { PDB_DIVISION } from '../molecules/pdb_division.js';
 import { PDB_CENTRAL_DOGMA } from '../molecules/pdb_central_dogma.js';
 import { PDB_BIOENERGETICS } from '../molecules/pdb_bioenergetics.js';
+import { PDB_SPECIALIZED } from '../molecules/pdb_specialized.js';
+import { PDB_IMMUNE_PHARMA } from '../molecules/pdb_immune_pharma.js';
 import { CourseProgressManager } from '../core/progress_service.js';
 import {
   PRESET_SPANISH_VOICE_BY_MODE,
@@ -5007,6 +5009,380 @@ function buildMemVesicleReal() {
 }
 
 // =====================================================================
+// Phases 17 & 18: Specialized Human Cells, Epigenetics, Immune & Pharma
+// =====================================================================
+function buildSpecializedCellsOverview() {
+  const g = new THREE.Group(), an = [];
+  const pedMat = colHex => new THREE.MeshPhysicalMaterial({ color: colHex, roughness: .28, metalness: .15, clearcoat: .7, transparent: true, opacity: .34 });
+  const addPed = (x, z, r, colHex) => {
+    const disc = new THREE.Mesh(new THREE.CylinderGeometry(r, r + .32, .42, 48), pedMat(colHex));
+    disc.position.set(x, -3.65, z); disc.userData.noOutline = true; g.add(disc);
+    const rim = new THREE.Mesh(new THREE.TorusGeometry(r + .12, .07, 10, 64), std(colHex, { glow: .75 }));
+    rim.rotation.x = Math.PI / 2; rim.position.set(x, -3.44, z); rim.userData.noOutline = true; g.add(rim);
+  };
+  // Central Pedestal: Shared 6.4 Gbp Human Genome & Epigenetic Bookmarks (H3K27ac open vs H3K27me3 silenced)
+  addPed(0, 0, 3.6, '#b088ff');
+  {
+    const mk = g.children.length;
+    const hA = [], hB = [];
+    for (let i = 0; i <= 28; i++) {
+      const t = i / 28, ang = t * Math.PI * 3.5, y = -2.4 + t * 5.2;
+      hA.push(V(Math.cos(ang) * 1.1, y, Math.sin(ang) * 1.1));
+      hB.push(V(-Math.cos(ang) * 1.1, y, -Math.sin(ang) * 1.1));
+      if (i > 0 && i < 28 && i % 3 === 0) {
+        g.add(stick(hA[i], hB[i], .065, std(i % 2 === 0 ? '#56f0b0' : '#c07cff', { glow: .6 })));
+      }
+    }
+    g.add(tube(hA, .14, std('#56f0b0', { glow: .5 }), 10, 44), tube(hB, .14, std('#b088ff', { glow: .5 }), 10, 44));
+    for (let k = 0; k < 4; k++) {
+      const a = k * Math.PI / 2 + .4;
+      const orb = sphere(.42, std(k % 2 === 0 ? '#56f0b0' : '#a86cff', { glow: .75 }), 16);
+      orb.position.set(Math.cos(a) * 1.85, -0.6 + k * 0.75, Math.sin(a) * 1.85);
+      g.add(orb);
+    }
+    tagFrom(g, mk, 'real-epigenetics');
+  }
+  // Pedestal 1 (Front-Left): Multipolar Neuron
+  addPed(-11.4, 2.2, 3.8, '#4ae8ff');
+  {
+    const mk = g.children.length;
+    const soma = sphere(1.45, std('#4ae8ff', { glow: .42, bump: true }), 22);
+    soma.position.set(-11.4, .4, 2.2); g.add(soma);
+    const axonPts = [V(-10.1, .4, 2.2), V(-8.8, .3, 2.5), V(-7.6, .45, 2.0)];
+    g.add(tube(axonPts, .24, std('#ffd166', { glow: .55 }), 10, 20));
+    for (let i = 0; i < 6; i++) {
+      const a = (i / 6) * Math.PI * 2;
+      g.add(stick(V(-11.4, .4, 2.2), V(-11.4 - 2.2 - Math.cos(a) * .7, .4 + Math.sin(a) * 2.1, 2.2 + Math.cos(a) * 1.3), .08, std('#6ae6ff', { glow: .55 })));
+    }
+    tagFrom(g, mk, 'real-neuron');
+  }
+  // Pedestal 2 (Back-Left): Skeletal Muscle Fiber & Sarcomere
+  addPed(-9.4, -7.2, 3.8, '#ff6e7a');
+  {
+    const mk = g.children.length;
+    const fib = new THREE.Mesh(new THREE.CylinderGeometry(1.45, 1.45, 5.4, 28), std('#ff6e7a', { glow: .34, bump: true }));
+    fib.rotation.z = Math.PI / 2; fib.position.set(-9.4, .2, -7.2); g.add(fib);
+    for (let s = -2; s <= 2; s++) {
+      const zRing = new THREE.Mesh(new THREE.TorusGeometry(1.52, .11, 10, 32), std('#ffd166', { glow: .65 }));
+      zRing.rotation.y = Math.PI / 2; zRing.position.set(-9.4 + s * 1.05, .2, -7.2); g.add(zRing);
+    }
+    tagFrom(g, mk, 'real-muscle');
+  }
+  // Pedestal 3 (Front-Right): Anucleate Biconcave Erythrocyte (RBC)
+  addPed(11.4, 2.2, 3.8, '#ff4d6d');
+  {
+    const mk = g.children.length;
+    const rbcGeo = new THREE.TorusGeometry(1.55, .72, 22, 42);
+    const rbc = new THREE.Mesh(rbcGeo, std('#ff4d6d', { glow: .42, bump: true }));
+    rbc.rotation.x = Math.PI * .36; rbc.position.set(11.4, .35, 2.2); g.add(rbc);
+    const core = new THREE.Mesh(new THREE.CylinderGeometry(1.05, 1.05, .52, 28), std('#d62845', { glow: .3 }));
+    core.rotation.x = Math.PI * .36 - Math.PI / 2; core.position.set(11.4, .35, 2.2); g.add(core);
+    tagFrom(g, mk, 'real-erythrocyte');
+  }
+  // Pedestal 4 (Back-Right): Polarized Gut Enterocyte w/ Microvilli Brush Border
+  addPed(9.4, -7.2, 3.8, '#56f0b0');
+  {
+    const mk = g.children.length;
+    const body = new THREE.Mesh(new THREE.BoxGeometry(2.6, 3.8, 2.2), std('#56f0b0', { glow: .32, bump: true }));
+    body.position.set(9.4, -.55, -7.2); g.add(body);
+    const mvMat = std('#ffd166', { glow: .55 });
+    for (let gx = -2; gx <= 2; gx++) {
+      for (let gz = -1; gz <= 1; gz++) {
+        g.add(stick(V(9.4 + gx * .48, 1.35, -7.2 + gz * .55), V(9.4 + gx * .48, 2.45, -7.2 + gz * .55), .1, mvMat));
+      }
+    }
+    tagFrom(g, mk, 'real-enterocyte');
+  }
+  // Glowing epigenetic connector arcs from central 6.4 Gbp genome to each cell lineage
+  for (const [tx, tz, col] of [[-11.4, 2.2, '#4ae8ff'], [-9.4, -7.2, '#ff6e7a'], [11.4, 2.2, '#ff4d6d'], [9.4, -7.2, '#56f0b0']]) {
+    g.add(tube([V(0, -3.2, 0), V(tx * .5, -2.55, tz * .5), V(tx * .82, -3.2, tz * .82)], .08, std(col, { glow: .7 }), 8, 20));
+  }
+  an.push(
+    A(V(0, -3.9, 3.6), 'Shared 6.4 Gbp Human DNA · H3K27ac / H3K27me3', 'real-epigenetics'),
+    A(V(-12.2, 1.35, 2.6), '1. Multipolar Neuron (20 nm synapse)', 'real-neuron'),
+    A(V(-9.6, 5.1, -7.0), '2. Skeletal Muscle (2.2 µm sarcomere)', 'real-muscle'),
+    A(V(12.2, 1.35, 2.6), '3. Red Blood Cell (270M Hemoglobin)', 'real-erythrocyte'),
+    A(V(9.6, 5.1, -7.0), '4. Gut Enterocyte (3,000 Microvilli)', 'real-enterocyte'),
+  );
+  return finalize(g, an, 18.6);
+}
+
+function buildErythrocyteReal() {
+  const cols = ['#ff5a78', '#ff9f5a', '#ff7a98', '#ffd166'];
+  const { g, of } = genericPdbModel(PDB_CENTRAL_DOGMA, 'hba', gr => cols[gr % cols.length], false);
+  const all = of(() => true);
+  // Translucent biconcave ruby envelope + spectrin cortex ring around real HbA tetramer
+  const shell = new THREE.Mesh(new THREE.TorusGeometry(3.4, 1.35, 20, 40), xray('#ff4d6d', 1.3, 1.4, .24));
+  shell.rotation.x = Math.PI / 2; g.add(shell);
+  const spec = new THREE.Mesh(new THREE.TorusGeometry(4.4, .09, 10, 48), std('#ffd166', { glow: .6 }));
+  spec.rotation.x = Math.PI / 2; g.add(spec);
+  return finalize(g, [
+    A(topOf(all), 'Oxy-Hemoglobin α₂β₂ tetramer (270M copies/RBC · PDB 2HHB)', 'polypeptide'),
+    A(V(4.4, 0.0, 0), 'Flexible spectrin–ankyrin cortex squeezing 3 µm capillaries', 'plasma-membrane'),
+    A(lowOf(all), 'Four Fe²⁺ heme rings reversibly carrying 1.08B O₂ per cell', 'atom-fe'),
+  ]);
+}
+
+function buildEnterocyteReal() {
+  const g = new THREE.Group();
+  const body = new THREE.Mesh(new THREE.BoxGeometry(4.4, 6.2, 3.4), xray('#4ae8ff', 1.2, 1.4, .22));
+  g.add(body);
+  const mvMat = std('#ffd166', { glow: .45 });
+  for (let ix = -2; ix <= 2; ix++) {
+    for (let iz = -1; iz <= 1; iz++) {
+      g.add(stick(V(ix * .82, 3.1, iz * .95), V(ix * .82, 5.1, iz * .95), .18, mvMat));
+    }
+  }
+  // Lateral tight-junction claudin belt & basal nucleus
+  const tj = new THREE.Mesh(new THREE.BoxGeometry(4.62, .45, 3.62), std('#56f0b0', { glow: .65 }));
+  tj.position.set(0, 2.35, 0); g.add(tj);
+  const nuc = sphere(1.25, std('#b088ff', { glow: .4 }), 20);
+  nuc.position.set(0, -1.65, 0); g.add(nuc);
+  return finalize(g, [
+    A(V(0, 5.3, .2), 'Apical microvilli brush border (~3,000 fingers · SGLT1 uptake)', 'glucose'),
+    A(V(2.45, 2.35, .5), 'Lateral tight junction paracellular seal (Claudin-15 PDB 4P79)', 'real-claudin15'),
+    A(V(0, -1.65, 1.3), 'Basal euchromatin nucleus (H3K27ac on SLC5A1 & CLDN15)', 'real-epigenetics'),
+  ]);
+}
+
+function buildEpigeneticsReal() {
+  const cols = ['#56f0b0', '#4ae8ff', '#b088ff', '#ffd166', '#ff7a98'];
+  const { g, of } = genericPdbModel(PDB_SPECIALIZED, 'nucleosome', gr => cols[gr % cols.length], false);
+  const all = of(() => true);
+  return finalize(g, [
+    A(all.reduce((a, p) => (p.x < a.x ? p : a)), 'Nucleosome core particle: 147 bp DNA on H2A/H2B/H3/H4 (PDB 1AOI)', 'dna'),
+    A(all.reduce((a, p) => (p.x > a.x ? p : a)), 'H3K27ac acetyl tails opening lineage genes (euchromatin)', 'real-spec-atoms'),
+    A(lowOf(all), 'H3K27me3 trimethyl marks compacting silenced loci (heterochromatin)', 'nucleus'),
+  ]);
+}
+
+function buildClaudin15Real() {
+  const cols = ['#56f0b0', '#4ae8ff', '#ffd166'];
+  const { g, of } = genericPdbModel(PDB_SPECIALIZED, 'claudin15', gr => cols[gr % cols.length], false);
+  const all = of(() => true);
+  return finalize(g, [
+    A(topOf(all), 'Claudin-15 tight-junction strand protein (PDB 4P79)', 'polypeptide'),
+    A(lowOf(all), 'Zips neighboring epithelial membranes against paracellular leaks', 'plasma-membrane'),
+  ]);
+}
+
+function buildNeuronNav17Real() {
+  const cols = ['#4ae8ff', '#ffd166', '#ff7a98', '#56f0b0'];
+  const { g, of } = genericPdbModel(PDB_SPECIALIZED, 'nav17', gr => cols[gr % cols.length], false);
+  const all = of(() => true);
+  return finalize(g, [
+    A(topOf(all), 'Human voltage-gated Naᵥ1.7 sodium channel (PDB 6J8I)', 'polypeptide'),
+    A(lowOf(all), 'Opens at -55 mV threshold driving +40 mV saltatory depolarization', 'real-spec-atoms'),
+  ]);
+}
+
+function buildNeuronKv12Real() {
+  const cols = ['#b088ff', '#4ae8ff', '#56f0b0', '#ffd166'];
+  const { g, of } = genericPdbModel(PDB_SPECIALIZED, 'kv12', gr => cols[gr % cols.length], false);
+  const all = of(() => true);
+  return finalize(g, [
+    A(topOf(all), 'Voltage-gated Kᵥ1.2 potassium channel tetramer (PDB 2R9R)', 'polypeptide'),
+    A(lowOf(all), 'Streams K⁺ outward to rapidly repolarize the axon to -70 mV', 'real-spec-atoms'),
+  ]);
+}
+
+function buildNeuronAmpaReal() {
+  const cols = ['#56f0b0', '#4ae8ff', '#ffd166', '#ff7a98'];
+  const { g, of } = genericPdbModel(PDB_SPECIALIZED, 'ampa', gr => cols[gr % cols.length], false);
+  const all = of(() => true);
+  return finalize(g, [
+    A(topOf(all), 'Postsynaptic AMPA GluA2 glutamate receptor (PDB 3KG2)', 'polypeptide'),
+    A(lowOf(all), 'Ligand-gated Na⁺ channel converting synaptic chemistry to voltage', 'real-spec-atoms'),
+  ]);
+}
+
+function buildNeuronNachrReal() {
+  const cols = ['#ffd166', '#ff7a98', '#4ae8ff', '#b088ff', '#56f0b0'];
+  const { g, of } = genericPdbModel(PDB_SPECIALIZED, 'nachr', gr => cols[gr % cols.length], false);
+  const all = of(() => true);
+  return finalize(g, [
+    A(topOf(all), 'Nicotinic acetylcholine receptor pentamer nAChR (PDB 2BG9)', 'polypeptide'),
+    A(lowOf(all), 'Opens rapid cation pore at neuromuscular & central synapses', 'real-spec-atoms'),
+  ]);
+}
+
+function buildMuscleMyosinReal() {
+  const cols = ['#ff7a98', '#ffd166', '#4ae8ff'];
+  const { g, of } = genericPdbModel(PDB_SPECIALIZED, 'myosin_s1', gr => cols[gr % cols.length], false);
+  const all = of(() => true);
+  return finalize(g, [
+    A(topOf(all), 'Skeletal Myosin-II S1 motor head & lever arm (PDB 2MYS)', 'polypeptide'),
+    A(lowOf(all), 'Hydrolyzes ATP to ratchet F-actin inward by ~10 nm per stroke', 'real-spec-atoms'),
+  ]);
+}
+
+function buildMuscleActinTropoReal() {
+  const cols = ['#56f0b0', '#ffd166', '#4ae8ff', '#ff7a98'];
+  const { g, of } = genericPdbModel(PDB_SPECIALIZED, 'actin_tropo', gr => cols[gr % cols.length], false);
+  const all = of(() => true);
+  return finalize(g, [
+    A(topOf(all), 'Thin filament: F-Actin–Tropomyosin–Troponin complex (PDB 6KN8)', 'polypeptide'),
+    A(lowOf(all), 'Ca²⁺ binding to Troponin-C rolls Tropomyosin off myosin sites', 'atom-ca'),
+  ]);
+}
+
+function buildMuscleSercaReal() {
+  const cols = ['#4ae8ff', '#56f0b0', '#ffd166'];
+  const { g, of } = genericPdbModel(PDB_SPECIALIZED, 'serca', gr => cols[gr % cols.length], false);
+  const all = of(() => true);
+  return finalize(g, [
+    A(topOf(all), 'Sarcoplasmic Reticulum SERCA1a Ca²⁺-ATPase pump (PDB 1SU4)', 'polypeptide'),
+    A(lowOf(all), 'Burns 1 ATP to pump 2 Ca²⁺ back into SR for muscle relaxation', 'atom-ca'),
+  ]);
+}
+
+function buildSpecAtomsReal() {
+  const g = new THREE.Group();
+  const cMat = std('#9aa4b4', { glow: .2 }), nMat = std('#4d94ff', { glow: .42 }), oMat = std('#ff5252', { glow: .42 }), hMat = std('#eaf4ff', { glow: .3 }), caMat = std('#56f0b0', { glow: .65 }), naMat = std('#ffd166', { glow: .65 });
+  // Left: H3K27ac Acetyl Group (-COCH3) neutralizing Lys27+ charge
+  const a0 = V(-3.0, .6, 0), a1 = V(-1.8, .6, 0), a2 = V(-1.8, 1.7, 0), a3 = V(-.8, .0, 0);
+  [[a0, cMat, .42], [a1, cMat, .42], [a2, oMat, .4], [a3, nMat, .42]].forEach(([p, m, r]) => { const s = sphere(r, m, 18); s.position.copy(p); g.add(s); });
+  g.add(stick(a0, a1, .12, cMat), stick(a1, a2, .12, oMat), stick(a1, a3, .12, nMat));
+  // Right: Signalling ions Ca2+ & Na+ + Glutamate neurotransmitter core
+  const caP = V(2.4, 1.1, 0), naP = V(2.4, -1.1, 0), glC = V(0.5, -1.1, 0), glO = V(1.3, -1.8, 0), glH = V(-0.3, -1.7, 0);
+  [[caP, caMat, .55], [naP, naMat, .48], [glC, cMat, .4], [glO, oMat, .38], [glH, hMat, .26]].forEach(([p, m, r]) => { const s = sphere(r, m, 18); s.position.copy(p); g.add(s); });
+  g.add(stick(glC, glO, .11, oMat), stick(glC, glH, .1, hMat));
+  return finalize(g, [
+    A(a2, 'H3K27ac acetyl tag (-COCH₃) opening euchromatin DNA', 'atom-c'),
+    A(caP, 'Ca²⁺ trigger ion (SNARE vesicle fusion & Troponin-C)', 'atom-ca'),
+    A(naP, 'Na⁺ / K⁺ action-potential ions & Glutamate neurotransmitter', 'atom-n'),
+  ]);
+}
+
+function buildImmMhciiReal() {
+  const cols = ['#4ae8ff', '#56f0b0', '#ffd166'];
+  const { g, of } = genericPdbModel(PDB_IMMUNE_PHARMA, 'mhcii', gr => cols[gr % cols.length], false);
+  const all = of(() => true);
+  return finalize(g, [
+    A(topOf(all), 'Macrophage Class II MHC antigen presenter (PDB 1DLH)', 'polypeptide'),
+    A(lowOf(all), 'Displays digested bacterial peptides to activate CD4⁺ T-cells', 'amino-acid'),
+  ]);
+}
+
+function buildImmIggReal() {
+  const cols = ['#ffd166', '#ff9f5a', '#4ae8ff', '#56f0b0'];
+  const { g, of } = genericPdbModel(PDB_IMMUNE_PHARMA, 'igg', gr => cols[gr % cols.length], false);
+  const all = of(() => true);
+  return finalize(g, [
+    A(topOf(all), 'Intact Y-shaped IgG antibody: two variable Fab arms (PDB 1IGT)', 'polypeptide'),
+    A(lowOf(all), 'Conserved Fc stem flagging neutralized pathogens for macrophages', 'atom-s'),
+  ]);
+}
+
+function buildImmRbdBlockReal() {
+  const cols = ['#ffd166', '#4ae8ff', '#ff5c7a'];
+  const { g, of } = genericPdbModel(PDB_IMMUNE_PHARMA, 'spike_rbd_fab', gr => cols[gr % cols.length], false);
+  const all = of(() => true);
+  return finalize(g, [
+    A(topOf(all), 'Neutralizing IgG Fab locked onto SARS-CoV-2 Spike RBD (PDB 7BZ5)', 'real-coronavirus'),
+    A(lowOf(all), 'Sterically blocks Spike RBD from binding host ACE2 (PDB 6M0J)', 'polypeptide'),
+  ]);
+}
+
+function buildImmTcrMhciReal() {
+  const cols = ['#b088ff', '#4ae8ff', '#56f0b0', '#ff7a98', '#ffd166'];
+  const { g, of } = genericPdbModel(PDB_IMMUNE_PHARMA, 'tcr_mhci', gr => cols[gr % cols.length], false);
+  const all = of(() => true);
+  return finalize(g, [
+    A(topOf(all), 'CD8⁺ T-Cell Receptor gripping infected cell pMHC-I (PDB 1AO7)', 'polypeptide'),
+    A(lowOf(all), '9-mer endogenous viral peptide exposed inside MHC-I groove', 'amino-acid'),
+  ]);
+}
+
+function buildImmPerforinReal() {
+  const cols = ['#ff5c7a', '#ffd166', '#b088ff'];
+  const { g, of } = genericPdbModel(PDB_IMMUNE_PHARMA, 'perforin', gr => cols[gr % cols.length], false);
+  const all = of(() => true);
+  return finalize(g, [
+    A(topOf(all), 'Cytotoxic Perforin pore-forming subunit (PDB 3NSJ)', 'polypeptide'),
+    A(lowOf(all), 'Ca²⁺-triggered 18 nm transmembrane tunnel piercing infected cells', 'atom-ca'),
+  ]);
+}
+
+function buildImmGranzymeReal() {
+  const cols = ['#ff9f5a', '#ff5c7a', '#ffd166'];
+  const { g, of } = genericPdbModel(PDB_IMMUNE_PHARMA, 'granzyme_b', gr => cols[gr % cols.length], false);
+  const all = of(() => true);
+  return finalize(g, [
+    A(topOf(all), 'Granzyme B apoptotic serine protease (PDB 1IAU)', 'polypeptide'),
+    A(lowOf(all), 'Enters via Perforin pores to cleave pro-caspase-3 cleanly', 'real-cell'),
+  ]);
+}
+
+function buildPharmPbpReal() {
+  const cols = ['#4ae8ff', '#ff5c7a', '#ffd166'];
+  const { g, of } = genericPdbModel(PDB_IMMUNE_PHARMA, 'pbp_pen', gr => cols[gr % cols.length], false);
+  const all = of(() => true);
+  return finalize(g, [
+    A(topOf(all), 'Bacterial PBP transpeptidase acylated by Penicillin G (PDB 1PWC)', 'peptidoglycan'),
+    A(lowOf(all), 'Irreversible 1.35 Å Ser–β-lactam ester triggers E. coli lysis', 'real-pharm-atoms'),
+  ]);
+}
+
+function buildPharmMacrolideReal() {
+  const cols = ['#b088ff', '#ff7a98', '#ffd166', '#4ae8ff'];
+  const { g, of } = genericPdbModel(PDB_IMMUNE_PHARMA, 'ribo_macrolide', gr => cols[gr % cols.length], false);
+  const all = of(() => true);
+  return finalize(g, [
+    A(topOf(all), 'Bacterial 50S ribosome exit tunnel plugged by Macrolide (PDB 4V7U)', 'ribosome'),
+    A(lowOf(all), 'Halts E. coli, Mycoplasma & Chlamydia 70S; spares human 80S', 'real-cd-ribo80'),
+  ]);
+}
+
+function buildPharmTetraReal() {
+  const cols = ['#56f0b0', '#4ae8ff', '#ffd166', '#b088ff'];
+  const { g, of } = genericPdbModel(PDB_IMMUNE_PHARMA, 'ribo_tetra', gr => cols[gr % cols.length], false);
+  const all = of(() => true);
+  return finalize(g, [
+    A(topOf(all), 'Bacterial 30S A-site blocked by Tetracycline (PDB 1HNW)', 'ribosome'),
+    A(lowOf(all), 'Prevents aminoacyl-tRNA decoding on 70S; zero target on viruses', 'rna'),
+  ]);
+}
+
+function buildPharmRdrpReal() {
+  const cols = ['#ff7a98', '#4ae8ff', '#ffd166', '#56f0b0'];
+  const { g, of } = genericPdbModel(PDB_IMMUNE_PHARMA, 'rdrp_rdv', gr => cols[gr % cols.length], false);
+  const all = of(() => true);
+  return finalize(g, [
+    A(topOf(all), 'SARS-CoV-2 RdRp stalled by Remdesivir-TP (PDB 7BV2)', 'real-coronavirus'),
+    A(lowOf(all), '1′-cyano clash at Ser861 triggers i+3 delayed RNA termination', 'real-pharm-atoms'),
+  ]);
+}
+
+function buildPharmHivRtReal() {
+  const cols = ['#b088ff', '#ffd166', '#4ae8ff', '#ff5c7a'];
+  const { g, of } = genericPdbModel(PDB_IMMUNE_PHARMA, 'hiv_rt_azt', gr => cols[gr % cols.length], false);
+  const all = of(() => true);
+  return finalize(g, [
+    A(topOf(all), 'HIV-1 Reverse Transcriptase halted by AZT-TP (PDB 3V4I)', 'real-hiv'),
+    A(lowOf(all), 'Missing 3′-OH nucleophile causes immediate obligate DNA stop', 'real-pharm-atoms'),
+  ]);
+}
+
+function buildPharmAtomsReal() {
+  const g = new THREE.Group();
+  const cMat = std('#9aa4b4', { glow: .22 }), nMat = std('#4d94ff', { glow: .45 }), oMat = std('#ff5252', { glow: .45 }), sMat = std('#ffd166', { glow: .6 }), pMat = std('#d08aff', { glow: .55 });
+  // Left: Opened Penicillin beta-lactam carbonyl covalently linked (1.35 A) to PBP Ser-O-gamma
+  const pSer = V(-3.1, .9, 0), pCarb = V(-1.7, .9, 0), pO = V(-1.7, 2.0, 0), pN = V(-.7, .1, 0), pS = V(-1.5, -1.0, 0);
+  [[pSer, oMat, .46], [pCarb, cMat, .44], [pO, oMat, .4], [pN, nMat, .42], [pS, sMat, .52]].forEach(([p, m, r]) => { const s = sphere(r, m, 18); s.position.copy(p); g.add(s); });
+  g.add(stick(pSer, pCarb, .16, std('#ff9f5a', { glow: .8 })), stick(pCarb, pO, .12, oMat), stick(pCarb, pN, .12, nMat), stick(pN, pS, .12, sMat));
+  // Right: AZT 3'-azido terminator (-N3 replacing 3'-OH) + triphosphate P
+  const aC = V(1.6, .4, 0), aN1 = V(2.7, .4, 0), aN2 = V(3.6, 1.1, 0), aP = V(1.1, -1.2, 0);
+  [[aC, cMat, .42], [aN1, nMat, .42], [aN2, nMat, .42], [aP, pMat, .5]].forEach(([p, m, r]) => { const s = sphere(r, m, 18); s.position.copy(p); g.add(s); });
+  g.add(stick(aC, aN1, .12, nMat), stick(aN1, aN2, .12, nMat), stick(aC, aP, .12, pMat));
+  return finalize(g, [
+    A(pO, '1.35 Å Penicillin β-lactam → PBP Ser covalent acyl-enzyme bond', 'atom-o'),
+    A(pS, 'Thiazolidine sulfur (S) & IgG disulfide chemistry', 'atom-s'),
+    A(aN1, 'AZT 3′-azido (missing 3′-OH) + Remdesivir/m¹Ψ triphosphate (P)', 'atom-p'),
+  ]);
+}
+
+// =====================================================================
 // The structure tree: biggest (cell) to smallest (atoms)
 // =====================================================================
 const LEG_DNA = [['A', 'Adenine (pairs with T)'], ['T', 'Thymine (pairs with A)'], ['G', 'Guanine (pairs with C)'], ['C', 'Cytosine (pairs with G)'], ['bb0', 'Backbone, strand 1'], ['bb1', 'Backbone, strand 2']];
@@ -6461,6 +6837,219 @@ const NODES = {
   'real-mem-vesicle': { name: 'SNARE 4-helix fusion & Clathrin bulk transport (PDB 1SFC)', scale: '~12 nm vesicular zipper', b: buildMemVesicleReal,
     children: ['vesicle', 'phospholipid', 'polypeptide', 'alpha-helix'],
     desc: 'Real crystal structure of the neuronal/exocytic SNARE four-helix bundle (PDB 1SFC): paired with Clathrin coats (1XI4) for inward endocytosis, SNARE zippering overcomes hydration repulsion to fuse secretory vesicles directly into the plasma membrane.' },
+  // ---- Phase 17: Cell Differentiation & Specialized Human Cells ----
+  'specialized-cells-overview': { name: 'Specialized human cells: same 6.4 Gbp DNA, different jobs (3D)', scale: '7.8 – 100 µm tissue quartet · H3K27ac / me3', b: buildSpecializedCellsOverview,
+    children: ['real-epigenetics', 'real-neuron', 'real-muscle', 'real-erythrocyte', 'real-enterocyte', 'real-cell'],
+    desc: 'Compare four specialized human cells arranged around one identical diploid 6.4 Gbp human genome: epigenetic histone marks (H3K27ac opening lineage genes vs. H3K27me3 silencing others) sculpt a wired Multipolar Neuron, a contractile Skeletal Muscle Fiber, an anucleate Hemoglobin-packed Red Blood Cell, and a sealed Gut Enterocyte.' },
+  'real-erythrocyte': { name: 'Red Blood Cell (Erythrocyte) & Hemoglobin pack (PDB 2HHB)', scale: '7.8 µm biconcave disc · 270M Hb', b: buildErythrocyteReal,
+    children: ['real-cd-hbs', 'plasma-membrane', 'polypeptide', 'atom-fe'],
+    desc: 'A 7.8 µm biconcave human red blood cell ejects its nucleus and mitochondria during maturation so a flexible spectrin cortex can pack ~270 million oxy-hemoglobin tetramers (PDB 2HHB), carrying over a billion O₂ molecules through narrow 3–5 µm capillaries.' },
+  'real-enterocyte': { name: 'Polarized Gut Enterocyte: microvilli & tight junctions', scale: '~25 µm columnar · 3,000 microvilli', b: buildEnterocyteReal,
+    children: ['real-claudin15', 'real-epigenetics', 'glucose', 'real-mem-nak', 'plasma-membrane'],
+    desc: 'A polarized intestinal epithelial cell topped with ~3,000 actin-cored microvilli for rapid nutrient absorption, riveted laterally to neighboring cells by leak-proof Claudin-15 tight junctions (PDB 4P79) and powered by basolateral Na⁺/K⁺-ATPase gradients.' },
+  'real-epigenetics': { name: 'Epigenetic chromatin control: Nucleosome & H3K27ac / me3 (PDB 1AOI)', scale: '11 nm nucleosome · histone tail tags', b: buildEpigeneticsReal,
+    children: ['real-spec-atoms', 'dna', 'nucleus', 'polypeptide'],
+    desc: 'Real crystal structure of the eukaryotic nucleosome core (PDB 1AOI): chemical acetylation (H3K27ac) neutralizes positive histone tails to open lineage-specific genes for RNA Pol II, while trimethylation (H3K27me3) compacts unused programs into silent heterochromatin.' },
+  'real-claudin15': { name: 'Claudin-15 tight-junction paracellular barrier (PDB 4P79)', scale: '~6 nm epithelial membrane seal', b: buildClaudin15Real,
+    children: ['plasma-membrane', 'polypeptide', 'phospholipid'],
+    desc: 'Real crystal structure of Claudin-15 (PDB 4P79): polymerized strands zip neighboring gut epithelial membranes shut so nutrients must travel selectively through apical transporters while pathogens and toxins stay blocked.' },
+  'real-neuron': { name: 'Multipolar neuron, saltatory myelin & 20 nm chemical synapse (realistic)', scale: '50 µm soma · Nodes of Ranvier · 20 nm cleft', real: 'overview', page: 'neuron_realistic.html',
+    children: ['real-epigenetics', 'real-neuron-node', 'real-neuron-nav17', 'real-neuron-kv12', 'real-neuron-synapse', 'real-neuron-ampa', 'real-neuron-nachr', 'real-mem-vesicle', 'real-mem-nak', 'real-spec-atoms'],
+    tags: [
+      ['dendrites', 'Spiny branching dendrites integrating synaptic inputs', 'real-neuron-synapse', 'dendrites'],
+      ['soma', 'Neuronal cell body with euchromatin-rich soma cutaway', 'real-cell', 'soma'],
+      ['nucleus_h3k27ac', 'Epigenetic H3K27ac nucleus activating SCN9A & SYT1 (PDB 1AOI)', 'real-epigenetics', 'nucleus_h3k27ac'],
+      ['axon_hillock', 'Axon hillock triggering action potentials at -55 mV threshold', 'real-neuron-node', 'axon_hillock'],
+      ['myelin_sheath', 'Insulating lipid myelin segments accelerating saltatory conduction', 'phospholipid', 'myelin_sheath'],
+      ['node_ranvier', 'Unmyelinated Node of Ranvier recharging the voltage pulse', 'real-neuron-node', 'node_ranvier'],
+      ['nav17', 'Voltage-gated Naᵥ1.7 sodium channels (PDB 6J8I)', 'real-neuron-nav17', 'nav17'],
+      ['kv12', 'Voltage-gated Kᵥ1.2 repolarizing channels (PDB 2R9R)', 'real-neuron-kv12', 'kv12'],
+      ['nak_reset', 'Na⁺/K⁺-ATPase resetting resting -70 mV gradients (PDB 3WGU)', 'real-mem-nak', 'nak_reset'],
+      ['axon_mt', 'Axonal microtubule tracks transporting synaptic vesicles', 'microtubule', 'axon_mt'],
+      ['terminal_bouton', 'Presynaptic terminal bouton loaded with neurotransmitter vesicles', 'real-neuron-synapse', 'terminal_bouton'],
+      ['cav_channel', 'Voltage-gated Caᵥ channels triggering Ca²⁺ exocytosis sparks', 'atom-ca', 'cav_channel'],
+      ['synaptic_vesicle', 'Docked synaptic vesicles carrying glutamate & acetylcholine', 'vesicle', 'synaptic_vesicle'],
+      ['snare_zipper', 'Neuronal SNARE 4-helix zipper fusing vesicles (PDB 1SFC)', 'real-mem-vesicle', 'snare_zipper'],
+      ['synaptic_cleft', '20 nm chemical synaptic cleft bridged by diffusing ligands', 'real-neuron-synapse', 'synaptic_cleft'],
+      ['ampa_receptor', 'Postsynaptic AMPA glutamate-gated channel (PDB 3KG2)', 'real-neuron-ampa', 'ampa_receptor'],
+      ['nachr_receptor', 'Nicotinic acetylcholine receptor pentamer nAChR (PDB 2BG9)', 'real-neuron-nachr', 'nachr_receptor'],
+      ['neuro_atoms', 'Atomic glutamate, ACh, Na⁺/K⁺/Ca²⁺ & H3K27ac inset (0.1–0.5 nm)', 'real-spec-atoms', 'neuro_atoms'],
+    ],
+    desc: 'Trace an electrical thought from dendrites and an H3K27ac euchromatin soma nucleus (1AOI) down a myelinated axon via saltatory Nodes of Ranvier (Naᵥ1.7 6J8I, Kᵥ1.2 2R9R, Na⁺/K⁺ 3WGU) into a 20 nm chemical synapse where Ca²⁺ sparks SNARE (1SFC) vesicle fusion onto postsynaptic AMPA (3KG2) and nAChR (2BG9) channels.' },
+  'real-neuron-node': { name: 'Node of Ranvier: saltatory Naᵥ1.7 & Kᵥ1.2 firing (realistic)', scale: '1–2 µm axonal gap · -70 → +40 mV', real: 'node_ranvier', page: 'neuron_realistic.html', hi: 'nav17',
+    children: ['real-neuron-nav17', 'real-neuron-kv12', 'real-mem-nak', 'real-spec-atoms'],
+    tags: [
+      ['node_ranvier', 'Exposed Node of Ranvier membrane patch', 'real-neuron-nav17', 'node_ranvier'],
+      ['nav17', 'Naᵥ1.7 rapid inward Na⁺ depolarization (PDB 6J8I)', 'real-neuron-nav17', 'nav17'],
+      ['kv12', 'Kᵥ1.2 outward K⁺ repolarization (PDB 2R9R)', 'real-neuron-kv12', 'kv12'],
+      ['nak_reset', 'Na⁺/K⁺-ATPase ionic recovery pump (PDB 3WGU)', 'real-mem-nak', 'nak_reset'],
+    ],
+    desc: 'Concentrated at unmyelinated gaps between myelin sheaths, dense voltage-gated Naᵥ1.7 (6J8I) and Kᵥ1.2 (2R9R) channels regenerate action potentials at up to 120 m/s while saving massive amounts of ATP.' },
+  'real-neuron-nav17': { name: 'Voltage-gated Naᵥ1.7 sodium channel (PDB 6J8I)', scale: '~10 nm · action-potential ignition', b: buildNeuronNav17Real,
+    children: ['real-spec-atoms', 'plasma-membrane', 'polypeptide'],
+    desc: 'Real cryo-EM structure of human Naᵥ1.7 (PDB 6J8I): positively charged S4 voltage-sensor helices slide upward at -55 mV, opening a selective Na⁺ pore that drives the explosive +40 mV spike.' },
+  'real-neuron-kv12': { name: 'Voltage-gated Kᵥ1.2 potassium channel (PDB 2R9R)', scale: '~9 nm · repolarizing selectivity filter', b: buildNeuronKv12Real,
+    children: ['real-spec-atoms', 'plasma-membrane', 'polypeptide'],
+    desc: 'Real crystal structure of the Kᵥ1.2 tetramer (PDB 2R9R): carbonyl oxygens inside its selectivity filter mimic K⁺ hydration shells, letting K⁺ rush outward to snap the axon back to -70 mV.' },
+  'real-neuron-synapse': { name: '20 nm Chemical Synapse: Ca²⁺, SNARE & AMPA/nAChR (realistic)', scale: '20 nm cleft · 1 ms synaptic transmission', real: 'synapse', page: 'neuron_realistic.html', hi: 'snare_zipper',
+    children: ['real-mem-vesicle', 'real-neuron-ampa', 'real-neuron-nachr', 'real-spec-atoms'],
+    tags: [
+      ['cav_channel', 'Presynaptic Caᵥ voltage-gated calcium entry', 'atom-ca', 'cav_channel'],
+      ['snare_zipper', 'SNARE 4-helix vesicle fusion zipper (PDB 1SFC)', 'real-mem-vesicle', 'snare_zipper'],
+      ['ampa_receptor', 'Postsynaptic AMPA glutamate receptor (PDB 3KG2)', 'real-neuron-ampa', 'ampa_receptor'],
+      ['nachr_receptor', 'Nicotinic ACh receptor pentamer (PDB 2BG9)', 'real-neuron-nachr', 'nachr_receptor'],
+    ],
+    desc: 'At the presynaptic terminal bouton, arriving voltage opens Caᵥ channels; Ca²⁺ binds synaptotagmin so SNARE helices (1SFC) fuse synaptic vesicles and spill glutamate/ACh across the 20 nm cleft onto postsynaptic AMPA (3KG2) and nAChR (2BG9) receptors.' },
+  'real-neuron-ampa': { name: 'Postsynaptic AMPA GluA2 glutamate receptor (PDB 3KG2)', scale: '~14 nm ligand-gated ion channel', b: buildNeuronAmpaReal,
+    children: ['real-spec-atoms', 'plasma-membrane', 'polypeptide'],
+    desc: 'Real crystal structure of the tetrameric AMPA GluA2 receptor (PDB 3KG2): binding two glutamate molecules in its clamshell domains snaps open a central Na⁺ pore, initiating fast excitatory postsynaptic currents.' },
+  'real-neuron-nachr': { name: 'Nicotinic acetylcholine receptor nAChR (PDB 2BG9)', scale: '~12 nm neuromuscular & synaptic gate', b: buildNeuronNachrReal,
+    children: ['real-spec-atoms', 'real-muscle', 'polypeptide'],
+    desc: 'Real cryo-EM structure of the pentameric nicotinic acetylcholine receptor (PDB 2BG9): acetylcholine binding rotates five transmembrane M2 helices to admit Na⁺ and trigger muscle or neuronal firing.' },
+  'real-muscle': { name: 'Skeletal muscle fiber & 2.2 µm sliding sarcomere (realistic)', scale: '50 µm myofiber · 2.2 ↔ 1.6 µm sarcomere', real: 'overview', page: 'muscle_realistic.html',
+    children: ['real-epigenetics', 'real-muscle-sarcomere', 'real-muscle-myosin', 'real-muscle-actin-tropo', 'real-muscle-serca', 'real-spec-atoms', 'mitochondrion', 'atom-ca'],
+    tags: [
+      ['sarcolemma', 'Excitable muscle plasma membrane carrying T-tubule voltage', 'plasma-membrane', 'sarcolemma'],
+      ['peripheral_nuclei', 'Multinucleated peripheral H3K27ac nuclei (MYH1 / ACTA1)', 'real-epigenetics', 'peripheral_nuclei'],
+      ['t_tubule', 'Transverse T-tubule conducting depolarization deep inside fiber', 'plasma-membrane', 't_tubule'],
+      ['sr_network', 'Sarcoplasmic reticulum Ca²⁺ vault wrapping every myofibril', 'real-muscle-serca', 'sr_network'],
+      ['ryr1_channel', 'RyR1 Ca²⁺ release channels flooding the sarcomere on excitation', 'atom-ca', 'ryr1_channel'],
+      ['serca1a_pump', 'SERCA1a Ca²⁺-ATPase pumping Ca²⁺ back for relaxation (PDB 1SU4)', 'real-muscle-serca', 'serca1a_pump'],
+      ['myofibril', 'Cylindrical myofibril packed with repeating 2.2 µm sarcomeres', 'real-muscle-sarcomere', 'myofibril'],
+      ['z_disc', 'Z-disc α-actinin lattice anchoring thin actin filaments', 'real-muscle-sarcomere', 'z_disc'],
+      ['i_band', 'Light I-band (thin actin only — narrows during contraction)', 'real-muscle-actin-tropo', 'i_band'],
+      ['a_band', 'Dark A-band (full thick myosin span — constant length)', 'real-muscle-myosin', 'a_band'],
+      ['h_zone', 'Central H-zone bare myosin region shrinking to near zero at 1.6 µm', 'real-muscle-sarcomere', 'h_zone'],
+      ['m_line', 'Central M-line crosslinking thick myosin tails symmetrically', 'real-muscle-sarcomere', 'm_line'],
+      ['titin_spring', 'Giant elastic titin spring restoring 2.2 µm resting length', 'polypeptide', 'titin_spring'],
+      ['myosin_thick', 'Bipolar thick myosin-II filament backbone', 'real-muscle-myosin', 'myosin_thick'],
+      ['myosin_head', 'ATP-driven Myosin-II S1 motor heads (PDB 2MYS)', 'real-muscle-myosin', 'myosin_head'],
+      ['actin_thin', 'Helical F-actin thin filament tracks (PDB 6KN8)', 'real-muscle-actin-tropo', 'actin_thin'],
+      ['troponin_tropo', 'Ca²⁺-gated Troponin–Tropomyosin steric switch (PDB 6KN8)', 'real-muscle-actin-tropo', 'troponin_tropo'],
+      ['muscle_atoms', 'Atomic Ca²⁺ EF-hand chelation & Mg²⁺·ATP cleavage inset', 'real-spec-atoms', 'muscle_atoms'],
+    ],
+    desc: 'Drill from a multinucleated skeletal myofiber (peripheral H3K27ac nuclei, T-tubules, wrapped sarcoplasmic reticulum with RyR1 & SERCA1a 1SU4) straight into a live sliding-filament 2.2 µm ↔ 1.6 µm Sarcomere where Ca²⁺ rolls Troponin–Tropomyosin (6KN8) off actin so Myosin-II S1 heads (2MYS) ratchet Z-discs inward using ATP.' },
+  'real-muscle-sarcomere': { name: 'Sliding-filament 2.2 µm ↔ 1.6 µm Sarcomere (realistic)', scale: '2.2 µm Z-disc to Z-disc contractile unit', real: 'sarcomere', page: 'muscle_realistic.html', hi: 'myosin_head',
+    children: ['real-muscle-myosin', 'real-muscle-actin-tropo', 'real-muscle-serca', 'real-spec-atoms'],
+    tags: [
+      ['z_disc', 'Z-disc boundaries drawing inward (2.2 µm → 1.6 µm)', 'real-muscle-actin-tropo', 'z_disc'],
+      ['myosin_head', 'Myosin-II S1 ATP power-stroke heads (PDB 2MYS)', 'real-muscle-myosin', 'myosin_head'],
+      ['troponin_tropo', 'Ca²⁺-rolled Troponin–Tropomyosin switch (PDB 6KN8)', 'real-muscle-actin-tropo', 'troponin_tropo'],
+      ['titin_spring', 'Elastic titin molecular springs centering the A-band', 'polypeptide', 'titin_spring'],
+    ],
+    desc: 'Neither thick myosin nor thin actin filaments shorten during muscle contraction: asynchronous ATP-powered Myosin-II cross-bridges slide thin filaments past thick filaments toward the M-line, narrowing the I-band and H-zone while the A-band stays constant.' },
+  'real-muscle-myosin': { name: 'Skeletal Myosin-II S1 motor head (PDB 2MYS)', scale: '~16 nm ATP-driven lever arm', b: buildMuscleMyosinReal,
+    children: ['real-spec-atoms', 'polypeptide', 'atom-p', 'atom-mg'],
+    desc: 'Real crystal structure of the Myosin-II S1 catalytic head and lever arm (PDB 2MYS): releasing Pᵢ and ADP swings the lever arm by ~10 nm to slide F-actin, then binding fresh ATP detaches and re-cocks the head.' },
+  'real-muscle-actin-tropo': { name: 'F-Actin–Tropomyosin–Troponin filament (PDB 6KN8)', scale: '~10 nm Ca²⁺-gated contractile track', b: buildMuscleActinTropoReal,
+    children: ['atom-ca', 'polypeptide', 'real-spec-atoms'],
+    desc: 'Real cryo-EM structure of the Ca²⁺-bound thin filament (PDB 6KN8): when sarcoplasmic Ca²⁺ binds Troponin-C, conformational rotation rolls the coiled Tropomyosin cable away from F-actin so Myosin-II heads can latch on.' },
+  'real-muscle-serca': { name: 'SERCA1a Sarcoplasmic Reticulum Ca²⁺ pump (PDB 1SU4)', scale: '~11 nm ATP-driven relaxation pump', b: buildMuscleSercaReal,
+    children: ['atom-ca', 'atom-p', 'plasma-membrane', 'polypeptide'],
+    desc: 'Real crystal structure of SERCA1a (PDB 1SU4): hydrolyzing 1 ATP pumps 2 Ca²⁺ ions uphill back into the sarcoplasmic reticulum lumen, letting tropomyosin re-cover actin and elastic titin relax the sarcomere back to 2.2 µm.' },
+  'real-spec-atoms': { name: 'Atomic differentiation signals: H3K27ac, Ca²⁺, Na⁺/K⁺ & Glutamate', scale: '0.1–0.5 nm (C, H, N, O, Ca²⁺, Na⁺, K⁺)', b: buildSpecAtomsReal,
+    children: ['atom-c', 'atom-n', 'atom-o', 'atom-h', 'atom-ca', 'atom-p', 'atom-mg'],
+    desc: 'At 0.1–0.5 nm atomic scale, both thought and movement obey identical chemistry: covalent acetyl tags (-COCH₃) open lineage DNA, charged Na⁺/K⁺ ions race down neuronal axons, and Ca²⁺ ions trigger both synaptic SNARE fusion and sarcomere troponin.' },
+  // ---- Phase 18: Immune Defense & Applied Medicine (Capstone!) ----
+  'real-immune': { name: 'Immune defense battleground: macrophage, IgG & CD8⁺ T-cell (realistic)', scale: '30 µm niche · 15 nm synapse · 0.1 nm epitopes', real: 'overview', page: 'immune_defense_realistic.html',
+    children: ['real-imm-phagolysosome', 'real-imm-mhcii', 'real-imm-igg', 'real-imm-rbd-block', 'real-imm-tcr-mhci', 'real-imm-perforin', 'real-imm-granzyme', 'real-pharm-atoms', 'real-bacterium', 'real-coronavirus', 'real-cell'],
+    tags: [
+      ['macrophage', 'Patrolling 15 µm innate macrophage sensing bacterial LPS', 'real-imm-phagolysosome', 'macrophage'],
+      ['actin_pseudopod', 'Arp2/3-branched F-actin pseudopods engulfing E. coli', 'cytoskeleton', 'actin_pseudopod'],
+      ['ecoli_target', 'Opsonized 2 µm E. coli pathogen undergoing phagocytosis', 'real-bacterium', 'ecoli_target'],
+      ['phagosome', 'Sealed phagosome fusing with acidic lysosomes', 'lysosome', 'phagosome'],
+      ['lysosome_ros', 'Acidic pH 4.5 phagolysosome & NOX2 reactive oxygen burst', 'real-imm-phagolysosome', 'lysosome_ros'],
+      ['mhcii_display', 'Surface MHC Class II presenting bacterial peptides (PDB 1DLH)', 'real-imm-mhcii', 'mhcii_display'],
+      ['igg_antibody', 'Y-shaped B-cell IgG antibodies neutralizing virions (PDB 1IGT)', 'real-imm-igg', 'igg_antibody'],
+      ['fab_arms', 'Hypervariable Fab antigen-binding tips locking Spike RBD', 'real-imm-rbd-block', 'fab_arms'],
+      ['fc_stem', 'Conserved IgG Fc stem recruiting macrophage phagocytosis', 'real-imm-igg', 'fc_stem'],
+      ['spike_rbd', 'SARS-CoV-2 Spike RBD capped by Fab (PDB 7BZ5)', 'real-imm-rbd-block', 'spike_rbd'],
+      ['ace2_blocked', 'Host epithelial ACE2 receptor sterically protected (PDB 6M0J)', 'real-coronavirus', 'ace2_blocked'],
+      ['virion_target', 'Neutralized 100 nm SARS-CoV-2 virion blocked from entry', 'real-coronavirus', 'virion_target'],
+      ['cd8_tcell', 'Cytotoxic 8 µm CD8⁺ T-cell inspecting infected host cells', 'real-imm-tcr-mhci', 'cd8_tcell'],
+      ['tcr_mhci', 'TCR–pMHC-I immunological synapse lock (PDB 1AO7)', 'real-imm-tcr-mhci', 'tcr_mhci'],
+      ['viral_peptide', '9-mer endogenous viral peptide presented in MHC-I groove', 'amino-acid', 'viral_peptide'],
+      ['perforin_pore', 'Perforin 18 nm transmembrane lytic pore ring (PDB 3NSJ)', 'real-imm-perforin', 'perforin_pore'],
+      ['granzyme_b', 'Granzyme B protease inducing orderly apoptosis (PDB 1IAU)', 'real-imm-granzyme', 'granzyme_b'],
+      ['immune_atoms', 'Atomic CDR3 epitope H-bonds & IgG Cys–S–S–Cys disulfide inset', 'real-pharm-atoms', 'immune_atoms'],
+    ],
+    desc: 'Experience all three arms of human immunity across one 30 µm Cinema 3D battleground: Innate Macrophage phagocytosis with acidic ROS burst and MHC-II (1DLH), Humoral Y-shaped IgG (1IGT) sterically capping SARS-CoV-2 Spike RBD (7BZ5) away from ACE2 (6M0J), and Cellular CD8⁺ T-cell TCR–pMHC-I (1AO7) firing Perforin pores (3NSJ) and Granzyme B (1IAU).' },
+  'real-imm-phagolysosome': { name: 'Macrophage phagocytosis, ROS burst & MHC-II (realistic)', scale: '15 µm phagocyte · pH 4.5 phagolysosome', real: 'phagocytosis', page: 'immune_defense_realistic.html', hi: 'lysosome_ros',
+    children: ['real-imm-mhcii', 'real-bacterium', 'lysosome', 'atom-o'],
+    tags: [
+      ['actin_pseudopod', 'F-actin pseudopods sealing E. coli into phagosome', 'real-bacterium', 'actin_pseudopod'],
+      ['lysosome_ros', 'V-ATPase pH 4.5 acid & NOX2 superoxide burst', 'lysosome', 'lysosome_ros'],
+      ['mhcii_display', 'Digested peptides loaded onto MHC-II (PDB 1DLH)', 'real-imm-mhcii', 'mhcii_display'],
+    ],
+    desc: 'Innate immunity acts within minutes: macrophage actin pseudopods swallow bacteria into a phagosome that merges with lysosomes, unleashing pH 4.5 acid, NOX2 reactive oxygen radicals, and proteases before loading bacterial fragments onto MHC-II (1DLH) to recruit adaptive help.' },
+  'real-imm-mhcii': { name: 'Class II MHC antigen-presenting dimer (PDB 1DLH)', scale: '~8 nm innate-to-adaptive bridge', b: buildImmMhciiReal,
+    children: ['polypeptide', 'amino-acid', 'plasma-membrane'],
+    desc: 'Real crystal structure of human HLA-DR1 MHC Class II (PDB 1DLH): binds exogenous bacterial peptides cleaved inside macrophage phagolysosomes and presents them at the surface to activate CD4⁺ Helper T-cells.' },
+  'real-imm-igg': { name: 'Intact Y-shaped IgG antibody (PDB 1IGT)', scale: '~14 nm · 150 kDa humoral defender', b: buildImmIggReal,
+    children: ['real-imm-rbd-block', 'polypeptide', 'atom-s'],
+    desc: 'Real crystal structure of an intact Y-shaped IgG immunoglobulin (PDB 1IGT): flexible disulfide-hinged Fab arms grip pathogen epitopes with nanomolar specificity while the conserved Fc tail triggers macrophage opsonization.' },
+  'real-imm-rbd-block': { name: 'Neutralizing Fab–SARS-CoV-2 Spike RBD complex (PDB 7BZ5)', scale: '~10 nm steric ACE2 blockade', b: buildImmRbdBlockReal,
+    children: ['real-coronavirus', 'real-imm-igg', 'polypeptide'],
+    desc: 'Real crystal structure of neutralizing human antibody B38 Fab clamping the SARS-CoV-2 Spike Receptor-Binding Domain (PDB 7BZ5), physically overlapping the ACE2 binding surface (PDB 6M0J) so the virion cannot enter human cells.' },
+  'real-imm-tcr-mhci': { name: 'Cytotoxic CD8⁺ TCR–pMHC-I synapse complex (PDB 1AO7)', scale: '~15 nm cellular self/non-self test', b: buildImmTcrMhciReal,
+    children: ['real-imm-perforin', 'real-imm-granzyme', 'polypeptide', 'amino-acid'],
+    desc: 'Real crystal structure of a human T-Cell Receptor docked onto HLA-A2 Class I MHC displaying a viral 9-mer peptide (PDB 1AO7): healthy cells show self peptides and are spared, whereas viral peptides trigger immediate CD8⁺ cytotoxic elimination.' },
+  'real-imm-perforin': { name: 'Cytotoxic Perforin pore-forming protein (PDB 3NSJ)', scale: '~18 nm transmembrane lytic barrel', b: buildImmPerforinReal,
+    children: ['atom-ca', 'plasma-membrane', 'polypeptide'],
+    desc: 'Real crystal structure of Perforin (PDB 3NSJ): secreted into the 15 nm immunological synapse, Ca²⁺ triggers 20–24 Perforin subunits to oligomerize into an 18 nm transmembrane beta-barrel conduit through the infected cell membrane.' },
+  'real-imm-granzyme': { name: 'Granzyme B apoptotic serine protease (PDB 1IAU)', scale: '~5 nm caspase-3 activator', b: buildImmGranzymeReal,
+    children: ['real-cell', 'polypeptide', 'amino-acid'],
+    desc: 'Real crystal structure of human Granzyme B (PDB 1IAU): streaming through Perforin pores into an infected host cell, this serine protease cleaves pro-caspase-3 to dismantle the viral factory cleanly by apoptosis.' },
+  'real-pharmacology': { name: 'Targeted pharmacology & mRNA-LNP vaccine lab (realistic)', scale: '5-organism bench · 1.35 Å covalent active site', real: 'overview', page: 'pharmacology_lab.html',
+    children: ['real-pharm-pbp', 'real-pharm-macrolide', 'real-pharm-tetra', 'real-pharm-rdrp', 'real-pharm-hivrt', 'real-pharm-mrna-lnp', 'real-pharm-atoms', 'real-bacterium', 'real-mycoplasma', 'real-chlamydia', 'real-coronavirus', 'real-hiv', 'real-cell'],
+    tags: [
+      ['bench_ecoli', 'Stage 1 E. coli (Walled · 70S) — lysed by Penicillin, halted by 70S drugs', 'real-bacterium', 'bench_ecoli'],
+      ['bench_myco', 'Stage 3 Mycoplasma (0 Wall · 70S) — immune to Penicillin, halted by Macrolide', 'real-mycoplasma', 'bench_myco'],
+      ['bench_chlam', 'Stage 3 Chlamydia (Intracellular · 70S) — halted by Tetracycline/Macrolide', 'real-chlamydia', 'bench_chlam'],
+      ['bench_virus', 'Stage 4 SARS-CoV-2 & HIV-1 (0 Wall · 0 Ribosomes) — Antivirals & Vaccines only', 'real-coronavirus', 'bench_virus'],
+      ['bench_human', 'Stage 2 Human Cell (80S · Intact Nucleus) — Spared by drugs, primed by mRNA-LNP', 'real-cell', 'bench_human'],
+      ['pg_wall', 'Periplasmic peptidoglycan wall rupturing under 3 atm turgor', 'peptidoglycan', 'pg_wall'],
+      ['pbp_penicillin', 'Bacterial PBP covalently welded by Penicillin G (PDB 1PWC)', 'real-pharm-pbp', 'pbp_penicillin'],
+      ['ribo_70s', 'Bacterial 70S ribosome (50S + 30S) vulnerable to selective blockers', 'ribosome', 'ribo_70s'],
+      ['macrolide_tunnel', 'Macrolide plugging 50S nascent peptide exit tunnel (PDB 4V7U)', 'real-pharm-macrolide', 'macrolide_tunnel'],
+      ['tetra_asite', 'Tetracycline blocking 30S A-site decoding center (PDB 1HNW)', 'real-pharm-tetra', 'tetra_asite'],
+      ['ribo_80s_safe', 'Human cytosolic 80S ribosome (PDB 4UG0) running completely untouched', 'real-cd-ribo80', 'ribo_80s_safe'],
+      ['rdrp_remdesivir', 'SARS-CoV-2 RdRp stalled at i+3 by Remdesivir-TP (PDB 7BV2)', 'real-pharm-rdrp', 'rdrp_remdesivir'],
+      ['hiv_rt_azt', 'HIV-1 Reverse Transcriptase terminated by AZT-TP (PDB 3V4I)', 'real-pharm-hivrt', 'hiv_rt_azt'],
+      ['mrna_lnp', '90 nm ionizable Lipid Nanoparticle (LNP) delivering spike mRNA', 'real-pharm-mrna-lnp', 'mrna_lnp'],
+      ['endosome_escape', 'Acidifying pH 6.0 endosome releasing mRNA straight into cytosol', 'vesicle', 'endosome_escape'],
+      ['vaccine_mrna', 'Transient m¹Ψ-modified Spike mRNA read by 80S then cleared by RNases', 'rna', 'vaccine_mrna'],
+      ['intact_nucleus', 'Intact double nuclear envelope walling off host DNA (zero genomic edit)', 'nucleus', 'intact_nucleus'],
+      ['drug_atoms', 'Atomic 1.35 Å β-lactam–Ser ester, 3′-OH-less AZT & m¹Ψ inset', 'real-pharm-atoms', 'drug_atoms'],
+    ],
+    desc: 'Curriculum Capstone: toggle Penicillin, Macrolide/Tetracycline, Direct-Acting Antivirals, and mRNA-LNP Vaccines live across a 5-organism selectivity bench (E. coli, Mycoplasma, Chlamydia, SARS-CoV-2/HIV-1, and Human Cell) built from 6 real RCSB PDB complexes (1PWC, 4V7U, 1HNW, 4UG0, 7BV2, 3V4I) down to 1.35 Å covalent drug-target bonds.' },
+  'real-pharm-pbp': { name: 'Bacterial PBP acylated by Penicillin G (PDB 1PWC)', scale: '~8 nm covalent suicide inhibition', b: buildPharmPbpReal,
+    children: ['real-pharm-atoms', 'peptidoglycan', 'real-bacterium', 'real-mycoplasma'],
+    desc: 'Real crystal structure of a bacterial Penicillin-Binding Protein covalently trapped by Penicillin G (PDB 1PWC): the strained 4-membered β-lactam ring mimics D-Ala–D-Ala and welds onto the catalytic serine, bursting walled E. coli while leaving wall-less Mycoplasma, viruses, and human cells untouched.' },
+  'real-pharm-macrolide': { name: 'Bacterial 50S exit tunnel + Macrolide (PDB 4V7U)', scale: '~21 nm 70S ribosome selectivity', b: buildPharmMacrolideReal,
+    children: ['ribosome', 'real-cd-ribo80', 'real-mycoplasma', 'real-chlamydia'],
+    desc: 'Real crystal structure of a bacterial 50S subunit with Erythromycin wedged inside the 23S rRNA polypeptide exit tunnel (PDB 4V7U): stops translation in E. coli, wall-less Mycoplasma, and intracellular Chlamydia while eukaryotic 28S rRNA divergence keeps human 80S ribosomes running cleanly.' },
+  'real-pharm-tetra': { name: 'Bacterial 30S A-site + Tetracycline (PDB 1HNW)', scale: '~15 nm 30S decoding blockade', b: buildPharmTetraReal,
+    children: ['ribosome', 'rna', 'real-chlamydia', 'real-rickettsia'],
+    desc: 'Real crystal structure of Tetracycline occupying the bacterial 30S ribosomal A-site (PDB 1HNW): sterically blocks incoming aminoacyl-tRNAs on 70S ribosomes (effective against E. coli, Chlamydia, and Rickettsia) while having zero molecular target on viruses.' },
+  'real-pharm-rdrp': { name: 'SARS-CoV-2 RdRp stalled by Remdesivir-TP (PDB 7BV2)', scale: '~10 nm viral RNA polymerase stall', b: buildPharmRdrpReal,
+    children: ['real-coronavirus', 'real-pharm-atoms', 'rna', 'nucleotide'],
+    desc: 'Real cryo-EM structure of SARS-CoV-2 RNA-dependent RNA polymerase incorporating Remdesivir monophosphate (PDB 7BV2): its 1′-cyano substituent clashes with residue Ser861 three nucleotides later, triggering delayed i+3 viral RNA chain termination.' },
+  'real-pharm-hivrt': { name: 'HIV-1 Reverse Transcriptase + AZT-TP (PDB 3V4I)', scale: '~10 nm obligate 3′-OH chain stop', b: buildPharmHivRtReal,
+    children: ['real-hiv', 'real-pharm-atoms', 'dna', 'nucleotide'],
+    desc: 'Real crystal structure of HIV-1 Reverse Transcriptase (PDB 3V4I): incorporating AZT-TP inserts an azido (-N₃) group in place of the 3′-OH nucleophile, immediately terminating proviral DNA synthesis because the next phosphodiester bond cannot form.' },
+  'real-pharm-mrna-lnp': { name: 'mRNA-LNP vaccine cytosolic translation outside intact nucleus (realistic)', scale: '90 nm LNP · 80S cytosol · 0 DNA edit', real: 'mrna_vaccine', page: 'pharmacology_lab.html', hi: 'vaccine_mrna',
+    children: ['real-cd-ribo80', 'real-imm-igg', 'real-imm-tcr-mhci', 'nucleus', 'rna'],
+    tags: [
+      ['mrna_lnp', '90 nm ionizable Lipid Nanoparticle delivering Spike mRNA', 'phospholipid', 'mrna_lnp'],
+      ['vaccine_mrna', 'Transient m¹Ψ-modified mRNA read on cytosolic 80S ribosomes', 'real-cd-ribo80', 'vaccine_mrna'],
+      ['intact_nucleus', 'Intact nuclear envelope strictly separating host chromosomal DNA', 'nucleus', 'intact_nucleus'],
+      ['ribo_80s_safe', 'Human cytosolic 80S ribosomes assembling harmless Spike antigens', 'real-cd-ribo80', 'ribo_80s_safe'],
+    ],
+    desc: 'Shows visually why mRNA-LNP vaccines cannot alter human DNA: an ~90 nm lipid nanoparticle escapes an acidifying endosome and delivers transient m¹Ψ-modified Spike mRNA straight to cytosolic 80S ribosomes completely outside the intact nuclear envelope, priming IgG and CD8⁺ memory before RNases clear the message.' },
+  'real-pharm-atoms': { name: 'Atomic drug-target chemistry: 1.35 Å β-lactam–Ser bond & AZT', scale: '0.1–0.5 nm (C, H, N, O, S, P)', b: buildPharmAtomsReal,
+    children: ['atom-c', 'atom-h', 'atom-n', 'atom-o', 'atom-s', 'atom-p'],
+    desc: 'At 0.1–0.5 nm atomic resolution, selective medicine reduces to covalent geometry: a 1.35 Å ester bond welds penicillin to PBP serine, a missing 3′-OH halts HIV reverse transcriptase, and identical C, H, N, O, S, P atoms unite every chapter from scale explorer to modern vaccines.' },
 };
 
 // =====================================================================
@@ -6600,6 +7189,13 @@ const MENU_GROUPS = [
     ['real-bioenergetics', '5.3 · Bioenergetics: photosynthesis ↔ respiration'],
     ['real-membrane-transport', '5.4 · Membrane transport & osmosis lab'],
   ] },
+  { id: 'stage-6', label: '6 · Human Specialization, Immunity & Medicine', sub: 'Differentiation, Defense & Pharmacology', items: [
+    ['specialized-cells-overview', '6.0 · Specialized human cells (3D)'],
+    ['real-neuron', '6.1 · Multipolar neuron & synapse'],
+    ['real-muscle', '6.2 · Skeletal muscle & sarcomere'],
+    ['real-immune', '6.3 · Immune defense battleground'],
+    ['real-pharmacology', '6.4 · Antibiotics, antivirals & vaccines'],
+  ] },
 ];
 const ROOTS = MENU_GROUPS.flatMap(g => g.items), EXTRA_ROOTS = new Set(['cell', 'plant-cell', 'prokaryote']), isRoot = id => ROOTS.some(r => r[0] === id) || EXTRA_ROOTS.has(id);
 const TOUR_BY_ROOT = {
@@ -6629,6 +7225,10 @@ const TOUR_BY_ROOT = {
   'real-central-dogma': window.TOURS?.central_dogma ?? null,
   'real-bioenergetics': window.TOURS?.bioenergetics ?? null,
   'real-membrane-transport': window.TOURS?.membrane_transport ?? null,
+  'real-neuron': window.TOURS?.neuron ?? null,
+  'real-muscle': window.TOURS?.muscle ?? null,
+  'real-immune': window.TOURS?.immune_defense ?? null,
+  'real-pharmacology': window.TOURS?.pharmacology ?? null,
 };
 const collapsedMenus = new Set();
 const cache = new Map(), expanded = new Set(ROOTS.map(r => r[0]));
@@ -6643,7 +7243,7 @@ function build(id) {
   cache.set(id, out);
   return out;
 }
-const FREE_LOOK_STAGE_NODES = new Set(['life-overview', 'four-biomolecules', 'parasitic-cells-overview', 'subviral-overview']);
+const FREE_LOOK_STAGE_NODES = new Set(['life-overview', 'four-biomolecules', 'parasitic-cells-overview', 'subviral-overview', 'specialized-cells-overview']);
 const localTourPose = { on: false, p0: V(), t0: V(), p1: V(), t1: V(), start: 0, dur: 1000, orbit: 0, theta: 0, yaw: 0, pitch: 0, seq: 0, arrived: true };
 const localHeld = new Set();
 let freeLook = true, freeLookOverride = null, localLookFrom = null;   // null = automatic (Free Look on wide overview stages, Orbit on single organelles/molecules)
@@ -6716,6 +7316,10 @@ const PAGES = {
   'central_dogma_realistic.html': { title: 'Central Dogma & Mutations', look: 'Envelope' },
   'bioenergetics_realistic.html': { title: 'Photosynthesis & Respiration', look: 'Organelles' },
   'membrane_transport_realistic.html': { title: 'Membrane Transport & Osmosis', look: 'Bilayer' },
+  'neuron_realistic.html': { title: 'Multipolar Neuron & Synapse', look: 'Membrane' },
+  'muscle_realistic.html': { title: 'Skeletal Muscle & Sarcomere', look: 'Sarcomere' },
+  'immune_defense_realistic.html': { title: 'Immune Defense Battleground', look: 'Immune' },
+  'pharmacology_lab.html': { title: 'Pharmacology & mRNA-LNP Lab', look: 'Assay' },
 };   // each also gets: el (its iframe), ready, data (symbols, recipes, parts), state (button states), pending (the view to show once ready)
 let page = null, realPts = [], viewSeq = 0;   // the page in the stage
 const pageOf = id => NODES[id].page ?? 'animal_cell_realistic.html';
@@ -6757,6 +7361,10 @@ const RECIPE = {
   'central_dogma_realistic.html': { 'real-cd-replisome': 'pol_delta', 'real-cd-pol-delta': 'pol_delta', 'real-cd-spliceosome': 'spliceosome', 'real-cd-splicing-view': 'exon_junction', 'real-cd-ribo80': 'ribosome_80s', 'real-cd-trna': 'trna_ape', 'real-cd-tric': 'tric_groel', 'real-cd-hsp70': 'hsp70', 'real-cd-hbs': 'hb_sickle_fiber', 'real-cd-acrb': 'acrb_pocket', 'real-cd-mutation-atom': 'codon_atoms', dna: 'chromatin', rna: 'mature_mrna', ribosome: 'ribosome_80s', protein: 'hb_wildtype' },
   'bioenergetics_realistic.html': { 'real-bio-psii': 'psii', 'real-bio-b6f': 'cyt_b6f', 'real-bio-psi': 'psi', 'real-bio-rubisco': 'rubisco', 'real-bio-citrate': 'krebs_cycle', 'real-bio-complex1': 'complex_i', 'real-bio-complex4': 'complex_iv', 'real-bio-atpsynth': 'f1f0_atps', chloroplast: 'chloroplast_hull', mitochondrion: 'mito_hull', chlorophyll: 'cofactor_atoms', glucose: 'glycolysis', 'atp-synthase': 'f1f0_atps' },
   'membrane_transport_realistic.html': { 'real-mem-aqp1': 'aquaporin', 'real-mem-glut1': 'glut1', 'real-mem-nak': 'nak_pump', 'real-mem-vesicle': 'snare_fusion', 'plasma-membrane': 'bilayer', phospholipid: 'bilayer', 'cell-wall': 'cell_wall', 'central-vacuole': 'vacuole', water: 'water_flow', glucose: 'glut1' },
+  'neuron_realistic.html': { 'real-epigenetics': 'nucleus_h3k27ac', 'real-neuron-node': 'node_ranvier', 'real-neuron-nav17': 'nav17', 'real-neuron-kv12': 'kv12', 'real-neuron-synapse': 'synaptic_cleft', 'real-neuron-ampa': 'ampa_receptor', 'real-neuron-nachr': 'nachr_receptor', 'real-mem-vesicle': 'snare_zipper', 'real-mem-nak': 'nak_reset', 'real-spec-atoms': 'neuro_atoms' },
+  'muscle_realistic.html': { 'real-epigenetics': 'peripheral_nuclei', 'real-muscle-sarcomere': 'z_disc', 'real-muscle-myosin': 'myosin_head', 'real-muscle-actin-tropo': 'troponin_tropo', 'real-muscle-serca': 'serca1a_pump', 'real-spec-atoms': 'muscle_atoms', mitochondrion: 'myofibril', 'atom-ca': 'ryr1_channel' },
+  'immune_defense_realistic.html': { 'real-imm-phagolysosome': 'lysosome_ros', 'real-imm-mhcii': 'mhcii_display', 'real-imm-igg': 'igg_antibody', 'real-imm-rbd-block': 'spike_rbd', 'real-imm-tcr-mhci': 'tcr_mhci', 'real-imm-perforin': 'perforin_pore', 'real-imm-granzyme': 'granzyme_b', 'real-pharm-atoms': 'immune_atoms', 'real-bacterium': 'ecoli_target', 'real-coronavirus': 'virion_target', 'real-cell': 'macrophage' },
+  'pharmacology_lab.html': { 'real-pharm-pbp': 'pbp_penicillin', 'real-pharm-macrolide': 'macrolide_tunnel', 'real-pharm-tetra': 'tetra_asite', 'real-pharm-rdrp': 'rdrp_remdesivir', 'real-pharm-hivrt': 'hiv_rt_azt', 'real-pharm-mrna-lnp': 'mrna_lnp', 'real-pharm-atoms': 'drug_atoms', 'real-bacterium': 'bench_ecoli', 'real-mycoplasma': 'bench_myco', 'real-chlamydia': 'bench_chlam', 'real-coronavirus': 'bench_virus', 'real-hiv': 'hiv_rt_azt', 'real-cell': 'bench_human' },
 };
 const nName = id => i18n.nodeName(id, NODES[id]?.name ?? id);
 const nScale = id => i18n.nodeScale(id, NODES[id]?.scale ?? '');
@@ -7398,6 +8006,26 @@ const AUTONOMY_PROFILES = {
   'real-membrane-transport': {
     statusKey: 'statusMembraneTransport',
     pills: [['ok', 'pillarOsmosis'], ['ok', 'pillarAquaporinGlut'], ['ok', 'pillarNakPump'], ['ok', 'pillarVesicular']],
+  },
+  'specialized-cells-overview': {
+    statusKey: 'statusSpecialized',
+    pills: [['ok', 'pillarEpigenetics'], ['ok', 'pillarNeuronSynapse'], ['ok', 'pillarSarcomere'], ['ok', 'pillarErythroEntero']],
+  },
+  'real-neuron': {
+    statusKey: 'statusNeuron',
+    pills: [['ok', 'pillarEpigenetics'], ['ok', 'pillarMyelinRanvier'], ['ok', 'pillarSnareAmpa'], ['ok', 'pillarNakPump']],
+  },
+  'real-muscle': {
+    statusKey: 'statusMuscle',
+    pills: [['ok', 'pillarEpigenetics'], ['ok', 'pillarSarcomere'], ['ok', 'pillarCaTroponin'], ['ok', 'pillarMyosinSerca']],
+  },
+  'real-immune': {
+    statusKey: 'statusImmune',
+    pills: [['ok', 'pillarMacroPhago'], ['ok', 'pillarIggNeutralize'], ['ok', 'pillarCd8Perforin'], ['ok', 'pillarOrganelleAtp']],
+  },
+  'real-pharmacology': {
+    statusKey: 'statusPharmacology',
+    pills: [['ok', 'pillarPenicillinPbp'], ['ok', 'pillarRibo70vs80'], ['ok', 'pillarAntivirals'], ['ok', 'pillarMrnaLnp']],
   },
 };
 function renderInfo() {

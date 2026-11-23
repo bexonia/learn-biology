@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" href="data:,">
+<title>Interactive 3D Multipolar Neuron &amp; Chemical Synapse — Saltatory Conduction, Epigenetics, Naᵥ1.7, Kᵥ1.2, SNARE, AMPA &amp; nAChR | BEXONIA</title>
+<!-- SEO:START -->
+<meta name="description" content="Interactive 3D Multipolar Neuron and Chemical Synapse Explorer in Cinema PBR WebGL2: inspect spiny dendrites, cutaway soma with epigenetic H3K27ac euchromatin vs. H3K27me3 heterochromatin nucleosomes (PDB 1AOI), axon hillock trigger zone, iridescent myelin sheaths, exposed Nodes of Ranvier with clustered Naᵥ1.7 (PDB 6J8I), Kᵥ1.2 (PDB 2R9R), and Na+/K+-ATPase (PDB 3WGU), axonal microtubule kinesin rails, presynaptic terminal bouton with Caᵥ Ca2+ sparks and 4-helix SNARE zipper exocytosis (PDB 1SFC), 20 nm chemical synaptic cleft, postsynaptic AMPA (PDB 3KG2) and nAChR (PDB 2BG9) channels, and a 0.1-0.5 nm atomic Glutamate, Acetylcholine, Ion, and H3K27ac inset.">
+<meta name="keywords" content="3D biology, multipolar neuron, action potential, saltatory conduction, Node of Ranvier, myelin sheath, epigenetics, H3K27ac, H3K27me3, nucleosome PDB 1AOI, Nav1.7 PDB 6J8I, Kv1.2 PDB 2R9R, Na+/K+-ATPase PDB 3WGU, chemical synapse, synaptic vesicle, SNARE PDB 1SFC, AMPA receptor PDB 3KG2, nAChR PDB 2BG9, glutamate, acetylcholine, WebGL2, Three.js, Bexonia">
+<meta name="author" content="BEXONIA">
+<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">
+<link rel="canonical" href="https://learn.bexonia.com/neuron_realistic.html">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="BEXONIA Learn Biology">
+<meta property="og:title" content="Interactive 3D Multipolar Neuron &amp; Chemical Synapse — Naᵥ1.7, Kᵥ1.2, SNARE, AMPA &amp; nAChR | BEXONIA">
+<meta property="og:description" content="Live 3D Cinema PBR multipolar neuron with epigenetic H3K27ac/H3K27me3 nucleosomes (1AOI), saltatory Nodes of Ranvier (6J8I, 2R9R, 3WGU), and a 20 nm chemical synapse (SNARE 1SFC, AMPA 3KG2, nAChR 2BG9).">
+<meta property="og:url" content="https://learn.bexonia.com/neuron_realistic.html">
+<meta property="og:image" content="https://learn.bexonia.com/screenshots/animal_cell.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Interactive 3D Multipolar Neuron &amp; Chemical Synapse — Naᵥ1.7, Kᵥ1.2, SNARE, AMPA &amp; nAChR | BEXONIA">
+<meta name="twitter:description" content="Explore saltatory action potentials, epigenetic chromatin switches, and 20 nm chemical synaptic transmission powered by 7 real RCSB PDB structures in Cinema WebGL2.">
+<meta name="twitter:image" content="https://learn.bexonia.com/screenshots/animal_cell.jpg">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":["LearningResource","WebApplication"],"name":"Interactive 3D Multipolar Neuron & Chemical Synapse — Saltatory Conduction, Epigenetics, Nav1.7, Kv1.2, SNARE, AMPA & nAChR | BEXONIA","description":"Interactive Cinema PBR WebGL2 3D Multipolar Neuron and Chemical Synapse featuring cutaway epigenetic H3K27ac vs H3K27me3 nucleosomes (PDB 1AOI), myelinated saltatory axon with exposed Nodes of Ranvier carrying Nav1.7 (PDB 6J8I), Kv1.2 (PDB 2R9R), and Na+/K+-ATPase (PDB 3WGU), presynaptic terminal bouton with Cav Ca2+ sparks and 4-helix SNARE fusion zippers (PDB 1SFC), 20 nm chemical synaptic cleft, postsynaptic AMPA (PDB 3KG2) and nAChR (PDB 2BG9) channels, and a 0.1-0.5 nm atomic Glutamate/Acetylcholine/Ion/H3K27ac inset.","url":"https://learn.bexonia.com/neuron_realistic.html","image":"https://learn.bexonia.com/screenshots/animal_cell.jpg","applicationCategory":"EducationalApplication","operatingSystem":"Web Browser (WebGL)","learningResourceType":["Interactive 3D Model","Simulation","Guided Tour"],"educationalUse":["Self-study","Classroom instruction","Reference library"],"isAccessibleForFree":true,"license":"https://opensource.org/licenses/MIT","inLanguage":"en","author":{"@type":"Organization","name":"BEXONIA","url":"https://bexonia.com"},"about":[{"@type":"Thing","name":"Neuron"},{"@type":"Thing","name":"Action potential"},{"@type":"Thing","name":"Saltatory conduction"},{"@type":"Thing","name":"Chemical synapse"},{"@type":"Thing","name":"Epigenetics"},{"@type":"Thing","name":"AMPA receptor"},{"@type":"Thing","name":"Nicotinic acetylcholine receptor"}],"keywords":"3D biology, multipolar neuron, action potential, saltatory conduction, Node of Ranvier, epigenetics, H3K27ac, H3K27me3, 1AOI, Nav1.7 6J8I, Kv1.2 2R9R, Na+/K+-ATPase 3WGU, SNARE 1SFC, AMPA 3KG2, nAChR 2BG9, WebGL2, Three.js, Bexonia"}</script>
+<!-- SEO:END -->
+<style>
+  :root { --bg: #040710; --fg: #ebf2fc; --muted: #93a5c0; --line: rgba(255,255,255,.13); --accent: #68eaff; --gold: #ffcb58; --emerald: #4cf6b8; --violet: #b67eff; }
+  html, body { margin: 0; height: 100%; background: var(--bg); color: var(--fg); font-family: system-ui, -apple-system, "Segoe UI", sans-serif; overflow: hidden; }
+  canvas { display: block; }
+  #hud { position: absolute; left: 18px; top: 12px; pointer-events: none; max-width: calc(100% - 280px); text-shadow: 0 1px 10px rgba(4,7,16,.95), 0 0 3px rgba(4,7,16,.9); }
+  #hud h1 { margin: 0; font-size: 20px; font-weight: 650; letter-spacing: .01em; }
+  #hud p { margin: 2.5px 0 0; font-size: 12px; color: #b0c2dc; }
+  #legend { position: absolute; left: 14px; top: 64px; width: 256px; max-height: calc(100% - 80px); overflow: auto; background: rgba(7,12,24,.68); border: 1px solid var(--line); border-radius: 11px; padding: 4px 5px; backdrop-filter: blur(8px); }
+  .it { display: flex; align-items: center; gap: 6px; padding: 2.1px 6px; border-radius: 5px; font-size: 10.9px; line-height: 1.24; cursor: default; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; transition: background .14s ease; }
+  .it span:last-child { overflow: hidden; text-overflow: ellipsis; }
+  .it:hover { background: rgba(104,234,255,.16); }
+  .sw { width: 9px; height: 9px; border-radius: 50%; flex: none; box-shadow: inset 0 0 0 1px rgba(255,255,255,.32); }
+  .key { grid-column: 1 / -1; margin-top: 3px; padding: 4.5px 6px 2.5px; border-top: 1px solid var(--line); font-size: 10.2px; color: var(--muted); line-height: 1.34; }
+  .key .row { display: flex; align-items: center; flex-wrap: nowrap; gap: 4px; margin-bottom: 3px; white-space: nowrap; }
+  .key .row:last-child { margin-bottom: 0; }
+  .chip { width: 15px; height: 15px; border-radius: 50%; display: inline-grid; place-items: center; font-size: 9.2px; font-weight: 700; color: #101520; }
+  .bar { width: 13px; height: 5px; border-radius: 3px; display: inline-block; }
+  .vm-tag { margin-left: auto; padding: 1px 5px; border-radius: 999px; font-size: 9px; font-weight: 700; background: rgba(104,234,255,.16); color: #9cf2ff; border: 1px solid rgba(104,234,255,.36); }
+  #flows { position: absolute; right: 14px; top: 14px; width: 242px; max-height: calc(100% - 118px); overflow: auto; background: rgba(7,12,24,.68); border: 1px solid var(--line); border-radius: 11px; padding: 8px 6px 6px; backdrop-filter: blur(8px); }
+  #flows h2 { margin: 2px 8px 4px; font-size: 12.8px; font-weight: 650; }
+  .speed { display: flex; align-items: center; gap: 8px; margin: 2px 8px 6px; font-size: 11.6px; color: var(--muted); }
+  .speed input { flex: 1; min-width: 0; accent-color: var(--accent); }
+  #spd { width: 38px; text-align: right; color: var(--fg); font-variant-numeric: tabular-nums; }
+  #tip { margin: 0 8px 7px; font-size: 11.4px; line-height: 1.40; color: var(--muted); }
+  #tip b { color: var(--fg); font-weight: 600; }
+  .mol { display: flex; align-items: center; gap: 7px; padding: 2.8px 7px; border-radius: 7px; font-size: 11.5px; cursor: default; }
+  .mol:hover { background: rgba(104,234,255,.15); }
+  .mol canvas { width: 20px; height: 20px; flex: none; }
+  .mol .mname { flex: 1; min-width: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .mol .mcnt { font-size: 10.4px; font-variant-numeric: tabular-nums; color: #b6daf8; background: rgba(255,255,255,.07); border-radius: 5px; padding: 1px 5px; min-width: 24px; text-align: right; }
+  #tools { position: absolute; right: 14px; bottom: 12px; display: flex; flex-wrap: wrap; justify-content: flex-end; gap: 6px; max-width: calc(100% - 28px); }
+  #tools button { background: rgba(8,14,26,.80); color: var(--fg); border: 1px solid rgba(255,255,255,.22); border-radius: 8px; padding: 6px 10px; font: inherit; font-size: 11.8px; cursor: pointer; backdrop-filter: blur(6px); transition: border-color .15s ease, background .15s ease, color .15s ease; }
+  #tools button:hover { border-color: var(--accent); }
+  #modeBtn { border-color: rgba(86,232,255,.78) !important; background: rgba(12,44,68,.88) !important; color: #d0f8ff !important; font-weight: 650; }
+  #modeBtn.resting { border-color: rgba(162,134,255,.80) !important; background: rgba(34,24,68,.88) !important; color: #e2d8ff !important; }
+  #modeBtn.synaptic_fire { border-color: rgba(255,196,82,.86) !important; background: rgba(68,38,12,.90) !important; color: #ffebc6 !important; }
+  #hint { position: absolute; right: 16px; bottom: 50px; font-size: 11.4px; color: var(--muted); pointer-events: none; }
+  #busy { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; color: var(--muted); font-size: 14px; pointer-events: none; background: radial-gradient(circle at 50% 45%, #162444 0%, #091020 55%, #02040a 100%); z-index: 20; }
+  @media (max-width: 760px) {
+    #legend { top: auto; bottom: 66px; left: 10px; right: 10px; width: auto; max-height: 24vh; display: grid; grid-template-columns: 1fr 1fr; }
+    #hint, #flows { display: none; }
+    #hud { max-width: calc(100% - 28px); }
+    #hud h1 { font-size: 16px; }
+  }
+  .embed #hud, .embed #legend, .embed #flows, .embed #hint, .embed #tools, .embed #busy { display: none !important; }
+</style>
+<script type="importmap">
+{ "imports": {
+  "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js",
+  "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"
+} }
+</script>
+</head>
+<body>
+<div id="busy">Building Multipolar Neuron &amp; Chemical Synapse (PDB 1AOI · 6J8I · 2R9R · 3WGU · 1SFC · 3KG2 · 2BG9)…</div>
+<div id="hud"><h1>Multipolar Neuron &amp; 20 nm Chemical Synapse</h1><p id="sub">Saltatory Action Potential (−70 → +40 mV) · H3K27ac Epigenetics (1AOI) · Naᵥ1.7 (6J8I) · Kᵥ1.2 (2R9R) · Na⁺/K⁺ (3WGU) · SNARE (1SFC) · AMPA (3KG2) · nAChR (2BG9)</p></div>
+<div id="legend"></div>
+<div id="flows"><h2>Neural Signal &amp; Ion Flows</h2><label class="speed">Speed <input id="speed" type="range" min="-3" max="2" step=".1" value="0"><span id="spd">1×</span></label><div id="tip"></div><div id="mols"></div></div>
+<div id="hint">Drag to look · W A S D to move · scroll to zoom · right-drag to pan · hover a name to highlight it</div>
+<div id="tools"><button id="modeBtn" type="button">State: Action Potential (Saltatory)</button><button id="view" type="button">View: overview</button><button id="flow" type="button">Flows: on</button><button id="look" type="button">Membrane: gel</button><button id="cut" type="button">Close cutaway</button><button id="motion" type="button">Pause</button><button id="snap" type="button">Save PNG</button></div>
+<script type="module" src="dist/pages/neuron_realistic.js"></script>
+</body>
+</html>

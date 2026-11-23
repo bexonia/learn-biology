@@ -3258,4 +3258,444 @@ export const ES_TOURS_PHRASES: Record<string, string> = {
     'Prueba los modos hipotónico, isotónico e hipertónico y observa cómo [[Na+/K+-ATPasa|nak_pump]] sostiene el [[voltaje|membrane_voltage]].',
   'Continue next to Specialized Human Cells to see neurons and muscles harness these ion gradients.':
     'Sigue a Células Humanas Especializadas para ver cómo neuronas y músculos aprovechan estos gradientes iónicos.',
+  // =========================================================================
+  // Phase 17A: Multipolar Neuron & Chemical Synapse
+  // =========================================================================
+  'Multipolar Neuron & Chemical Synapse: a guided tour':
+    'Neurona multipolar y sinapsis química: recorrido guiado',
+  'Explore how identical 6.4 Gbp human DNA builds an excitable multipolar neuron via H3K27ac euchromatin: dendritic summation, axon hillock ignition, saltatory conduction across myelin and Nodes of Ranvier (Nav1.7, Kv1.2, Na+/K+ reset), microtubule transport, Ca2+-triggered SNARE vesicle fusion, 20 nm cleft diffusion to AMPA/nAChR receptors and atomic neurotransmitter chemistry.':
+    'Explora cómo el mismo ADN humano de 6,4 Gpb forma una neurona multipolar excitable mediante eucromatina H3K27ac: sumación dendrítica, disparo en el cono axónico, conducción saltatoria por mielina y nodos de Ranvier (Nav1.7, Kv1.2, Na+/K+), transporte microtubular, fusión vesicular SNARE por Ca2+, difusión en hendidura de 20 nm hacia AMPA/nAChR y química atómica.',
+  'Same 6.4 Gbp DNA, Wired for Speed': 'El mismo ADN de 6,4 Gpb, cableado para la velocidad',
+  'Multipolar neuron architecture & shared genome': 'Arquitectura neuronal multipolar y genoma compartido',
+  'H3K27ac euchromatin vs H3K27me3 silencing (1AOI)': 'Eucromatina H3K27ac frente a silenciamiento H3K27me3 (1AOI)',
+  'Dendrites, Axon Hillock & Action Potential Ignition': 'Dendritas, cono axónico e ignición del potencial de acción',
+  'Spiny dendrites receiving graded synaptic inputs': 'Dendritas espinosas recibiendo entradas sinápticas graduadas',
+  'Soma spatiotemporal summation & organelle biosynthesis': 'Sumación espaciotemporal en el soma y biosíntesis de orgánulos',
+  'Axon hillock -55 mV threshold & +40 mV spike': 'Umbral de -55 mV en el cono axónico y espiga de +40 mV',
+  'Myelin Sheaths & Saltatory Nodes of Ranvier': 'Vainas de mielina y nodos de Ranvier saltatorios',
+  'Myelin insulation & 120 m/s saltatory conduction': 'Aislamiento de mielina y conducción saltatoria a 120 m/s',
+  'Node of Ranvier: Nav1.7 (6J8I) & Kv1.2 (2R9R)': 'Nodo de Ranvier: Nav1.7 (6J8I) y Kv1.2 (2R9R)',
+  'Na+/K+ reset (3WGU) & axonal microtubule rail': 'Reinicio Na+/K+ (3WGU) y riel microtubular axonal',
+  'Presynaptic Ca2+ Surge & SNARE (1SFC) Vesicle Fusion': 'Entrada presináptica de Ca2+ y fusión vesicular SNARE (1SFC)',
+  'Terminal bouton depolarization & Cav Ca2+ influx': 'Despolarización del botón terminal y entrada de Ca2+ por Cav',
+  'Synaptotagmin Ca2+ trigger & SNARE (1SFC) zippering': 'Disparador de Ca2+ en sinaptotagmina y cremallera SNARE (1SFC)',
+  'Quantal neurotransmitter burst & vesicle recycling': 'Descarga cuántica de neurotransmisores y reciclaje vesicular',
+  'Crossing the 20 nm Cleft, Atomic Ions & Muscle Handoff': 'Cruce de la hendidura de 20 nm, iones atómicos y paso al músculo',
+  'AMPA (3KG2) & nAChR (2BG9) ligand-gated channels': 'Canales por ligando AMPA (3KG2) y nAChR (2BG9)',
+  'Atomic glutamate, ACh, Na+/K+/Ca2+ & H3K27ac mark': 'Glutamato, ACh, Na+/K+/Ca2+ y marca H3K27ac atómicos',
+  'Live firing states & handoff to Skeletal Muscle': 'Estados vivos de disparo y paso al músculo esquelético',
+  'This neuron carries the same 6.4 Gbp DNA as every human cell, sculpted from [[dendrites|dendrites]] to [[bouton|terminal_bouton]].':
+    'Esta neurona lleva el mismo ADN de 6,4 Gpb que toda célula humana, esculpida de [[dendritas|dendrites]] a [[botón|terminal_bouton]].',
+  'Signals enter branching [[dendrites|dendrites]], sum in the [[soma|soma]], and race along a myelinated axon.':
+    'Las señales entran por [[dendritas|dendrites]] ramificadas, se suman en el [[soma|soma]] y corren por un axón mielinizado.',
+  'Differential gene regulation inside the [[soma|soma]] builds ion channels and synapses without altering DNA.':
+    'La regulación génica diferencial en el [[soma|soma]] arma canales iónicos y sinapsis sin cambiar el ADN.',
+  'Zoom into the [[soma nucleus|nucleus_h3k27ac]], where histone marks control which parts of the 6.4 Gbp genome open.':
+    'Acércate al [[núcleo somático|nucleus_h3k27ac]], donde las marcas histónicas deciden qué zonas del genoma se abren.',
+  'Active H3K27ac tags loosen [[euchromatin|nucleus_h3k27ac]] to express neuronal SCN9A sodium channels and SYT1.':
+    'Las marcas H3K27ac abren la [[eucromatina|nucleus_h3k27ac]] para expresar canales de sodio SCN9A y SYT1 neuronales.',
+  'Meanwhile, compact H3K27me3 chromatin in the [[nucleus|nucleus_h3k27ac]] silences muscle MYH1 and blood HBB.':
+    'Mientras tanto, H3K27me3 compacta en el [[núcleo|nucleus_h3k27ac]] silencia MYH1 muscular y HBB sanguínea.',
+  'Branching [[dendrites|dendrites]] bristle with tiny spines that receive chemical signals from upstream neurons.':
+    'Las [[dendritas|dendrites]] ramificadas portan diminutas espinas que reciben señales químicas de neuronas previas.',
+  'Ion entry across [[dendritic|dendrites]] membranes creates brief graded voltages that spread toward the [[soma|soma]].':
+    'La entrada iónica por membranas [[dendríticas|dendrites]] genera voltajes graduados que viajan hacia el [[soma|soma]].',
+  'Excitatory inputs push voltage upward while inhibitory inputs pull the [[dendrites|dendrites]] further negative.':
+    'Entradas excitadoras suben el voltaje mientras entradas inhibidoras hacen más negativas las [[dendritas|dendrites]].',
+  'The [[soma|soma]] sums thousands of overlapping synaptic currents arriving across space and milliseconds.':
+    'El [[soma|soma]] integra miles de corrientes sinápticas superpuestas que llegan en espacio y milisegundos.',
+  'Its rough ER and Golgi pack channels and enzymes inside the [[cell body|soma]] for long-range axon export.':
+    'Su RE rugoso y Golgi empacan canales y enzimas dentro del [[cuerpo celular|soma]] para exportarlos al axón.',
+  'All integrated voltage shifts funnel from the [[soma|soma]] into the narrow cone of the [[axon hillock|axon_hillock]].':
+    'Todos los cambios integrados confluyen del [[soma|soma]] al estrecho cono del [[cono axónico|axon_hillock]].',
+  'At rest near -70 mV, the [[axon hillock|axon_hillock]] packs a dense cluster of voltage-gated sodium channels.':
+    'En reposo cerca de -70 mV, el [[cono axónico|axon_hillock]] concentra densos canales de sodio por voltaje.',
+  'If summed inputs cross -55 mV at the [[axon hillock|axon_hillock]], sodium gates snap open in positive feedback.':
+    'Si la suma supera -55 mV en el [[cono axónico|axon_hillock]], las compuertas de sodio se abren en cascada.',
+  'Voltage spikes to +40 mV, launching an all-or-none action potential down the [[axon|myelin_sheath]].':
+    'El voltaje sube a +40 mV, lanzando un potencial de acción todo o nada a lo largo del [[axón|myelin_sheath]].',
+  'Multilayer lipid [[myelin sheaths|myelin_sheath]] wrap the axon tightly, cutting ion leak and membrane capacitance.':
+    'Múltiples capas lipídicas de [[mielina|myelin_sheath]] envuelven el axón reduciendo fugas iónicas y capacitancia.',
+  '[[Myelin sheaths|myelin_sheath]] speed conduction to 120 m/s as impulses regenerate only at [[Nodes of Ranvier|node_ranvier]].':
+    'Las [[vainas de mielina|myelin_sheath]] aceleran el impulso a 120 m/s regenerándolo solo en [[nodos de Ranvier|node_ranvier]].',
+  'This saltatory hopping saves vast ATP because ion exchange occurs only at tiny bare [[nodes|node_ranvier]].':
+    'Este salto ahorra gran cantidad de ATP porque el intercambio iónico ocurre solo en pequeños [[nodos|node_ranvier]].',
+  'Zoom to an exposed [[Node of Ranvier|node_ranvier]] where dense [[Nav1.7|nav17]] channels renew the voltage spike.':
+    'Acércate a un [[nodo de Ranvier|node_ranvier]] expuesto donde densos canales [[Nav1.7|nav17]] renuevan la espiga.',
+  'Voltage opens [[Nav1.7|nav17]] pores to rush Na+ inward to +40 mV before fast inactivation seals the channel.':
+    'El voltaje abre poros [[Nav1.7|nav17]] metiendo Na+ hasta +40 mV antes de que la inactivación selle el canal.',
+  'Adjacent [[Kv1.2|kv12]] channels then open so K+ rushes outward, repolarizing the [[node|node_ranvier]] toward -70 mV.':
+    'Luego los canales [[Kv1.2|kv12]] dejan salir K+, repolarizando el [[nodo|node_ranvier]] de vuelta hacia -70 mV.',
+  'Flanking [[Na+/K+ pumps|nak_reset]] burn ATP to export 3 Na+ and import 2 K+, resetting resting -70 mV gradients.':
+    'Las [[bombas Na+/K+|nak_reset]] gastan ATP exportando 3 Na+ e importando 2 K+ para restablecer -70 mV.',
+  'Deep inside the axon, parallel [[microtubule tracks|axon_mt]] form polarized highways running to the terminal.':
+    'Dentro del axón, [[pistas de microtúbulos|axon_mt]] paralelas forman autopistas polarizadas hasta el terminal.',
+  'Kinesin motors walk along [[axon microtubules|axon_mt]] carrying mitochondria and [[vesicles|synaptic_vesicle]] outward.':
+    'Motores de quinesina caminan por [[microtúbulos axonales|axon_mt]] llevando mitocondrias y [[vesículas|synaptic_vesicle]].',
+  'The electrical spike reaches the flared [[terminal bouton|terminal_bouton]] facing a 20 nm chemical synapse.':
+    'La espiga eléctrica alcanza el [[botón terminal|terminal_bouton]] frente a una sinapsis química de 20 nm.',
+  'Depolarization pops open voltage-gated [[Ca2+ channels|cav_channel]] clustered right beside the active zone.':
+    'La despolarización abre [[canales de Ca2+|cav_channel]] por voltaje agrupados junto a la zona activa.',
+  'Driven by a 10,000-fold gradient, Ca2+ surges through [[Cav pores|cav_channel]] into the [[bouton|terminal_bouton]].':
+    'Por un gradiente de 10.000 veces, el Ca2+ irrumpe por [[poros Cav|cav_channel]] hacia el [[botón|terminal_bouton]].',
+  'Local Ca2+ binds synaptotagmin on docked [[synaptic vesicles|synaptic_vesicle]], releasing the fusion clamp.':
+    'El Ca2+ local activa la sinaptotagmina en [[vesículas sinápticas|synaptic_vesicle]] liberando el freno de fusión.',
+  'Four-helix [[SNARE complexes|snare_zipper]] coil tightly, pulling [[vesicle|synaptic_vesicle]] and terminal bilayers to fuse.':
+    'Los [[complejos SNARE|snare_zipper]] de cuatro hélices tiran de [[vesícula|synaptic_vesicle]] y membrana hasta fusionarlas.',
+  'Within half a millisecond, [[SNARE|snare_zipper]] force opens a lipid fusion pore straight to the outside.':
+    'En medio milisegundo, la fuerza [[SNARE|snare_zipper]] abre un poro lipídico de fusión directo al exterior.',
+  'Each fusing [[synaptic vesicle|synaptic_vesicle]] empties thousands of neurotransmitter molecules into the [[cleft|synaptic_cleft]].':
+    'Cada [[vesícula sináptica|synaptic_vesicle]] vacía miles de moléculas de neurotransmisor en la [[hendidura|synaptic_cleft]].',
+  'Glutamate excites central circuits while acetylcholine fires motor junctions across the [[synaptic cleft|synaptic_cleft]].':
+    'El glutamato excita circuitos centrales y la acetilcolina activa placas motoras por la [[hendidura sináptica|synaptic_cleft]].',
+  'NSF then unwinds spent [[SNAREs|snare_zipper]] so endocytosis can refill fresh [[vesicles|synaptic_vesicle]] for rapid bursts.':
+    'NSF desenrolla los [[SNARE|snare_zipper]] usados para que la endocitosis rellene [[vesículas|synaptic_vesicle]] nuevas.',
+  'Neurotransmitters cross the 20 nm [[synaptic cleft|synaptic_cleft]] by diffusion in mere tens of microseconds.':
+    'Los neurotransmisores cruzan la [[hendidura sináptica|synaptic_cleft]] de 20 nm por difusión en microsegundos.',
+  'Glutamate binds [[AMPA receptors|ampa_receptor]] while acetylcholine opens [[nAChR channels|nachr_receptor]] on the target.':
+    'El glutamato abre [[receptores AMPA|ampa_receptor]] y la acetilcolina abre [[canales nAChR|nachr_receptor]] en la diana.',
+  'Both [[AMPA|ampa_receptor]] and [[nAChR|nachr_receptor]] admit Na+, turning the chemical pulse back into voltage.':
+    'Tanto [[AMPA|ampa_receptor]] como [[nAChR|nachr_receptor]] admiten Na+, reconvirtiendo la señal química en voltaje.',
+  'Zoom to 0.1-0.5 nm in the [[atomic lens|neuro_atoms]] showing neurotransmitters, ions and epigenetic marks.':
+    'Acércate a 0,1-0,5 nm en la [[lente atómica|neuro_atoms]] mostrando neurotransmisores, iones y marcas epigenéticas.',
+  'In [[neuro atoms|neuro_atoms]], glutamate (C5H9NO4) and acetylcholine sit beside Na+, K+ and triggering Ca2+ ions.':
+    'En [[átomos neuronales|neuro_atoms]], glutamato y acetilcolina acompañan a iones Na+, K+ y Ca2+ disparadores.',
+  'A tiny -COCH3 acetyl group in [[neuro atoms|neuro_atoms]] marks H3K27ac histones that unlock neuronal identity.':
+    'Un pequeño grupo acetilo -COCH3 en [[átomos neuronales|neuro_atoms]] marca histonas H3K27ac que abren la identidad neuronal.',
+  'From [[H3K27ac chromatin|nucleus_h3k27ac]] to [[Ranvier nodes|node_ranvier]] and [[SNAREs|snare_zipper]], structure drives speed.':
+    'De la [[cromatina H3K27ac|nucleus_h3k27ac]] a los [[nodos de Ranvier|node_ranvier]] y [[SNARE|snare_zipper]], la forma da velocidad.',
+  'Toggle Action Potential, Resting and Synaptic Fire modes to watch [[bouton|terminal_bouton]] firing live.':
+    'Alterna Potencial de acción, Reposo y Disparo sináptico para ver disparar el [[botón|terminal_bouton]] en vivo.',
+  'Follow acetylcholine across [[nAChR|nachr_receptor]] into the Skeletal Muscle Fiber to see force generation.':
+    'Sigue la acetilcolina por [[nAChR|nachr_receptor]] hacia la Fibra Muscular Esquelética para ver cómo genera fuerza.',
+  // =========================================================================
+  // Phase 17B: Skeletal Muscle Fiber & Sarcomere
+  // =========================================================================
+  'Skeletal Muscle Fiber & Sarcomere: a guided tour':
+    'Fibra muscular esquelética y sarcómero: recorrido guiado',
+  'Explore how identical 6.4 Gbp human DNA builds a multinucleated skeletal myofiber via H3K27ac chromatin: sarcolemma and T-tubule excitation, sarcoplasmic reticulum RyR1 Ca2+ release, 2.2 um to 1.6 um sarcomere bands and titin springs, troponin-tropomyosin (6KN8) switching, Myosin-II (2MYS) ATP cross-bridge strokes, SERCA1a (1SU4) relaxation and atomic Ca2+/ATP chemistry.':
+    'Explora cómo el mismo ADN humano de 6,4 Gpb construye una miofibra multinucleada con cromatina H3K27ac: excitación por sarcolema y túbulos T, Ca2+ por RyR1, bandas del sarcómero de 2,2 a 1,6 µm y titina, interruptor troponina-tropomiosina (6KN8), golpes de Miosina-II (2MYS), relajación por SERCA1a (1SU4) y química atómica.',
+  'Same 6.4 Gbp DNA, Built to Pull': 'El mismo ADN de 6,4 Gpb, construido para tirar',
+  'Multinucleated myofiber & contractile packing': 'Miofibra multinucleada y empaque contráctil',
+  'Peripheral nuclei: H3K27ac MYH1/ACTA1 euchromatin': 'Núcleos periféricos: eucromatina H3K27ac en MYH1 y ACTA1',
+  'T-Tubules, Sarcoplasmic Reticulum & 2.2 um Sarcomere': 'Túbulos T, retículo sarcoplásmico y sarcómero de 2,2 µm',
+  'Sarcolemma wave diving down T-tubules to the SR': 'Onda del sarcolema bajando por túbulos T al retículo',
+  'Single 2.2 um sarcomere: Z-disc, I-band, A-band & M-line': 'Sarcómero de 2,2 µm: disco Z, banda I, banda A y línea M',
+  'Central H-zone & giant elastic titin springs': 'Zona H central y resortes elásticos gigantes de titina',
+  'The Ca2+ Switch: RyR1, Troponin & Tropomyosin (6KN8)': 'El interruptor de Ca2+: RyR1, troponina y tropomiosina (6KN8)',
+  'Triad excitation-contraction & RyR1 Ca2+ flood': 'Acoplamiento excitación-contracción y oleada de Ca2+ por RyR1',
+  'Troponin-tropomyosin (6KN8) Ca2+ regulatory switch': 'Interruptor regulador de Ca2+ troponina-tropomiosina (6KN8)',
+  'Exposed F-actin tracks facing primed myosin heads': 'Pistas de F-actina expuestas frente a cabezas de miosina listas',
+  'Myosin-II (2MYS) Power Stroke & Sliding Filaments': 'Golpe de fuerza de Miosina-II (2MYS) y filamentos deslizantes',
+  'Myosin-II S1 lever-arm power stroke & ATP detachment': 'Golpe de palanca de Miosina-II S1 y despegue por ATP',
+  'ATP re-cocking & asynchronous bipolar pulling': 'Rearme por ATP y tracción bipolar asíncrona',
+  'Sliding filament geometry: 2.2 um -> 1.6 um shortening': 'Geometría deslizante: acortamiento de 2,2 µm a 1,6 µm',
+  'SERCA1a (1SU4) Relaxation, Atomic Ca2+/ATP & Immune Handoff': 'Relajación por SERCA1a (1SU4), Ca2+/ATP atómicos y paso a Inmunidad',
+  'SERCA1a (1SU4) ATP-driven Ca2+ reuptake & relaxation': 'Recaptación de Ca2+ por SERCA1a (1SU4) con ATP y relajación',
+  'Atomic EF-hand Ca2+ cage & Mg2+-ATP cleavage': 'Jaula atómica EF-hand de Ca2+ y escisión de Mg2+-ATP',
+  'Live contraction states & handoff to Immune Defense': 'Estados vivos de contracción y paso a Defensa Inmunitaria',
+  'A skeletal muscle fiber holds the same 6.4 Gbp DNA as a neuron, yet packs [[myofibrils|myofibril]] built to pull.':
+    'Una fibra muscular guarda el mismo ADN de 6,4 Gpb que una neurona, pero empaqueta [[miofibrillas|myofibril]] para tirar.',
+  'Hundreds of embryonic myoblasts fuse into one giant cell wrapped by an excitable [[sarcolemma|sarcolemma]].':
+    'Cientos de mioblastos se funden en una célula gigante envuelta por un [[sarcolema|sarcolemma]] excitable.',
+  'Contractile [[myofibrils|myofibril]] fill the core, pushing flat [[peripheral nuclei|peripheral_nuclei]] under the membrane.':
+    'Las [[miofibrillas|myofibril]] contráctiles llenan el centro y empujan [[núcleos periféricos|peripheral_nuclei]] bajo la membrana.',
+  'Inside each [[peripheral nucleus|peripheral_nuclei]], H3K27ac chromatin opens muscle genes MYH1, ACTA1 and TNNT3.':
+    'En cada [[núcleo periférico|peripheral_nuclei]], H3K27ac abre los genes musculares MYH1, ACTA1 y TNNT3.',
+  'At the same time, dense H3K27me3 heterochromatin in [[these nuclei|peripheral_nuclei]] silences neuronal SYT1 and blood HBB.':
+    'A la vez, la heterocromatina H3K27me3 en [[estos núcleos|peripheral_nuclei]] silencia SYT1 neuronal y HBB sanguínea.',
+  'Multiple [[peripheral nuclei|peripheral_nuclei]] share mRNA delivery along a fiber that can span centimeters.':
+    'Varios [[núcleos periféricos|peripheral_nuclei]] reparten ARNm a lo largo de una fibra que mide centímetros.',
+  'When a motor neuron fires acetylcholine, depolarization sweeps across the muscle [[sarcolemma|sarcolemma]].':
+    'Al liberar acetilcolina una motoneurona, la despolarización recorre el [[sarcolema|sarcolemma]] muscular.',
+  'Transverse [[T-tubules|t_tubule]] dive straight inward so the electrical pulse reaches every deep [[myofibril|myofibril]].':
+    'Los [[túbulos T|t_tubule]] penetran hacia dentro llevando el pulso eléctrico a cada [[miofibrilla|myofibril]] profunda.',
+  'Each [[T-tubule|t_tubule]] is flanked by sleeves of [[sarcoplasmic reticulum|sr_network]] packed with stored Ca2+ ions.':
+    'Cada [[túbulo T|t_tubule]] está flanqueado por manguitos de [[retículo sarcoplásmico|sr_network]] repletos de Ca2+.',
+  'Zoom to a single 2.2 um sarcomere inside a [[myofibril|myofibril]], spanning from [[Z-disc|z_disc]] to Z-disc.':
+    'Acércate a un sarcómero de 2,2 µm dentro de una [[miofibrilla|myofibril]], de [[disco Z|z_disc]] a disco Z.',
+  'The pale [[I-band|i_band]] holds thin filaments anchored to the [[Z-disc|z_disc]], creating striped bands under light.':
+    'La [[banda I|i_band]] clara aloja filamentos finos anclados al [[disco Z|z_disc]], creando estrías visibles.',
+  'The dark [[A-band|a_band]] spans thick myosin filaments centered symmetrically on the structural [[M-line|m_line]].':
+    'La [[banda A|a_band]] oscura abarca los filamentos gruesos de miosina centrados sobre la [[línea M|m_line]].',
+  'At the center of the A-band lies the lighter [[H-zone|h_zone]], where relaxed actin does not yet reach the [[M-line|m_line]].':
+    'En el centro de la banda A está la [[zona H|h_zone]], donde la actina relajada aún no alcanza la [[línea M|m_line]].',
+  'Giant coiled [[titin springs|titin_spring]] tether every thick filament from the [[M-line|m_line]] out to the [[Z-disc|z_disc]].':
+    'Enormes [[resortes de titina|titin_spring]] atan cada filamento grueso desde la [[línea M|m_line]] hasta el [[disco Z|z_disc]].',
+  'Elastic [[titin|titin_spring]] centers the myosin lattice and stores passive tension that aids smooth recoil.':
+    'La [[titina|titin_spring]] elástica centra el entramado de miosina y guarda tensión pasiva para el retorno.',
+  'At the triad, voltage sensors in the [[T-tubule|t_tubule]] physically couple to giant [[RyR1 channels|ryr1_channel]].':
+    'En la tríada, sensores de voltaje del [[túbulo T|t_tubule]] se acoplan a enormes [[canales RyR1|ryr1_channel]].',
+  'Depolarization flips [[RyR1|ryr1_channel]] wide open, releasing a rapid emerald surge of Ca2+ from the [[SR|sr_network]].':
+    'La despolarización abre [[RyR1|ryr1_channel]] liberando una rápida oleada esmeralda de Ca2+ desde el [[RS|sr_network]].',
+  'Cytosolic Ca2+ jumps over a hundredfold within milliseconds, reaching every filament in the sarcomere.':
+    'El Ca2+ citosólico sube más de cien veces en milisegundos, bañando cada filamento del sarcómero.',
+  'At low resting Ca2+, [[tropomyosin|troponin_tropo]] cables physically mask myosin-binding sites along [[actin|actin_thin]].':
+    'Con bajo Ca2+ en reposo, cables de [[tropomiosina|troponin_tropo]] tapan los sitios de miosina sobre [[actina|actin_thin]].',
+  'Ca2+ binds troponin in [[troponin-tropomyosin|troponin_tropo]], rotating the tropomyosin cable off [[actin|actin_thin]] tracks.':
+    'El Ca2+ se une a troponina en [[troponina-tropomiosina|troponin_tropo]] y gira el cable destapando pistas de [[actina|actin_thin]].',
+  'With [[troponin-tropomyosin|troponin_tropo]] shifted into the groove, active binding pockets stand open on [[actin|actin_thin]].':
+    'Al desplazarse [[troponina-tropomiosina|troponin_tropo]] al surco, quedan abiertos los bolsillos activos en [[actina|actin_thin]].',
+  'Helical [[F-actin filaments|actin_thin]] display regularly spaced binding pockets pointing toward the sarcomere center.':
+    'Los [[filamentos F-actina|actin_thin]] helicoidales muestran sitios de unión regulares mirando al centro del sarcómero.',
+  'Across the gap, energized [[myosin heads|myosin_head]] loaded with ADP and Pi wait poised on [[thick filaments|myosin_thick]].':
+    'Frente a ellos, [[cabezas de miosina|myosin_head]] cargadas con ADP y Pi aguardan listas en [[filamentos gruesos|myosin_thick]].',
+  'Once [[troponin-tropomyosin|troponin_tropo]] clears [[actin|actin_thin]], cross-bridge docking begins immediately.':
+    'En cuanto [[troponina-tropomiosina|troponin_tropo]] despeja la [[actina|actin_thin]], arranca el acoplamiento de puentes cruzados.',
+  'Each [[Myosin-II head|myosin_head]] binds exposed [[actin|actin_thin]] and releases phosphate to lock firmly onto the track.':
+    'Cada [[cabeza Miosina-II|myosin_head]] se une a la [[actina|actin_thin]] y suelta fosfato para trabarse con firmeza.',
+  'Its lever arm swings roughly 10 nm during the power stroke, pulling [[actin|actin_thin]] inward as ADP leaves [[myosin|myosin_head]].':
+    'Su palanca gira unos 10 nm en el golpe de fuerza tirando de [[actina|actin_thin]] al salir ADP de [[miosina|myosin_head]].',
+  'A fresh ATP molecule must bind [[Myosin-II|myosin_head]] to break the rigor grip and detach it from [[actin|actin_thin]].':
+    'Un nuevo ATP debe unirse a [[Miosina-II|myosin_head]] para romper el agarre rigor y despegarla de [[actina|actin_thin]].',
+  'Hydrolyzing ATP to ADP plus Pi re-cocks each [[myosin head|myosin_head]] on the bipolar [[thick filament|myosin_thick]].':
+    'Hidrolizar ATP en ADP más Pi rearma cada [[cabeza de miosina|myosin_head]] sobre el [[filamento grueso|myosin_thick]] bipolar.',
+  'Asynchronous [[myosin heads|myosin_head]] cycle across [[thick filaments|myosin_thick]] so [[actin|actin_thin]] advances smoothly.':
+    '[[Cabezas de miosina|myosin_head]] asíncronas ciclan en [[filamentos gruesos|myosin_thick]] deslizando la [[actina|actin_thin]] suavemente.',
+  'Because [[myosin thick filaments|myosin_thick]] are bipolar, both halves pull opposite actin sets toward center.':
+    'Como los [[filamentos gruesos|myosin_thick]] son bipolares, ambas mitades tiran de actinas opuestas hacia el centro.',
+  'Neither filament shrinks in length; sliding pulls both [[Z-discs|z_disc]] inward from 2.2 um down to 1.6 um.':
+    'Ningún filamento se acorta; el deslizamiento acerca ambos [[discos Z|z_disc]] desde 2,2 µm hasta 1,6 µm.',
+  'During shortening, the pale [[I-band|i_band]] and central [[H-zone|h_zone]] visibly narrow while [[titin|titin_spring]] compresses.':
+    'Al acortarse, la [[banda I|i_band]] y la [[zona H|h_zone]] se estrechan mientras la [[titina|titin_spring]] se comprime.',
+  'Throughout the entire contraction, the dark [[A-band|a_band]] remains constant because thick myosin never shortens.':
+    'En toda la contracción, la [[banda A|a_band]] oscura no cambia porque la miosina gruesa nunca se acorta.',
+  'When motor pulses stop, dense [[SERCA1a pumps|serca1a_pump]] on the [[SR|sr_network]] drive muscle relaxation.':
+    'Al cesar los pulsos motores, densas [[bombas SERCA1a|serca1a_pump]] en el [[RS|sr_network]] impulsan la relajación.',
+  'Burning one ATP per cycle, [[SERCA1a|serca1a_pump]] actively pumps two Ca2+ ions back into the [[SR lumen|sr_network]].':
+    'Gastando un ATP por ciclo, [[SERCA1a|serca1a_pump]] bombea activamente dos iones Ca2+ de vuelta al [[lumen RS|sr_network]].',
+  'As Ca2+ leaves [[troponin-tropomyosin|troponin_tropo]], tropomyosin re-blocks actin and [[titin|titin_spring]] restores 2.2 um.':
+    'Al salir Ca2+ de [[troponina-tropomiosina|troponin_tropo]], la tropomiosina tapa actina y [[titina|titin_spring]] vuelve a 2,2 µm.',
+  'Zoom to 0.1-0.5 nm in the [[atomic lens|muscle_atoms]] revealing Ca2+ chelation beside Mg2+-ATP hydrolysis.':
+    'Acércate a 0,1-0,5 nm en la [[lente atómica|muscle_atoms]] viendo la quelación de Ca2+ junto a Mg2+-ATP.',
+  "Inside [[muscle atoms|muscle_atoms]], a green Ca2+ ion locks into six oxygen atoms of troponin's EF-hand cage.":
+    'En [[átomos musculares|muscle_atoms]], un ion Ca2+ verde encaja entre seis oxígenos de la jaula EF-hand de troponina.',
+  'Next to it in [[muscle atoms|muscle_atoms]], Mg2+-ATP cleaves into ADP plus Pi to power myosin and SERCA1a.':
+    'A su lado en [[átomos musculares|muscle_atoms]], Mg2+-ATP se escinde en ADP más Pi moviendo miosina y SERCA1a.',
+  '[[Sarcolemma|sarcolemma]] waves, [[RyR1|ryr1_channel]] Ca2+, [[myosin|myosin_head]] strokes and [[SERCA1a|serca1a_pump]] turn ATP to force.':
+    'Ondas del [[sarcolema|sarcolemma]], Ca2+ de [[RyR1|ryr1_channel]], golpes de [[miosina|myosin_head]] y [[SERCA1a|serca1a_pump]] convierten ATP en fuerza.',
+  'Cycle Ca2+ Trigger, Relaxed 2.2 um and Contracted 1.6 um modes to watch [[Z-discs|z_disc]] slide live.':
+    'Alterna Disparo Ca2+, Relajado 2,2 µm y Contraído 1,6 µm para ver deslizarse los [[discos Z|z_disc]] en vivo.',
+  'Continue next to Immune Defense to see macrophages, antibodies and T-cells guard these specialized tissues.':
+    'Sigue a Defensa Inmunitaria para ver macrófagos, anticuerpos y linfocitos T proteger estos tejidos.',
+  // =========================================================================
+  // Phase 18A: Immune Defense Battleground
+  // =========================================================================
+  'Immune Defense Battleground: a guided tour':
+    'Campo de batalla inmunitario: recorrido guiado',
+  'Explore a 30 um mucosal immune battleground uniting innate and adaptive defense: macrophage actin phagocytosis, acidic NOX2 ROS bursts and MHC-II (1DLH), Y-shaped IgG (1IGT) neutralizing SARS-CoV-2 Spike RBD (7BZ5) vs ACE2 (6M0J), cytotoxic CD8+ T-cell TCR-pMHC-I (1AO7) surveillance, perforin (3NSJ) pores, granzyme B (1IAU) apoptosis and atomic epitopes.':
+    'Explora un campo de batalla mucoso de 30 µm uniendo inmunidad innata y adaptativa: fagocitosis por macrófago con ROS de NOX2 y MHC-II (1DLH), IgG en Y (1IGT) neutralizando Spike RBD (7BZ5) frente a ACE2 (6M0J), vigilancia CD8+ TCR-pMHC-I (1AO7), poros de perforina (3NSJ), apoptosis por granzima B (1IAU) y epítopos atómicos.',
+  'The 30 um Tissue Battleground: Self vs Non-Self': 'El campo de batalla tisular de 30 µm: propio frente a extraño',
+  'Three immune arms across a 30 um tissue niche': 'Tres brazos inmunitarios en un nicho tisular de 30 µm',
+  'Innate speed paired with adaptive precision': 'Velocidad innata combinada con precisión adaptativa',
+  'Innate Immunity: Macrophage Phagocytosis, ROS Burst & MHC-II (1DLH)': 'Inmunidad innata: fagocitosis, estallido ROS y MHC-II (1DLH)',
+  'Actin pseudopods engulfing E. coli into a phagosome': 'Pseudópodos de actina engullendo a E. coli en un fagosoma',
+  'Acidic phagolysosome & NOX2 reactive oxygen burst': 'Fagolisosoma ácido y estallido de oxígeno reactivo NOX2',
+  'MHC-II (1DLH) antigen display bridging to CD4+ T-cells': 'Presentación MHC-II (1DLH) activando linfocitos T CD4+',
+  'Humoral Immunity: IgG (1IGT) Neutralizing SARS-CoV-2 Spike RBD (7BZ5) vs ACE2 (6M0J)': 'Inmunidad humoral: IgG (1IGT) neutralizando Spike RBD (7BZ5) frente a ACE2 (6M0J)',
+  'Y-shaped IgG (1IGT): variable Fab arms & Fc stem': 'IgG en Y (1IGT): brazos variables Fab y tallo Fc',
+  'Fab clamping SARS-CoV-2 Spike RBD (7BZ5) vs ACE2 (6M0J)': 'Fab bloqueando Spike RBD (7BZ5) frente a ACE2 (6M0J)',
+  'Fc opsonization tagging neutralized virions for clearance': 'Opsonización Fc marcando viriones neutralizados para limpieza',
+  'Cellular Immunity: CD8+ T-Cell TCR-pMHC-I (1AO7) Surveillance': 'Inmunidad celular: vigilancia CD8+ por TCR-pMHC-I (1AO7)',
+  'Patrolling CD8+ T-cells inspecting surface MHC-I': 'Linfocitos T CD8+ patrullando el MHC-I superficial',
+  'Immunological synapse & TCR-pMHC-I (1AO7) recognition': 'Sinapsis inmunológica y reconocimiento TCR-pMHC-I (1AO7)',
+  'Spared healthy self vs triggered cytotoxic synapse': 'Células sanas respetadas frente a sinapsis citotóxica activada',
+  'Perforin (3NSJ) Pores, Granzyme B (1IAU) Apoptosis, Atomic Epitopes & Handoff to Pharmacology': 'Poros de perforina (3NSJ), apoptosis por granzima B (1IAU), epítopos atómicos y paso a Farmacología',
+  'Perforin (3NSJ) pores & Granzyme B (1IAU) apoptosis': 'Poros de perforina (3NSJ) y apoptosis por granzima B (1IAU)',
+  'Atomic 0.1-0.5 nm CDR3 H-bonds & IgG disulfide hinges': 'Puentes H atómicos CDR3 (0,1-0,5 nm) y bisagras disulfuro IgG',
+  'Three-arm recap & handoff to Pharmacology Lab': 'Resumen de los tres brazos y paso al Laboratorio de Farmacología',
+  'Welcome to a 30 um mucosal tissue battleground where human immunity separates self from non-self.':
+    'Bienvenido a un campo de batalla mucoso de 30 µm donde la inmunidad separa lo propio de lo extraño.',
+  'On the left, a patrolling [[macrophage|macrophage]] tracks an invading [[E. coli bacterium|ecoli_target]].':
+    'A la izquierda, un [[macrófago|macrophage]] patrulla y detecta una [[bacteria E. coli|ecoli_target]] invasora.',
+  'Center [[IgG antibodies|igg_antibody]] swarm a [[virion|virion_target]], while right sits a [[CD8+ T-cell|cd8_tcell]].':
+    'Al centro [[anticuerpos IgG|igg_antibody]] rodean un [[virión|virion_target]] y a la derecha actúa un [[linfocito T CD8+|cd8_tcell]].',
+  'Innate [[macrophages|macrophage]] strike within minutes using [[lysosomal enzymes|lysosome_ros]] against common microbes.':
+    'Los [[macrófagos|macrophage]] innatos atacan en minutos usando [[enzimas lisosomales|lysosome_ros]] contra microbios comunes.',
+  'Adaptive B-cells secrete tailored [[IgG antibodies|igg_antibody]] that neutralize pathogens in fluid outside cells.':
+    'Linfocitos B adaptativos secretan [[anticuerpos IgG|igg_antibody]] precisos que neutralizan patógenos fuera de las células.',
+  'Cytotoxic [[CD8+ T-cells|cd8_tcell]] eliminate infected host cells hiding viruses beyond antibody reach.':
+    '[[Linfocitos T CD8+|cd8_tcell]] citotóxicos eliminan células infectadas que ocultan virus fuera del alcance humoral.',
+  'Zoom to the 15 um [[macrophage|macrophage]] detecting surface LPS on a 2 um [[E. coli|ecoli_target]] rod.':
+    'Acércate al [[macrófago|macrophage]] de 15 µm detectando LPS superficial en un bacilo [[E. coli|ecoli_target]] de 2 µm.',
+  'Branching [[actin pseudopods|actin_pseudopod]] reach around [[E. coli|ecoli_target]] to pull it inward.':
+    '[[Pseudópodos de actina|actin_pseudopod]] ramificados rodean a [[E. coli|ecoli_target]] para arrastrarla hacia dentro.',
+  'The membrane lips fuse tightly, trapping [[E. coli|ecoli_target]] inside a sealed [[phagosome|phagosome]].':
+    'Los bordes de membrana se fusionan encerrando a [[E. coli|ecoli_target]] en un [[fagosoma|phagosome]] sellado.',
+  'Acidic [[lysosomes|lysosome_ros]] fuse with the [[phagosome|phagosome]] as V-ATPase pumps drop pH to 4.5.':
+    '[[Lisosomas|lysosome_ros]] ácidos se funden con el [[fagosoma|phagosome]] mientras bombas V-ATPasa bajan el pH a 4,5.',
+  'Inside [[lysosome ROS|lysosome_ros]] chambers, NOX2 sparks superoxide, H2O2 and bleach to shred bacterial membranes.':
+    'En cámaras [[ROS lisosomales|lysosome_ros]], NOX2 libera superóxido, H2O2 e hipoclorito rompiendo membranas bacterianas.',
+  'Lysozyme and cathepsins cleave [[E. coli|ecoli_target]] inside the [[phagosome|phagosome]] into short peptides.':
+    'Lisozima y catepsinas trocean [[E. coli|ecoli_target]] dentro del [[fagosoma|phagosome]] en péptidos cortos.',
+  'Bacterial fragments from the [[phagosome|phagosome]] load into the open groove of [[MHC-II|mhcii_display]].':
+    'Fragmentos bacterianos del [[fagosoma|phagosome]] se cargan en el surco abierto del [[MHC-II|mhcii_display]].',
+  'Vesicles export loaded [[MHC-II|mhcii_display]] onto the [[macrophage|macrophage]] plasma membrane.':
+    'Vesículas exportan el [[MHC-II|mhcii_display]] cargado hacia la membrana superficial del [[macrófago|macrophage]].',
+  'Displaying microbial peptides on [[MHC-II|mhcii_display]] activates CD4+ helper T-cells to rally adaptive defense.':
+    'Exhibir péptidos microbianos en [[MHC-II|mhcii_display]] activa linfocitos T CD4+ que coordinan la defensa adaptativa.',
+  'Fly to the center where 14 nm Y-shaped [[IgG antibodies|igg_antibody]] surround a [[SARS-CoV-2 virion|virion_target]].':
+    'Vuela al centro donde [[anticuerpos IgG|igg_antibody]] en Y de 14 nm rodean un [[virión SARS-CoV-2|virion_target]].',
+  'Two flexible [[Fab arms|fab_arms]] form hypervariable tips shaped to grip one exact viral surface epitope.':
+    'Dos [[brazos Fab|fab_arms]] flexibles forman puntas hipervariables que sujetan un epítopo viral exacto.',
+  'The constant [[Fc stem|fc_stem]] anchors the base of each [[IgG|igg_antibody]] and signals downstream immune cells.':
+    'El [[tallo Fc|fc_stem]] constante ancla la base de cada [[IgG|igg_antibody]] y avisa a las células inmunitarias.',
+  'To enter lung cells, the viral [[Spike RBD|spike_rbd]] must dock flush onto host [[ACE2|ace2_blocked]].':
+    'Para entrar en células pulmonares, el [[Spike RBD|spike_rbd]] viral debe acoplarse al receptor [[ACE2|ace2_blocked]].',
+  'IgG [[Fab arms|fab_arms]] bind viral [[Spike RBDs|spike_rbd]], blocking attachment to host [[ACE2|ace2_blocked]].':
+    'Los [[brazos Fab|fab_arms]] de IgG se unen al [[Spike RBD|spike_rbd]] bloqueando su unión al [[ACE2|ace2_blocked]] humano.',
+  'Sterically crowded by [[Fab arms|fab_arms]], the coated [[Spike RBD|spike_rbd]] bounces off [[ACE2|ace2_blocked]] harmlessly.':
+    'Cubierto por [[brazos Fab|fab_arms]], el [[Spike RBD|spike_rbd]] rebota sin daño frente al [[ACE2|ace2_blocked]].',
+  'With [[ACE2|ace2_blocked]] protected, dense antibody coats bristle outward via every [[Fc stem|fc_stem]].':
+    'Con [[ACE2|ace2_blocked]] protegido, la densa capa de anticuerpos expone hacia fuera cada [[tallo Fc|fc_stem]].',
+  'Surface Fc receptors on a [[macrophage|macrophage]] latch onto each [[Fc stem|fc_stem]] in opsonization.':
+    'Receptores Fc de un [[macrófago|macrophage]] agarran cada [[tallo Fc|fc_stem]] en la opsonización.',
+  'Tagged [[virions|virion_target]] are rapidly engulfed and digested before they can infect nearby cells.':
+    'Los [[viriones|virion_target]] marcados son engullidos y digeridos antes de infectar células vecinas.',
+  'Once a virus replicates inside a human cell, secreted antibodies can no longer reach it.':
+    'Cuando un virus se replica dentro de una célula humana, los anticuerpos secretados ya no lo alcanzan.',
+  'Surface [[MHC-I|tcr_mhci]] displays internal [[protein snippets|viral_peptide]] to patrolling [[CD8+ T-cells|cd8_tcell]].':
+    'El [[MHC-I|tcr_mhci]] superficial muestra [[fragmentos proteicos|viral_peptide]] internos a [[linfocitos T CD8+|cd8_tcell]].',
+  'Every nucleated body cell continuously samples its own cytosol onto [[MHC-I|tcr_mhci]] for inspection.':
+    'Toda célula nucleada muestra de continuo proteínas de su citosol en [[MHC-I|tcr_mhci]] para inspección.',
+  'Proteasomes chop intracellular viral proteins into 9-mer [[viral peptides|viral_peptide]] for ER loading.':
+    'Los proteasomas cortan proteínas virales internas en [[péptidos virales|viral_peptide]] de 9 aa para el RE.',
+  'Across the 15 nm synapse, the [[TCR-pMHC-I|tcr_mhci]] complex grips the [[viral peptide|viral_peptide]] directly.':
+    'En la sinapsis de 15 nm, el complejo [[TCR-pMHC-I|tcr_mhci]] sujeta directamente el [[péptido viral|viral_peptide]].',
+  'The CD8 co-receptor stabilizes [[TCR-pMHC-I|tcr_mhci]] binding, confirming a true match for the [[T-cell|cd8_tcell]].':
+    'El correceptor CD8 estabiliza la unión [[TCR-pMHC-I|tcr_mhci]] confirmando coincidencia al [[linfocito T|cd8_tcell]].',
+  'Healthy cells present normal self peptides on [[MHC-I|tcr_mhci]], so [[CD8+ T-cells|cd8_tcell]] move on untouched.':
+    'Las células sanas presentan péptidos propios en [[MHC-I|tcr_mhci]] y los [[linfocitos T CD8+|cd8_tcell]] las respetan.',
+  'Recognizing a foreign [[viral peptide|viral_peptide]] triggers a sharp Ca2+ surge inside the [[CD8+ T-cell|cd8_tcell]].':
+    'Reconocer un [[péptido viral|viral_peptide]] extraño dispara una fuerte señal de Ca2+ en el [[linfocito T CD8+|cd8_tcell]].',
+  'Activated via [[TCR-pMHC-I|tcr_mhci]], the T-cell aims cytotoxic granules squarely across the synapse cleft.':
+    'Activado vía [[TCR-pMHC-I|tcr_mhci]], el linfocito dirige gránulos citotóxicos justo a la sinapsis.',
+  'Extracellular Ca2+ drives [[perforin|perforin_pore]] rings to punch 18 nm pores into the infected membrane.':
+    'El Ca2+ extracelular ensambla anillos de [[perforina|perforin_pore]] que abren poros de 18 nm en la membrana.',
+  'Serine protease [[Granzyme B|granzyme_b]] pours through each [[perforin pore|perforin_pore]] into target cytosol.':
+    'La serina proteasa [[Granzima B|granzyme_b]] fluye por cada [[poro de perforina|perforin_pore]] al citosol diana.',
+  '[[Granzyme B|granzyme_b]] activates caspases for clean apoptosis, stopping viral assembly before progeny burst out.':
+    '[[Granzima B|granzyme_b]] activa caspasas de apoptosis limpia, frenando al virus antes de que libere progenie.',
+  'Zoom to 0.1 to 0.5 nm in the [[immune atoms|immune_atoms]] lens to see exact molecular recognition.':
+    'Acércate a 0,1-0,5 nm en los [[átomos inmunitarios|immune_atoms]] para ver el reconocimiento molecular exacto.',
+  'Across [[immune atoms|immune_atoms]], C, H, N and O hydrogen bonds lock [[Fab|fab_arms]] loops onto viral epitopes.':
+    'En [[átomos inmunitarios|immune_atoms]], puentes H de C, H, N y O traban bucles [[Fab|fab_arms]] sobre epítopos virales.',
+  'Covalent sulfur Cys-S-S-Cys bridges inside [[immune atoms|immune_atoms]] hold each [[IgG|igg_antibody]] hinge together.':
+    'Puentes disulfuro Cys-S-S-Cys en [[átomos inmunitarios|immune_atoms]] sujetan la bisagra de cada [[IgG|igg_antibody]].',
+  '[[Macrophages|macrophage]], [[IgG antibodies|igg_antibody]] and [[CD8+ T-cells|cd8_tcell]] defend tissue from 30 um down to atoms.':
+    '[[Macrófagos|macrophage]], [[anticuerpos IgG|igg_antibody]] y [[linfocitos T CD8+|cd8_tcell]] defienden el tejido de 30 µm a átomos.',
+  'Toggle Innate, Humoral and Cellular modes to spotlight engulfment, RBD block and [[perforin|perforin_pore]] lysis.':
+    'Alterna Innato, Humoral y Celular para enfocar fagocitosis, bloqueo RBD y lisis por [[perforina|perforin_pore]].',
+  'Continue to the Pharmacology & Vaccine Lab to see how antibiotics, antivirals and mRNA vaccines aid immunity.':
+    'Sigue al Laboratorio de Farmacología y Vacunas para ver cómo antibióticos, antivirales y vacunas ARNm apoyan la inmunidad.',
+  // =========================================================================
+  // Phase 18B: Targeted Pharmacology & mRNA-LNP Vaccines (Capstone!)
+  // =========================================================================
+  'Targeted Pharmacology & mRNA-LNP Vaccines: a guided tour':
+    'Farmacología dirigida y vacunas ARNm-LNP: recorrido guiado',
+  'Test selective toxicity across five biological targets (E. coli, Mycoplasma, Chlamydia, SARS-CoV-2/HIV-1 and human cells): beta-lactam penicillin covalent locking of PBP (1PWC), bacterial 70S (4V7U macrolide, 1HNW tetracycline) vs human 80S (4UG0) ribosomes, direct-acting antivirals Remdesivir (7BV2 RdRp) and AZT (3V4I HIV-1 RT), cytosolic mRNA-LNP vaccine translation outside the intact nucleus, and atomic active-site bonds.':
+    'Prueba la toxicidad selectiva en cinco dianas biológicas (E. coli, Mycoplasma, Chlamydia, SARS-CoV-2/VIH-1 y células humanas): bloqueo covalente de PBP por penicilina (1PWC), ribosomas bacterianos 70S (macrólido 4V7U, tetraciclina 1HNW) frente a 80S humanos (4UG0), antivirales Remdesivir (7BV2) y AZT (3V4I), traducción citosólica de vacunas ARNm-LNP fuera del núcleo intacto y enlaces atómicos.',
+  'Selective Toxicity Across 5 Biological Targets': 'Toxicidad selectiva en cinco dianas biológicas',
+  'Five biological targets on one selectivity bench': 'Cinco dianas biológicas en un mismo banco de selectividad',
+  'Why antibacterial drugs have zero target on viruses': 'Por qué los antibióticos carecen de diana en virus',
+  'Beta-Lactam Antibiotics: Penicillin vs Peptidoglycan (PBP 1PWC) & Wall-Less Mycoplasma': 'Antibióticos betalactámicos: penicilina frente a peptidoglicano (PBP 1PWC) y Mycoplasma sin pared',
+  'Penicillin crossing porins to peptidoglycan & PBP (1PWC)': 'Penicilina cruzando porinas hacia peptidoglicano y PBP (1PWC)',
+  'Covalent beta-lactam serine lock & osmotic lysis': 'Bloqueo covalente de serina betalactámica y lisis osmótica',
+  'Wall-less Mycoplasma, viruses & human cells spared': 'Mycoplasma sin pared, virus y células humanas intactos',
+  'Ribosome Selectivity: Bacterial 70S (4V7U Macrolide / 1HNW Tetracycline) vs Human 80S (4UG0)': 'Selectividad ribosómica: 70S bacterianos (4V7U / 1HNW) frente a 80S humanos (4UG0)',
+  'Divergent bacterial 70S vs human cytosolic 80S ribosomes': 'Ribosomas bacterianos 70S divergentes frente a 80S humanos',
+  'Macrolide 50S exit tunnel (4V7U) & Tetracycline 30S A-site (1HNW)': 'Túnel 50S por macrólido (4V7U) y sitio A 30S por tetraciclina (1HNW)',
+  'Halting E. coli, Mycoplasma & Chlamydia while sparing 80S': 'Frenando E. coli, Mycoplasma y Chlamydia respetando 80S',
+  'Direct-Acting Antivirals: Remdesivir (7BV2 RdRp) & AZT (3V4I HIV-1 RT)': 'Antivirales de acción directa: Remdesivir (7BV2 RdRp) y AZT (3V4I RT de VIH-1)',
+  'Targeting uniquely viral polymerases without host harm': 'Atacando polimerasas exclusivamente virales sin dañar al huésped',
+  'Nucleoside triphosphate mimics stalling genome synthesis': 'Análogos de nucleósidos trifosfato frenando la síntesis genómica',
+  'Remdesivir i+3 steric stall (7BV2) vs AZT 3-prime-OH stop (3V4I)': 'Paro estérico i+3 por Remdesivir (7BV2) frente a corte 3′-OH de AZT (3V4I)',
+  'mRNA-LNP Vaccines Outside the Intact Nucleus, Atomic Bonds & Intro Biology Capstone Complete!': 'Vacunas ARNm-LNP fuera del núcleo intacto, enlaces atómicos y cierre de Biología Introductoria',
+  'Ionizable 90 nm mRNA-LNP endocytosis & cytosolic escape': 'Endocitosis de ARNm-LNP ionizable de 90 nm y escape citosólico',
+  'Cytosolic 80S translation visibly outside the intact nucleus': 'Traducción en 80S citosólicos visiblemente fuera del núcleo intacto',
+  'Atomic drug bonds & Intro Biology Capstone Complete': 'Enlaces atómicos de fármacos y cierre completo del curso',
+  'Modern medicine rests on selective toxicity: halting pathogens while sparing [[human cells|bench_human]].':
+    'La medicina moderna se basa en toxicidad selectiva: frenar patógenos respetando [[células humanas|bench_human]].',
+  'Compare walled [[E. coli|bench_ecoli]], wall-less [[Mycoplasma|bench_myco]] and intracellular [[Chlamydia|bench_chlam]] up top.':
+    'Compara arriba [[E. coli|bench_ecoli]] con pared, [[Mycoplasma|bench_myco]] sin pared y [[Chlamydia|bench_chlam]] intracelular.',
+  'Beside them sit acellular [[viruses|bench_virus]] and a nucleated [[human epithelial cell|bench_human]].':
+    'A su lado están [[virus|bench_virus]] acelulares y una [[célula epitelial humana|bench_human]] nucleada.',
+  'Antibiotics fail completely against [[viruses|bench_virus]] because viruses lack bacterial structures.':
+    'Los antibióticos fracasan del todo frente a [[virus|bench_virus]] porque los virus carecen de estructuras bacterianas.',
+  'SARS-CoV-2 and HIV-1 carry zero [[peptidoglycan wall|pg_wall]] and zero bacterial [[70S ribosomes|ribo_70s]].':
+    'SARS-CoV-2 y VIH-1 tienen cero [[pared de peptidoglicano|pg_wall]] y cero [[ribosomas 70S|ribo_70s]] bacterianos.',
+  'Below the bench, four molecular stations reveal how each drug class matches one exact target.':
+    'Bajo el banco, cuatro estaciones moleculares muestran cómo cada fármaco encaja en una diana exacta.',
+  'Zoom to Station 1, where [[E. coli|bench_ecoli]] depends on a cross-linked [[peptidoglycan wall|pg_wall]].':
+    'Acércate a la Estación 1, donde [[E. coli|bench_ecoli]] depende de una [[pared de peptidoglicano|pg_wall]] reticulada.',
+  'Penicillin slips through outer porins to reach [[PBP transpeptidases|pbp_penicillin]] building that mesh.':
+    'La penicilina cruza porinas externas hacia las [[transpeptidasas PBP|pbp_penicillin]] que tejen esa malla.',
+  'Normally, [[PBP|pbp_penicillin]] stitches peptide stems across [[peptidoglycan|pg_wall]] to hold 2 to 5 atm pressure.':
+    'Normalmente, [[PBP|pbp_penicillin]] cose enlaces en el [[peptidoglicano|pg_wall]] resistiendo 2 a 5 atm de presión.',
+  'Penicillin mimics D-Ala-D-Ala, entering the active site of [[PBP|pbp_penicillin]] with a strained ring.':
+    'La penicilina imita D-Ala-D-Ala entrando al sitio activo de [[PBP|pbp_penicillin]] con su anillo tenso.',
+  'The catalytic serine opens that beta-lactam ring, locking [[PBP|pbp_penicillin]] in a covalent ester bond.':
+    'La serina catalítica abre el anillo betalactámico trabando [[PBP|pbp_penicillin]] en un enlace éster covalente.',
+  'Autolysins keep nicking the [[wall|pg_wall]] with no repair, causing [[E. coli|bench_ecoli]] to burst osmotically.':
+    'Las autolisinas siguen cortando la [[pared|pg_wall]] sin reparación y [[E. coli|bench_ecoli]] estalla osmóticamente.',
+  'Look at [[Mycoplasma|bench_myco]]: without any [[peptidoglycan wall|pg_wall]], penicillin cannot harm it.':
+    'Observa a [[Mycoplasma|bench_myco]]: sin ninguna [[pared de peptidoglicano|pg_wall]], la penicilina no le afecta.',
+  'Intracellular [[Chlamydia|bench_chlam]] only pauses division, while [[viruses|bench_virus]] feel zero effect.':
+    '[[Chlamydia|bench_chlam]] intracelular solo frena su división y los [[virus|bench_virus]] no sufren ningún efecto.',
+  'Because [[human cells|bench_human]] have no [[peptidoglycan|pg_wall]] or PBP, beta-lactams spare host tissues.':
+    'Como las [[células humanas|bench_human]] carecen de [[peptidoglicano|pg_wall]] y PBP, los betalactámicos no las dañan.',
+  'Move to Station 2 comparing bacterial [[70S ribosomes|ribo_70s]] beside human cytosolic [[80S ribosomes|ribo_80s_safe]].':
+    'Pasa a la Estación 2 comparando [[ribosomas 70S|ribo_70s]] bacterianos junto a [[ribosomas 80S|ribo_80s_safe]] humanos.',
+  'Bacterial [[70S|ribo_70s]] builds from 50S and 30S subunits, whereas human [[80S|ribo_80s_safe]] uses larger 60S and 40S.':
+    'El [[70S|ribo_70s]] bacteriano usa subunidades 50S y 30S; el [[80S|ribo_80s_safe]] humano usa 60S y 40S mayores.',
+  'Atomic differences in rRNA pockets let antibiotics jam [[70S|ribo_70s]] while sparing human [[80S|ribo_80s_safe]].':
+    'Diferencias atómicas en el ARNr permiten bloquear [[70S|ribo_70s]] dejando intactos los [[80S|ribo_80s_safe]] humanos.',
+  'Macrolides like azithromycin plug the 50S [[exit tunnel|macrolide_tunnel]] at 23S rRNA nucleotide A2058.':
+    'Macrólidos como la azitromicina taponan el [[túnel de salida|macrolide_tunnel]] 50S en el nucleótido A2058 del ARNr 23S.',
+  'With the [[exit tunnel|macrolide_tunnel]] jammed, growing bacterial peptide chains stall inside [[70S|ribo_70s]].':
+    'Con el [[túnel de salida|macrolide_tunnel]] taponado, los péptidos bacterianos se atascan dentro del [[70S|ribo_70s]].',
+  'Meanwhile, tetracycline occupies the 30S [[A-site|tetra_asite]], blocking incoming aminoacyl-tRNA docking.':
+    'Mientras tanto, la tetraciclina ocupa el [[sitio A|tetra_asite]] 30S impidiendo el acoplamiento de aminoacil-ARNt.',
+  '[[E. coli|bench_ecoli]], [[Mycoplasma|bench_myco]] and [[Chlamydia|bench_chlam]] all rely on bacterial [[70S|ribo_70s]] translation.':
+    '[[E. coli|bench_ecoli]], [[Mycoplasma|bench_myco]] y [[Chlamydia|bench_chlam]] dependen todas de la traducción [[70S|ribo_70s]].',
+  'Targeting [[70S|ribo_70s]] halts all three bacteria, even wall-less [[Mycoplasma|bench_myco]] untouched by penicillin.':
+    'Atacar el [[70S|ribo_70s]] frena las tres bacterias, incluso a [[Mycoplasma|bench_myco]] inmune a penicilina.',
+  'Human [[80S ribosomes|ribo_80s_safe]] inside [[host cells|bench_human]] keep running, and [[viruses|bench_virus]] stay untouched.':
+    'Los [[ribosomas 80S|ribo_80s_safe]] en [[células huésped|bench_human]] siguen operando y los [[virus|bench_virus]] no se inmutan.',
+  'To stop [[viruses|bench_virus]] without harming [[human cells|bench_human]], antivirals target uniquely viral enzymes.':
+    'Para frenar [[virus|bench_virus]] sin dañar [[células humanas|bench_human]], los antivirales atacan enzimas solo virales.',
+  'SARS-CoV-2 copies RNA using [[RdRp|rdrp_remdesivir]], an RNA-dependent polymerase absent from human cells.':
+    'SARS-CoV-2 copia ARN con [[RdRp|rdrp_remdesivir]], una polimerasa dependiente de ARN ausente en humanos.',
+  'HIV-1 converts viral RNA into DNA using [[HIV-1 Reverse Transcriptase|hiv_rt_azt]], another unique target.':
+    'VIH-1 convierte ARN viral en ADN usando [[Transcriptasa Inversa VIH-1|hiv_rt_azt]], otra diana exclusiva.',
+  'Host kinases phosphorylate antiviral prodrugs into nucleoside triphosphates accepted by viral enzymes.':
+    'Quinasas humanas fosforilan profármacos antivirales en nucleósidos trifosfato que aceptan enzimas virales.',
+  'Nucleoside analogs insert into [[RdRp|rdrp_remdesivir]] and [[HIV-1 RT|hiv_rt_azt]] strands, halting chain extension.':
+    'Análogos de nucleósidos entran en hebras de [[RdRp|rdrp_remdesivir]] y [[RT de VIH-1|hiv_rt_azt]] cortando la síntesis.',
+  'Because viral enzymes incorporate these mimics faster than host polymerases, replication drops sharply.':
+    'Como las enzimas virales incorporan estos análogos más rápido que las humanas, la replicación cae en picada.',
+  'In SARS-CoV-2 [[RdRp|rdrp_remdesivir]], Remdesivir triggers an i+3 stall when its 1-prime-CN hits Ser861.':
+    'En [[RdRp|rdrp_remdesivir]] de SARS-CoV-2, Remdesivir provoca paro i+3 cuando su grupo 1′-CN choca con Ser861.',
+  'In [[HIV-1 RT|hiv_rt_azt]], AZT-TP lacks a 3-prime-OH group, causing immediate obligate DNA chain termination.':
+    'En [[RT de VIH-1|hiv_rt_azt]], AZT-TP carece de 3′-OH causando terminación inmediata obligada del ADN.',
+  'Proofreading nuclear polymerases in [[human cells|bench_human]] discriminate against both analogs to stay safe.':
+    'Las polimerasas nucleares correctoras de [[células humanas|bench_human]] descartan ambos análogos y siguen seguras.',
+  'Station 4 shows a 90 nm [[mRNA-LNP|mrna_lnp]] vaccine delivering spike instructions with zero live virus.':
+    'La Estación 4 muestra una vacuna [[ARNm-LNP|mrna_lnp]] de 90 nm entregando instrucciones sin virus vivo.',
+  'Inside an acidifying endosome at pH 6.0, ionizable lipids trigger [[endosome escape|endosome_escape]].':
+    'Dentro de un endosoma ácido a pH 6,0, lípidos ionizables disparan el [[escape endosomal|endosome_escape]].',
+  'Capped, m1-pseudouridine-modified [[vaccine mRNA|vaccine_mrna]] releases straight into the open cytosol.':
+    'El [[ARNm vacunal|vaccine_mrna]] con caperuza y m1-pseudouridina se libera directo al citosol abierto.',
+  'Notice the glowing [[intact nucleus|intact_nucleus]]: [[vaccine mRNA|vaccine_mrna]] never enters or alters host DNA.':
+    'Observa el [[núcleo intacto|intact_nucleus]]: el [[ARNm vacunal|vaccine_mrna]] nunca entra ni altera el ADN humano.',
+  'Transient [[vaccine mRNA|vaccine_mrna]] directs cytosolic [[80S ribosomes|ribo_80s_safe]] to make spike, then degrades.':
+    'El [[ARNm vacunal|vaccine_mrna]] transitorio guía [[ribosomas 80S|ribo_80s_safe]] citosólicos a armar espícula y se degrada.',
+  'Displayed spike peptides prime lasting B-cell IgG and T-cell memory while RNases clear [[mRNA|vaccine_mrna]].':
+    'Los péptidos de espícula entrenan memoria IgG y T duradera mientras las RNasas retiran el [[ARNm|vaccine_mrna]].',
+  'In [[drug atoms|drug_atoms]], see the 1.35 A [[PBP|pbp_penicillin]] ester bond, 3-prime-OH-less AZT and m1-pseudouridine.':
+    'En [[átomos de fármacos|drug_atoms]], ve el éster [[PBP|pbp_penicillin]] de 1,35 A, AZT sin 3′-OH y m1-pseudouridina.',
+  'Cycle all four drug modes to compare live effects across [[E. coli|bench_ecoli]], [[viruses|bench_virus]] and [[human|bench_human]].':
+    'Alterna los cuatro fármacos para comparar efectos en [[E. coli|bench_ecoli]], [[virus|bench_virus]] y [[humano|bench_human]].',
+  'Intro Biology Capstone Complete: from atoms and cells to immunity and [[mRNA-LNP|mrna_lnp]] medicine.':
+    'Cierre completo de Biología Introductoria: de átomos y células hasta inmunidad y medicina [[ARNm-LNP|mrna_lnp]].',
 };

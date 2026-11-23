@@ -18,6 +18,11 @@ export const STANDALONE_PAGE_PART_KEYS: Record<string, readonly string[]> = {
     'rer', 'ribosome', 'ser', 'golgi', 'mito', 'lyso', 'perox', 'vesicle', 'lipid',
     'centro', 'mt', 'actin', 'if', 'cilium', 'villi', 'cytosol'
   ],
+  'archaea_realistic.html': [
+    'slayer', 'tetraether', 'tentacle', 'escrt', 'extremophile_shell', 'archaellum',
+    'arli', 'bacteriorhodopsin', 'a_atps', 'dna', 'histone', 'rnap', 'mrna',
+    'ribosome', 'lokiactin', 'symbiont', 'synapse', 'h2_flow', 'atp_export', 'ether_bond'
+  ],
   'bacteriophage_realistic.html': [
     'capsid', 'soc', 'vertex', 'dna', 'core', 'portal', 'collar', 'sheath', 'tube',
     'baseplate', 'stf', 'needle', 'ltf', 'om', 'porin', 'pg', 'im', 'rnap', 'ribosome'
@@ -55,6 +60,10 @@ export const STANDALONE_PAGE_PART_KEYS: Record<string, readonly string[]> = {
   'rickettsia_realistic.html': [
     'slime', 'om', 'omp', 'pg', 'im', 'tlc1', 'etc', 'atps', 't4ss', 'pld', 'dna',
     'rnap', 'ribosome', 'sca2', 'comet', 'g_actin', 'host_mito', 'host_mem'
+  ],
+  'scale_explorer.html': [
+    'plant_100um', 'animal_20um', 'yeast_5um', 'ecoli_2um', 'myco_300nm',
+    'virus_100nm', 'ribo_25nm', 'enzyme_10nm', 'dna_2nm', 'monomer_1nm', 'atom_01nm'
   ],
   'tmv_realistic.html': ['coat', 'disc', 'rna', 'channel', 'ribo', 'mp']
 };

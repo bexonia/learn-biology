@@ -53,6 +53,8 @@ jobs:
           set -euo pipefail
           for f in \
             cell_explorer.html \
+            scale_explorer.html \
+            archaea_realistic.html \
             eukaryotic_cell_3d.html \
             prokaryotic_cell_3d.html \
             dna_styles.html \
@@ -122,9 +124,17 @@ jobs:
           curl -sf "http://127.0.0.1:8080/mycoplasma_realistic.html" | grep -q "Mycoplasma"
           curl -sf "http://127.0.0.1:8080/chlamydia_realistic.html" | grep -q "Chlamydia"
           curl -sf "http://127.0.0.1:8080/rickettsia_realistic.html" | grep -q "Rickettsia"
+          curl -sf "http://127.0.0.1:8080/scale_explorer.html" | grep -q "Scale"
+          curl -sf "http://127.0.0.1:8080/archaea_realistic.html" | grep -q "Archaea"
           curl -sf -r 0-3 "http://127.0.0.1:8080/audio/lenses/en/v3/story/real-mycoplasma.opus" | grep -q "OggS"
           curl -sf -r 0-3 "http://127.0.0.1:8080/audio/lenses/es/latam/story/real-chlamydia.opus" | grep -q "OggS"
           curl -sf -r 0-3 "http://127.0.0.1:8080/audio/lenses/en/v1/scientific/real-rickettsia.opus" | grep -q "OggS"
+          curl -sf -r 0-3 "http://127.0.0.1:8080/audio/en/v3/scale-explorer/scale.ch0.s0.01.opus" | grep -q "OggS"
+          curl -sf -r 0-3 "http://127.0.0.1:8080/audio/es/latam/scale-explorer/scale.ch0.s0.01.opus" | grep -q "OggS"
+          curl -sf -r 0-3 "http://127.0.0.1:8080/audio/en/v3/real-archaea/arch.ch0.s0.01.opus" | grep -q "OggS"
+          curl -sf -r 0-3 "http://127.0.0.1:8080/audio/es/latam/real-archaea/arch.ch0.s0.01.opus" | grep -q "OggS"
+          curl -sf -r 0-3 "http://127.0.0.1:8080/audio/lenses/en/v3/story/four-biomolecules.opus" | grep -q "OggS"
+          curl -sf -r 0-3 "http://127.0.0.1:8080/audio/lenses/es/spain/scientific/real-archaea.opus" | grep -q "OggS"
           echo "Smoke test passed (/api/health, /, /dist/pages/cell_explorer.js, /audio/*.opus, /robots.txt, /sitemap.xml)."
 
   publish:

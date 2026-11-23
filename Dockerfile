@@ -18,6 +18,8 @@ LABEL org.opencontainers.image.source="https://github.com/bexonia/learn-biology"
 COPY nginx/default.conf /etc/nginx/conf.d/default.conf
 
 COPY cell_explorer.html \
+     scale_explorer.html \
+     archaea_realistic.html \
      eukaryotic_cell_3d.html \
      prokaryotic_cell_3d.html \
      dna_styles.html \
@@ -59,6 +61,10 @@ ADD audio.tar.gz \
     audio_stage0_es.tar.gz \
     audio_stage3_en.tar.gz \
     audio_stage3_es.tar.gz \
+    audio_phase09_en.tar.gz \
+    audio_phase09_es.tar.gz \
+    audio_phase10_en.tar.gz \
+    audio_phase10_es.tar.gz \
     /usr/share/nginx/html/
 COPY --from=builder /app/dist/ /usr/share/nginx/html/dist/
 COPY --from=builder /app/dist/server.js /app/server.js

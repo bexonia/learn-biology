@@ -1,5 +1,10 @@
 import { registerNodeLenses, registerPartLenses } from './registry.js';
 import { INTRO_NODE_LENSES } from './lenses_intro.js';
+import {
+  SCALE_BIOMOLECULES_NODE_LENSES,
+  SCALE_BIOMOLECULES_PART_LENSES
+} from './lenses_scale_biomolecules.js';
+import { ARCHAEA_NODE_LENSES, ARCHAEA_PART_LENSES } from './lenses_archaea.js';
 import { ANIMAL_NODE_LENSES, ANIMAL_PART_LENSES } from './lenses_animal.js';
 import { PLANT_FUNGAL_NODE_LENSES, PLANT_FUNGAL_PART_LENSES } from './lenses_plant_fungal.js';
 import { PROKARYOTE_NODE_LENSES, PROKARYOTE_PART_LENSES } from './lenses_prokaryote.js';
@@ -17,6 +22,8 @@ import {
 } from './lenses_parasitic_cells.js';
 
 registerNodeLenses(INTRO_NODE_LENSES);
+registerNodeLenses(SCALE_BIOMOLECULES_NODE_LENSES);
+registerNodeLenses(ARCHAEA_NODE_LENSES);
 registerNodeLenses(ANIMAL_NODE_LENSES);
 registerNodeLenses(PLANT_FUNGAL_NODE_LENSES);
 registerNodeLenses(PROKARYOTE_NODE_LENSES);
@@ -24,6 +31,8 @@ registerNodeLenses(PHAGE_DNA_VIRUS_NODE_LENSES);
 registerNodeLenses(ENVELOPED_VIRUS_NODE_LENSES);
 registerNodeLenses(PARASITIC_CELLS_NODE_LENSES);
 
+registerPartLenses(SCALE_BIOMOLECULES_PART_LENSES);
+registerPartLenses(ARCHAEA_PART_LENSES);
 registerPartLenses(ANIMAL_PART_LENSES);
 registerPartLenses(PLANT_FUNGAL_PART_LENSES);
 registerPartLenses(PROKARYOTE_PART_LENSES);
@@ -36,6 +45,10 @@ export * from './parser.js';
 export * from './registry.js';
 export {
   INTRO_NODE_LENSES,
+  SCALE_BIOMOLECULES_NODE_LENSES,
+  SCALE_BIOMOLECULES_PART_LENSES,
+  ARCHAEA_NODE_LENSES,
+  ARCHAEA_PART_LENSES,
   ANIMAL_NODE_LENSES,
   ANIMAL_PART_LENSES,
   PLANT_FUNGAL_NODE_LENSES,

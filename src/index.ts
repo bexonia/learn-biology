@@ -39,6 +39,24 @@ import {
   type SculptEmitter
 } from './molecules/surface.js';
 import {
+  smoothSeams,
+  ptFrames,
+  sweepGeo,
+  shellGeo,
+  blobGeo,
+  capStrip,
+  cylM,
+  atS,
+  instanced,
+  makeOrganicWaveNormalMap,
+  applyBacklitSSS,
+  createCinemaStudio,
+  makeCinemaMembraneMat,
+  makeCinemaImpostorMat,
+  makeCinemaStickMat,
+  type CinemaStudioOptions
+} from './core/cinematic_stage.js';
+import {
   RibosomeService,
   type RibosomeShape,
   RibosomeLive
@@ -171,6 +189,22 @@ export {
   makeProteinBumpTexture,
   makeMolBatch,
   makeSculptedMesh,
+  smoothSeams,
+  ptFrames,
+  sweepGeo,
+  shellGeo,
+  blobGeo,
+  capStrip,
+  cylM,
+  atS,
+  instanced,
+  makeOrganicWaveNormalMap,
+  applyBacklitSSS,
+  createCinemaStudio,
+  makeCinemaMembraneMat,
+  makeCinemaImpostorMat,
+  makeCinemaStickMat,
+  type CinemaStudioOptions,
   type MolSurfaceOptions,
   type MolInstanceBatch,
   type SculptEmitter,

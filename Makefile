@@ -50,14 +50,18 @@ AUDIO_ARCHIVES := \
 	audio_lenses_es_latam_a.tar.gz audio_lenses_es_latam_bp.tar.gz audio_lenses_es_latam_sci.tar.gz \
 	audio_lenses_es_spain_a.tar.gz audio_lenses_es_spain_bp.tar.gz audio_lenses_es_spain_sci.tar.gz \
 	audio_stage0_en.tar.gz audio_stage0_es.tar.gz \
-	audio_stage3_en.tar.gz audio_stage3_es.tar.gz
+	audio_stage3_en.tar.gz audio_stage3_es.tar.gz \
+	audio_phase09_en.tar.gz audio_phase09_es.tar.gz \
+	audio_phase10_en.tar.gz audio_phase10_es.tar.gz
 
 STAGE0_EXCLUDE := --exclude='*/life-overview' --exclude='*/life-overview.opus' --exclude='*/parasitic-cells-overview.opus'
 STAGE3_EXCLUDE := --exclude='*/real-mycoplasma' --exclude='*/real-chlamydia' --exclude='*/real-rickettsia' --exclude='*/real-mycoplasma.opus' --exclude='*/real-myco-*.opus' --exclude='*/real-chlamydia.opus' --exclude='*/real-chlam-*.opus' --exclude='*/real-rickettsia.opus' --exclude='*/real-rick-*.opus'
-BASE_EXCLUDE := $(STAGE0_EXCLUDE) $(STAGE3_EXCLUDE)
+PHASE09_EXCLUDE := --exclude='*/scale-explorer' --exclude='*/scale-explorer.opus' --exclude='*/four-biomolecules.opus' --exclude='*/disaccharide.opus' --exclude='*/beta-sheet.opus' --exclude='*/polynucleotide-strand.opus'
+PHASE10_EXCLUDE := --exclude='*/real-archaea' --exclude='*/real-archaea.opus' --exclude='*/real-arch-*.opus'
+BASE_EXCLUDE := $(STAGE0_EXCLUDE) $(STAGE3_EXCLUDE) $(PHASE09_EXCLUDE) $(PHASE10_EXCLUDE)
 
 unpack-audio:
-	@if [ ! -d audio/en/v1 ] || [ ! -d audio/en/v1/life-overview ] || [ ! -d audio/en/v1/real-mycoplasma ] || [ ! -d audio/es/latam/life-overview ] || [ ! -d audio/es/latam/real-mycoplasma ] || [ ! -d audio/es/spain/blueprint ] || [ ! -d audio/es/spain/scientific ] || [ ! -d audio/lenses/en/v1/scientific ] || [ ! -d audio/lenses/es/latam/scientific ] || [ ! -d audio/lenses/es/spain/scientific ]; then \
+	@if [ ! -d audio/en/v1 ] || [ ! -d audio/en/v1/life-overview ] || [ ! -d audio/en/v1/real-mycoplasma ] || [ ! -d audio/en/v1/scale-explorer ] || [ ! -d audio/en/v1/real-archaea ] || [ ! -d audio/es/latam/life-overview ] || [ ! -d audio/es/latam/real-mycoplasma ] || [ ! -d audio/es/latam/scale-explorer ] || [ ! -d audio/es/latam/real-archaea ] || [ ! -d audio/es/spain/blueprint ] || [ ! -d audio/es/spain/scientific ] || [ ! -d audio/lenses/en/v1/scientific ] || [ ! -d audio/lenses/es/latam/scientific ] || [ ! -d audio/lenses/es/spain/scientific ]; then \
 		for f in $(AUDIO_ARCHIVES); do \
 			if [ -f "$$f" ]; then \
 				echo "==> Extracting $$f into audio/ ..."; \
@@ -87,6 +91,10 @@ pack-audio:
 	tar -czf audio_stage0_es.tar.gz audio/es/latam/life-overview audio/es/spain/blueprint/life-overview audio/es/spain/scientific/life-overview audio/lenses/es/*/*/life-overview.opus audio/lenses/es/*/*/parasitic-cells-overview.opus
 	tar -czf audio_stage3_en.tar.gz audio/en/*/real-mycoplasma audio/en/*/real-chlamydia audio/en/*/real-rickettsia audio/lenses/en/*/*/real-mycoplasma.opus audio/lenses/en/*/*/real-myco-*.opus audio/lenses/en/*/*/real-chlamydia.opus audio/lenses/en/*/*/real-chlam-*.opus audio/lenses/en/*/*/real-rickettsia.opus audio/lenses/en/*/*/real-rick-*.opus
 	tar -czf audio_stage3_es.tar.gz audio/es/latam/real-mycoplasma audio/es/latam/real-chlamydia audio/es/latam/real-rickettsia audio/es/spain/*/real-mycoplasma audio/es/spain/*/real-chlamydia audio/es/spain/*/real-rickettsia audio/lenses/es/*/*/real-mycoplasma.opus audio/lenses/es/*/*/real-myco-*.opus audio/lenses/es/*/*/real-chlamydia.opus audio/lenses/es/*/*/real-chlam-*.opus audio/lenses/es/*/*/real-rickettsia.opus audio/lenses/es/*/*/real-rick-*.opus
+	tar -czf audio_phase09_en.tar.gz audio/en/*/scale-explorer audio/lenses/en/*/*/scale-explorer.opus audio/lenses/en/*/*/four-biomolecules.opus audio/lenses/en/*/*/disaccharide.opus audio/lenses/en/*/*/beta-sheet.opus audio/lenses/en/*/*/polynucleotide-strand.opus
+	tar -czf audio_phase09_es.tar.gz audio/es/latam/scale-explorer audio/es/spain/*/scale-explorer audio/lenses/es/*/*/scale-explorer.opus audio/lenses/es/*/*/four-biomolecules.opus audio/lenses/es/*/*/disaccharide.opus audio/lenses/es/*/*/beta-sheet.opus audio/lenses/es/*/*/polynucleotide-strand.opus
+	tar -czf audio_phase10_en.tar.gz audio/en/*/real-archaea audio/lenses/en/*/*/real-archaea.opus audio/lenses/en/*/*/real-arch-*.opus
+	tar -czf audio_phase10_es.tar.gz audio/es/latam/real-archaea audio/es/spain/*/real-archaea audio/lenses/es/*/*/real-archaea.opus audio/lenses/es/*/*/real-arch-*.opus
 
 typecheck:
 	npm run typecheck

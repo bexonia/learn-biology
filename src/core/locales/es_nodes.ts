@@ -1111,5 +1111,95 @@ export const ES_NODES: Record<string, NodeTranslation> = {
     name: 'Vínculo endosimbiótico Rickettsia y Mitocondria (realista)',
     scale: 'comparación lado a lado de ~1.1 µm',
     desc: 'Hace casi dos mil millones de años, una alfaproteobacteria emparentada con Rickettsiales entró en un huésped arqueano. Rickettsia y las Mitocondrias modernas aún comparten los Complejos respiratorios I–IV, la ATP sintasa rotatoria F1Fo, ADNbc circular y ribosomas 70S, con una inversión crucial: la parásita Rickettsia usa Tlc1 para importar ATP hacia ADENTRO, mientras la Mitocondria domesticada evolucionó el translocador ANT para exportar ATP hacia AFUERA e impulsar toda la vida eucariota.'
+  },
+  'scale-explorer': {
+    name: 'Explorador de escala real: potencias de 10',
+    scale: '100 µm → 0,1 nm (6 décadas)',
+    desc: 'Un comparador logarítmico continuo de potencias de diez que abarca seis órdenes de magnitud completos, desde una célula vegetal de 100 µm hasta un átomo de hidrógeno de 0,1 nm, revelando las proporciones reales entre células, bacterias, virus, ribosomas, enzimas, ADN-B, monómeros y átomos, con deslizador interactivo y comparador 1:1 de pares adyacentes.'
+  },
+  'four-biomolecules': {
+    name: 'Las cuatro biomoléculas de la vida',
+    scale: 'química de 0,1 nm a 25 nm',
+    desc: 'Toda célula viva y todo virus de la Tierra se construyen a partir de las mismas cuatro familias químicas: (1) Lípidos que se autoensamblan en bicapas fluidas, (2) Carbohidratos cuyos enlaces α-1,4 frente a β-1,4 distinguen el almidón espiral de la celulosa rígida, (3) Proteínas plegadas desde 20 aminoácidos en hélices α, láminas β y máquinas catalíticas, y (4) Ácidos nucleicos (ADN y ARN) que almacenan y transmiten el código genético usando los mismos seis átomos biogénicos (C, H, O, N, P, Mg²⁺).'
+  },
+  'disaccharide': {
+    name: 'Disacárido (maltosa frente a celobiosa)',
+    scale: 'puente glucosídico de ~1,4 nm',
+    desc: 'Dos anillos idénticos de D-glucosa unidos por síntesis de deshidratación mediante un puente glucosídico C1–O–C4, mostrando cómo un solo ángulo de enlace convierte la maltosa α-1,4 curvada (almidón digerible) en celobiosa β-1,4 plana rotada 180° (celulosa resistente de las plantas).'
+  },
+  'beta-sheet': {
+    name: 'Lámina β (cinta proteica plegada)',
+    scale: 'separación entre hebras de ~4,7 Å',
+    desc: 'Hebras polipeptídicas extendidas alineadas lado a lado en sentidos antiparalelos y unidas lateralmente por puentes de hidrógeno C=O···H–N. Las cadenas laterales de los aminoácidos alternan por encima y por debajo del plano plegado formando núcleos enzimáticos, seda y poros en barril β.'
+  },
+  'polynucleotide-strand': {
+    name: 'Hebra polinucleotídica (5′ → 3′)',
+    scale: 'cadena direccional de ~1 nm de ancho',
+    desc: 'Una cadena direccional de nucleótidos unidos por enlaces fosfodiéster covalentes 3′–5′: comienza en un extremo fosfato 5′ con carga negativa y crece por su punta libre 3′-OH cuando la ADN o ARN polimerasa añade cada nueva base complementaria.'
+  },
+  'real-archaea': {
+    name: 'Arquea — Asgard y extremófilas (realista)',
+    scale: 'cuerpo de 550 nm · tentáculos de 1–3 µm',
+    desc: 'Dominio Archaea: el tercer dominio de la vida y linaje anfitrión evolutivo de las células eucariotas complejas. Seccionada a escala molecular cinematográfica para comparar una arquea Asgard tipo Prometheoarchaeum (con tentáculos ramificados de Lokiactina abrazando a un simbionte alfaproteobacteriano en una sinapsis sintrófica H₂↔ATP) con extremófilas termoacidófilas Sulfolobus y halófilas Halobacterium de membrana púrpura, construida con seis estructuras reales crio-EM de RCSB PDB (5T5K, 1C3W, 4IHQ, 5ZZB, 7OFQ, 2PMZ).'
+  },
+  'real-arch-envelope': {
+    name: 'Envoltura arqueana: capa S y monocapa tetraéter (realista)',
+    scale: 'blindaje sin peptidoglicano de ~22 nm',
+    desc: 'Primer plano seccionado de la envoltura arqueana sin peptidoglicano: una bóveda externa cristalina hexagonal de glicoproteínas de capa S de ~18 nm anclada por tallos SlaB sobre una monocapa continua de lípidos tetraéter C40 con enlaces éter, inmune a la penicilina, la lisozima, el calor hirviente y el ácido a pH 2.'
+  },
+  'real-arch-slayer': {
+    name: 'Capa S glicoproteica hexagonal (SlaA/SlaB)',
+    scale: 'bóveda cristalina de ~18 nm',
+    desc: 'Un exoesqueleto paracristalino hexagonal p6 de bóvedas glicoproteicas SlaA elevadas sobre tallos triméricos SlaB por encima de la membrana plasmática arqueana, sustituyendo al peptidoglicano bacteriano como blindaje mecánico y tamiz molecular preciso de 4–8 nm.'
+  },
+  'real-arch-tetraether': {
+    name: 'Monocapa lipídica tetraéter C40 con enlaces éter',
+    scale: 'membrana continua de una hoja (~4,0 nm)',
+    desc: 'Tetraéteres de glicerol dialquil glicerol (GDGT) que atraviesan toda la membrana uniendo dos cabezas sn-glicerol-1-fosfato de quiralidad opuesta mediante cadenas isoprenoides ramificadas de 40 carbonos y anillos rígidos de ciclopentano, eliminando el plano central separable para resistir ácido hirviente a 80–100 °C.'
+  },
+  'real-arch-archaellum': {
+    name: 'Arquelo rotatorio por ATP y motor ArlI (realista)',
+    scale: 'filamento sólido de 12 nm · ATPasa ArlI',
+    desc: 'Propulsión rotatoria convergente que evolucionó de forma independiente al flagelo bacteriano: homólogo a los pili tipo IV, su filamento helicoidal sólido de 12 nm de ArlB (PDB 7OFQ) gira directamente mediante hidrólisis de Mg²⁺-ATP en el motor ATPasa hexamérico citoplasmático ArlI (PDB 4IHQ).'
+  },
+  'real-arch-bacteriorhodopsin': {
+    name: 'Bacteriorrodopsina de Halobacterium y modo extremófilo (realista)',
+    scale: 'bomba púrpura de 7 hélices TM (PDB 1C3W)',
+    desc: 'Bioenergética extremófila arqueana: redes de membrana púrpura sin clorofila formadas por trímeros de bacteriorrodopsina de siete hélices (PDB 1C3W) que capturan fotones verdes con retinal para bombear protones hacia afuera e impulsar la ATP sintasa A1A0, junto al blindaje termoacidófilo de Sulfolobus.'
+  },
+  'real-arch-histones': {
+    name: 'Histonas arqueanas HMfB y genoma afín a eucariotas (realista)',
+    scale: 'hipernucleosoma (PDB 5T5K) · ARNP de 12 subunidades',
+    desc: 'En el citosol arqueano reside el plano genético de los eucariotas: el ADNbc circular se enrolla sobre histonas arqueanas poliméricas HMfB (PDB 5T5K) y es transcrito por una ARN polimerasa de 12 subunidades homóloga a Pol II (PDB 2PMZ) reclutada por TBP y TFB.'
+  },
+  'real-arch-rnap': {
+    name: 'ARN polimerasa arqueana de 12 subunidades (PDB 2PMZ)',
+    scale: 'enzima tipo eucariota de ~15 nm',
+    desc: 'Modelo estructural real de la ARN polimerasa arqueana de 12 subunidades (PDB 2PMZ), directamente homóloga a la ARN polimerasa II humana y reclutada en promotores caja TATA por TBP y TFB en lugar de factores sigma bacterianos.'
+  },
+  'real-arch-ribosome': {
+    name: 'Ribosoma arqueano 70S (50S + 30S)',
+    scale: 'traducción tipo eucariota de ~22 nm',
+    desc: 'Aunque sedimentan a 70S como los ribosomas bacterianos, los ribosomas arqueanos comparten proteínas ribosomales eucariotas, inician la traducción con metionina sin formilar (Met-ARNt) y resultan insensibles a muchos antibióticos bacterianos como la estreptomicina.'
+  },
+  'real-arch-lokiactin': {
+    name: 'Citoesqueleto de Lokiactina y profilina Asgard (PDB 5ZZB)',
+    scale: 'complejo homólogo a actina de ~6 nm',
+    desc: 'Estructura cristalina real de Lokiactina Asgard en complejo con LokiProfilina-2 (PDB 5ZZB), una de las proteínas de firma eucariota (ESP) que permiten a las arqueas Asgard extender tentáculos citoplasmáticos ramificados alrededor de socios bacterianos sintróficos.'
+  },
+  'real-arch-synapse': {
+    name: 'Sinapsis endosimbiótica: huésped Asgard + simbionte (realista)',
+    scale: 'hendidura sintrófica H₂ ↔ ATP de ~25 nm',
+    desc: 'El punto de inflexión evolutivo que originó la vida compleja hace unos dos mil millones de años: tentáculos ramificados de una arquea Asgard abrazan a una alfaproteobacteria respiradora en una estrecha hendidura sintrófica, intercambiando H₂ y formiato fermentativos por exportación de ATP respiratorio en el camino hacia las mitocondrias.'
+  },
+  'real-arch-ether-bond': {
+    name: 'Zoom atómico: enlace éter arqueano frente a éster bacteriano',
+    scale: 'química covalente de ~0,1–0,5 nm',
+    desc: 'Contraste a nivel de enlace único que separa al dominio Archaea de Bacteria y Eukarya: los enlaces éter C–O–C sobre sn-glicerol-1-fosfato (G1P) carecen del oxígeno carbonilo reactivo (=O) de los lípidos éster G3P bacterianos y eucariotas, resistiendo la hidrólisis en ácido hirviente.'
+  },
+  'real-arch-atoms': {
+    name: 'Seis átomos biogénicos compartidos en Archaea (C, H, O, N, P, Mg²⁺)',
+    scale: '0,1–0,3 nm (1–3 Å)',
+    desc: 'A 0,1–0,3 nm, incluso los tetraéteres arqueanos resistentes al ácido hirviente, las capas S cristalinas, los arquelos impulsados por ATP y las histonas HMfB se reducen exactamente a los mismos seis elementos biogénicos universales que construyen bacterias, plantas, animales y virus.'
   }
 };

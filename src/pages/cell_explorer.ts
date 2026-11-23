@@ -12,6 +12,7 @@ import { OutlinePass } from 'three/addons/postprocessing/OutlinePass.js';
 import { mergeVertices } from 'three/addons/utils/BufferGeometryUtils.js';
 import { Effect } from 'effect';
 import { runBiologyApp, buildPdbSurfaceGeo, makeProteinBumpTexture } from '../index.js';
+import { PDB_ARCHAEA } from '../molecules/pdb_archaea.js';
 import { CourseProgressManager } from '../core/progress_service.js';
 import {
   PRESET_SPANISH_VOICE_BY_MODE,
@@ -3882,6 +3883,411 @@ function buildBiologyIntro() {
 }
 
 // =====================================================================
+// Phase 09: The Four Biomolecules Workbench + Molecular Intermediates
+// =====================================================================
+function buildDisaccharide() {
+  const g = new THREE.Group();
+  const buildRingAtoms = (cx, cy, flipY = false) => {
+    const atoms = [], rad = k => V(Math.cos(k * Math.PI / 3), (flipY ? -1 : 1) * Math.sin(k * Math.PI / 3), 0);
+    for (let k = 0; k < 6; k++) {
+      const p = rad(k).multiplyScalar(1.38).add(V(cx, cy, k % 2 ? .22 : -.22));
+      atoms.push([k === 0 ? 'O' : 'C', p.x, p.y, p.z]);
+    }
+    for (let k = 1; k <= 4; k++) {
+      const base = rad(k).multiplyScalar(1.38).add(V(cx, cy, k % 2 ? .22 : -.22));
+      const o = base.clone().addScaledVector(rad(k), 1.32);
+      atoms.push(['O', o.x, o.y, o.z]);
+      atoms.push(['H', o.x + rad(k).x * .5, o.y + rad(k).y * .5, o.z + .65]);
+    }
+    return atoms;
+  };
+  // Upper pair: bent alpha-1,4 Maltose (starch precursor)
+  const malG = new THREE.Group(); malG.position.set(0, 2.55, 0);
+  const mA = molecule(buildRingAtoms(-2.25, .25, false));
+  const mB = molecule(buildRingAtoms(2.25, -.42, false));
+  const mBridge = V(0, -.58, .35);
+  const mO = sphere(EL.O.r * 1.15, std('#ff6b8b', { glow: .55 })); mO.position.copy(mBridge);
+  malG.add(mA, mB, mO, stick(V(-1.02, .22, .12), mBridge, .13, std('#ff9ab0', { glow: .35 })), stick(mBridge, V(1.02, -.38, .12), .13, std('#ff9ab0', { glow: .35 })));
+  g.add(malG);
+
+  // Lower pair: straight 180-deg-flipped beta-1,4 Cellobiose (cellulose precursor)
+  const celG = new THREE.Group(); celG.position.set(0, -2.55, 0);
+  const cA = molecule(buildRingAtoms(-2.35, 0, false));
+  const cB = molecule(buildRingAtoms(2.35, 0, true));
+  const cBridge = V(0, .06, .18);
+  const cO = sphere(EL.O.r * 1.15, std('#5cff9d', { glow: .55 })); cO.position.copy(cBridge);
+  celG.add(cA, cB, cO, stick(V(-1.05, .02, .12), cBridge, .13, std('#8affbd', { glow: .35 })), stick(cBridge, V(1.05, .02, -.12), .13, std('#8affbd', { glow: .35 })));
+  // Intramolecular H-bond stabilizing flat beta-1,4 ribbon
+  const hMat = new THREE.LineDashedMaterial({ color: '#7fd8ff', dashSize: .25, gapSize: .18, transparent: true, opacity: .95 });
+  const hLine = new THREE.Line(new THREE.BufferGeometry().setFromPoints([V(-.75, 1.35, .25), V(1.15, 1.35, -.25)]), hMat);
+  hLine.computeLineDistances(); celG.add(hLine);
+  g.add(celG);
+
+  return finalize(g, [
+    A(V(0, 1.95, .45), 'α-1,4 glycosidic oxygen bridge (maltose — bends into coiled starch)', 'starch'),
+    A(V(-2.25, 2.8, .3), 'D-glucose pyranose ring (C1–C6)', 'glucose'),
+    A(V(0, -2.45, .3), 'β-1,4 glycosidic bridge (cellobiose — flips ring 180° for flat cellulose)', 'cellulose'),
+    A(V(.2, -1.2, .15), 'Intramolecular O3–H···O5 hydrogen bond stiffening cellulose', 'atom-o'),
+    A(V(2.35, -2.55, .3), 'Carbon pyranose ring skeleton', 'atom-c'),
+  ]);
+}
+
+function buildBetaSheet() {
+  const g = new THREE.Group();
+  const strandCols = ['#5ce1ff', '#ff7aa8', '#68f0a8', '#ffd166'];
+  const rCols = ['#ff6b6b', '#ffd24f', '#6bff9e', '#6bc8ff', '#d08cff'];
+  const strands = 4, res = 8, spacing = 2.65, step = 1.65;
+  const CA = [];
+  let hbMid = null, rSample = null;
+  for (let s = 0; s < strands; s++) {
+    const dir = s % 2 === 0 ? 1 : -1;
+    const x = (s - (strands - 1) / 2) * spacing;
+    const pts = [];
+    for (let i = 0; i < res; i++) {
+      const y = (i - (res - 1) / 2) * step * dir;
+      const z = (i % 2 ? .42 : -.42);
+      pts.push(V(x, y, z));
+    }
+    CA.push(pts);
+    // Pleated backbone ribbon tube + directional C-terminal arrowhead
+    g.add(tube(pts, .32, std(strandCols[s], { glow: .28 }), 10, 64));
+    const tip = pts[res - 1].clone().add(V(0, dir * .95, 0));
+    const cone = new THREE.Mesh(new THREE.ConeGeometry(.75, 1.35, 4), std(strandCols[s], { glow: .42 }));
+    cone.position.copy(tip); cone.rotation.z = dir > 0 ? 0 : Math.PI; cone.rotation.y = Math.PI / 4;
+    g.add(cone);
+    pts.forEach((p, i) => {
+      const ca = sphere(.28, std('#d8e6f5', { glow: .12 })); ca.position.copy(p); g.add(ca);
+      const rSign = ((i + s) % 2 ? 1 : -1);
+      const rPos = p.clone().add(V(0, 0, rSign * 1.45));
+      g.add(stick(p, rPos, .095, std('#b8c6d8')));
+      const rs = sphere(.42, std(rCols[(i + s) % rCols.length], { glow: .25 })); rs.position.copy(rPos); g.add(rs);
+      if (s === 1 && i === 4) rSample = rPos.clone();
+    });
+  }
+  const dm = new THREE.LineDashedMaterial({ color: '#8ef0ff', dashSize: .26, gapSize: .2, transparent: true, opacity: .92 });
+  for (let s = 0; s < strands - 1; s++) {
+    for (let i = 1; i < res - 1; i += 2) {
+      const a = CA[s][i], b = CA[s + 1][res - 1 - i];
+      const ln = new THREE.Line(new THREE.BufferGeometry().setFromPoints([a, b]), dm);
+      ln.computeLineDistances(); g.add(ln);
+      if (s === 1 && i === 3) hbMid = a.clone().lerp(b, .5);
+    }
+  }
+  return finalize(g, [
+    A(CA[0][4], 'Antiparallel pleated β-strand backbone (3.5 Å per residue)', 'polypeptide'),
+    A(hbMid ?? V(0, 0, 0), 'Inter-strand C=O···H–N hydrogen bonds (4.7 Å spacing)', 'atom-o'),
+    A(rSample ?? V(0, 1, 1.5), 'Alternating amino acid R-group side chains (above / below sheet)', 'amino-acid'),
+    A(CA[3][res - 1].clone().add(V(0, -.95, 0)), 'Directional C-terminal strand arrow (N → C)', 'protein'),
+  ]);
+}
+
+function buildPolynucleotideStrand() {
+  const g = new THREE.Group();
+  const seq = ['A', 'T', 'G', 'C', 'A', 'G'];
+  const bbPts = [];
+  let pSample = null, sSample = null, bSample = null, cap5 = null, tip3 = null;
+  for (let i = 0; i < seq.length; i++) {
+    const t = i / (seq.length - 1);
+    const ang = t * Math.PI * 1.35;
+    const pPos = V(Math.cos(ang) * 1.65, (i - 2.5) * 2.15, Math.sin(ang) * 1.65);
+    const sPos = pPos.clone().add(V(Math.cos(ang + .38) * 1.15, -.75, Math.sin(ang + .38) * 1.15));
+    const bDir = V(-Math.cos(ang + .38), 0, -Math.sin(ang + .38)).normalize();
+    const bPos = sPos.clone().addScaledVector(bDir, 1.75);
+    bbPts.push(pPos, sPos);
+    const ph = sphere(.58, std(EL.P.c, { glow: .42 })); ph.position.copy(pPos); g.add(ph);
+    const sug = new THREE.Mesh(new THREE.CylinderGeometry(.68, .68, .36, 5), std('#70c6ff', { glow: .22 }));
+    sug.position.copy(sPos); sug.rotation.set(.4, ang, .3); g.add(sug);
+    const purine = seq[i] === 'A' || seq[i] === 'G';
+    const baseMesh = new THREE.Mesh(new THREE.BoxGeometry(purine ? 1.85 : 1.25, .28, .82), std(BASE[seq[i]], { glow: .34 }));
+    baseMesh.position.copy(bPos); baseMesh.quaternion.copy(qFromTo(V(1, 0, 0), bDir)); g.add(baseMesh);
+    g.add(stick(pPos, sPos, .13, std('#9ac6ff')), stick(sPos, bPos, .11, std('#d8e6f5')));
+    g.add(baseLetter(seq[i], bPos.clone().add(V(0, .55, 0)), .25, 1.35));
+    if (i === 0) cap5 = pPos.clone();
+    if (i === seq.length - 1) tip3 = sPos.clone().add(V(0, -1.0, 0));
+    if (i === 2) { pSample = pPos.clone(); sSample = sPos.clone(); bSample = bPos.clone(); }
+  }
+  g.add(tube(bbPts, .18, std(BACKBONE[0], { glow: .28 }), 10, 96));
+  const oh3 = sphere(.42, std('#ff667a', { glow: .55 })); oh3.position.copy(tip3); g.add(oh3);
+  g.add(stick(bbPts.at(-1), tip3, .11, std('#ff99a8')));
+  return finalize(g, [
+    A(cap5, '5′ phosphate end (negatively charged PO₄⁻ cap)', 'phosphate'),
+    A(pSample, '3′→5′ phosphodiester backbone bridge', 'nucleotide'),
+    A(sSample, 'Deoxyribose / ribose pentose sugar ring', 'sugar'),
+    A(bSample, 'Nitrogenous base projecting for hydrogen-bond pairing (A/T/G/C)', 'base'),
+    A(tip3, 'Free 3′-OH growing tip (where DNA/RNA polymerase adds nucleotides)', 'atom-o'),
+  ]);
+}
+
+function buildFourBiomolecules() {
+  const g = new THREE.Group(), an = [];
+  let mk = 0;
+
+  // Pedestal 1 (x = -13.2, partKey = 'phospholipid'): 1 · LIPIDS (bilayer + phospholipid + cholesterol)
+  {
+    const cx = -13.2;
+    g.add(makeStagePedestal(cx, -2.05, 3.65, '#ff9a7a'));
+    const wrap = new THREE.Group(); wrap.userData.focusSphere = { center: V(cx, .5, .2), radius: 4.3 }; g.add(wrap);
+    const lf = lipidField({ w: 6.2, d: 4.2, sp: .66, y: -.3, head: '#ff9a7a', tail: '#ffe1a0' });
+    lf.group.position.set(cx, -.35, -.15); lf.group.rotation.set(.24, .28, 0); wrap.add(lf.group);
+    const phos = partModel('phospholipid');
+    phos.group.scale.setScalar(2.45 / phos.radius); phos.group.position.set(cx - 1.3, 2.25, .95); phos.group.rotation.z = .22;
+    wrap.add(phos.group);
+    const chol = partModel('cholesterol');
+    chol.group.scale.setScalar(2.05 / chol.radius); chol.group.position.set(cx + 1.6, 1.95, .75); chol.group.rotation.set(.2, -.32, .52);
+    wrap.add(chol.group);
+    const b1 = makePedestalBadge(['① LIPIDS (Membranes & Energy)', '✓ Amphipathic Bilayer  ✓ Cholesterol', 'Atoms: C · H · O · P · N'], '#ff9a7a');
+    b1.position.set(cx, -3.25, 2.1); g.add(b1);
+    mk = tagFrom(g, mk, 'phospholipid');
+  }
+
+  // Pedestal 2 (x = -4.4, partKey = 'glucose'): 2 · CARBOHYDRATES (starch helix + cellulose ribbon + glucose)
+  {
+    const cx = -4.4;
+    g.add(makeStagePedestal(cx, -2.05, 3.65, '#5cff9d'));
+    const wrap = new THREE.Group(); wrap.userData.focusSphere = { center: V(cx, .5, .2), radius: 4.3 }; g.add(wrap);
+    const st = partModel('starch');
+    st.group.scale.setScalar(2.85 / st.radius); st.group.position.set(cx - 1.25, .95, -.2); wrap.add(st.group);
+    const cel = partModel('cellulose');
+    cel.group.scale.setScalar(2.75 / cel.radius); cel.group.position.set(cx + 1.25, .85, .25); cel.group.rotation.z = .1; wrap.add(cel.group);
+    const glu = partModel('glucose');
+    glu.group.scale.setScalar(1.55 / glu.radius); glu.group.position.set(cx, 2.65, 1.35); wrap.add(glu.group);
+    const b2 = makePedestalBadge(['② CARBOHYDRATES (Fuel & Walls)', '✓ α-1,4 Starch  ✓ β-1,4 Cellulose', 'Atoms: C · H · O  (1:2:1)'], '#5cff9d');
+    b2.position.set(cx, -3.25, 2.1); g.add(b2);
+    mk = tagFrom(g, mk, 'glucose');
+  }
+
+  // Pedestal 3 (x = +4.4, partKey = 'protein'): 3 · PROTEINS (folded enzyme + alpha-helix + beta-sheet)
+  {
+    const cx = 4.4;
+    g.add(makeStagePedestal(cx, -2.05, 3.65, '#c084fc'));
+    const wrap = new THREE.Group(); wrap.userData.focusSphere = { center: V(cx, .5, .2), radius: 4.3 }; g.add(wrap);
+    const pr = partModel('protein');
+    pr.group.scale.setScalar(2.65 / pr.radius); pr.group.position.set(cx, 1.15, .55); wrap.add(pr.group);
+    const hx = partModel('alpha-helix');
+    hx.group.scale.setScalar(2.25 / hx.radius); hx.group.position.set(cx - 2.05, .85, -.35); hx.group.rotation.z = .2; wrap.add(hx.group);
+    const bs = partModel('beta-sheet');
+    bs.group.scale.setScalar(2.15 / bs.radius); bs.group.position.set(cx + 2.05, .85, -.35); bs.group.rotation.y = -.35; wrap.add(bs.group);
+    const b3 = makePedestalBadge(['③ PROTEINS (Molecular Machines)', '✓ α-Helix & β-Sheet  ✓ 20 Amino Acids', 'Atoms: C · H · O · N · (S)'], '#c084fc');
+    b3.position.set(cx, -3.25, 2.1); g.add(b3);
+    mk = tagFrom(g, mk, 'protein');
+  }
+
+  // Pedestal 4 (x = +13.2, partKey = 'dna'): 4 · NUCLEIC ACIDS (B-DNA double helix + RNA + nucleotide)
+  {
+    const cx = 13.2;
+    g.add(makeStagePedestal(cx, -2.05, 3.65, '#4da6ff'));
+    const wrap = new THREE.Group(); wrap.userData.focusSphere = { center: V(cx, .5, .2), radius: 4.3 }; g.add(wrap);
+    const dM = partModel('dna');
+    dM.group.scale.setScalar(3.25 / dM.radius); dM.group.position.set(cx - .75, 1.25, .35); wrap.add(dM.group);
+    const rM = partModel('rna');
+    rM.group.scale.setScalar(2.35 / rM.radius); rM.group.position.set(cx + 1.65, .75, -.25); wrap.add(rM.group);
+    const nuc = partModel('nucleotide');
+    nuc.group.scale.setScalar(1.45 / nuc.radius); nuc.group.position.set(cx + 1.35, 2.75, 1.25); wrap.add(nuc.group);
+    let rotT = 0;
+    dM.group.userData.tick = dt => { rotT += dt; dM.group.rotation.y = rotT * .42; };
+    const b4 = makePedestalBadge(['④ NUCLEIC ACIDS (DNA & RNA Code)', '✓ 3′–5′ Strands  ✓ A–T / G–C Pairs', 'Atoms: C · H · O · N · P · Mg²⁺'], '#4da6ff');
+    b4.position.set(cx, -3.25, 2.1); g.add(b4);
+    mk = tagFrom(g, mk, 'dna');
+  }
+
+  an.push(
+    A(V(-13.2, 4.4, 1.2), '1. Lipids — self-assembling phospholipid bilayers & cholesterol', 'phospholipid'),
+    A(V(-13.2, -4.6, 1.2), 'Cholesterol (rigid 4-ring membrane buffer)', 'cholesterol'),
+    A(V(-4.4, 4.4, 1.2), '2. Carbohydrates — α-1,4 starch fuel & β-1,4 cellulose walls', 'disaccharide'),
+    A(V(-4.4, -4.6, 1.2), 'Cellulose (flat β-1,4 structural fibers)', 'cellulose'),
+    A(V(4.4, 4.4, 1.2), '3. Proteins — folded globular enzymes, α-helices & β-sheets', 'protein'),
+    A(V(4.4, -4.6, 1.2), 'Pleated β-sheet secondary structure', 'beta-sheet'),
+    A(V(13.2, 4.4, 1.2), '4. Nucleic acids — B-DNA double helix, RNA & nucleotides', 'dna'),
+    A(V(13.2, -4.6, 1.2), '5′→3′ Polynucleotide strand & nucleotide monomers', 'polynucleotide-strand'),
+  );
+  return finalize(g, an, 16.5);
+}
+
+// =====================================================================
+// Phase 10: Domain Archaea — Real PDB Cryo-EM & Molecular Sub-Models
+// =====================================================================
+function archPdbModel(key, colour, upright = false) {
+  const d = PDB_ARCHAEA[key];
+  const xyz = new Int16Array(Uint8Array.from(atob(d.xyz), c => c.charCodeAt(0)).buffer);
+  const kind = Uint8Array.from(atob(d.kind), c => c.charCodeAt(0));
+  const g = new THREE.Group(), ms = [], cs = [], beads = [], q = new THREE.Quaternion();
+  for (let i = 0; i < d.n; i++) {
+    const p = V(xyz[i * 3], xyz[i * 3 + 1], xyz[i * 3 + 2]).multiplyScalar(.1);
+    const k = kind[i], rna = (k & 3) === 2;
+    if (upright) p.set(p.x, p.z, -p.y);
+    ms.push(M4(p, q, rna ? 2.1 : 1.55));
+    cs.push(new THREE.Color(colour(k >> 2, rna)));
+    beads.push({ p, g: k >> 2, rna });
+  }
+  g.add(instanced(new THREE.IcosahedronGeometry(1, 1), plain(), ms, cs));
+  const surfGeo = buildPdbSurfaceGeo({ n: d.n, xyz, kind, rad: null }, {
+    nm: 10, maxDim: 44, sigmaAng: 3.35, aoStrength: .58, uvScale: .11,
+    colorFn: (gr, part) => new THREE.Color(colour(gr, part === 2)),
+  });
+  const surfMat = new THREE.MeshPhysicalMaterial({
+    vertexColors: true, roughness: .35, metalness: .03,
+    clearcoat: .36, clearcoatRoughness: .28, sheen: .4,
+    normalMap: protBump, normalScale: new THREE.Vector2(.38, .38),
+    transparent: true, opacity: .86, side: THREE.FrontSide,
+  });
+  const surfMesh = new THREE.Mesh(surfGeo, surfMat);
+  if (upright) surfMesh.rotation.x = -Math.PI / 2;
+  g.add(surfMesh);
+  return { g, beads, of: f => beads.filter(f).map(b => b.p) };
+}
+
+function buildArchSlayer() {
+  const g = new THREE.Group();
+  const hexMat = std('#6fe6d8', { glow: .28, bump: true }), stalkMat = std('#46a8a2', { glow: .15 }), glyMat = std('#ffd26a', { glow: .32 });
+  const mem = lipidField({ w: 15, d: 11, sp: .85, y: -2.9, head: '#f5b856', tail: '#c4812e' });
+  g.add(mem.group);
+  let tileSample = null, stalkSample = null, poreSample = null;
+  const R = 2.05;
+  for (let q = -2; q <= 2; q++) for (let r = -1; r <= 1; r++) {
+    const x = R * 1.65 * (q + r * .5), z = R * 1.45 * r;
+    if (Math.abs(x) > 6.2) continue;
+    const canopy = new THREE.Mesh(new THREE.TorusGeometry(R * .68, .28, 12, 6), hexMat);
+    canopy.position.set(x, 1.85, z); canopy.rotation.x = Math.PI / 2; g.add(canopy);
+    for (let k = 0; k < 3; k++) {
+      const a = k * Math.PI * 2 / 3;
+      const sx = x + Math.cos(a) * .55, sz = z + Math.sin(a) * .55;
+      g.add(stick(V(sx, -2.0, sz), V(sx, 1.75, sz), .12, stalkMat));
+      const gly = sphere(.22, glyMat, 10); gly.position.set(x + Math.cos(a + .5) * 1.15, 2.35, z + Math.sin(a + .5) * 1.15); g.add(gly);
+    }
+    if (q === 0 && r === 0) { tileSample = V(x + 1.1, 2.1, z); stalkSample = V(x + .55, -.2, z); poreSample = V(x, 1.85, z); }
+  }
+  return finalize(g, [
+    A(tileSample ?? V(1, 2, 0), 'Hexagonal SlaA glycoprotein canopy (p6 symmetry, 0 peptidoglycan)', 'protein'),
+    A(poreSample ?? V(0, 1.85, 0), 'Uniform 4–8 nm molecular sieve pore admitting solutes', 'water'),
+    A(stalkSample ?? V(.5, -.2, 0), 'Trimeric coiled-coil SlaB stalk spanning pseudo-periplasm', 'alpha-helix'),
+    A(V(0, -2.0, 2.2), 'Underlying C40 ether-linked tetraether monolayer', 'real-arch-tetraether'),
+  ]);
+}
+
+function buildArchTetraether() {
+  const g = new THREE.Group();
+  const headMat = std('#f5b856', { glow: .34 }), chainMat = std('#d8943a', { glow: .16 }), ringMat = std('#ff785a', { glow: .32 }), ethMat = std('#5cff9d', { glow: .48 });
+  let headPt = null, ethPt = null, ringPt = null;
+  for (let ix = -4; ix <= 4; ix++) for (let iz = -2; iz <= 2; iz++) {
+    const x = ix * 1.35 + rr(-.12, .12), z = iz * 1.45 + rr(-.12, .12);
+    const hTop = sphere(.46, headMat, 14); hTop.position.set(x, 3.15, z); g.add(hTop);
+    const hBot = sphere(.46, headMat, 14); hBot.position.set(x, -3.15, z); g.add(hBot);
+    for (const dx of [-.22, .22]) {
+      const pts = [];
+      for (let s = 0; s <= 10; s++) {
+        const u = s / 10, y = -2.75 + u * 5.5;
+        pts.push(V(x + dx + Math.sin(u * Math.PI * 3 + ix) * .16, y, z + Math.cos(u * Math.PI * 2 + iz) * .14));
+      }
+      g.add(tube(pts, .09, chainMat, 6, 20));
+      const eTop = sphere(.18, ethMat, 10); eTop.position.set(x + dx, 2.65, z); g.add(eTop);
+      const eBot = sphere(.18, ethMat, 10); eBot.position.set(x + dx, -2.65, z); g.add(eBot);
+    }
+    if ((ix + iz) % 2 === 0) {
+      const cyc = new THREE.Mesh(new THREE.TorusGeometry(.32, .085, 8, 5), ringMat);
+      cyc.position.set(x, (ix % 2 ? .75 : -.75), z); cyc.rotation.y = ix * .6; g.add(cyc);
+      if (ix === 0 && iz === 0) ringPt = cyc.position.clone();
+    }
+    if (ix === 1 && iz === 1) { headPt = hTop.position.clone(); ethPt = V(x + .22, 2.65, z); }
+  }
+  return finalize(g, [
+    A(headPt ?? V(1.3, 3.15, 1.4), 'sn-glycerol-1-phosphate (G1P) polar headgroup (both faces)', 'phosphate'),
+    A(ethPt ?? V(1.5, 2.65, 1.4), 'Hydrolysis-resistant C–O–C ether linkage', 'real-arch-ether-bond'),
+    A(ringPt ?? V(0, -.75, 0), 'C40 biphytanyl isoprenoid core with rigid cyclopentane rings (no midplane)', 'atom-c'),
+    A(V(-4.2, -3.15, 1.4), 'Single continuous membrane-spanning sheet stable at 80–100 °C & pH 2', 'real-arch-atoms'),
+  ]);
+}
+
+function buildArchRnapReal() {
+  const cols = ['#a97aff', '#6fd6c0', '#ff8a9c', '#5aa6ff', '#ffd266', '#5cf2b8'];
+  const { g, of } = archPdbModel('arch_rnap', gr => cols[gr % cols.length], false);
+  const all = of(() => true);
+  return finalize(g, [
+    A(outmost(of(b => b.g === 0)), '12-subunit archaeal RNA polymerase clamp (PDB 2PMZ — eukaryotic Pol II homolog)', 'polypeptide'),
+    A(topOf(all), 'TBP/TFB TATA-box promoter recognition interface (no bacterial sigma factor)', 'alpha-helix'),
+    A(lowOf(all), 'Active cleft unwinding dsDNA to synthesize nascent archaeal mRNA', 'rna'),
+    A(outmost(all), 'Amino acid residue (cryo-EM / crystal structure)', 'amino-acid'),
+  ]);
+}
+
+function buildArchRibosome() {
+  const m = partModel('ribosome-70s');
+  return finalize(m.group, [
+    A(V(0, 3.5, 2.5), '50S large archaeal ribosomal subunit (23S + 5S rRNA + eukaryotic-like proteins)', 'ribo-50s'),
+    A(V(0, -3.2, 2.5), '30S small subunit initiating translation with unformylated Met-tRNA', 'ribo-30s'),
+    A(V(3.8, 0, 1.5), 'Nascent archaeal mRNA threaded through decoding groove', 'rna'),
+    A(V(-3.8, 1.2, 1.2), 'Emerging polypeptide chain (unaffected by bacterial streptomycin)', 'polypeptide'),
+  ], m.radius);
+}
+
+function buildArchLokiactinReal() {
+  const cols = ['#5cf2b8', '#78e8ff', '#d9a4ff', '#ffd266'];
+  const { g, of } = archPdbModel('lokiactin', gr => cols[gr % cols.length], false);
+  const all = of(() => true);
+  return finalize(g, [
+    A(outmost(of(b => b.g === 0)), 'Asgard Lokiactin + LokiProfilin-2 complex (PDB 5ZZB — ancestor of eukaryotic actin)', 'polypeptide'),
+    A(topOf(all), 'Profilin regulatory interface guiding filament nucleation & branching', 'alpha-helix'),
+    A(lowOf(all), 'ATP-binding cleft driving tentacle extension around bacterial partners', 'amino-acid'),
+  ]);
+}
+
+function buildArchEtherBond() {
+  const g = new THREE.Group();
+  // Left: Archaeal G1P Ether linkage (C-O-C, no carbonyl oxygen, branched methyls)
+  const ethAtoms = [
+    ['P', -5.6, 1.4, 0], ['O', -5.6, 2.75, .4], ['O', -6.85, .8, -.3], ['O', -4.3, .85, 0],
+    ['C', -3.1, 1.4, .2], ['C', -1.85, .6, 0], ['C', -1.85, -.85, .2],
+    ['O', -.65, 1.25, .15], // ether oxygen (C-O-C)
+    ['C', .6, .6, .2], ['C', 1.85, 1.35, -.1], ['C', 3.1, .65, .15], ['C', 1.85, 2.75, -.55], // branched phytanyl methyl
+    ['H', .6, -.35, .65], ['H', .6, .55, -.85],
+  ];
+  const ethMol = molecule(ethAtoms); ethMol.position.set(0, 2.35, 0);
+  const ethHalo = sphere(.68, xray('#5cff9d', 1.35, 1.4, .22), 20); ethHalo.position.set(-.65, 3.6, .15);
+  g.add(ethMol, ethHalo);
+
+  // Right / Bottom: Bacterial/Eukaryotic G3P Ester linkage (C(=O)-O-C, vulnerable carbonyl oxygen)
+  const estAtoms = [
+    ['P', -5.6, 1.4, 0], ['O', -5.6, 2.75, .4], ['O', -6.85, .8, -.3], ['O', -4.3, .85, 0],
+    ['C', -3.1, 1.4, .2], ['C', -1.85, .6, 0], ['C', -1.85, -.85, .2],
+    ['O', -.65, 1.25, .15], // ester oxygen
+    ['C', .6, .6, .2],
+    ['O', .65, -.68, .65], // vulnerable carbonyl =O
+    ['C', 1.9, 1.32, -.1], ['C', 3.15, .62, .15],
+  ];
+  const estMol = molecule(estAtoms); estMol.position.set(0, -2.55, 0);
+  const estHalo = sphere(.72, xray('#ff6f7a', 1.35, 1.4, .22), 20); estHalo.position.set(.65, -3.23, .65);
+  g.add(estMol, estHalo);
+
+  return finalize(g, [
+    A(V(-.65, 3.6, .15), 'Archaeal C–O–C ether bond (resists 100 °C & pH 2 acid)', 'atom-o'),
+    A(V(1.85, 5.1, -.55), 'Branched isoprenoid methyl group', 'atom-c'),
+    A(V(-5.6, 4.9, 0), 'sn-glycerol-1-phosphate (G1P) head', 'atom-p'),
+    A(V(.65, -3.23, .65), 'Bacterial ester carbonyl (=O) vulnerable to acid hydrolysis', 'atom-o'),
+    A(V(.6, 1.3, .65), 'Saturated ether C–H hydrogens', 'atom-h'),
+  ]);
+}
+
+function buildArchAtoms() {
+  const g = new THREE.Group();
+  const list = [
+    ['C', -5.5, 1.8, 0, 'Carbon (4 bonds — isoprenoid & backbone skeleton)', 'atom-c'],
+    ['H', 0, 2.2, 0, 'Hydrogen (proton gradients Δp & covalent bonds)', 'atom-h'],
+    ['O', 5.5, 1.8, 0, 'Oxygen (ether C–O–C bridge & water)', 'atom-o'],
+    ['N', -5.5, -2.4, 0, 'Nitrogen (S-layer proteins, histones & DNA bases)', 'atom-n'],
+    ['P', 0, -2.4, 0, 'Phosphorus (G1P lipid heads, DNA & ATP)', 'atom-p'],
+    ['Mg', 5.5, -2.4, 0, 'Magnesium Mg²⁺ (chelates ATP for ArlI motor & RNAP)', 'atom-mg'],
+  ];
+  const an = [];
+  for (const [sym, x, y, z, label, id] of list) {
+    const built = buildAtom(sym);
+    built.group.scale.setScalar(1.9 / built.radius);
+    built.group.position.set(x, y, z);
+    g.add(built.group);
+    an.push(A(V(x, y + 2.1, z), label, id));
+  }
+  return finalize(g, an, 9.8);
+}
+
+// =====================================================================
 // The structure tree: biggest (cell) to smallest (atoms)
 // =====================================================================
 const LEG_DNA = [['A', 'Adenine (pairs with T)'], ['T', 'Thymine (pairs with A)'], ['G', 'Guanine (pairs with C)'], ['C', 'Cytosine (pairs with G)'], ['bb0', 'Backbone, strand 1'], ['bb1', 'Backbone, strand 2']];
@@ -4651,8 +5057,130 @@ const NODES = {
     ],
     desc: 'Nearly two billion years ago, an alphaproteobacterium closely related to Rickettsiales entered an archaeal host. Modern Rickettsia and Mitochondria still share homologous respiratory Complexes I–IV, rotary F1Fo ATP synthases, circular dsDNA and 70S-type ribosomes — with one decisive reversal: parasitic Rickettsia uses Tlc1 to pull host ATP IN, whereas domesticated Mitochondria evolved the Adenine Nucleotide Translocator (ANT) to pump ATP OUT to power all complex eukaryotic life.' },
   'life-overview': { name: 'Introduction to biology: cells, parasitic cells & viruses', scale: '18 nm – 100 µm', b: buildBiologyIntro,
-    children: ['real-bacterium', 'real-fungal', 'real-cell', 'real-plant', 'parasitic-cells-overview', 'viruses', 'prokaryote', 'cell', 'plant-cell', 'bacteriophage', 'coronavirus', 'hiv'],
+    children: ['scale-explorer', 'four-biomolecules', 'real-bacterium', 'real-archaea', 'real-fungal', 'real-cell', 'real-plant', 'parasitic-cells-overview', 'viruses', 'prokaryote', 'cell', 'plant-cell', 'bacteriophage', 'coronavirus', 'hiv'],
     desc: 'Four tiers of biological organization side by side, judged by the four pillars of cellular life — a lipid membrane, a double-stranded DNA genome, protein-building ribosomes, and self-made ATP energy: (1) Simple Prokaryotes like E. coli run all four pillars in one open room; (2) Complex Eukaryotes (yeast, animal and plant cells) divide work across a nucleus and endosymbiotic mitochondria and chloroplasts; (3) Parasitic and minimal bacteria (Mycoplasma, Chlamydia, Rickettsia) remain true cells with DNA and 70S ribosomes yet depend on host cells for ATP and nutrients; and (4) Viruses carry genetic code in a protein coat with zero ribosomes and zero ATP metabolism, remaining inert outside a living host.' },
+  // ===================================================================
+  // Phase 09: Powers-of-10 True Scale Explorer & The 4 Biomolecules of Life
+  // ===================================================================
+  'scale-explorer': { name: 'Powers-of-10 true scale explorer', scale: '100 µm → 0.1 nm (6 decades)', real: 'overview', page: 'scale_explorer.html',
+    children: ['four-biomolecules', 'real-plant', 'real-cell', 'real-fungal', 'real-bacterium', 'real-mycoplasma', 'real-coronavirus', 'ribosome', 'atp-synthase', 'dna', 'glucose', 'atom-h'],
+    tags: [
+      ['plant_100um', '100 µm · Plant cell & human oocyte (naked-eye limit)', 'real-plant', 'plant_100um'],
+      ['animal_20um', '20 µm · Animal cell (5× narrower than plant cell)', 'real-cell', 'animal_20um'],
+      ['yeast_5um', '5 µm · Budding yeast & animal nucleus', 'real-fungal', 'yeast_5um'],
+      ['ecoli_2um', '2 µm · E. coli bacterium (size of 1 mitochondrion)', 'real-bacterium', 'ecoli_2um'],
+      ['myco_300nm', '300 nm · Mycoplasma genitalium (near optical limit)', 'real-mycoplasma', 'myco_300nm'],
+      ['virus_100nm', '100 nm · SARS-CoV-2 & HIV-1 virions (1,000× narrower than plant cell)', 'real-coronavirus', 'virus_100nm'],
+      ['ribo_25nm', '25 nm · 70S & 80S Ribosomes (protein builders)', 'ribosome', 'ribo_25nm'],
+      ['enzyme_10nm', '10 nm · ATP synthase & RuBisCO protein complexes', 'atp-synthase', 'enzyme_10nm'],
+      ['dna_2nm', '2 nm · B-DNA double helix (50,000× thinner than a cell)', 'dna', 'dna_2nm'],
+      ['monomer_1nm', '0.5–1 nm · Four biomolecule monomers', 'four-biomolecules', 'monomer_1nm'],
+      ['atom_01nm', '0.1–0.3 nm · Six shared biogenic atoms (H, C, N, O, P, Mg)', 'atom-h', 'atom_01nm'],
+    ],
+    desc: 'A continuous logarithmic Powers-of-10 comparator spanning six full orders of magnitude — from a 100 µm plant cell down to a 0.1 nm hydrogen atom — revealing true relative proportions across cells, bacteria, viruses, ribosomes, enzymes, B-DNA, monomers and atoms, complete with an interactive scale slider and 1:1 adjacent-pair true-size toggle.' },
+  'four-biomolecules': { name: 'The four biomolecules of life', scale: '0.1 nm – 25 nm chemistry', b: buildFourBiomolecules,
+    children: ['phospholipid', 'cholesterol', 'disaccharide', 'starch', 'cellulose', 'glucose', 'protein', 'alpha-helix', 'beta-sheet', 'polypeptide', 'amino-acid', 'dna', 'rna', 'polynucleotide-strand', 'nucleotide', 'atom-c', 'atom-h', 'atom-o', 'atom-n', 'atom-p', 'atom-mg'],
+    desc: 'Every living cell and virus on Earth is built from the same four chemical families: (1) Lipids that self-assemble into fluid bilayers, (2) Carbohydrates whose α-1,4 vs. β-1,4 bonds separate coiled starch energy from rigid cellulose walls, (3) Proteins folded from 20 amino acids into α-helices, β-sheets and catalytic machines, and (4) Nucleic acids (DNA & RNA) storing and carrying genetic code — all forged from six shared biogenic atoms (C, H, O, N, P, Mg²⁺).' },
+  'disaccharide': { name: 'Disaccharide (maltose vs. cellobiose)', scale: '~1.4 nm glycosidic bridge', b: buildDisaccharide,
+    children: ['glucose', 'starch', 'cellulose', 'atom-c', 'atom-o', 'atom-h'],
+    desc: 'Two identical D-glucose rings joined by dehydration synthesis across a C1–O–C4 glycosidic bridge — showing how a single bond angle flips curved α-1,4 maltose (digestible coiled starch) into flat 180°-rotated β-1,4 cellobiose (wood-strong plant cellulose).' },
+  'beta-sheet': { name: 'β-sheet (pleated protein ribbon)', scale: '~4.7 Å strand spacing', b: buildBetaSheet,
+    children: ['polypeptide', 'amino-acid', 'protein', 'alpha-helix', 'atom-c', 'atom-n', 'atom-o', 'atom-h'],
+    desc: 'Extended polypeptide strands aligned side by side in antiparallel directions and stitched together by lateral C=O···H–N hydrogen bonds. Alternating amino-acid side chains project above and below the pleated plane to build sturdy enzyme cores, silk fibers and β-barrel membrane pores.' },
+  'polynucleotide-strand': { legend: LEG_DNA, name: 'Polynucleotide strand (5′ → 3′)', scale: '~1 nm wide directional chain', b: buildPolynucleotideStrand,
+    children: ['nucleotide', 'phosphate', 'sugar', 'base', 'dna', 'rna', 'atom-p', 'atom-o', 'atom-c'],
+    desc: 'A single directional chain of nucleotides linked by covalent 3′–5′ phosphodiester bonds: starting from a negatively charged 5′ phosphate cap and extending at its free 3′-OH tip as DNA or RNA polymerase adds each new complementary base.' },
+  // ===================================================================
+  // Phase 10: Domain Archaea & Endosymbiosis (archaea_realistic.html)
+  // ===================================================================
+  'real-archaea': { name: 'Archaeon — Asgard & extremophiles (realistic)', scale: '550 nm body · 1–3 µm tentacles', real: 'overview', page: 'archaea_realistic.html',
+    children: ['real-arch-envelope', 'real-arch-slayer', 'real-arch-tetraether', 'real-arch-archaellum', 'real-arch-bacteriorhodopsin', 'real-arch-histones', 'real-arch-rnap', 'real-arch-ribosome', 'real-arch-lokiactin', 'real-arch-synapse', 'real-arch-ether-bond', 'real-arch-atoms', 'dna', 'rna', 'atp-synthase', 'mitochondrion'],
+    tags: [
+      ['slayer', 'Hexagonal glycoprotein S-layer (SlaA/SlaB, 0 peptidoglycan)', 'real-arch-slayer', 'slayer'],
+      ['tetraether', 'C40 ether-linked tetraether lipid monolayer', 'real-arch-tetraether', 'tetraether'],
+      ['tentacle', 'Branched Asgard cytoplasmic tentacles (Prometheoarchaeum)', 'real-arch-lokiactin', 'tentacle'],
+      ['escrt', 'ESCRT-III spiral membrane-scission rings', 'real-arch-envelope', 'escrt'],
+      ['archaellum', 'Solid ArlB ATP-driven rotary archaellum (PDB 7OFQ)', 'real-arch-archaellum', 'archaellum'],
+      ['arli', 'Basal ArlI hexameric ATPase motor (PDB 4IHQ)', 'real-arch-archaellum', 'arli'],
+      ['bacteriorhodopsin', 'Halobacterium bacteriorhodopsin proton pump (PDB 1C3W)', 'real-arch-bacteriorhodopsin', 'bacteriorhodopsin'],
+      ['a_atps', 'Rotary A1A0 ATP synthase turbine', 'atp-synthase', 'a_atps'],
+      ['histone', 'HMfB archaeal histone hypernucleosomes (PDB 5T5K)', 'real-arch-histones', 'histone'],
+      ['rnap', '12-subunit eukaryotic-like archaeal RNAP (PDB 2PMZ)', 'real-arch-rnap', 'rnap'],
+      ['ribosome', '70S archaeal ribosomes (eukaryotic r-proteins & Met)', 'real-arch-ribosome', 'ribosome'],
+      ['lokiactin', 'Lokiactin + profilin cytoskeletal cables (PDB 5ZZB)', 'real-arch-lokiactin', 'lokiactin'],
+      ['symbiont', 'Rickettsia-like alphaproteobacterial partner (proto-mitochondrion)', 'real-arch-synapse', 'symbiont'],
+      ['synapse', 'Endosymbiotic syntrophic synapse (H₂ out ↔ ATP in)', 'real-arch-synapse', 'synapse'],
+      ['ether_bond', 'Atomic G1P ether (C–O–C) vs. bacterial G3P ester inset', 'real-arch-ether-bond', 'ether_bond'],
+    ],
+    desc: 'Domain Archaea — the third domain of life and the evolutionary host lineage of complex eukaryotic cells. Cut open at cinema molecular scale to compare a Prometheoarchaeum-like Asgard archaeon (branched Lokiactin tentacles embracing an alphaproteobacterial symbiont across a syntrophic H₂↔ATP synapse) with thermoacidophilic Sulfolobus and purple-membrane Halobacterium extremophiles, built with six real RCSB PDB cryo-EM structures (5T5K, 1C3W, 4IHQ, 5ZZB, 7OFQ, 2PMZ).' },
+  'real-arch-envelope': { name: 'Archaeal envelope: S-layer & tetraether monolayer (realistic)', scale: '~22 nm peptidoglycan-free armor', real: 'envelope', page: 'archaea_realistic.html', hi: 'slayer',
+    children: ['real-arch-slayer', 'real-arch-tetraether', 'real-arch-ether-bond', 'real-arch-atoms'],
+    tags: [
+      ['slayer', 'Hexagonal p6 SlaA/SlaB glycoprotein S-layer lattice', 'real-arch-slayer', 'slayer'],
+      ['tetraether', 'Continuous C40 biphytanyl ether-linked monolayer', 'real-arch-tetraether', 'tetraether'],
+      ['escrt', 'ESCRT-III membrane remodeling spirals', 'protein', 'escrt'],
+      ['ether_bond', 'Atomic ether (C–O–C) vs. ester (C(=O)–O–C) bond inset', 'real-arch-ether-bond', 'ether_bond'],
+    ],
+    desc: 'Cutaway close-up of the peptidoglycan-free archaeal envelope: an outer ~18 nm hexagonal S-layer glycoprotein canopy anchored by SlaB stalks into a continuous C40 ether-linked tetraether lipid monolayer immune to penicillin, lysozyme, boiling heat and pH 2 acid.' },
+  'real-arch-slayer': { name: 'Hexagonal glycoprotein S-layer (SlaA/SlaB)', scale: '~18 nm crystalline canopy', b: buildArchSlayer,
+    children: ['real-arch-tetraether', 'protein', 'alpha-helix', 'water'],
+    desc: 'A paracrystalline p6 hexagonal exoskeleton of glycosylated SlaA protein canopies elevated on trimeric SlaB coiled-coil stalks above the archaeal plasma membrane, replacing bacterial peptidoglycan as both mechanical armor and a precision 4–8 nm molecular sieve.' },
+  'real-arch-tetraether': { name: 'C40 ether-linked tetraether lipid monolayer', scale: '~4.0 nm single-sheet membrane', b: buildArchTetraether,
+    children: ['real-arch-ether-bond', 'phosphate', 'real-arch-atoms', 'atom-c', 'atom-o'],
+    desc: 'Membrane-spanning glycerol dialkyl glycerol tetraethers (GDGTs) uniting two opposite-chirality sn-glycerol-1-phosphate headgroups with 40-carbon branched isoprenoid chains and rigid cyclopentane rings — eliminating the separable bilayer midplane so thermoacidophilic archaea survive 80–100 °C boiling acid.' },
+  'real-arch-archaellum': { name: 'ATP-driven rotary archaellum & ArlI motor (realistic)', scale: '12 nm solid filament · ArlI ATPase', real: 'archaellum', page: 'archaea_realistic.html', hi: 'archaellum',
+    children: ['atp-synthase', 'protein', 'alpha-helix', 'real-arch-tetraether'],
+    tags: [
+      ['archaellum', 'Solid 12 nm ArlB helical archaellum propeller (PDB 7OFQ)', 'protein', 'archaellum'],
+      ['arli', 'Cytoplasmic hexameric ArlI AAA+ ATPase rotor (PDB 4IHQ)', 'protein', 'arli'],
+      ['tetraether', 'Ether-linked monolayer anchoring ArlJ motor platform', 'real-arch-tetraether', 'tetraether'],
+      ['a_atps', 'Adjacent rotary A1A0 ATP synthase supplying ATP', 'atp-synthase', 'a_atps'],
+    ],
+    desc: 'Convergent rotary propulsion evolved independently from bacterial flagella: homologous to Type IV pili, the solid 12 nm ArlB helical shaft (PDB 7OFQ) is spun directly by Mg²⁺-ATP hydrolysis in the cytoplasmic ArlI hexameric ATPase motor (PDB 4IHQ).' },
+  'real-arch-bacteriorhodopsin': { name: 'Halobacterium bacteriorhodopsin & extremophile mode (realistic)', scale: '7-TMH purple membrane pump (PDB 1C3W)', real: 'extremophile', page: 'archaea_realistic.html', hi: 'bacteriorhodopsin',
+    children: ['atp-synthase', 'real-arch-slayer', 'real-arch-tetraether', 'alpha-helix', 'protein'],
+    tags: [
+      ['bacteriorhodopsin', 'Bacteriorhodopsin 7-helix retinal H⁺ pump trimers (PDB 1C3W)', 'alpha-helix', 'bacteriorhodopsin'],
+      ['a_atps', 'Rotary A1A0 ATP synthase powered by light-pumped H⁺', 'atp-synthase', 'a_atps'],
+      ['extremophile_shell', 'Reinforced Sulfolobus thermoacidophile S-layer carapace', 'real-arch-slayer', 'extremophile_shell'],
+      ['tetraether', 'Heat- and acid-tight C40 tetraether monolayer', 'real-arch-tetraether', 'tetraether'],
+    ],
+    desc: 'Extremophile archaeal bioenergetics: chlorophyll-free purple-membrane lattices of seven-helix bacteriorhodopsin trimers (PDB 1C3W) capture green photons with retinal to pump protons outward and spin A1A0 ATP synthase, alongside Sulfolobus thermoacidophile armor.' },
+  'real-arch-histones': { legend: LEG_REAL, name: 'Archaeal HMfB histones & eukaryotic-like genome (realistic)', scale: 'Hypernucleosome (PDB 5T5K) · 12-sub RNAP', real: 'genome', page: 'archaea_realistic.html', hi: 'histone',
+    children: ['real-arch-rnap', 'real-arch-ribosome', 'dna', 'rna', 'histone', 'nucleotide'],
+    tags: [
+      ['histone', 'HMfB archaeal histone superhelix wrapping DNA (PDB 5T5K)', 'histone', 'histone'],
+      ['dna', 'Circular supercoiled archaeal dsDNA chromosome', 'dna', 'dna'],
+      ['rnap', '12-subunit archaeal RNA polymerase (PDB 2PMZ) + TBP/TFB', 'real-arch-rnap', 'rnap'],
+      ['mrna', 'Nascent archaeal mRNA transcript', 'rna', 'mrna'],
+      ['ribosome', 'Coupled 70S archaeal ribosomes translating in cytosol', 'real-arch-ribosome', 'ribosome'],
+    ],
+    desc: 'Inside the archaeal cytosol sits the genetic blueprint of eukaryotes: circular dsDNA coils around polymeric HMfB archaeal histones (PDB 5T5K), transcribed by a 12-subunit Pol II-like RNA polymerase (PDB 2PMZ) recruited via TBP and TFB.' },
+  'real-arch-rnap': { name: '12-subunit archaeal RNA polymerase (PDB 2PMZ)', scale: '~15 nm eukaryotic-like enzyme', b: buildArchRnapReal,
+    children: ['polypeptide', 'alpha-helix', 'rna', 'dna', 'amino-acid'],
+    desc: 'Real structural model of the 12-subunit archaeal RNA polymerase (PDB 2PMZ) — directly homologous to human RNA Polymerase II and recruited onto TATA-box promoters by TBP and TFB instead of bacterial sigma factors.' },
+  'real-arch-ribosome': { name: '70S archaeal ribosome (50S + 30S)', scale: '~22 nm eukaryotic-like translation', b: buildArchRibosome,
+    children: ['ribo-50s', 'ribo-30s', 'rna', 'polypeptide', 'protein'],
+    desc: 'Though sedimenting at 70S like bacterial ribosomes, archaeal ribosomes share eukaryotic ribosomal proteins, translate with unformylated methionine (Met-tRNA), and remain insensitive to many bacterial-specific antibiotics such as streptomycin.' },
+  'real-arch-lokiactin': { name: 'Asgard Lokiactin & profilin cytoskeleton (PDB 5ZZB)', scale: '~6 nm actin-homolog complex', b: buildArchLokiactinReal,
+    children: ['polypeptide', 'alpha-helix', 'actin-filament', 'amino-acid'],
+    desc: 'Real crystal structure of Asgard Lokiactin complexed with LokiProfilin-2 (PDB 5ZZB) — one of the Eukaryotic Signature Proteins (ESPs) enabling Asgard archaea to extend branched cytoplasmic tentacles around syntrophic bacterial partners.' },
+  'real-arch-synapse': { name: 'Endosymbiotic synapse: Asgard host + symbiont (realistic)', scale: '~25 nm H₂ ↔ ATP syntrophic cleft', real: 'synapse', page: 'archaea_realistic.html', hi: 'synapse',
+    children: ['real-arch-lokiactin', 'mitochondrion', 'real-rickettsia', 'atp-synthase', 'real-arch-atoms'],
+    tags: [
+      ['tentacle', 'Lokiactin-braced Asgard cytoplasmic tentacles wrapping partner', 'real-arch-lokiactin', 'tentacle'],
+      ['symbiont', 'Cutaway Rickettsia-like alphaproteobacterium (proto-mitochondrion)', 'mitochondrion', 'symbiont'],
+      ['synapse', 'Tight ~25 nm syntrophic contact cleft (Entangle → Engulf → Endogenize)', 'mitochondrion', 'synapse'],
+      ['h2_flow', 'Host fermentation H₂ & formate exported to bacterial partner', 'real-arch-atoms', 'h2_flow'],
+      ['atp_export', 'Respiratory ATP returned across synapse via ANT-like carriers', 'atp-synthase', 'atp_export'],
+    ],
+    desc: 'The evolutionary turning point that created complex life (~2 billion years ago): branched Asgard archaeal tentacles cradle a respiring alphaproteobacterium across a tight syntrophic cleft, trading fermentation H₂/formate for oxygen-powered ATP export on the path to mitochondria.' },
+  'real-arch-ether-bond': { name: 'Atomic zoom: archaeal ether vs. bacterial ester bond', scale: '~0.1–0.5 nm covalent chemistry', b: buildArchEtherBond,
+    children: ['real-arch-atoms', 'atom-c', 'atom-h', 'atom-o', 'atom-p'],
+    desc: 'Single-bond contrast dividing Domain Archaea from Bacteria and Eukarya: archaeal sn-glycerol-1-phosphate (G1P) C–O–C ether linkages lack the reactive carbonyl oxygen (=O) of bacterial/eukaryotic G3P ester lipids, resisting hydrolysis in boiling acid.' },
+  'real-arch-atoms': { name: 'Six shared biogenic atoms of Archaea (C, H, O, N, P, Mg²⁺)', scale: '0.1–0.3 nm (1–3 Å)', b: buildArchAtoms,
+    children: ['atom-c', 'atom-h', 'atom-o', 'atom-n', 'atom-p', 'atom-mg'],
+    desc: 'At 0.1–0.3 nm, even boiling-acid archaeal tetraethers, crystalline S-layers, ATP-driven archaella and HMfB histones reduce to the exact same six universal biogenic elements that build bacteria, plants, animals and viruses.' },
 };
 
 // =====================================================================
@@ -4753,9 +5281,12 @@ const labelsEl = $('labels'), svg = $('lines'), NS = 'http://www.w3.org/2000/svg
 const MENU_GROUPS = [
   { id: 'stage-0', label: '0 · Introduction to Biology', sub: 'Start Here · The Rules of Life', items: [
     ['life-overview', '0.1 · Cells, parasitic cells & viruses'],
+    ['scale-explorer', '0.2 · Powers-of-10 true scale explorer'],
+    ['four-biomolecules', '0.3 · The 4 biomolecules of life'],
   ] },
   { id: 'stage-1', label: '1 · Simple Cells — Prokaryotes', sub: '1 Open Room · Fully Autonomous', items: [
     ['real-bacterium', '1.1 · Bacterium (E. coli)'],
+    ['real-archaea', '1.2 · Archaeon (Asgard & extremophiles)'],
   ] },
   { id: 'stage-2', label: '2 · Complex Cells — Eukaryotes', sub: 'Internal Organelles & Symbionts', items: [
     ['real-fungal', '2.1 · Fungal cell (yeast)'],
@@ -4780,7 +5311,9 @@ const MENU_GROUPS = [
 const ROOTS = MENU_GROUPS.flatMap(g => g.items), EXTRA_ROOTS = new Set(['cell', 'plant-cell', 'prokaryote']), isRoot = id => ROOTS.some(r => r[0] === id) || EXTRA_ROOTS.has(id);
 const TOUR_BY_ROOT = {
   'life-overview': window.TOURS?.biology_intro ?? null,
+  'scale-explorer': window.TOURS?.scale_biomolecules ?? null,
   'real-bacterium': window.TOURS?.bacterium ?? null,
+  'real-archaea': window.TOURS?.archaea ?? null,
   'real-fungal': window.TOURS?.fungal ?? null,
   'real-cell': window.TOURS?.eukaryotic ?? null,
   'real-plant': window.TOURS?.plant ?? null,
@@ -4807,7 +5340,7 @@ function build(id) {
   cache.set(id, out);
   return out;
 }
-const FREE_LOOK_STAGE_NODES = new Set(['life-overview', 'parasitic-cells-overview']);
+const FREE_LOOK_STAGE_NODES = new Set(['life-overview', 'four-biomolecules', 'parasitic-cells-overview']);
 const localTourPose = { on: false, p0: V(), t0: V(), p1: V(), t1: V(), start: 0, dur: 1000, orbit: 0, theta: 0, yaw: 0, pitch: 0, seq: 0, arrived: true };
 const localHeld = new Set();
 let freeLook = true, freeLookOverride = null, localLookFrom = null;   // null = automatic (Free Look on wide overview stages, Orbit on single organelles/molecules)
@@ -4856,6 +5389,8 @@ function setModel(out) {
 //      where the named points of the current view are on screen; this page draws the tags, tree and panels around it.
 //      A page is loaded the first time it is needed and then kept (hidden while another level is shown)
 const PAGES = {
+  'scale_explorer.html': { title: 'Powers-of-10 true scale explorer', look: 'Scale' },
+  'archaea_realistic.html': { title: 'Realistic archaeon', look: 'Envelope' },
   'animal_cell_realistic.html': { title: 'Realistic animal cell', look: 'Organelles' },
   'prokaryote_cell_realistic.html': { title: 'Realistic bacterium', look: 'Envelope' },
   'plant_cell_realistic.html': { title: 'Realistic plant cell', look: 'Organelles' },
@@ -4874,6 +5409,8 @@ const pageOf = id => NODES[id].page ?? 'animal_cell_realistic.html';
 const toReal = (m, P = page) => P?.el?.contentWindow?.postMessage({ to: 'realistic-cell', ...m }, '*');
 // tree parts whose recipe a realistic page knows (in that page's own keys)
 const RECIPE = {
+  'scale_explorer.html': { 'real-plant': 'plant_100um', 'real-cell': 'animal_20um', 'real-fungal': 'yeast_5um', 'real-bacterium': 'ecoli_2um', 'real-mycoplasma': 'myco_300nm', 'real-coronavirus': 'virus_100nm', ribosome: 'ribo_25nm', 'atp-synthase': 'enzyme_10nm', dna: 'dna_2nm', 'four-biomolecules': 'monomer_1nm', glucose: 'monomer_1nm', 'atom-h': 'atom_01nm' },
+  'archaea_realistic.html': { 'real-arch-envelope': 'slayer', 'real-arch-slayer': 'slayer', 'real-arch-tetraether': 'tetraether', 'real-arch-archaellum': 'archaellum', 'real-arch-bacteriorhodopsin': 'bacteriorhodopsin', 'real-arch-histones': 'histone', 'real-arch-rnap': 'rnap', 'real-arch-ribosome': 'ribosome', 'real-arch-lokiactin': 'lokiactin', 'real-arch-synapse': 'synapse', 'real-arch-ether-bond': 'ether_bond', 'real-arch-atoms': 'ether_bond', dna: 'dna', rna: 'mrna', 'atp-synthase': 'a_atps', mitochondrion: 'symbiont', histone: 'histone' },
   'animal_cell_realistic.html': { 'plasma-membrane': 'membrane', nucleus: 'nucleus', 'real-nucleus': 'nucleus', nucleolus: 'nucleolus', 'real-nucleolus': 'nucleolus', rna: 'mrna', 'real-dna': 'chromatin', 'rough-er': 'rer', ribosome: 'ribosome', 'smooth-er': 'ser', golgi: 'golgi', mitochondrion: 'mito', lysosome: 'lyso', peroxisome: 'perox', vesicle: 'vesicle',
     'lipid-droplet': 'lipid', centrosome: 'centro', microtubule: 'mt', 'actin-filament': 'actin', 'intermediate-filament': 'if', cilium: 'cilium', microvillus: 'villi', cytosol: 'cytosol', chromosome: 'chromatin' },
   'prokaryote_cell_realistic.html': { 'real-envelope': 'om', lps: 'om', porin: 'porin', peptidoglycan: 'pg', 'plasma-membrane': 'im', 'electron-transport-chain': 'etc', 'atp-synthase': 'atps', 'real-motor': 'flag', flagellum: 'flag', pilus: 'pili',
@@ -5427,9 +5964,21 @@ const AUTONOMY_PROFILES = {
     statusKey: 'statusOverview',
     pills: [['ok', 'pillarMembrane'], ['ok', 'pillarDna'], ['ok', 'pillarRibosomes70S'], ['ok', 'pillarOwnAtp']],
   },
+  'scale-explorer': {
+    statusKey: 'statusScale',
+    pills: [['ok', 'pillarScaleCells'], ['ok', 'pillarScaleMicrobes'], ['warn', 'pillarScaleViruses'], ['ok', 'pillarScaleAtoms']],
+  },
+  'four-biomolecules': {
+    statusKey: 'statusBiomolecules',
+    pills: [['ok', 'pillarLipids'], ['ok', 'pillarCarbs'], ['ok', 'pillarProteins'], ['ok', 'pillarNucleic']],
+  },
   'real-bacterium': {
     statusKey: 'statusAutonomous',
     pills: [['ok', 'pillarMembrane'], ['ok', 'pillarDna'], ['ok', 'pillarRibosomes70S'], ['ok', 'pillarOwnAtp']],
+  },
+  'real-archaea': {
+    statusKey: 'statusArchaea',
+    pills: [['ok', 'pillarEtherMembrane'], ['ok', 'pillarHistoneDna'], ['ok', 'pillarRibosomes70S'], ['ok', 'pillarOwnAtp']],
   },
   'real-fungal': {
     statusKey: 'statusCompartmentalized',
